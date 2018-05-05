@@ -16,13 +16,13 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 		<property name="ignoreResourceNotFound" value="true" />
 	</bean>
 
-	<bean id="kafkaConsumerThread1" class="com.yeting.kafka.producer.demo.KafkaConsumerThread" init-method="init">
+	<bean id="kafkaConsumerThread1" class="com.xz.kafka.producer.demo.KafkaConsumerThread" init-method="init">
 		<property name="kafkaConsumerProperties" ref="kafkaConsumerProperties" />
 		<property name="groupId" value="consumerGroup1" />
 		<property name="topic" value="mykafka" />
 	</bean>
 
-	<bean id="kafkaConsumerThread2" class="com.yeting.kafka.producer.demo.KafkaConsumerThread" init-method="init">
+	<bean id="kafkaConsumerThread2" class="com.xz.kafka.producer.demo.KafkaConsumerThread" init-method="init">
 		<property name="kafkaConsumerProperties" ref="kafkaConsumerProperties" />
 		<property name="groupId" value="consumerGroup2" />
 		<property name="topic" value="topicName1" />

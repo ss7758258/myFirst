@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="xz_api:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="yeting_api.war">
+      <element id="artifact" artifact-name="xz_api:war exploded" />
+    </root>
+  </artifact>
+</component>

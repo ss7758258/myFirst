@@ -16,19 +16,19 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 		<property name="ignoreResourceNotFound" value="true" />
 	</bean>
 
-	<bean id="kafkaProducerImpl1" class="com.yeting.kafka.producer.impl.KafkaProducerImpl" init-method="init">
+	<bean id="kafkaProducerImpl1" class="com.xz.kafka.producer.impl.KafkaProducerImpl" init-method="init">
 		<property name="kafkaProducerProperties" ref="kafkaProducerProperties" />
 		<property name="topic" value="mykafka" />
 		<property name="clientId" value="ytProducer1" />
 	</bean>
 
-	<bean id="kafkaProducerImpl2" class="com.yeting.kafka.producer.impl.KafkaProducerImpl" init-method="init">
+	<bean id="kafkaProducerImpl2" class="com.xz.kafka.producer.impl.KafkaProducerImpl" init-method="init">
 		<property name="kafkaProducerProperties" ref="kafkaProducerProperties" />
 		<property name="topic" value="topicName1" />
 		<property name="clientId" value="ytProducer2" />
 	</bean>
 
-	<bean id="kafkaProducerImpl" class="com.yeting.kafka.producer.impl.KafkaProducerImpl" init-method="init">
+	<bean id="kafkaProducerImpl" class="com.xz.kafka.producer.impl.KafkaProducerImpl" init-method="init">
 		<property name="kafkaProducerProperties" ref="kafkaProducerProperties" />
 		<property name="topic" value="commentTopic" />
 		<property name="clientId" value="commentProducer" />
