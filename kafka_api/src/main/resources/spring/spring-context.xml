@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-4.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    ">
+	<context:component-scan base-package="com.yeting"/>
+
+	<util:properties id="constants" location="classpath:/constants.properties"/>
+
+	<bean id="defaultConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:conf.properties</value>
+				<value>classpath:redis.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="defaultAutoCommit" value="true" />
+		<property name="defaultTransactionIsolation" value="2" />
+		<property name="initialSize" value="10" />
+		<property name="maxActive" value="3000" />
+		<property name="minIdle" value="10" />
+		<property name="maxWait" value="10000" />
+		<property name="testOnBorrow" value="false" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation"  value="classpath:spring/sqlMapConfig.xml"/>
+	</bean>
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.yeting.web.mapper"/>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!--<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true" />-->
+
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED"/>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="adminPointCuts" expression="execution(* com.yeting.*.*.service..*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="adminPointCuts" />
+	</aop:config>
+
+
+	<!-- redis -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="${redis.maxIdle}" />
+		<property name="maxTotal" value="${redis.maxTotal}" />
+		<property name="blockWhenExhausted" value="${redis.blockWhenExhausted}" />
+		<property name="maxWaitMillis" value="${redis.maxWaitMillis}" />
+		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
+	</bean>
+
+
+	<!--配置RedisClusterConfiguration-->
+	<!--<bean id="redisClusterConfiguration" class="org.springframework.data.redis.connection.RedisClusterConfiguration">
+		&lt;!&ndash;<property name="maxRedirects" value="${redis.maxRedirects}"></property>&ndash;&gt;
+		<property name="clusterNodes">
+			<set>
+				<bean class="org.springframework.data.redis.connection.RedisNode">
+					<constructor-arg name="host" value="${redis.hostName1}"/>
+					<constructor-arg name="port" value="${redis.port1}"/>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisNode">
+					<constructor-arg name="host" value="${redis.hostName2}"/>
+					<constructor-arg name="port" value="${redis.port2}"/>
+				</bean>
+				<bean class="org.springframework.data.redis.connection.RedisNode">
+					<constructor-arg name="host" value="${redis.hostName3}"/>
+					<constructor-arg name="port" value="${redis.port3}"/>
+				</bean>
+			</set>
+		</property>
+	</bean>-->
+
+
+	<!-- redis集群配置 哨兵模式 -->
+	<!-- <bean id="sentinelConfiguration" class="org.springframework.data.redis.connection.RedisSentinelConfiguration">
+         <property name="master">
+             <bean class="org.springframework.data.redis.connection.RedisNode">
+                 &lt;!&ndash;这个值要和Sentinel中指定的master的值一致，不然启动时找不到Sentinel会报错的&ndash;&gt;
+                 <property name="name" value="${redis.sentinel.master}"></property>
+             </bean>
+         </property>
+         &lt;!&ndash;记住了,这里是指定Sentinel的IP和端口，不是Master和Slave的&ndash;&gt;
+         <property name="sentinels">
+             <set>
+                 <bean class="org.springframework.data.redis.connection.RedisNode">
+                     <constructor-arg name="host" value="${redis.sentinel.host1}"></constructor-arg>
+                     <constructor-arg name="port" value="${redis.sentinel.port1}"></constructor-arg>
+                 </bean>
+                 <bean class="org.springframework.data.redis.connection.RedisNode">
+                     <constructor-arg name="host" value="${redis.sentinel.host2}"></constructor-arg>
+                     <constructor-arg name="port" value="${redis.sentinel.port2}"></constructor-arg>
+                 </bean>
+                 <bean class="org.springframework.data.redis.connection.RedisNode">
+                     <constructor-arg name="host" value="${redis.sentinel.host3}"></constructor-arg>
+                     <constructor-arg name="port" value="${redis.sentinel.port3}"></constructor-arg>
+                 </bean>
+             </set>
+         </property>
+     </bean>-->
+
+	<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<constructor-arg name="poolConfig" ref="jedisPoolConfig" ></constructor-arg>
+		<property name="password" value="${redis.password}" />
+		<property name="hostName" value="${redis.hostName}" />
+		<property name="port" value="${redis.port}" />
+		 <!-- <constructor-arg name="sentinelConfig" ref="sentinelConfiguration"></constructor-arg>-->
+		<!--<constructor-arg name="clusterConfig" ref="redisClusterConfiguration"></constructor-arg>-->
+	</bean>
+
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory"   ref="jedisConnectionFactory" />
+		<property name="keySerializer">
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+		</property>
+		<property name="valueSerializer">
+			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+		</property>
+		<property name="hashKeySerializer">
+			<bean class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+		</property>
+		<property name="hashValueSerializer">
+			<bean class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer"/>
+		</property>
+	</bean>
+
+	<!--自定义redis工具类,在需要缓存的地方注入此类  -->
+	<bean id="redisService" class="com.yeting.web.service.redis.RedisService">
+		<property name="redisTemplate" ref="redisTemplate" />
+	</bean>
+
+	<bean id="consumerKafka" class="com.yeting.web.service.consumerkafka.ConsumerKafka" />
+
+
+</beans>

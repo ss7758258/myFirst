@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <properties resource="conf.properties"/>
+
+    <context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <plugin type="${mapper.plugin}">
+        <property name="mappers" value="${mapper.Mapper}" />
+        <property name="queryObjectSuffix" value="Criteria" />
+        </plugin>
+        <!--数据库链接URL，用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="${jdbc.url}" userId="${jdbc.username}"
+                        password="${jdbc.password}"></jdbcConnection>
+                        
+        <!--生成实体类） -->
+        <javaModelGenerator targetPackage="${package}.entity" targetProject="${project}">
+            <property name="enableSubPackages" value="false" />
+            <property name="trimStrings" value="true" />
+            <property name="constructorBased" value="true" />
+            <property name="rootClass" value="com.yeting.framework.common.base.BasicBean" />
+        </javaModelGenerator>
+        <!--生成SQLMAP文件 -->
+        <!-- <sqlMapGenerator targetPackage="${package}"  targetProject="${project}">
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator> -->
+        <!--生成xml映射文件 ANNOTATEDMAPPER XMLMAPPER-->
+        <javaClientGenerator type="ANNOTATEDMAPPER" targetPackage="${package}"  targetProject="${project}">
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
+
+      <!--  <table tableName="article" domainObjectName="Article" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="article_draft" domainObjectName="ArticleDraft" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="collection" domainObjectName="Collection" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="comment" domainObjectName="Comment" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="feedback" domainObjectName="Feedback" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="sys_file" domainObjectName="SysFile" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="sys_menu" domainObjectName="SysMenu" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="sys_role_menu" domainObjectName="SysRoleMenu" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="sys_seq_uid" domainObjectName="SysSeqUid" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="sys_user" domainObjectName="SysUser" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+-->
+        <table tableName="weixin_user_art_like" domainObjectName="WeixinUserArtLike" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="weixin_user_collection" domainObjectName="WeixinUserCollection" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="weixin_user_comment_like" domainObjectName="WeixinUserCommentLike" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+    </context>
+</generatorConfiguration>
