@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd   
+    http://www.springframework.org/schema/context   
+    http://www.springframework.org/schema/context/spring-context-4.2.xsd  
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+    <!-- 定时器开关 开始 -->
+    <!-- <task:annotation-driven /> -->
+    <!-- 定时器开关 结束 -->
+    <!-- 标注类型 的事务配置 -->
+    <tx:annotation-driven/>
+    <!--
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://10.202.95.20:3306/testapp?characterEncoding=utf8"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value="pyfCDE#4rfv"></property>
+        <property name="acquireIncrement" value="1"></property>
+        <property name="initialPoolSize" value="300"></property>
+        <property name="maxIdleTime" value="60"></property>
+        <property name="maxPoolSize" value="200"></property>
+        <property name="minPoolSize" value="50"></property>
+        <property name="acquireRetryDelay" value="1000"></property>
+        <property name="acquireRetryAttempts" value="60"></property>
+        <property name="breakAfterAcquireFailure" value="false"></property>
+    </bean>
+    -->
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:jdbc.properties</value>
+            </list>
+        </property>
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+    </bean>
+
+    <!-- Datasource Set-Up -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <!--
+        <property name="driverClassName" value="${jdbc.driver}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+         -->
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://10.202.95.20:3306/testapp?characterEncoding=utf8"></property>
+        <property name="username" value="root" />
+        <property name="password" value="pyfCDE#4rfv" />
+        <property name="initialSize" value="5" />
+        <property name="maxActive" value="100" />
+        <property name="minIdle" value="20" />
+        <property name="maxIdle" value="50" />
+    </bean>
+    <!-- *****************************国际化配置***************************** -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <!-- 国际化信息所在的文件名  message就是properties文件语言的前缀
+        <property name="basename" value="message"/>
+        -->
+        <!-- 如果在国际化资源文件中找不到对应代码的信息，就用这个代码作为名称  -->
+        <property name="useCodeAsDefaultMessage" value="true"/>
+        <property name="cacheSeconds" value="0"/>
+    </bean>
+    <!-- .如果是需要在界面上进行切换（session方式）；则需要配置： -->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="zh"/>
+    </bean>
+
+    <bean id="pagePlugin" class="com.xz.framework.utils.PageHelper">
+        <property name="properties">
+            <value>
+                dialect=mysql
+            </value>
+        </property>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mappings/mybatis-config.xml"/>
+        <property name="plugins">
+            <array>
+                <ref bean="pagePlugin"/>
+            </array>
+        </property>
+    </bean>
+
+    <!-- 通过扫描的模式，扫描目录在com.cunhou.service.provider.mapper目录下，所有的mapper都继承SqlMapper接口的接口，
+        这样一个bean就可以了 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="im.admin.mapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+
+    <!-- 事务配置 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="query*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="find*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="delete*" propagation="REQUIRED"/>
+            <tx:method name="add*" propagation="REQUIRED"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- Spring Annotation Scan -->
+    <context:component-scan base-package="im.admin.service.*"/>
+</beans>
