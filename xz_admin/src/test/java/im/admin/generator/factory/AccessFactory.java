@@ -5,7 +5,7 @@ import im.admin.generator.bean.TableBean;
 import im.admin.generator.constant.Constant;
 import im.admin.generator.db.tools.EntityGen;
 import im.admin.generator.db.tools.TableDescBO;
-import com.xz.web.utils.date.DateUtil;
+import im.admin.generator.utils.date.DateUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -57,7 +57,7 @@ public class AccessFactory implements ApplicationContextAware {
                 if("ID".equalsIgnoreCase(bo.getField())) {
                     entityGen.exeSql("insert into resource(resource_name,resource_code,status,create_timestamp,update_timestamp) values('"+resourceName+"','"+resourceCode+"',1,'"+ DateUtil.getCurrentTimestamp()+"','"+ DateUtil.getCurrentTimestamp()+"');");
                     resourceid = entityGen.getIdBySql("select * from resource order by id desc;");
-                    entityGen.exeSql("insert into access(resource_id,resource_name,resource_code,status,userid,username,addFlag,delFlag,updFlag,viewFlag,create_timestamp,update_timestamp) " +
+                    entityGen.exeSql("insert into access(resource_id,resource_name,resource_code,status,userid,username,add_flag,del_flag,upd_flag,view_flag,create_timestamp,update_timestamp) " +
                             "values("+resourceid+",'"+resourceName+"','"+resourceCode+"',1,"+adminId+",'admin',true,true,true,true,'"+ DateUtil.getCurrentTimestamp()+"','"+ DateUtil.getCurrentTimestamp()+"');");
                 }
             }

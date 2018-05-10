@@ -1,7 +1,8 @@
 package com.xz.web.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.xz.framework.utils.JsonUtil;
+import com.xz.framework.utils.HttpClientUtil;
+import com.xz.framework.utils.json.JsonUtil;
 import org.apache.log4j.Logger;
 
 import java.io.InputStream;

@@ -7,7 +7,7 @@
         <setting name="cacheEnabled" value="false"/>
     </settings>
     <mappers>
-        <package name="com.xz.web.mapper.entity"/>
+        <package name="com.xz.web.mapper"/>
     </mappers>
 
 </configuration>

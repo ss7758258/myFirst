@@ -2,7 +2,7 @@ package im.admin.generator.bean;
 
 import im.admin.generator.db.tools.TableDescBO;
 import im.admin.generator.enums.BeanEnum;
-import com.xz.web.utils.string.StringUtil;
+import im.admin.generator.utils.string.StringUtil;
 
 public class HtmlBean {
     private String title;

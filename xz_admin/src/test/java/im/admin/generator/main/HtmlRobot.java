@@ -7,7 +7,7 @@ import im.admin.generator.constant.Constant;
 import im.admin.generator.db.tools.EntityGen;
 import im.admin.generator.db.tools.TableDescBO;
 import im.admin.generator.factory.HtmlFactory;
-import com.xz.web.utils.string.StringUtil;
+import im.admin.generator.utils.string.StringUtil;
 import org.apache.log4j.Logger;
 import org.springframework.context.support.GenericXmlApplicationContext;
 

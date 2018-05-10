@@ -6,8 +6,8 @@ import im.admin.generator.bean.TableBean;
 import im.admin.generator.constant.Constant;
 import im.admin.generator.db.tools.TableDescBO;
 import im.admin.generator.enums.BeanEnum;
-import com.xz.web.utils.files.FileUtil;
-import com.xz.web.utils.string.StringUtil;
+import im.admin.generator.utils.files.FileUtil;
+import im.admin.generator.utils.string.StringUtil;
 import org.apache.log4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;

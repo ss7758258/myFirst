@@ -1,7 +1,7 @@
 package com.xz.framework.common.base;
 
 
-import com.xz.framework.utils.JsonUtil;
+import com.xz.framework.utils.json.JsonUtil;
 
 import java.io.Serializable;
 

@@ -18,6 +18,9 @@ public class IdUtil {
     public static String getDefaultUuid() {
         return UUID.randomUUID().toString().replace("-", "");
     }
+    public static String getUuid() {
+        return UUID.randomUUID().toString().replace("-", "");
+    }
 
     /**
      * 获取LongID

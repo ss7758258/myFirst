@@ -5,16 +5,12 @@ import com.xz.framework.bean.ajax.RequestHeader;
 import com.xz.framework.bean.ajax.ResponseHeader;
 import com.xz.framework.bean.ajax.YTResponse;
 import com.xz.framework.bean.ajax.YTResponseBody;
-import com.xz.framework.bean.weixin.Weixin;
-import com.xz.framework.utils.BeanUtil;
-import com.xz.framework.utils.DateUtil;
-import com.xz.framework.utils.JsonUtil;
-import com.xz.framework.utils.StringUtil;
-import com.xz.web.service.redis.RedisService;
-import com.xz.web.utils.AuthToken;
+import com.xz.framework.utils.bean.BeanUtil;
+import com.xz.framework.utils.date.DateUtil;
+import com.xz.framework.utils.json.JsonUtil;
+import com.xz.framework.utils.string.StringUtil;
 import com.xz.web.utils.WechatUtil;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -23,28 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 public class BaseController {
 
 	private static final Logger logger = Logger.getLogger(WechatUtil.class);
-	@Autowired
-	private RedisService redisService;
 
-	public Weixin getWeixin() {
-		Weixin weixin = new Weixin();
-		requestHeader = this.getRequestHeader();
-		AuthToken authToken = null;
-		try
-		{
-			Object authTokenStr = redisService.get("TOKEN:"+requestHeader.getToken());
-			authToken = JsonUtil.deserialize(authTokenStr.toString(),AuthToken.class);
-		}catch (Exception e)
-		{
-			logger.error("getAuthToken from redis error", e);
-		}
-		if(null==authToken || StringUtil.isEmpty(authToken.getOpenid()))
-		{
-			return null;
-		}
-		weixin.setOpenId(authToken.getOpenid());
-		return weixin;
-	}
 	private RequestHeader requestHeader;
 	public RequestHeader getRequestHeader() {
 		try {
@@ -92,7 +67,7 @@ public class BaseController {
 		response.setResponseHeader(responseHeader);
 		response.setResponseBody(responseBody);
 		String result = JsonUtil.serialize(response);
-		System.out.println(DateUtil.getDatetime()+"--->"+result);
+		System.out.println(DateUtil.getCurrentTimestampSSS()+"--->"+result);
 		return result;
 	}
 	

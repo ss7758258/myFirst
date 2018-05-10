@@ -1,12 +1,7 @@
 package com.xz.web.interceptor;
 
-import com.xz.framework.bean.ajax.RequestHeader;
-import com.xz.framework.utils.JsonUtil;
-import com.xz.framework.utils.StringUtil;
-import com.xz.web.service.redis.RedisService;
-import com.xz.web.utils.AuthToken;
+import com.xz.framework.utils.string.StringUtil;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,8 +15,8 @@ public class AccessInterceptor implements HandlerInterceptor {
 
     private static final Logger logger = Logger.getLogger(AccessInterceptor.class);
 
-    @Autowired
-    private RedisService redisService;
+//    @Autowired
+//    private RedisService redisService;
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) {
@@ -31,10 +26,10 @@ public class AccessInterceptor implements HandlerInterceptor {
                 return false;
             }*/
             if (handler instanceof HandlerMethod) {
-                if(!validateHeader(request))
-                {
-                    return false;
-                }
+//                if(!validateHeader(request))
+//                {
+//                    return false;
+//                }
                 HandlerMethod h = (HandlerMethod) handler;
                 String jsonBody = StringUtil.getParamString("requestBody", request.getParameterMap());
 //                if (StringUtil.isEmpty(jsonBody)) {
@@ -62,37 +57,37 @@ public class AccessInterceptor implements HandlerInterceptor {
             return false;
         }
     }
-
-    private boolean validateHeader(HttpServletRequest request) {
-        try {
-            String jsonHeader = StringUtil.getParamString("requestHeader", request.getParameterMap());
-            RequestHeader requestHeader = JsonUtil.deserialize(jsonHeader, RequestHeader.class);
-            if(StringUtil.isEmpty(requestHeader.getToken()))
-            {
-                logger.error("requestHeader token is null-->"+ JsonUtil.serialize(requestHeader));
-                return false;
-            }
-            AuthToken authToken = null;
-            try
-            {
-                Object authTokenStr = redisService.get("TOKEN:"+requestHeader.getToken());
-                authToken = JsonUtil.deserialize(authTokenStr.toString(),AuthToken.class);
-            }catch (Exception e)
-            {
-                logger.error("getAuthToken from redis error", e);
-            }
-            if(null==authToken||StringUtil.isEmpty(authToken.getOpenid()))
-            {
-                logger.error("authToken token is null-->"+ JsonUtil.serialize(authToken));
-                return false;
-            }
-            //可以继续验证token的有效性。
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+//
+//    private boolean validateHeader(HttpServletRequest request) {
+//        try {
+//            String jsonHeader = StringUtil.getParamString("requestHeader", request.getParameterMap());
+//            RequestHeader requestHeader = JsonUtil.deserialize(jsonHeader, RequestHeader.class);
+//            if(StringUtil.isEmpty(requestHeader.getToken()))
+//            {
+//                logger.error("requestHeader token is null-->"+ JsonUtil.serialize(requestHeader));
+//                return false;
+//            }
+//            AuthToken authToken = null;
+//            try
+//            {
+//                Object authTokenStr = redisService.get("TOKEN:"+requestHeader.getToken());
+//                authToken = JsonUtil.deserialize(authTokenStr.toString(),AuthToken.class);
+//            }catch (Exception e)
+//            {
+//                logger.error("getAuthToken from redis error", e);
+//            }
+//            if(null==authToken||StringUtil.isEmpty(authToken.getOpenid()))
+//            {
+//                logger.error("authToken token is null-->"+ JsonUtil.serialize(authToken));
+//                return false;
+//            }
+//            //可以继续验证token的有效性。
+//            return true;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
     private void writeAjaxJson(HttpServletResponse response, String message) {
         PrintWriter out = null;

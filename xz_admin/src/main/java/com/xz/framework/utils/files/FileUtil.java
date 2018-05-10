@@ -1,6 +1,6 @@
 package com.xz.framework.utils.files;
 
-import com.xz.web.utils.id.IdUtil;
+import com.xz.framework.utils.id.IdUtil;
 import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 

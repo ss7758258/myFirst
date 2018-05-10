@@ -1,7 +1,6 @@
 package com.xz.web.service.redis;
 
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Iterator;
@@ -16,6 +15,12 @@ public class RedisService {
 
 
     private RedisTemplate<String, Object> redisTemplate;
+
+    private void init(){
+       /* this.set("123", 1234);
+        System.out.println(this.get("123"));*/
+    }
+
 
     public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
@@ -114,7 +119,7 @@ public class RedisService {
     public boolean set(String key,Object value,long time){
         try {
             if(time>0){
-                redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+                redisTemplate.opsForValue().set(key, value, time, TimeUnit.MILLISECONDS);
             }else{
                 set(key, value);
             }

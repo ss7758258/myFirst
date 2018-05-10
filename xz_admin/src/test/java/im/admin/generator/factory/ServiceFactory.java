@@ -4,8 +4,8 @@ package im.admin.generator.factory;
 import im.admin.generator.bean.TableBean;
 import im.admin.generator.constant.Constant;
 import im.admin.generator.service.ServiceGenerator;
-import com.xz.web.utils.files.FileUtil;
-import com.xz.web.utils.string.StringUtil;
+import im.admin.generator.utils.files.FileUtil;
+import im.admin.generator.utils.string.StringUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -41,8 +41,8 @@ public class ServiceFactory implements ApplicationContextAware {
     public void start(List<TableBean> beanlist) {
         //初始化变量已经文件夹
         String path = HtmlFactory.class.getResource(ROOT).getPath();
-        javaSourcePath = path+"../../../"+project+JAVA_SOURCE_PATH;
-        resourcePath = path+"../../../"+project+RESOURCE_PATH;
+        javaSourcePath = project+JAVA_SOURCE_PATH;
+        resourcePath = project+RESOURCE_PATH;
         //创建文件夹
         generateFolders();
         //生成Bo，暂时不考虑Bo层

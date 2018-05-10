@@ -1,5 +1,10 @@
 package com.xz.framework.utils.string;
 
+import com.xz.framework.common.Constants;
+
+import java.util.Arrays;
+import java.util.Map;
+
 /**
  * <pre>
  * String工具类
@@ -61,4 +66,33 @@ public class StringUtil {
     public static boolean isNotEmpty(String field) {
         return !isEmpty(field);
     }
+
+
+    public static  String getParamString(String key,Map<String, String[]> map) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String[]> e : map.entrySet()) {
+            if(key.equalsIgnoreCase(e.getKey()))
+            {
+                String[] value = e.getValue();
+                if (value != null && value.length == 1) {
+                    sb.append(value[0]).append("\t");
+                } else {
+                    sb.append(Arrays.toString(value)).append("\t");
+                }
+                break;
+            }
+        }
+        return sb.toString();
+    }
+
+    public static String urlToHttps(String backgroundUrl) {
+        if(StringUtil.isEmpty(backgroundUrl)){
+            return "";
+        }
+        if(!backgroundUrl.startsWith("http")){
+            backgroundUrl = Constants.SCHEME + backgroundUrl;
+        }
+        return backgroundUrl;
+    }
+
 }

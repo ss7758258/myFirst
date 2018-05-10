@@ -1,7 +1,7 @@
 package com.xz.framework.common.base;
 
-import com.xz.framework.utils.JsonUtil;
-import com.xz.web.utils.web.WebUtility;
+import com.xz.framework.utils.json.JsonUtil;
+import com.xz.framework.utils.web.WebUtility;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;

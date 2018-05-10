@@ -3,7 +3,7 @@ package im.admin.generator.main;
 
 import im.admin.generator.db.tools.EntityGen;
 import im.admin.generator.factory.AccessFactory;
-import com.xz.web.utils.string.StringUtil;
+import im.admin.generator.utils.string.StringUtil;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
 public class AccessRobot {
