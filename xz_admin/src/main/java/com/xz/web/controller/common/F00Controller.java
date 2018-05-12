@@ -28,8 +28,7 @@ public class F00Controller extends BaseController {
 
     @RequestMapping("login")
     @ResponseBody
-    public String login(String requestBody) {
-        AdminLoginVo obj = JsonUtil.deserialize(requestBody,AdminLoginVo.class);
+    public String login(AdminLoginVo obj) {
         YTResponseBody<AdminLoginVo> responseBody = new YTResponseBody<AdminLoginVo>();
         if(null==obj|| StringUtil.isEmpty(obj.getUsername()))
         {
