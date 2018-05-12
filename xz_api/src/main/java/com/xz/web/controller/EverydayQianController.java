@@ -133,6 +133,7 @@ public class EverydayQianController extends BaseController {
             TiUserQianList data = tiUserQianListService.selectByKey(obj.getId());
             responseBody.setData(data);
         } catch (Exception e) {
+            e.getMessage();
             ResultUtil.returnResultLog(responseBody, "服务器异常，请稍后再试", e.getMessage(), logger);
         }finally {
             return this.toJSON(responseBody);
