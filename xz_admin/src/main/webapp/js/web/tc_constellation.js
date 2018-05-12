@@ -1,7 +1,7 @@
 function saveRecord(opt)
 {
     var url="tcConstellation/json/addTcConstellation";
-    var constellationNameField  = $("#constellationName").val();var startDateField  = $("#startDate").val();var endDateField  = $("#endDate").val();var pictureUrlField  = $("#pictureUrl").val();var remarkField  = $("#remark").val();
+    var constellationNameField  = $("#constellationName").val();var startDateField  = $("#startDate").val();var endDateField  = $("#endDate").val();var pictureUrlField = $('#pictureUrlSpan').html();var remarkField  = $("#remark").val();
 	var data = {constellationName: constellationNameField,startDate: startDateField,endDate: endDateField,pictureUrl: pictureUrlField,remark: remarkField,testXXX:1};
     ajaxPost(url, data, function (result) {
         window.location.href ="tcConstellationList.html";
@@ -15,7 +15,7 @@ function changePage(opt,functionName)
 function updateRecord(opt)
 {
     var url="tcConstellation/json/updateTcConstellationById";
-    var idField  = $("#id").val();var constellationNameField  = $("#constellationName").val();var startDateField  = $("#startDate").val();var endDateField  = $("#endDate").val();var pictureUrlField  = $("#pictureUrl").val();var remarkField  = $("#remark").val();
+    var idField  = $("#id").val();var constellationNameField  = $("#constellationName").val();var startDateField  = $("#startDate").val();var endDateField  = $("#endDate").val();var pictureUrlField = $('#pictureUrlSpan').html();var remarkField  = $("#remark").val();
 	var data = {id: idField,constellationName: constellationNameField,startDate: startDateField,endDate: endDateField,pictureUrl: pictureUrlField,remark: remarkField,testXXX:1};
     ajaxPost(url, data, function (result) {
         window.location.href ="tcConstellationList.html";
@@ -27,7 +27,7 @@ function getRecord(id)
     var data = {id: id};
     ajaxPost(url, data, function (result) {
         if(result==null)back();
-        $("#id").val(result.id);$("#constellationName").val(result.constellationName);$("#startDate").val(result.startDate);$("#endDate").val(result.endDate);$("#pictureUrl").val(result.pictureUrl);$("#remark").val(result.remark);
+        $("#id").val(result.id);$("#constellationName").val(result.constellationName);$("#startDate").val(result.startDate);$("#endDate").val(result.endDate);$("#pictureUrlSpan").html(result.pictureUrl);$("#remark").val(result.remark);
     })
 };
 function removeRecord(opt)
@@ -57,7 +57,7 @@ function initTable(opt)
         header = header + '<thead>';
         header = header + '    <tr>';
         //动态数据Start
-        header = header + '<th>#ID</th><th>星座</th><th>月份开始日期</th><th>结束日期</th><th>背景图片</th><th>备注</th>';
+        header = header + '<th>#ID</th><th>星座</th><th>月份开始日期</th><th>结束日期</th><th>备注</th>';
         //动态数据End
         header = header + '    <th>操作</th>';
         header = header + '    </tr>';
@@ -70,7 +70,7 @@ function initTable(opt)
             //动态数据Start
             
 
-            body = body+'<td>'+obj.id+'</td><td>'+obj.constellationName+'</td><td>'+obj.startDate+'</td><td>'+obj.endDate+'</td><td>'+obj.pictureUrl+'</td><td>'+obj.remark+'</td>';
+            body = body+'<td>'+obj.id+'</td><td>'+obj.constellationName+'</td><td>'+obj.startDate+'</td><td>'+obj.endDate+'</td><td>'+obj.remark+'</td>';
             //动态数据End
             body = body+'<td>';
             body = body+'<button class="btn btn-success btn-circle" type="button" data="'+obj.id+'" onclick="changePage(this,\'View\')"><i class="fa fa-info"></i></button>';

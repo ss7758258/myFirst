@@ -27,7 +27,33 @@ public class TiQianLibController extends BaseController {
     @Autowired
     private TiQianLibService tiQianLibService;
 
-    
+    @RequestMapping("json/picUpload")
+    public
+    @ResponseBody
+    String picUpload(@RequestParam(name="file",required=false) MultipartFile pic) {
+        AjaxBean<String> ajaxBean = new AjaxBean<String>();
+        if(pic==null|| StringUtil.isEmpty(pic.getOriginalFilename()))
+        {
+            ajaxBean.setStatus(AjaxStatus.ERROR);
+            ajaxBean.setMessage("文件为空!");
+            return this.ajaxJson(ajaxBean);
+        }
+        try {
+            String filePic = FileUtil.uploadFile("tiQianLib", this.getRequest(), pic);
+            ajaxBean.setStatus(AjaxStatus.SUCCESS);
+            ajaxBean.setMessage("上传成功!");
+            ajaxBean.setData(filePic);
+            return this.ajaxJson(ajaxBean);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ajaxBean.setStatus(AjaxStatus.ERROR);
+        ajaxBean.setMessage("上传失败!");
+        return this.ajaxJson(ajaxBean);
+    }
+
 
     @RequestMapping("json/addTiQianLib")
     public

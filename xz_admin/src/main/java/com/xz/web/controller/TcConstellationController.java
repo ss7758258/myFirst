@@ -27,7 +27,33 @@ public class TcConstellationController extends BaseController {
     @Autowired
     private TcConstellationService tcConstellationService;
 
-    
+    @RequestMapping("json/pictureUrlUpload")
+    public
+    @ResponseBody
+    String pictureUrlUpload(@RequestParam(name="file",required=false) MultipartFile pictureUrl) {
+        AjaxBean<String> ajaxBean = new AjaxBean<String>();
+        if(pictureUrl==null|| StringUtil.isEmpty(pictureUrl.getOriginalFilename()))
+        {
+            ajaxBean.setStatus(AjaxStatus.ERROR);
+            ajaxBean.setMessage("文件为空!");
+            return this.ajaxJson(ajaxBean);
+        }
+        try {
+            String filePictureUrl = FileUtil.uploadFile("tcConstellation", this.getRequest(), pictureUrl);
+            ajaxBean.setStatus(AjaxStatus.SUCCESS);
+            ajaxBean.setMessage("上传成功!");
+            ajaxBean.setData(filePictureUrl);
+            return this.ajaxJson(ajaxBean);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ajaxBean.setStatus(AjaxStatus.ERROR);
+        ajaxBean.setMessage("上传失败!");
+        return this.ajaxJson(ajaxBean);
+    }
+
 
     @RequestMapping("json/addTcConstellation")
     public

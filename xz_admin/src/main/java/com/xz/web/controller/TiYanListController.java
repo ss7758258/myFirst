@@ -27,7 +27,33 @@ public class TiYanListController extends BaseController {
     @Autowired
     private TiYanListService tiYanListService;
 
-    
+    @RequestMapping("json/prevPicUpload")
+    public
+    @ResponseBody
+    String prevPicUpload(@RequestParam(name="file",required=false) MultipartFile prevPic) {
+        AjaxBean<String> ajaxBean = new AjaxBean<String>();
+        if(prevPic==null|| StringUtil.isEmpty(prevPic.getOriginalFilename()))
+        {
+            ajaxBean.setStatus(AjaxStatus.ERROR);
+            ajaxBean.setMessage("文件为空!");
+            return this.ajaxJson(ajaxBean);
+        }
+        try {
+            String filePrevPic = FileUtil.uploadFile("tiYanList", this.getRequest(), prevPic);
+            ajaxBean.setStatus(AjaxStatus.SUCCESS);
+            ajaxBean.setMessage("上传成功!");
+            ajaxBean.setData(filePrevPic);
+            return this.ajaxJson(ajaxBean);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ajaxBean.setStatus(AjaxStatus.ERROR);
+        ajaxBean.setMessage("上传失败!");
+        return this.ajaxJson(ajaxBean);
+    }
+
 
     @RequestMapping("json/addTiYanList")
     public
