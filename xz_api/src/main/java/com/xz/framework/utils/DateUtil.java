@@ -89,6 +89,12 @@ public class DateUtil {
         return sdf.format(date);
     }
 
+    public static String getDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        return sdf.format(date);
+    }
+
     public static String getDateToString(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(date);

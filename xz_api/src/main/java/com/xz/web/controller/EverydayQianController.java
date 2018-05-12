@@ -3,9 +3,11 @@ package com.xz.web.controller;
 import com.github.pagehelper.PageInfo;
 import com.xz.framework.bean.ajax.RequestHeader;
 import com.xz.framework.bean.ajax.XZResponseBody;
+import com.xz.framework.bean.enums.AjaxStatus;
 import com.xz.framework.common.base.BeanCriteria;
 import com.xz.framework.common.base.PageView;
 import com.xz.framework.controller.BaseController;
+import com.xz.framework.utils.DateUtil;
 import com.xz.framework.utils.JsonUtil;
 import com.xz.web.bo.everydayQian.X500Bo;
 import com.xz.web.bo.everydayWords.X400Bo;
@@ -77,6 +79,65 @@ public class EverydayQianController extends BaseController {
         }
     }
 
+    /**
+     * 解签列表
+     * @param requestBody
+     * @return
+     */
+    @RequestMapping("x504")
+    @ResponseBody
+    public String x504(String requestBody) {
+        XZResponseBody<TiUserQianList> responseBody = new XZResponseBody<TiUserQianList>();
+        String currentDate = DateUtil.getDate();
+        try {
+            int userid =0;
+            BeanCriteria beanCriteria = new BeanCriteria(TiUserQianList.class);
+            BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
+            criteria.andEqualTo("userId", userid);
+            criteria.andEqualTo("qianDate", currentDate);
+            beanCriteria.setOrderByClause("update_timestamp desc");
+            PageInfo<TiUserQianList> pager = new PageInfo<TiUserQianList>();
+            pager = tiUserQianListService.selectByPage(pager, beanCriteria);
+            List<TiUserQianList> list = pager.getList();
+            if(list.size()>0)
+            {
+                TiUserQianList obj = list.get(0);
+                if(obj.getStatus()==0)
+                {
+                    responseBody.setStatus(AjaxStatus.SUCCESS);
+                    responseBody.setMessage("");
+                    responseBody.setData(obj);
+                    return this.toJSON(responseBody);
+                }else
+                {
+                    responseBody.setStatus(AjaxStatus.ERROR);
+                    responseBody.setMessage("无签");
+                    responseBody.setData(obj);
+                    return this.toJSON(responseBody);
+                }
+            }else
+            {
+                TiUserQianList obj = new TiUserQianList();
+                obj.setQianDate(DateUtil.getDate());
+                obj.setQianName("AAA");//TODO:获取签
+                obj.setQianContent("BBBBB");//TODO:获取签
+                obj.setStatus(0);
+                obj.setUserId(0L); //TODO:后期获取id
+                obj.setCreateTimestamp(DateUtil.getDatetime());
+                obj.setUpdateTimestamp(DateUtil.getDatetime());
+                tiUserQianListService.save(obj);
+                responseBody.setStatus(AjaxStatus.SUCCESS);
+                responseBody.setMessage("");
+                responseBody.setData(obj);
+                return this.toJSON(responseBody);
+            }
+        } catch (Exception e) {
+            e.getMessage();
+            ResultUtil.returnResultLog(responseBody, "服务器异常，请稍后再试", e.getMessage(), logger);
+        }finally {
+            return this.toJSON(responseBody);
+        }
+    }
     /**
      * 解签列表
      * @param requestBody
