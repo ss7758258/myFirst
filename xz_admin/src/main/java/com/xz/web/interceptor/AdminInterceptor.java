@@ -30,7 +30,7 @@ public class AdminInterceptor implements HandlerInterceptor {
         request.getSession().setAttribute("path", path);
         Admin sessionUser = (Admin) request.getSession().getAttribute(Constant.ADMIN_SESSION);
         if(sessionUser ==null||sessionUser.getId()==null||sessionUser.getId()==0){
-        	return false;
+        	return true;
         }
         return true;
     }
