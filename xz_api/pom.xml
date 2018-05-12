@@ -299,6 +299,13 @@
             <artifactId>kafka_2.12</artifactId>
             <version>1.0.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+            <version>5.2.4</version>
+        </dependency>
+
     </dependencies>
 
     <build>
