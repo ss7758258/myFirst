@@ -1,8 +1,7 @@
 package com.xz.framework.bean.ajax;
 
 
-import com.github.pagehelper.PageInfo;
-import com.xz.framework.bean.enums.AjaxStatus;
+import com.xz.framework.common.base.AjaxStatus;
 
 import java.io.Serializable;
 

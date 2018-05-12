@@ -1,17 +1,15 @@
 package com.xz.web.interceptor;
 
 import com.xz.framework.common.base.AjaxBean;
-import com.xz.framework.common.base.AjaxStatus;
 import com.xz.framework.utils.json.JsonUtil;
-import com.xz.web.common.SessionUser;
 import com.xz.web.constant.Constant;
+import com.xz.web.entity.Admin;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 public class AdminInterceptor implements HandlerInterceptor {
@@ -30,34 +28,11 @@ public class AdminInterceptor implements HandlerInterceptor {
         System.err.println("Json="+ JsonUtil.serialize(parameters));
         String path = request.getContextPath();
         request.getSession().setAttribute("path", path);
-        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/resource/login.html";
-        SessionUser sessionUser = (SessionUser) request.getSession().getAttribute(Constant.ADMIN_SESSION);
-
-        if(sessionUser ==null||sessionUser.getUserUid()==null||sessionUser.getUserUid().trim().equals("")){
-        	request.getRequestDispatcher(basePath);
-        	return false;
-        }
-        
-        List<String> list =sessionUser.getUserUrlList();
-        System.err.println(request.getRequestURI());
-        boolean flag = false;
-        for(int i=0;i<list.size();i++){
-        	if(list.get(i)!=null&&request.getRequestURI().indexOf(list.get(i))>=0){
-        		flag =true;
-        		break;
-        	}
-        }
-        if(flag){
+        Admin sessionUser = (Admin) request.getSession().getAttribute(Constant.ADMIN_SESSION);
+        if(sessionUser ==null||sessionUser.getId()==null||sessionUser.getId()==0){
         	return true;
-        }else{
-        	System.err.println("Addr:"+request.getRequestURI());
-        	AjaxBean<String> ajaxBean = new AjaxBean<String>();
-            ajaxBean.setStatus(AjaxStatus.ERROR);
-            ajaxBean.setMessage("没有按钮操作权限");
-            ajaxBean.setData("没有该操作权限");
-            ajaxJson(response,ajaxBean);
-            return false;
         }
+        return true;
     }
     
     public String ajax(HttpServletResponse response ,String content, String type) {

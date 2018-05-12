@@ -115,6 +115,8 @@ if (searchCondition.getNotDo() != null)
 criteria.andNotDoEqualTo(searchCondition.getNotDo());
 if (searchCondition.getPublishTime() != null) 
 criteria.andPublishTimeEqualTo(searchCondition.getPublishTime());
+if (searchCondition.getStatus() != null) 
+criteria.andStatusEqualTo(searchCondition.getStatus());
 if (searchCondition.getLuckyDate() != null) 
 criteria.andLuckyDateEqualTo(searchCondition.getLuckyDate());
 if (searchCondition.getCreateTimestamp() != null) 

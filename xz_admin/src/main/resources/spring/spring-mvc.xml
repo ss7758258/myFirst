@@ -47,11 +47,10 @@
     <mvc:interceptors>
         <!-- 运营支撑管理系统拦截器-->
         <mvc:interceptor>
-            <mvc:mapping path="/admin/*" />
-            <mvc:exclude-mapping path="/admin/logout"/>
-            <mvc:exclude-mapping path="/admin/login"/>
-            <mvc:exclude-mapping path="/admin/doLogin"/>
-            <bean class="com.xz.web.interceptor.AccessInterceptor" />
+            <mvc:mapping path="/*" />
+            <mvc:exclude-mapping path="/f00/logout"/>
+            <mvc:exclude-mapping path="/f00/login"/>
+            <bean class="com.xz.web.interceptor.AdminInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>
 
