@@ -1,7 +1,7 @@
 package com.xz.web.vo.everydayQian;
 
 public class X510Vo {
-    private Integer id;
+    private Long id;
     private Integer pageSize = 5;
 
     private Integer pageNum = 1;
@@ -14,11 +14,11 @@ public class X510Vo {
         this.pageSize = pageSize;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
