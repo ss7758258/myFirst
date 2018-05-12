@@ -11,9 +11,15 @@ import com.xz.web.vo.loginConstellation.X000Vo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * 登录认证
+ */
+@RequestMapping("/loginConstellation")
+@Controller
 public class LoginConstellationController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -21,9 +27,9 @@ public class LoginConstellationController extends BaseController {
     @Autowired
     LoginConstellationService loginConstellationService;
 
-    @RequestMapping("login")
+    @RequestMapping("x000")
     @ResponseBody
-    public String login(String requestBody) {
+    public String x000(String requestBody) {
         X000Vo obj = JsonUtil.deserialize(requestBody, X000Vo.class);
         XZResponseBody<X000Bo> responseBody = new XZResponseBody<X000Bo>();
         if (null == obj || StringUtil.isEmpty(obj.getCode())) {

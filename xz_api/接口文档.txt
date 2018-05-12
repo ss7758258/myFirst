@@ -1,0 +1,78 @@
+1. 登录
+   url: /loginConstellation/x000
+   入参： String code
+   返回： String openId;
+          String token;
+          String code;
+
+2. 选择星座
+   url: /selectConstellation/x100
+   入参： Long constellationId;
+          String nickName;
+          String headImage;
+   返回： Long constellationId;
+       String constellationName;
+       String startDate;
+       String endDate;
+       String pictureUrl;
+       String luckyType1;
+       String luckyType2;
+       String luckyType3;
+       String luckyType4;
+       String luckyScore1;
+       String luckyScore2;
+       String luckyScore3;
+       String luckyScore4;
+       String remindToday;
+       String qianUrl;
+       String yanUrl;
+
+3. 首页星座
+   url: /indexConstellation/x200
+   入参： 无
+   返回： Long constellationId;
+       String constellationName;
+       String startDate;
+       String endDate;
+       String pictureUrl;
+       String luckyType1;
+       String luckyType2;
+       String luckyType3;
+       String luckyType4;
+       String luckyScore1;
+       String luckyScore2;
+       String luckyScore3;
+       String luckyScore4;
+       String remindToday;
+       String qianUrl;
+       String yanUrl;
+
+4. 首页更多
+   url: /moreConstellation/x300
+   入参： Long constellationId
+   返回： Long constellationId;
+       String luckyTypeMore1;
+       String luckyTypeMore2;
+       String luckyTypeMore3;
+       String luckyTypeMore4;
+       String luckyScoreMore1
+       String luckyScoreMore2
+       String luckyScoreMore3
+       String luckyScoreMore4
+       String luckyWords1;
+       String luckyWords2;
+       String luckyWords3;
+       String luckyWords4;
+       String toDo;
+       String notDo;
+       String publishTime;
+       String LuckyDate;
+       String createTime;
+
+5. 一言
+   url: /everydayWords/x400
+   入参：无
+   返回： Long id;
+       String prevPic;
+       String speech;
+       String currentDate;

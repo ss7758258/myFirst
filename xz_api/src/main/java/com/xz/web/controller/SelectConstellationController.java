@@ -37,8 +37,16 @@ public class SelectConstellationController extends BaseController {
     public String x100(String requestBody) {
         X100Vo obj = JsonUtil.deserialize(requestBody, X100Vo.class);
         XZResponseBody<X100Bo> responseBody = new XZResponseBody<X100Bo>();
-        if (null == obj || StringUtil.isEmpty(obj.getConstellationId())) {
+        if (null == obj || null == obj.getConstellationId()) {
             ResultUtil.returnResult(responseBody, "请选择星座");
+            return this.toJSON(responseBody);
+        }
+        if (null == obj || StringUtil.isEmpty(obj.getNickName())) {
+            ResultUtil.returnResult(responseBody, "网络异常，获取用户昵称失败");
+            return this.toJSON(responseBody);
+        }
+        if (null == obj || StringUtil.isEmpty(obj.getHeadImage())) {
+            ResultUtil.returnResult(responseBody, "网络异常，获取用户昵称失败");
             return this.toJSON(responseBody);
         }
         Weixin weixin = this.getWeixin();
@@ -48,7 +56,7 @@ public class SelectConstellationController extends BaseController {
         }
         //插入自己的星座，同时返回星座首页
         try {
-            responseBody = selectConstellationService.saveConstellation(obj.getConstellationId(), weixin);
+            responseBody = selectConstellationService.saveConstellation(obj, weixin);
         } catch (Exception e) {
             ResultUtil.returnResultLog(responseBody, "请选择星座", e.getMessage(), logger);
         }finally {

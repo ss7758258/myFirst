@@ -32,10 +32,17 @@
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 
-        <table tableName="weixin_user" domainObjectName="WeixinUser" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <!--<table tableName="tc_qian_yan_url" domainObjectName="TcQianYanUrl" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
         <table tableName="ti_yan_list" domainObjectName="TiYanList" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+
+    <!--
+        <table tableName="weixin_user" domainObjectName="WeixinUser" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
         <table tableName="ti_lucky" domainObjectName="TiLucky" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
         <table tableName="tc_constellation" domainObjectName="TcConstellation" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+<<<<<<< HEAD
+    -->
+=======
         <table tableName="ti_user_qian_list" domainObjectName="TiUserQianList" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+>>>>>>> 3eb53ce77914a92136eebfa43e3ac3d197ee44a8
     </context>
 </generatorConfiguration>
