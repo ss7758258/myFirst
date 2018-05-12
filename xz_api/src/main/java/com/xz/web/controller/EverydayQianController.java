@@ -9,6 +9,7 @@ import com.xz.framework.common.base.PageView;
 import com.xz.framework.controller.BaseController;
 import com.xz.framework.utils.DateUtil;
 import com.xz.framework.utils.JsonUtil;
+import com.xz.framework.utils.StringUtil;
 import com.xz.web.bo.everydayQian.X500Bo;
 import com.xz.web.bo.everydayWords.X400Bo;
 import com.xz.web.mapper.entity.TiUserQianList;
@@ -80,7 +81,7 @@ public class EverydayQianController extends BaseController {
     }
 
     /**
-     * 解签列表
+     * 拆签
      * @param requestBody
      * @return
      */
@@ -138,6 +139,45 @@ public class EverydayQianController extends BaseController {
             return this.toJSON(responseBody);
         }
     }
+
+    /**
+     * 解签列表
+     * @param requestBody
+     * @return
+     */
+    @RequestMapping("x506")
+    @ResponseBody
+    public String x506(String requestBody) {
+        XZResponseBody<TiUserQianList> responseBody = new XZResponseBody<TiUserQianList>();
+        try {
+            RequestHeader requestHeader = this.getRequestHeader();
+            X510Vo obj = JsonUtil.deserialize(requestBody, X510Vo.class);
+            if (obj == null) {
+                ResultUtil.returnResultLog(responseBody, "ID为空!", null, logger);
+            }
+            TiUserQianList data = tiUserQianListService.selectByKey(obj.getId());
+            if(StringUtil.isEmpty(data.getFriendOpenId1()))
+                data.setFriendOpenId1("1");
+            else if(StringUtil.isEmpty(data.getFriendOpenId2()))
+                data.setFriendOpenId1("2");
+            else if(StringUtil.isEmpty(data.getFriendOpenId3()))
+                data.setFriendOpenId1("3");
+            else if(StringUtil.isEmpty(data.getFriendOpenId4()))
+                data.setFriendOpenId1("4");
+            else if(StringUtil.isEmpty(data.getFriendOpenId5())) {
+                data.setFriendOpenId1("5");
+                data.setStatus(1);
+            }
+            data.setUpdateTimestamp(DateUtil.getDatetime());
+            responseBody.setData(data);
+        } catch (Exception e) {
+            e.getMessage();
+            ResultUtil.returnResultLog(responseBody, "服务器异常，请稍后再试", e.getMessage(), logger);
+        }finally {
+            return this.toJSON(responseBody);
+        }
+    }
+
     /**
      * 解签列表
      * @param requestBody
