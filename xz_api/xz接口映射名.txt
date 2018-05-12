@@ -21,7 +21,7 @@
 5. 一签     /everydayQian/
    5.0  每日一言   /everydayQian/x500
    5.1  保存一言   /everydayQian/x501
-   5.4  无签   /everydayQian/x504 无输入
+   5.4  无签，有签已拆，有签未拆   /everydayQian/x504 无输入
    5.6  帮好友拆签   /everydayQian/x506 输入ID
    5.10 解签列表   /everydayQian/x510  输入pagerNum，pagerSize
    5.11 解签详情   /everydayQian/x511  输入ID
