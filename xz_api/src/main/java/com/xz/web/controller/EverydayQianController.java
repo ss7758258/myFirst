@@ -96,11 +96,16 @@ public class EverydayQianController extends BaseController {
             if (obj.getPageSize() == null) {
                 obj.setPageSize(5);
             }
+            if (obj.getPageNum() == null) {
+                obj.setPageNum(1);
+            }
             BeanCriteria beanCriteria = new BeanCriteria(TiUserQianList.class);
             BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
             criteria.andEqualTo("userId", userid);
+            beanCriteria.setOrderByClause("update_timestamp desc");
             PageInfo<TiUserQianList> pager = new PageInfo<TiUserQianList>();
             pager.setPageSize(obj.getPageSize());
+            pager.setPageNum(obj.getPageNum());
             pager = tiUserQianListService.selectByPage(pager, beanCriteria);
             responseBody.setData(pager.getList());
         } catch (Exception e) {
