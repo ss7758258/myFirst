@@ -5,5 +5,5 @@ import com.xz.web.bo.moreConstellation.X300Bo;
 
 public interface MoreConstellationService {
 
-    XZResponseBody<X300Bo> selectMoreConstellation() throws Exception;
+    XZResponseBody<X300Bo> selectMoreConstellation(Long constellationId) throws Exception;
 }

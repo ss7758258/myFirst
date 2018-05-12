@@ -10,7 +10,7 @@ public interface SelectConstellationMapperExt {
      * @return
      */
     @Select({
-
+        "select count(1) from weixin_user where open_id = #{0}"
     })
     Integer selectUserCountByOpenId(String openId);
 
@@ -18,10 +18,11 @@ public interface SelectConstellationMapperExt {
      * 根据openid更新该用户是否已选择星座
      * @param constellationId
      * @param openId
+     * @param updateTime
      * @return
      */
     @Update({
-
+        "update weixin_user set constellation_id = #{0}, nick_name = #{2}, head_image = #{1}, update_timestamp = #{3} where open_id = #{4}"
     })
-    void updateMyConstellationByOpenId(String constellationId, String openId);
+    void updateMyConstellationByOpenId(Long constellationId, String headImage, String nickName, String updateTime, String openId);
 }

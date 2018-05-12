@@ -1,9 +1,10 @@
 package com.xz.web.service.ext;
 
 import com.xz.framework.bean.ajax.XZResponseBody;
+import com.xz.framework.bean.enums.AjaxStatus;
+import com.xz.framework.bean.weixin.Weixin;
 import com.xz.web.bo.everydayWords.X400Bo;
 import com.xz.web.mapper.ext.EverydayWordsMapperExt;
-import com.xz.web.mapper.ext.SelectConstellationMapperExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +21,23 @@ public class EverydayWordsServiceImpl implements EverydayWordsService {
     /**
      * 每日一言
      * @param
+     * @param weixin
      * @return
      */
     @Override
-    public XZResponseBody<X400Bo> selectEverydayWords() {
+    public XZResponseBody<X400Bo> selectEverydayWords(Weixin weixin) {
         /**
          *  当天时间（有英文）；
          * 星座图片、描述（是否有多条）；
          * 星座总结话；
          */
-        return null;
+        Long constellationId = everydayWordsMapperExt.selectConstellationIdByOpenId(weixin.getOpenId());
+        XZResponseBody<X400Bo> response = new XZResponseBody<X400Bo>();
+        X400Bo x400Bo = everydayWordsMapperExt.selectCurrentYanByConstellationId(constellationId);
+
+        response.setStatus(AjaxStatus.SUCCESS);
+        response.setData(x400Bo);
+        return response;
     }
 
     /**

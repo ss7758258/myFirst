@@ -24,6 +24,11 @@ public class TiYanList extends BasicBean {
     private String prevPic;
 
     /**
+     * @1-每日一言
+     */
+    private String speech;
+
+    /**
      * @1-发布人
      */
     @Column(name = "publish_person")
@@ -53,10 +58,11 @@ public class TiYanList extends BasicBean {
     @Column(name = "update_timestamp")
     private String updateTimestamp;
 
-    public TiYanList(Long id, Long constellationId, String prevPic, String publishPerson, String publishStatus, String publishTime, String createTimestamp, String updateTimestamp) {
+    public TiYanList(Long id, Long constellationId, String prevPic, String speech, String publishPerson, String publishStatus, String publishTime, String createTimestamp, String updateTimestamp) {
         this.id = id;
         this.constellationId = constellationId;
         this.prevPic = prevPic;
+        this.speech = speech;
         this.publishPerson = publishPerson;
         this.publishStatus = publishStatus;
         this.publishTime = publishTime;
@@ -120,6 +126,24 @@ public class TiYanList extends BasicBean {
      */
     public void setPrevPic(String prevPic) {
         this.prevPic = prevPic == null ? null : prevPic.trim();
+    }
+
+    /**
+     * 获取@1-每日一言
+     *
+     * @return speech - @1-每日一言
+     */
+    public String getSpeech() {
+        return speech;
+    }
+
+    /**
+     * 设置@1-每日一言
+     *
+     * @param speech @1-每日一言
+     */
+    public void setSpeech(String speech) {
+        this.speech = speech == null ? null : speech.trim();
     }
 
     /**
