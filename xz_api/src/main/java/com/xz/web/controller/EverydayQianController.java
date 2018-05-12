@@ -130,6 +130,7 @@ public class EverydayQianController extends BaseController {
             if (obj == null) {
                 ResultUtil.returnResultLog(responseBody, "ID为空!", null, logger);
             }
+            System.out.println("id="+obj.getId());
             TiUserQianList data = tiUserQianListService.selectByKey(obj.getId());
             responseBody.setData(data);
         } catch (Exception e) {
