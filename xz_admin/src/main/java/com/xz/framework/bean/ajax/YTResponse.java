@@ -1,8 +1,6 @@
 package com.xz.framework.bean.ajax;
 
 
-import com.xz.framework.bean.enums.AjaxStatus;
-
 import java.io.Serializable;
 
 /**
