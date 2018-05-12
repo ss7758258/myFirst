@@ -33,7 +33,7 @@ public class AccessInterceptor implements HandlerInterceptor {
             if (handler instanceof HandlerMethod) {
                 if(!validateHeader(request))
                 {
-                    return false;
+                    return true;
                 }
                 HandlerMethod h = (HandlerMethod) handler;
                 String jsonBody = StringUtil.getParamString("requestBody", request.getParameterMap());
