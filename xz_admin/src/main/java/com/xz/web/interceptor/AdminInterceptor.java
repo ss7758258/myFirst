@@ -28,11 +28,8 @@ public class AdminInterceptor implements HandlerInterceptor {
         System.err.println("Json="+ JsonUtil.serialize(parameters));
         String path = request.getContextPath();
         request.getSession().setAttribute("path", path);
-        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/resource/login.html";
         Admin sessionUser = (Admin) request.getSession().getAttribute(Constant.ADMIN_SESSION);
-
         if(sessionUser ==null||sessionUser.getId()==null||sessionUser.getId()==0){
-        	request.getRequestDispatcher(basePath);
         	return false;
         }
         return true;
