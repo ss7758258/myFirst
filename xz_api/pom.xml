@@ -310,7 +310,7 @@
 
     <build>
 
-        <finalName>yeting_api</finalName>
+        <finalName>xz_api</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
