@@ -1,6 +1,7 @@
 package com.xz.web.interceptor;
 
 import com.xz.framework.bean.ajax.RequestHeader;
+import com.xz.framework.utils.DateUtil;
 import com.xz.framework.utils.JsonUtil;
 import com.xz.framework.utils.StringUtil;
 import com.xz.web.dao.redis.RedisDao;
@@ -37,24 +38,24 @@ public class AccessInterceptor implements HandlerInterceptor {
                 }
                 HandlerMethod h = (HandlerMethod) handler;
                 String jsonBody = StringUtil.getParamString("requestBody", request.getParameterMap());
-//                if (StringUtil.isEmpty(jsonBody)) {
-//                    StringBuilder sb = new StringBuilder(1000);
-//                    sb.append("DateTime: ").append(DateUtil.getDatetime()).append("\n");
-//                    sb.append("Controller: ").append(h.getBean().getClass().getName()).append("\n");
-//                    sb.append("Method    : ").append(h.getMethod().getName()).append("\n");
-//                    sb.append("Params    : ").append(StringUtil.getParamString(request.getParameterMap())).append("\n");
-//                    sb.append("URI       : ").append(request.getRequestURI());
-//                    System.out.println(sb.toString());
-//                } else {
-//                    request.setAttribute("requestBody", jsonBody);
-//                    StringBuilder sb = new StringBuilder(1000);
-//                    sb.append("DateTime: ").append(DateUtil.getDatetime()).append("\n");
-//                    sb.append("Controller: ").append(h.getBean().getClass().getName()).append("\n");
-//                    sb.append("Method    : ").append(h.getMethod().getName()).append("\n");
-//                    sb.append("Params    : ").append(StringUtil.getParamString(request.getParameterMap())).append("\n");
-//                    sb.append("URI       : ").append(request.getRequestURI());
-//                    System.out.println(sb.toString());
-//                }
+                if (StringUtil.isEmpty(jsonBody)) {
+                    StringBuilder sb = new StringBuilder(1000);
+                    sb.append("DateTime: ").append(DateUtil.getDatetime()).append("\n");
+                    sb.append("Controller: ").append(h.getBean().getClass().getName()).append("\n");
+                    sb.append("Method    : ").append(h.getMethod().getName()).append("\n");
+                    sb.append("Params    : ").append(StringUtil.getParamString(request.getParameterMap())).append("\n");
+                    sb.append("URI       : ").append(request.getRequestURI());
+                    System.out.println(sb.toString());
+                } else {
+                    request.setAttribute("requestBody", jsonBody);
+                    StringBuilder sb = new StringBuilder(1000);
+                    sb.append("DateTime: ").append(DateUtil.getDatetime()).append("\n");
+                    sb.append("Controller: ").append(h.getBean().getClass().getName()).append("\n");
+                    sb.append("Method    : ").append(h.getMethod().getName()).append("\n");
+                    sb.append("Params    : ").append(StringUtil.getParamString(request.getParameterMap())).append("\n");
+                    sb.append("URI       : ").append(request.getRequestURI());
+                    System.out.println(sb.toString());
+                }
             }
             return true;
         } catch (Exception e) {
