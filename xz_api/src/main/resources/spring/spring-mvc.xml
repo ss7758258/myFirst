@@ -85,7 +85,7 @@
     <mvc:view-controller path="/"
                          view-name="redirect:/index.jsp"/>
     <!--<mvc:view-controller path="/admin"
-             view-name="redirect:/admin/login.html"/>-->
+             view-name="redirect:/admin/loginConstellation.html"/>-->
     <!-- 默认的视图解析器 ， 配置支持JSP视图解析器 -->
     <bean id="defaultJspViewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">

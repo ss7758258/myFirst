@@ -3,7 +3,7 @@ package com.xz.web.interceptor;
 import com.xz.framework.bean.ajax.RequestHeader;
 import com.xz.framework.utils.JsonUtil;
 import com.xz.framework.utils.StringUtil;
-import com.xz.web.service.redis.RedisService;
+import com.xz.web.dao.redis.RedisDao;
 import com.xz.web.utils.AuthToken;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class AccessInterceptor implements HandlerInterceptor {
     private static final Logger logger = Logger.getLogger(AccessInterceptor.class);
 
     @Autowired
-    private RedisService redisService;
+    private RedisDao redisService;
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) {
