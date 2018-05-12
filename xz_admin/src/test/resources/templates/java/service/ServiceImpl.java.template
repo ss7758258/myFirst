@@ -21,7 +21,7 @@ public class <Object>ServiceImpl extends BaseServiceImpl<<Object>> implements <O
     }
 
     @Override
-    public int removeById(Integer id) {
+    public int removeById(Long id) {
 
         return mapper.deleteByPrimaryKey(id);
     }
@@ -33,7 +33,7 @@ public class <Object>ServiceImpl extends BaseServiceImpl<<Object>> implements <O
     }
 
     @Override
-    public <Object> getById(Integer id) {
+    public <Object> getById(Long id) {
         <Object> article = mapper.selectByPrimaryKey(id);
         return article;
     }

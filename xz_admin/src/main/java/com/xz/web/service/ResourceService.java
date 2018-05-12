@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ResourceService extends BaseService<Resource> {
     int add(Resource obj);
-    int removeById(Integer id);
+    int removeById(Long id);
     int update(Resource obj);
-    Resource getById(Integer id);
+    Resource getById(Long id);
     List<Resource> getAll();
     PageInfo<Resource> findList(Resource searchCondition, PageInfo<Resource> pager);
 }

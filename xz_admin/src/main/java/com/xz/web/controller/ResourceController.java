@@ -53,7 +53,7 @@ public class ResourceController extends BaseController {
     @RequestMapping("json/delResourceById")
     public
     @ResponseBody
-    String delResourceById(Integer id) {
+    String delResourceById(Long id) {
         AjaxBean<Integer> ajaxBean = new AjaxBean<Integer>();
         int flag = resourceService.removeById(id);
         if(flag>0) {
@@ -74,7 +74,7 @@ public class ResourceController extends BaseController {
     @ResponseBody
     String updateResourceById(Resource resource) {
         AjaxBean<String> ajaxBean = new AjaxBean<String>();
-        Integer id = resource.getId();
+        Long id = resource.getId();
         if(id!=null) {
             Resource entity = resourceService.getById(id);
             if(null==entity) {
@@ -105,7 +105,7 @@ public class ResourceController extends BaseController {
     @RequestMapping("json/getResourceById")
     public
     @ResponseBody
-    String getResourceById(Integer id) {
+    String getResourceById(Long id) {
         AjaxBean<Resource> ajaxBean = new AjaxBean<Resource>();
         Resource obj = resourceService.getById(id);
         ajaxBean.setStatus(AjaxStatus.SUCCESS);

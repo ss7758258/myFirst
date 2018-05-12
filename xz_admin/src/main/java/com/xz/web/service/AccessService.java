@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface AccessService extends BaseService<Access> {
     int add(Access obj);
-    int removeById(Integer id);
+    int removeById(Long id);
     int update(Access obj);
-    Access getById(Integer id);
+    Access getById(Long id);
     List<Access> getAll();
     PageInfo<Access> findList(Access searchCondition, PageInfo<Access> pager);
 }

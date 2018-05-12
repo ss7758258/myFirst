@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface ExampleService extends BaseService<Example> {
     int add(Example obj);
-    int removeById(Integer id);
+    int removeById(Long id);
     int update(Example obj);
-    Example getById(Integer id);
+    Example getById(Long id);
     List<Example> getAll();
     PageInfo<Example> findList(Example searchCondition, PageInfo<Example> pager);
 }

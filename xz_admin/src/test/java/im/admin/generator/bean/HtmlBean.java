@@ -9,6 +9,7 @@ public class HtmlBean {
     private String header;
     private String copyright;
     private String tableName;
+    private String key;
     private String tableMem;
     private TableBean tableBean;
     private String addForm="";
@@ -228,5 +229,13 @@ public class HtmlBean {
 
     public void setMenuForm(String menuForm) {
         this.menuForm = menuForm;
+    }
+
+    public String getKey() {
+        return StringUtil.getLowerStart(tableName);
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

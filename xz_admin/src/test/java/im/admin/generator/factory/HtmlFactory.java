@@ -57,7 +57,7 @@ public class HtmlFactory {
     }
 
     public void generateHtml(HtmlBean htmlBean) {
-        String filename = htmlBean.getTableName();
+        String filename = StringUtil.getLowerStart(htmlBean.getTableName());
         //TODO:List
         filePath = htmlPath + filename+LIST+".html";
         String html="";
@@ -347,7 +347,7 @@ public class HtmlFactory {
         jsUpdateContent = java.util.regex.Matcher.quoteReplacement(jsUpdateContent)+"\n\t"+jsUpdateData;
         outData = outData.replaceAll("//<#_S>jsUpdateContent</#_E>",jsUpdateContent);
         outData = outData.replaceAll("<#_S>content</#_E>",content);
-        outData = outData.replaceAll("<#_S>key</#_E>",tableBean.getTableName());
+        outData = outData.replaceAll("<#_S>key</#_E>",StringUtil.getLowerStart(tableBean.getTableName()));
         outData = outData.replaceAll("<#_S>Key</#_E>",StringUtil.getUpperStart(tableBean.getTableName()));
         FileUtil.deleteTxtFile(jsOutputFile);
         FileUtil.writeTxtFile(jsOutputFile, outData);

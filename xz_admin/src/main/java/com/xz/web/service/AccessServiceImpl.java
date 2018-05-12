@@ -34,7 +34,7 @@ public class AccessServiceImpl extends BaseServiceImpl<Access> implements Access
     }
 
     @Override
-    public int removeById(Integer id) {
+    public int removeById(Long id) {
 
         return mapper.deleteByPrimaryKey(id);
     }
@@ -46,7 +46,7 @@ public class AccessServiceImpl extends BaseServiceImpl<Access> implements Access
     }
 
     @Override
-    public Access getById(Integer id) {
+    public Access getById(Long id) {
         Access article = mapper.selectByPrimaryKey(id);
         return article;
     }

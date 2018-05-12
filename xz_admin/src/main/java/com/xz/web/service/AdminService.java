@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface AdminService extends BaseService<Admin> {
     int add(Admin obj);
-    int removeById(Integer id);
+    int removeById(Long id);
     int update(Admin obj);
-    Admin getById(Integer id);
+    Admin getById(Long id);
     List<Admin> getAll();
     PageInfo<Admin> findList(Admin searchCondition, PageInfo<Admin> pager);
 }

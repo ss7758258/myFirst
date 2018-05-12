@@ -34,7 +34,7 @@ public class ExampleServiceImpl extends BaseServiceImpl<Example> implements Exam
     }
 
     @Override
-    public int removeById(Integer id) {
+    public int removeById(Long id) {
 
         return mapper.deleteByPrimaryKey(id);
     }
@@ -46,7 +46,7 @@ public class ExampleServiceImpl extends BaseServiceImpl<Example> implements Exam
     }
 
     @Override
-    public Example getById(Integer id) {
+    public Example getById(Long id) {
         Example article = mapper.selectByPrimaryKey(id);
         return article;
     }

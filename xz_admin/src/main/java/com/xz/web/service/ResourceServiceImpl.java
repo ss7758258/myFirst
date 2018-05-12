@@ -34,7 +34,7 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource> implements Re
     }
 
     @Override
-    public int removeById(Integer id) {
+    public int removeById(Long id) {
 
         return mapper.deleteByPrimaryKey(id);
     }
@@ -46,7 +46,7 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource> implements Re
     }
 
     @Override
-    public Resource getById(Integer id) {
+    public Resource getById(Long id) {
         Resource article = mapper.selectByPrimaryKey(id);
         return article;
     }

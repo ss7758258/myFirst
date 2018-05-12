@@ -105,7 +105,7 @@ public class ExampleController extends BaseController {
     @RequestMapping("json/delExampleById")
     public
     @ResponseBody
-    String delExampleById(Integer id) {
+    String delExampleById(Long id) {
         AjaxBean<Integer> ajaxBean = new AjaxBean<Integer>();
         int flag = exampleService.removeById(id);
         if(flag>0) {
@@ -126,7 +126,7 @@ public class ExampleController extends BaseController {
     @ResponseBody
     String updateExampleById(Example example) {
         AjaxBean<String> ajaxBean = new AjaxBean<String>();
-        Integer id = example.getId();
+        Long id = example.getId();
         if(id!=null) {
             Example entity = exampleService.getById(id);
             if(null==entity) {
@@ -157,7 +157,7 @@ public class ExampleController extends BaseController {
     @RequestMapping("json/getExampleById")
     public
     @ResponseBody
-    String getExampleById(Integer id) {
+    String getExampleById(Long id) {
         AjaxBean<Example> ajaxBean = new AjaxBean<Example>();
         Example obj = exampleService.getById(id);
         ajaxBean.setStatus(AjaxStatus.SUCCESS);

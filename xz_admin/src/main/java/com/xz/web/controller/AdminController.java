@@ -53,7 +53,7 @@ public class AdminController extends BaseController {
     @RequestMapping("json/delAdminById")
     public
     @ResponseBody
-    String delAdminById(Integer id) {
+    String delAdminById(Long id) {
         AjaxBean<Integer> ajaxBean = new AjaxBean<Integer>();
         int flag = adminService.removeById(id);
         if(flag>0) {
@@ -74,7 +74,7 @@ public class AdminController extends BaseController {
     @ResponseBody
     String updateAdminById(Admin admin) {
         AjaxBean<String> ajaxBean = new AjaxBean<String>();
-        Integer id = admin.getId();
+        Long id = admin.getId();
         if(id!=null) {
             Admin entity = adminService.getById(id);
             if(null==entity) {
@@ -105,7 +105,7 @@ public class AdminController extends BaseController {
     @RequestMapping("json/getAdminById")
     public
     @ResponseBody
-    String getAdminById(Integer id) {
+    String getAdminById(Long id) {
         AjaxBean<Admin> ajaxBean = new AjaxBean<Admin>();
         Admin obj = adminService.getById(id);
         ajaxBean.setStatus(AjaxStatus.SUCCESS);

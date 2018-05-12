@@ -6,6 +6,7 @@ import im.admin.generator.constant.Constant;
 import im.admin.generator.db.tools.EntityGen;
 import im.admin.generator.db.tools.TableDescBO;
 import im.admin.generator.utils.date.DateUtil;
+import im.admin.generator.utils.string.StringUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -55,10 +56,10 @@ public class AccessFactory implements ApplicationContextAware {
                 String resourceCode = bo.getMemo();
                 int resourceid=0;
                 if("ID".equalsIgnoreCase(bo.getField())) {
-                    entityGen.exeSql("insert into resource(resource_name,resource_code,status,create_timestamp,update_timestamp) values('"+resourceName+"','"+resourceCode+"',1,'"+ DateUtil.getCurrentTimestamp()+"','"+ DateUtil.getCurrentTimestamp()+"');");
+                    entityGen.exeSql("insert into resource(resource_name,resource_code,status,create_timestamp,update_timestamp) values('"+StringUtil.getLowerStart(resourceName)+"','"+resourceCode+"',1,'"+ DateUtil.getCurrentTimestamp()+"','"+ DateUtil.getCurrentTimestamp()+"');");
                     resourceid = entityGen.getIdBySql("select * from resource order by id desc;");
                     entityGen.exeSql("insert into access(resource_id,resource_name,resource_code,status,userid,username,add_flag,del_flag,upd_flag,view_flag,create_timestamp,update_timestamp) " +
-                            "values("+resourceid+",'"+resourceName+"','"+resourceCode+"',1,"+adminId+",'admin',true,true,true,true,'"+ DateUtil.getCurrentTimestamp()+"','"+ DateUtil.getCurrentTimestamp()+"');");
+                            "values("+resourceid+",'"+ StringUtil.getLowerStart(resourceName)+"','"+resourceCode+"',1,"+adminId+",'admin',true,true,true,true,'"+ DateUtil.getCurrentTimestamp()+"','"+ DateUtil.getCurrentTimestamp()+"');");
                 }
             }
         }

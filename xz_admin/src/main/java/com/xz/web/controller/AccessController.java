@@ -53,7 +53,7 @@ public class AccessController extends BaseController {
     @RequestMapping("json/delAccessById")
     public
     @ResponseBody
-    String delAccessById(Integer id) {
+    String delAccessById(Long id) {
         AjaxBean<Integer> ajaxBean = new AjaxBean<Integer>();
         int flag = accessService.removeById(id);
         if(flag>0) {
@@ -74,7 +74,7 @@ public class AccessController extends BaseController {
     @ResponseBody
     String updateAccessById(Access access) {
         AjaxBean<String> ajaxBean = new AjaxBean<String>();
-        Integer id = access.getId();
+        Long id = access.getId();
         if(id!=null) {
             Access entity = accessService.getById(id);
             if(null==entity) {
@@ -105,7 +105,7 @@ public class AccessController extends BaseController {
     @RequestMapping("json/getAccessById")
     public
     @ResponseBody
-    String getAccessById(Integer id) {
+    String getAccessById(Long id) {
         AjaxBean<Access> ajaxBean = new AjaxBean<Access>();
         Access obj = accessService.getById(id);
         ajaxBean.setStatus(AjaxStatus.SUCCESS);

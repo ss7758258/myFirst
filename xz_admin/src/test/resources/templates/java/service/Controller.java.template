@@ -52,7 +52,7 @@ public class <Object>Controller extends BaseController {
     @RequestMapping("json/del<Object>ById")
     public
     @ResponseBody
-    String del<Object>ById(Integer id) {
+    String del<Object>ById(Long id) {
         AjaxBean<Integer> ajaxBean = new AjaxBean<Integer>();
         int flag = <object>Service.removeById(id);
         if(flag>0) {
@@ -73,7 +73,7 @@ public class <Object>Controller extends BaseController {
     @ResponseBody
     String update<Object>ById(<Object> <object>) {
         AjaxBean<String> ajaxBean = new AjaxBean<String>();
-        Integer id = <object>.getId();
+        Long id = <object>.getId();
         if(id!=null) {
             <Object> entity = <object>Service.getById(id);
             if(null==entity) {
@@ -104,7 +104,7 @@ public class <Object>Controller extends BaseController {
     @RequestMapping("json/get<Object>ById")
     public
     @ResponseBody
-    String get<Object>ById(Integer id) {
+    String get<Object>ById(Long id) {
         AjaxBean<<Object>> ajaxBean = new AjaxBean<<Object>>();
         <Object> obj = <object>Service.getById(id);
         ajaxBean.setStatus(AjaxStatus.SUCCESS);

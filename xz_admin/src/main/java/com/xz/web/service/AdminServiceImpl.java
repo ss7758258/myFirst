@@ -34,7 +34,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
     }
 
     @Override
-    public int removeById(Integer id) {
+    public int removeById(Long id) {
 
         return mapper.deleteByPrimaryKey(id);
     }
@@ -46,7 +46,7 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
     }
 
     @Override
-    public Admin getById(Integer id) {
+    public Admin getById(Long id) {
         Admin article = mapper.selectByPrimaryKey(id);
         return article;
     }
