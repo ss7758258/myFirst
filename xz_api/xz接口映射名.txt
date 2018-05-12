@@ -18,7 +18,11 @@
 
 
 
-5. 一签
+5. 一签     /everydayQian/
+   5.0  每日一言   /everydayQian/x500
+   5.1  保存一言   /everydayQian/x501
+   5.4  无签   /everydayQian/x504
+   5.10 解签列表   /everydayQian/x510
 
 
 3. 注意事项：
