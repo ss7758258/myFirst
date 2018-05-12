@@ -3,14 +3,14 @@ package com.xz.framework.controller;
 
 import com.xz.framework.bean.ajax.RequestHeader;
 import com.xz.framework.bean.ajax.ResponseHeader;
-import com.xz.framework.bean.ajax.YTResponse;
-import com.xz.framework.bean.ajax.YTResponseBody;
+import com.xz.framework.bean.ajax.XZResponse;
+import com.xz.framework.bean.ajax.XZResponseBody;
 import com.xz.framework.bean.weixin.Weixin;
 import com.xz.framework.utils.BeanUtil;
 import com.xz.framework.utils.DateUtil;
 import com.xz.framework.utils.JsonUtil;
 import com.xz.framework.utils.StringUtil;
-import com.xz.web.service.redis.RedisService;
+import com.xz.web.dao.redis.RedisDao;
 import com.xz.web.utils.AuthToken;
 import com.xz.web.utils.WechatUtil;
 import org.apache.log4j.Logger;
@@ -24,7 +24,7 @@ public class BaseController {
 
 	private static final Logger logger = Logger.getLogger(WechatUtil.class);
 	@Autowired
-	private RedisService redisService;
+	private RedisDao redisService;
 
 	public Weixin getWeixin() {
 		Weixin weixin = new Weixin();
@@ -85,10 +85,10 @@ public class BaseController {
 		getRequest().getSession().invalidate();
 	}
 	
-	protected String toJSON(YTResponseBody responseBody) {
+	protected String toJSON(XZResponseBody responseBody) {
 		ResponseHeader responseHeader = new ResponseHeader();
 		BeanUtil.copyProperties(this.getRequestHeader(),responseHeader);
-		YTResponse response = new YTResponse();
+		XZResponse response = new XZResponse();
 		response.setResponseHeader(responseHeader);
 		response.setResponseBody(responseBody);
 		String result = JsonUtil.serialize(response);
