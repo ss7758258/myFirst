@@ -88,7 +88,7 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
 
         BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
         BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
-        criteria.andCondition("constellationId", x100Vo.getConstellationId());
+        criteria.andEqualTo("constellationId", x100Vo.getConstellationId());
         List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
         if (!tiLuckyList.isEmpty()){
             x100Bo.setLuckyScore1(tiLuckyList.get(0).getLuckyScore1() + "%");

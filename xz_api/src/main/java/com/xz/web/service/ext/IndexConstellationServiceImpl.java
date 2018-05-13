@@ -71,7 +71,7 @@ public class IndexConstellationServiceImpl implements IndexConstellationService 
 
         BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
         BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
-        criteria.andCondition("constellationId", constellationId);
+        criteria.andEqualTo("constellationId", constellationId);
         List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
         if (!tiLuckyList.isEmpty()) {
             x100Bo.setLuckyScore1(tiLuckyList.get(0).getLuckyScore1() + "%");
