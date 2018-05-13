@@ -41,7 +41,7 @@ public class MoreConstellationServiceImpl implements MoreConstellationService {
 
         BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
         BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
-        criteria.andCondition("constellationId", constellationId);
+        criteria.andEqualTo("constellationId", constellationId);
         List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
         if (!tiLuckyList.isEmpty()){
             x300Bo.setLuckyScoreMore1(tiLuckyList.get(0).getLuckyScoreMore1() + "");

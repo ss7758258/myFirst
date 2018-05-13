@@ -28,6 +28,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:config-${spring.profiles.active:dev}/conf.properties</value>
+				<!--<value>classpath:conf.properties</value>-->
 				<value>classpath:config-${spring.profiles.active:dev}/redis.properties</value>
 			</list>
 		</property>

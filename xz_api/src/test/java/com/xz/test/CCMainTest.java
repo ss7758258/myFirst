@@ -1,7 +1,12 @@
 package com.xz.test;
 
 
+import com.xz.framework.bean.ajax.XZResponseBody;
+import com.xz.web.bo.moreConstellation.X300Bo;
 import com.xz.web.dao.redis.RedisDao;
+import com.xz.web.mapper.entity.TcConstellation;
+import com.xz.web.service.TcConstellationService;
+import com.xz.web.service.ext.MoreConstellationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@ContextConfiguration(locations = {"classpath:spring/spring-*.xml", "classpath:config-dev/conf.properties"})
+@ContextConfiguration(locations = {"classpath:spring/spring-*.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
 //@Transactional
 public class CCMainTest extends AbstractTransactionalJUnit4SpringContextTests {
@@ -17,6 +22,23 @@ public class CCMainTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Autowired
     private RedisDao redisService;
+    @Autowired
+    private MoreConstellationService moreConstellationService;
+    @Autowired
+    private TcConstellationService tcConstellationService;
+
+    @Test
+    public void test1(){
+        Long constellationId = 1L;
+
+        //TcConstellation tcConstellation = tcConstellationService.selectByKey(constellationId);
+        System.out.println(1);
+        try {
+            XZResponseBody<X300Bo> responseBody = moreConstellationService.selectMoreConstellation(constellationId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void testRedis() {

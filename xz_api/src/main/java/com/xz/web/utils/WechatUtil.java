@@ -10,8 +10,8 @@ import java.net.HttpURLConnection;
 public class WechatUtil {
 	private static final Logger logger = Logger.getLogger(WechatUtil.class);
 	public static String uri="https://api.weixin.qq.com/sns/jscode2session?";
-	public static String appId="wx714d7b4ebec1c5d3";
-	public static String appSecret="09777f90d5f332d23000f09b9f0414bf";
+	public static String appId="wxedc8a06ed85ce4df";
+	public static String appSecret="ff2566625ebe546fe97dc36573aab8ed";
 
 	public static AuthToken getAuthToken(String code){
 		AuthToken vo = null;
