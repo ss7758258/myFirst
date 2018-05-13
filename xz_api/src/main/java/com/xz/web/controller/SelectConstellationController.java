@@ -58,7 +58,7 @@ public class SelectConstellationController extends BaseController {
         try {
             responseBody = selectConstellationService.saveConstellation(obj, weixin);
         } catch (Exception e) {
-            ResultUtil.returnResultLog(responseBody, "请选择星座", e.getMessage(), logger);
+            ResultUtil.returnResultLog(responseBody, "网络异常，更新异常", e.getMessage(), logger);
         }finally {
             return this.toJSON(responseBody);
         }
