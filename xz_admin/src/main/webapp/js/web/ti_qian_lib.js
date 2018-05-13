@@ -1,8 +1,8 @@
 function saveRecord(opt)
 {
     var url="tiQianLib/json/addTiQianLib";
-    var picField = $('#picSpan').html();var nameField  = $("#name").val();var publishTimeField  = $("#publishTime").val();
-	var data = {pic: picField,name: nameField,publishTime: publishTimeField,testXXX:1};
+    var picField = $('#picSpan').html();var nameField  = $("#name").val();var statusField  = $("#status").val();var publishTimeField  = $("#publishTime").val();
+	var data = {pic: picField,name: nameField,status: statusField,publishTime: publishTimeField,testXXX:1};
     ajaxPost(url, data, function (result) {
         window.location.href ="tiQianLibList.html";
     })
@@ -15,8 +15,8 @@ function changePage(opt,functionName)
 function updateRecord(opt)
 {
     var url="tiQianLib/json/updateTiQianLibById";
-    var idField  = $("#id").val();var picField = $('#picSpan').html();var nameField  = $("#name").val();var publishTimeField  = $("#publishTime").val();
-	var data = {id: idField,pic: picField,name: nameField,publishTime: publishTimeField,testXXX:1};
+    var idField  = $("#id").val();var picField = $('#picSpan').html();var nameField  = $("#name").val();var statusField  = $("#status").val();var publishTimeField  = $("#publishTime").val();
+	var data = {id: idField,pic: picField,name: nameField,status: statusField,publishTime: publishTimeField,testXXX:1};
     ajaxPost(url, data, function (result) {
         window.location.href ="tiQianLibList.html";
     })
@@ -27,7 +27,7 @@ function getRecord(id)
     var data = {id: id};
     ajaxPost(url, data, function (result) {
         if(result==null)back();
-        $("#id").val(result.id);$("#picSpan").html(result.pic);$("#name").val(result.name);$("#publishTime").val(result.publishTime);
+        $("#id").val(result.id);$("#picSpan").html(result.pic);$("#name").val(result.name);$("#status").val(result.status);$("#publishTime").val(result.publishTime);
     })
 };
 function removeRecord(opt)
@@ -57,7 +57,7 @@ function initTable(opt)
         header = header + '<thead>';
         header = header + '    <tr>';
         //动态数据Start
-        header = header + '<th>#ID</th><th>签库名</th><th>发布时间</th>';
+        header = header + '<th>#ID</th><th>签库名</th><th>状态</th><th>发布时间</th>';
         //动态数据End
         header = header + '    <th>操作</th>';
         header = header + '    </tr>';
@@ -68,9 +68,9 @@ function initTable(opt)
             var obj = list[i];
             body = body+'<tr>';
             //动态数据Start
-            
+            var status;if(obj.status==1)status = '启用';if(obj.status==0)status = '暂停';
 
-            body = body+'<td>'+obj.id+'</td><td>'+obj.name+'</td><td>'+obj.publishTime+'</td>';
+            body = body+'<td>'+obj.id+'</td><td>'+obj.name+'</td><td>'+status+'</td><td>'+obj.publishTime+'</td>';
             //动态数据End
             body = body+'<td>';
             body = body+'<button class="btn btn-success btn-circle" type="button" data="'+obj.id+'" onclick="changePage(this,\'View\')"><i class="fa fa-info"></i></button>';

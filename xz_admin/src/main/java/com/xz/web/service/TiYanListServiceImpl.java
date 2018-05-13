@@ -69,6 +69,8 @@ if (searchCondition.getConstellationId() != null)
 criteria.andConstellationIdEqualTo(searchCondition.getConstellationId());
 if (searchCondition.getPrevPic() != null) 
 criteria.andPrevPicEqualTo(searchCondition.getPrevPic());
+if (searchCondition.getSpeech() != null) 
+criteria.andSpeechEqualTo(searchCondition.getSpeech());
 if (searchCondition.getPublishPerson() != null) 
 criteria.andPublishPersonEqualTo(searchCondition.getPublishPerson());
 if (searchCondition.getPublishStatus() != null) 

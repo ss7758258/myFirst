@@ -69,6 +69,8 @@ if (searchCondition.getPic() != null)
 criteria.andPicEqualTo(searchCondition.getPic());
 if (searchCondition.getName() != null) 
 criteria.andNameEqualTo(searchCondition.getName());
+if (searchCondition.getStatus() != null) 
+criteria.andStatusEqualTo(searchCondition.getStatus());
 if (searchCondition.getPublishTime() != null) 
 criteria.andPublishTimeEqualTo(searchCondition.getPublishTime());
 if (searchCondition.getCreateTimestamp() != null) 

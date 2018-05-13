@@ -1,8 +1,8 @@
 function saveRecord(opt)
 {
     var url="tiQianList/json/addTiQianList";
-    var nameField  = $("#name").val();var contentField  = $("#content").val();
-	var data = {name: nameField,content: contentField,testXXX:1};
+    var qianLibIdField  = $("#qianLibId").val();var nameField  = $("#name").val();var contentField  = $("#content").val();
+	var data = {qianLibId: qianLibIdField,name: nameField,content: contentField,testXXX:1};
     ajaxPost(url, data, function (result) {
         window.location.href ="tiQianListList.html";
     })
@@ -15,8 +15,8 @@ function changePage(opt,functionName)
 function updateRecord(opt)
 {
     var url="tiQianList/json/updateTiQianListById";
-    var idField  = $("#id").val();var nameField  = $("#name").val();var contentField  = $("#content").val();
-	var data = {id: idField,name: nameField,content: contentField,testXXX:1};
+    var idField  = $("#id").val();var qianLibIdField  = $("#qianLibId").val();var nameField  = $("#name").val();var contentField  = $("#content").val();
+	var data = {id: idField,qianLibId: qianLibIdField,name: nameField,content: contentField,testXXX:1};
     ajaxPost(url, data, function (result) {
         window.location.href ="tiQianListList.html";
     })
@@ -27,7 +27,7 @@ function getRecord(id)
     var data = {id: id};
     ajaxPost(url, data, function (result) {
         if(result==null)back();
-        $("#id").val(result.id);$("#name").val(result.name);$("#content").val(result.content);
+        $("#id").val(result.id);$("#qianLibId").val(result.qianLibId);$("#name").val(result.name);$("#content").val(result.content);
     })
 };
 function removeRecord(opt)
@@ -57,7 +57,7 @@ function initTable(opt)
         header = header + '<thead>';
         header = header + '    <tr>';
         //动态数据Start
-        header = header + '<th>#ID</th><th>签名</th><th>内容</th>';
+        header = header + '<th>#ID</th><th>签库ID</th><th>签名</th><th>内容</th>';
         //动态数据End
         header = header + '    <th>操作</th>';
         header = header + '    </tr>';
@@ -70,7 +70,7 @@ function initTable(opt)
             //动态数据Start
             
 
-            body = body+'<td>'+obj.id+'</td><td>'+obj.name+'</td><td>'+obj.content+'</td>';
+            body = body+'<td>'+obj.id+'</td><td>'+obj.qianLibId+'</td><td>'+obj.name+'</td><td>'+obj.content+'</td>';
             //动态数据End
             body = body+'<td>';
             body = body+'<button class="btn btn-success btn-circle" type="button" data="'+obj.id+'" onclick="changePage(this,\'View\')"><i class="fa fa-info"></i></button>';

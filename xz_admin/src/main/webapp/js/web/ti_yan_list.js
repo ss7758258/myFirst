@@ -1,8 +1,8 @@
 function saveRecord(opt)
 {
     var url="tiYanList/json/addTiYanList";
-    var constellationIdField  = $("#constellationId").val();var prevPicField = $('#prevPicSpan').html();var publishPersonField  = $("#publishPerson").val();var publishStatusField  = $("#publishStatus").val();var publishTimeField  = $("#publishTime").val();
-	var data = {constellationId: constellationIdField,prevPic: prevPicField,publishPerson: publishPersonField,publishStatus: publishStatusField,publishTime: publishTimeField,testXXX:1};
+    var constellationIdField  = $("#constellationId").val();var prevPicField = $('#prevPicSpan').html();var speechField  = $("#speech").val();var publishPersonField  = $("#publishPerson").val();var publishStatusField  = $("#publishStatus").val();var publishTimeField  = $("#publishTime").val();
+	var data = {constellationId: constellationIdField,prevPic: prevPicField,speech: speechField,publishPerson: publishPersonField,publishStatus: publishStatusField,publishTime: publishTimeField,testXXX:1};
     ajaxPost(url, data, function (result) {
         window.location.href ="tiYanListList.html";
     })
@@ -15,8 +15,8 @@ function changePage(opt,functionName)
 function updateRecord(opt)
 {
     var url="tiYanList/json/updateTiYanListById";
-    var idField  = $("#id").val();var constellationIdField  = $("#constellationId").val();var prevPicField = $('#prevPicSpan').html();var publishPersonField  = $("#publishPerson").val();var publishStatusField  = $("#publishStatus").val();var publishTimeField  = $("#publishTime").val();
-	var data = {id: idField,constellationId: constellationIdField,prevPic: prevPicField,publishPerson: publishPersonField,publishStatus: publishStatusField,publishTime: publishTimeField,testXXX:1};
+    var idField  = $("#id").val();var constellationIdField  = $("#constellationId").val();var prevPicField = $('#prevPicSpan').html();var speechField  = $("#speech").val();var publishPersonField  = $("#publishPerson").val();var publishStatusField  = $("#publishStatus").val();var publishTimeField  = $("#publishTime").val();
+	var data = {id: idField,constellationId: constellationIdField,prevPic: prevPicField,speech: speechField,publishPerson: publishPersonField,publishStatus: publishStatusField,publishTime: publishTimeField,testXXX:1};
     ajaxPost(url, data, function (result) {
         window.location.href ="tiYanListList.html";
     })
@@ -27,7 +27,7 @@ function getRecord(id)
     var data = {id: id};
     ajaxPost(url, data, function (result) {
         if(result==null)back();
-        $("#id").val(result.id);$("#constellationId").val(result.constellationId);$("#prevPicSpan").html(result.prevPic);$("#publishPerson").val(result.publishPerson);$("#publishStatus").val(result.publishStatus);$("#publishTime").val(result.publishTime);
+        $("#id").val(result.id);$("#constellationId").val(result.constellationId);$("#prevPicSpan").html(result.prevPic);$("#speech").val(result.speech);$("#publishPerson").val(result.publishPerson);$("#publishStatus").val(result.publishStatus);$("#publishTime").val(result.publishTime);
     })
 };
 function removeRecord(opt)
@@ -57,7 +57,7 @@ function initTable(opt)
         header = header + '<thead>';
         header = header + '    <tr>';
         //动态数据Start
-        header = header + '<th>#ID</th><th>星座id</th><th>发布人</th><th>发布状态</th><th>发布时间</th>';
+        header = header + '<th>#ID</th><th>星座id</th><th>每日一言</th><th>发布人</th><th>发布状态</th><th>发布时间</th>';
         //动态数据End
         header = header + '    <th>操作</th>';
         header = header + '    </tr>';
@@ -70,7 +70,7 @@ function initTable(opt)
             //动态数据Start
             
 
-            body = body+'<td>'+obj.id+'</td><td>'+obj.constellationId+'</td><td>'+obj.publishPerson+'</td><td>'+obj.publishStatus+'</td><td>'+obj.publishTime+'</td>';
+            body = body+'<td>'+obj.id+'</td><td>'+obj.constellationId+'</td><td>'+obj.speech+'</td><td>'+obj.publishPerson+'</td><td>'+obj.publishStatus+'</td><td>'+obj.publishTime+'</td>';
             //动态数据End
             body = body+'<td>';
             body = body+'<button class="btn btn-success btn-circle" type="button" data="'+obj.id+'" onclick="changePage(this,\'View\')"><i class="fa fa-info"></i></button>';

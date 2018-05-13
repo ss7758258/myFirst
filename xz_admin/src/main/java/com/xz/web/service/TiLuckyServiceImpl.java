@@ -113,6 +113,8 @@ if (searchCondition.getToDo() != null)
 criteria.andToDoEqualTo(searchCondition.getToDo());
 if (searchCondition.getNotDo() != null) 
 criteria.andNotDoEqualTo(searchCondition.getNotDo());
+if (searchCondition.getPublishName() != null) 
+criteria.andPublishNameEqualTo(searchCondition.getPublishName());
 if (searchCondition.getPublishTime() != null) 
 criteria.andPublishTimeEqualTo(searchCondition.getPublishTime());
 if (searchCondition.getStatus() != null) 

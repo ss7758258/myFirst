@@ -6,11 +6,16 @@ import com.xz.framework.common.base.AjaxStatus;
 import com.xz.framework.common.base.BaseController;
 import com.xz.framework.common.base.PageInfo;
 import com.xz.framework.utils.MD5;
+import com.xz.framework.utils.date.DateUtil;
 import com.xz.framework.utils.json.JsonUtil;
 import com.xz.framework.utils.string.StringUtil;
 import com.xz.web.constant.Constant;
 import com.xz.web.entity.Admin;
+import com.xz.web.entity.TiQianLib;
+import com.xz.web.entity.TiQianList;
 import com.xz.web.service.AdminService;
+import com.xz.web.service.TiQianLibService;
+import com.xz.web.service.TiQianListService;
 import com.xz.web.vo.AdminLoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +30,10 @@ public class F00Controller extends BaseController {
 
     @Autowired
     AdminService adminService;
+    @Autowired
+    private TiQianLibService tiQianLibService;
+    @Autowired
+    private TiQianListService tiQianListService;
 
     @RequestMapping("login")
     @ResponseBody
@@ -63,6 +72,68 @@ public class F00Controller extends BaseController {
                 responseBody.setMessage("用户不存在!");
                 return JsonUtil.serialize(responseBody);
             }
+        } catch (Exception e) {
+            e.printStackTrace();;
+            responseBody.setStatus(AjaxStatus.ERROR);
+            responseBody.setMessage(e.getMessage());
+        }
+        return JsonUtil.serialize(responseBody);
+    }
+
+    @RequestMapping("logout")
+    @ResponseBody
+    public String logout() {
+        YTResponseBody<Void> responseBody = new YTResponseBody<Void>();
+        try {
+            this.getRequest().getSession().setAttribute(Constant.ADMIN_SESSION,null);
+            responseBody.setStatus(AjaxStatus.SUCCESS);
+            responseBody.setMessage("登出成功!");
+            return JsonUtil.serialize(responseBody);
+        } catch (Exception e) {
+            e.printStackTrace();;
+            responseBody.setStatus(AjaxStatus.ERROR);
+            responseBody.setMessage(e.getMessage());
+        }
+        return JsonUtil.serialize(responseBody);
+    }
+
+    @RequestMapping("qianDisable")
+    @ResponseBody
+    public String qianDisable(Long id) {
+        YTResponseBody<Void> responseBody = new YTResponseBody<Void>();
+        try {
+
+            AjaxBean<TiQianLib> ajaxBean = new AjaxBean<TiQianLib>();
+            TiQianLib obj = tiQianLibService.getById(id);
+            obj.setStatus(0);
+            obj.setUpdateTimestamp(DateUtil.getCurrentTimestamp());
+            tiQianLibService.update(obj);
+            responseBody.setStatus(AjaxStatus.SUCCESS);
+            responseBody.setMessage("暂停成功!");
+            return JsonUtil.serialize(responseBody);
+        } catch (Exception e) {
+            e.printStackTrace();;
+            responseBody.setStatus(AjaxStatus.ERROR);
+            responseBody.setMessage(e.getMessage());
+        }
+        return JsonUtil.serialize(responseBody);
+    }
+
+    @RequestMapping("qianListByLibId")
+    @ResponseBody
+    public String qianListByLibId(Long id,Integer pageNum) {
+        YTResponseBody<PageInfo<TiQianList>> responseBody = new YTResponseBody<PageInfo<TiQianList>>();
+        try {
+            if(null==pageNum)pageNum=1;;
+            TiQianList searchCondition = new TiQianList();
+            searchCondition.setQianLibId(id);
+            PageInfo<TiQianList> pager = new PageInfo<TiQianList>();
+            pager.setPageNum(pageNum);
+            pager = tiQianListService.findList(searchCondition, pager);
+            responseBody.setStatus(AjaxStatus.SUCCESS);
+            responseBody.setMessage("暂停成功!");
+            responseBody.setData(pager);
+            return JsonUtil.serialize(responseBody);
         } catch (Exception e) {
             e.printStackTrace();;
             responseBody.setStatus(AjaxStatus.ERROR);

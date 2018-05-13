@@ -65,6 +65,8 @@ public class TiQianListServiceImpl extends BaseServiceImpl<TiQianList> implement
 TiQianListExample.Criteria criteria = example.createCriteria();
 if (searchCondition.getId() != null) 
 criteria.andIdEqualTo(searchCondition.getId());
+if (searchCondition.getQianLibId() != null) 
+criteria.andQianLibIdEqualTo(searchCondition.getQianLibId());
 if (searchCondition.getName() != null) 
 criteria.andNameEqualTo(searchCondition.getName());
 if (searchCondition.getContent() != null) 
