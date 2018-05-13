@@ -2,17 +2,22 @@ package com.xz.web.service.ext;
 
 import com.xz.framework.bean.ajax.XZResponseBody;
 import com.xz.framework.bean.enums.AjaxStatus;
+import com.xz.framework.common.base.BeanCriteria;
 import com.xz.framework.utils.JsonUtil;
 import com.xz.framework.utils.MD5;
 import com.xz.framework.utils.StringUtil;
 import com.xz.web.bo.loginConstellation.X000Bo;
 import com.xz.web.dao.redis.RedisDao;
+import com.xz.web.mapper.entity.WeixinUser;
+import com.xz.web.service.WeixinUserService;
 import com.xz.web.utils.AuthToken;
 import com.xz.web.utils.ResultUtil;
 import com.xz.web.utils.WechatUtil;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class LoginConstellationServiceImpl implements LoginConstellationService {
@@ -21,6 +26,8 @@ public class LoginConstellationServiceImpl implements LoginConstellationService 
 
     @Autowired
     private RedisDao redisDao;
+    @Autowired
+    private WeixinUserService weixinUserService;
 
     @Override
     public XZResponseBody<X000Bo> saveWeixinUser(String code) throws Exception {
@@ -32,7 +39,17 @@ public class LoginConstellationServiceImpl implements LoginConstellationService 
             return response;
         }
         String token = MD5.MD5(code);
-        redisDao.set("TOKEN:"+token, JsonUtil.serialize(authToken));
+        redisDao.set("token-:"+token, JsonUtil.serialize(authToken));
+
+        //查询userid，并插入redis
+        BeanCriteria beanCriteria = new BeanCriteria(WeixinUser.class);
+        BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
+        criteria.andEqualTo("openId-", authToken.getOpenid());
+        List<WeixinUser> weixinUserList = weixinUserService.selectByExample(beanCriteria);
+        if (!weixinUserList.isEmpty()) {
+            Long userId = weixinUserList.get(0).getId();
+            redisDao.set("openId-"+authToken.getOpenid(), userId);
+        }
 
         X000Bo x000Bo = new X000Bo();
         x000Bo.setCode(code);

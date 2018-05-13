@@ -32,7 +32,7 @@ public class BaseController {
 		AuthToken authToken = null;
 		try
 		{
-			Object authTokenStr = redisService.get("TOKEN:"+requestHeader.getToken());
+			Object authTokenStr = redisService.get("token-:"+requestHeader.getToken());
 			authToken = JsonUtil.deserialize(authTokenStr.toString(),AuthToken.class);
 		}catch (Exception e)
 		{
