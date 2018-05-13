@@ -1,6 +1,5 @@
 package com.xz.web.controller.common;
 
-import com.xz.framework.bean.ajax.YTResponseBody;
 import com.xz.framework.common.base.AjaxBean;
 import com.xz.framework.common.base.AjaxStatus;
 import com.xz.framework.common.base.BaseController;
@@ -38,21 +37,20 @@ public class F00Controller extends BaseController {
     @RequestMapping("login")
     @ResponseBody
     public String login(AdminLoginVo obj) {
-        YTResponseBody<AdminLoginVo> responseBody = new YTResponseBody<AdminLoginVo>();
+        AjaxBean<PageInfo<Admin>> ajaxBean = new AjaxBean<PageInfo<Admin>>();
         if(null==obj|| StringUtil.isEmpty(obj.getUsername()))
         {
-            responseBody.setStatus(AjaxStatus.ERROR);
-            responseBody.setMessage("用户名称为空!");
-            return JsonUtil.serialize(responseBody);
+            ajaxBean.setStatus(AjaxStatus.ERROR);
+            ajaxBean.setMessage("用户名称为空!");
+            return JsonUtil.serialize(ajaxBean);
         }
         if(null==obj|| StringUtil.isEmpty(obj.getPassword()))
         {
-            responseBody.setStatus(AjaxStatus.ERROR);
-            responseBody.setMessage("用户密码为空!");
-            return JsonUtil.serialize(responseBody);
+            ajaxBean.setStatus(AjaxStatus.ERROR);
+            ajaxBean.setMessage("用户密码为空!");
+            return JsonUtil.serialize(ajaxBean);
         }
         try {
-            AjaxBean<PageInfo<Admin>> ajaxBean = new AjaxBean<PageInfo<Admin>>();
             Admin searchCondition = new Admin();
             searchCondition.setUsername(obj.getUsername());
             searchCondition.setPassword(MD5.MD5(obj.getPassword()));
@@ -61,68 +59,66 @@ public class F00Controller extends BaseController {
             List<Admin> list = pager.getList();
             if(list.size()>0)
             {
-                responseBody.setStatus(AjaxStatus.SUCCESS);
-                responseBody.setMessage("登录成功!");
+                ajaxBean.setStatus(AjaxStatus.SUCCESS);
+                ajaxBean.setMessage("登录成功!");
                 Admin sessionUser = list.get(0);
                 this.getRequest().getSession().setAttribute(Constant.ADMIN_SESSION,sessionUser);
-                return JsonUtil.serialize(responseBody);
+                return this.ajaxJson(ajaxBean);
             }else
             {
-                responseBody.setStatus(AjaxStatus.ERROR);
-                responseBody.setMessage("用户不存在!");
-                return JsonUtil.serialize(responseBody);
+                ajaxBean.setStatus(AjaxStatus.ERROR);
+                ajaxBean.setMessage("用户不存在!");
+                return this.ajaxJson(ajaxBean);
             }
         } catch (Exception e) {
             e.printStackTrace();;
-            responseBody.setStatus(AjaxStatus.ERROR);
-            responseBody.setMessage(e.getMessage());
+            ajaxBean.setStatus(AjaxStatus.ERROR);
+            ajaxBean.setMessage(e.getMessage());
         }
-        return JsonUtil.serialize(responseBody);
+        return this.ajaxJson(ajaxBean);
     }
 
     @RequestMapping("logout")
     @ResponseBody
     public String logout() {
-        YTResponseBody<Void> responseBody = new YTResponseBody<Void>();
+        AjaxBean<Void> ajaxBean = new AjaxBean<Void>();
         try {
             this.getRequest().getSession().setAttribute(Constant.ADMIN_SESSION,null);
-            responseBody.setStatus(AjaxStatus.SUCCESS);
-            responseBody.setMessage("登出成功!");
-            return JsonUtil.serialize(responseBody);
+            ajaxBean.setStatus(AjaxStatus.SUCCESS);
+            ajaxBean.setMessage("登出成功!");
+            return this.ajaxJson(ajaxBean);
         } catch (Exception e) {
             e.printStackTrace();;
-            responseBody.setStatus(AjaxStatus.ERROR);
-            responseBody.setMessage(e.getMessage());
+            ajaxBean.setStatus(AjaxStatus.ERROR);
+            ajaxBean.setMessage(e.getMessage());
         }
-        return JsonUtil.serialize(responseBody);
+        return this.ajaxJson(ajaxBean);
     }
 
     @RequestMapping("qianDisable")
     @ResponseBody
     public String qianDisable(Long id) {
-        YTResponseBody<Void> responseBody = new YTResponseBody<Void>();
+        AjaxBean<TiQianLib> ajaxBean = new AjaxBean<TiQianLib>();
         try {
-
-            AjaxBean<TiQianLib> ajaxBean = new AjaxBean<TiQianLib>();
             TiQianLib obj = tiQianLibService.getById(id);
             obj.setStatus(0);
             obj.setUpdateTimestamp(DateUtil.getCurrentTimestamp());
             tiQianLibService.update(obj);
-            responseBody.setStatus(AjaxStatus.SUCCESS);
-            responseBody.setMessage("暂停成功!");
-            return JsonUtil.serialize(responseBody);
+            ajaxBean.setStatus(AjaxStatus.SUCCESS);
+            ajaxBean.setMessage("暂停成功!");
+            return this.ajaxJson(ajaxBean);
         } catch (Exception e) {
             e.printStackTrace();;
-            responseBody.setStatus(AjaxStatus.ERROR);
-            responseBody.setMessage(e.getMessage());
+            ajaxBean.setStatus(AjaxStatus.ERROR);
+            ajaxBean.setMessage(e.getMessage());
         }
-        return JsonUtil.serialize(responseBody);
+        return this.ajaxJson(ajaxBean);
     }
 
     @RequestMapping("qianListByLibId")
     @ResponseBody
     public String qianListByLibId(Long id,Integer pageNum,Integer pageSize) {
-        YTResponseBody<PageInfo<TiQianList>> responseBody = new YTResponseBody<PageInfo<TiQianList>>();
+        AjaxBean<PageInfo<TiQianList>> ajaxBean = new AjaxBean<PageInfo<TiQianList>>();
         try {
             if(null==pageNum)pageNum=1;;
             if(null==pageSize)pageSize=10;;
@@ -132,16 +128,16 @@ public class F00Controller extends BaseController {
             pager.setPageNum(pageNum);
             pager.setPageSize(pageSize);
             pager = tiQianListService.findList(searchCondition, pager);
-            responseBody.setStatus(AjaxStatus.SUCCESS);
-            responseBody.setMessage("查询成功!");
-            responseBody.setData(pager);
-            return JsonUtil.serialize(responseBody);
+            ajaxBean.setStatus(AjaxStatus.SUCCESS);
+            ajaxBean.setMessage("查询成功!");
+            ajaxBean.setData(pager);
+            return this.ajaxJson(ajaxBean);
         } catch (Exception e) {
             e.printStackTrace();;
-            responseBody.setStatus(AjaxStatus.ERROR);
-            responseBody.setMessage(e.getMessage());
+            ajaxBean.setStatus(AjaxStatus.ERROR);
+            ajaxBean.setMessage(e.getMessage());
         }
-        return JsonUtil.serialize(responseBody);
+        return this.ajaxJson(ajaxBean);
     }
 }
 
