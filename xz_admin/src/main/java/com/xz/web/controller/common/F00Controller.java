@@ -131,7 +131,7 @@ public class F00Controller extends BaseController {
             pager.setPageNum(pageNum);
             pager = tiQianListService.findList(searchCondition, pager);
             responseBody.setStatus(AjaxStatus.SUCCESS);
-            responseBody.setMessage("暂停成功!");
+            responseBody.setMessage("查询成功!");
             responseBody.setData(pager);
             return JsonUtil.serialize(responseBody);
         } catch (Exception e) {
