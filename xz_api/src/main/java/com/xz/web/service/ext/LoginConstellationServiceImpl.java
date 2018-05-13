@@ -44,7 +44,7 @@ public class LoginConstellationServiceImpl implements LoginConstellationService 
         //查询userid，并插入redis
         BeanCriteria beanCriteria = new BeanCriteria(WeixinUser.class);
         BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
-        criteria.andEqualTo("openId-", authToken.getOpenid());
+        criteria.andEqualTo("openId", authToken.getOpenid());
         List<WeixinUser> weixinUserList = weixinUserService.selectByExample(beanCriteria);
         if (!weixinUserList.isEmpty()) {
             Long userId = weixinUserList.get(0).getId();
