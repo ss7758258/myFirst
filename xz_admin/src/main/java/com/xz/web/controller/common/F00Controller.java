@@ -121,14 +121,16 @@ public class F00Controller extends BaseController {
 
     @RequestMapping("qianListByLibId")
     @ResponseBody
-    public String qianListByLibId(Long id,Integer pageNum) {
+    public String qianListByLibId(Long id,Integer pageNum,Integer pageSize) {
         YTResponseBody<PageInfo<TiQianList>> responseBody = new YTResponseBody<PageInfo<TiQianList>>();
         try {
             if(null==pageNum)pageNum=1;;
+            if(null==pageSize)pageSize=10;;
             TiQianList searchCondition = new TiQianList();
             searchCondition.setQianLibId(id);
             PageInfo<TiQianList> pager = new PageInfo<TiQianList>();
             pager.setPageNum(pageNum);
+            pager.setPageSize(pageSize);
             pager = tiQianListService.findList(searchCondition, pager);
             responseBody.setStatus(AjaxStatus.SUCCESS);
             responseBody.setMessage("查询成功!");
