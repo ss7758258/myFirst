@@ -11,8 +11,8 @@ public interface EverydayWordsMapperExt {
     Long selectConstellationIdByOpenId(String openId);
 
     @Select({
-            "select id, prev_pic as prevPic, speech, publish_time as currentDate from article",
-            " where date(publish_time) <= curdate() and where open_id = #{0}  LIMIT 0 ,1"
+            "select id, prev_pic as prevPic, speech, publish_time as currentDate from ti_yan_list",
+            " where date(publish_time) <= curdate() and open_id = #{0} LIMIT 0 ,1"
     })
     X400Bo selectCurrentYanByConstellationId(Long constellationId);
 }
