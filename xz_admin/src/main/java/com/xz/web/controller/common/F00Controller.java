@@ -4,16 +4,13 @@ import com.xz.framework.common.base.AjaxBean;
 import com.xz.framework.common.base.AjaxStatus;
 import com.xz.framework.common.base.BaseController;
 import com.xz.framework.common.base.PageInfo;
-import com.xz.framework.utils.MD5;
 import com.xz.framework.utils.date.DateUtil;
 import com.xz.framework.utils.json.JsonUtil;
 import com.xz.framework.utils.string.StringUtil;
 import com.xz.web.constant.Constant;
-import com.xz.web.entity.Admin;
 import com.xz.web.entity.TiAdmin;
 import com.xz.web.entity.TiQianLib;
 import com.xz.web.entity.TiQianList;
-import com.xz.web.service.AdminService;
 import com.xz.web.service.TiAdminService;
 import com.xz.web.service.TiQianLibService;
 import com.xz.web.service.TiQianListService;
@@ -39,7 +36,7 @@ public class F00Controller extends BaseController {
     @RequestMapping("login")
     @ResponseBody
     public String login(AdminLoginVo obj) {
-        AjaxBean<PageInfo<Admin>> ajaxBean = new AjaxBean<PageInfo<Admin>>();
+        AjaxBean<PageInfo<TiAdmin>> ajaxBean = new AjaxBean<PageInfo<TiAdmin>>();
         if(null==obj|| StringUtil.isEmpty(obj.getUsername()))
         {
             ajaxBean.setStatus(AjaxStatus.ERROR);
