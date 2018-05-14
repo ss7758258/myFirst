@@ -9,11 +9,14 @@ public class X511 extends BasicBean {
     private String qianName;
     private String qianContent;
     private Long userId;
+    private String ownerOpenId;
     private String friendOpenId1;
     private String friendOpenId2;
     private String friendOpenId3;
     private String friendOpenId4;
     private String friendOpenId5;
+    private String ownerHeadImage;
+    private String ownerNickName;
     private String friendHeadImage1;
     private String friendHeadImage2;
     private String friendHeadImage3;
@@ -164,5 +167,29 @@ public class X511 extends BasicBean {
 
     public void setUpdateTimestamp(String updateTimestamp) {
         this.updateTimestamp = updateTimestamp;
+    }
+
+    public String getOwnerOpenId() {
+        return ownerOpenId;
+    }
+
+    public void setOwnerOpenId(String ownerOpenId) {
+        this.ownerOpenId = ownerOpenId;
+    }
+
+    public String getOwnerHeadImage() {
+        return ownerHeadImage;
+    }
+
+    public void setOwnerHeadImage(String ownerHeadImage) {
+        this.ownerHeadImage = ownerHeadImage;
+    }
+
+    public String getOwnerNickName() {
+        return ownerNickName;
+    }
+
+    public void setOwnerNickName(String ownerNickName) {
+        this.ownerNickName = ownerNickName;
     }
 }
