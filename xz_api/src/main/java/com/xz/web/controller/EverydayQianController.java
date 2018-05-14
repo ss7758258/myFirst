@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.xz.framework.bean.ajax.RequestHeader;
 import com.xz.framework.bean.ajax.XZResponseBody;
 import com.xz.framework.bean.enums.AjaxStatus;
+import com.xz.framework.bean.weixin.Weixin;
 import com.xz.framework.common.base.BeanCriteria;
 import com.xz.framework.common.base.PageView;
 import com.xz.framework.controller.BaseController;
@@ -12,7 +13,10 @@ import com.xz.framework.utils.JsonUtil;
 import com.xz.framework.utils.StringUtil;
 import com.xz.web.bo.everydayQian.X500Bo;
 import com.xz.web.bo.everydayWords.X400Bo;
+import com.xz.web.dao.redis.RedisDao;
+import com.xz.web.mapper.entity.TiQianList;
 import com.xz.web.mapper.entity.TiUserQianList;
+import com.xz.web.service.TiQianListService;
 import com.xz.web.service.TiUserQianListService;
 import com.xz.web.service.ext.EverydayQianService;
 import com.xz.web.utils.ResultUtil;
@@ -38,7 +42,10 @@ public class EverydayQianController extends BaseController {
     EverydayQianService everydayQianService;
     @Autowired
     TiUserQianListService tiUserQianListService;
-
+    @Autowired
+    TiQianListService tiQianListService;
+    @Autowired
+    private RedisDao redisService;
     /**
      * 每日一签
      * @param requestBody
@@ -89,12 +96,18 @@ public class EverydayQianController extends BaseController {
     @ResponseBody
     public String x504(String requestBody) {
         XZResponseBody<TiUserQianList> responseBody = new XZResponseBody<TiUserQianList>();
+        Weixin weixin = this.getWeixin();
+        if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
+            ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
+            return this.toJSON(responseBody);
+        }
+        String useridStr = redisService.get("openid-:"+weixin.getOpenId());
+        Long userId = Long.valueOf(useridStr);
         String currentDate = DateUtil.getDate();
         try {
-            int userid =0;
             BeanCriteria beanCriteria = new BeanCriteria(TiUserQianList.class);
             BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
-            criteria.andEqualTo("userId", userid);
+            criteria.andEqualTo("userId", userId);
             criteria.andEqualTo("qianDate", currentDate);
             beanCriteria.setOrderByClause("update_timestamp desc");
             PageInfo<TiUserQianList> pager = new PageInfo<TiUserQianList>();
@@ -118,19 +131,44 @@ public class EverydayQianController extends BaseController {
                 }
             }else
             {
-                TiUserQianList obj = new TiUserQianList();
-                obj.setQianDate(DateUtil.getDate());
-                obj.setQianName("AAA");//TODO:获取签
-                obj.setQianContent("BBBBB");//TODO:获取签
-                obj.setStatus(0);
-                obj.setUserId(0L); //TODO:后期获取id
-                obj.setCreateTimestamp(DateUtil.getDatetime());
-                obj.setUpdateTimestamp(DateUtil.getDatetime());
-                tiUserQianListService.save(obj);
-                responseBody.setStatus(AjaxStatus.SUCCESS);
-                responseBody.setMessage("");
-                responseBody.setData(obj);
-                return this.toJSON(responseBody);
+                //1 先算出QianList里面有多少个记录，比如是size
+                BeanCriteria beanCriteria1 = new BeanCriteria(TiQianList.class);
+                beanCriteria1.setOrderByClause("update_timestamp desc");
+                PageInfo<TiQianList> pager1 = new PageInfo<TiQianList>();
+                pager1.setPageSize(1);
+                pager1 = tiQianListService.selectByPage(pager1,beanCriteria1);
+                long count = pager1.getTotal();
+                //2 取一个1-size的随机数，然后经过pageNum=随机数，size=1去取一条记录
+                int randomNum = (int) (Math.random() * count);
+
+                BeanCriteria beanCriteria2 = new BeanCriteria(TiQianList.class);
+                beanCriteria2.setOrderByClause("update_timestamp desc");
+                PageInfo<TiQianList> pager2 = new PageInfo<TiQianList>();
+                pager2.setPageSize(1);
+                pager2.setPageNum(randomNum);
+                pager2 = tiQianListService.selectByPage(pager2,beanCriteria1);
+                if(pager2.getList().size()>0)
+                {
+                    TiQianList tiQianList = pager2.getList().get(0);
+                    TiUserQianList obj = new TiUserQianList();
+                    obj.setQianDate(DateUtil.getDate());
+                    obj.setQianName(tiQianList.getName());
+                    obj.setQianContent(tiQianList.getContent());
+                    obj.setStatus(0);
+                    obj.setUserId(userId);
+                    obj.setCreateTimestamp(DateUtil.getDatetime());
+                    obj.setUpdateTimestamp(DateUtil.getDatetime());
+                    tiUserQianListService.save(obj);
+                    responseBody.setStatus(AjaxStatus.SUCCESS);
+                    responseBody.setMessage("");
+                    responseBody.setData(obj);
+                    return this.toJSON(responseBody);
+                }else
+                {
+                    responseBody.setStatus(AjaxStatus.ERROR);
+                    responseBody.setMessage("签已经用完!");
+                    return this.toJSON(responseBody);
+                }
             }
         } catch (Exception e) {
             e.getMessage();
@@ -149,6 +187,13 @@ public class EverydayQianController extends BaseController {
     @ResponseBody
     public String x506(String requestBody) {
         XZResponseBody<TiUserQianList> responseBody = new XZResponseBody<TiUserQianList>();
+        Weixin weixin = this.getWeixin();
+        if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
+            ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
+            return this.toJSON(responseBody);
+        }
+        String useridStr = redisService.get("openid-:"+weixin.getOpenId());
+        Long userId = Long.valueOf(useridStr);
         try {
             RequestHeader requestHeader = this.getRequestHeader();
             X510Vo obj = JsonUtil.deserialize(requestBody, X510Vo.class);
@@ -157,15 +202,15 @@ public class EverydayQianController extends BaseController {
             }
             TiUserQianList data = tiUserQianListService.selectByKey(obj.getId());
             if(StringUtil.isEmpty(data.getFriendOpenId1()))
-                data.setFriendOpenId1("1");
+                data.setFriendOpenId1(weixin.getOpenId());
             else if(StringUtil.isEmpty(data.getFriendOpenId2()))
-                data.setFriendOpenId1("2");
+                data.setFriendOpenId2(weixin.getOpenId());
             else if(StringUtil.isEmpty(data.getFriendOpenId3()))
-                data.setFriendOpenId1("3");
+                data.setFriendOpenId3(weixin.getOpenId());
             else if(StringUtil.isEmpty(data.getFriendOpenId4()))
-                data.setFriendOpenId1("4");
+                data.setFriendOpenId4(weixin.getOpenId());
             else if(StringUtil.isEmpty(data.getFriendOpenId5())) {
-                data.setFriendOpenId1("5");
+                data.setFriendOpenId5(weixin.getOpenId());
                 data.setStatus(1);
             }
             data.setUpdateTimestamp(DateUtil.getDatetime());
@@ -187,9 +232,15 @@ public class EverydayQianController extends BaseController {
     @ResponseBody
     public String x510(String requestBody) {
         XZResponseBody<List<TiUserQianList>> responseBody = new XZResponseBody<List<TiUserQianList>>();
+        Weixin weixin = this.getWeixin();
+        if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
+            ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
+            return this.toJSON(responseBody);
+        }
+        String useridStr = redisService.get("openid-:"+weixin.getOpenId());
+        Long userId = Long.valueOf(useridStr);
         try {
             RequestHeader requestHeader = this.getRequestHeader();
-            int userid = 0;
             X510Vo obj = JsonUtil.deserialize(requestBody, X510Vo.class);
             if (obj == null) {
                 obj = new X510Vo();
@@ -202,7 +253,7 @@ public class EverydayQianController extends BaseController {
             }
             BeanCriteria beanCriteria = new BeanCriteria(TiUserQianList.class);
             BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
-            criteria.andEqualTo("userId", userid);
+            criteria.andEqualTo("userId", userId);
             beanCriteria.setOrderByClause("update_timestamp desc");
             PageInfo<TiUserQianList> pager = new PageInfo<TiUserQianList>();
             pager.setPageSize(obj.getPageSize());
