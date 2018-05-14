@@ -14,7 +14,7 @@ import com.xz.framework.utils.id.IdUtil;
 import java.io.File;
 
 public class OSSUtil {
-
+    public static String url = "https://xingzuo-1256217146.file.myqcloud.com";
     public static String accessKey = "AKIDvmbKwS4NmCZnxyFIdjaBYgZDdrrcliCY";
     public static String secretKey = "GI7g06ye5IG0iGnCWluqVv51mIZcOu97";
     public static String regionName = "ap-guangzhou";
@@ -32,9 +32,10 @@ public class OSSUtil {
 
             String fileName = IdUtil.getDefaultUuid() + "_" + file.getName();
             // 指定要上传到 COS 上的路径
-            String key = "/" + fileName;
+            String key =url + "/" + fileName;
             PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, file);
             PutObjectResult putObjectResult = cosclient.putObject(putObjectRequest);
+            cosclient.shutdown();
             return key;
         }catch (Exception e)
         {
@@ -56,6 +57,7 @@ public class OSSUtil {
             // 指定要下载的文件所在的 bucket 和路径
             GetObjectRequest getObjectRequest = new GetObjectRequest(bucketName, key);
             ObjectMetadata downObjectMeta = cosclient.getObject(getObjectRequest, downFile);
+            cosclient.shutdown();
         }catch (Exception e)
         {
             e.printStackTrace();
