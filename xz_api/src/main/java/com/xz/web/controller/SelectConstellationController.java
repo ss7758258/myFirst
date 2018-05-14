@@ -54,6 +54,8 @@ public class SelectConstellationController extends BaseController {
             ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
             return this.toJSON(responseBody);
         }
+        String encodeNickname = StringUtil.StrToBase64(obj.getNickName());
+        obj.setNickName(encodeNickname);
         //插入自己的星座，同时返回星座首页
         try {
             responseBody = selectConstellationService.saveConstellation(obj, weixin);
