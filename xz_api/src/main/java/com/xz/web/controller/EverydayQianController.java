@@ -315,7 +315,7 @@ public class EverydayQianController extends BaseController {
             ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
             return this.toJSON(responseBody);
         }
-        String useridStr = redisService.get("openid-:"+weixin.getOpenId());
+        String useridStr = redisService.get("openId-:"+weixin.getOpenId());
         Long userId = Long.valueOf(useridStr);
         try {
             RequestHeader requestHeader = this.getRequestHeader();
