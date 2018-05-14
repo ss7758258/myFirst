@@ -27,10 +27,10 @@ public class AccessInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) {
         try {
-            /*if(!validateHeader(request))
+            if(!validateHeader(request))
             {
                 return false;
-            }*/
+            }
             if (handler instanceof HandlerMethod) {
                 if(!validateHeader(request))
                 {
