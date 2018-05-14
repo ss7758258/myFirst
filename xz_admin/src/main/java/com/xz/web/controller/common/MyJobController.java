@@ -31,7 +31,9 @@ public class MyJobController extends QuartzJobBean {
         {
             for(TiLucky tiLucky:list)
             {
-                String publishTime = tiLucky.getPublishTime()+" 00:00:00";
+                String publishTime = tiLucky.getPublishTime();
+                if(publishTime!=null&&publishTime.trim().length()<=10)
+                    publishTime = tiLucky.getPublishTime()+" 00:00:00";
                 int diffTime = DateUtil.compareTime(publishTime,DateUtil.getCurrentTimestamp());
                 if(diffTime<0)
                 {
