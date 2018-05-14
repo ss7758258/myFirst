@@ -1,6 +1,7 @@
 package com.xz.framework.utils.files;
 
 import com.xz.framework.utils.id.IdUtil;
+import com.xz.web.utils.OSSUtil;
 import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,8 +37,11 @@ public class FileUtil {
             String absolutePath = rootPath +"/"+functionPath + timePath + filename;
             File file = new File(absolutePath);
 
+            OSSUtil oss = new OSSUtil();
+            String ossLocation = oss.fileToOss(file);
             uploadFile.transferTo(file);
-            return functionPath + timePath + filename;
+            return ossLocation;
+            //return functionPath + timePath + filename;
         }
         return null;
     }

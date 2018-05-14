@@ -31,7 +31,7 @@ public class OSSUtil {
 
             String fileName = IdUtil.getDefaultUuid() + "_" + file.getName();
             // 指定要上传到 COS 上的路径
-            String key =url + "/" + fileName;
+            String key = "/" + fileName;
             PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, key, file);
             PutObjectResult putObjectResult = cosclient.putObject(putObjectRequest);
             cosclient.shutdown();
