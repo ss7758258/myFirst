@@ -53,7 +53,7 @@ public class F00Controller extends BaseController {
         try {
             Admin searchCondition = new Admin();
             searchCondition.setUsername(obj.getUsername());
-            searchCondition.setPassword(MD5.MD5(obj.getPassword()));
+            searchCondition.setPassword(obj.getPassword());
             PageInfo<Admin> pager = new PageInfo<Admin>();
             pager = adminService.findList(searchCondition, pager);
             List<Admin> list = pager.getList();
