@@ -116,8 +116,10 @@ public class EverydayQianController extends BaseController {
             PageInfo<TiUserQianList> pager = new PageInfo<TiUserQianList>();
             pager = tiUserQianListService.selectByPage(pager, beanCriteria);
             List<TiUserQianList> list = pager.getList();
+            logger.info("__________________________1" + list.size());
             if(list.size()>0)
             {
+                logger.info("__________________________2" + list.size());
                 TiUserQianList obj = list.get(0);
                 X511 x511 = new X511();
                 BeanUtil.copyProperties(obj,x511);
