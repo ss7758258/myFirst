@@ -35,6 +35,7 @@
 				<value>classpath:conf.properties</value>
 				<value>classpath:redis.properties</value>
 				<value>classpath:log4j.properties</value>
+				<value>classpath:quartz.properties</value>
 			</list>
 		</property>
 	</bean>
