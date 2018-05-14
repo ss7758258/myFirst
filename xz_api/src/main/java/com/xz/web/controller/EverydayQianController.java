@@ -116,10 +116,8 @@ public class EverydayQianController extends BaseController {
             PageInfo<TiUserQianList> pager = new PageInfo<TiUserQianList>();
             pager = tiUserQianListService.selectByPage(pager, beanCriteria);
             List<TiUserQianList> list = pager.getList();
-            logger.info("__________________________1" + list.size());
             if(list.size()>0)
             {
-                logger.info("__________________________2" + list.size());
                 TiUserQianList obj = list.get(0);
                 X511 x511 = new X511();
                 BeanUtil.copyProperties(obj,x511);
@@ -311,13 +309,13 @@ public class EverydayQianController extends BaseController {
     @RequestMapping("x510")
     @ResponseBody
     public String x510(String requestBody) {
-        XZResponseBody<List<X511>> responseBody = new XZResponseBody<List<X511>>();
+        XZResponseBody<List<TiUserQianList>> responseBody = new XZResponseBody<List<TiUserQianList>>();
         Weixin weixin = this.getWeixin();
         if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
             ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
             return this.toJSON(responseBody);
         }
-        String useridStr = redisService.get("openId-:"+weixin.getOpenId());
+        String useridStr = redisService.get("openid-:"+weixin.getOpenId());
         Long userId = Long.valueOf(useridStr);
         try {
             RequestHeader requestHeader = this.getRequestHeader();
@@ -339,49 +337,7 @@ public class EverydayQianController extends BaseController {
             pager.setPageSize(obj.getPageSize());
             pager.setPageNum(obj.getPageNum());
             pager = tiUserQianListService.selectByPage(pager, beanCriteria);
-            List<TiUserQianList> list = pager.getList();
-            List<X511> x511List = new ArrayList<X511>();
-            for(TiUserQianList data:list)
-            {
-                X511 x511 = new X511();
-                BeanUtil.copyProperties(data,x511);
-                String ownerOpenId = weixin.getOpenId();
-                if(StringUtil.isNotEmpty(ownerOpenId))
-                {
-                    String ownerImage = redisService.get("headImage-:"+ownerOpenId);
-                    x511.setOwnerHeadImage(ownerImage);
-                    String ownerNickName = redisService.get("nickName-:"+ownerOpenId);
-                    x511.setOwnerNickName(ownerNickName);
-                }
-                String openId1 = data.getFriendOpenId1();
-                String openId2 = data.getFriendOpenId2();
-                String openId3 = data.getFriendOpenId3();
-                String openId4 = data.getFriendOpenId4();
-                String openId5 = data.getFriendOpenId5();
-                if(StringUtil.isNotEmpty(openId1))
-                {
-                    String headImage1 = redisService.get("headImage-:"+openId1);
-                    x511.setFriendHeadImage1(headImage1);
-                }
-                if(StringUtil.isNotEmpty(openId2)) {
-                    String headImage2 = redisService.get("headImage-:" + openId2);
-                    x511.setFriendHeadImage2(headImage2);
-                }
-                if(StringUtil.isNotEmpty(openId3)) {
-                    String headImage3 = redisService.get("headImage-:" + openId3);
-                    x511.setFriendHeadImage3(headImage3);
-                }
-                if(StringUtil.isNotEmpty(openId4)) {
-                    String headImage4 = redisService.get("headImage-:" + openId4);
-                    x511.setFriendHeadImage4(headImage4);
-                }
-                if(StringUtil.isNotEmpty(openId5)) {
-                    String headImage5 = redisService.get("headImage-:" + openId5);
-                    x511.setFriendHeadImage5(headImage5);
-                }
-                x511List.add(x511);
-            }
-            responseBody.setData(x511List);
+            responseBody.setData(pager.getList());
         } catch (Exception e) {
             ResultUtil.returnResultLog(responseBody, "服务器异常，请稍后再试", e.getMessage(), logger);
         }finally {
