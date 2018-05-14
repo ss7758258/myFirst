@@ -42,10 +42,10 @@ public class CCMainTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
     public void testRedis() {
-/*        String key1 = "userId";
+        String key1 = "userId";
         redisService.set(key1, 123);
         System.out.println(redisService.get(key1));
-        System.out.println(Long.valueOf(redisService.get(key1)));*/
+        System.out.println(Long.valueOf(redisService.get(key1)));
 
      /*   String key = "test_123";
 
