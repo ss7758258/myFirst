@@ -310,6 +310,7 @@ public class EverydayQianController extends BaseController {
     @ResponseBody
     public String x510(String requestBody) {
         XZResponseBody<List<TiUserQianList>> responseBody = new XZResponseBody<List<TiUserQianList>>();
+        responseBody.setStatus(AjaxStatus.SUCCESS);
         Weixin weixin = this.getWeixin();
         if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
             ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
