@@ -10,9 +10,11 @@ import com.xz.framework.utils.json.JsonUtil;
 import com.xz.framework.utils.string.StringUtil;
 import com.xz.web.constant.Constant;
 import com.xz.web.entity.Admin;
+import com.xz.web.entity.TiAdmin;
 import com.xz.web.entity.TiQianLib;
 import com.xz.web.entity.TiQianList;
 import com.xz.web.service.AdminService;
+import com.xz.web.service.TiAdminService;
 import com.xz.web.service.TiQianLibService;
 import com.xz.web.service.TiQianListService;
 import com.xz.web.vo.AdminLoginVo;
@@ -28,7 +30,7 @@ import java.util.List;
 public class F00Controller extends BaseController {
 
     @Autowired
-    AdminService adminService;
+    TiAdminService adminService;
     @Autowired
     private TiQianLibService tiQianLibService;
     @Autowired
@@ -51,17 +53,17 @@ public class F00Controller extends BaseController {
             return JsonUtil.serialize(ajaxBean);
         }
         try {
-            Admin searchCondition = new Admin();
+            TiAdmin searchCondition = new TiAdmin();
             searchCondition.setUsername(obj.getUsername());
             searchCondition.setPassword(obj.getPassword());
-            PageInfo<Admin> pager = new PageInfo<Admin>();
+            PageInfo<TiAdmin> pager = new PageInfo<TiAdmin>();
             pager = adminService.findList(searchCondition, pager);
-            List<Admin> list = pager.getList();
+            List<TiAdmin> list = pager.getList();
             if(list.size()>0)
             {
                 ajaxBean.setStatus(AjaxStatus.SUCCESS);
                 ajaxBean.setMessage("登录成功!");
-                Admin sessionUser = list.get(0);
+                TiAdmin sessionUser = list.get(0);
                 this.getRequest().getSession().setAttribute(Constant.ADMIN_SESSION,sessionUser);
                 return this.ajaxJson(ajaxBean);
             }else
