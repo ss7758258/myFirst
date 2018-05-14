@@ -36,10 +36,10 @@ public class FileUtil {
             creatFolder(rootPath+"/"+functionPath+timePath);
             String absolutePath = rootPath +"/"+functionPath + timePath + filename;
             File file = new File(absolutePath);
-
+            uploadFile.transferTo(file);
             OSSUtil oss = new OSSUtil();
             String ossLocation = oss.fileToOss(file);
-            uploadFile.transferTo(file);
+
             return ossLocation;
             //return functionPath + timePath + filename;
         }
