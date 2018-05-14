@@ -48,7 +48,7 @@ public class LoginConstellationServiceImpl implements LoginConstellationService 
         List<WeixinUser> weixinUserList = weixinUserService.selectByExample(beanCriteria);
         if (!weixinUserList.isEmpty()) {
             Long userId = weixinUserList.get(0).getId();
-            redisDao.set("openId-"+authToken.getOpenid(), userId);
+            redisDao.set("openId-:"+authToken.getOpenid(), userId);
         }
 
         X000Bo x000Bo = new X000Bo();
