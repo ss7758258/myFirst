@@ -191,6 +191,10 @@ public class X511 extends BasicBean {
     }
 
     public void setOwnerNickName(String ownerNickName) {
+        if(StringUtil.isEmpty(ownerNickName))
+        {
+            ownerNickName = "";
+        }
         this.ownerNickName = StringUtil.Base64ToStr(ownerNickName);
     }
 }
