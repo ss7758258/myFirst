@@ -126,6 +126,7 @@ public class EverydayQianController extends BaseController {
                 {
                     String ownerImage = redisService.get("headImage-:"+ownerOpenId);
                     x511.setOwnerHeadImage(ownerImage);
+                    x511.setOwnerOpenId(ownerOpenId);
                     String ownerNickName = redisService.get("nickName-:"+ownerOpenId);
                     x511.setOwnerNickName(ownerNickName);
                 }
@@ -206,6 +207,7 @@ public class EverydayQianController extends BaseController {
                     {
                         String ownerImage = redisService.get("headImage-:"+ownerOpenId);
                         x511.setOwnerHeadImage(ownerImage);
+                        x511.setOwnerOpenId(ownerOpenId);
                         String ownerNickName = redisService.get("nickName-:"+ownerOpenId);
                         x511.setOwnerNickName(ownerNickName);
                     }
@@ -374,6 +376,7 @@ public class EverydayQianController extends BaseController {
             {
                 String ownerImage = redisService.get("headImage-:"+ownerOpenId);
                 x511.setOwnerHeadImage(ownerImage);
+                x511.setOwnerOpenId(ownerOpenId);
                 String ownerNickName = redisService.get("nickName-:"+ownerOpenId);
                 x511.setOwnerNickName(ownerNickName);
             }
