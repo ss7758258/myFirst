@@ -1,6 +1,7 @@
 package com.xz.web.vo.everydayQian;
 
 import com.xz.framework.common.base.BasicBean;
+import com.xz.framework.utils.StringUtil;
 
 public class X511 extends BasicBean {
     private Long id;
@@ -190,6 +191,6 @@ public class X511 extends BasicBean {
     }
 
     public void setOwnerNickName(String ownerNickName) {
-        this.ownerNickName = ownerNickName;
+        this.ownerNickName = StringUtil.Base64ToStr(ownerNickName);
     }
 }
