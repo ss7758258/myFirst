@@ -179,7 +179,10 @@ public class TiLucky extends BasicBean {
     @Column(name = "update_timestamp")
     private String updateTimestamp;
 
-    public TiLucky(Long id, Long constellationId, String luckyType1, String luckyType2, String luckyType3, String luckyType4, Integer luckyScore1, Integer luckyScore2, Integer luckyScore3, Integer luckyScore4, String remindToday, String luckyTypeMore1, String luckyTypeMore2, String luckyTypeMore3, String luckyTypeMore4, Integer luckyScoreMore1, Integer luckyScoreMore2, Integer luckyScoreMore3, Integer luckyScoreMore4, String luckyWords1, String luckyWords2, String luckyWords3, String luckyWords4, String toDo, String notDo, String publishTime, String luckyDate, String createTimestamp, String updateTimestamp) {
+    @Column(name = "status")
+    private int status;
+
+    public TiLucky(Long id, Long constellationId, String luckyType1, String luckyType2, String luckyType3, String luckyType4, Integer luckyScore1, Integer luckyScore2, Integer luckyScore3, Integer luckyScore4, String remindToday, String luckyTypeMore1, String luckyTypeMore2, String luckyTypeMore3, String luckyTypeMore4, Integer luckyScoreMore1, Integer luckyScoreMore2, Integer luckyScoreMore3, Integer luckyScoreMore4, String luckyWords1, String luckyWords2, String luckyWords3, String luckyWords4, String toDo, String notDo, String publishTime, String luckyDate, String createTimestamp, String updateTimestamp, int status) {
         this.id = id;
         this.constellationId = constellationId;
         this.luckyType1 = luckyType1;
@@ -209,6 +212,7 @@ public class TiLucky extends BasicBean {
         this.luckyDate = luckyDate;
         this.createTimestamp = createTimestamp;
         this.updateTimestamp = updateTimestamp;
+        this.status = status;
     }
 
     public TiLucky() {
@@ -735,5 +739,13 @@ public class TiLucky extends BasicBean {
      */
     public void setUpdateTimestamp(String updateTimestamp) {
         this.updateTimestamp = updateTimestamp == null ? null : updateTimestamp.trim();
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

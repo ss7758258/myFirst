@@ -97,6 +97,7 @@ public class EverydayQianController extends BaseController {
     @ResponseBody
     public String x504(String requestBody) {
         XZResponseBody<X511> responseBody = new XZResponseBody<X511>();
+        responseBody.setStatus(AjaxStatus.SUCCESS);
         Weixin weixin = this.getWeixin();
         if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
             ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
@@ -262,6 +263,7 @@ public class EverydayQianController extends BaseController {
     @ResponseBody
     public String x506(String requestBody) {
         XZResponseBody<TiUserQianList> responseBody = new XZResponseBody<TiUserQianList>();
+        responseBody.setStatus(AjaxStatus.SUCCESS);
         Weixin weixin = this.getWeixin();
         if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
             ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
@@ -393,6 +395,7 @@ public class EverydayQianController extends BaseController {
     @ResponseBody
     public String x511(String requestBody) {
         XZResponseBody<X511> responseBody = new XZResponseBody<X511>();
+        responseBody.setStatus(AjaxStatus.SUCCESS);
         Weixin weixin = this.getWeixin();
         if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
             ResultUtil.returnResult(responseBody, "认证过期，请重新认证");

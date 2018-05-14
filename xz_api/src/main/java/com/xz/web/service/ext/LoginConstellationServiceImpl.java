@@ -49,6 +49,10 @@ public class LoginConstellationServiceImpl implements LoginConstellationService 
         if (!weixinUserList.isEmpty()) {
             Long userId = weixinUserList.get(0).getId();
             redisDao.set("openId-:"+authToken.getOpenid(), userId);
+            String headImage = weixinUserList.get(0).getHeadImage();
+            redisDao.set("headImage-:"+authToken.getOpenid(), headImage);
+            String nickName = weixinUserList.get(0).getNickName();
+            redisDao.set("nickName-:"+authToken.getOpenid(), nickName);
         }
 
         X000Bo x000Bo = new X000Bo();
