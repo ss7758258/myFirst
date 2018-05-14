@@ -21,15 +21,15 @@
 
 <!--	<util:properties id="constants" location="classpath:/constants.properties"/>-->
 
-	<util:properties id="constants" location="classpath:config-${spring.profiles.active:dev}/constants.properties"/>
+	<util:properties id="constants" location="classpath:config-${spring.profiles.active:prod}/constants.properties"/>
 
 	<bean id="defaultConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:config-${spring.profiles.active:dev}/conf.properties</value>
+				<value>classpath:config-${spring.profiles.active:prod}/conf.properties</value>
 				<!--<value>classpath:conf.properties</value>-->
-				<value>classpath:config-${spring.profiles.active:dev}/redis.properties</value>
+				<value>classpath:config-${spring.profiles.active:prod}/redis.properties</value>
 			</list>
 		</property>
 	</bean>
