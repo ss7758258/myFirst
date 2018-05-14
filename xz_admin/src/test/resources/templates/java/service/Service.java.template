@@ -1,8 +1,0 @@
-public interface <Object>Service extends BaseService<<Object>> {
-    int add(<Object> obj);
-    int removeById(Long id);
-    int update(<Object> obj);
-    <Object> getById(Long id);
-    List<<Object>> getAll();
-    PageInfo<<Object>> findList(<Object> searchCondition, PageInfo<<Object>> pager);
-}

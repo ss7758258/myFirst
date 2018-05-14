@@ -3,7 +3,7 @@ package com.xz.web.interceptor;
 import com.xz.framework.common.base.AjaxBean;
 import com.xz.framework.utils.json.JsonUtil;
 import com.xz.web.constant.Constant;
-import com.xz.web.entity.Admin;
+import com.xz.web.entity.TiAdmin;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,7 +28,7 @@ public class AdminInterceptor implements HandlerInterceptor {
         System.err.println("Json="+ JsonUtil.serialize(parameters));
         String path = request.getContextPath();
         request.getSession().setAttribute("path", path);
-        Admin sessionUser = (Admin) request.getSession().getAttribute(Constant.ADMIN_SESSION);
+        TiAdmin sessionUser = (TiAdmin) request.getSession().getAttribute(Constant.ADMIN_SESSION);
         if(sessionUser ==null||sessionUser.getId()==null||sessionUser.getId()==0){
         	return true;
         }
