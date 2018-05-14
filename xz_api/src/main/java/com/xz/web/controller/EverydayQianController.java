@@ -6,13 +6,12 @@ import com.xz.framework.bean.ajax.XZResponseBody;
 import com.xz.framework.bean.enums.AjaxStatus;
 import com.xz.framework.bean.weixin.Weixin;
 import com.xz.framework.common.base.BeanCriteria;
-import com.xz.framework.common.base.PageView;
 import com.xz.framework.controller.BaseController;
+import com.xz.framework.utils.BeanUtil;
 import com.xz.framework.utils.DateUtil;
 import com.xz.framework.utils.JsonUtil;
 import com.xz.framework.utils.StringUtil;
 import com.xz.web.bo.everydayQian.X500Bo;
-import com.xz.web.bo.everydayWords.X400Bo;
 import com.xz.web.dao.redis.RedisDao;
 import com.xz.web.mapper.entity.TiQianList;
 import com.xz.web.mapper.entity.TiUserQianList;
@@ -21,12 +20,14 @@ import com.xz.web.service.TiUserQianListService;
 import com.xz.web.service.ext.EverydayQianService;
 import com.xz.web.utils.ResultUtil;
 import com.xz.web.vo.everydayQian.X510Vo;
+import com.xz.web.vo.everydayQian.X511;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -231,7 +232,7 @@ public class EverydayQianController extends BaseController {
     @RequestMapping("x510")
     @ResponseBody
     public String x510(String requestBody) {
-        XZResponseBody<List<TiUserQianList>> responseBody = new XZResponseBody<List<TiUserQianList>>();
+        XZResponseBody<List<X511>> responseBody = new XZResponseBody<List<X511>>();
         Weixin weixin = this.getWeixin();
         if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
             ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
@@ -259,7 +260,41 @@ public class EverydayQianController extends BaseController {
             pager.setPageSize(obj.getPageSize());
             pager.setPageNum(obj.getPageNum());
             pager = tiUserQianListService.selectByPage(pager, beanCriteria);
-            responseBody.setData(pager.getList());
+            List<TiUserQianList> list = pager.getList();
+            List<X511> x511List = new ArrayList<X511>();
+            for(TiUserQianList data:list)
+            {
+                X511 x511 = new X511();
+                BeanUtil.copyProperties(data,x511);
+                String openId1 = data.getFriendOpenId1();
+                String openId2 = data.getFriendOpenId2();
+                String openId3 = data.getFriendOpenId3();
+                String openId4 = data.getFriendOpenId4();
+                String openId5 = data.getFriendOpenId5();
+                if(StringUtil.isNotEmpty(openId1))
+                {
+                    String headImage1 = redisService.get("headImage-:"+openId1);
+                    x511.setFriendHeadImage1(headImage1);
+                }
+                if(StringUtil.isNotEmpty(openId2)) {
+                    String headImage2 = redisService.get("headImage-:" + openId2);
+                    x511.setFriendHeadImage2(headImage2);
+                }
+                if(StringUtil.isNotEmpty(openId3)) {
+                    String headImage3 = redisService.get("headImage-:" + openId3);
+                    x511.setFriendHeadImage3(headImage3);
+                }
+                if(StringUtil.isNotEmpty(openId4)) {
+                    String headImage4 = redisService.get("headImage-:" + openId4);
+                    x511.setFriendHeadImage4(headImage4);
+                }
+                if(StringUtil.isNotEmpty(openId5)) {
+                    String headImage5 = redisService.get("headImage-:" + openId5);
+                    x511.setFriendHeadImage5(headImage5);
+                }
+                x511List.add(x511);
+            }
+            responseBody.setData(x511List);
         } catch (Exception e) {
             ResultUtil.returnResultLog(responseBody, "服务器异常，请稍后再试", e.getMessage(), logger);
         }finally {
@@ -275,7 +310,12 @@ public class EverydayQianController extends BaseController {
     @RequestMapping("x511")
     @ResponseBody
     public String x511(String requestBody) {
-        XZResponseBody<TiUserQianList> responseBody = new XZResponseBody<TiUserQianList>();
+        XZResponseBody<X511> responseBody = new XZResponseBody<X511>();
+        Weixin weixin = this.getWeixin();
+        if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
+            ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
+            return this.toJSON(responseBody);
+        }
         try {
             RequestHeader requestHeader = this.getRequestHeader();
             X510Vo obj = JsonUtil.deserialize(requestBody, X510Vo.class);
@@ -283,7 +323,35 @@ public class EverydayQianController extends BaseController {
                 ResultUtil.returnResultLog(responseBody, "ID为空!", null, logger);
             }
             TiUserQianList data = tiUserQianListService.selectByKey(obj.getId());
-            responseBody.setData(data);
+            X511 x511 = new X511();
+            BeanUtil.copyProperties(data,x511);
+            String openId1 = data.getFriendOpenId1();
+            String openId2 = data.getFriendOpenId2();
+            String openId3 = data.getFriendOpenId3();
+            String openId4 = data.getFriendOpenId4();
+            String openId5 = data.getFriendOpenId5();
+            if(StringUtil.isNotEmpty(openId1))
+            {
+                String headImage1 = redisService.get("headImage-:"+openId1);
+                x511.setFriendHeadImage1(headImage1);
+            }
+            if(StringUtil.isNotEmpty(openId2)) {
+                String headImage2 = redisService.get("headImage-:" + openId2);
+                x511.setFriendHeadImage2(headImage2);
+            }
+            if(StringUtil.isNotEmpty(openId3)) {
+                String headImage3 = redisService.get("headImage-:" + openId3);
+                x511.setFriendHeadImage3(headImage3);
+            }
+            if(StringUtil.isNotEmpty(openId4)) {
+                String headImage4 = redisService.get("headImage-:" + openId4);
+                x511.setFriendHeadImage4(headImage4);
+            }
+            if(StringUtil.isNotEmpty(openId5)) {
+                String headImage5 = redisService.get("headImage-:" + openId5);
+                x511.setFriendHeadImage5(headImage5);
+            }
+            responseBody.setData(x511);
         } catch (Exception e) {
             e.getMessage();
             ResultUtil.returnResultLog(responseBody, "服务器异常，请稍后再试", e.getMessage(), logger);
