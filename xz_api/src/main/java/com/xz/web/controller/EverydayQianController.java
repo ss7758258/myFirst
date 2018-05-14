@@ -104,15 +104,6 @@ public class EverydayQianController extends BaseController {
             return this.toJSON(responseBody);
         }
 
-
-        String key1 = "userId";
-        redisService.set(key1, 123);
-        System.out.println(redisService.get(key1));
-        System.out.println(Long.valueOf(redisService.get(key1)));
-        logger.error(redisService.get(key1));
-        logger.info(redisService.get(key1));
-
-
         String useridStr = redisService.get("openId-:"+weixin.getOpenId());
         Long userId = Long.valueOf(useridStr);
         String currentDate = DateUtil.getDate();
