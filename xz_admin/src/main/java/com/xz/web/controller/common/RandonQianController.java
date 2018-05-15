@@ -5,8 +5,6 @@ import com.xz.framework.utils.json.JsonUtil;
 import com.xz.web.entity.TiQianList;
 import com.xz.web.mapper.ext.EverydayQianMapperExt;
 import com.xz.web.redis.RedisDao;
-import com.xz.web.service.TiLuckyService;
-import com.xz.web.service.TiQianListService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
@@ -16,11 +14,6 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 public class RandonQianController extends QuartzJobBean {
     private Logger logger = LoggerFactory.getLogger(RandonQianController.class);
-
-    @Autowired
-    private TiLuckyService tiLuckyService;
-    @Autowired
-    private TiQianListService tiQianListService;
     @Autowired
     private RedisDao redisService;
     @Autowired
