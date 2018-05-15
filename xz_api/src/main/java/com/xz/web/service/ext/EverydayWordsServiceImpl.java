@@ -3,7 +3,9 @@ package com.xz.web.service.ext;
 import com.xz.framework.bean.ajax.XZResponseBody;
 import com.xz.framework.bean.enums.AjaxStatus;
 import com.xz.framework.bean.weixin.Weixin;
+import com.xz.framework.utils.StringUtil;
 import com.xz.web.bo.everydayWords.X400Bo;
+import com.xz.web.dao.redis.RedisDao;
 import com.xz.web.mapper.ext.EverydayWordsMapperExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,8 @@ public class EverydayWordsServiceImpl implements EverydayWordsService {
 
     @Autowired
     private EverydayWordsMapperExt everydayWordsMapperExt;
+    @Autowired
+    private RedisDao redisService;
 
     /**
      * 每日一言
@@ -34,6 +38,10 @@ public class EverydayWordsServiceImpl implements EverydayWordsService {
         Long constellationId = everydayWordsMapperExt.selectConstellationIdByOpenId(weixin.getOpenId());
         XZResponseBody<X400Bo> response = new XZResponseBody<X400Bo>();
         X400Bo x400Bo = everydayWordsMapperExt.selectCurrentYanByConstellationId(constellationId);
+
+        String ownerNickName = redisService.get("nickName-:" + weixin.getOpenId());
+        ownerNickName = StringUtil.Base64ToStr(ownerNickName);
+        x400Bo.setNickName(ownerNickName);
 
         response.setStatus(AjaxStatus.SUCCESS);
         response.setData(x400Bo);

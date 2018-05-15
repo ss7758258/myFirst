@@ -7,6 +7,8 @@ import com.xz.web.mapper.entity.TiUserQianList;
 import com.xz.web.service.TcConstellationService;
 import com.xz.web.service.ext.EverydayQianService;
 import com.xz.web.service.ext.MoreConstellationService;
+import com.xz.web.utils.AccessToken;
+import com.xz.web.utils.QRCodeUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,13 @@ public class CCMainTest extends AbstractTransactionalJUnit4SpringContextTests {
     private MoreConstellationService moreConstellationService;
     @Autowired
     private TcConstellationService tcConstellationService;
+
+
+    @Test
+    public void test2(){
+        AccessToken accessToken = QRCodeUtil.getAccessToken();
+        System.out.println(1);
+    }
 
     @Test
     public void test1(){

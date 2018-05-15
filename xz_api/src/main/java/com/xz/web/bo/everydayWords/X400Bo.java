@@ -6,6 +6,7 @@ public class X400Bo {
     private String prevPic;
     private String speech;
     private String currentDate;
+    private String nickName;
 
     public Long getId() {
         return id;
@@ -37,5 +38,13 @@ public class X400Bo {
 
     public void setCurrentDate(String currentDate) {
         this.currentDate = currentDate;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 }
