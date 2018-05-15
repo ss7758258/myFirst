@@ -5,9 +5,9 @@ import com.xz.framework.common.base.PageInfo;
 import com.xz.framework.utils.date.DateUtil;
 import com.xz.framework.utils.json.JsonUtil;
 import com.xz.web.entity.TiQianList;
+import com.xz.web.redis.RedisDao;
 import com.xz.web.service.TiLuckyService;
 import com.xz.web.service.TiQianListService;
-import com.xz.web.service.redis.RedisService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.slf4j.Logger;
@@ -23,7 +23,7 @@ public class RandonQianController extends QuartzJobBean {
     @Autowired
     private TiQianListService tiQianListService;
     @Autowired
-    private RedisService redisService;
+    private RedisDao redisService;
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {

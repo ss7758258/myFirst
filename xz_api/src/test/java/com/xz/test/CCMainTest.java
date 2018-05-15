@@ -1,11 +1,11 @@
 package com.xz.test;
 
 
-import com.xz.framework.bean.ajax.XZResponseBody;
-import com.xz.web.bo.moreConstellation.X300Bo;
+import com.xz.framework.utils.JsonUtil;
 import com.xz.web.dao.redis.RedisDao;
-import com.xz.web.mapper.entity.TcConstellation;
+import com.xz.web.mapper.entity.TiUserQianList;
 import com.xz.web.service.TcConstellationService;
+import com.xz.web.service.ext.EverydayQianService;
 import com.xz.web.service.ext.MoreConstellationService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 @ContextConfiguration(locations = {"classpath:spring/spring-*.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -23,43 +25,25 @@ public class CCMainTest extends AbstractTransactionalJUnit4SpringContextTests {
     @Autowired
     private RedisDao redisService;
     @Autowired
+    private EverydayQianService everydayQianService;
+
+    @Autowired
     private MoreConstellationService moreConstellationService;
     @Autowired
     private TcConstellationService tcConstellationService;
 
     @Test
     public void test1(){
-        Long constellationId = 1L;
-
-        //TcConstellation tcConstellation = tcConstellationService.selectByKey(constellationId);
-        System.out.println(1);
-        try {
-            XZResponseBody<X300Bo> responseBody = moreConstellationService.selectMoreConstellation(constellationId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void testRedis() {
-        String key1 = "userId";
-        redisService.set(key1, 123);
-        System.out.println(redisService.get(key1));
-        System.out.println(Long.valueOf(redisService.get(key1)));
-
-     /*   String key = "test_123";
-
-       *//* Long sise = redisService.szGetSise(key);
-        Set<Object> set = redisService.szReverse(key, 0L, sise-2);
-        redisService.szInc(key, "11", -1.0);*//*
-
-        String value1 = "11";
-        String value2 = "22";
-        String value3 = "33";
-        redisService.szSet(key, value1, 1.0);
-        redisService.szSet(key, value2, 3.0);
-        redisService.szSet(key, value3, 2.0);
-        System.out.println(123);*/
+        List<TiUserQianList> list =  everydayQianService.testSelect();
+        System.out.println(JsonUtil.serialize(list));
+        TiUserQianList obj = new TiUserQianList();
+        obj.setFriendOpenId1("1");
+        obj.setFriendOpenId2("2");
+        obj.setFriendOpenId3("3");
+        obj.setFriendOpenId4("4");
+        obj.setFriendOpenId5("5");
+        int flag = everydayQianService.save(obj);
+        System.out.println(JsonUtil.serialize(obj));
     }
 
 }
