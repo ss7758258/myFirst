@@ -13,15 +13,15 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.util.List;
 
-public class MyJobController extends QuartzJobBean {
-    private Logger logger = LoggerFactory.getLogger(MyJobController.class);
+public class PublishController extends QuartzJobBean {
+    private Logger logger = LoggerFactory.getLogger(PublishController.class);
 
     @Autowired
     private TiLuckyService tiLuckyService;
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        System.out.println("Run Time=" + DateUtil.getCurrentTimestampSSS());
+        System.out.println("Publish Run Time=" + DateUtil.getCurrentTimestampSSS());
         PageInfo<TiLucky> pager = new PageInfo<TiLucky>();
         TiLucky searchCondition = new TiLucky();
         searchCondition.setStatus(0);

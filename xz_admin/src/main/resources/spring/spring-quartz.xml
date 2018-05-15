@@ -5,20 +5,29 @@
 	
 	<bean id="jobFactory" class="com.xz.web.quartz.MyJobFactory"></bean>
 
-    <bean name="job1" class="org.springframework.scheduling.quartz.JobDetailFactoryBean"> 
-    	<property name="jobClass" value="com.xz.web.controller.common.MyJobController" />
-    </bean>
-  
-  	<bean id="DailyTaskCronTriggerBean1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
-    	<property name="jobDetail" ref="job1"></property>  
-    	<property name="cronExpression" value="${quartz.job.cron.expression}"></property>
+	<bean name="job1" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.xz.web.controller.common.PublishController" />
+	</bean>
+	<bean name="job2" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.xz.web.controller.common.RandonQianController" />
+	</bean>
+
+	<bean id="DailyTaskCronTriggerBean1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="job1"></property>
+		<property name="cronExpression" value="${quartz.job.cron.expression}"></property>
+	</bean>
+
+	<bean id="DailyTaskCronTriggerBean2" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="job2"></property>
+		<property name="cronExpression" value="${quartz.job.cron.expression}"></property>
 	</bean>
 
 	<bean id="SpringJobSchedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> 
 		<property name="jobFactory" ref="jobFactory"></property> 
    	 	<property name="triggers">  
-        	<list>   
-            	<ref bean="DailyTaskCronTriggerBean1"/>
+        	<list>
+				<ref bean="DailyTaskCronTriggerBean1"/>
+				<ref bean="DailyTaskCronTriggerBean2"/>
         	</list>  
     	</property>  
 	</bean>
