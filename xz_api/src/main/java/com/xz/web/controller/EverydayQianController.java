@@ -319,17 +319,21 @@ public class EverydayQianController extends BaseController {
                     x511.setAlreadyOpen(5);
                 }
             }
-            if (StringUtil.isEmpty(data.getFriendOpenId1())) {
-                data.setFriendOpenId1(weixin.getOpenId());
-            } else if (StringUtil.isEmpty(data.getFriendOpenId2())) {
-                data.setFriendOpenId2(weixin.getOpenId());
-            } else if (StringUtil.isEmpty(data.getFriendOpenId3())) {
-                data.setFriendOpenId3(weixin.getOpenId());
-            } else if (StringUtil.isEmpty(data.getFriendOpenId4())) {
-                data.setFriendOpenId4(weixin.getOpenId());
-            } else if (StringUtil.isEmpty(data.getFriendOpenId5())) {
-                data.setFriendOpenId5(weixin.getOpenId());
-                data.setStatus(1);
+            if(x511.getAlreadyOpen()<1) {
+                if (StringUtil.isEmpty(data.getFriendOpenId1())) {
+                    data.setFriendOpenId1(weixin.getOpenId());
+                } else if (StringUtil.isEmpty(data.getFriendOpenId2())) {
+                    data.setFriendOpenId2(weixin.getOpenId());
+                } else if (StringUtil.isEmpty(data.getFriendOpenId3())) {
+                    data.setFriendOpenId3(weixin.getOpenId());
+                } else if (StringUtil.isEmpty(data.getFriendOpenId4())) {
+                    data.setFriendOpenId4(weixin.getOpenId());
+                } else if (StringUtil.isEmpty(data.getFriendOpenId5())) {
+                    data.setFriendOpenId5(weixin.getOpenId());
+                    data.setStatus(1);
+                }
+                data.setUpdateTimestamp(DateUtil.getDatetime());
+                tiUserQianListService.update(data);
             }
 
             String ownerOpenId = weixin.getOpenId();
@@ -366,8 +370,6 @@ public class EverydayQianController extends BaseController {
                 x511.setFriendHeadImage5(headImage5);
             }
 
-            data.setUpdateTimestamp(DateUtil.getDatetime());
-            tiUserQianListService.update(data);
             responseBody.setData(x511);
         } catch (Exception e) {
             e.getMessage();
