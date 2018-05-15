@@ -208,7 +208,6 @@ public class EverydayQianController extends BaseController {
                     List<TiUserQianList> list2 = tiUserQianListService.selectByExample(beanCriteria3);
                     Long id = 0L;
                     if (!list2.isEmpty()){
-                        logger.error(list2.get(0).getId()+"____________________________________________");
                         id = list2.get(0).getId();
                     }
 
@@ -223,7 +222,7 @@ public class EverydayQianController extends BaseController {
                         String ownerNickName = redisService.get("nickName-:" + ownerOpenId);
                         x511.setOwnerNickName(ownerNickName);
                     }
-                    obj.setId(id);
+                    x511.setId(id);
                     String openId1 = obj.getFriendOpenId1();
                     String openId2 = obj.getFriendOpenId2();
                     String openId3 = obj.getFriendOpenId3();
