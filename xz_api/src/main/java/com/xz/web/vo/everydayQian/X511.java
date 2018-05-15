@@ -11,6 +11,7 @@ public class X511 extends BasicBean {
     private String qianContent;
     private Long userId;
     private Integer isMyQian=0;
+    private Integer alreadyOpen=0;
     private String ownerOpenId;
     private String friendOpenId1;
     private String friendOpenId2;
@@ -41,6 +42,14 @@ public class X511 extends BasicBean {
 
     public void setIsMyQian(Integer isMyQian) {
         this.isMyQian = isMyQian;
+    }
+
+    public Integer getAlreadyOpen() {
+        return alreadyOpen;
+    }
+
+    public void setAlreadyOpen(Integer alreadyOpen) {
+        this.alreadyOpen = alreadyOpen;
     }
 
     public String getQianDate() {
