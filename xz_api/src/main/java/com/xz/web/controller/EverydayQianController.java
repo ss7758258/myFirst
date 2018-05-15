@@ -289,40 +289,36 @@ public class EverydayQianController extends BaseController {
                 ResultUtil.returnResultLog(responseBody, "ID为空!", null, logger);
             }
             TiUserQianList data = tiUserQianListService.selectByKey(obj.getId());
+            data.setUpdateTimestamp(DateUtil.getDatetime());
+            tiUserQianListService.update(data);
+
+            X511 x511 = new X511();
+            BeanUtil.copyProperties(data, x511);
+
             if (StringUtil.isNotEmpty(data.getFriendOpenId1())) {
                 if(weixin.getOpenId().equals(data.getFriendOpenId1()))
                 {
-                    responseBody.setStatus(AjaxStatus.ERROR);
-                    responseBody.setMessage("你已经加入解签!");
-                    return this.toJSON(responseBody);
+                    x511.setAlreadyOpen(1);
                 }
             } else if (StringUtil.isNotEmpty(data.getFriendOpenId2())) {
                 if(weixin.getOpenId().equals(data.getFriendOpenId2()))
                 {
-                    responseBody.setStatus(AjaxStatus.ERROR);
-                    responseBody.setMessage("你已经加入解签!");
-                    return this.toJSON(responseBody);
+                    x511.setAlreadyOpen(1);
                 }
             } else if (StringUtil.isNotEmpty(data.getFriendOpenId3())) {
                 if(weixin.getOpenId().equals(data.getFriendOpenId3()))
                 {
-                    responseBody.setStatus(AjaxStatus.ERROR);
-                    responseBody.setMessage("你已经加入解签!");
-                    return this.toJSON(responseBody);
+                    x511.setAlreadyOpen(1);
                 }
             } else if (StringUtil.isNotEmpty(data.getFriendOpenId4())) {
                 if(weixin.getOpenId().equals(data.getFriendOpenId4()))
                 {
-                    responseBody.setStatus(AjaxStatus.ERROR);
-                    responseBody.setMessage("你已经加入解签!");
-                    return this.toJSON(responseBody);
+                    x511.setAlreadyOpen(1);
                 }
             } else if (StringUtil.isNotEmpty(data.getFriendOpenId5())) {
                 if(weixin.getOpenId().equals(data.getFriendOpenId5()))
                 {
-                    responseBody.setStatus(AjaxStatus.ERROR);
-                    responseBody.setMessage("你已经加入解签!");
-                    return this.toJSON(responseBody);
+                    x511.setAlreadyOpen(1);
                 }
             }
             if (StringUtil.isEmpty(data.getFriendOpenId1())) {
@@ -337,11 +333,7 @@ public class EverydayQianController extends BaseController {
                 data.setFriendOpenId5(weixin.getOpenId());
                 data.setStatus(1);
             }
-            data.setUpdateTimestamp(DateUtil.getDatetime());
-            tiUserQianListService.update(data);
 
-            X511 x511 = new X511();
-            BeanUtil.copyProperties(data, x511);
             String ownerOpenId = weixin.getOpenId();
             if (StringUtil.isNotEmpty(ownerOpenId)) {
                 String ownerImage = redisService.get("headImage-:" + ownerOpenId);
