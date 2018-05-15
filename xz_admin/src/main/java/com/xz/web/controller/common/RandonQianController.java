@@ -27,7 +27,7 @@ public class RandonQianController extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        System.out.println("RandomQian Run Time=" + DateUtil.getCurrentTimestampSSS());
+        logger.debug("RandomQian Run Time=" + DateUtil.getCurrentTimestampSSS());
         BeanCriteria beanCriteria1 = new BeanCriteria(TiQianList.class);
         beanCriteria1.setOrderByClause("update_timestamp desc");
         PageInfo<TiQianList> pager1 = new PageInfo<TiQianList>();

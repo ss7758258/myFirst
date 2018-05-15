@@ -21,7 +21,7 @@ public class PublishController extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        System.out.println("Publish Run Time=" + DateUtil.getCurrentTimestampSSS());
+        logger.debug("Publish Run Time=" + DateUtil.getCurrentTimestampSSS());
         PageInfo<TiLucky> pager = new PageInfo<TiLucky>();
         TiLucky searchCondition = new TiLucky();
         searchCondition.setStatus(0);
