@@ -13,7 +13,6 @@ import com.xz.web.mapper.ext.SelectConstellationMapperExt;
 import com.xz.web.service.TcConstellationService;
 import com.xz.web.service.TcQianYanUrlService;
 import com.xz.web.service.TiLuckyService;
-import com.xz.web.service.WeixinUserService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,9 +78,9 @@ public class IndexConstellationServiceImpl implements IndexConstellationService 
             x100Bo.setLuckyScore2(tiLuckyList.get(0).getLuckyScore2() + "%");
             x100Bo.setLuckyScore3(tiLuckyList.get(0).getLuckyScore3() + "%");
             x100Bo.setLuckyScore4(tiLuckyList.get(0).getLuckyScore4() + "%");
-            x100Bo.setLuckyType1(tiLuckyList.get(0).getLuckyType4());
-            x100Bo.setLuckyType2(tiLuckyList.get(0).getLuckyType4());
-            x100Bo.setLuckyType3(tiLuckyList.get(0).getLuckyType4());
+            x100Bo.setLuckyType1(tiLuckyList.get(0).getLuckyType1());
+            x100Bo.setLuckyType2(tiLuckyList.get(0).getLuckyType2());
+            x100Bo.setLuckyType3(tiLuckyList.get(0).getLuckyType3());
             x100Bo.setLuckyType4(tiLuckyList.get(0).getLuckyType4());
         }
 
