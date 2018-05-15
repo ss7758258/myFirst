@@ -279,32 +279,17 @@ public class EverydayQianController extends BaseController {
 
             X511 x511 = new X511();
 
-            if (StringUtil.isNotEmpty(data.getFriendOpenId1())) {
-                if(weixin.getOpenId().equals(data.getFriendOpenId1()))
-                {
-                    x511.setAlreadyOpen(1);
-                }
-            } else if (StringUtil.isNotEmpty(data.getFriendOpenId2())) {
-                if(weixin.getOpenId().equals(data.getFriendOpenId2()))
-                {
-                    x511.setAlreadyOpen(2);
-                }
-            } else if (StringUtil.isNotEmpty(data.getFriendOpenId3())) {
-                if(weixin.getOpenId().equals(data.getFriendOpenId3()))
-                {
-                    x511.setAlreadyOpen(3);
-                }
-            } else if (StringUtil.isNotEmpty(data.getFriendOpenId4())) {
-                if(weixin.getOpenId().equals(data.getFriendOpenId4()))
-                {
-                    x511.setAlreadyOpen(4);
-                }
-            } else if (StringUtil.isNotEmpty(data.getFriendOpenId5())) {
-                if(weixin.getOpenId().equals(data.getFriendOpenId5()))
-                {
-                    x511.setAlreadyOpen(5);
-                }
-            }
+            if(weixin.getOpenId().equals(data.getFriendOpenId1()))
+                x511.setAlreadyOpen(1);
+            if(weixin.getOpenId().equals(data.getFriendOpenId2()))
+                x511.setAlreadyOpen(2);
+            if(weixin.getOpenId().equals(data.getFriendOpenId3()))
+                x511.setAlreadyOpen(3);
+            if(weixin.getOpenId().equals(data.getFriendOpenId4()))
+                x511.setAlreadyOpen(4);
+            if(weixin.getOpenId().equals(data.getFriendOpenId5()))
+                x511.setAlreadyOpen(5);
+
             if(x511.getAlreadyOpen()<1) {
                 if (StringUtil.isEmpty(data.getFriendOpenId1())) {
                     data.setFriendOpenId1(weixin.getOpenId());
