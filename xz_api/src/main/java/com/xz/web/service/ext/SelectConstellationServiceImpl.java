@@ -97,9 +97,9 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
             x100Bo.setLuckyScore2(tiLuckyList.get(0).getLuckyScore2() + "%");
             x100Bo.setLuckyScore3(tiLuckyList.get(0).getLuckyScore3() + "%");
             x100Bo.setLuckyScore4(tiLuckyList.get(0).getLuckyScore4() + "%");
-            x100Bo.setLuckyType1(tiLuckyList.get(0).getLuckyType4());
-            x100Bo.setLuckyType2(tiLuckyList.get(0).getLuckyType4());
-            x100Bo.setLuckyType3(tiLuckyList.get(0).getLuckyType4());
+            x100Bo.setLuckyType1(tiLuckyList.get(0).getLuckyType1());
+            x100Bo.setLuckyType2(tiLuckyList.get(0).getLuckyType2());
+            x100Bo.setLuckyType3(tiLuckyList.get(0).getLuckyType3());
             x100Bo.setLuckyType4(tiLuckyList.get(0).getLuckyType4());
         }
         responseBody.setStatus(AjaxStatus.SUCCESS);
