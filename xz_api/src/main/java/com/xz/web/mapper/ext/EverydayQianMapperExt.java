@@ -1,5 +1,6 @@
 package com.xz.web.mapper.ext;
 
+import com.xz.web.mapper.entity.TiQianList;
 import com.xz.web.mapper.entity.TiUserQianList;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
@@ -25,4 +26,18 @@ public interface EverydayQianMapperExt {
     })
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
     int insertData(TiUserQianList obj);
+
+
+    @Select({
+            "<script>",
+            "select count(*) as counts from ti_qian_list,ti_qian_lib where ti_qian_lib.id=ti_qian_list.qian_lib_id and ti_qian_lib.status=1",
+            "</script>"
+    })
+    Long countActiveQianList();
+    @Select({
+            "<script>",
+            "select ti_qian_list.* from ti_qian_list,ti_qian_lib where ti_qian_lib.id=ti_qian_list.qian_lib_id and ti_qian_lib.status=1 limit #{0},1",
+            "</script>"
+    })
+    TiQianList randomActiveQianList(Integer randomNum);
 }

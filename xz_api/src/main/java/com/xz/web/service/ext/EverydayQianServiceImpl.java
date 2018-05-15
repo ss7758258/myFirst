@@ -2,6 +2,7 @@ package com.xz.web.service.ext;
 
 import com.xz.framework.bean.ajax.XZResponseBody;
 import com.xz.web.bo.everydayQian.X500Bo;
+import com.xz.web.mapper.entity.TiQianList;
 import com.xz.web.mapper.entity.TiUserQianList;
 import com.xz.web.mapper.ext.EverydayQianMapperExt;
 import org.slf4j.Logger;
@@ -51,5 +52,15 @@ public class EverydayQianServiceImpl implements EverydayQianService {
     @Override
     public List<TiUserQianList> testSelect() {
         return everydayQianMapperExt.testSelect();
+    }
+
+    @Override
+    public long countActiveQianList() {
+        return everydayQianMapperExt.countActiveQianList();
+    }
+
+    @Override
+    public TiQianList randomActiveQianList(int randomNum) {
+        return everydayQianMapperExt.randomActiveQianList(randomNum);
     }
 }

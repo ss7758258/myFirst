@@ -168,29 +168,25 @@ public class EverydayQianController extends BaseController {
                     return this.toJSON(responseBody);
                 }
             } else {
-                //1 先算出QianList里面有多少个记录，比如是size
-                //先找出总数，然后随机生成一条签。
-                BeanCriteria beanCriteria1 = new BeanCriteria(TiQianList.class);
-                beanCriteria1.setOrderByClause("update_timestamp desc");
-                PageInfo<TiQianList> pager1 = new PageInfo<TiQianList>();
-                pager1.setPageSize(1);
-                pager1 = tiQianListService.selectByPage(pager1, beanCriteria1);
-                long count = pager1.getTotal();
-                //2 取一个1-size的随机数，然后经过pageNum=随机数，size=1去取一条记录
-                int randomNum = (int) (Math.random() * count);
-
-                BeanCriteria beanCriteria2 = new BeanCriteria(TiQianList.class);
-                beanCriteria2.setOrderByClause("update_timestamp desc");
-                PageInfo<TiQianList> pager2 = new PageInfo<TiQianList>();
-                pager2.setPageSize(1);
-                pager2.setPageNum(randomNum);
-                pager2 = tiQianListService.selectByPage(pager2, beanCriteria1);
-                if (pager2.getList().size() > 0) {
-                    TiQianList tiQianList = pager2.getList().get(0);
+                TiQianList qian = null;
+                try{
+                    String qianStr = redisService.get("randomQian");
+                    qian = JsonUtil.deserialize(qianStr,TiQianList.class);
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+                if(null == qian)
+                {
+                    long count = everydayQianService.countActiveQianList();
+                    int randomNum = (int) (Math.random() * count);
+                    qian = everydayQianService.randomActiveQianList(randomNum);
+                }
+                if (null!=qian) {
                     TiUserQianList obj = new TiUserQianList();
                     obj.setQianDate(DateUtil.getDate());
-                    obj.setQianName(tiQianList.getName());
-                    obj.setQianContent(tiQianList.getContent());
+                    obj.setQianName(qian.getName());
+                    obj.setQianContent(qian.getContent());
                     obj.setFriendOpenId1(weixin.getOpenId());
                     obj.setStatus(0);
                     obj.setUserId(userId);
