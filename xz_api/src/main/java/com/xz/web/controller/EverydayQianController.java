@@ -27,7 +27,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -199,17 +198,17 @@ public class EverydayQianController extends BaseController {
                     obj.setUpdateTimestamp(DateUtil.getDatetime());
                     tiUserQianListService.save(obj);
 
-                    //查询刚增加的主键id
-                    BeanCriteria beanCriteria3 = new BeanCriteria(TiUserQianList.class);
-                    BeanCriteria.Criteria criteria3 = beanCriteria3.createCriteria();
-                    criteria3.andEqualTo("userId", userId);
-                    criteria3.andEqualTo("qianDate", DateUtil.getDate());
-                    beanCriteria.setOrderByClause("update_timestamp desc");
-                    List<TiUserQianList> list2 = tiUserQianListService.selectByExample(beanCriteria3);
-                    Long id = 0L;
-                    if (!list2.isEmpty()){
-                        id = list2.get(0).getId();
-                    }
+//                    //查询刚增加的主键id
+//                    BeanCriteria beanCriteria3 = new BeanCriteria(TiUserQianList.class);
+//                    BeanCriteria.Criteria criteria3 = beanCriteria3.createCriteria();
+//                    criteria3.andEqualTo("userId", userId);
+//                    criteria3.andEqualTo("qianDate", DateUtil.getDate());
+//                    beanCriteria.setOrderByClause("update_timestamp desc");
+//                    List<TiUserQianList> list2 = tiUserQianListService.selectByExample(beanCriteria3);
+//                    Long id = 0L;
+//                    if (!list2.isEmpty()){
+//                        id = list2.get(0).getId();
+//                    }
 
 
                     X511 x511 = new X511();
@@ -222,7 +221,7 @@ public class EverydayQianController extends BaseController {
                         String ownerNickName = redisService.get("nickName-:" + ownerOpenId);
                         x511.setOwnerNickName(ownerNickName);
                     }
-                    x511.setId(id);
+                    //x511.setId(id);
                     String openId1 = obj.getFriendOpenId1();
                     String openId2 = obj.getFriendOpenId2();
                     String openId3 = obj.getFriendOpenId3();
@@ -276,7 +275,7 @@ public class EverydayQianController extends BaseController {
     @RequestMapping("x506")
     @ResponseBody
     public String x506(String requestBody) {
-        XZResponseBody<TiUserQianList> responseBody = new XZResponseBody<TiUserQianList>();
+        XZResponseBody<X511> responseBody = new XZResponseBody<X511>();
         responseBody.setStatus(AjaxStatus.SUCCESS);
         Weixin weixin = this.getWeixin();
         if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
@@ -284,9 +283,7 @@ public class EverydayQianController extends BaseController {
             return this.toJSON(responseBody);
         }
         String useridStr = redisService.get("openId-:" + weixin.getOpenId());
-        Long userId = Long.valueOf(useridStr);
         try {
-            RequestHeader requestHeader = this.getRequestHeader();
             X510Vo obj = JsonUtil.deserialize(requestBody, X510Vo.class);
             if (obj == null) {
                 ResultUtil.returnResultLog(responseBody, "ID为空!", null, logger);
@@ -306,7 +303,44 @@ public class EverydayQianController extends BaseController {
             }
             data.setUpdateTimestamp(DateUtil.getDatetime());
             tiUserQianListService.update(data);
-            responseBody.setData(data);
+
+            X511 x511 = new X511();
+            BeanUtil.copyProperties(data, x511);
+            String ownerOpenId = weixin.getOpenId();
+            if (StringUtil.isNotEmpty(ownerOpenId)) {
+                String ownerImage = redisService.get("headImage-:" + ownerOpenId);
+                x511.setOwnerHeadImage(ownerImage);
+                x511.setOwnerOpenId(ownerOpenId);
+                String ownerNickName = redisService.get("nickName-:" + ownerOpenId);
+                x511.setOwnerNickName(ownerNickName);
+            }
+            String openId1 = data.getFriendOpenId1();
+            String openId2 = data.getFriendOpenId2();
+            String openId3 = data.getFriendOpenId3();
+            String openId4 = data.getFriendOpenId4();
+            String openId5 = data.getFriendOpenId5();
+            if (StringUtil.isNotEmpty(openId1)) {
+                String headImage1 = redisService.get("headImage-:" + openId1);
+                x511.setFriendHeadImage1(headImage1);
+            }
+            if (StringUtil.isNotEmpty(openId2)) {
+                String headImage2 = redisService.get("headImage-:" + openId2);
+                x511.setFriendHeadImage2(headImage2);
+            }
+            if (StringUtil.isNotEmpty(openId3)) {
+                String headImage3 = redisService.get("headImage-:" + openId3);
+                x511.setFriendHeadImage3(headImage3);
+            }
+            if (StringUtil.isNotEmpty(openId4)) {
+                String headImage4 = redisService.get("headImage-:" + openId4);
+                x511.setFriendHeadImage4(headImage4);
+            }
+            if (StringUtil.isNotEmpty(openId5)) {
+                String headImage5 = redisService.get("headImage-:" + openId5);
+                x511.setFriendHeadImage5(headImage5);
+            }
+
+            responseBody.setData(x511);
         } catch (Exception e) {
             e.getMessage();
             ResultUtil.returnResultLog(responseBody, "服务器异常，请稍后再试", e.getMessage(), logger);
