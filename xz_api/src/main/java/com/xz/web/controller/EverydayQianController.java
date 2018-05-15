@@ -23,6 +23,7 @@ import com.xz.web.vo.everydayQian.X510Vo;
 import com.xz.web.vo.everydayQian.X511;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -46,6 +47,9 @@ public class EverydayQianController extends BaseController {
     TiQianListService tiQianListService;
     @Autowired
     private RedisDao redisService;
+
+    @Value("#{constants.qian_open_size}")
+    private int qianOpenSize;
 
     /**
      * 每日一签
@@ -157,11 +161,13 @@ public class EverydayQianController extends BaseController {
                     x511.setFriendHeadImage5(headImage5);
                 }
                 if (obj.getStatus() == 0) {
+                    x511.setQianOpenSize(qianOpenSize);
                     responseBody.setStatus(AjaxStatus.SUCCESS);
                     responseBody.setMessage("");
                     responseBody.setData(x511);
                     return this.toJSON(responseBody);
                 } else {
+                    x511.setQianOpenSize(qianOpenSize);
                     responseBody.setStatus(AjaxStatus.ERROR);
                     responseBody.setMessage("无签");
                     responseBody.setData(x511);
@@ -230,7 +236,7 @@ public class EverydayQianController extends BaseController {
                         String headImage5 = redisService.get("headImage-:" + openId5);
                         x511.setFriendHeadImage5(headImage5);
                     }
-
+                    x511.setQianOpenSize(qianOpenSize);
                     responseBody.setStatus(AjaxStatus.SUCCESS);
                     responseBody.setMessage("");
                     responseBody.setData(x511);
@@ -339,6 +345,7 @@ public class EverydayQianController extends BaseController {
                 x511.setFriendHeadImage5(headImage5);
             }
 
+            x511.setQianOpenSize(qianOpenSize);
             responseBody.setData(x511);
         } catch (Exception e) {
             e.getMessage();
@@ -467,6 +474,7 @@ public class EverydayQianController extends BaseController {
                 String headImage5 = redisService.get("headImage-:" + openId5);
                 x511.setFriendHeadImage5(headImage5);
             }
+            x511.setQianOpenSize(qianOpenSize);
             responseBody.setData(x511);
         } catch (Exception e) {
             e.getMessage();
@@ -474,6 +482,14 @@ public class EverydayQianController extends BaseController {
         } finally {
             return this.toJSON(responseBody);
         }
+    }
+
+    public int getQianOpenSize() {
+        return qianOpenSize;
+    }
+
+    public void setQianOpenSize(int qianOpenSize) {
+        this.qianOpenSize = qianOpenSize;
     }
 }
 
