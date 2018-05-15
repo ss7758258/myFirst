@@ -199,6 +199,18 @@ public class EverydayQianController extends BaseController {
                     obj.setUpdateTimestamp(DateUtil.getDatetime());
                     tiUserQianListService.save(obj);
 
+                    //查询刚增加的主键id
+                    BeanCriteria beanCriteria3 = new BeanCriteria(TiUserQianList.class);
+                    BeanCriteria.Criteria criteria3 = beanCriteria3.createCriteria();
+                    criteria3.andEqualTo("userId", userId);
+                    criteria3.andEqualTo("qianDate", DateUtil.getDate());
+                    beanCriteria.setOrderByClause("update_timestamp desc");
+                    List<TiUserQianList> list2 = tiUserQianListService.selectByExample(beanCriteria3);
+                    Long id = 0L;
+                    if (!list2.isEmpty()){
+                        id = list2.get(0).getId();
+                    }
+
                     X511 x511 = new X511();
                     BeanUtil.copyProperties(obj, x511);
                     String ownerOpenId = weixin.getOpenId();
@@ -209,6 +221,7 @@ public class EverydayQianController extends BaseController {
                         String ownerNickName = redisService.get("nickName-:" + ownerOpenId);
                         x511.setOwnerNickName(ownerNickName);
                     }
+                    obj.setId(id);
                     String openId1 = obj.getFriendOpenId1();
                     String openId2 = obj.getFriendOpenId2();
                     String openId3 = obj.getFriendOpenId3();
