@@ -443,38 +443,16 @@ public class EverydayQianController extends BaseController {
             {
                 x511.setIsMyQian(1);
             }
-            System.out.println("weixin.getOpenId()="+weixin.getOpenId());
-            System.out.println("data.getFriendOpenId1()="+data.getFriendOpenId1());
-            System.out.println("data.getFriendOpenId2()="+data.getFriendOpenId2());
-            System.out.println("data.getFriendOpenId3()="+data.getFriendOpenId3());
-            System.out.println("data.getFriendOpenId4()="+data.getFriendOpenId4());
-            System.out.println("data.getFriendOpenId5()="+data.getFriendOpenId5());
-            if (StringUtil.isNotEmpty(data.getFriendOpenId1())) {
-                if(weixin.getOpenId().equals(data.getFriendOpenId1()))
-                {
-                    x511.setAlreadyOpen(1);
-                }
-            } else if (StringUtil.isNotEmpty(data.getFriendOpenId2())) {
-                if(weixin.getOpenId().equals(data.getFriendOpenId2()))
-                {
-                    x511.setAlreadyOpen(2);
-                }
-            } else if (StringUtil.isNotEmpty(data.getFriendOpenId3())) {
-                if(weixin.getOpenId().equals(data.getFriendOpenId3()))
-                {
-                    x511.setAlreadyOpen(3);
-                }
-            } else if (StringUtil.isNotEmpty(data.getFriendOpenId4())) {
-                if(weixin.getOpenId().equals(data.getFriendOpenId4()))
-                {
-                    x511.setAlreadyOpen(4);
-                }
-            } else if (StringUtil.isNotEmpty(data.getFriendOpenId5())) {
-                if(weixin.getOpenId().equals(data.getFriendOpenId5()))
-                {
-                    x511.setAlreadyOpen(5);
-                }
-            }
+            if(weixin.getOpenId().equals(data.getFriendOpenId1()))
+                x511.setAlreadyOpen(1);
+            if(weixin.getOpenId().equals(data.getFriendOpenId2()))
+                x511.setAlreadyOpen(2);
+            if(weixin.getOpenId().equals(data.getFriendOpenId3()))
+                x511.setAlreadyOpen(3);
+            if(weixin.getOpenId().equals(data.getFriendOpenId4()))
+                x511.setAlreadyOpen(4);
+            if(weixin.getOpenId().equals(data.getFriendOpenId5()))
+                x511.setAlreadyOpen(5);
             String ownerOpenId = weixin.getOpenId();
             if (StringUtil.isNotEmpty(ownerOpenId)) {
                 String ownerImage = redisService.get("headImage-:" + ownerOpenId);
