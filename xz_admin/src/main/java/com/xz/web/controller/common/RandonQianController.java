@@ -37,6 +37,7 @@ public class RandonQianController extends QuartzJobBean {
         TiQianList qian = mapper.randomActiveQianList(randomNum);
         if (null!=qian) {
             redisService.set("randomQian", JsonUtil.serialize(qian));
+            System.out.println("randomQian=" + JsonUtil.serialize(qian));
         }
     }
 }
