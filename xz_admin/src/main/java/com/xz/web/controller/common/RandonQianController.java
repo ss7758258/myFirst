@@ -1,10 +1,12 @@
 package com.xz.web.controller.common;
 
-import com.xz.framework.common.base.BeanCriteria;
 import com.xz.framework.common.base.PageInfo;
+import com.xz.framework.utils.PageHelper;
 import com.xz.framework.utils.date.DateUtil;
 import com.xz.framework.utils.json.JsonUtil;
 import com.xz.web.entity.TiQianList;
+import com.xz.web.entity.TiQianListExample;
+import com.xz.web.mapper.TiQianListMapper;
 import com.xz.web.redis.RedisDao;
 import com.xz.web.service.TiLuckyService;
 import com.xz.web.service.TiQianListService;
@@ -24,21 +26,26 @@ public class RandonQianController extends QuartzJobBean {
     private TiQianListService tiQianListService;
     @Autowired
     private RedisDao redisService;
+    @Autowired
+    private TiQianListMapper mapper;
+
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         System.out.println("RandomQian Run Time=" + DateUtil.getCurrentTimestampSSS());
-        BeanCriteria beanCriteria1 = new BeanCriteria(TiQianList.class);
-        beanCriteria1.setOrderByClause("update_timestamp desc");
+        TiQianListExample example = new TiQianListExample();
+        TiQianListExample.Criteria criteria = example.createCriteria();
         PageInfo<TiQianList> pager1 = new PageInfo<TiQianList>();
-        pager1.setPageSize(1);
+        PageHelper.startPage(pager1.getPageNum(), pager1.getPageSize());
+        example.setOrderByClause("update_timestamp desc");
         TiQianList obj = new TiQianList();
-        pager1 = tiQianListService.findList(obj,pager1);
-        long count = pager1.getTotal();
+        long count = mapper.countByExample(example);
+        System.out.println("RandomQian count=" + count);
         //2 取一个1-size的随机数，然后经过pageNum=随机数，size=1去取一条记录
         int randomNum = (int) (Math.random() * count);
-        BeanCriteria beanCriteria2 = new BeanCriteria(TiQianList.class);
-        beanCriteria2.setOrderByClause("update_timestamp desc");
+        TiQianListExample example2 = new TiQianListExample();
+        TiQianListExample.Criteria criteria2 = example.createCriteria();
+        example2.setOrderByClause("update_timestamp desc");
         PageInfo<TiQianList> pager2 = new PageInfo<TiQianList>();
         pager2.setPageSize(1);
         pager2.setPageNum(randomNum);
