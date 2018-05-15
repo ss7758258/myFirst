@@ -2,13 +2,14 @@ package com.xz.web.service.ext;
 
 import com.xz.framework.bean.ajax.XZResponseBody;
 import com.xz.web.bo.everydayQian.X500Bo;
-import com.xz.web.bo.everydayWords.X400Bo;
+import com.xz.web.mapper.entity.TiUserQianList;
 import com.xz.web.mapper.ext.EverydayQianMapperExt;
-import com.xz.web.mapper.ext.EverydayWordsMapperExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class EverydayQianServiceImpl implements EverydayQianService {
@@ -40,5 +41,15 @@ public class EverydayQianServiceImpl implements EverydayQianService {
     @Override
     public XZResponseBody<String> saveEverydayQian() {
         return null;
+    }
+
+    @Override
+    public int save(TiUserQianList obj) {
+        return everydayQianMapperExt.insertData(obj);
+    }
+
+    @Override
+    public List<TiUserQianList> testSelect() {
+        return everydayQianMapperExt.testSelect();
     }
 }
