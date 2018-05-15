@@ -17,13 +17,4 @@ public class BasicBean implements Serializable {
 	public String toString() {
 		return JsonUtil.serialize(this);
 	}
-	private int qianOpenSize;
-
-	public int getQianOpenSize() {
-		return qianOpenSize;
-	}
-
-	public void setQianOpenSize(int qianOpenSize) {
-		this.qianOpenSize = qianOpenSize;
-	}
 }

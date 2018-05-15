@@ -28,6 +28,15 @@ public class X511 extends BasicBean {
     private String createTimestamp;
     private String updateTimestamp;
 
+    private int qianOpenSize;
+
+    public int getQianOpenSize() {
+        return qianOpenSize;
+    }
+
+    public void setQianOpenSize(int qianOpenSize) {
+        this.qianOpenSize = qianOpenSize;
+    }
     public Long getId() {
         return id;
     }
