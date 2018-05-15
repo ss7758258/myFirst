@@ -208,8 +208,10 @@ public class EverydayQianController extends BaseController {
                     List<TiUserQianList> list2 = tiUserQianListService.selectByExample(beanCriteria3);
                     Long id = 0L;
                     if (!list2.isEmpty()){
+                        logger.error(list2.get(0).getId()+"____________________________________________");
                         id = list2.get(0).getId();
                     }
+
 
                     X511 x511 = new X511();
                     BeanUtil.copyProperties(obj, x511);
