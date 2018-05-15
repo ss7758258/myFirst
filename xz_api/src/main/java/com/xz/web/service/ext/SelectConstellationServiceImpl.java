@@ -101,7 +101,6 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
             x100Bo.setLuckyType3(tiLuckyList.get(0).getLuckyType4());
             x100Bo.setLuckyType4(tiLuckyList.get(0).getLuckyType4());
         }
-
         responseBody.setStatus(AjaxStatus.SUCCESS);
         responseBody.setData(x100Bo);
         return responseBody;
