@@ -430,7 +430,6 @@ public class EverydayQianController extends BaseController {
             return this.toJSON(responseBody);
         }
         try {
-            RequestHeader requestHeader = this.getRequestHeader();
             X510Vo obj = JsonUtil.deserialize(requestBody, X510Vo.class);
             if (obj == null) {
                 ResultUtil.returnResultLog(responseBody, "ID为空!", null, logger);
@@ -439,11 +438,17 @@ public class EverydayQianController extends BaseController {
             String useridStr = redisService.get("openId-:" + weixin.getOpenId());
             Long userId = Long.valueOf(useridStr);
             X511 x511 = new X511();
-            BeanUtil.copyProperties(data, x511,true);
+            BeanUtil.copyProperties(data, x511);
             if(data.getUserId()==userId)
             {
                 x511.setIsMyQian(1);
             }
+            System.out.println("weixin.getOpenId()="+weixin.getOpenId());
+            System.out.println("data.getFriendOpenId1()="+data.getFriendOpenId1());
+            System.out.println("data.getFriendOpenId2()="+data.getFriendOpenId2());
+            System.out.println("data.getFriendOpenId3()="+data.getFriendOpenId3());
+            System.out.println("data.getFriendOpenId4()="+data.getFriendOpenId4());
+            System.out.println("data.getFriendOpenId5()="+data.getFriendOpenId5());
             if (StringUtil.isNotEmpty(data.getFriendOpenId1())) {
                 if(weixin.getOpenId().equals(data.getFriendOpenId1()))
                 {
