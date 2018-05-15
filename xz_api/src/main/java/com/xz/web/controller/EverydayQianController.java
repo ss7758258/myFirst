@@ -291,6 +291,7 @@ public class EverydayQianController extends BaseController {
                 data.setStatus(1);
             }
             data.setUpdateTimestamp(DateUtil.getDatetime());
+            tiUserQianListService.update(data);
             responseBody.setData(data);
         } catch (Exception e) {
             e.getMessage();
