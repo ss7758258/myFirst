@@ -289,8 +289,6 @@ public class EverydayQianController extends BaseController {
                 ResultUtil.returnResultLog(responseBody, "ID为空!", null, logger);
             }
             TiUserQianList data = tiUserQianListService.selectByKey(obj.getId());
-            data.setUpdateTimestamp(DateUtil.getDatetime());
-            tiUserQianListService.update(data);
 
             X511 x511 = new X511();
             BeanUtil.copyProperties(data, x511);
@@ -368,6 +366,8 @@ public class EverydayQianController extends BaseController {
                 x511.setFriendHeadImage5(headImage5);
             }
 
+            data.setUpdateTimestamp(DateUtil.getDatetime());
+            tiUserQianListService.update(data);
             responseBody.setData(x511);
         } catch (Exception e) {
             e.getMessage();
