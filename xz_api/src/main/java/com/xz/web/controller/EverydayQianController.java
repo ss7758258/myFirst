@@ -15,8 +15,10 @@ import com.xz.web.bo.everydayQian.X500Bo;
 import com.xz.web.dao.redis.RedisDao;
 import com.xz.web.mapper.entity.TiQianList;
 import com.xz.web.mapper.entity.TiUserQianList;
+import com.xz.web.mapper.entity.WeixinUser;
 import com.xz.web.service.TiQianListService;
 import com.xz.web.service.TiUserQianListService;
+import com.xz.web.service.WeixinUserService;
 import com.xz.web.service.ext.EverydayQianService;
 import com.xz.web.utils.ResultUtil;
 import com.xz.web.vo.everydayQian.X510Vo;
@@ -45,6 +47,8 @@ public class EverydayQianController extends BaseController {
     TiUserQianListService tiUserQianListService;
     @Autowired
     TiQianListService tiQianListService;
+    @Autowired
+    WeixinUserService weixinUserService;
     @Autowired
     private RedisDao redisService;
 
@@ -432,8 +436,7 @@ public class EverydayQianController extends BaseController {
                 ResultUtil.returnResultLog(responseBody, "ID为空!", null, logger);
             }
             TiUserQianList data = tiUserQianListService.selectByKey(obj.getId());
-            String useridStr = redisService.get("openId-:" + weixin.getOpenId());
-            Long userId = Long.valueOf(useridStr);
+            Long userId = data.getUserId();
             X511 x511 = new X511();
             BeanUtil.copyProperties(data, x511);
             if(data.getUserId()==userId)
@@ -450,13 +453,18 @@ public class EverydayQianController extends BaseController {
                 x511.setAlreadyOpen(4);
             if(weixin.getOpenId().equals(data.getFriendOpenId5()))
                 x511.setAlreadyOpen(5);
-            String ownerOpenId = weixin.getOpenId();
-            if (StringUtil.isNotEmpty(ownerOpenId)) {
-                String ownerImage = redisService.get("headImage-:" + ownerOpenId);
-                x511.setOwnerHeadImage(ownerImage);
-                x511.setOwnerOpenId(ownerOpenId);
-                String ownerNickName = redisService.get("nickName-:" + ownerOpenId);
-                x511.setOwnerNickName(ownerNickName);
+            //通过userid获取openId
+            WeixinUser weixinUser = weixinUserService.selectByKey(userId);
+            if(null!=weixinUser)
+            {
+                String ownerOpenId = weixinUser.getOpenId();
+                if (StringUtil.isNotEmpty(ownerOpenId)) {
+                    String ownerImage = redisService.get("headImage-:" + ownerOpenId);
+                    x511.setOwnerHeadImage(ownerImage);
+                    x511.setOwnerOpenId(ownerOpenId);
+                    String ownerNickName = redisService.get("nickName-:" + ownerOpenId);
+                    x511.setOwnerNickName(ownerNickName);
+                }
             }
             String openId1 = data.getFriendOpenId1();
             String openId2 = data.getFriendOpenId2();
