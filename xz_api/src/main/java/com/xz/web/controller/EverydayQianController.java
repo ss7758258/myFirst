@@ -436,7 +436,8 @@ public class EverydayQianController extends BaseController {
                 ResultUtil.returnResultLog(responseBody, "ID为空!", null, logger);
             }
             TiUserQianList data = tiUserQianListService.selectByKey(obj.getId());
-            Long userId = data.getUserId();
+            String useridStr = redisService.get("openId-:" + weixin.getOpenId());
+            Long userId = Long.valueOf(useridStr);
             X511 x511 = new X511();
             BeanUtil.copyProperties(data, x511);
             if(data.getUserId()==userId)
@@ -454,11 +455,10 @@ public class EverydayQianController extends BaseController {
             if(weixin.getOpenId().equals(data.getFriendOpenId5()))
                 x511.setAlreadyOpen(5);
             //通过userid获取openId
-
-            String ownerOpenId = redisService.get("userId-:"+userId);
+            String ownerOpenId = redisService.get("userId-:"+data.getUserId());
             if(null==ownerOpenId)
             {
-                WeixinUser weixinUser = weixinUserService.selectByKey(userId);
+                WeixinUser weixinUser = weixinUserService.selectByKey(data.getUserId());
                 ownerOpenId = weixinUser.getOpenId();
             }
             if(null!=ownerOpenId)
