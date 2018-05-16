@@ -293,17 +293,26 @@ public class EverydayQianController extends BaseController {
                 x511.setAlreadyOpen(5);
 
             if(x511.getAlreadyOpen()<1) {
-                if (StringUtil.isEmpty(data.getFriendOpenId1())) {
+                if (StringUtil.isEmpty(data.getFriendOpenId1())&&qianOpenSize>=1) {
+                    if(qianOpenSize==1)
+                        data.setStatus(1);
                     data.setFriendOpenId1(weixin.getOpenId());
-                } else if (StringUtil.isEmpty(data.getFriendOpenId2())) {
+                } else if (StringUtil.isEmpty(data.getFriendOpenId2())&&qianOpenSize>=2) {
+                    if(qianOpenSize==2)
+                        data.setStatus(1);
                     data.setFriendOpenId2(weixin.getOpenId());
-                } else if (StringUtil.isEmpty(data.getFriendOpenId3())) {
+                } else if (StringUtil.isEmpty(data.getFriendOpenId3())&&qianOpenSize>=3) {
+                    if(qianOpenSize==3)
+                        data.setStatus(1);
                     data.setFriendOpenId3(weixin.getOpenId());
-                } else if (StringUtil.isEmpty(data.getFriendOpenId4())) {
+                } else if (StringUtil.isEmpty(data.getFriendOpenId4())&&qianOpenSize>=4) {
+                    if(qianOpenSize==4)
+                        data.setStatus(1);
                     data.setFriendOpenId4(weixin.getOpenId());
-                } else if (StringUtil.isEmpty(data.getFriendOpenId5())) {
+                } else if (StringUtil.isEmpty(data.getFriendOpenId5())&&qianOpenSize>=5) {
+                    if(qianOpenSize==5)
+                        data.setStatus(1);
                     data.setFriendOpenId5(weixin.getOpenId());
-                    data.setStatus(1);
                 }
                 data.setUpdateTimestamp(DateUtil.getDatetime());
                 tiUserQianListService.update(data);
