@@ -454,10 +454,15 @@ public class EverydayQianController extends BaseController {
             if(weixin.getOpenId().equals(data.getFriendOpenId5()))
                 x511.setAlreadyOpen(5);
             //通过userid获取openId
-            WeixinUser weixinUser = weixinUserService.selectByKey(userId);
-            if(null!=weixinUser)
+
+            String ownerOpenId = redisService.get("userId-:"+userId);
+            if(null==ownerOpenId)
             {
-                String ownerOpenId = weixinUser.getOpenId();
+                WeixinUser weixinUser = weixinUserService.selectByKey(userId);
+                ownerOpenId = weixinUser.getOpenId();
+            }
+            if(null!=ownerOpenId)
+            {
                 if (StringUtil.isNotEmpty(ownerOpenId)) {
                     String ownerImage = redisService.get("headImage-:" + ownerOpenId);
                     x511.setOwnerHeadImage(ownerImage);
