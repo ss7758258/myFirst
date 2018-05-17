@@ -60,10 +60,10 @@
                 <el-form-item style="margin-bottom:10px;" v-for="(domain, index) in dynamicValidateForm.domains" :key="domain.key">
                     <el-row :gutter="20">
                         <el-col :span="9">
-                            <el-input v-model="domain.type" size="small"></el-input>
+                            <el-input type="textarea" v-model="domain.type" :autosize="{ minRows: 2, maxRows: 4}"></el-input>
                         </el-col>
                         <el-col :span="9">
-                            <el-input v-model="domain.content" size="small"></el-input>
+                            <el-input type="textarea" v-model="domain.content" :autosize="{ minRows: 2, maxRows: 4}"></el-input>
                         </el-col>
                         <el-col :span="5">
                             <el-button size="small" type="danger" @click.prevent="removeDomain(domain)">删除</el-button>

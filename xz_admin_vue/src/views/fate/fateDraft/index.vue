@@ -51,7 +51,52 @@
                     field: "id",
                     label: "ID",
                     width: 125
-                }, {
+                },
+                {
+                    field: "constellationId",
+                    label: "星座",
+                    formatter: (row, column, cellValue) => {
+                        switch (cellValue) {
+                            case 1:
+                                return "白羊座";
+                                break;
+                            case 2:
+                                return "金牛座";
+                                break;
+                            case 3:
+                                return "双子座";
+                                break;
+                            case 4:
+                                return "巨蟹座";
+                                break;
+                            case 5:
+                                return "狮子座";
+                                break;
+                            case 6:
+                                return "处女座";
+                                break;
+                            case 7:
+                                return "天秤座";
+                                break;
+                            case 8:
+                                return "天蝎座";
+                                break;
+                            case 9:
+                                return "射手座";
+                                break;
+                            case 10:
+                                return "摩羯座";
+                                break;
+                            case 11:
+                                return "水瓶座";
+                                break;
+                            case 12:
+                                return "双鱼座";
+                                break;
+                        }
+
+                    }
+                },{
                     field: "publishTime",
                     label: "发布时间"
                 }, {
