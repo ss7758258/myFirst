@@ -34,18 +34,8 @@ public class QRCodeUtil {
 	public static String grant_type="client_credential";
 
 	public static String qrCodeUri="https://api.weixin.qq.com/wxa/getwxacodeunlimit?";
-	public static String scene = "123";
-	/**
-	 * 下面三个参数可不传
-	 */
-	// width	Int	430	二维码的宽度
+
 	public static int width = 430;
-	// auto_color	Bool	false	自动配置线条颜色，如果颜色依然是黑色，则说明不建议配置主色调
-	public static Boolean auto_color = false;
-	// line_color	Object {"r":"0","g":"0","b":"0"}	auth_color 为 false 时生效，使用 rgb 设置颜色 例如 {"r":"xxx","g":"xxx","b":"xxx"},十进制表示
-	public static Object line_color = "{\"r\":\"0\",\"g\":\"0\",\"b\":\"0\"}";
-	// is_hyaline	Bool	false	是否需要透明底色， is_hyaline 为true时，生成透明底色的小程序码
-	public static Boolean is_hyaline = false;
 
 	public static String getQRCode(HttpServletRequest request, String access_token, String page){
 		page = "pages/onebrief/brief";
@@ -56,7 +46,6 @@ public class QRCodeUtil {
 		JSONObject params = new JSONObject();
 		params.put("page", page);
 		params.put("width", width);
-		params.put("scene", scene);
 
 		CloseableHttpClient client = HttpClients.custom().build();
 		HttpPost post = new HttpPost(url.toString());
