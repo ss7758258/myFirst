@@ -15,24 +15,31 @@ public class WechatUtil {
 
 	public static AuthToken getAuthToken(String code){
 		AuthToken vo = null;
+		String output="";
+		StringBuffer url = new StringBuffer(uri);
+		url.append("appid=").append(appId);
+		url.append("&secret=").append(appSecret);
+		url.append("&js_code=").append(code);
+		url.append("&grant_type=").append("authorization_code");
+		InputStream input = null;
+		HttpURLConnection conn = null;
+		int status = 0;
 		try {
-			StringBuffer url = new StringBuffer(uri);
-			url.append("appid=").append(appId);
-			url.append("&secret=").append(appSecret);
-			url.append("&js_code=").append(code);
-			url.append("&grant_type=").append("authorization_code");
-			HttpURLConnection conn = HttpClientUtil.CreatePostHttpConnection(url.toString());
-			InputStream input = null;
-			if (conn.getResponseCode() == 200) {
+			conn = HttpClientUtil.CreatePostHttpConnection(url.toString());
+			status = conn.getResponseCode();
+			if (status == 200) {
 				input = conn.getInputStream();
 			} else {
 				input = conn.getErrorStream();
 			}
 			System.out.println("WEIXIN URL:"+ url);
-			vo = JSON.parseObject(new String(HttpClientUtil.readInputStream(input),"utf-8"),AuthToken.class);
+			output = new String(HttpClientUtil.readInputStream(input),"utf-8");
+			vo = JSON.parseObject(output,AuthToken.class);
 			System.out.println("WEIXIN DATA:"+ JsonUtil.serialize(vo));
 		} catch (Exception e) {
 			logger.error("getAuthToken error", e);
+			logger.error("output="+output);
+			logger.error("status="+status);
 		}
 		return vo;
 	}
