@@ -12,7 +12,7 @@ public interface EverydayWordsMapperExt {
 
     @Select({
             "select id, prev_pic as prevPic, speech, publish_time as currentDate from ti_yan_list",
-            " where (update_timestamp) <= now() and constellation_id = #{0} ORDER BY update_timestamp desc LIMIT 0 ,1"
+            " where publish_status = '1' and (update_timestamp) <= now() and constellation_id = #{0} ORDER BY update_timestamp desc LIMIT 0 ,1"
     })
     X400Bo selectCurrentYanByConstellationId(Long constellationId);
 }
