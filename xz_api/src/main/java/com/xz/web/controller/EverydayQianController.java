@@ -284,7 +284,7 @@ public class EverydayQianController extends BaseController {
             TiUserQianList data = tiUserQianListService.selectByKey(obj.getId());
 
             X511 x511 = new X511();
-            
+
 
             if(weixin.getOpenId().equals(data.getFriendOpenId1()))
                 x511.setAlreadyOpen(1);
@@ -323,7 +323,12 @@ public class EverydayQianController extends BaseController {
                 tiUserQianListService.update(data);
             }
             BeanUtil.copyProperties(data, x511,true);
-//插入数据完了再赋值一次
+//插入数据完了再
+            Long userId = Long.valueOf(useridStr);
+            if(data.getUserId().equals(userId))
+            {
+                x511.setIsMyQian(1);
+            }
             if(weixin.getOpenId().equals(data.getFriendOpenId1()))
                 x511.setAlreadyOpen(1);
             if(weixin.getOpenId().equals(data.getFriendOpenId2()))
