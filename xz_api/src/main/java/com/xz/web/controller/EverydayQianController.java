@@ -284,7 +284,7 @@ public class EverydayQianController extends BaseController {
             TiUserQianList data = tiUserQianListService.selectByKey(obj.getId());
 
             X511 x511 = new X511();
-            BeanUtil.copyProperties(data, x511,true);
+            
 
             if(weixin.getOpenId().equals(data.getFriendOpenId1()))
                 x511.setAlreadyOpen(1);
@@ -322,7 +322,7 @@ public class EverydayQianController extends BaseController {
                 data.setUpdateTimestamp(DateUtil.getDatetime());
                 tiUserQianListService.update(data);
             }
-
+            BeanUtil.copyProperties(data, x511,true);
             String ownerOpenId = weixin.getOpenId();
             if (StringUtil.isNotEmpty(ownerOpenId)) {
                 String ownerImage = redisService.get("headImage-:" + ownerOpenId);
