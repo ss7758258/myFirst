@@ -323,6 +323,18 @@ public class EverydayQianController extends BaseController {
                 tiUserQianListService.update(data);
             }
             BeanUtil.copyProperties(data, x511,true);
+//插入数据完了再赋值一次
+            if(weixin.getOpenId().equals(data.getFriendOpenId1()))
+                x511.setAlreadyOpen(1);
+            if(weixin.getOpenId().equals(data.getFriendOpenId2()))
+                x511.setAlreadyOpen(2);
+            if(weixin.getOpenId().equals(data.getFriendOpenId3()))
+                x511.setAlreadyOpen(3);
+            if(weixin.getOpenId().equals(data.getFriendOpenId4()))
+                x511.setAlreadyOpen(4);
+            if(weixin.getOpenId().equals(data.getFriendOpenId5()))
+                x511.setAlreadyOpen(5);
+
             String ownerOpenId = weixin.getOpenId();
             if (StringUtil.isNotEmpty(ownerOpenId)) {
                 String ownerImage = redisService.get("headImage-:" + ownerOpenId);
