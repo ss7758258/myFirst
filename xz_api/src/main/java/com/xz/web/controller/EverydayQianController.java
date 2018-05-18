@@ -285,6 +285,16 @@ public class EverydayQianController extends BaseController {
 
             X511 x511 = new X511();
 
+            //用当前签的userid反查openid，再用opeid查redis的头像昵称
+            BeanCriteria beanCriteria = new BeanCriteria(WeixinUser.class);
+            BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
+            criteria.andEqualTo("userId", data.getUserId());
+            List<WeixinUser> weixinUserList = weixinUserService.selectByExample(beanCriteria);
+            String ownOpenId = "";
+            if (!weixinUserList.isEmpty()){
+                ownOpenId = weixinUserList.get(0).getOpenId();
+            }
+
 
             if(weixin.getOpenId().equals(data.getFriendOpenId1()))
                 x511.setAlreadyOpen(1);
@@ -340,14 +350,23 @@ public class EverydayQianController extends BaseController {
             if(weixin.getOpenId().equals(data.getFriendOpenId5()))
                 x511.setAlreadyOpen(5);
 
-            String ownerOpenId = weixin.getOpenId();
-            if (StringUtil.isNotEmpty(ownerOpenId)) {
-                String ownerImage = redisService.get("headImage-:" + ownerOpenId);
+//            String ownerOpenId = weixin.getOpenId();
+//            if (StringUtil.isNotEmpty(ownerOpenId)) {
+//                String ownerImage = redisService.get("headImage-:" + ownerOpenId);
+//                x511.setOwnerHeadImage(ownerImage);
+//                x511.setOwnerOpenId(ownerOpenId);
+//                String ownerNickName = redisService.get("nickName-:" + ownerOpenId);
+//                x511.setOwnerNickName(ownerNickName);
+//            }
+
+            if (StringUtil.isNotEmpty(ownOpenId)) {
+                String ownerImage = redisService.get("headImage-:" + ownOpenId);
                 x511.setOwnerHeadImage(ownerImage);
-                x511.setOwnerOpenId(ownerOpenId);
-                String ownerNickName = redisService.get("nickName-:" + ownerOpenId);
+                x511.setOwnerOpenId(ownOpenId);
+                String ownerNickName = redisService.get("nickName-:" + ownOpenId);
                 x511.setOwnerNickName(ownerNickName);
             }
+
             String openId1 = data.getFriendOpenId1();
             String openId2 = data.getFriendOpenId2();
             String openId3 = data.getFriendOpenId3();
