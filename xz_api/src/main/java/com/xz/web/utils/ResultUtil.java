@@ -39,7 +39,7 @@ public class ResultUtil {
         System.out.println(methodName);
         result.setStatus(AjaxStatus.ERROR);
         result.setMessage((String) errorMassage);
-        logger.error(DateUtil.getDatetime() + "----" + methodName + " error  " + (String) logMassage + (String) errorMassage);
+        logger.error(DateUtil.getDatetime() + "----" + methodName + " error  " + (String)errorMassage, logMassage);
     }
 
 }
