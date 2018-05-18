@@ -47,6 +47,7 @@ public class EverydayWordsController extends BaseController {
         try {
             responseBody = everydayWordsService.selectEverydayWords(weixin);
         } catch (Exception e) {
+            e.printStackTrace();
             ResultUtil.returnResultLog(responseBody, "服务器异常，请稍后再试", e.getMessage(), logger);
         }finally {
             return this.toJSON(responseBody);
