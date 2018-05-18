@@ -26,52 +26,58 @@ public class PublishController extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        logger.debug("Publish Run Time=" + DateUtil.getCurrentTimestampSSS());
-        //XXXXXX1
-        PageInfo<TiLucky> pager = new PageInfo<TiLucky>();
-        TiLucky searchCondition = new TiLucky();
-        searchCondition.setStatus(0);
-        pager = tiLuckyService.findList(searchCondition, pager);
-        List<TiLucky> list = pager.getList();
-        if(list.size()>0)
+        try
         {
-            for(TiLucky tiLucky:list)
+            logger.debug("Publish Run Time=" + DateUtil.getCurrentTimestampSSS());
+            //XXXXXX1
+            PageInfo<TiLucky> pager = new PageInfo<TiLucky>();
+            TiLucky searchCondition = new TiLucky();
+            searchCondition.setStatus(0);
+            pager = tiLuckyService.findList(searchCondition, pager);
+            List<TiLucky> list = pager.getList();
+            if(list.size()>0)
             {
-                String publishTime = tiLucky.getPublishTime();
-                if(publishTime!=null&&publishTime.trim().length()<=10)
-                    publishTime = tiLucky.getPublishTime()+" 00:00:00";
-                int diffTime = DateUtil.compareTime(publishTime,DateUtil.getCurrentTimestamp());
-                if(diffTime<0)
+                for(TiLucky tiLucky:list)
                 {
-                    tiLucky.setStatus(1);
-                    tiLucky.setUpdateTimestamp(DateUtil.getCurrentTimestamp());
-                    tiLuckyService.update(tiLucky);
-                    logger.info(DateUtil.getCurrentTimestampSSS()+"-->发布运势ID："+tiLucky.getId());
+                    String publishTime = tiLucky.getPublishTime();
+                    if(publishTime!=null&&publishTime.trim().length()<=10)
+                        publishTime = tiLucky.getPublishTime()+" 00:00:00";
+                    int diffTime = DateUtil.compareTime(publishTime,DateUtil.getCurrentTimestamp());
+                    if(diffTime<0)
+                    {
+                        tiLucky.setStatus(1);
+                        tiLucky.setUpdateTimestamp(DateUtil.getCurrentTimestamp());
+                        tiLuckyService.update(tiLucky);
+                        logger.info(DateUtil.getCurrentTimestampSSS()+"-->发布运势ID："+tiLucky.getId());
+                    }
                 }
             }
-        }
-        //XXXXXX2
-        PageInfo<TiYanList> pager2 = new PageInfo<TiYanList>();
-        TiYanList searchCondition2 = new TiYanList();
-        searchCondition2.setPublishStatus("0");
-        pager2 = tiYanListService.findList(searchCondition2, pager2);
-        List<TiYanList> list2 = pager2.getList();
-        if(list.size()>0)
-        {
-            for(TiYanList obj:list2)
+            //XXXXXX2
+            PageInfo<TiYanList> pager2 = new PageInfo<TiYanList>();
+            TiYanList searchCondition2 = new TiYanList();
+            searchCondition2.setPublishStatus("0");
+            pager2 = tiYanListService.findList(searchCondition2, pager2);
+            List<TiYanList> list2 = pager2.getList();
+            if(list.size()>0)
             {
-                String publishTime = obj.getPublishTime();
-                if(publishTime!=null&&publishTime.trim().length()<=10)
-                    publishTime = obj.getPublishTime()+" 00:00:00";
-                int diffTime = DateUtil.compareTime(publishTime,DateUtil.getCurrentTimestamp());
-                if(diffTime<0)
+                for(TiYanList obj:list2)
                 {
-                    obj.setPublishStatus("1");
-                    obj.setUpdateTimestamp(DateUtil.getCurrentTimestamp());
-                    tiYanListService.update(obj);
-                    logger.info(DateUtil.getCurrentTimestampSSS()+"-->发布一言ID："+obj.getId());
+                    String publishTime = obj.getPublishTime();
+                    if(publishTime!=null&&publishTime.trim().length()<=10)
+                        publishTime = obj.getPublishTime()+" 00:00:00";
+                    int diffTime = DateUtil.compareTime(publishTime,DateUtil.getCurrentTimestamp());
+                    if(diffTime<0)
+                    {
+                        obj.setPublishStatus("1");
+                        obj.setUpdateTimestamp(DateUtil.getCurrentTimestamp());
+                        tiYanListService.update(obj);
+                        logger.info(DateUtil.getCurrentTimestampSSS()+"-->发布一言ID："+obj.getId());
+                    }
                 }
             }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 }

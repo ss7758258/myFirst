@@ -22,15 +22,21 @@ public class RandonQianController extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        logger.debug("RandomQian Run Time=" + DateUtil.getCurrentTimestampSSS());
-        //先拿出有效的签库
-        long count = mapper.countActiveQianList();
-        logger.debug("RandomQian count=" + count);
-        int randomNum = (int) (Math.random() * count);
-        TiQianList qian = mapper.randomActiveQianList(randomNum);
-        if (null!=qian) {
-            redisService.set("randomQian", JsonUtil.serialize(qian));
-            logger.debug("randomQian=" + JsonUtil.serialize(qian));
+        try
+        {
+            logger.debug("RandomQian Run Time=" + DateUtil.getCurrentTimestampSSS());
+            //先拿出有效的签库
+            long count = mapper.countActiveQianList();
+            logger.debug("RandomQian count=" + count);
+            int randomNum = (int) (Math.random() * count);
+            TiQianList qian = mapper.randomActiveQianList(randomNum);
+            if (null!=qian) {
+                redisService.set("randomQian", JsonUtil.serialize(qian));
+                logger.debug("randomQian=" + JsonUtil.serialize(qian));
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 }
