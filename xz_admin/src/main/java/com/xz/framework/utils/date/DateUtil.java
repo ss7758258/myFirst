@@ -77,8 +77,7 @@ public class DateUtil {
                 return -1;
             } else {
                 int diff = (int) (d1.getTime() - d2.getTime());
-                int mins = diff / (1000 * 60);
-                return mins;
+                return diff;
             }
         } catch (Exception e) {
             return -1;

@@ -58,7 +58,7 @@ public class PublishController extends QuartzJobBean {
             searchCondition2.setPublishStatus("0");
             pager2 = tiYanListService.findList(searchCondition2, pager2);
             List<TiYanList> list2 = pager2.getList();
-            if(list.size()>0)
+            if(list2.size()>0)
             {
                 for(TiYanList obj:list2)
                 {
