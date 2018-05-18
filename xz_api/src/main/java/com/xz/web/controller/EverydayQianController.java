@@ -288,7 +288,7 @@ public class EverydayQianController extends BaseController {
             //用当前签的userid反查openid，再用opeid查redis的头像昵称
             BeanCriteria beanCriteria = new BeanCriteria(WeixinUser.class);
             BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
-            criteria.andEqualTo("userId", data.getUserId());
+            criteria.andEqualTo("id", data.getUserId());
             List<WeixinUser> weixinUserList = weixinUserService.selectByExample(beanCriteria);
             String ownOpenId = "";
             if (!weixinUserList.isEmpty()){
