@@ -65,8 +65,8 @@ public class PublishController extends QuartzJobBean {
                     String publishTime = obj.getPublishTime();
                     if(publishTime!=null&&publishTime.trim().length()<=10)
                         publishTime = obj.getPublishTime()+" 00:00:00";
-                    int diffTime = DateUtil.compareTime(publishTime,DateUtil.getCurrentTimestamp());
-                    if(diffTime<0)
+                    int diffTime = DateUtil.compareTime(DateUtil.getCurrentTimestamp(),publishTime);
+                    if(diffTime>=0)
                     {
                         obj.setPublishStatus("1");
                         obj.setUpdateTimestamp(DateUtil.getCurrentTimestamp());
