@@ -78,6 +78,9 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
             weixinUser.setUpdateTimestamp(updateTime);
             weixinUser.setCreateTimestamp(updateTime);
             weixinUserService.save(weixinUser);
+
+            //将用户存入redis，用于计算留存率
+
         }else {
             //update
             selectConstellationMapperExt.updateMyConstellationByOpenId(x100Vo.getConstellationId(), x100Vo.getHeadImage(), x100Vo.getNickName(), updateTime, weixin.getOpenId());
@@ -94,8 +97,8 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
             TcQianYanUrl tcQianYanUrl = new TcQianYanUrl();
 
             //根据openid查询星座信息，key格式为  constellation-:openid
-            if (redisService.hasKey("constellation-:" + weixin.getOpenId())) {
-                String str = redisService.get("constellation-:" + weixin.getOpenId());
+            if (redisService.hasKey("constellation-:" + x100Vo.getConstellationId())) {
+                String str = redisService.get("constellation-:" + x100Vo.getConstellationId());
                 tcConstellation = JsonUtil.deserialize(str, TcConstellation.class);
             } else {
                 //查询当前openid的星座信息
@@ -106,7 +109,7 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
                 if (!tcConstellationList.isEmpty()){
                     tcConstellation = tcConstellationList.get(0);
                     String redisJson = JsonUtil.serialize(tcConstellation);
-                    redisService.set("constellation-:" + weixin.getOpenId(), redisJson, redisKeyTime);
+                    redisService.set("constellation-:" + x100Vo.getConstellationId(), redisJson, redisKeyTime);
                 }
             }
             if (null != tcConstellation) {
@@ -185,6 +188,10 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
 
         }
 
+        //查询总人数，插入到redis
+        List<WeixinUser> weixinUserList = weixinUserService.selectByExample(null);
+        Integer userCount = weixinUserList.size();
+        redisService.set("userCount", userCount);
         responseBody.setStatus(AjaxStatus.SUCCESS);
         responseBody.setData(x100Bo);
         return responseBody;

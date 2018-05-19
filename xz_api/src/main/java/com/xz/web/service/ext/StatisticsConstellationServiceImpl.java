@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import scala.Int;
 
 @Service
 public class StatisticsConstellationServiceImpl implements StatisticsConstellationService {
@@ -32,6 +33,10 @@ public class StatisticsConstellationServiceImpl implements StatisticsConstellati
     private String statisticsYanSaveCount;
     @Value("#{constants.redis_statistics_yanBringCount}")
     private String statisticsYanBringCount;
+    @Value("#{constants.redis_statistics_qianAvgCount}")
+    private String statisticsQianAvgCount;
+    @Value("#{constants.redis_statistics_yanAvgCount}")
+    private String statisticsYanAvgCount;
 
     @Override
     public XZResponseBody<String> x600() {
@@ -80,6 +85,20 @@ public class StatisticsConstellationServiceImpl implements StatisticsConstellati
             redisService.incr(string, 1L);
         }else {
             redisService.set(string, 1L);
+        }
+        if ("statisticsQianShareCount".equals(string) || "statisticsQianSaveCount".equals(string)){
+            Integer userCount = Integer.valueOf(redisService.get("userCount"));
+            if (userCount > 0){
+                Integer avg = Integer.valueOf(redisService.get(string)) / userCount;
+                redisService.set(statisticsQianAvgCount, avg);
+            }
+        }
+        if ("statisticsYanSaveCount".equals(string)){
+            Integer userCount = Integer.valueOf(redisService.get("userCount"));
+            if (userCount > 0){
+                Integer avg = Integer.valueOf(redisService.get(string)) / userCount;
+                redisService.set(statisticsYanAvgCount, avg);
+            }
         }
 
         responseBody.setStatus(AjaxStatus.SUCCESS);

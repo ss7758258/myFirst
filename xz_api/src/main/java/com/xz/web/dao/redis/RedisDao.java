@@ -133,6 +133,21 @@ public class RedisDao {
         return true;
     }
 
+    public boolean setHour(String key, Object value, long time) {
+        String v = null;
+        if (value instanceof String) {
+            v = (String) value;
+        } else {
+            v = JsonUtil.serialize(value);
+        }
+        if (time > 0) {
+            redisTemplate.opsForValue().set(key, v, time, TimeUnit.HOURS);
+        } else {
+            set(key, value);
+        }
+        return true;
+    }
+
     /**
      * 递增
      * 
