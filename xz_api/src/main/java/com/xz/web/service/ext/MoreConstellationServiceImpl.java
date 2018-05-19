@@ -32,6 +32,8 @@ public class MoreConstellationServiceImpl implements MoreConstellationService {
 
     @Value("#{constants.redis_key_time}")
     private int redisKeyTime;
+    @Value("#{constants.redis_statistics_luckyClickCount}")
+    private String statisticsLuckyClickCount;
 
     /**
      * 返回星座运势（更多）
@@ -88,6 +90,13 @@ public class MoreConstellationServiceImpl implements MoreConstellationService {
             x300Bo.setPublishTime(tiLucky.getPublishTime());
             x300Bo.setLuckyDate(tiLucky.getLuckyDate());
             x300Bo.setCreateTime(tiLucky.getCreateTimestamp());
+        }
+
+        //统计
+        if (redisService.hasKey(statisticsLuckyClickCount)){
+            redisService.incr(statisticsLuckyClickCount, 1L);
+        }else {
+            redisService.set(statisticsLuckyClickCount, 1L);
         }
 
         responseBody.setStatus(AjaxStatus.SUCCESS);
