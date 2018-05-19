@@ -1,6 +1,8 @@
 package com.xz.web.bo.selectConstellation;
 
-public class X100Bo {
+import java.io.Serializable;
+
+public class X100Bo implements Serializable{
 
     private Long constellationId;
     private String constellationName;

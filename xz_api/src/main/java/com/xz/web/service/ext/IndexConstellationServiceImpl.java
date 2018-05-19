@@ -4,7 +4,10 @@ import com.xz.framework.bean.ajax.XZResponseBody;
 import com.xz.framework.bean.enums.AjaxStatus;
 import com.xz.framework.bean.weixin.Weixin;
 import com.xz.framework.common.base.BeanCriteria;
+import com.xz.framework.utils.JsonUtil;
+import com.xz.web.bo.everydayWords.X400Bo;
 import com.xz.web.bo.selectConstellation.X100Bo;
+import com.xz.web.dao.redis.RedisDao;
 import com.xz.web.mapper.entity.TcConstellation;
 import com.xz.web.mapper.entity.TcQianYanUrl;
 import com.xz.web.mapper.entity.TiLucky;
@@ -15,6 +18,7 @@ import com.xz.web.service.TcQianYanUrlService;
 import com.xz.web.service.TiLuckyService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,6 +40,11 @@ public class IndexConstellationServiceImpl implements IndexConstellationService 
 
     @Autowired
     private EverydayWordsMapperExt everydayWordsMapperExt;
+    @Autowired
+    private RedisDao redisService;
+
+    @Value("#{constants.redis_key_time}")
+    private int redisKeyTime;
 
     /**
      * 返回首页（不用传参的，用户之前已经选择过星座）
@@ -54,34 +63,68 @@ public class IndexConstellationServiceImpl implements IndexConstellationService 
          * 一签一言图片；
          */
         Long constellationId = everydayWordsMapperExt.selectConstellationIdByOpenId(weixin.getOpenId());
-
-        TcConstellation tcConstellation = tcConstellationService.selectByKey(constellationId);
+        TcConstellation tcConstellation = new TcConstellation();
+        TcQianYanUrl tcQianYanUrl = new TcQianYanUrl();
+        //根据openid查询星座信息，key格式为  constellation-:openid
+        if (redisService.hasKey("constellation-:" + constellationId)){
+            String str = redisService.get("constellation-:" + constellationId);
+            tcConstellation =  JsonUtil.deserialize(str, TcConstellation.class);
+        }else {
+            //查询当前openid的星座信息
+            tcConstellation = tcConstellationService.selectByKey(constellationId);
+            String redisJson = JsonUtil.serialize(tcConstellation);
+            redisService.set("constellation-:" + constellationId, redisJson, redisKeyTime);
+        }
         x100Bo.setConstellationId(tcConstellation.getId());
         x100Bo.setConstellationName(tcConstellation.getConstellationName());
         x100Bo.setEndDate(tcConstellation.getEndDate());
         x100Bo.setStartDate(tcConstellation.getStartDate());
         x100Bo.setPictureUrl(tcConstellation.getPictureUrl());
 
-        List<TcQianYanUrl> tcQianYanUrlList = tcQianYanUrlService.selectByExample(null);
-        if (!tcQianYanUrlList.isEmpty()) {
-            x100Bo.setQianUrl(tcQianYanUrlList.get(0).getQianUrl());
-            x100Bo.setYanUrl(tcQianYanUrlList.get(0).getYanUrl());
+        //一言一签图片，key格式为  qianyanUrl
+        if (redisService.hasKey("qianyanUrl")){
+            String str = redisService.get("qianyanUrl");
+            tcQianYanUrl =  JsonUtil.deserialize(str, TcQianYanUrl.class);
+        }else {
+            List<TcQianYanUrl> tcQianYanUrlList = tcQianYanUrlService.selectByExample(null);
+            if (!tcQianYanUrlList.isEmpty()) {
+                tcQianYanUrl = tcQianYanUrlList.get(0);
+                String redisJson = JsonUtil.serialize(tcQianYanUrl);
+                redisService.set("qianyanUrl", redisJson, redisKeyTime);
+            }
+        }
+        if (null != tcQianYanUrl) {
+            x100Bo.setQianUrl(tcQianYanUrl.getQianUrl());
+            x100Bo.setYanUrl(tcQianYanUrl.getYanUrl());
         }
 
-        BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
-        BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
-        criteria.andEqualTo("constellationId", constellationId);
-        criteria.andEqualTo("status", 1);
-        List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
-        if (!tiLuckyList.isEmpty()) {
-            x100Bo.setLuckyScore1(tiLuckyList.get(0).getLuckyScore1() + "%");
-            x100Bo.setLuckyScore2(tiLuckyList.get(0).getLuckyScore2() + "%");
-            x100Bo.setLuckyScore3(tiLuckyList.get(0).getLuckyScore3() + "%");
-            x100Bo.setLuckyScore4(tiLuckyList.get(0).getLuckyScore4() + "%");
-            x100Bo.setLuckyType1(tiLuckyList.get(0).getLuckyType1());
-            x100Bo.setLuckyType2(tiLuckyList.get(0).getLuckyType2());
-            x100Bo.setLuckyType3(tiLuckyList.get(0).getLuckyType3());
-            x100Bo.setLuckyType4(tiLuckyList.get(0).getLuckyType4());
+        //更加星座id查询对应的信息, redis key格式为  lucky-:constellationId
+        TiLucky tiLucky = new TiLucky();
+        if (redisService.hasKey("lucky-:" + constellationId)){
+            String str = redisService.get("lucky-:" + constellationId);
+            tiLucky =  JsonUtil.deserialize(str, TiLucky.class);
+        }else {
+            //查询当前openid的运势信息
+            BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
+            BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
+            criteria.andEqualTo("constellationId", constellationId);
+            criteria.andEqualTo("status", 1);
+            List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
+            if (!tiLuckyList.isEmpty()) {
+                tiLucky = tiLuckyList.get(0);
+                String redisJson = JsonUtil.serialize(tiLucky);
+                redisService.set("lucky-:" + constellationId, redisJson, redisKeyTime);
+            }
+        }
+        if (null != tiLucky) {
+            x100Bo.setLuckyScore1(tiLucky.getLuckyScore1() + "%");
+            x100Bo.setLuckyScore2(tiLucky.getLuckyScore2() + "%");
+            x100Bo.setLuckyScore3(tiLucky.getLuckyScore3() + "%");
+            x100Bo.setLuckyScore4(tiLucky.getLuckyScore4() + "%");
+            x100Bo.setLuckyType1(tiLucky.getLuckyType1());
+            x100Bo.setLuckyType2(tiLucky.getLuckyType2());
+            x100Bo.setLuckyType3(tiLucky.getLuckyType3());
+            x100Bo.setLuckyType4(tiLucky.getLuckyType4());
         }
 
         responseBody.setStatus(AjaxStatus.SUCCESS);

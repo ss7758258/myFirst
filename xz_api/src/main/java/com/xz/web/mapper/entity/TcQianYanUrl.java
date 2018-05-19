@@ -2,9 +2,10 @@ package com.xz.web.mapper.entity;
 
 import com.xz.framework.common.base.BasicBean;
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Table(name = "tc_qian_yan_url")
-public class TcQianYanUrl extends BasicBean {
+public class TcQianYanUrl extends BasicBean implements Serializable {
     @Id
     private Long id;
 

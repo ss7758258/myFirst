@@ -2,9 +2,10 @@ package com.xz.web.mapper.entity;
 
 import com.xz.framework.common.base.BasicBean;
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Table(name = "tc_constellation")
-public class TcConstellation extends BasicBean {
+public class TcConstellation extends BasicBean implements Serializable{
     /**
      * 星座表
      */
