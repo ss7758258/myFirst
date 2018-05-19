@@ -75,9 +75,9 @@
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                                <el-button @click="dialogVisible = false">取 消</el-button>
-                                <el-button type="primary" @click="submitDialog">确 定</el-button>
-                            </span>
+                                        <el-button @click="dialogVisible = false">取 消</el-button>
+                                        <el-button type="primary" @click="submitDialog">确 定</el-button>
+                                    </span>
         </el-dialog>
 
         <el-dialog title="上传内容" :visible.sync="dialogVisibleAdd" width="60%">
@@ -90,9 +90,9 @@
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                                <el-button @click="dialogVisibleAdd = false">取 消</el-button>
-                                <el-button type="primary" @click="addHandle">确 定</el-button>
-                            </span>
+                                        <el-button @click="dialogVisibleAdd = false">取 消</el-button>
+                                        <el-button type="primary" @click="addHandle">确 定</el-button>
+                                    </span>
         </el-dialog>
     </div>
 </template>
@@ -146,6 +146,10 @@
                         }
                         this.dialogVisibleAdd = false;
                         this.getLib();
+                    },
+                    excep: () => {
+                        this.$message.error('网络错误');
+                        this.showLoading = false;
                     }
                 })
             },
@@ -167,7 +171,7 @@
                                 success: data => {
                                     obj.items = data.data.list;
                                     this.fullData.push(obj);
-                                    if (index == res.data.list.length-1) {
+                                    if (index == res.data.list.length - 1) {
                                         this.showLoading = false;
                                     }
                                 }
@@ -212,6 +216,10 @@
                         }
                         this.showLoading = false;
                         this.editInfo = {};
+                    },
+                    excep: () => {
+                        this.$message.error('网络错误！')
+                        this.showLoading = false;
                     }
                 })
             },
@@ -241,7 +249,7 @@
 
                 })
             },
-            delHandle(id){
+            delHandle(id) {
                 console.log(id);
                 this.$confirm("此操作将永久删除该记录, 是否继续?", "提示", {
                     confirmButtonText: "确定",
@@ -392,7 +400,7 @@
         height: 280px;
         padding: 20px;
         /* background: #99a9bf;
-                        color: #fff; */
+                                color: #fff; */
     }
 
     .item-label {
