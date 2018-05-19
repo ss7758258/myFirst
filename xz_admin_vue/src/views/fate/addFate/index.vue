@@ -149,7 +149,7 @@
                     notDo: '',
                     publishTime: '',
                     status: '',
-                    publishName:""
+                    publishName: ""
                 },
                 defaultInfo: {
                     constellationId: '',
@@ -178,7 +178,7 @@
                     notDo: '',
                     publishTime: '',
                     status: '',
-                    publishName:""
+                    publishName: ""
                 },
                 options: [],
                 showLoading: true,
@@ -217,6 +217,10 @@
                                 this.$message.error('添加失败！');
                             }
                             this.showLoading = false;
+                        },
+                        excep: () => {
+                            this.$message.error('网络错误');
+                            this.showLoading = false;
                         }
                     })
                 } else {
@@ -240,10 +244,15 @@
                             this.showLoading = false;
                         })
 
+                    },
+                    excep: () => {
+                        this.$message.error('网络错误');
+                        this.showLoading = false;
                     }
                 })
             },
             getFate() {
+                this.showLoading = true;
                 this.$http.post({
                     url: "tiLucky/json/getTiLuckyById",
                     params: {
@@ -279,6 +288,10 @@
                             status: res.data.status || 1,
                             publishName: res.data.publishName || '',
                         }
+                    },
+                    excep: () => {
+                        this.$message.error('网络错误');
+                        this.showLoading = false;
                     }
                 })
             },

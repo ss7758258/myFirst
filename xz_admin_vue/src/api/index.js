@@ -99,6 +99,13 @@ function apiAxios(method, url, params, success) {
                 case 401:
                     Route.push('/login')
                     break;
+                case 500:
+                    Message.error({
+                        content: "网络错误",
+                        duration: 2,
+                        closable: true
+                    });
+                    break;
                 default:
                     if (typeof (config.error) === 'function') {
                         config.error(res.data.data, res.data, res)
@@ -126,7 +133,6 @@ function apiAxios(method, url, params, success) {
             } else {
                 config.success(res.data, res)
             }
-
         }
 
         if (typeof (config.mustCall) === 'function') {
@@ -171,4 +177,3 @@ export default {
         return apiAxios("DELETE", url, params, success)
     }
 }
-

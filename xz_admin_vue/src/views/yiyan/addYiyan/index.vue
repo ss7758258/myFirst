@@ -40,30 +40,32 @@
             return {
                 options: [],
                 editInfo: {
-                    publishPerson:'',
-                    publishStatus:'',
-                    publishTime:'',
-                    constellationId:'',
-                    prevPic:""
+                    publishPerson: '',
+                    publishStatus: '',
+                    publishTime: '',
+                    constellationId: '',
+                    prevPic: ""
                 },
                 defaultData: {
-                    publishPerson:'',
-                    publishStatus:'',
-                    publishTime:'',
-                    constellationId:'',
-                    prevPic:""
+                    publishPerson: '',
+                    publishStatus: '',
+                    publishTime: '',
+                    constellationId: '',
+                    prevPic: ""
                 },
-                yiyanType:{},
-                api:"",
+                yiyanType: {},
+                api: "",
                 isDisabled: false,
                 isLoading: true
             };
         },
         methods: {
-             getOptions() {
+            getOptions() {
                 this.$http.get({
                     url: 'tcConstellation/json/findTcConstellationsByPage',
-                    params:{pageSize:20},
+                    params: {
+                        pageSize: 20
+                    },
                     success: res => {
                         this.options = [];
                         res.data.list.map(res => {
@@ -77,11 +79,11 @@
                     }
                 })
             },
-            onSubmit(){
+            onSubmit() {
                 if (this.yiyanType.type == 'edit') {
                     this.api = "tiYanList/json/updateTiYanListById"
                     this.editInfo.id = this.yiyanType.id;
-                }else{
+                } else {
                     this.api = "tiYanList/json/addTiYanList";
                     this.editInfo.publishStatus = 0;
                 }
@@ -96,7 +98,7 @@
                                 if (this.yiyanType.type == 'edit') {
                                     this.$message.success('修改成功！');
                                     this.$router.go(-1)
-                                }else{
+                                } else {
                                     this.$message.success(res.message);
                                     this.editInfo = this.defaultData;
                                 }
@@ -104,27 +106,37 @@
                                 this.$message.error('添加失败！');
                             }
                             this.isLoading = false;
+                        },
+                        excep: () => {
+                            this.$message.error('网络错误');
+                            this.isLoading = false;
                         }
                     })
                 } else {
                     this.$message.error('信息填充不完整！');
                 }
             },
-             back(){
+            back() {
                 this.$router.go(-1)
             },
-            getYiyan(){
+            getYiyan() {
                 this.$http.post({
-                    url:"tiYanList/json/getTiYanListById",
-                    params:{id:this.yiyanType.id},
+                    url: "tiYanList/json/getTiYanListById",
+                    params: {
+                        id: this.yiyanType.id
+                    },
                     success: res => {
                         this.editInfo = {
-                            publishPerson:res.data.publishPerson || '',
-                            publishStatus:res.data.publishStatus || 0,
-                            publishTime:res.data.publishTime || '',
-                            constellationId:res.data.constellationId || '',
-                            prevPic:res.data.prevPic || ''
+                            publishPerson: res.data.publishPerson || '',
+                            publishStatus: res.data.publishStatus || 0,
+                            publishTime: res.data.publishTime || '',
+                            constellationId: res.data.constellationId || '',
+                            prevPic: res.data.prevPic || ''
                         }
+                        this.isLoading = false;
+                    },
+                    excep: () => {
+                        this.$message.error('网络错误');
                         this.isLoading = false;
                     }
                 })
@@ -135,7 +147,7 @@
             this.yiyanType = this.$router.currentRoute.query;
             if (this.yiyanType.disabled == 0) {
                 this.isDisabled = true;
-            }else{
+            } else {
                 this.isDisabled = false;
             }
             if (this.yiyanType.type == 'edit') {

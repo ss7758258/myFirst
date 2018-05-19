@@ -100,7 +100,7 @@
     }
     from "vuex";
     export default {
-        props: ["api", "cols","previewId", "opeBtn", "idField", "editInfo", "searchInfo", "showAdd", "editable", "addable", "canDelete", "exportAble"],
+        props: ["api", "cols", "previewId", "opeBtn", "idField", "editInfo", "searchInfo", "showAdd", "editable", "addable", "canDelete", "exportAble"],
         data() {
             return {
                 tableData: null, // 数据
@@ -158,6 +158,10 @@
                         success: res => {
                             this.tableData = res.data.list;
                             this.totalNum = res.data.total;
+                            this.listLoading = false;
+                        },
+                        excep: () => {
+                            this.$message.error('网络错误');
                             this.listLoading = false;
                         }
                     });
