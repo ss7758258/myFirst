@@ -5,7 +5,9 @@ import com.xz.framework.bean.enums.AjaxStatus;
 import com.xz.framework.bean.weixin.Weixin;
 import com.xz.framework.common.base.BeanCriteria;
 import com.xz.framework.utils.DateUtil;
+import com.xz.framework.utils.JsonUtil;
 import com.xz.web.bo.selectConstellation.X100Bo;
+import com.xz.web.dao.redis.RedisDao;
 import com.xz.web.mapper.entity.TcConstellation;
 import com.xz.web.mapper.entity.TcQianYanUrl;
 import com.xz.web.mapper.entity.TiLucky;
@@ -18,6 +20,7 @@ import com.xz.web.service.WeixinUserService;
 import com.xz.web.vo.selectConstellation.X100Vo;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,6 +41,11 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
     @Autowired
     private TiLuckyService tiLuckyService;
 
+    @Autowired
+    private RedisDao redisService;
+
+    @Value("#{constants.redis_key_time}")
+    private int redisKeyTime;
 
     /**
      * 选择星座后返回首页
@@ -73,35 +81,74 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
          * 今日提醒（一条）；
          * 一签一言图片；
          */
-        TcConstellation tcConstellation = tcConstellationService.selectByKey(x100Vo.getConstellationId());
-        x100Bo.setConstellationId(tcConstellation.getId());
-        x100Bo.setConstellationName(tcConstellation.getConstellationName());
-        x100Bo.setEndDate(tcConstellation.getEndDate());
-        x100Bo.setStartDate(tcConstellation.getStartDate());
-        x100Bo.setPictureUrl(tcConstellation.getPictureUrl());
+        TcConstellation tcConstellation = new TcConstellation();
+        TcQianYanUrl tcQianYanUrl = new TcQianYanUrl();
 
-        List<TcQianYanUrl> tcQianYanUrlList = tcQianYanUrlService.selectByExample(null);
-        if (!tcQianYanUrlList.isEmpty()){
-            x100Bo.setQianUrl(tcQianYanUrlList.get(0).getQianUrl());
-            x100Bo.setYanUrl(tcQianYanUrlList.get(0).getYanUrl());
+        //根据openid查询星座信息，key格式为  constellation-:openid
+        if (redisService.hasKey("constellation-:" + weixin.getOpenId())){
+            String str = redisService.get("constellation-:" + weixin.getOpenId());
+            tcConstellation =  JsonUtil.deserialize(str, TcConstellation.class);
+        }else {
+            //查询当前openid的星座信息
+            tcConstellation = tcConstellationService.selectByKey(x100Vo.getConstellationId());
+            String redisJson = JsonUtil.serialize(tcConstellation);
+            redisService.set("constellation-:" + weixin.getOpenId(), redisJson, redisKeyTime);
+        }
+        if (null != tcConstellation) {
+            x100Bo.setConstellationId(tcConstellation.getId());
+            x100Bo.setConstellationName(tcConstellation.getConstellationName());
+            x100Bo.setEndDate(tcConstellation.getEndDate());
+            x100Bo.setStartDate(tcConstellation.getStartDate());
+            x100Bo.setPictureUrl(tcConstellation.getPictureUrl());
         }
 
-        BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
-        BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
-        criteria.andEqualTo("constellationId", x100Vo.getConstellationId());
-        criteria.andEqualTo("status", 1);
-        beanCriteria.setOrderByClause("publish_time desc");
-        List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
-        if (!tiLuckyList.isEmpty()){
-            x100Bo.setLuckyScore1(tiLuckyList.get(0).getLuckyScore1() + "%");
-            x100Bo.setLuckyScore2(tiLuckyList.get(0).getLuckyScore2() + "%");
-            x100Bo.setLuckyScore3(tiLuckyList.get(0).getLuckyScore3() + "%");
-            x100Bo.setLuckyScore4(tiLuckyList.get(0).getLuckyScore4() + "%");
-            x100Bo.setLuckyType1(tiLuckyList.get(0).getLuckyType1());
-            x100Bo.setLuckyType2(tiLuckyList.get(0).getLuckyType2());
-            x100Bo.setLuckyType3(tiLuckyList.get(0).getLuckyType3());
-            x100Bo.setLuckyType4(tiLuckyList.get(0).getLuckyType4());
+        //一言一签图片，key格式为  qianyanUrl
+        if (redisService.hasKey("qianyanUrl")){
+            String str = redisService.get("qianyanUrl");
+            tcQianYanUrl =  JsonUtil.deserialize(str, TcQianYanUrl.class);
+        }else {
+            List<TcQianYanUrl> tcQianYanUrlList = tcQianYanUrlService.selectByExample(null);
+            if (!tcQianYanUrlList.isEmpty()) {
+                tcQianYanUrl = tcQianYanUrlList.get(0);
+                String redisJson = JsonUtil.serialize(tcQianYanUrl);
+                redisService.set("qianyanUrl", redisJson, redisKeyTime);
+            }
         }
+        if (null != tcQianYanUrl) {
+            x100Bo.setQianUrl(tcQianYanUrl.getQianUrl());
+            x100Bo.setYanUrl(tcQianYanUrl.getYanUrl());
+        }
+
+        //更加星座id查询对应的信息, redis key格式为  lucky-:constellationId
+        TiLucky tiLucky = new TiLucky();
+        if (redisService.hasKey("lucky-:" + x100Vo.getConstellationId())){
+            String str = redisService.get("lucky-:" + x100Vo.getConstellationId());
+            tiLucky =  JsonUtil.deserialize(str, TiLucky.class);
+        }else {
+            //查询当前openid的运势信息
+            BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
+            BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
+            criteria.andEqualTo("constellationId", x100Vo.getConstellationId());
+            criteria.andEqualTo("status", 1);
+            beanCriteria.setOrderByClause("publish_time desc");
+            List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
+            if (!tiLuckyList.isEmpty()) {
+                tiLucky = tiLuckyList.get(0);
+                String redisJson = JsonUtil.serialize(tiLucky);
+                redisService.set("lucky-:" + x100Vo.getConstellationId(), redisJson, redisKeyTime);
+            }
+        }
+        if (null != tiLucky) {
+            x100Bo.setLuckyScore1(tiLucky.getLuckyScore1() + "%");
+            x100Bo.setLuckyScore2(tiLucky.getLuckyScore2() + "%");
+            x100Bo.setLuckyScore3(tiLucky.getLuckyScore3() + "%");
+            x100Bo.setLuckyScore4(tiLucky.getLuckyScore4() + "%");
+            x100Bo.setLuckyType1(tiLucky.getLuckyType1());
+            x100Bo.setLuckyType2(tiLucky.getLuckyType2());
+            x100Bo.setLuckyType3(tiLucky.getLuckyType3());
+            x100Bo.setLuckyType4(tiLucky.getLuckyType4());
+        }
+        
         responseBody.setStatus(AjaxStatus.SUCCESS);
         responseBody.setData(x100Bo);
         return responseBody;
