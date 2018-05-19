@@ -89,6 +89,42 @@ public class StatisticsConstellationController extends BaseController {
         return this.toJSON(responseBody);
     }
 
+    /**
+     * 一签二维码引流次数redis
+     * @return
+     */
+    @RequestMapping("x605")
+    @ResponseBody
+    public String x605() {
+        XZResponseBody<String> responseBody = new XZResponseBody<String>();
+        responseBody = statisticsConstellationService.x605();
+        return this.toJSON(responseBody);
+    }
+
+    /**
+     * 一言图片保存次数redis
+     * @return
+     */
+    @RequestMapping("x606")
+    @ResponseBody
+    public String x606() {
+        XZResponseBody<String> responseBody = new XZResponseBody<String>();
+        responseBody = statisticsConstellationService.x606();
+        return this.toJSON(responseBody);
+    }
+
+    /**
+     * 一言图片二维码引流次数redis
+     * @return
+     */
+    @RequestMapping("x607")
+    @ResponseBody
+    public String x607() {
+        XZResponseBody<String> responseBody = new XZResponseBody<String>();
+        responseBody = statisticsConstellationService.x607();
+        return this.toJSON(responseBody);
+    }
+
 
 
 }

@@ -26,6 +26,12 @@ public class StatisticsConstellationServiceImpl implements StatisticsConstellati
     private String statisticsQianBringCount;
     @Value("#{constants.redis_statistics_qianSaveCount}")
     private String statisticsQianSaveCount;
+    @Value("#{constants.redis_statistics_qianQRCount}")
+    private String statisticsQianQRCount;
+    @Value("#{constants.redis_statistics_yanSaveCount}")
+    private String statisticsYanSaveCount;
+    @Value("#{constants.redis_statistics_yanBringCount}")
+    private String statisticsYanBringCount;
 
     @Override
     public XZResponseBody<String> x600() {
@@ -50,6 +56,21 @@ public class StatisticsConstellationServiceImpl implements StatisticsConstellati
     @Override
     public XZResponseBody<String> x604() {
         return this.saveRedis(statisticsQianSaveCount);
+    }
+
+    @Override
+    public XZResponseBody<String> x605() {
+        return this.saveRedis(statisticsQianQRCount);
+    }
+
+    @Override
+    public XZResponseBody<String> x606() {
+        return this.saveRedis(statisticsYanSaveCount);
+    }
+
+    @Override
+    public XZResponseBody<String> x607() {
+        return this.saveRedis(statisticsYanBringCount);
     }
 
     private XZResponseBody<String> saveRedis(String string){

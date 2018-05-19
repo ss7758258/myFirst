@@ -2,11 +2,11 @@ package com.xz.web.service.ext;
 
 import com.xz.framework.bean.ajax.XZResponseBody;
 import com.xz.framework.bean.enums.AjaxStatus;
+import com.xz.framework.bean.weixin.Weixin;
 import com.xz.framework.common.base.BeanCriteria;
 import com.xz.framework.utils.JsonUtil;
 import com.xz.web.bo.moreConstellation.X300Bo;
 import com.xz.web.dao.redis.RedisDao;
-import com.xz.web.mapper.entity.TcConstellation;
 import com.xz.web.mapper.entity.TiLucky;
 import com.xz.web.mapper.ext.MoreConstellationMapperExt;
 import com.xz.web.service.TiLuckyService;
@@ -34,14 +34,21 @@ public class MoreConstellationServiceImpl implements MoreConstellationService {
     private int redisKeyTime;
     @Value("#{constants.redis_statistics_luckyClickCount}")
     private String statisticsLuckyClickCount;
+    @Value("#{constants.redis_statistics_luckyMorePV}")
+    private String statisticsLuckyMorePV;
+    @Value("#{constants.redis_statistics_luckyMoreUV}")
+    private String statisticsLuckyMoreUV;
+    @Value("#{constants.redis_statistics_luckyUV_openId}")
+    private String statisticsLuckyUVOpenId;
 
     /**
      * 返回星座运势（更多）
      * @return
      * @param constellationId
+     * @param weixin
      */
     @Override
-    public XZResponseBody<X300Bo> selectMoreConstellation(Long constellationId) throws Exception {
+    public XZResponseBody<X300Bo> selectMoreConstellation(Long constellationId, Weixin weixin) throws Exception {
         XZResponseBody<X300Bo> responseBody = new XZResponseBody<X300Bo>();
         X300Bo x300Bo = new X300Bo();
         x300Bo.setConstellationId(constellationId);
@@ -97,6 +104,26 @@ public class MoreConstellationServiceImpl implements MoreConstellationService {
             redisService.incr(statisticsLuckyClickCount, 1L);
         }else {
             redisService.set(statisticsLuckyClickCount, 1L);
+        }
+
+        //每日运势页PV
+        if (redisService.hasKey(statisticsLuckyMorePV)){
+            redisService.incr(statisticsLuckyMorePV, 1L);
+        }else {
+            redisService.set(statisticsLuckyMorePV, 1L);
+        }
+
+        //每日运势页UV
+        if (redisService.hasKey(statisticsLuckyUVOpenId + weixin.getOpenId())){
+            //
+        }else {
+            //存活一天
+            redisService.set(statisticsLuckyUVOpenId + weixin.getOpenId(), weixin.getOpenId(), 24*60*60L);
+            if (redisService.hasKey(statisticsLuckyMoreUV)){
+                redisService.set(statisticsLuckyMoreUV, 1L);
+            }else {
+                redisService.incr(statisticsLuckyMoreUV, 1L);
+            }
         }
 
         responseBody.setStatus(AjaxStatus.SUCCESS);

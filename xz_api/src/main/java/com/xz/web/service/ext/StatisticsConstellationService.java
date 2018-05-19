@@ -13,4 +13,10 @@ public interface StatisticsConstellationService {
     XZResponseBody<String> x603();
 
     XZResponseBody<String> x604();
+
+    XZResponseBody<String> x605();
+
+    XZResponseBody<String> x606();
+
+    XZResponseBody<String> x607();
 }

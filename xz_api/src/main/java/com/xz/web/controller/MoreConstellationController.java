@@ -1,6 +1,7 @@
 package com.xz.web.controller;
 
 import com.xz.framework.bean.ajax.XZResponseBody;
+import com.xz.framework.bean.weixin.Weixin;
 import com.xz.framework.controller.BaseController;
 import com.xz.framework.utils.JsonUtil;
 import com.xz.framework.utils.StringUtil;
@@ -8,7 +9,6 @@ import com.xz.web.bo.moreConstellation.X300Bo;
 import com.xz.web.service.ext.MoreConstellationService;
 import com.xz.web.utils.ResultUtil;
 import com.xz.web.vo.moreConstellation.X300Vo;
-import com.xz.web.vo.selectConstellation.X100Vo;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,9 +41,14 @@ public class MoreConstellationController extends BaseController {
             ResultUtil.returnResult(responseBody, "请选择星座");
             return this.toJSON(responseBody);
         }
+        Weixin weixin = this.getWeixin();
+        if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
+            ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
+            return this.toJSON(responseBody);
+        }
         //返回星座运势
         try {
-            responseBody = moreConstellationService.selectMoreConstellation(obj.getConstellationId());
+            responseBody = moreConstellationService.selectMoreConstellation(obj.getConstellationId(), weixin);
         } catch (Exception e) {
             ResultUtil.returnResultLog(responseBody, "服务器异常，请稍后再试", e.getMessage(), logger);
         }finally {
@@ -65,9 +70,14 @@ public class MoreConstellationController extends BaseController {
             ResultUtil.returnResult(responseBody, "请选择星座");
             return this.toJSON(responseBody);
         }
+        Weixin weixin = this.getWeixin();
+        if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
+            ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
+            return this.toJSON(responseBody);
+        }
         //返回星座运势
         try {
-            responseBody = moreConstellationService.selectMoreConstellation(obj.getConstellationId());
+            responseBody = moreConstellationService.selectMoreConstellation(obj.getConstellationId(), weixin);
         } catch (Exception e) {
             ResultUtil.returnResultLog(responseBody, "服务器异常，请稍后再试", e.getMessage(), logger);
         }finally {

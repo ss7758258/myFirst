@@ -46,6 +46,13 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
 
     @Value("#{constants.redis_key_time}")
     private int redisKeyTime;
+    @Value("#{constants.redis_statistics_luckyPV}")
+    private String statisticsLuckyPV;
+    @Value("#{constants.redis_statistics_luckyUV}")
+    private String statisticsLuckyUV;
+    @Value("#{constants.redis_statistics_luckyUV_openId}")
+    private String statisticsLuckyUVOpenId;
+
 
     /**
      * 选择星座后返回首页
@@ -92,9 +99,15 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
                 tcConstellation = JsonUtil.deserialize(str, TcConstellation.class);
             } else {
                 //查询当前openid的星座信息
-                tcConstellation = tcConstellationService.selectByKey(x100Vo.getConstellationId());
-                String redisJson = JsonUtil.serialize(tcConstellation);
-                redisService.set("constellation-:" + weixin.getOpenId(), redisJson, redisKeyTime);
+                BeanCriteria beanCriteria = new BeanCriteria(TcConstellation.class);
+                BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
+                criteria.andEqualTo("id", x100Vo.getConstellationId());
+                List<TcConstellation> tcConstellationList = tcConstellationService.selectByExample(beanCriteria);
+                if (!tcConstellationList.isEmpty()){
+                    tcConstellation = tcConstellationList.get(0);
+                    String redisJson = JsonUtil.serialize(tcConstellation);
+                    redisService.set("constellation-:" + weixin.getOpenId(), redisJson, redisKeyTime);
+                }
             }
             if (null != tcConstellation) {
                 x100Bo.setConstellationId(tcConstellation.getId());
@@ -150,6 +163,26 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
                 x100Bo.setLuckyType3(tiLucky.getLuckyType3());
                 x100Bo.setLuckyType4(tiLucky.getLuckyType4());
             }
+
+            //每日运势页PV
+            if (redisService.hasKey(statisticsLuckyPV)){
+                redisService.incr(statisticsLuckyPV, 1L);
+            }else {
+                redisService.set(statisticsLuckyPV, 1L);
+            }
+            //每日运势页UV
+            if (redisService.hasKey(statisticsLuckyUVOpenId + weixin.getOpenId())){
+                //
+            }else {
+                //存活一天
+                redisService.set(statisticsLuckyUVOpenId + weixin.getOpenId(), weixin.getOpenId(), 24*60*60L);
+                if (redisService.hasKey(statisticsLuckyUV)){
+                    redisService.set(statisticsLuckyUV, 1L);
+                }else {
+                    redisService.incr(statisticsLuckyUV, 1L);
+                }
+            }
+
         }
 
         responseBody.setStatus(AjaxStatus.SUCCESS);
