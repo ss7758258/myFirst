@@ -10,6 +10,7 @@ import com.xz.web.service.ext.SelectConstellationService;
 import com.xz.web.service.ext.StatisticsConstellationService;
 import com.xz.web.utils.ResultUtil;
 import com.xz.web.vo.selectConstellation.X100Vo;
+import com.xz.web.vo.statisticsConstellation.X610Vo;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -122,6 +123,30 @@ public class StatisticsConstellationController extends BaseController {
     public String x607() {
         XZResponseBody<String> responseBody = new XZResponseBody<String>();
         responseBody = statisticsConstellationService.x607();
+        return this.toJSON(responseBody);
+    }
+
+    /**
+     * 保存用户的最新formid时间到redis
+     * has_formid_user_zset
+     * @return
+     */
+    @RequestMapping("x610")
+    @ResponseBody
+    public String x610(String requestBody) {
+        XZResponseBody<String> responseBody = new XZResponseBody<String>();
+        X610Vo obj = JsonUtil.deserialize(requestBody, X610Vo.class);
+        if (null == obj || StringUtil.isEmpty(obj.getFormid())) {
+            ResultUtil.returnResult(responseBody, "formid为空");
+            return this.toJSON(responseBody);
+        }
+
+        Weixin weixin = this.getWeixin();
+        if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
+            ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
+            return this.toJSON(responseBody);
+        }
+        responseBody = statisticsConstellationService.x610(weixin, obj.getFormid());
         return this.toJSON(responseBody);
     }
 

@@ -99,6 +99,7 @@ public class MoreConstellationServiceImpl implements MoreConstellationService {
             x300Bo.setCreateTime(tiLucky.getCreateTimestamp());
         }
 
+        /*
         //统计
         if (redisService.hasKey(statisticsLuckyClickCount)){
             redisService.incr(statisticsLuckyClickCount, 1L);
@@ -125,7 +126,7 @@ public class MoreConstellationServiceImpl implements MoreConstellationService {
                 redisService.incr(statisticsLuckyMoreUV, 1L);
             }
         }
-
+*/
         responseBody.setStatus(AjaxStatus.SUCCESS);
         responseBody.setData(x300Bo);
         return responseBody;

@@ -78,9 +78,6 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
             weixinUser.setUpdateTimestamp(updateTime);
             weixinUser.setCreateTimestamp(updateTime);
             weixinUserService.save(weixinUser);
-
-            //将用户存入redis，用于计算留存率
-
         }else {
             //update
             selectConstellationMapperExt.updateMyConstellationByOpenId(x100Vo.getConstellationId(), x100Vo.getHeadImage(), x100Vo.getNickName(), updateTime, weixin.getOpenId());
@@ -167,6 +164,7 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
                 x100Bo.setLuckyType4(tiLucky.getLuckyType4());
             }
 
+       /*
             //每日运势页PV
             if (redisService.hasKey(statisticsLuckyPV)){
                 redisService.incr(statisticsLuckyPV, 1L);
@@ -185,13 +183,13 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
                     redisService.incr(statisticsLuckyUV, 1L);
                 }
             }
-
+        */
         }
 
-        //查询总人数，插入到redis
+     /*   //查询总人数，插入到redis
         List<WeixinUser> weixinUserList = weixinUserService.selectByExample(null);
         Integer userCount = weixinUserList.size();
-        redisService.set("userCount", userCount);
+        redisService.set("userCount", userCount);*/
         responseBody.setStatus(AjaxStatus.SUCCESS);
         responseBody.setData(x100Bo);
         return responseBody;

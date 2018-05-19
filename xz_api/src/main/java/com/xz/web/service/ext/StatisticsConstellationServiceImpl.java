@@ -2,12 +2,12 @@ package com.xz.web.service.ext;
 
 import com.xz.framework.bean.ajax.XZResponseBody;
 import com.xz.framework.bean.enums.AjaxStatus;
+import com.xz.framework.bean.weixin.Weixin;
 import com.xz.web.dao.redis.RedisDao;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import scala.Int;
 
 @Service
 public class StatisticsConstellationServiceImpl implements StatisticsConstellationService {
@@ -37,6 +37,10 @@ public class StatisticsConstellationServiceImpl implements StatisticsConstellati
     private String statisticsQianAvgCount;
     @Value("#{constants.redis_statistics_yanAvgCount}")
     private String statisticsYanAvgCount;
+    @Value("#{constants.redis_has_formid_user_zset}")
+    private String hasFormidUserZset;
+    @Value("#{constants.redis_user_formid_zset_openid}")
+    private String userFormidZsetOpenid;
 
     @Override
     public XZResponseBody<String> x600() {
@@ -101,6 +105,20 @@ public class StatisticsConstellationServiceImpl implements StatisticsConstellati
             }
         }
 
+        responseBody.setStatus(AjaxStatus.SUCCESS);
+        responseBody.setData(null);
+        return responseBody;
+    }
+
+    @Override
+    public XZResponseBody<String> x610(Weixin weixin, String formid) {
+        XZResponseBody<String> responseBody = new XZResponseBody<String>();
+        Long time = System.currentTimeMillis();
+        Long time1 = time + 7*24*60*60*1000;
+        redisService.szSet(hasFormidUserZset, weixin.getOpenId(), (double)time1);
+
+        Long time2 = time + 7*24*60*60*1000 - 5*30*1000;
+        redisService.szSet(userFormidZsetOpenid + weixin.getOpenId(), formid, (double)time2);
         responseBody.setStatus(AjaxStatus.SUCCESS);
         responseBody.setData(null);
         return responseBody;

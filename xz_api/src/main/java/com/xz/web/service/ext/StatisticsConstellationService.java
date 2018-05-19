@@ -1,6 +1,7 @@
 package com.xz.web.service.ext;
 
 import com.xz.framework.bean.ajax.XZResponseBody;
+import com.xz.framework.bean.weixin.Weixin;
 
 public interface StatisticsConstellationService {
 
@@ -19,4 +20,6 @@ public interface StatisticsConstellationService {
     XZResponseBody<String> x606();
 
     XZResponseBody<String> x607();
+
+    XZResponseBody<String> x610(Weixin weixin, String formid);
 }
