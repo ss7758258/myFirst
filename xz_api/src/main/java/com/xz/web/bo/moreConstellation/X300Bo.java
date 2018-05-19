@@ -1,6 +1,8 @@
 package com.xz.web.bo.moreConstellation;
 
-public class X300Bo {
+import java.io.Serializable;
+
+public class X300Bo implements Serializable{
 
     private Long constellationId;
 

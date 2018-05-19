@@ -1,6 +1,8 @@
 package com.xz.web.bo.everydayWords;
 
-public class X400Bo {
+import java.io.Serializable;
+
+public class X400Bo implements Serializable {
 
     private Long id;
     private String prevPic;

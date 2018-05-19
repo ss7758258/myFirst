@@ -3,12 +3,16 @@ package com.xz.web.service.ext;
 import com.xz.framework.bean.ajax.XZResponseBody;
 import com.xz.framework.bean.enums.AjaxStatus;
 import com.xz.framework.common.base.BeanCriteria;
+import com.xz.framework.utils.JsonUtil;
 import com.xz.web.bo.moreConstellation.X300Bo;
+import com.xz.web.dao.redis.RedisDao;
+import com.xz.web.mapper.entity.TcConstellation;
 import com.xz.web.mapper.entity.TiLucky;
 import com.xz.web.mapper.ext.MoreConstellationMapperExt;
 import com.xz.web.service.TiLuckyService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +26,12 @@ public class MoreConstellationServiceImpl implements MoreConstellationService {
     private MoreConstellationMapperExt moreConstellationMapperExt;
     @Autowired
     private TiLuckyService tiLuckyService;
+
+    @Autowired
+    private RedisDao redisService;
+
+    @Value("#{constants.redis_key_time}")
+    private int redisKeyTime;
 
     /**
      * 返回星座运势（更多）
@@ -39,32 +49,45 @@ public class MoreConstellationServiceImpl implements MoreConstellationService {
          * 别做内容（标题及内容）；
          */
 
-        BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
-        BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
-        criteria.andEqualTo("constellationId", constellationId);
-        criteria.andEqualTo("status", 1);
-        List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
-        if (!tiLuckyList.isEmpty()){
-            x300Bo.setLuckyScoreMore1(tiLuckyList.get(0).getLuckyScoreMore1() + "");
-            x300Bo.setLuckyScoreMore2(tiLuckyList.get(0).getLuckyScoreMore2() + "");
-            x300Bo.setLuckyScoreMore3(tiLuckyList.get(0).getLuckyScoreMore3() + "");
-            x300Bo.setLuckyScoreMore4(tiLuckyList.get(0).getLuckyScoreMore4() + "");
+        //更加星座id查询对应的信息, redis key格式为  luckyMore-:constellationId
+        TiLucky tiLucky = new TiLucky();
+        if (redisService.hasKey("luckyMore-:" + constellationId)){
+            String str = redisService.get("luckyMore-:" + constellationId);
+            tiLucky =  JsonUtil.deserialize(str, TiLucky.class);
+        }else {
+            //查询当前openid的运势信息
+            BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
+            BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
+            criteria.andEqualTo("constellationId", constellationId);
+            criteria.andEqualTo("status", 1);
+            List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
+            if (!tiLuckyList.isEmpty()) {
+                tiLucky = tiLuckyList.get(0);
+                String redisJson = JsonUtil.serialize(tiLucky);
+                redisService.set("luckyMore-:" + constellationId, redisJson, redisKeyTime);
+            }
+        }
+        if (null != tiLucky) {
+            x300Bo.setLuckyScoreMore1(tiLucky.getLuckyScoreMore1() + "");
+            x300Bo.setLuckyScoreMore2(tiLucky.getLuckyScoreMore2() + "");
+            x300Bo.setLuckyScoreMore3(tiLucky.getLuckyScoreMore3() + "");
+            x300Bo.setLuckyScoreMore4(tiLucky.getLuckyScoreMore4() + "");
 
-            x300Bo.setLuckyTypeMore1(tiLuckyList.get(0).getLuckyTypeMore1());
-            x300Bo.setLuckyTypeMore2(tiLuckyList.get(0).getLuckyTypeMore2());
-            x300Bo.setLuckyTypeMore3(tiLuckyList.get(0).getLuckyTypeMore3());
-            x300Bo.setLuckyTypeMore4(tiLuckyList.get(0).getLuckyTypeMore4());
+            x300Bo.setLuckyTypeMore1(tiLucky.getLuckyTypeMore1());
+            x300Bo.setLuckyTypeMore2(tiLucky.getLuckyTypeMore2());
+            x300Bo.setLuckyTypeMore3(tiLucky.getLuckyTypeMore3());
+            x300Bo.setLuckyTypeMore4(tiLucky.getLuckyTypeMore4());
 
-            x300Bo.setLuckyWords1(tiLuckyList.get(0).getLuckyWords1());
-            x300Bo.setLuckyWords2(tiLuckyList.get(0).getLuckyWords2());
-            x300Bo.setLuckyWords3(tiLuckyList.get(0).getLuckyWords3());
-            x300Bo.setLuckyWords4(tiLuckyList.get(0).getLuckyWords4());
+            x300Bo.setLuckyWords1(tiLucky.getLuckyWords1());
+            x300Bo.setLuckyWords2(tiLucky.getLuckyWords2());
+            x300Bo.setLuckyWords3(tiLucky.getLuckyWords3());
+            x300Bo.setLuckyWords4(tiLucky.getLuckyWords4());
 
-            x300Bo.setToDo(tiLuckyList.get(0).getToDo());
-            x300Bo.setNotDo(tiLuckyList.get(0).getNotDo());
-            x300Bo.setPublishTime(tiLuckyList.get(0).getPublishTime());
-            x300Bo.setLuckyDate(tiLuckyList.get(0).getLuckyDate());
-            x300Bo.setCreateTime(tiLuckyList.get(0).getCreateTimestamp());
+            x300Bo.setToDo(tiLucky.getToDo());
+            x300Bo.setNotDo(tiLucky.getNotDo());
+            x300Bo.setPublishTime(tiLucky.getPublishTime());
+            x300Bo.setLuckyDate(tiLucky.getLuckyDate());
+            x300Bo.setCreateTime(tiLucky.getCreateTimestamp());
         }
 
         responseBody.setStatus(AjaxStatus.SUCCESS);
