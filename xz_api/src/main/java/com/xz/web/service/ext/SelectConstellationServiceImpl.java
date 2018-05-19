@@ -75,78 +75,81 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
             //update
             selectConstellationMapperExt.updateMyConstellationByOpenId(x100Vo.getConstellationId(), x100Vo.getHeadImage(), x100Vo.getNickName(), updateTime, weixin.getOpenId());
         }
-        /**
-         * 星座名、星座头像、月份；
-         * 星座指数；
-         * 今日提醒（一条）；
-         * 一签一言图片；
-         */
-        TcConstellation tcConstellation = new TcConstellation();
-        TcQianYanUrl tcQianYanUrl = new TcQianYanUrl();
 
-        //根据openid查询星座信息，key格式为  constellation-:openid
-        if (redisService.hasKey("constellation-:" + weixin.getOpenId())){
-            String str = redisService.get("constellation-:" + weixin.getOpenId());
-            tcConstellation =  JsonUtil.deserialize(str, TcConstellation.class);
-        }else {
-            //查询当前openid的星座信息
-            tcConstellation = tcConstellationService.selectByKey(x100Vo.getConstellationId());
-            String redisJson = JsonUtil.serialize(tcConstellation);
-            redisService.set("constellation-:" + weixin.getOpenId(), redisJson, redisKeyTime);
-        }
-        if (null != tcConstellation) {
-            x100Bo.setConstellationId(tcConstellation.getId());
-            x100Bo.setConstellationName(tcConstellation.getConstellationName());
-            x100Bo.setEndDate(tcConstellation.getEndDate());
-            x100Bo.setStartDate(tcConstellation.getStartDate());
-            x100Bo.setPictureUrl(tcConstellation.getPictureUrl());
-        }
+        if (null != x100Vo.getConstellationId()) {
+            /**
+             * 星座名、星座头像、月份；
+             * 星座指数；
+             * 今日提醒（一条）；
+             * 一签一言图片；
+             */
+            TcConstellation tcConstellation = new TcConstellation();
+            TcQianYanUrl tcQianYanUrl = new TcQianYanUrl();
 
-        //一言一签图片，key格式为  qianyanUrl
-        if (redisService.hasKey("qianyanUrl")){
-            String str = redisService.get("qianyanUrl");
-            tcQianYanUrl =  JsonUtil.deserialize(str, TcQianYanUrl.class);
-        }else {
-            List<TcQianYanUrl> tcQianYanUrlList = tcQianYanUrlService.selectByExample(null);
-            if (!tcQianYanUrlList.isEmpty()) {
-                tcQianYanUrl = tcQianYanUrlList.get(0);
-                String redisJson = JsonUtil.serialize(tcQianYanUrl);
-                redisService.set("qianyanUrl", redisJson, redisKeyTime);
+            //根据openid查询星座信息，key格式为  constellation-:openid
+            if (redisService.hasKey("constellation-:" + weixin.getOpenId())) {
+                String str = redisService.get("constellation-:" + weixin.getOpenId());
+                tcConstellation = JsonUtil.deserialize(str, TcConstellation.class);
+            } else {
+                //查询当前openid的星座信息
+                tcConstellation = tcConstellationService.selectByKey(x100Vo.getConstellationId());
+                String redisJson = JsonUtil.serialize(tcConstellation);
+                redisService.set("constellation-:" + weixin.getOpenId(), redisJson, redisKeyTime);
             }
-        }
-        if (null != tcQianYanUrl) {
-            x100Bo.setQianUrl(tcQianYanUrl.getQianUrl());
-            x100Bo.setYanUrl(tcQianYanUrl.getYanUrl());
-        }
-
-        //更加星座id查询对应的信息, redis key格式为  lucky-:constellationId
-        TiLucky tiLucky = new TiLucky();
-        if (redisService.hasKey("lucky-:" + x100Vo.getConstellationId())){
-            String str = redisService.get("lucky-:" + x100Vo.getConstellationId());
-            tiLucky =  JsonUtil.deserialize(str, TiLucky.class);
-        }else {
-            //查询当前openid的运势信息
-            BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
-            BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
-            criteria.andEqualTo("constellationId", x100Vo.getConstellationId());
-            criteria.andEqualTo("status", 1);
-            beanCriteria.setOrderByClause("publish_time desc");
-            List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
-            if (!tiLuckyList.isEmpty()) {
-                tiLucky = tiLuckyList.get(0);
-                String redisJson = JsonUtil.serialize(tiLucky);
-                redisService.set("lucky-:" + x100Vo.getConstellationId(), redisJson, redisKeyTime);
+            if (null != tcConstellation) {
+                x100Bo.setConstellationId(tcConstellation.getId());
+                x100Bo.setConstellationName(tcConstellation.getConstellationName());
+                x100Bo.setEndDate(tcConstellation.getEndDate());
+                x100Bo.setStartDate(tcConstellation.getStartDate());
+                x100Bo.setPictureUrl(tcConstellation.getPictureUrl());
             }
-        }
-        if (null != tiLucky) {
-            x100Bo.setLuckyScore1(tiLucky.getLuckyScore1() + "%");
-            x100Bo.setLuckyScore2(tiLucky.getLuckyScore2() + "%");
-            x100Bo.setLuckyScore3(tiLucky.getLuckyScore3() + "%");
-            x100Bo.setLuckyScore4(tiLucky.getLuckyScore4() + "%");
-            x100Bo.setLuckyType1(tiLucky.getLuckyType1());
-            x100Bo.setLuckyType2(tiLucky.getLuckyType2());
-            x100Bo.setLuckyType3(tiLucky.getLuckyType3());
-            x100Bo.setLuckyType4(tiLucky.getLuckyType4());
+
+            //一言一签图片，key格式为  qianyanUrl
+            if (redisService.hasKey("qianyanUrl")) {
+                String str = redisService.get("qianyanUrl");
+                tcQianYanUrl = JsonUtil.deserialize(str, TcQianYanUrl.class);
+            } else {
+                List<TcQianYanUrl> tcQianYanUrlList = tcQianYanUrlService.selectByExample(null);
+                if (!tcQianYanUrlList.isEmpty()) {
+                    tcQianYanUrl = tcQianYanUrlList.get(0);
+                    String redisJson = JsonUtil.serialize(tcQianYanUrl);
+                    redisService.set("qianyanUrl", redisJson, redisKeyTime);
+                }
+            }
+            if (null != tcQianYanUrl) {
+                x100Bo.setQianUrl(tcQianYanUrl.getQianUrl());
+                x100Bo.setYanUrl(tcQianYanUrl.getYanUrl());
+            }
+
+            //更加星座id查询对应的信息, redis key格式为  lucky-:constellationId
+            TiLucky tiLucky = new TiLucky();
+            if (redisService.hasKey("lucky-:" + x100Vo.getConstellationId())) {
+                String str = redisService.get("lucky-:" + x100Vo.getConstellationId());
+                tiLucky = JsonUtil.deserialize(str, TiLucky.class);
+            } else {
+                //查询当前openid的运势信息
+                BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
+                BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
+                criteria.andEqualTo("constellationId", x100Vo.getConstellationId());
+                criteria.andEqualTo("status", 1);
+                beanCriteria.setOrderByClause("publish_time desc");
+                List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
+                if (!tiLuckyList.isEmpty()) {
+                    tiLucky = tiLuckyList.get(0);
+                    String redisJson = JsonUtil.serialize(tiLucky);
+                    redisService.set("lucky-:" + x100Vo.getConstellationId(), redisJson, redisKeyTime);
+                }
+            }
+            if (null != tiLucky) {
+                x100Bo.setLuckyScore1(tiLucky.getLuckyScore1() + "%");
+                x100Bo.setLuckyScore2(tiLucky.getLuckyScore2() + "%");
+                x100Bo.setLuckyScore3(tiLucky.getLuckyScore3() + "%");
+                x100Bo.setLuckyScore4(tiLucky.getLuckyScore4() + "%");
+                x100Bo.setLuckyType1(tiLucky.getLuckyType1());
+                x100Bo.setLuckyType2(tiLucky.getLuckyType2());
+                x100Bo.setLuckyType3(tiLucky.getLuckyType3());
+                x100Bo.setLuckyType4(tiLucky.getLuckyType4());
+            }
         }
 
         responseBody.setStatus(AjaxStatus.SUCCESS);
