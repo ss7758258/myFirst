@@ -66,14 +66,14 @@ public class IndexConstellationServiceImpl implements IndexConstellationService 
         TcConstellation tcConstellation = new TcConstellation();
         TcQianYanUrl tcQianYanUrl = new TcQianYanUrl();
         //根据openid查询星座信息，key格式为  constellation-:openid
-        if (redisService.hasKey("constellation-:" + constellationId)){
-            String str = redisService.get("constellation-:" + constellationId);
+        if (redisService.hasKey("constellation-:" + weixin.getOpenId())){
+            String str = redisService.get("constellation-:" + weixin.getOpenId());
             tcConstellation =  JsonUtil.deserialize(str, TcConstellation.class);
         }else {
             //查询当前openid的星座信息
             tcConstellation = tcConstellationService.selectByKey(constellationId);
             String redisJson = JsonUtil.serialize(tcConstellation);
-            redisService.set("constellation-:" + constellationId, redisJson, redisKeyTime);
+            redisService.set("constellation-:" + weixin.getOpenId(), redisJson, redisKeyTime);
         }
         x100Bo.setConstellationId(tcConstellation.getId());
         x100Bo.setConstellationName(tcConstellation.getConstellationName());
