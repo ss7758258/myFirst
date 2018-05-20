@@ -63,6 +63,7 @@ public class TiLuckyController extends BaseController {
             try
             {
                 redisDao.del("lucky-:"+entity.getConstellationId());
+                redisDao.del("luckyMore-:"+entity.getConstellationId());
             }catch (Exception e)
             {
                 e.printStackTrace();
@@ -99,6 +100,7 @@ public class TiLuckyController extends BaseController {
                     try
                     {
                         redisDao.del("lucky-:"+entity.getConstellationId());
+                        redisDao.del("luckyMore-:"+entity.getConstellationId());
                     }catch (Exception e)
                     {
                         e.printStackTrace();
