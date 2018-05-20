@@ -162,6 +162,7 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
                 x100Bo.setLuckyType2(tiLucky.getLuckyType2());
                 x100Bo.setLuckyType3(tiLucky.getLuckyType3());
                 x100Bo.setLuckyType4(tiLucky.getLuckyType4());
+                x100Bo.setRemindToday(tiLucky.getRemindToday());
             }
 
        /*
