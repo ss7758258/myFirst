@@ -1,13 +1,13 @@
 <template>
     <div class="container">
-        <el-form ref="form" v-loading="showLoading" label-position="left" :model="editInfo" label-width="140px">
+        <el-form ref="form" v-loading="showLoading" label-position="left" :rules="ruleFrom" :model="editInfo" label-width="140px">
             <el-form-item label="星座选择" class="form-item">
                 <el-select :disabled="isDisabled" v-model="editInfo.constellationId" placeholder="请选择">
                     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="首页运势类型" class="form-item">
+            <el-form-item label="首页运势类型" class="form-item" prop="fate">
                 <el-row :gutter="20">
                     <el-col :span="4">
                         <el-input :disabled="isDisabled" placeholder="请输入内容" v-model="editInfo.luckyType1"></el-input>
@@ -23,7 +23,7 @@
                     </el-col>
                 </el-row>
             </el-form-item>
-            <el-form-item label="运势评分（百分比）" class="form-item">
+            <el-form-item label="运势评分（百分比）" class="form-item" prop="score">
                 <el-row :gutter="20">
                     <el-col :span="4">
                         <el-input :disabled="isDisabled" min="0" max="100" type="number" placeholder="请输入内容" v-model="editInfo.luckyScore1"></el-input>
@@ -43,7 +43,7 @@
                 <el-input :disabled="isDisabled" type="textarea" v-model="editInfo.remindToday" placeholder="请输入内容"></el-input>
             </el-form-item>
             <div class="line"></div>
-            <el-form-item label="更多运势类型" class="form-item">
+            <el-form-item label="更多运势类型" class="form-item" prop="fateMore">
                 <el-row :gutter="20">
                     <el-col :span="4">
                         <el-input :disabled="isDisabled" placeholder="请输入内容" v-model="editInfo.luckyTypeMore1"></el-input>
@@ -59,7 +59,7 @@
                     </el-col>
                 </el-row>
             </el-form-item>
-            <el-form-item label="运势评分（星值）" class="form-item">
+            <el-form-item label="运势评分（星值）" prop="score2" class="form-item">
                 <el-row :gutter="20">
                     <el-col :span="4">
                         <el-input :disabled="isDisabled" type="number" min="0" max="5" v-model="editInfo.luckyScoreMore1" placeholder="请输入内容"></el-input>
@@ -121,6 +121,46 @@
     } from '@/utils/common.js'
     export default {
         data() {
+            var validatePoint = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入内容'));
+                } else if (this.editInfo.luckyScore1.indexOf('.') != -1 || this.editInfo.luckyScore2.indexOf('.') != -1 || this.editInfo.luckyScore3.indexOf('.') != -1 || this.editInfo.luckyScore4.indexOf('.') != -1) {
+                    callback(new Error('不能包含小数点'));
+                }else if(this.editInfo.luckyScore1 > 100 || this.editInfo.luckyScore2 > 100 || this.editInfo.luckyScore3 > 100 || this.editInfo.luckyScore4 > 100){
+                    callback(new Error('值不能大于100'));
+                } else {
+                    callback();
+                }
+            };
+            var validatePoint2 = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入内容'));
+                } else if (this.editInfo.luckyScoreMore1.indexOf('.') != -1 || this.editInfo.luckyScoreMore2.indexOf('.') != -1 || this.editInfo.luckyScoreMore3.indexOf('.') != -1 || this.editInfo.luckyScoreMore4.indexOf('.') != -1) {
+                    callback(new Error('不能包含小数点'));
+                }else if(this.editInfo.luckyScoreMore1 > 5 || this.editInfo.luckyScoreMore2 > 5 || this.editInfo.luckyScoreMore3 > 5 || this.editInfo.luckyScoreMore4 > 5){
+                    callback(new Error('值不能大于5'));
+                } else {
+                    callback();
+                }
+            };
+            var validateFate = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入内容'));
+                }else if(this.editInfo.luckyType1.length > 4 || this.editInfo.luckyType2.length > 4 || this.editInfo.luckyType3.length > 4 || this.editInfo.luckyType4.length > 4){
+                    callback(new Error('不能超过四个字'));
+                } else {
+                    callback();
+                }
+            };
+            var validateFate2 = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入内容'));
+                }else if(this.editInfo.luckyTypeMore1.length > 4 || this.editInfo.luckyTypeMore2.length > 4 || this.editInfo.luckyTypeMore3.length > 4 || this.editInfo.luckyTypeMore4.length > 4){
+                    callback(new Error('不能超过四个字'));
+                } else {
+                    callback();
+                }
+            };
             return {
                 editInfo: {
                     constellationId: '',
@@ -184,13 +224,26 @@
                 showLoading: true,
                 fateType: {},
                 api: '',
-                isDisabled: false
+                isDisabled: false,
+                ruleFrom: {
+                    score:{ validator: validatePoint, trigger: 'blur' },
+                    score2:{ validator: validatePoint2, trigger: 'blur' },
+                    fate:{ validator: validateFate, trigger: 'blur' },
+                    fateMore:{ validator: validateFate2, trigger: 'blur' },
+                }
             }
         },
         methods: {
             addArticle() {
                 this.editInfo.status = 0;
-                this.submit();
+                const _self = this;
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        _self.submit();
+                    } else {
+                        return false;
+                    }
+                })
             },
             submit() {
                 if (this.fateType.type == 'edit') {
@@ -297,7 +350,14 @@
             },
             addDraft() {
                 this.editInfo.status = -1;
-                this.submit();
+                const _self = this;
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        _self.submit();
+                    } else {
+                        return false;
+                    }
+                })
             },
             back() {
                 this.$router.go(-1)
