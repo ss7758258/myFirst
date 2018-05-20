@@ -1,24 +1,18 @@
 package com.xz.web.controller;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import com.xz.web.entity.TiLucky;
-import com.xz.web.service.TiLuckyService;
-import com.xz.framework.utils.bean.BeanUtil;
-import com.xz.framework.utils.date.DateUtil;
-import com.xz.framework.utils.string.StringUtil;
+
 import com.xz.framework.common.base.AjaxBean;
 import com.xz.framework.common.base.AjaxStatus;
 import com.xz.framework.common.base.BaseController;
 import com.xz.framework.common.base.PageInfo;
+import com.xz.framework.utils.bean.BeanUtil;
+import com.xz.framework.utils.date.DateUtil;
 import com.xz.web.constant.Constant;
-import java.util.List;
-import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
-import com.xz.framework.utils.files.FileUtil;
+import com.xz.web.entity.TiLucky;
+import com.xz.web.redis.RedisDao;
+import com.xz.web.service.TiLuckyService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @org.springframework.stereotype.Controller("tiLuckyTiLuckyController")
 @RequestMapping("tiLucky")
@@ -26,6 +20,8 @@ public class TiLuckyController extends BaseController {
 
     @Autowired
     private TiLuckyService tiLuckyService;
+    @Autowired
+    private RedisDao redisDao;
 
     
 
@@ -55,6 +51,20 @@ public class TiLuckyController extends BaseController {
     @ResponseBody
     String delTiLuckyById(Long id) {
         AjaxBean<Integer> ajaxBean = new AjaxBean<Integer>();
+        TiLucky entity = tiLuckyService.getById(id);
+        if(entity==null)
+        {
+            ajaxBean.setStatus(AjaxStatus.ERROR);
+            ajaxBean.setMessage("删除失败!");
+            return this.ajaxJson(ajaxBean);
+        }
+        try
+        {
+            redisDao.del("lucky-:"+entity.getConstellationId());
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         int flag = tiLuckyService.removeById(id);
         if(flag>0) {
             ajaxBean.setStatus(AjaxStatus.SUCCESS);
@@ -85,6 +95,13 @@ public class TiLuckyController extends BaseController {
                 BeanUtil.copyProperties(tiLucky,entity,Constant.NotNul);
                 entity.setUpdateTimestamp(DateUtil.getCurrentTimestamp());
                 int flag = tiLuckyService.update(entity);
+                try
+                {
+                    redisDao.del("lucky-:"+entity.getConstellationId());
+                }catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
                 if(flag>0) {
                     ajaxBean.setStatus(AjaxStatus.SUCCESS);
                     ajaxBean.setMessage("更新成功!");
