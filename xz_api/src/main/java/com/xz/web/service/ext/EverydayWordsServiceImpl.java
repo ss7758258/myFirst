@@ -51,6 +51,7 @@ public class EverydayWordsServiceImpl implements EverydayWordsService {
             {
                 response.setStatus(AjaxStatus.ERROR);
                 response.setMessage("没有一言记录："+constellationId);
+                redisService.del("everyDayWord-:" + constellationId);
                 return response;
             }
         }else {
@@ -59,6 +60,7 @@ public class EverydayWordsServiceImpl implements EverydayWordsService {
             {
                 response.setStatus(AjaxStatus.ERROR);
                 response.setMessage("没有一言记录："+constellationId);
+                redisService.del("everyDayWord-:" + constellationId);
                 return response;
             }
             String redisJson = JsonUtil.serialize(x400Bo);
