@@ -58,15 +58,15 @@ public class TiLuckyController extends BaseController {
             ajaxBean.setMessage("删除失败!");
             return this.ajaxJson(ajaxBean);
         }
-        try
-        {
-            redisDao.del("lucky-:"+entity.getConstellationId());
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
         int flag = tiLuckyService.removeById(id);
         if(flag>0) {
+            try
+            {
+                redisDao.del("lucky-:"+entity.getConstellationId());
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
             ajaxBean.setStatus(AjaxStatus.SUCCESS);
             ajaxBean.setMessage("删除成功!");
             ajaxBean.setData(flag);
@@ -95,14 +95,14 @@ public class TiLuckyController extends BaseController {
                 BeanUtil.copyProperties(tiLucky,entity,Constant.NotNul);
                 entity.setUpdateTimestamp(DateUtil.getCurrentTimestamp());
                 int flag = tiLuckyService.update(entity);
-                try
-                {
-                    redisDao.del("lucky-:"+entity.getConstellationId());
-                }catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
                 if(flag>0) {
+                    try
+                    {
+                        redisDao.del("lucky-:"+entity.getConstellationId());
+                    }catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
                     ajaxBean.setStatus(AjaxStatus.SUCCESS);
                     ajaxBean.setMessage("更新成功!");
                 }else
