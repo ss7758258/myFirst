@@ -47,6 +47,12 @@ public class EverydayWordsServiceImpl implements EverydayWordsService {
         if (redisService.hasKey("everyDayWord-:" + constellationId)){
             String str = redisService.get("everyDayWord-:" + constellationId);
             x400Bo =  JsonUtil.deserialize(str, X400Bo.class);
+            if(null==x400Bo)
+            {
+                response.setStatus(AjaxStatus.ERROR);
+                response.setMessage("没有一言记录："+constellationId);
+                return response;
+            }
         }else {
             x400Bo = everydayWordsMapperExt.selectCurrentYanByConstellationId(constellationId);
             if(null==x400Bo)
