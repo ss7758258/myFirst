@@ -436,7 +436,7 @@ public class EverydayQianController extends BaseController {
             BeanCriteria beanCriteria = new BeanCriteria(TiUserQianList.class);
             BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
             criteria.andEqualTo("userId", userId);
-            beanCriteria.setOrderByClause("qianDate desc,update_timestamp desc");
+            beanCriteria.setOrderByClause("qianDate desc");
             PageInfo<TiUserQianList> pager = new PageInfo<TiUserQianList>();
             pager.setPageSize(obj.getPageSize());
             pager.setPageNum(obj.getPageNum());
