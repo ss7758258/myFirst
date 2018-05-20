@@ -3,20 +3,16 @@ package com.xz.web.service.ext;
 import com.xz.framework.bean.ajax.XZResponseBody;
 import com.xz.framework.bean.enums.AjaxStatus;
 import com.xz.framework.bean.weixin.Weixin;
-import com.xz.framework.common.base.BeanCriteria;
 import com.xz.framework.utils.JsonUtil;
 import com.xz.framework.utils.StringUtil;
 import com.xz.web.bo.everydayWords.X400Bo;
 import com.xz.web.dao.redis.RedisDao;
-import com.xz.web.mapper.entity.TiLucky;
 import com.xz.web.mapper.ext.EverydayWordsMapperExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class EverydayWordsServiceImpl implements EverydayWordsService {
@@ -53,6 +49,12 @@ public class EverydayWordsServiceImpl implements EverydayWordsService {
             x400Bo =  JsonUtil.deserialize(str, X400Bo.class);
         }else {
             x400Bo = everydayWordsMapperExt.selectCurrentYanByConstellationId(constellationId);
+            if(null==x400Bo)
+            {
+                response.setStatus(AjaxStatus.ERROR);
+                response.setMessage("没有一言记录："+constellationId);
+                return response;
+            }
             String redisJson = JsonUtil.serialize(x400Bo);
             redisService.set("everyDayWord-:" + constellationId, redisJson, redisKeyTime);
         }
