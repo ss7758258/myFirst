@@ -4,6 +4,7 @@ import com.xz.framework.common.base.PageInfo;
 import com.xz.framework.utils.date.DateUtil;
 import com.xz.web.entity.TiLucky;
 import com.xz.web.entity.TiYanList;
+import com.xz.web.redis.RedisDao;
 import com.xz.web.service.TiLuckyService;
 import com.xz.web.service.TiYanListService;
 import org.quartz.JobExecutionContext;
@@ -23,6 +24,8 @@ public class PublishController extends QuartzJobBean {
 
     @Autowired
     private TiYanListService tiYanListService;
+    @Autowired
+    private RedisDao redisDao;
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
@@ -48,6 +51,14 @@ public class PublishController extends QuartzJobBean {
                         tiLucky.setStatus(1);
                         tiLucky.setUpdateTimestamp(DateUtil.getCurrentTimestamp());
                         tiLuckyService.update(tiLucky);
+                        try
+                        {
+                            redisDao.del("lucky-:"+tiLucky.getConstellationId());
+                            redisDao.del("luckyMore-:"+tiLucky.getConstellationId());
+                        }catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
                         logger.info(DateUtil.getCurrentTimestampSSS()+"-->发布运势ID："+tiLucky.getId());
                     }
                 }
@@ -71,6 +82,13 @@ public class PublishController extends QuartzJobBean {
                         obj.setPublishStatus("1");
                         obj.setUpdateTimestamp(DateUtil.getCurrentTimestamp());
                         tiYanListService.update(obj);
+                        try
+                        {
+                            redisDao.del("everyDayWord-:" + obj.getConstellationId());
+                        }catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
                         logger.info(DateUtil.getCurrentTimestampSSS()+"-->发布一言ID："+obj.getId());
                     }
                 }
