@@ -68,6 +68,13 @@ public class TiYanListController extends BaseController {
         entity.setUpdateTimestamp(DateUtil.getCurrentTimestamp());
         int flag = tiYanListService.add(entity);
         if(flag>0) {
+            try
+            {
+                redisDao.del("everyDayWord-:" + entity.getConstellationId());
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
             ajaxBean.setStatus(AjaxStatus.SUCCESS);
             ajaxBean.setMessage("增加成功!");
         }else

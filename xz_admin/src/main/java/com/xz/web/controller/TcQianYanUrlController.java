@@ -35,6 +35,13 @@ public class TcQianYanUrlController extends BaseController {
         entity.setUpdateTimestamp(DateUtil.getCurrentTimestamp());
         int flag = tcQianYanUrlService.add(entity);
         if(flag>0) {
+            try
+            {
+                redisDao.del("qianyanUrl");
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
             ajaxBean.setStatus(AjaxStatus.SUCCESS);
             ajaxBean.setMessage("增加成功!");
         }else

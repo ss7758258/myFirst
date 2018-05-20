@@ -68,6 +68,13 @@ public class TcConstellationController extends BaseController {
         entity.setUpdateTimestamp(DateUtil.getCurrentTimestamp());
         int flag = tcConstellationService.add(entity);
         if(flag>0) {
+            try
+            {
+                redisDao.del("constellation-:"+entity.getId());
+            }catch (Exception e)
+            {
+                e.printStackTrace();
+            }
             ajaxBean.setStatus(AjaxStatus.SUCCESS);
             ajaxBean.setMessage("增加成功!");
         }else
