@@ -145,7 +145,8 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
                 BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
                 criteria.andEqualTo("constellationId", x100Vo.getConstellationId());
                 criteria.andEqualTo("status", 1);
-                beanCriteria.setOrderByClause("publish_time desc");
+                criteria.andLike("publishTime",DateUtil.getDate()+"%");
+                beanCriteria.setOrderByClause("update_timestamp desc");
                 List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
                 if (!tiLuckyList.isEmpty()) {
                     tiLucky = tiLuckyList.get(0);
