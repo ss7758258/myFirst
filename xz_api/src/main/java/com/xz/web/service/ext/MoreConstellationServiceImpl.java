@@ -4,6 +4,7 @@ import com.xz.framework.bean.ajax.XZResponseBody;
 import com.xz.framework.bean.enums.AjaxStatus;
 import com.xz.framework.bean.weixin.Weixin;
 import com.xz.framework.common.base.BeanCriteria;
+import com.xz.framework.utils.DateUtil;
 import com.xz.framework.utils.JsonUtil;
 import com.xz.web.bo.moreConstellation.X300Bo;
 import com.xz.web.dao.redis.RedisDao;
@@ -69,6 +70,8 @@ public class MoreConstellationServiceImpl implements MoreConstellationService {
             BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
             criteria.andEqualTo("constellationId", constellationId);
             criteria.andEqualTo("status", 1);
+            criteria.andLike("publishTime", DateUtil.getDate()+"%");
+            beanCriteria.setOrderByClause("update_timestamp desc");
             List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
             if (!tiLuckyList.isEmpty()) {
                 tiLucky = tiLuckyList.get(0);
