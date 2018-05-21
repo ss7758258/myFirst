@@ -10,6 +10,7 @@
 .UI_box {
   /* padding-left: 20rpx;
   padding-right: 20rpx; */
+  position: relative;
   align-items: center;
   text-align: center;
   /* background-color: white; *//* padding-bottom: 90rpx; */
@@ -17,7 +18,7 @@
 
 .UI_box .pic {
   width: 710rpx;
-  height: 1100rpx;
+  height: 1140rpx;
   /* max-height: 388px;  */
 }
 
@@ -78,11 +79,13 @@
 }
 
 .saveform {
-  left: 17%;
-  width: 480rpx;
-  height: 90rpx;
-  position: absolute;
-  top: 80%;
+  left:0;
+  width:480rpx;
+  height:90rpx;
+  position:absolute;
+  bottom:70rpx;
+  right:0;
+  margin:auto;
 }
 
 .save {
