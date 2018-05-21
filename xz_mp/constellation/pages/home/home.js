@@ -12,6 +12,7 @@ Page({
 	 * 页面的初始数据
 	 */
   data: {
+    isShown: false,
     isLoading: false,
     selectBack: false,
     showHome: true,
@@ -84,13 +85,16 @@ Page({
         myLuck: myLuck,
         remindToday: res.remindToday ? res.remindToday : ''
       })
-      if (!_self.goPage(_SData)) {
+      if (!_self.goPage(_SData) && (!_self.data.isShown)) {
         const myLuckLen = myLuck.length
 
         for (let i = 0; i < myLuckLen; i++) {
           _self.circleDynamic(i)()
         }
       }
+      _self.setData({
+        isShown: true
+      })
 
     }).catch(err => {
       console.log(err)

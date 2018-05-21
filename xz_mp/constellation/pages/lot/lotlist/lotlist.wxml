@@ -17,7 +17,7 @@
       <image class="lotBg" src="/assets/images/lotBg.png" mode="widthFix" />
     </view>
 
-    <scroll-view class="listScroll" scroll-y>
+    <scroll-view class="listScroll" scroll-y bindscrolltolower="moreLot">
       <block wx:for="{{lotList.list}}" wx:key="index">
 
         <form bindsubmit="onItemClick" class="item" report-submit='true'>
@@ -33,7 +33,7 @@
 
       </block>
     </scroll-view>
-    <form bindsubmit="moreLot" class='morelot' report-submit='true'>
+    <form bindsubmit="moreLot" class='morelot' report-submit='true' wx:if="{{false}}">
       <button class="button1" form-type="submit" type='' hover-class="none">
 
         查看更多... 

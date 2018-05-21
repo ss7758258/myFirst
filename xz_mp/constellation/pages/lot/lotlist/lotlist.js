@@ -9,7 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    isMore: false
   },
 
   /**
@@ -22,6 +22,15 @@ Page({
       .then(res => {
         console.log(res)
         var list = []
+        if (res.length < 10) {
+          _self.setData({
+            isMore: false
+          })
+        } else {
+          _self.setData({
+            isMore: true
+          })
+        }
         for (var i = 0; i < res.length; i++) {
           let dd = res[i]
           list.push({
@@ -102,16 +111,29 @@ Page({
     }
   },
   moreLot: function (e) {
+    const _self = this
+    if (!_self.data.isMore) {
+      return
+    }
+
     pageNum++
     let formid = e.detail.formId
 
     mta.Event.stat("ico_lotlist", { "business": "点击更多签" })
-    const _self = this
+
     var list = _self.data.lotList.list
     $vm.api.getX510({ pageNum: pageNum, pageSize: 10 })
       .then(res => {
         console.log(res)
-       
+        if (res.length < 10) {
+          _self.setData({
+            isMore: false
+          })
+        } else {
+          _self.setData({
+            isMore: true
+          })
+        }
         for (var i = 0; i < res.length; i++) {
           let dd = res[i]
           list.push({

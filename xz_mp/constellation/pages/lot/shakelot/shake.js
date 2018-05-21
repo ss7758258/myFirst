@@ -33,7 +33,7 @@ Page({
       })
     }
     console.log(options)
-    this.shakeFun()
+
     const _self = this
     const _SData = this.data
     if (!_GData.userInfo) {
@@ -86,9 +86,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    wx.startAccelerometer({
-
-    })
+    this.shakeFun()
     this.setData({
       hasReturn: false,
     })
@@ -173,16 +171,21 @@ Page({
     this.setData({
 
       shakeLotSpeed: true,
-      potPath: true
+      potPath: true,
+      isLoading: true
     })
 
 
     $vm.api.getX504({ notShowLoading: true, })
       .then(res => {
-        if (_self.data.hasReturn) {
+        if (_self.data.hasReturn || _self.data.isLoading) {
           return
         }
         console.log(res)
+        this.setData({
+
+          isLoading: false
+        })
         if (!res) {
           wx.navigateTo({
             url: '/pages/lot/lotlist/lotlist'
@@ -235,6 +238,10 @@ Page({
     var positivenum = 0 //正数 摇一摇总数
 
     wx.onAccelerometerChange(function (res) {  //小程序api 加速度计
+      if (_self.data.hasReturn || _self.data.isLoading) {
+        return
+      }
+
       if (numX < res.x && numY < res.y) {  //个人看法，一次正数算摇一次，还有更复杂的
         positivenum++
         setTimeout(() => { positivenum = 0 }, 2000) //计时两秒内没有摇到指定次数，重新计算
