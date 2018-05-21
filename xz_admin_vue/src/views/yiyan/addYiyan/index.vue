@@ -147,7 +147,7 @@
                 })
             },
         },
-        mounted() {
+        activated() {
             this.getOptions();
             this.yiyanType = this.$router.currentRoute.query;
             if (this.yiyanType.disabled == 0) {

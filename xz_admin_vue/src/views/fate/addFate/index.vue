@@ -2,7 +2,7 @@
     <div class="container">
         <el-form ref="form" v-loading="showLoading" label-position="left" :rules="ruleFrom" :model="editInfo" label-width="140px">
             <el-form-item label="星座选择" class="form-item">
-                <el-select :disabled="isDisabled" v-model="editInfo.constellationId" placeholder="请选择">
+                <el-select @change="getType" :disabled="isDisabled" v-model="editInfo.constellationId" placeholder="请选择">
                     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
                 </el-select>
@@ -105,10 +105,8 @@
                 <el-input :disabled="isDisabled" v-model="editInfo.publishName" style="width: 300px" placeholder="请输入内容"></el-input>
             </el-form-item>
             <el-form-item v-if="!isDisabled">
+                <el-button type="success" v-if="fateType.type=='edit'" @click="back">返回</el-button>
                 <el-button type="primary" @click="addArticle" :disabled="btnDis">定时发布</el-button>
-            </el-form-item>
-            <el-form-item v-else>
-                <el-button type="success" @click="back">返回</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -238,7 +236,8 @@
                         trigger: 'blur'
                     },
                 },
-                btnDis: false
+                btnDis: false,
+                editType: window.location.href
             }
         },
         methods: {
@@ -319,58 +318,109 @@
             },
             getFate() {
                 this.showLoading = true;
-                this.$http.post({
-                    url: "tiLucky/json/getTiLuckyById",
-                    params: {
-                        id: this.fateType.id
-                    },
-                    success: res => {
-                        this.editInfo = {
-                            constellationId: res.data.constellationId || '',
-                            luckyType1: res.data.luckyType1 || '',
-                            luckyType2: res.data.luckyType2 || '',
-                            luckyType3: res.data.luckyType3 || '',
-                            luckyType4: res.data.luckyType4 || '',
-                            luckyScore1: res.data.luckyScore1 || '',
-                            luckyScore2: res.data.luckyScore2 || '',
-                            luckyScore3: res.data.luckyScore3 || '',
-                            luckyScore4: res.data.luckyScore4 || '',
-                            remindToday: res.data.remindToday || '',
-                            luckyTypeMore1: res.data.luckyTypeMore1 || '',
-                            luckyTypeMore2: res.data.luckyTypeMore2 || '',
-                            luckyTypeMore3: res.data.luckyTypeMore3 || '',
-                            luckyTypeMore4: res.data.luckyTypeMore4 || '',
-                            luckyScoreMore1: res.data.luckyScoreMore1 || '',
-                            luckyScoreMore2: res.data.luckyScoreMore2 || '',
-                            luckyScoreMore3: res.data.luckyScoreMore3 || '',
-                            luckyScoreMore4: res.data.luckyScoreMore4 || '',
-                            luckyWords1: res.data.luckyWords1 || '',
-                            luckyWords2: res.data.luckyWords2 || '',
-                            luckyWords3: res.data.luckyWords3 || '',
-                            luckyWords4: res.data.luckyWords4 || '',
-                            toDo: res.data.toDo || '',
-                            notDo: res.data.notDo || '',
-                            publishTime: res.data.publishTime || '',
-                            status: res.data.status || 1,
-                            publishName: res.data.publishName || '',
+
+
+                    this.$http.post({
+                        url: "tiLucky/json/getTiLuckyById",
+                        params: {
+                            id: this.fateType.id
+                        },
+                        success: res => {
+                            this.editInfo = {
+                                constellationId: res.data.constellationId || '',
+                                luckyType1: res.data.luckyType1 || '',
+                                luckyType2: res.data.luckyType2 || '',
+                                luckyType3: res.data.luckyType3 || '',
+                                luckyType4: res.data.luckyType4 || '',
+                                luckyScore1: res.data.luckyScore1 || '',
+                                luckyScore2: res.data.luckyScore2 || '',
+                                luckyScore3: res.data.luckyScore3 || '',
+                                luckyScore4: res.data.luckyScore4 || '',
+                                remindToday: res.data.remindToday || '',
+                                luckyTypeMore1: res.data.luckyTypeMore1 || '',
+                                luckyTypeMore2: res.data.luckyTypeMore2 || '',
+                                luckyTypeMore3: res.data.luckyTypeMore3 || '',
+                                luckyTypeMore4: res.data.luckyTypeMore4 || '',
+                                luckyScoreMore1: res.data.luckyScoreMore1 || '',
+                                luckyScoreMore2: res.data.luckyScoreMore2 || '',
+                                luckyScoreMore3: res.data.luckyScoreMore3 || '',
+                                luckyScoreMore4: res.data.luckyScoreMore4 || '',
+                                luckyWords1: res.data.luckyWords1 || '',
+                                luckyWords2: res.data.luckyWords2 || '',
+                                luckyWords3: res.data.luckyWords3 || '',
+                                luckyWords4: res.data.luckyWords4 || '',
+                                toDo: res.data.toDo || '',
+                                notDo: res.data.notDo || '',
+                                publishTime: res.data.publishTime || '',
+                                status: res.data.status || 1,
+                                publishName: res.data.publishName || '',
+                            }
+                        },
+                        excep: () => {
+                            this.$message.error('网络错误');
+                            this.showLoading = false;
                         }
-                    },
-                    excep: () => {
-                        this.$message.error('网络错误');
-                        this.showLoading = false;
-                    }
-                })
+                    })
+
             },
             back() {
                 this.$router.go(-1)
+            },
+            getType(e) {
+                this.showLoading = true;
+                    this.$http.post({
+                        url: '/tiLucky/json/findTiLuckysByPage',
+                        success: res => {
+                            let data = res.data.list[0];
+                            this.editInfo = {
+                                luckyType1: data.luckyType1 || '',
+                                luckyType2: data.luckyType2 || '',
+                                luckyType3: data.luckyType3 || '',
+                                luckyType4: data.luckyType4 || '',
+                                luckyScore1: '',
+                                luckyScore2: '',
+                                luckyScore3: '',
+                                luckyScore4: '',
+                                remindToday: '',
+                                luckyTypeMore1: data.luckyTypeMore1 || '',
+                                luckyTypeMore2: data.luckyTypeMore2 || '',
+                                luckyTypeMore3: data.luckyTypeMore3 || '',
+                                luckyTypeMore4: data.luckyTypeMore4 || '',
+                                luckyScoreMore1: '',
+                                luckyScoreMore2: '',
+                                luckyScoreMore3: '',
+                                luckyScoreMore4: '',
+                                luckyWords1: '',
+                                luckyWords2: '',
+                                luckyWords3: '',
+                                luckyWords4: '',
+                                toDo: '',
+                                notDo: '',
+                                publishTime: '',
+                                status: 1,
+                                publishName: '',
+                            }
+
+                            if (e) {
+                                this.editInfo.constellationId = e;
+                            }
+                            this.showLoading = false;
+                        },
+                        excep: err => {
+                            this.showLoading = false;
+                        }
+                    })
+
             }
         },
-        mounted() {
+        activated() {
             this.getOptions();
             this.fateType = this.$router.currentRoute.query;
             this.fateType.disabled == true ? this.isDisabled = true : this.isDisabled = false;
-            if (this.fateType.type == 'edit') {
+            if ( this.fateType.type == 'edit') {
                 this.getFate();
+            }else{
+                this.getType();
             }
         }
     }

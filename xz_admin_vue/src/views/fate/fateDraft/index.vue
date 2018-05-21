@@ -140,7 +140,7 @@
                         type: 'edit',
                         disabled: true
                     }
-                })
+                });
             },
             handleEdit(param, row) {
                 param.needNew = true; //打开新页面
@@ -152,7 +152,6 @@
                         disabled: false
                     }
                 })
-
             },
             refresh() {
 
