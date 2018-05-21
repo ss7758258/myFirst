@@ -5,6 +5,7 @@ const _GData = $vm.globalData
 const { parseLot } = $vm.utils
 const getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
 var mta = require('../../../utils/mta_analysis.js')
+let imgs = require('./imgs.js')
 Page({
 
   /**
@@ -18,7 +19,8 @@ Page({
     isOther: false,
     //摇签状态 
     shakeLotSpeed: false,
-    potPath: false
+    potPath: false,
+    imgs: imgs
   },
 
   /**
