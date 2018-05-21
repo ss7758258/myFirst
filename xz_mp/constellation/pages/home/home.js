@@ -338,51 +338,14 @@ Page({
       formid: formid
     })
     mta.Event.stat("ico_home", { "formid": formid, "toPage": "一签" })
-    $vm.api.getX504({
-      notShowLoading: true,
+    wx.navigateTo({
+      url: '/pages/lot/shakelot/shake?formid=' + formid,
+      complete: function (res) {
+        _self.setData({
+          isLoading: false
+        })
+      }
     })
-      .then(res => {
-        console.log(res)
-        if (!res) {
-          wx.navigateTo({
-            url: '/pages/lot/shakelot/shake?formid=' + formid,
-            complete: function (res) {
-              _self.setData({
-                isLoading: false
-              })
-            }
-          })
-        } else {
-          if (res.status === 0) {
-            wx.navigateTo({
-              url: '/pages/lot/shakelot/shake?formid=' + formid,
-              complete: function (res) {
-                _self.setData({
-                  isLoading: false
-                })
-              }
-            })
-          } else if (res.status == 1) { //没有签了
-            wx.navigateTo({
-              url: '/pages/lot/emptylot/emptylot?formid=' + formid,
-              complete: function (res) {
-                _self.setData({
-                  isLoading: false
-                })
-              }
-            })
-          }
-        }
-
-      })
-    // wx.navigateTo({
-    //   url: '/pages/lot/shakelot/shake?formid=' + formid,
-    //   complete: function (res) {
-    //     _self.setData({
-    //       isLoading: false
-    //     })
-    //   }
-    // })
   },
   oneword: function (e) {
 
