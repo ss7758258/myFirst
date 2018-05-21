@@ -57,7 +57,8 @@
 }
 
 .mySign image {
-  width: 100%;
+  width: 180rpx;
+  height: 180rpx;
 }
 
 .myLuck {
@@ -140,7 +141,7 @@
 
 .circle .right {
   right: 0;
-  left: 49%;
+  left: 48%;
 }
 
 .circle .right .semicircle {
@@ -165,10 +166,12 @@
 
 .more .icon_clock {
   width: 52rpx;
+  height: 52rpx;
 }
 
 .more .icon_more {
   width: 72rpx;
+  height: 52rpx;
   animation: translate 1s infinite linear both;
 }
 
@@ -198,6 +201,11 @@
   overflow: hidden;
   margin: 5rpx;
   line-height: 0;
+}
+
+.activity form image{
+  height: 440rpx;
+  width: 360rpx;
 }
 
 .cbg3 {

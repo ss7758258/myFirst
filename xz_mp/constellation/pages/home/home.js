@@ -12,7 +12,7 @@ Page({
 	 * 页面的初始数据
 	 */
   data: {
-    isShown: false,
+
     isLoading: false,
     selectBack: false,
     showHome: true,
@@ -85,16 +85,14 @@ Page({
         myLuck: myLuck,
         remindToday: res.remindToday ? res.remindToday : ''
       })
-      if (!_self.goPage(_SData) && (!_self.data.isShown)) {
+      if (!_self.goPage(_SData)) {
         const myLuckLen = myLuck.length
 
         for (let i = 0; i < myLuckLen; i++) {
           _self.circleDynamic(i)()
         }
       }
-      _self.setData({
-        isShown: true
-      })
+
 
     }).catch(err => {
       console.log(err)
@@ -151,7 +149,7 @@ Page({
                 key: 'userInfo',
                 data: res.userInfo,
               })
-              _self.goPage(_SData)
+              // _self.goPage(_SData)
             }
           })
         } else {
@@ -231,6 +229,7 @@ Page({
   },
 
   goPage: function (_SData) {
+    console.log('===============')
     var shouldGo = false
     if (_SData.pageFrom == 'share') {
       if (_SData.toPage == 'today') {
@@ -239,7 +238,7 @@ Page({
         })
       } else if (_SData.toPage == 'brief') {
         wx.navigateTo({
-          url: '/pages/brief/brief?from=share'
+          url: '/pages/onebrief/brief?from=share'
         })
       }
       shouldGo = true

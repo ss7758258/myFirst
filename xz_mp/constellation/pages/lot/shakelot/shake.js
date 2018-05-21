@@ -157,7 +157,7 @@ Page({
     if (_self.data.shakeLotSpeed) {
       return
     }
-    if (_self.data.hasReturn) {
+    if (_self.data.hasReturn || _self.data.isLoading) {
       return
     }
     const innerAudioContext = wx.createInnerAudioContext()
@@ -178,7 +178,7 @@ Page({
 
     $vm.api.getX504({ notShowLoading: true, })
       .then(res => {
-        if (_self.data.hasReturn || _self.data.isLoading) {
+        if (_self.data.hasReturn) {
           return
         }
         console.log(res)

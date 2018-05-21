@@ -24,7 +24,7 @@
   <view class="UI_box2" wx:else>
     <button class="mySign {{selectBack ? 'selectItem1 ':''}}" bindtap='onClickConstellation' hover-class="itemClick">
       <view class="signImg">
-        <image wx:if="{{myConstellation.img}}" src="{{myConstellation.img}}" mode="widthFix" />
+        <image wx:if="{{myConstellation.img}}" src="{{myConstellation.img}}" />
       </view>
       <view class="signTitle">
         <text class="name">{{myConstellation.name}}</text>
@@ -49,12 +49,12 @@
       </block>
 
       <view class="more">
-        <image class="icon_clock" src="/assets/images/icon_clock.png" mode="widthFix" />
+        <image class="icon_clock" src="/assets/images/icon_clock.png" />
         <text>{{remindToday}}</text>
         <form bindsubmit="today" report-submit='true'>
           <button class='button1 text1' form-type="submit" type='' hover-class="none">
             <text>查看更多运势</text>
-            <image class="icon_more forward" src="/assets/images/more.png" mode="widthFix" />
+            <image class="icon_more forward" src="/assets/images/more.png" />
           </button>
         </form>
       </view>
@@ -64,13 +64,13 @@
       <form bindsubmit="onelot" report-submit='true'>
         <button class='button1' form-type="submit" type='' hover-class="none">
 
-          <image src="/assets/images/yiqian.jpg" mode="widthFix" />
+          <image src="/assets/images/yiqian.jpg" />
 
         </button>
       </form>
       <form bindsubmit="oneword" report-submit='true'>
         <button class='button1' form-type="submit" type='' hover-class="none">
-          <image src="/assets/images/yiyan.jpg" mode="widthFix" />
+          <image src="/assets/images/yiyan.jpg" />
         </button>
       </form>
     </view>

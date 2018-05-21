@@ -18,23 +18,23 @@
     <view class="lotPot {{shakeLotSpeed? 'shake' : ''}}" bindtap="drawLots">
 
       <view class="box">
-        <image class="pot" wx:if="{{potPath}}" src="/assets/images/pot_1.png" mode="widthFix" />
-        <image class="pot" wx:else src="/assets/images/pot_2.png" mode="widthFix" />
+        <image class="pot" wx:if="{{potPath}}" src="/assets/images/pot_1.png" />
+        <image class="pot" wx:else src="/assets/images/pot_2.png" />
         <image class="pot surround" src="/assets/images/pot_surround.png" />
-        <image class="lot" src="/assets/images/lot.png" mode="widthFix" />
-        <image class="lot" src="/assets/images/lot.png" mode="widthFix" />
-        <image class="lot" src="/assets/images/lot.png" mode="widthFix" />
-        <image class="lot" src="/assets/images/lot.png" mode="widthFix" />
-        <image class="lot" src="/assets/images/lot.png" mode="widthFix" />
-        <image class="lot" src="/assets/images/lot.png" mode="widthFix" />
-        <image class="lot" src="/assets/images/lot.png" mode="widthFix" />
+        <image class="lot" src="/assets/images/lot.png" />
+        <image class="lot" src="/assets/images/lot.png" />
+        <image class="lot" src="/assets/images/lot.png" />
+        <image class="lot" src="/assets/images/lot.png" />
+        <image class="lot" src="/assets/images/lot.png" />
+        <image class="lot" src="/assets/images/lot.png" />
+        <image class="lot" src="/assets/images/lot.png" />
       </view>
     </view>
     <form bindsubmit="showLotList" class='savepic' report-submit='true'>
       <button class="button1" form-type="submit" type='' hover-class="none">
         <view wx:if="{{!shakeLotSpeed}}" class="moreLot">
           <text>一签盒</text>
-          <image src="/assets/images/arrow.png" mode="widthFix" />
+          <image src="/assets/images/arrow.png" />
         </view>
       </button>
     </form>

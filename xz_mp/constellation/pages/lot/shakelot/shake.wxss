@@ -1,298 +1,331 @@
 /* pages/lot/shakelot/shake.wxss */
 
 .userInfo {
-	display: flex;
-	align-items: center;
-	padding: 40rpx;
+  display: flex;
+  align-items: center;
+  padding: 40rpx;
 }
 
 .userInfo .left {
-	flex: 1;
-	margin-left: 20rpx;
-	font-size: 28rpx;
-	text-shadow: 2rpx 2rpx 5rpx rgba(0, 0, 0, 0.3)
+  flex: 1;
+  margin-left: 20rpx;
+  font-size: 28rpx;
+  text-shadow: 2rpx 2rpx 5rpx rgba(0, 0, 0, 0.3);
 }
 
 .userInfo .left>text {
-	display: block;
+  display: block;
 }
 
 .photo {
-	width: 100rpx;
-	height: 100rpx;
-	border-radius: 50%;
-	overflow: hidden;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 /* 摇签 */
 
-.drawLots {}
+.drawLots {
+}
 
-.drawLots .box {}
+.drawLots .box {
+}
 
 .lotPot {
-	width: 400rpx;
-	height: 460rpx;
-	margin: 380rpx auto 0;
-	position: relative;
-	transform-origin: center bottom;
+  width: 400rpx;
+  height: 460rpx;
+  margin: 380rpx auto 0;
+  position: relative;
+  transform-origin: center bottom;
 }
 
 .lotPot.shake {
-	animation: shakeLot 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
+  animation: shakeLot 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
 }
 
 .drawLots .pot {
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 3;
+  width: 390rpx;
+  height: 440rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
 }
 
 .drawLots .pot.surround {
-	z-index: 1;
-	top: -20rpx;
+  z-index: 1;
+  top: -20rpx;
   height: 70rpx;
 }
 
 .drawLots .lot {
-	width: 160rpx;
-	position: absolute;
-	z-index: 2;
-	transform-origin: center bottom;
+  width: 160rpx;
+  height: 590rpx;
+  position: absolute;
+  z-index: 2;
+  transform-origin: center bottom;
 }
 
 .drawLots .lot:nth-of-type(3) {
-	left: 20rpx;
-	top: -450rpx;
-	transform: rotate(25deg);
-	filter: brightness(85%);
-	zoom: .9;
+  left: 20rpx;
+  top: -450rpx;
+  transform: rotate(25deg);
+  filter: brightness(85%);
+  zoom: 0.9;
 }
 
 .drawLots .shake .lot:nth-of-type(3) {
-	animation: lot3 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
+  animation: lot3 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
 }
 
 @keyframes lot3 {
-	0% {
-		transform: rotate(25deg);
-	}
-	25% {
-		transform: rotate(35deg);
-	}
-	75% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(25deg);
-	}
+  0% {
+    transform: rotate(25deg);
+  }
+
+  25% {
+    transform: rotate(35deg);
+  }
+
+  75% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(25deg);
+  }
 }
 
 .drawLots .lot:nth-of-type(4) {
-	left: 0;
-	top: -430rpx;
-	transform: rotate(10deg);
-	filter: brightness(90%);
+  left: 0;
+  top: -430rpx;
+  transform: rotate(10deg);
+  filter: brightness(90%);
 }
 
 .drawLots .shake .lot:nth-of-type(4) {
-	animation: lot4 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
+  animation: lot4 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
 }
 
 @keyframes lot4 {
-	0% {
-		transform: rotate(10deg);
-	}
-	25% {
-		transform: rotate(25deg);
-	}
-	75% {
-		transform: rotate(-15deg);
-	}
-	100% {
-		transform: rotate(10deg);
-	}
+  0% {
+    transform: rotate(10deg);
+  }
+
+  25% {
+    transform: rotate(25deg);
+  }
+
+  75% {
+    transform: rotate(-15deg);
+  }
+
+  100% {
+    transform: rotate(10deg);
+  }
 }
 
 .drawLots .lot:nth-of-type(5) {
-	left: 60rpx;
-	top: -380rpx;
-	transform: rotate(-22deg);
-	filter: brightness(90%);
-	zoom: .95;
+  left: 60rpx;
+  top: -380rpx;
+  transform: rotate(-22deg);
+  filter: brightness(90%);
+  zoom: 0.95;
 }
+
 .drawLots .shake .lot:nth-of-type(5) {
-	animation: lot5 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
+  animation: lot5 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
 }
 
 @keyframes lot5 {
-	0% {
-		transform: rotate(-22deg);
-	}
-	25% {
-		transform: rotate(22deg);
-	}
-	75% {
-		transform: rotate(-30deg);
-	}
-	100% {
-		transform: rotate(-22deg);
-	}
+  0% {
+    transform: rotate(-22deg);
+  }
+
+  25% {
+    transform: rotate(22deg);
+  }
+
+  75% {
+    transform: rotate(-30deg);
+  }
+
+  100% {
+    transform: rotate(-22deg);
+  }
 }
 
 .drawLots .lot:nth-of-type(6) {
-	left: 110rpx;
-	top: -360rpx;
-	transform: rotate(15deg);
+  left: 110rpx;
+  top: -360rpx;
+  transform: rotate(15deg);
 }
+
 .drawLots .shake .lot:nth-of-type(6) {
-	animation: lot6 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
+  animation: lot6 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
 }
 
 @keyframes lot6 {
-	0% {
-		transform: rotate(15deg);
-	}
-	25% {
-		transform: rotate(30deg);
-	}
-	75% {
-		transform: rotate(-10deg);
-	}
-	100% {
-		transform: rotate(15deg);
-	}
+  0% {
+    transform: rotate(15deg);
+  }
+
+  25% {
+    transform: rotate(30deg);
+  }
+
+  75% {
+    transform: rotate(-10deg);
+  }
+
+  100% {
+    transform: rotate(15deg);
+  }
 }
 
 .drawLots .lot:nth-of-type(7) {
-	left: 180rpx;
-	top: -390rpx;
-	transform: rotate(0);
-	zoom: .8;
+  left: 180rpx;
+  top: -390rpx;
+  transform: rotate(0);
+  zoom: 0.8;
 }
 
 .drawLots .shake .lot:nth-of-type(7) {
-	animation: lot7 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
+  animation: lot7 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
 }
 
 @keyframes lot7 {
-	0% {
-		transform: rotate(0)
-	}
-	25% {
-		transform: rotate(20deg)
-	}
-	75% {
-		transform: rotate(-25deg)
-	}
-	100% {
-		transform: rotate(0)
-	}
+  0% {
+    transform: rotate(0);
+  }
+
+  25% {
+    transform: rotate(20deg);
+  }
+
+  75% {
+    transform: rotate(-25deg);
+  }
+
+  100% {
+    transform: rotate(0);
+  }
 }
 
 .drawLots .lot:nth-of-type(8) {
-	left: 140rpx;
-	top: -380rpx;
-	transform: rotate(-20deg);
+  left: 140rpx;
+  top: -380rpx;
+  transform: rotate(-20deg);
 }
 
 .drawLots .shake .lot:nth-of-type(8) {
-	animation: lot8 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
+  animation: lot8 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
 }
 
 @keyframes lot8 {
-	0% {
-		transform: rotate(-20deg)
-	}
-	25% {
-		transform: rotate(20deg)
-	}
-	75% {
-		transform: rotate(-30deg)
-	}
-	100% {
-		transform: rotate(-20deg)
-	}
+  0% {
+    transform: rotate(-20deg);
+  }
+
+  25% {
+    transform: rotate(20deg);
+  }
+
+  75% {
+    transform: rotate(-30deg);
+  }
+
+  100% {
+    transform: rotate(-20deg);
+  }
 }
 
 .drawLots .lot:nth-of-type(9) {
-	left: 130rpx;
-	top: -380rpx;
-	transform: rotate(25deg);
+  left: 130rpx;
+  top: -380rpx;
+  transform: rotate(25deg);
 }
 
 .drawLots .shake .lot:nth-of-type(9) {
-	animation: lot9 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
+  animation: lot9 1.2s infinite cubic-bezier(0, 0.2, 1, 0.8);
 }
 
 @keyframes lot9 {
-	0% {
-		transform: rotate(25deg)
-	}
-	25% {
-		transform: rotate(30deg)
-	}
-	75% {
-		transform: rotate(-25deg)
-	}
-	100% {
-		transform: rotate(25deg)
-	}
+  0% {
+    transform: rotate(25deg);
+  }
+
+  25% {
+    transform: rotate(30deg);
+  }
+
+  75% {
+    transform: rotate(-25deg);
+  }
+
+  100% {
+    transform: rotate(25deg);
+  }
 }
 
 .moreLot {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40rpx;
 }
 
 .moreLot image {
-	width: 52rpx;
+  width: 52rpx;
+  height: 52rpx;
 }
 
 /* 摇签动画 */
 
 @keyframes shakeLot {
-	0% {
-		-webkit-transform: rotate(0);
-	}
-	25% {
-		-webkit-transform: rotate(25deg);
-	}
-	75% {
-		-webkit-transform: rotate(-25deg);
-	}
-	100% {
-		-webkit-transform: rotate(0);
-	}
+  0% {
+    -webkit-transform: rotate(0);
+  }
+
+  25% {
+    -webkit-transform: rotate(25deg);
+  }
+
+  75% {
+    -webkit-transform: rotate(-25deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(0);
+  }
 }
 
 .theSign {
-	width: 300rpx;
-	position: absolute;
-	top: 10%;
-	left: 30%;
-	animation: theSign 3s both;
+  width: 300rpx;
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  animation: theSign 3s both;
 }
 
 /* 出签动画 */
 
 @keyframes theSign {
-	0% {
-		opacity: 0;
-		transform: scale(0.3) rotateY(0) rotateX(-45deg);
-	}
-	100% {
-		opacity: 1;
-		transform: scale(1) rotateY(360deg) rotateX(0);
-	}
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotateY(0) rotateX(-45deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) rotateY(360deg) rotateX(0);
+  }
 }
 
 .shouquan {
-	position: fixed;
-	top: 50%;
-	left: 25%;
-	z-index: 11;
+  position: fixed;
+  top: 50%;
+  left: 25%;
+  z-index: 11;
 }

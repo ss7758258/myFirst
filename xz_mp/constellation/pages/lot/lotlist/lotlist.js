@@ -22,7 +22,7 @@ Page({
       .then(res => {
         console.log(res)
         var list = []
-        if (res.length < 10) {
+        if (res.length < 10 || !res) {
           _self.setData({
             isMore: false
           })
