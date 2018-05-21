@@ -1,6 +1,6 @@
 <!--pages/onelot/onelot.wxml-->
 <!-- <audio src="{{src}}" id="myAudio"></audio> -->
-<view class="UI_pgae page_onelot">
+<view class="UI_pgae">
   <view class="userInfo">
     <view class="photo">
       <open-data type="userAvatarUrl"></open-data>
