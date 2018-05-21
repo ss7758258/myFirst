@@ -3,12 +3,13 @@
   <view>
     <view class="UI_box ">
       <image class='{{networkError?"noNet": "pic"}}' src="{{prevPic}}" />
+      
+      <form class='saveform' bindsubmit="saveSelect" report-submit='true' wx:if="{{!networkError}}">
+        <button class="save" form-type="submit" type='' hover-class="none">
+          保存图片
+        </button>
+      </form>
     </view>
-    <form class='saveform' bindsubmit="saveSelect" report-submit='true' wx:if="{{!networkError}}">
-      <button class="save" form-type="submit" type='' hover-class="none">
-        保存图片
-      </button>
-    </form>
 	</view>
 	<view class="slogan" wx:if="{{false}}">
 		<image src="/assets/images/slogan2.png" mode="widthFix" />

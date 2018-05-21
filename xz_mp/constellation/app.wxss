@@ -17,7 +17,7 @@ page,
 page {
 	font-size: 32rpx;
 	color: white;
-	/* background-image: linear-gradient(0deg, #8CBAFE 0%, #B672E2 52%, #9262FB 84%, #9262FB 99%); */
+	 background-image: linear-gradient(0deg, #8CBAFE 0%, #B672E2 52%, #9262FB 84%, #9262FB 99%); 
 }
 
 image {
