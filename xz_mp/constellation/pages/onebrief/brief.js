@@ -42,20 +42,7 @@ Page({
             res.prevPic ? "https://xingzuo-1256217146.file.myqcloud.com" + res.prevPic :
               ""
           })
-          // wx.request({
-          //   url: "https://xingzuo-1256217146.file.myqcloud.com" + res.prevPic,
-          //   data: '',
-          //   header: {},
-          //   method: 'GET',
-          //   success: function (res) { },
-          //   fail: function (res) {
-          //     _self.setData({
-          //       networkError: true,
-          //       prevPic: "/assets/images/loading.png"
-          //     })
-          //    },
-          //   complete: function (res) { },
-          // })
+           
         } else {
           _self.setData({
             networkError: true,

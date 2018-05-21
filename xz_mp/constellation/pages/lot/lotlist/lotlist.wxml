@@ -1,8 +1,12 @@
 <!--pages/onelot/onelot.wxml-->
 <!-- <audio src="{{src}}" id="myAudio"></audio> -->
-<view class="UI_pgae page_onelot">
+<view class="UI_pgae page_onelot {{noList?'nolotBg':''}}">
+  <view class="UI_box " wx:if="{{noList}}">
+    <image class=' nolot' src="/assets/images/nolot.png" />
+  </view>
+
   <!--我的幸运签列表-->
-  <view class="lotList">
+  <view class="lotList" wx:else>
     <view class="lotNumber">
       <view class="photo">
         <open-data type="userAvatarUrl"></open-data>
@@ -36,7 +40,7 @@
     <form bindsubmit="moreLot" class='morelot' report-submit='true' wx:if="{{false}}">
       <button class="button1" form-type="submit" type='' hover-class="none">
 
-        查看更多... 
+        查看更多...
 
       </button>
     </form>

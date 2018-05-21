@@ -121,13 +121,13 @@ function parseToady(data) {
   }
   dataList.push({
     name: '去做',
-    img: '/assets/images/icon_star4.png',
+    img: '/assets/images/icon_star5.png',
     content: data.toDo,
     width: 8
   })
   dataList.push({
     name: '别做',
-    img: '/assets/images/icon_star5.png',
+    img: '/assets/images/icon_star6.png',
     content: data.notDo,
     width: 0
   })

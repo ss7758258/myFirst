@@ -2,8 +2,8 @@
 
 .page_brief {
   box-sizing: border-box;
-  padding-left: 50rpx;
-  padding-right: 50rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
   padding-top: 20rpx;
 }
 
@@ -16,13 +16,21 @@
 }
 
 .UI_box .pic {
-  width: 610rpx;
-  height: 730rpx;
+  width: 710rpx;
+  height: 1100rpx;
   /* max-height: 388px;  */
 }
 
+.noNetBg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .noNet {
-  width: 85%;
+  padding-bottom: 60rpx;
+  width: 640rpx;
+  height: 640rpx;
 }
 
 .UI_box .title {
@@ -69,10 +77,20 @@
   width: 55%;
 }
 
+.saveform {
+  left: 17%;
+  width: 480rpx;
+  height: 90rpx;
+  position: absolute;
+  top: 80%;
+}
+
 .save {
   width: 80%;
   margin: 0 auto;
-  color: rgb(158, 29, 29);
+  /* color: rgb(158, 29, 29); */
+  background-color: #d3a0ff;
+  color: white;
   /* margin-top: 30rpx;
   width: 40%;
   height: 2rem;
@@ -83,8 +101,4 @@
   border: 1px solid #fff;
   color: white;
   background-image: linear-gradient(90deg, #7568ee 0%, #9425a6 100%); */
-}
-
-.bg3 {
-  background-image: linear-gradient(0deg, #ef94d1 0%, #b672e2 52%, #9262fb 99%);
 }

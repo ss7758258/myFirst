@@ -6,7 +6,7 @@
       <view class="todayList">
         <balck class="item {{item.name?'':'itemHint'}}" wx:for="{{todayList}}" wx:key="index" bindtap="selectSign" id="{{index}}">
           <view class="title" wx:if="{{item.name}}">
-            <image src="{{item.img}}" mode="widthFix" />
+            <image src="{{item.img}}" />
             <text>{{item.name}}</text>
             <view wx:if="{{item.level}}">
               <image src="/assets/images/stars{{item.level>=1 ? '1' : '2'}}.png" mode="widthFix" />

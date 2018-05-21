@@ -107,6 +107,18 @@
 }
 
 .morelot button {
-  color: #333333;
+  color: #333;
   font-size: 25rpx;
+}
+
+.nolotBg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nolot {
+  padding-bottom: 60rpx;
+  width: 640rpx;
+  height: 640rpx;
 }

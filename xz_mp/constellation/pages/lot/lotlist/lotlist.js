@@ -9,7 +9,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isMore: false
+    isMore: false,
+    noList: true,
   },
 
   /**
@@ -29,6 +30,11 @@ Page({
         } else {
           _self.setData({
             isMore: true
+          })
+        }
+        if (res.length > 0) {
+          _self.setData({
+            noList: false
           })
         }
         for (var i = 0; i < res.length; i++) {
