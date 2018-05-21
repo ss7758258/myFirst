@@ -70,7 +70,7 @@ public class MoreConstellationServiceImpl implements MoreConstellationService {
             BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
             criteria.andEqualTo("constellationId", constellationId);
             criteria.andEqualTo("status", 1);
-            criteria.andLike("publishTime", DateUtil.getDate()+"%");
+            //criteria.andLike("publishTime", DateUtil.getDate()+"%");
             beanCriteria.setOrderByClause("update_timestamp desc");
             List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
             if (!tiLuckyList.isEmpty()) {
