@@ -2,6 +2,7 @@
 const $vm = getApp()
 const _GData = $vm.globalData
 var mta = require('../../../utils/mta_analysis.js')
+var pageNum = 1
 Page({
 
   /**
@@ -17,7 +18,7 @@ Page({
   onLoad: function (options) {
     mta.Page.init()
     const _self = this
-    $vm.api.getX510({ pageNum: 1, pageSize: 100 })
+    $vm.api.getX510({ pageNum: pageNum, pageSize: 10 })
       .then(res => {
         console.log(res)
         var list = []
@@ -99,6 +100,32 @@ Page({
         // 转发失败
       }
     }
+  },
+  moreLot: function (e) {
+    pageNum++
+    let formid = e.detail.formId
+
+    mta.Event.stat("ico_lotlist", { "business": "点击更多签" })
+    const _self = this
+    var list = _self.data.lotList.list
+    $vm.api.getX510({ pageNum: pageNum, pageSize: 10 })
+      .then(res => {
+        console.log(res)
+       
+        for (var i = 0; i < res.length; i++) {
+          let dd = res[i]
+          list.push({
+            index: i,
+            time: dd.qianDate,
+            status: dd.status,
+            id: dd.id
+          })
+        }
+        _self.setData({
+          'lotList.list': list,
+          'lotList.count': res.length,
+        })
+      })
   },
   onItemClick: function (e) {
 

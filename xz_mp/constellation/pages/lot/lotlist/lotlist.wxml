@@ -33,5 +33,12 @@
 
       </block>
     </scroll-view>
+    <form bindsubmit="moreLot" class='morelot' report-submit='true'>
+      <button class="button1" form-type="submit" type='' hover-class="none">
+
+        查看更多... 
+
+      </button>
+    </form>
   </view>
 </view>
