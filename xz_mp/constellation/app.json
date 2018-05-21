@@ -1,0 +1,19 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/index/index",
+    "pages/today/today",
+    "pages/onebrief/brief",
+    "pages/lot/lotlist/lotlist",
+    "pages/lot/shakelot/shake",
+    "pages/lot/emptylot/emptylot",
+    "pages/lot/lotdetail/lotdetail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#9262FB",
+    "navigationBarTitleText": "小哥星座",
+    "navigationBarTextStyle": "white",
+    "enablePullDownRefresh": false
+  }
+}

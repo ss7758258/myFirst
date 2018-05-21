@@ -1,0 +1,25 @@
+<view class="UI_page page_home bg1">
+  <view class="UI_box cbg1">
+    <!-- <view class="header"> -->
+      <!-- <text>选择星座</text> -->
+      <!-- <image src="/assets/images/slogan.png" mode="widthFix" /> -->
+    <!-- </view> -->
+    <view class="signList {{selectStatus.selected? 'isSelect':''}}">
+      <block wx:for="{{signList}}" wx:key="index">
+        <view class="item" bindtap="selectSign" id="{{index}}">
+          <view class="box {{selectStatus.current == index ? 'selectItem ':''}}">
+            <image src="{{item.img}}" mode="widthFix" />
+            <text class="name">{{item.name}}</text>
+            <text class="time">{{item.time}}</text>
+
+            <image src="/assets/images/star.png" class="selectCurr" mode="widthFix" />
+          </view>
+        </view>
+      </block>
+      <button wx:if="{{canIUse&&(!hasAuthorize)}}" class="save purple_btn" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">同意授权登录</button>
+      <view wx:if="{{!canIUse}}">请升级微信版本</view>
+
+      <button wx:if="{{false}}" class="save purple_btn" bindtap="saveSelect">保存</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,155 @@
+<!--pages/onelot/onelot.wxml-->
+<!-- <audio src="{{src}}" id="myAudio"></audio> -->
+<view class="UI_pgae page_onelot">
+  <view class="userInfo" wx:if="{{!(lotListShow|showEmptyLot)}}">
+    <view class="photo">
+      <image wx:if="{{isOther}}" src="{{ownerHeadImage}}" mode='widthFix'></image>
+      <open-data wx:else type="userAvatarUrl"></open-data>
+
+    </view>
+    <view wx:if="{{!lotNotCompleted&&isOther}}" class="left">
+      <text>{{lotTitleHint}}</text>
+      <view>
+        <text wx:if="{{isOther}}">{{ownerNickName}}</text>
+        <open-data wx:else type="userNickName"></open-data>
+        <text>在这里谢谢大家</text>
+      </view>
+    </view>
+    <view wx:else class="left">
+      <view>
+        <text>{{isOther?"朋友们好，我是":"你好，"}}</text>
+        <text wx:if="{{isOther}}">{{ownerNickName}}</text>
+        <open-data wx:else type="userNickName"></open-data>
+      </view>
+      <text>{{lotTitleHint}}</text>
+    </view>
+  </view>
+  <!--空签  -->
+  <view class='emptyLot' wx:if="{{showEmptyLot}}">
+    <image src="/assets/images/bqc.png" mode="widthFix"></image>
+    <view class='noLot'>今天的签已经抽完了喔~</view>
+    <button class="botton" bindtap='onclickqian'>查看拆签进度</button>
+  </view>
+  <!--摇签-->
+  <view class="drawLots" wx:if="{{shakeLotShow}}">
+    <view class="lotPot {{shakeLotSpeed? 'shake' : ''}}" bindtap="drawLots">
+
+      <view class="box" wx:if="{{!shakeLotStatus}}">
+        <image class="pot" src="/assets/images/pot.png" mode="widthFix" />
+        <image class="pot surround" src="/assets/images/pot_surround.png" mode="widthFix" />
+        <image class="lot" src="/assets/images/lot.png" mode="widthFix" />
+        <image class="lot" src="/assets/images/lot.png" mode="widthFix" />
+        <image class="lot" src="/assets/images/lot.png" mode="widthFix" />
+        <image class="lot" src="/assets/images/lot.png" mode="widthFix" />
+        <image class="lot" src="/assets/images/lot.png" mode="widthFix" />
+        <image class="lot" src="/assets/images/lot.png" mode="widthFix" />
+        <image class="lot" src="/assets/images/lot.png" mode="widthFix" />
+      </view>
+
+
+      <!--
+			<image wx:if="{{!shakeLotStatus}}" class="shake" src="/assets/images/yao.png" mode="widthFix" />
+      <image wx:if="{{!shakeLotStatus}}" class='pot' src="/assets/images/lotPot.png" mode="widthFix" />-->
+      <image wx:if="{{shakeLotStatus}}" class="theSign" src="/assets/images/lot.png" mode="widthFix" />
+	
+    </view>
+
+    <view wx:if="{{!shakeLotSpeed}}" class="moreLot" bindtap="showLotList">
+      <text>一签盒</text>
+      <image src="/assets/images/arrow.png" mode="widthFix" />
+    </view>
+  </view>
+
+
+  <!--我的幸运签列表-->
+  <view class="lotList" wx:if="{{lotListShow}}">
+    <view class="lotNumber">
+      <view class="photo">
+        <open-data type="userAvatarUrl"></open-data>
+      </view>
+      <text>我的抽签数量：{{lotList.count}}个</text>
+    </view>
+
+    <view class="box">
+
+      <image class='xiaoge' src="/assets/images/xiaoge.png" mode="widthFix" />
+      <image class="lot" src="/assets/images/shining_lot.png" mode="widthFix" />
+      <image class="lotBg" src="/assets/images/lotBg.png" mode="widthFix" />
+    </view>
+
+    <scroll-view class="listScroll" scroll-y>
+      <block wx:for="{{lotList.list}}" wx:key="index">
+        <view class="listItem" id="item.id" bindtap='onItemClick' data-index="{{item.index}}" data-id="{{ item.id }}">
+          <text class="time">{{item.time}}</text>
+          <text class="status">{{item.status==0? '未拆':'已拆'}}</text>
+          <image src="/assets/images/arrow.png" mode="widthFix" />
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+
+
+  <!--幸运签详情-->
+  <view class="myLot" wx:if="{{myLotShow}}">
+    <view class="box" wx:if="{{lotNotCompleted}}">
+      <image class='xiaoge' src="/assets/images/xiaoge.png" mode="widthFix" />
+      <image class="lot" src="/assets/images/shining_lot.png" mode="widthFix" />
+      <image class="lotBg" src="/assets/images/lotBg.png" mode="widthFix" />
+    </view>
+    <view class="unLogBox" wx:if="{{!lotNotCompleted}}">
+      <view class='unlotBg'></view>
+      <view class="unLog">
+        <view class='logType'>
+          <text>{{qianName}}</text>
+        </view>
+        <view class='content'>
+          <text>{{qianContent}}</text>
+        </view>
+        <view class='name'>
+          <text>{{ownerNickName}}</text>
+        </view>
+        <view class='date'>
+          <text>{{qianDate}}</text>
+        </view>
+      </view>
+    </view>
+    <view class="invite">
+      <view class="troops">
+        <block wx:for="{{myLot.troops}}" wx:key="index">
+          <view class="nom">
+            <image class="photo" src="{{item.photo}}" mode="widthFix" />
+          </view>
+        </block>
+        <block wx:for="{{qianOpenSize - myLot.troops.length}}" wx:key="index">
+          <view class="nomPerch">
+            <view class="photo">
+              <image class="photo" src="/assets/images/haoren.png" mode="widthFix" />
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="number">
+        <text>{{isOther?
+        ((qianOpenSize - myLot.troops.length==0)?"上面的好人已完成拆签":"还差"+(qianOpenSize - myLot.troops.length)+"个人即可完成拆签！")
+        :
+        ((qianOpenSize - myLot.troops.length==0)?"上面的好人已帮你完成拆签":"还差"+(qianOpenSize - myLot.troops.length)+"个好人即可完成拆签，加油！")
+        }}</text>
+      </view>
+      <view wx:if="{{showHaoren}}" class='qipaobg'>
+
+        <image class='qipao' src="/assets/images/qipao.png" mode="widthFix" />
+        <text class='qipaowenzi'>已帮助好友，成功当了次好人，你也赶快试试吧！</text>
+      </view>
+      <button wx:if="{{showChai}}" bindtap='chai' class="botton ">{{hasChai?'查看我的星运签':'帮好友拆签'}}</button>
+      <view class='shareBox' wx:else>
+        <button open-type="share" class="{{lotNotCompleted?'botton':''}}">{{lotNotCompleted?"立即找好友帮忙":"给好友玩"}}</button>
+        <button wx:if="{{!lotNotCompleted}}" bindtap='onclickShareCircle'>保存此签</button>
+      </view>
+    </view>
+  </view>
+
+</view>
+
+<view class='canvasBox' wx:if="{{showCanvas}}">
+  <canvas canvas-id="shareCanvas" style="width:750px;height:750px;z-index=-1"></canvas>
+</view>

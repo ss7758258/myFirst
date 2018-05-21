@@ -1,0 +1,73 @@
+{
+	"description": "项目配置文件。",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": true,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"libVersion": "1.9.94",
+	"appid": "wxedc8a06ed85ce4df",
+	"projectname": "constellation",
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": 0,
+					"name": "today",
+					"pathName": "pages/home/home",
+					"query": "to=today&from=share"
+				},
+				{
+					"id": 1,
+					"name": "brief",
+					"pathName": "pages/home/home",
+					"query": "to=brief&from=share"
+				},
+				{
+					"id": 2,
+					"name": "lotdetail",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": "lotId=134&from=share",
+					"scene": "1011"
+				},
+				{
+					"id": 3,
+					"name": "shake",
+					"pathName": "pages/lot/shakelot/shake",
+					"query": "from=share",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "empty",
+					"pathName": "pages/lot/emptylot/emptylot",
+					"query": "",
+					"scene": "1011"
+				}
+			]
+		}
+	}
+}

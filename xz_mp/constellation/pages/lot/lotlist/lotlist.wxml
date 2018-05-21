@@ -1,0 +1,37 @@
+<!--pages/onelot/onelot.wxml-->
+<!-- <audio src="{{src}}" id="myAudio"></audio> -->
+<view class="UI_pgae page_onelot">
+  <!--我的幸运签列表-->
+  <view class="lotList">
+    <view class="lotNumber">
+      <view class="photo">
+        <open-data type="userAvatarUrl"></open-data>
+      </view>
+      <text>我的抽签数量：{{lotList.count}}个</text>
+    </view>
+
+    <view class="box">
+
+      <image class='xiaoge' src="/assets/images/xiaoge.png" mode="widthFix" />
+      <image class="lot" src="/assets/images/shining_lot.png" mode="widthFix" />
+      <image class="lotBg" src="/assets/images/lotBg.png" mode="widthFix" />
+    </view>
+
+    <scroll-view class="listScroll" scroll-y>
+      <block wx:for="{{lotList.list}}" wx:key="index">
+
+        <form bindsubmit="onItemClick" class="item" report-submit='true'>
+          <button class='button1' form-type="submit" type='' data-item='{{item}}' hover-class="none">
+
+            <view class="listItem" id="item.id" data-index="{{item.index}}" data-id="{{ item.id }}">
+              <text class="time">{{item.time}}</text>
+              <text class="status">{{item.status==0? '拆签中':'已拆签'}}</text>
+              <image src="/assets/images/arrow.png" mode="widthFix" />
+            </view>
+          </button>
+        </form>
+
+      </block>
+    </scroll-view>
+  </view>
+</view>

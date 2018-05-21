@@ -1,0 +1,65 @@
+/**app.wxss**/
+
+.shouquan {
+  position: fixed;
+  top: 50%;
+  left: 25%;
+  z-index: 11;
+}
+
+
+
+page,
+.UI_page {
+	height: 100%;
+}
+
+page {
+	font-size: 32rpx;
+	color: white;
+	background-image: linear-gradient(0deg, #8CBAFE 0%, #B672E2 52%, #9262FB 84%, #9262FB 99%);
+}
+
+image {
+	max-width: 100%;
+}
+
+.UI_page {}
+
+
+.purple_btn {
+
+}
+.home {
+  position: fixed;
+  width: 100rpx;
+  height: 100rpx;
+  bottom: 20%;
+  right: 4%;
+}
+
+
+.button1 {
+  position: relative;
+  display: inherit;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: inherit;
+  padding-right: inherit;
+  box-sizing: inherit;
+  font-size: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  line-height: inherit;
+  border-radius: 0;
+  -webkit-tap-highlight-color: inherit;
+  overflow: inherit;
+  color: inherit;
+  background-color: inherit;
+  border: none;
+}
+
+.button1::after {
+  border: none;
+}
+

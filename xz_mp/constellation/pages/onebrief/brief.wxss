@@ -1,0 +1,90 @@
+/* pages/onebrief/brief.wxss */
+
+.page_brief {
+  box-sizing: border-box;
+  padding-left: 50rpx;
+  padding-right: 50rpx;
+  padding-top: 20rpx;
+}
+
+.UI_box {
+  /* padding-left: 20rpx;
+  padding-right: 20rpx; */
+  align-items: center;
+  text-align: center;
+  /* background-color: white; *//* padding-bottom: 90rpx; */
+}
+
+.UI_box .pic {
+  width: 610rpx;
+  height: 730rpx;
+  /* max-height: 388px;  */
+}
+
+.noNet {
+  width: 85%;
+}
+
+.UI_box .title {
+  text-align: left;
+}
+
+.UI_box .subtitle {
+  color: grey;
+  font-size: 20rpx;
+}
+
+.UI_box .content {
+  color: black;
+  margin-top: 30rpx;
+  font-size: 28rpx;
+  text-align: left;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+}
+
+.title .day {
+  font-size: 80rpx;
+  color: black;
+}
+
+.title .month {
+  margin-left: 5rpx;
+  font-size: 28rpx;
+  color: black;
+}
+
+.slogan {
+  margin-top: 40rpx;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 50rpx;
+}
+
+.slogan image {
+  width: 55%;
+}
+
+.save {
+  width: 80%;
+  margin: 0 auto;
+  color: rgb(158, 29, 29);
+  /* margin-top: 30rpx;
+  width: 40%;
+  height: 2rem;
+  line-height: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  align-content: center;
+  border: 1px solid #fff;
+  color: white;
+  background-image: linear-gradient(90deg, #7568ee 0%, #9425a6 100%); */
+}
+
+.bg3 {
+  background-image: linear-gradient(0deg, #ef94d1 0%, #b672e2 52%, #9262fb 99%);
+}
