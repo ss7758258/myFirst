@@ -27,7 +27,8 @@ Page({
     remindToday: '',
     myLuck: [
 
-    ]
+    ],
+    timer : null
   },
 
 
@@ -86,11 +87,11 @@ Page({
         remindToday: res.remindToday ? res.remindToday : ''
       })
       if (!_self.goPage(_SData)) {
-        const myLuckLen = myLuck.length
-
-        for (let i = 0; i < myLuckLen; i++) {
-          _self.circleDynamic(i)()
-        }
+        const myLuckLen = myLuck.length;
+        _self.circleDynamic()();
+        // for (let i = 0; i < myLuckLen; i++) {
+        //   _self.circleDynamic(i)()
+        // }
       }
 
 
@@ -255,31 +256,42 @@ Page({
     const _self = this
     const _SData = this.data
     const myLuckList = _SData.myLuck
+    let keys = [], counts = [];
 
-    let key = 'myLuck[' + n + '].count'
-    let t = 0,
-      b = 0,
-      c = myLuckList[n].count,
-      d = 40
+    myLuckList.forEach((v, ind) => {
+      keys.push('myLuck[' + ind + '].count');
+      counts.push(myLuckList[ind].count);
+    });
+
+    let t = 0,b = 0,d = 15;
 
     function price() {
-      if (!_SData.showHome)
+      if (!_self.data.showHome) {
         return
+      }
       t++
       if (t > d) {
         return
       } else {
-        _self.setData({
-          [key]: Math.floor(_self.tween(t, b, c, d))
+        keys.forEach((v, ind) => {
+          _self.setData({
+            [v]: Math.floor(_self.tween(t, b, counts[ind], d))
+          })
         })
       }
-      setTimeout(price, 5)
+      let temp = setTimeout(price, 15);
+
+      _self.setData({
+        timer: temp
+      })
+
     }
     return price
   },
 
   onClickConstellation: function () {
 
+    clearTimeout(this.data.timer ? this.data.timer : '');
     mta.Event.stat("ico_home", { "business": "取消选择", })
     _GData.selectConstellation = null
     this.setData({
@@ -363,6 +375,14 @@ Page({
         }
 
       })
+    // wx.navigateTo({
+    //   url: '/pages/lot/shakelot/shake?formid=' + formid,
+    //   complete: function (res) {
+    //     _self.setData({
+    //       isLoading: false
+    //     })
+    //   }
+    // })
   },
   oneword: function (e) {
 
