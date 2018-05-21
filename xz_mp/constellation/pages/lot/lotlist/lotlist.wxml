@@ -1,6 +1,6 @@
 <!--pages/onelot/onelot.wxml-->
 <!-- <audio src="{{src}}" id="myAudio"></audio> -->
-<view class="UI_pgae page_onelot {{noList?'nolotBg':''}}">
+<view class="UI_pgae {{noList?'nolotBg':''}}">
   <view class="UI_box " wx:if="{{noList}}">
     <image class=' nolot' src="/assets/images/nolot.png" />
   </view>

@@ -56,8 +56,9 @@
 .lotList .box .xiaoge {
   width: 100rpx;
   position: absolute;
-  bottom: 25%;
-  left: 8%;
+  bottom:19%;
+  left:9%;
+  height:254rpx;
 }
 
 .lotList .lot {
@@ -112,6 +113,7 @@
 }
 
 .nolotBg {
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

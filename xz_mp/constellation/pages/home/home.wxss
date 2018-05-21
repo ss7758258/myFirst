@@ -38,7 +38,7 @@
   border-radius: 0;
   border: none;
   background: none;
-  max-height: 286rpx;
+  max-height: 300rpx;
 }
 
 .mySign.itemClick::after {
@@ -53,7 +53,7 @@
 }
 
 .mySign .signTitle .time {
-  font-size: 28rpx;
+  font-size: 36rpx;
 }
 
 .mySign image {
@@ -153,7 +153,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  margin-top: 40rpx;
+  margin-top: 50rpx;
 }
 
 .more form {
@@ -207,7 +207,7 @@
 }
 
 .activity form image {
-  height: 436rpx;
+  height: 450rpx;
   width: 360rpx;
 }
 
@@ -248,7 +248,7 @@
 }
 
 .signTitle {
-  margin-top: 5rpx;
+  margin-top: 10rpx;
   padding: 5rpx;
   font-size: 20rpx;
   line-height: 1.6;
