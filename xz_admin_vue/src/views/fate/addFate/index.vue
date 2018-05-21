@@ -26,16 +26,16 @@
             <el-form-item label="运势评分（百分比）" class="form-item" prop="score">
                 <el-row :gutter="20">
                     <el-col :span="4">
-                        <el-input :disabled="isDisabled" min="0" max="100" type="number" placeholder="请输入内容" v-model="editInfo.luckyScore1"></el-input>
+                        <el-input :disabled="isDisabled" min="1" max="100" type="number" placeholder="请输入内容" v-model="editInfo.luckyScore1"></el-input>
                     </el-col>
                     <el-col :span="4">
-                        <el-input :disabled="isDisabled" min="0" max="100" type="number" placeholder="请输入内容" v-model="editInfo.luckyScore2"></el-input>
+                        <el-input :disabled="isDisabled" min="1" max="100" type="number" placeholder="请输入内容" v-model="editInfo.luckyScore2"></el-input>
                     </el-col>
                     <el-col :span="4">
-                        <el-input :disabled="isDisabled" min="0" max="100" type="number" placeholder="请输入内容" v-model="editInfo.luckyScore3"></el-input>
+                        <el-input :disabled="isDisabled" min="1" max="100" type="number" placeholder="请输入内容" v-model="editInfo.luckyScore3"></el-input>
                     </el-col>
                     <el-col :span="4">
-                        <el-input :disabled="isDisabled" min="0" max="100" type="number" placeholder="请输入内容" v-model="editInfo.luckyScore4"></el-input>
+                        <el-input :disabled="isDisabled" min="1" max="100" type="number" placeholder="请输入内容" v-model="editInfo.luckyScore4"></el-input>
                     </el-col>
                 </el-row>
             </el-form-item>
@@ -62,16 +62,16 @@
             <el-form-item label="运势评分（星值）" prop="score2" class="form-item">
                 <el-row :gutter="20">
                     <el-col :span="4">
-                        <el-input :disabled="isDisabled" type="number" min="0" max="5" v-model="editInfo.luckyScoreMore1" placeholder="请输入内容"></el-input>
+                        <el-input :disabled="isDisabled" type="number" min="1" max="5" v-model="editInfo.luckyScoreMore1" placeholder="请输入内容"></el-input>
                     </el-col>
                     <el-col :span="4">
-                        <el-input :disabled="isDisabled" type="number" min="0" max="5" v-model="editInfo.luckyScoreMore2" placeholder="请输入内容"></el-input>
+                        <el-input :disabled="isDisabled" type="number" min="1" max="5" v-model="editInfo.luckyScoreMore2" placeholder="请输入内容"></el-input>
                     </el-col>
                     <el-col :span="4">
-                        <el-input :disabled="isDisabled" type="number" min="0" max="5" v-model="editInfo.luckyScoreMore3" placeholder="请输入内容"></el-input>
+                        <el-input :disabled="isDisabled" type="number" min="1" max="5" v-model="editInfo.luckyScoreMore3" placeholder="请输入内容"></el-input>
                     </el-col>
                     <el-col :span="4">
-                        <el-input :disabled="isDisabled" type="number" min="0" max="5" v-model="editInfo.luckyScoreMore4" placeholder="请输入内容"></el-input>
+                        <el-input :disabled="isDisabled" type="number" min="1" max="5" v-model="editInfo.luckyScoreMore4" placeholder="请输入内容"></el-input>
                     </el-col>
                 </el-row>
             </el-form-item>
@@ -105,8 +105,7 @@
                 <el-input :disabled="isDisabled" v-model="editInfo.publishName" style="width: 300px" placeholder="请输入内容"></el-input>
             </el-form-item>
             <el-form-item v-if="!isDisabled">
-                <el-button type="success" @click="addDraft">存为草稿</el-button>
-                <el-button type="primary" @click="addArticle">定时发布</el-button>
+                <el-button type="primary" @click="addArticle" :disabled="btnDis">定时发布</el-button>
             </el-form-item>
             <el-form-item v-else>
                 <el-button type="success" @click="back">返回</el-button>
@@ -122,40 +121,36 @@
     export default {
         data() {
             var validatePoint = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请输入内容'));
-                } else if (this.editInfo.luckyScore1.indexOf('.') != -1 || this.editInfo.luckyScore2.indexOf('.') != -1 || this.editInfo.luckyScore3.indexOf('.') != -1 || this.editInfo.luckyScore4.indexOf('.') != -1) {
+                if (this.editInfo.luckyScore1.toString().indexOf('.') != -1 || this.editInfo.luckyScore2.toString().indexOf('.') != -1 || this.editInfo.luckyScore3.toString().indexOf('.') != -1 || this.editInfo.luckyScore4.toString().indexOf('.') != -1) {
                     callback(new Error('不能包含小数点'));
-                }else if(this.editInfo.luckyScore1 > 100 || this.editInfo.luckyScore2 > 100 || this.editInfo.luckyScore3 > 100 || this.editInfo.luckyScore4 > 100){
+                } else if (this.editInfo.luckyScore1 > 100 || this.editInfo.luckyScore2 > 100 || this.editInfo.luckyScore3 > 100 || this.editInfo.luckyScore4 > 100) {
                     callback(new Error('值不能大于100'));
+                } else if ((this.editInfo.luckyScore1 < 1 && this.editInfo.luckyScore1 != '') || (this.editInfo.luckyScore2 < 1 && this.editInfo.luckyScore2 != '') || (this.editInfo.luckyScore3 < 1 && this.editInfo.luckyScore3 != '') || (this.editInfo.luckyScore4 < 1 && this.editInfo.luckyScore4 != '')) {
+                    callback(new Error('值不能小于1'));
                 } else {
                     callback();
                 }
             };
             var validatePoint2 = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请输入内容'));
-                } else if (this.editInfo.luckyScoreMore1.indexOf('.') != -1 || this.editInfo.luckyScoreMore2.indexOf('.') != -1 || this.editInfo.luckyScoreMore3.indexOf('.') != -1 || this.editInfo.luckyScoreMore4.indexOf('.') != -1) {
+                if (this.editInfo.luckyScoreMore1.toString().indexOf('.') != -1 || this.editInfo.luckyScoreMore2.toString().indexOf('.') != -1 || this.editInfo.luckyScoreMore3.toString().indexOf('.') != -1 || this.editInfo.luckyScoreMore4.toString().indexOf('.') != -1) {
                     callback(new Error('不能包含小数点'));
-                }else if(this.editInfo.luckyScoreMore1 > 5 || this.editInfo.luckyScoreMore2 > 5 || this.editInfo.luckyScoreMore3 > 5 || this.editInfo.luckyScoreMore4 > 5){
+                } else if (this.editInfo.luckyScoreMore1 > 5 || this.editInfo.luckyScoreMore2 > 5 || this.editInfo.luckyScoreMore3 > 5 || this.editInfo.luckyScoreMore4 > 5) {
                     callback(new Error('值不能大于5'));
+                } else if ((this.editInfo.luckyScoreMore1 < 1 && this.editInfo.luckyScoreMore1 != '') || (this.editInfo.luckyScoreMore2 < 1 && this.editInfo.luckyScoreMore2 != '') || (this.editInfo.luckyScoreMore3 < 1 && this.editInfo.luckyScoreMore3 != '') || (this.editInfo.luckyScoreMore4 < 1 && this.editInfo.luckyScoreMore4 != '')) {
+                    callback(new Error('值不能小于1'));
                 } else {
                     callback();
                 }
             };
             var validateFate = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请输入内容'));
-                }else if(this.editInfo.luckyType1.length > 4 || this.editInfo.luckyType2.length > 4 || this.editInfo.luckyType3.length > 4 || this.editInfo.luckyType4.length > 4){
+                if (this.editInfo.luckyType1.length > 4 || this.editInfo.luckyType2.length > 4 || this.editInfo.luckyType3.length > 4 || this.editInfo.luckyType4.length > 4) {
                     callback(new Error('不能超过四个字'));
                 } else {
                     callback();
                 }
             };
             var validateFate2 = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请输入内容'));
-                }else if(this.editInfo.luckyTypeMore1.length > 4 || this.editInfo.luckyTypeMore2.length > 4 || this.editInfo.luckyTypeMore3.length > 4 || this.editInfo.luckyTypeMore4.length > 4){
+                if (this.editInfo.luckyTypeMore1.length > 4 || this.editInfo.luckyTypeMore2.length > 4 || this.editInfo.luckyTypeMore3.length > 4 || this.editInfo.luckyTypeMore4.length > 4) {
                     callback(new Error('不能超过四个字'));
                 } else {
                     callback();
@@ -226,21 +221,36 @@
                 api: '',
                 isDisabled: false,
                 ruleFrom: {
-                    score:{ validator: validatePoint, trigger: 'blur' },
-                    score2:{ validator: validatePoint2, trigger: 'blur' },
-                    fate:{ validator: validateFate, trigger: 'blur' },
-                    fateMore:{ validator: validateFate2, trigger: 'blur' },
-                }
+                    score: {
+                        validator: validatePoint,
+                        trigger: 'blur'
+                    },
+                    score2: {
+                        validator: validatePoint2,
+                        trigger: 'blur'
+                    },
+                    fate: {
+                        validator: validateFate,
+                        trigger: 'blur'
+                    },
+                    fateMore: {
+                        validator: validateFate2,
+                        trigger: 'blur'
+                    },
+                },
+                btnDis: false
             }
         },
         methods: {
             addArticle() {
                 this.editInfo.status = 0;
                 const _self = this;
+                this.btnDis = true;
                 this.$refs.form.validate(valid => {
                     if (valid) {
                         _self.submit();
                     } else {
+                        _self.btnDis = false;
                         return false;
                     }
                 })
@@ -263,21 +273,24 @@
                                     this.$message.success('修改成功！');
                                     this.$router.go(-1)
                                 } else {
+                                    this.editInfo = JSON.parse(JSON.stringify(this.defaultInfo));
                                     this.$message.success(res.message);
-                                    this.editInfo = this.defaultInfo;
                                 }
                             } else {
                                 this.$message.error('添加失败！');
                             }
                             this.showLoading = false;
+                            this.btnDis = false;
                         },
                         excep: () => {
                             this.$message.error('网络错误');
                             this.showLoading = false;
+                            this.btnDis = false;
                         }
                     })
                 } else {
                     this.$message.error('信息填充不完整！');
+                    this.btnDis = false;
                 }
             },
             getOptions() {
@@ -345,17 +358,6 @@
                     excep: () => {
                         this.$message.error('网络错误');
                         this.showLoading = false;
-                    }
-                })
-            },
-            addDraft() {
-                this.editInfo.status = -1;
-                const _self = this;
-                this.$refs.form.validate(valid => {
-                    if (valid) {
-                        _self.submit();
-                    } else {
-                        return false;
                     }
                 })
             },

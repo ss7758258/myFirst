@@ -19,8 +19,8 @@
                     <div slot-scope="scope">
                         <el-button-group>
                             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                            <el-button size="mini" type="info" v-if="scope.row['status'] != 1"  @click="handleDiyEdit(scope.$index, scope.row)">编辑</el-button>
-                            <el-button size="mini" type="primary" v-if="scope.row['status'] == 1" @click="handlePreview(scope.$index, scope.row)">查看</el-button>
+                            <el-button size="mini" type="info"   @click="handleDiyEdit(scope.$index, scope.row)">编辑</el-button>
+                            <el-button size="mini" type="primary"  @click="handlePreview(scope.$index, scope.row)">查看</el-button>
                         </el-button-group>
                     </div>
                 </el-table-column>
@@ -104,9 +104,6 @@
                     label: "发布状态",
                     formatter: (row, column, cellValue) => {
                         switch (cellValue) {
-                            case -1:
-                                return '未发布';
-                                break;
                             case 1:
                                 return '已发布';
                                 break;

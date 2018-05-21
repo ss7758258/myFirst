@@ -58,13 +58,6 @@ export const constantRouterMap = [{
             path: 'fate-draft',
             component: _import('fate/fateDraft'),
             meta: {
-                "title": "运势草稿"
-            }
-        }, {
-            name: "fate-history",
-            path: 'fate-history',
-            component: _import('fate/fateHistory'),
-            meta: {
                 "title": "历史发布"
             }
         }]

@@ -11,15 +11,8 @@
                 "path": "/fate/fate-draft",
                 "meta": {
                     "icon": null,
-                    "title": "运势草稿"
-                },
-                "index": 1
-            },
-            {
-                "path": "/fate/fate-history",
-                "meta": {
-                    "icon": null,
                     "title": "历史发布"
+
                 },
                 "index": 1
             }

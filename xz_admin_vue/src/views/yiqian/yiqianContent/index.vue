@@ -34,8 +34,10 @@
                             <el-button size="mini" type="danger" @click="delHandle(item.libs.id)">删除</el-button>
                             <el-button size="mini" type="warning" @click="toStop(item.libs.id, item.libs.status)">{{item.libs.status == 0?"重新启用":'暂停使用'}}</el-button>
                             <el-button size="mini" :disabled="item.libs.status == 0" type="primary" @click="showModal(item.libs.id)">上传内容</el-button>
-                            <el-date-picker :disabled="item.libs.status == 0" value-format="yyyy-MM-dd HH:mm:ss" size="mini" v-model="editInfo.publishTime" type="datetime" placeholder="选择发布时间">
-                            </el-date-picker>
+                             <el-tooltip class="item" effect="dark" :content="'当前发布时间：' + item.libs.publishTime" placement="top-start">
+                                <el-date-picker :disabled="item.libs.status == 0" value-format="yyyy-MM-dd HH:mm:ss" size="mini" v-model="editInfo.publishTime" type="datetime" placeholder="选择发布时间">
+                                </el-date-picker>
+                            </el-tooltip>
                             <el-button size="mini" :disabled="item.libs.status == 0" type="success" @click="handleUpdate(item.libs.id, item.libs.pic)">发布</el-button>
                         </div>
                     </el-col>
@@ -203,6 +205,7 @@
             handleUpdate(id, pic) {
                 this.editInfo.id = id;
                 this.editInfo.pic = pic;
+                this.editInfo.status = 0;
                 this.showLoading = true;
 
                 this.$http.post({
@@ -210,7 +213,8 @@
                     params: this.editInfo,
                     success: res => {
                         if (res.status == "SUCCESS") {
-                            this.$message.success('发布成功！')
+                            this.$message.success('发布成功！');
+                            this.getLib();
                         } else {
                             this.$message.error('发布失败！')
                         }
@@ -224,7 +228,7 @@
                 })
             },
             submitDialog() {
-                this.dynamicValidateForm.domains.map(res => {
+                this.dynamicValidateForm.domains.map((res, index) => {
                     if (noNullProp(res)) {
                         this.$http.post({
                             url: '/tiQianList/json/addTiQianList',
@@ -235,8 +239,10 @@
                             },
                             success: data => {
                                 if (data.status == 'SUCCESS') {
-                                    this.showLoading = true;
-                                    this.getLib();
+                                    if (index == this.dynamicValidateForm.domains.length-1) {
+                                        this.showLoading = true;
+                                        this.getLib();
+                                    }
                                 } else {
                                     this.showLoading = false;
                                 }

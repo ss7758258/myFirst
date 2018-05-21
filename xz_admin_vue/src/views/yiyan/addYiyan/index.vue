@@ -18,7 +18,7 @@
                 <el-input :disabled="isDisabled" v-model="editInfo.publishPerson"></el-input>
             </el-form-item>
             <el-form-item v-if="!isDisabled">
-                <el-button type="primary" @click="onSubmit">定时发布</el-button>
+                <el-button type="primary" @click="onSubmit" :disabled="btnDis">定时发布</el-button>
             </el-form-item>
             <el-form-item v-else>
                 <el-button type="success" @click="back">返回</el-button>
@@ -56,7 +56,8 @@
                 yiyanType: {},
                 api: "",
                 isDisabled: false,
-                isLoading: true
+                isLoading: true,
+                btnDis: false
             };
         },
         methods: {
@@ -80,6 +81,7 @@
                 })
             },
             onSubmit() {
+                this.btnDis = true;
                 if (this.yiyanType.type == 'edit') {
                     this.api = "tiYanList/json/updateTiYanListById"
                     this.editInfo.id = this.yiyanType.id;
@@ -99,21 +101,24 @@
                                     this.$message.success('修改成功！');
                                     this.$router.go(-1)
                                 } else {
+                                    this.editInfo = JSON.parse(JSON.stringify(this.defaultData));
                                     this.$message.success(res.message);
-                                    this.editInfo = this.defaultData;
                                 }
                             } else {
                                 this.$message.error('添加失败！');
                             }
                             this.isLoading = false;
+                            this.btnDis = false;
                         },
                         excep: () => {
                             this.$message.error('网络错误');
                             this.isLoading = false;
+                            this.btnDis = false;
                         }
                     })
                 } else {
                     this.$message.error('信息填充不完整！');
+                    this.btnDis = false;
                 }
             },
             back() {
