@@ -28,11 +28,11 @@
   <!--幸运签详情-->
   <view class="myLot">
     <view class="box {{huan?'chaiwanqianxiaoshi':''}}" wx:if="{{lotDetail.lotNotCompleted}}">
-      <image class='xiaoge' src="/assets/images/xiaoge.png"  />
-      <image class="lot" src="/assets/images/shining_lot.png"  />
+      <image class='xiaoge' src="{{imgs.xiao}}"  />
+      <image class="lot" src="{{imgs.lot}}"  />
       <image class="lotBg" src="/assets/images/lotBg.png"  />
     </view>
-    <view class="unLogBox  {{huan?'chaiwanqianchuxian':''}}" wx:if="{{!lotDetail.lotNotCompleted}}">
+    <view class="unLogBox  {{huan?'chaiwanqianchuxian':''}}" wx:if="{{lotDetail.lotNotCompleted && !lotDetail.lotNotCompleted}}">
       <view class='unlotBg'></view>
       <view class="unLog">
         <view class='logType'>
@@ -92,7 +92,7 @@
             立即找好友帮忙
           </button>
         </form>
-        <form bindsubmit="onclickShareCircle" wx:if="{{!lotDetail.lotNotCompleted}}" report-submit='true'>
+        <form bindsubmit="onclickShareCircle" wx:if="{{lotDetail.lotNotCompleted && !lotDetail.lotNotCompleted}}" report-submit='true'>
           <button style="{{lotDetail.lotNotCompleted?'':'width:80%;'}}" form-type="submit" type='' hover-class="none">
             保存此签发个朋友圈
           </button>

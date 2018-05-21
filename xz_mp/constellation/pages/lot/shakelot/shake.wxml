@@ -20,7 +20,7 @@
       <view class="box">
         <image class="pot" wx:if="{{potPath}}" src="{{imgs[2]}}" />
         <image class="pot" wx:else src="{{imgs[1]}}" />
-        <image class="pot surround" src="/assets/images/pot_surround.png" />
+        <image class="pot surround" src="{{imgs[3]}}" />
         <image class="lot" src="{{imgs[0]}}" />
         <image class="lot" src="{{imgs[0]}}" />
         <image class="lot" src="{{imgs[0]}}" />

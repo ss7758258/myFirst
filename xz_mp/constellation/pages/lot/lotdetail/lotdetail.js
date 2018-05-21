@@ -2,7 +2,8 @@
 const $vm = getApp()
 const _GData = $vm.globalData
 const { canvasTextAutoLine, parseLot } = $vm.utils
-var mta = require('../../../utils/mta_analysis.js')
+var mta = require('../../../utils/mta_analysis.js');
+const imgs = require('./imgs.js')
 Page({
 
   /**
@@ -13,7 +14,7 @@ Page({
     isFromShare: false,
     huan: false,//拆签成功
     showCanvas: false,
-
+    imgs: imgs,
 
     lotDetail: {
       qianOpenSize: 3,
