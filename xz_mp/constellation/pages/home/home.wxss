@@ -230,7 +230,6 @@
 
 .signItem {
   width: 25%;
-  box-sizing: border-box;
   margin-bottom: 2.5vh;
 }
 
