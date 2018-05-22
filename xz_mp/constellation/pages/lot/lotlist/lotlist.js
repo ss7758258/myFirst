@@ -99,11 +99,11 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-    mta.Event.stat("ico_lotlist", { "business": "分享出去" })
+  onShareAppMessage: function () { 
+    mta.Event.stat("ico_list_share", {})
     var shareImg = '/assets/images/share_tong.jpg'
     var shareMsg = '要想日子过的好，每日一签少不了。'
-    var sharepath = '/pages/lot/shakelot/shake?from=share'
+    var sharepath = '/pages/lot/shakelot/shake?from=share&where=list'
     return {
       title: shareMsg,
       imageUrl: shareImg,
@@ -125,7 +125,7 @@ Page({
     pageNum++
     let formid = e.detail.formId
 
-    mta.Event.stat("ico_lotlist", { "business": "点击更多签" })
+    mta.Event.stat("ico_list_more", {})
 
     var list = _self.data.lotList.list
     $vm.api.getX510({ pageNum: pageNum, pageSize: 10 })
@@ -163,7 +163,7 @@ Page({
     // let lot = _self.data.lotList.list[index]
     let formid = e.detail.formId
 
-    mta.Event.stat("ico_lotlist", { "business": "点击签详情", "id": lot.id })
+    mta.Event.stat("ico_list_detail", {})
     $vm.api.getX610({ notShowLoading: true, formid: formid })
     wx.navigateTo({
       url: '/pages/lot/lotdetail/lotdetail?formid=' + formid + '&from=list&lotId=' + lot.id,

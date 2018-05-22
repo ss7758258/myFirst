@@ -128,7 +128,7 @@ Page({
     if (!SData.lotDetail.lotNotCompleted) {
       shareImg = '/assets/images/share_tong.jpg'
       shareMsg = '要想日子过的好，每日一签少不了。'
-      sharepath = '/pages/lot/shakelot/shake?from=share'
+      sharepath = '/pages/lot/shakelot/shake?from=share&where=detail'
     }
     console.log("shareImg-qId===" + shareImg)
     console.log("onShareAppMessage-qId===" + SData.lotDetail.id)
@@ -342,6 +342,7 @@ Page({
   },
   //分享的返回主页
   onclickHome: function (e) {
+    mta.Event.stat("ico_shake_home", {})
     let formid = e.detail.formId
     $vm.api.getX610({ notShowLoading: true, formid: formid })
     wx.reLaunch({

@@ -65,7 +65,7 @@ Page({
   onShareAppMessage: function () {
     var shareImg = '/assets/images/share_tong.jpg'
     var shareMsg = '要想日子过的好，每日一签少不了。'
-    var sharepath = '/pages/lot/shakelot/shake?from=share'
+    var sharepath = '/pages/lot/shakelot/shake?from=share&where=empty'
     return {
       title: shareMsg,
       imageUrl: shareImg,
@@ -80,7 +80,7 @@ Page({
   },
   onclickqian: function (e) {
     let formid = e.detail.formId
-    mta.Event.stat("ico_emptylot", { "formid": formid, "toPage": "签列表" })
+    mta.Event.stat("ico_emptylot", { "formid": formid, "topage": "签列表" })
     wx.navigateTo({
       url: '/pages/lot/lotlist/lotlist?formid=' + formid,
     })

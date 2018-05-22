@@ -215,7 +215,7 @@
   width: 40%;
   margin: 0 auto;
   color: rgb(158, 29, 29);
-  font-size: 40rpx;
+  font-size: 36rpx;
   box-shadow:0 0 3px rgba(0,0,0,.3);
 }
 

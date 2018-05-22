@@ -120,7 +120,7 @@ Page({
   saveSelect: function (e) {
     let formid = e.detail.formId
     $vm.api.getX610({ notShowLoading: true, formid: formid })
-    mta.Event.stat("ico_oneword", { "formid": formid, "business": "保存" })
+    mta.Event.stat("ico_brief_save", {})
     const _self = this
     const _SData = _self.data
     wx.showLoading({
@@ -211,6 +211,7 @@ Page({
     }
   },
   onclickHome: function (e) {
+    mta.Event.stat("ico_brief_home", {})
     let formid = e.detail.formId
     $vm.api.getX610({ notShowLoading: true, formid: formid })
     wx.reLaunch({
