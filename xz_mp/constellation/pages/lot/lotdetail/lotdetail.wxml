@@ -32,7 +32,7 @@
       <image class="lot" src="{{imgs.lot}}"  />
       <image class="lotBg" src="/assets/images/lotBg.png"  />
     </view>
-    <view class="unLogBox  {{huan?'chaiwanqianchuxian':''}}" wx:if="{{lotDetail.lotNotCompleted && !lotDetail.lotNotCompleted}}">
+    <view class="unLogBox  {{huan?'chaiwanqianchuxian':''}}" wx:else>
       <view class='unlotBg'></view>
       <view class="unLog">
         <view class='logType'>
