@@ -1,5 +1,12 @@
 /**app.wxss**/
-
+.img_0{
+  background: url('/assets/images/lot.png');
+  background: url('/assets/images/pot_1.png');
+  background: url('/assets/images/pot_2.png');
+}
+button::after{  
+  border:none;  
+}  
 .shouquan {
   position: fixed;
   top: 50%;
@@ -15,6 +22,7 @@ page,
 }
 
 page {
+  overflow: hidden;
 	font-size: 32rpx;
 	color: white;
 	 background-image: linear-gradient(0deg, #8CBAFE 0%, #B672E2 52%, #9262FB 84%, #9262FB 99%); 
