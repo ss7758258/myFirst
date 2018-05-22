@@ -348,7 +348,7 @@
                 })
             }
         },
-        mounted() {
+        activated() {
             this.getTableData();
             let _this = this;
             window.onresize = function() {

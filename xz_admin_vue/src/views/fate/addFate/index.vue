@@ -261,6 +261,8 @@
                 } else {
                     this.api = "tiLucky/json/addTiLucky"
                 }
+                console.log(this.editInfo);
+
                 if (noNullProp(this.editInfo)) {
                     this.showLoading = true;
                     this.$http.post({
@@ -320,54 +322,55 @@
                 this.showLoading = true;
 
 
-                    this.$http.post({
-                        url: "tiLucky/json/getTiLuckyById",
-                        params: {
-                            id: this.fateType.id
-                        },
-                        success: res => {
-                            this.editInfo = {
-                                constellationId: res.data.constellationId || '',
-                                luckyType1: res.data.luckyType1 || '',
-                                luckyType2: res.data.luckyType2 || '',
-                                luckyType3: res.data.luckyType3 || '',
-                                luckyType4: res.data.luckyType4 || '',
-                                luckyScore1: res.data.luckyScore1 || '',
-                                luckyScore2: res.data.luckyScore2 || '',
-                                luckyScore3: res.data.luckyScore3 || '',
-                                luckyScore4: res.data.luckyScore4 || '',
-                                remindToday: res.data.remindToday || '',
-                                luckyTypeMore1: res.data.luckyTypeMore1 || '',
-                                luckyTypeMore2: res.data.luckyTypeMore2 || '',
-                                luckyTypeMore3: res.data.luckyTypeMore3 || '',
-                                luckyTypeMore4: res.data.luckyTypeMore4 || '',
-                                luckyScoreMore1: res.data.luckyScoreMore1 || '',
-                                luckyScoreMore2: res.data.luckyScoreMore2 || '',
-                                luckyScoreMore3: res.data.luckyScoreMore3 || '',
-                                luckyScoreMore4: res.data.luckyScoreMore4 || '',
-                                luckyWords1: res.data.luckyWords1 || '',
-                                luckyWords2: res.data.luckyWords2 || '',
-                                luckyWords3: res.data.luckyWords3 || '',
-                                luckyWords4: res.data.luckyWords4 || '',
-                                toDo: res.data.toDo || '',
-                                notDo: res.data.notDo || '',
-                                publishTime: res.data.publishTime || '',
-                                status: res.data.status || 1,
-                                publishName: res.data.publishName || '',
-                            }
-                        },
-                        excep: () => {
-                            this.$message.error('网络错误');
-                            this.showLoading = false;
+                this.$http.post({
+                    url: "tiLucky/json/getTiLuckyById",
+                    params: {
+                        id: this.fateType.id
+                    },
+                    success: res => {
+                        this.editInfo = {
+                            constellationId: res.data.constellationId || '',
+                            luckyType1: res.data.luckyType1 || '',
+                            luckyType2: res.data.luckyType2 || '',
+                            luckyType3: res.data.luckyType3 || '',
+                            luckyType4: res.data.luckyType4 || '',
+                            luckyScore1: res.data.luckyScore1 || '',
+                            luckyScore2: res.data.luckyScore2 || '',
+                            luckyScore3: res.data.luckyScore3 || '',
+                            luckyScore4: res.data.luckyScore4 || '',
+                            remindToday: res.data.remindToday || '',
+                            luckyTypeMore1: res.data.luckyTypeMore1 || '',
+                            luckyTypeMore2: res.data.luckyTypeMore2 || '',
+                            luckyTypeMore3: res.data.luckyTypeMore3 || '',
+                            luckyTypeMore4: res.data.luckyTypeMore4 || '',
+                            luckyScoreMore1: res.data.luckyScoreMore1 || '',
+                            luckyScoreMore2: res.data.luckyScoreMore2 || '',
+                            luckyScoreMore3: res.data.luckyScoreMore3 || '',
+                            luckyScoreMore4: res.data.luckyScoreMore4 || '',
+                            luckyWords1: res.data.luckyWords1 || '',
+                            luckyWords2: res.data.luckyWords2 || '',
+                            luckyWords3: res.data.luckyWords3 || '',
+                            luckyWords4: res.data.luckyWords4 || '',
+                            toDo: res.data.toDo || '',
+                            notDo: res.data.notDo || '',
+                            publishTime: res.data.publishTime || '',
+                            status: res.data.status || 1,
+                            publishName: res.data.publishName || '',
                         }
-                    })
+                    },
+                    excep: () => {
+                        this.$message.error('网络错误');
+                        this.showLoading = false;
+                    }
+                })
 
             },
             back() {
                 this.$router.go(-1)
             },
             getType(e) {
-                this.showLoading = true;
+                if (this.fateType.type != 'edit') {
+                    this.showLoading = true;
                     this.$http.post({
                         url: '/tiLucky/json/findTiLuckysByPage',
                         success: res => {
@@ -410,16 +413,16 @@
                             this.showLoading = false;
                         }
                     })
-
+                }
             }
         },
         activated() {
             this.getOptions();
             this.fateType = this.$router.currentRoute.query;
             this.fateType.disabled == true ? this.isDisabled = true : this.isDisabled = false;
-            if ( this.fateType.type == 'edit') {
+            if (this.fateType.type == 'edit') {
                 this.getFate();
-            }else{
+            } else {
                 this.getType();
             }
         }
