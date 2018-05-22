@@ -18,8 +18,8 @@
     <view class="lotPot {{shakeLotSpeed? 'shake' : ''}}" bindtap="drawLots">
 
       <view class="box">
-        <image class="pot" wx:if="{{potPath}}" src="/assets/images/pot_2.png" />
-        <image class="pot" wx:else src="/assets/images/pot_1.png" />
+        <image class="pot" wx:if="{{potPath}}" src="/assets/images/pot_1.png" />
+        <image class="pot" wx:else src="/assets/images/pot_2.png" />
         <image class="pot surround" src="{{imgs[3]}}" />
         <image class="lot" src="/assets/images/lot.png" />
         <image class="lot" src="/assets/images/lot.png" />
