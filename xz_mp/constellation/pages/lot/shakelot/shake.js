@@ -271,7 +271,7 @@ Page({
   showLotList: function (e) {
     let formid = e.detail.formId
 
-    mta.Event.stat("ico_shake", { "formid": formid, "toPage": "签列表" })
+    mta.Event.stat("ico_shake", { "formid": formid, "topage": "签列表" })
     $vm.api.getX610({ notShowLoading: true, formid: formid })
     wx.navigateTo({
       url: '/pages/lot/lotlist/lotlist?formid=' + formid
@@ -281,7 +281,7 @@ Page({
   onclickHome: function (e) {
     let formid = e.detail.formId
 
-    mta.Event.stat("ico_shake", { "formid": formid, "toPage": "主页" })
+    mta.Event.stat("ico_shake", { "formid": formid, "topage": "主页" })
     $vm.api.getX610({ notShowLoading: true, formid: formid })
     wx.reLaunch({
       url: '/pages/home/home',

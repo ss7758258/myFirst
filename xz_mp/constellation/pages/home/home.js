@@ -337,7 +337,7 @@ Page({
       notShowLoading: true,
       formid: formid
     })
-    mta.Event.stat("ico_home", { "formid": formid, "toPage": "一签" })
+    mta.Event.stat("ico_home", { "formid": formid, "topage": "一签" })
     wx.navigateTo({
       url: '/pages/lot/shakelot/shake?formid=' + formid,
       complete: function (res) {
@@ -354,7 +354,7 @@ Page({
       notShowLoading: true,
       formid: formid
     })
-    mta.Event.stat("ico_home", { "formid": formid, "toPage": "一言" })
+    mta.Event.stat("ico_home", { "formid": formid, "topage": "一言" })
     wx.navigateTo({
       url: '/pages/onebrief/brief?formid=' + formid
     })
@@ -365,7 +365,7 @@ Page({
       notShowLoading: true,
       formid: formid
     })
-    mta.Event.stat("ico_home", { "formid": formid, "toPage": "更多运势" })
+    mta.Event.stat("ico_home", { "formid": formid, "topage": "更多运势" })
     wx.navigateTo({
       url: '/pages/today/today?formid=' + formid
     })
