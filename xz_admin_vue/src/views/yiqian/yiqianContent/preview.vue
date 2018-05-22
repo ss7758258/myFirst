@@ -40,10 +40,10 @@
                     <!-- 自定义表单   -++++++++++++++++++ -->
 
                     <el-form-item label="签名"  prop="name">
-                        <el-input type="text" v-model="editInfo.name" auto-complete="on"></el-input>
+                        <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="editInfo.name" auto-complete="on"></el-input>
                     </el-form-item>
                     <el-form-item label="签内容" prop="content">
-                        <el-input type="text" v-model="editInfo.content" auto-complete="off"></el-input>
+                        <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="editInfo.content" auto-complete="off"></el-input>
                     </el-form-item>
                     <!-- 自定义表单 -->
                 </el-form>
