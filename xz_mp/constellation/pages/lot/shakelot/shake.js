@@ -33,6 +33,9 @@ Page({
       this.setData({
         isFromShare: true,
       })
+      if (options.hotapp == 1) {
+        mta.Event.stat("ico_in_from_shake_qrcode", {})
+      }
     }
     console.log(options)
 
@@ -136,10 +139,10 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    mta.Event.stat("ico_shake", { "business": "分享出去" })
+
     var shareImg = '/assets/images/share_tong.jpg'
     var shareMsg = '要想日子过的好，每日一签少不了。'
-    var sharepath = '/pages/lot/shakelot/shake?from=share'
+    var sharepath = '/pages/lot/shakelot/shake?from=share&where=shake'
     return {
       title: shareMsg,
       imageUrl: shareImg,
@@ -154,7 +157,7 @@ Page({
   },
   drawLots: function () {
 
-    mta.Event.stat("ico_shake", { "business": "摇一摇" })
+    mta.Event.stat("ico_shake_shake", {})
     const _self = this
     if (_self.data.shakeLotSpeed) {
       return
@@ -271,7 +274,7 @@ Page({
   showLotList: function (e) {
     let formid = e.detail.formId
 
-    mta.Event.stat("ico_shake", { "formid": formid, "topage": "签列表" })
+    mta.Event.stat("ico_shake_to_list", {})
     $vm.api.getX610({ notShowLoading: true, formid: formid })
     wx.navigateTo({
       url: '/pages/lot/lotlist/lotlist?formid=' + formid
@@ -281,7 +284,7 @@ Page({
   onclickHome: function (e) {
     let formid = e.detail.formId
 
-    mta.Event.stat("ico_shake", { "formid": formid, "topage": "主页" })
+    mta.Event.stat("ico_shake_home", {})
     $vm.api.getX610({ notShowLoading: true, formid: formid })
     wx.reLaunch({
       url: '/pages/home/home',

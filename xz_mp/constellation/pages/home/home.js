@@ -28,7 +28,7 @@ Page({
     myLuck: [
 
     ],
-    timer : null
+    timer: null
   },
 
 
@@ -55,7 +55,7 @@ Page({
     }
 
     const selectConstellation = e.detail.target.dataset.item
-    mta.Event.stat("ico_home", { "business": "选择", "name": selectConstellation.name })
+    mta.Event.stat('ico_home_select', { 'constellation': selectConstellation.name })
     _GData.selectConstellation = selectConstellation
     wx.setStorage({
       key: 'selectConstellation',
@@ -106,6 +106,7 @@ Page({
 	 */
   onLoad: function (options) {
     mta.Page.init()
+    console.log(options)
     const _self = this
     const _SData = this.data
     const selectConstellation = _GData.selectConstellation
@@ -130,6 +131,21 @@ Page({
         toPage: to,
         pageFrom: fromwhere
       })
+      if (to == 'brief') {
+        if (options.hotapp == 1){
+          mta.Event.stat("ico_in_from_brief_qrcode", {})
+        }else{
+          mta.Event.stat("ico_in_from_brief", {})
+        }
+        
+      } else if (to == 'today' ) {
+        if (options.hotapp == 1){
+          mta.Event.stat("ico_in_from_today_qrcode", {})
+        }else{
+          mta.Event.stat("ico_in_from_today", {})
+        }
+        
+      }
     }
 
     // 查看是否授权
@@ -263,7 +279,7 @@ Page({
       counts.push(myLuckList[ind].count);
     });
 
-    let t = 0,b = 0,d = 15;
+    let t = 0, b = 0, d = 15;
 
     function price() {
       if (!_self.data.showHome) {
@@ -292,7 +308,7 @@ Page({
   onClickConstellation: function () {
 
     clearTimeout(this.data.timer ? this.data.timer : '');
-    mta.Event.stat("ico_home", { "business": "取消选择", })
+    mta.Event.stat("ico_home_unselect", {})
     _GData.selectConstellation = null
     this.setData({
       selectBack: true,
@@ -337,7 +353,7 @@ Page({
       notShowLoading: true,
       formid: formid
     })
-    mta.Event.stat("ico_home", { "formid": formid, "topage": "一签" })
+    mta.Event.stat("ico_home_to_shake", {})
     wx.navigateTo({
       url: '/pages/lot/shakelot/shake?formid=' + formid,
       complete: function (res) {
@@ -354,7 +370,7 @@ Page({
       notShowLoading: true,
       formid: formid
     })
-    mta.Event.stat("ico_home", { "formid": formid, "topage": "一言" })
+    mta.Event.stat("ico_home_to_brief", {})
     wx.navigateTo({
       url: '/pages/onebrief/brief?formid=' + formid
     })
@@ -365,7 +381,7 @@ Page({
       notShowLoading: true,
       formid: formid
     })
-    mta.Event.stat("ico_home", { "formid": formid, "topage": "更多运势" })
+    mta.Event.stat("ico_home_to_today", {})
     wx.navigateTo({
       url: '/pages/today/today?formid=' + formid
     })

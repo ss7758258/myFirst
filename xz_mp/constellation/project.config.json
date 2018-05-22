@@ -57,7 +57,7 @@
 					"id": 3,
 					"name": "shake",
 					"pathName": "pages/lot/shakelot/shake",
-					"query": "from=share",
+					"query": "from=share&where=list",
 					"scene": "1011"
 				},
 				{

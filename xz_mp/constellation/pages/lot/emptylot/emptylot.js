@@ -65,7 +65,7 @@ Page({
   onShareAppMessage: function () {
     var shareImg = '/assets/images/share_tong.jpg'
     var shareMsg = '要想日子过的好，每日一签少不了。'
-    var sharepath = '/pages/lot/shakelot/shake?from=share'
+    var sharepath = '/pages/lot/shakelot/shake?from=share&where=empty'
     return {
       title: shareMsg,
       imageUrl: shareImg,
