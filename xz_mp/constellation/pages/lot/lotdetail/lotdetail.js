@@ -122,7 +122,7 @@ Page({
     const _self = this
     const SData = this.data
     var shareImg = '/assets/images/share_qian.jpg'
-    var shareMsg = '拆完这跟签，过好这一年。'
+    var shareMsg = '要想生活过的好，每日一签少不了'
     var sharepath = '/pages/lot/lotdetail/lotdetail?from=share&lotId=' + SData.lotDetail.id
     if (!SData.lotDetail.lotNotCompleted) {
       shareImg = '/assets/images/share_tong.jpg'

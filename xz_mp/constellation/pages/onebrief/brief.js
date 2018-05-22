@@ -9,7 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    picUserName: _GData.userInfo.nickName,
     isFromShare: false,
     prevPic: ""
   },
@@ -42,7 +42,7 @@ Page({
             res.prevPic ? "https://xingzuo-1256217146.file.myqcloud.com" + res.prevPic :
               ""
           })
-           
+
         } else {
           _self.setData({
             networkError: true,
@@ -144,14 +144,19 @@ Page({
       ctx.fillRect(0, 0, 375, 667)
       ctx.drawImage(res[0].path, 0, 0, 375, 375.0 / res[0].width * res[0].height)
 
+      ctx.setTextAlign('center')    // 文字居中
+      ctx.setFillStyle('#333333')  // 文字颜色：黑色
+      ctx.setFontSize(12)         // 文字字号：22px
+      ctx.fillText(_GData.userInfo.nickName, 375 / 2, 570 / 2)
+      ctx.stroke()
       const qrImgSize = 120
       ctx.drawImage('/assets/images/qrcodebrief.png', 128, 506, qrImgSize, qrImgSize)
       ctx.stroke()
       ctx.setTextAlign('center')    // 文字居中
-      ctx.setFillStyle('#000000')  // 文字颜色：白色
+      ctx.setFillStyle('#333333')  // 文字颜色：黑色
       ctx.setFontSize(12)         // 文字字号：22px
       ctx.fillText("长按识别二维码 查看你的每日一言", 375 / 2, 631 + 12)
-
+      
       ctx.draw()
       setTimeout(function () {
         wx.canvasToTempFilePath({

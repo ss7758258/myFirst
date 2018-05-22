@@ -22,6 +22,18 @@
   /* max-height: 388px;  */
 }
 
+.picUserName {
+  left: 0;
+  width: 480rpx;
+  height: 90rpx;
+  position: absolute;
+  top: 520rpx;
+  right: 0;
+  margin: auto;
+  color: gray;
+  font-size: 28rpx;
+}
+
 .noNetBg {
   display: flex;
   align-items: center;
@@ -79,13 +91,13 @@
 }
 
 .saveform {
-  left:0;
-  width:480rpx;
-  height:90rpx;
-  position:absolute;
-  bottom:70rpx;
-  right:0;
-  margin:auto;
+  left: 0;
+  width: 480rpx;
+  height: 90rpx;
+  position: absolute;
+  bottom: 70rpx;
+  right: 0;
+  margin: auto;
 }
 
 .save {
