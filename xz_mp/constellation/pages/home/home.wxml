@@ -40,7 +40,7 @@
             <view class="left">
               <view class="semicircle" style="-webkit-transform: rotate({{item.count*-3.6+45 < -135 ? -135 : item.count*-3.6+45}}deg)"></view>
             </view>
-            <view class="right" wx:if="{{item.count > 50}}">
+            <view class="right" style="{{(item.id==3||item.id==2)?'left:49%':''}}" wx:if="{{item.count > 50}}">
               <view class="semicircle" style="-webkit-transform: rotate({{item.count*-3.6+45}}deg)"></view>
             </view>
             <view class="bg"></view>

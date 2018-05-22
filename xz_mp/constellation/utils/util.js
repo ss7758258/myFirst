@@ -95,6 +95,7 @@ function parseIndex(data) {
     let count = countStr ? countStr.split('%')[0] : 0
     count = count > 100 ? 100 : count
     var d = {
+      id: i,
       name: data['luckyType' + (i + 1)],
       color: colors[i],
       count: count
@@ -135,7 +136,7 @@ function parseToady(data) {
   return dataList
 }
 
-function canvasTextAutoLine(ctx, str, initX, initY, lineHeight,exWidth) {
+function canvasTextAutoLine(ctx, str, initX, initY, lineHeight, exWidth) {
 
   var lineWidth = 0;
   var canvasWidth = 750 - exWidth;
