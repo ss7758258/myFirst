@@ -35,6 +35,7 @@
     <view class="unLogBox  {{huan?'chaiwanqianchuxian':''}}" wx:else>
       <view class='unlotBg'></view>
       <view class="unLog">
+        <view class='autoflex'></view>
         <view class='logType'>
           <text>{{lotDetail.qianName}}</text>
         </view>

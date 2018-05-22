@@ -51,10 +51,11 @@ Page({
           isFromShare: true,
         })
       }
+      // qId = 156;
       $vm.api.getX511({ id: qId })
         .then(res => {
           console.log(res)
-
+          // res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
           var lotDetail = parseLot(res)
           _self.setData({
             lotDetail: lotDetail,

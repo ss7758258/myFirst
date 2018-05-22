@@ -3,7 +3,7 @@
 .userInfo {
   display: flex;
   align-items: center;
-  padding: 40rpx;
+  padding: 5.333333333333333vw;
 }
 
 .userInfo .left {
@@ -27,11 +27,15 @@
 /* 我的幸运签详情 */
 
 .myLot {
+  display:flex;
+  height:81.99999999999999vh;
+  flex-direction:column;
+  justify-content:space-between;
 }
 
 .myLot .box {
   width: 640rpx;
-  height: 640rpx;
+  flex: 1;
   margin: 0 auto;
   position: relative;
 }
@@ -39,7 +43,7 @@
 .myLot .box .xiaoge {
   width: 100rpx;
   position: absolute;
-  bottom: 19%;
+  bottom: 0;
   left: 9%;
   height: 254rpx;
 }
@@ -47,19 +51,19 @@
 .myLot .lot {
   width: 280rpx;
   position: absolute;
-  bottom: 16%;
+  bottom: -1.3vh;
   left: 29%;
   z-index: 2;
 }
 
 .myLot .unLogBox {
-  padding: 40rpx;
-  padding-top: 60rpx;
-  margin: 40rpx;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 20rpx;
-  min-height: 350rpx;
-  padding-bottom: 20rpx;
+  flex: 1;
+  padding:5.333333333333333vw;
+  margin:0 5.333333333333333vw 5.333333333333333vw;
+  background-color:rgba(0, 0, 0, 0.3);
+  border-radius:2.6666666666666665vw;
+  /* max-height:29.70614692653673vh; */
+  overflow:hidden;
 }
 
 .myLot .unLogBox .unlotBg {
@@ -71,6 +75,13 @@
 }
 
 .myLot .unLog {
+  display: flex;
+  flex-direction:column;
+  justify-content:space-between;
+  height: 100%;
+}
+.myLot .autoflex{
+  flex: 1;
 }
 
 .myLot .unLogBox .logType {
@@ -82,8 +93,11 @@
 }
 
 .myLot .unLogBox .content {
-  margin-top: 30rpx;
+  margin-top: 2.2488755622188905vh;
   text-align: center;
+  /* max-height:16vh; */
+  /* overflow:hidden;*/
+  line-height:4vh;  
 }
 
 .myLot .unLogBox .content text {
@@ -91,7 +105,7 @@
 }
 
 .myLot .unLogBox .name {
-  margin-top: 30rpx;
+  margin-top: 1.2488755622188905vh;
   text-align: right;
 }
 
@@ -112,19 +126,16 @@
   width: 640rpx;
   height: 640rpx;
   position: absolute;
-  top: 0;
+  bottom: -7.496251874062969vh;
   left: 0;
   animation: scale 2s infinite linear both;
 }
 
 .invite {
-  padding: 40rpx 0 80rpx;
+  padding: 5.333333333333333vw 0 10.6vw;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 10rpx;
-  position: absolute;
-  right: 40rpx;
-  bottom: 40rpx;
-  left: 40rpx;
+  margin:0 5.333333333333333vw 2vh;
 }
 
 .troops {
@@ -154,7 +165,7 @@
 .invite .number {
   font-size: 24rpx;
   text-align: center;
-  margin: 10rpx 0 80rpx 0;
+  margin: 1.3333333333333333vw 0 8vw 0;
 }
 
 .invite .botton {
@@ -228,6 +239,9 @@
 
 .chaiwanqianxiaoshi {
   animation: xiaorongzujianxiaoshi 2s linear;
+}
+.UI_page{
+  height:100%;
 }
 
 /* 幸运签淡出动画 */
