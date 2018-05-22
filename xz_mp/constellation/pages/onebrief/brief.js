@@ -11,7 +11,8 @@ Page({
   data: {
     picUserName: '',
     isFromShare: false,
-    prevPic: ""
+    prevPic: "",
+    isShow : false
   },
 
   /**
@@ -199,11 +200,13 @@ Page({
       })
   },
   onLodingListener: function (e) {
-    console.log(e)
+    console.log('图片加载完成时：',e)
     const _self = this
     if (e.detail.height && e.detail.width) {
       _self.setData({
-        picUserName: _GData.userInfo.nickName
+        picUserName: _GData.userInfo.nickName,
+        // 开启图片展示
+        isShow : true
       })
     }
   },

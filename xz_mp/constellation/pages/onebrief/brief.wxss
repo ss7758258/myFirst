@@ -13,12 +13,14 @@
   position: relative;
   align-items: center;
   text-align: center;
+  transform: scale(0);
+  transition: all .3s linear;
   /* background-color: white; *//* padding-bottom: 90rpx; */
 }
 
 .UI_box .pic {
-  width: 710rpx;
-  height: 1140rpx;
+  width: 94.66666666666667vw;
+  height: 92.46vh;
   /* max-height: 388px;  */
 }
 
@@ -27,7 +29,7 @@
   width: 480rpx;
   height: 90rpx;
   position: absolute;
-  top: 520rpx;
+  top: 42.980509745127435vh;
   right: 0;
   margin: auto;
   color: gray;
