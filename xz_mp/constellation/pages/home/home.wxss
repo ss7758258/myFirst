@@ -23,7 +23,7 @@
 }
 
 .page_home {
-  padding: 15rpx;
+  padding: 2vw;
 }
 
 .UI_box {

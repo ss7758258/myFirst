@@ -16,13 +16,13 @@ button::after{
 
 
 
-page,
-.UI_page {
+page{
+  width: 100%;
 	height: 100%;
+  overflow: hidden;
 }
 
 page {
-  overflow: hidden;
 	font-size: 32rpx;
 	color: white;
 	 background-image: linear-gradient(0deg, #8CBAFE 0%, #B672E2 52%, #9262FB 84%, #9262FB 99%); 
