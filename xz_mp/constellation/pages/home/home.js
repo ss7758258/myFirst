@@ -35,15 +35,15 @@ Page({
   selectSign: function (e) {
     const _self = this
     const _SData = this.data
-    if (!_GData.userInfo) {
-      wx.showToast({
-        title: '没有用户信息',
-        icon: 'none',
-        mask: true,
+    // if (!_GData.userInfo) {
+    //   wx.showToast({
+    //     title: '没有用户信息',
+    //     icon: 'none',
+    //     mask: true,
 
-      })
-      return
-    }
+    //   })
+    //   return
+    // }
     if (!_SData.hasAuthorize) {
       wx.showToast({
         title: '请先同意授权',
@@ -132,19 +132,19 @@ Page({
         pageFrom: fromwhere
       })
       if (to == 'brief') {
-        if (options.hotapp == 1){
+        if (options.hotapp == 1) {
           mta.Event.stat("ico_in_from_brief_qrcode", {})
-        }else{
+        } else {
           mta.Event.stat("ico_in_from_brief", {})
         }
-        
-      } else if (to == 'today' ) {
-        if (options.hotapp == 1){
+
+      } else if (to == 'today') {
+        if (options.hotapp == 1) {
           mta.Event.stat("ico_in_from_today_qrcode", {})
-        }else{
+        } else {
           mta.Event.stat("ico_in_from_today", {})
         }
-        
+
       }
     }
 
@@ -231,7 +231,10 @@ Page({
 	/**
 	 * 用户点击右上角分享
 	 */
-  onShareAppMessage: function () {
+  onShareAppMessage: function (res) {
+    if (res.from = 'menu') {
+      mta.Event.stat("ico_from_home", {})
+    }
 
     return {
       title: '小哥星座，准的无话可说',
@@ -249,11 +252,13 @@ Page({
     console.log('===============')
     var shouldGo = false
     if (_SData.pageFrom == 'share') {
-      if (_SData.toPage == 'today') {
-        wx.navigateTo({
-          url: '/pages/today/today?from=share'
-        })
-      } else if (_SData.toPage == 'brief') {
+      // if (_SData.toPage == 'today') {
+      //   wx.navigateTo({
+      //     url: '/pages/today/today?from=share'
+      //   })
+      // } 
+      // else
+      if (_SData.toPage == 'brief') {
         wx.navigateTo({
           url: '/pages/onebrief/brief?from=share'
         })

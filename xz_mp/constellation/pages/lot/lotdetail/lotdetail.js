@@ -9,8 +9,7 @@ Page({
   /**
    * 页面的初始数据
    */
-  data: {
-
+  data: { 
     isFromShare: false,
     huan: false,//拆签成功
     showCanvas: false,
@@ -119,7 +118,10 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function (res) {
+    if (res.from === 'menu') {
+      mta.Event.stat("ico_shake_right_share", {})
+    }
     const _self = this
     const SData = this.data
     var shareImg = '/assets/images/share_qian.jpg'
@@ -218,6 +220,7 @@ Page({
         console.log(res)
         var lotDetail = parseLot(res)
         if (res.status == 1) {
+          mta.Event.stat("ico_chai_completed", {})
           _self.setData({
             huan: true,
           })
@@ -245,16 +248,16 @@ Page({
       })
   },
   onclickShareFriend: function (e) {
+    mta.Event.stat("ico_detail_share", {})
     let formid = e.detail.formId
 
-    mta.Event.stat("ico_lotdetail", { "business": "分享出去" })
     $vm.api.getX610({ notShowLoading: true, formid: formid })
   },
   //保存图片
   onclickShareCircle: function (e) {
+    mta.Event.stat("ico_detail_save", {})
     let formid = e.detail.formId
 
-    mta.Event.stat("ico_lotdetail", { "business": "保存图片" })
     $vm.api.getX610({ notShowLoading: true, formid: formid })
     const _self = this
     const _SData = _self.data

@@ -28,9 +28,9 @@ Page({
     var fromwhere = options.from
     console.log(options)
     if (fromwhere == 'share') {
-      this.setData({
-        isFromShare: true
-      })
+      // this.setData({
+      //   isFromShare: true
+      // })
     }
 
     const _self = this

@@ -33,9 +33,18 @@ Page({
       this.setData({
         isFromShare: true,
       })
-      if (options.hotapp == 1) {
-        mta.Event.stat("ico_in_from_shake_qrcode", {})
+      if (options.where = 'list') {
+        mta.Event.stat("ico_in_from_list", {})
+      } else if (options.where = 'detail') {
+        mta.Event.stat("ico_in_from_detail", {})
+      } else if (options.where = 'shake') {
+        if (options.hotapp == 1) {
+          mta.Event.stat("ico_in_from_shake_qrcode", {})
+        }else{
+          mta.Event.stat("ico_in_from_shake", {})
+        }
       }
+      
     }
     console.log(options)
 
@@ -162,7 +171,7 @@ Page({
     if (_self.data.shakeLotSpeed) {
       return
     }
-    if (_self.data.hasReturn || _self.data.isLoading) {
+    if (_self.data.hasReturn || _self.data.isLoading || (!_self.data.hasAuthorize)) {
       return
     }
     const innerAudioContext = wx.createInnerAudioContext()

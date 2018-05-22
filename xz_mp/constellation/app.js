@@ -10,7 +10,7 @@ App({
   onLaunch: function (options) {
     const _self = this
     const _SData = this.globalData
-
+    
     _SData.userInfo = wx.getStorageSync('userInfo')
     _self.getLogin().then(res => {
       console.log(res)

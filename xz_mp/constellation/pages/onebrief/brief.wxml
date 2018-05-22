@@ -22,9 +22,9 @@
 	</view>
 </view>
 
-<form bindsubmit="onclickHome" class='home' report-submit='true'>
+<form wx:if="{{isFromShare}}" bindsubmit="onclickHome" class='home' report-submit='true'>
   <button class='button1' form-type="submit" type='' hover-class="none">
-    <image wx:if="{{isFromShare}}" src="/assets/images/icon_home.png" mode="widthFix" />
+    <image  src="/assets/images/icon_home.png" mode="widthFix" />
   </button>
 </form>
 <view wx:if="{{showCanvas}}">
