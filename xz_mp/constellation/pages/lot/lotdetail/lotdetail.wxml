@@ -92,7 +92,7 @@
             立即找好友帮忙
           </button>
         </form>
-        <form bindsubmit="onclickShareCircle" wx:if="{{lotDetail.lotNotCompleted && !lotDetail.lotNotCompleted}}" report-submit='true'>
+        <form bindsubmit="onclickShareCircle" wx:else report-submit='true'>
           <button style="{{lotDetail.lotNotCompleted?'':'width:80%;'}}" form-type="submit" type='' hover-class="none">
             保存此签发个朋友圈
           </button>
