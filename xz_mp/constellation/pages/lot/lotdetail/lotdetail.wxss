@@ -99,7 +99,7 @@
 
 .myLot .unLogBox .date {
   text-align: right;
-  margin-bottom: 40rpx;
+  /* margin-bottom: 40rpx; */
 }
 
 .myLot .unLogBox .date text {

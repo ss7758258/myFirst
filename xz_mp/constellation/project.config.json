@@ -50,7 +50,7 @@
 					"id": 2,
 					"name": "lotdetail",
 					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "lotId=134&from=share",
+					"query": "lotId=155&from=share",
 					"scene": "1011"
 				},
 				{
