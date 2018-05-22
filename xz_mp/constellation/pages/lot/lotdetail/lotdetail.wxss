@@ -39,16 +39,16 @@
 .myLot .box .xiaoge {
   width: 100rpx;
   position: absolute;
-  bottom:19%;
-  left:9%;
-  height:254rpx;
+  bottom: 19%;
+  left: 9%;
+  height: 254rpx;
 }
 
 .myLot .lot {
   width: 280rpx;
   position: absolute;
-  bottom:16%;
-  left:29%;
+  bottom: 16%;
+  left: 29%;
   z-index: 2;
 }
 
@@ -58,8 +58,8 @@
   margin: 40rpx;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 20rpx;
-  min-height:360rpx;
-
+  min-height: 350rpx;
+  padding-bottom: 20rpx;
 }
 
 .myLot .unLogBox .unlotBg {
@@ -204,6 +204,7 @@
   width: 40%;
   margin: 0 auto;
   color: rgb(158, 29, 29);
+  font-size: 40rpx;
 }
 
 .shareBox form {
@@ -224,7 +225,7 @@
   animation: fennuzujianchuxian 2s linear;
 }
 
-.chaiwanqianxiaoshi{
+.chaiwanqianxiaoshi {
   animation: xiaorongzujianxiaoshi 2s linear;
 }
 

@@ -2,7 +2,7 @@
 <view class="UI_page page_brief page_onelot {{networkError?'noNetBg': ''}}">
   <view>
     <view class="UI_box ">
-      <image class='{{networkError?"noNet": "pic"}}' src="{{prevPic}}" />
+      <image class='{{networkError?"noNet": "pic"}}' src="{{prevPic}}" bindload='onLodingListener'/>
       <text class='picUserName'>{{picUserName}}</text>
       <form class='saveform' bindsubmit="saveSelect" report-submit='true' wx:if="{{!networkError}}">
         <button class="save" form-type="submit" type='' hover-class="none">

@@ -9,7 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    picUserName: _GData.userInfo.nickName,
+    picUserName: '',
     isFromShare: false,
     prevPic: ""
   },
@@ -156,7 +156,7 @@ Page({
       ctx.setFillStyle('#333333')  // 文字颜色：黑色
       ctx.setFontSize(12)         // 文字字号：22px
       ctx.fillText("长按识别二维码 查看你的每日一言", 375 / 2, 631 + 12)
-      
+
       ctx.draw()
       setTimeout(function () {
         wx.canvasToTempFilePath({
@@ -197,6 +197,15 @@ Page({
           title: '加载失败了，请检查网络',
         })
       })
+  },
+  onLodingListener: function (e) {
+    console.log(e)
+    const _self = this
+    if (e.detail.height && e.detail.width) {
+      _self.setData({
+        picUserName: _GData.userInfo.nickName
+      })
+    }
   },
   onclickHome: function (e) {
     let formid = e.detail.formId
