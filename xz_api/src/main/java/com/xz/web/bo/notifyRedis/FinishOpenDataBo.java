@@ -4,40 +4,46 @@ import java.io.Serializable;
 
 public class FinishOpenDataBo implements Serializable{
 
-    private String serviceType;
+   /* private String serviceType;
     private String ownerNickName;
     private String friendNickName;
-    private String finishTime;
+    private String finishTime;*/
 
-    public String getServiceType() {
-        return serviceType;
+    private Keyword1 keyword1;
+    private Keyword2 keyword2;
+    private Keyword3 keyword3;
+    private Keyword4 keyword4;
+
+    public Keyword1 getKeyword1() {
+        return keyword1;
     }
 
-    public void setServiceType(String serviceType) {
-        this.serviceType = serviceType;
+    public void setKeyword1(Keyword1 keyword1) {
+        this.keyword1 = keyword1;
     }
 
-    public String getOwnerNickName() {
-        return ownerNickName;
+    public Keyword2 getKeyword2() {
+        return keyword2;
     }
 
-    public void setOwnerNickName(String ownerNickName) {
-        this.ownerNickName = ownerNickName;
+    public void setKeyword2(Keyword2 keyword2) {
+        this.keyword2 = keyword2;
     }
 
-    public String getFriendNickName() {
-        return friendNickName;
+    public Keyword3 getKeyword3() {
+        return keyword3;
     }
 
-    public void setFriendNickName(String friendNickName) {
-        this.friendNickName = friendNickName;
+    public void setKeyword3(Keyword3 keyword3) {
+        this.keyword3 = keyword3;
     }
 
-    public String getFinishTime() {
-        return finishTime;
+    public Keyword4 getKeyword4() {
+        return keyword4;
     }
 
-    public void setFinishTime(String finishTime) {
-        this.finishTime = finishTime;
+    public void setKeyword4(Keyword4 keyword4) {
+        this.keyword4 = keyword4;
     }
+
 }

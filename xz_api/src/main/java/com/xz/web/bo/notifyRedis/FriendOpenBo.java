@@ -8,7 +8,7 @@ public class FriendOpenBo implements Serializable{
     private String templateId;
     private String page;
     private String emphasisKeyword;
-    private FriendOpenDataBo friendOpenDataBo;
+    private FriendOpenDataBo data;
 
     public String getTouser() {
         return touser;
@@ -42,11 +42,11 @@ public class FriendOpenBo implements Serializable{
         this.emphasisKeyword = emphasisKeyword;
     }
 
-    public FriendOpenDataBo getFriendOpenDataBo() {
-        return friendOpenDataBo;
+    public FriendOpenDataBo getData() {
+        return data;
     }
 
-    public void setFriendOpenDataBo(FriendOpenDataBo friendOpenDataBo) {
-        this.friendOpenDataBo = friendOpenDataBo;
+    public void setData(FriendOpenDataBo data) {
+        this.data = data;
     }
 }

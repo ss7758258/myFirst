@@ -4,40 +4,45 @@ import java.io.Serializable;
 
 public class LuckyRemindDataBo implements Serializable {
 
-    private String lucky;
+    /*private String lucky;
     private String nickname;
     private String remind;
-    private String remark;
+    private String remark;*/
 
-    public String getLucky() {
-        return lucky;
+    private Keyword1 keyword1;
+    private Keyword2 keyword2;
+    private Keyword3 keyword3;
+    private Keyword4 keyword4;
+
+    public Keyword1 getKeyword1() {
+        return keyword1;
     }
 
-    public void setLucky(String lucky) {
-        this.lucky = lucky;
+    public void setKeyword1(Keyword1 keyword1) {
+        this.keyword1 = keyword1;
     }
 
-    public String getNickname() {
-        return nickname;
+    public Keyword2 getKeyword2() {
+        return keyword2;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setKeyword2(Keyword2 keyword2) {
+        this.keyword2 = keyword2;
     }
 
-    public String getRemind() {
-        return remind;
+    public Keyword3 getKeyword3() {
+        return keyword3;
     }
 
-    public void setRemind(String remind) {
-        this.remind = remind;
+    public void setKeyword3(Keyword3 keyword3) {
+        this.keyword3 = keyword3;
     }
 
-    public String getRemark() {
-        return remark;
+    public Keyword4 getKeyword4() {
+        return keyword4;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setKeyword4(Keyword4 keyword4) {
+        this.keyword4 = keyword4;
     }
 }

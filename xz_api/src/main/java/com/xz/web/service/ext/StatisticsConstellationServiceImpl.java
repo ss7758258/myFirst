@@ -118,6 +118,7 @@ public class StatisticsConstellationServiceImpl implements StatisticsConstellati
         redisService.szSet(hasFormidUserZset, weixin.getOpenId(), (double)time1);
 
         Long time2 = time + 7*24*60*60*1000 - 5*30*1000;
+        logger.error("-------------------------formid:" + formid);
         redisService.szSet(userFormidZsetOpenid + weixin.getOpenId(), formid, (double)time2);
         responseBody.setStatus(AjaxStatus.SUCCESS);
         responseBody.setData(null);

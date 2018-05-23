@@ -12,10 +12,7 @@ import com.xz.framework.utils.DateUtil;
 import com.xz.framework.utils.JsonUtil;
 import com.xz.framework.utils.StringUtil;
 import com.xz.web.bo.everydayQian.X500Bo;
-import com.xz.web.bo.notifyRedis.FinishOpenBo;
-import com.xz.web.bo.notifyRedis.FinishOpenDataBo;
-import com.xz.web.bo.notifyRedis.FriendOpenBo;
-import com.xz.web.bo.notifyRedis.FriendOpenDataBo;
+import com.xz.web.bo.notifyRedis.*;
 import com.xz.web.dao.redis.RedisDao;
 import com.xz.web.mapper.entity.TiQianList;
 import com.xz.web.mapper.entity.TiUserQianList;
@@ -402,15 +399,18 @@ public class EverydayQianController extends BaseController {
             String friendOpenid = weixin.getOpenId();
             String friendNickname = redisService.get("nickName-:" + friendOpenid);
             FriendOpenBo friendOpenBo = new FriendOpenBo();
+            Keyword11 keyword11 = new Keyword11();
             FriendOpenDataBo friendOpenDataBo = new FriendOpenDataBo();
-            friendOpenDataBo.setRemark("来自好友的热情帮助");
-            friendOpenDataBo.setFriendNickname(StringUtil.Base64ToStr(friendNickname));
-            friendOpenDataBo.setOpenTime(DateUtil.getDatetime());
-            friendOpenDataBo.setServiceType("拆签");
+            friendOpenDataBo.setKeyword4(new Keyword4("来自好友的热情帮助"));
+            friendOpenDataBo.setKeyword2(new Keyword2(StringUtil.Base64ToStr(friendNickname)));
+            friendOpenDataBo.setKeyword3(new Keyword3(DateUtil.getDatetime()));
+            keyword11.setValue("拆签");
+            keyword11.setColor("#5961dd");
+            friendOpenDataBo.setKeyword1(new Keyword1(keyword11));
 
             friendOpenBo.setTemplateId("NCp_Xt9ZB1mnAnS-FSuox0vY_m4l0PTAR4SZkQYsVFo");
-            friendOpenBo.setEmphasisKeyword(friendOpenDataBo.getServiceType());
-            friendOpenBo.setFriendOpenDataBo(friendOpenDataBo);
+            friendOpenBo.setEmphasisKeyword("拆签");
+            friendOpenBo.setData(friendOpenDataBo);
             friendOpenBo.setPage("pages/lot/lotdetail/lotdetail?lotId=" + obj.getId());
             friendOpenBo.setTouser(ownOpenId);
 
@@ -423,7 +423,7 @@ public class EverydayQianController extends BaseController {
                 FinishOpenDataBo finishOpenDataBo = new FinishOpenDataBo();
 
                 String ownerNickName = redisService.get("nickName-:" + ownOpenId);
-                finishOpenDataBo.setOwnerNickName(StringUtil.Base64ToStr(ownerNickName));
+                finishOpenDataBo.setKeyword2(new Keyword2(StringUtil.Base64ToStr(ownerNickName)));
                 String friendNickName = "";
                 if (StringUtil.isNotEmpty(openId1)) {
                     friendNickName = StringUtil.Base64ToStr(redisService.get("nickName-:" + openId1));
@@ -441,13 +441,15 @@ public class EverydayQianController extends BaseController {
                     friendNickName = "、" + StringUtil.Base64ToStr(redisService.get("nickName-:" + openId5));
                 }
 
-                finishOpenDataBo.setFriendNickName(friendNickName);
-                finishOpenDataBo.setFinishTime(DateUtil.getDatetime());
-                finishOpenDataBo.setServiceType("拆签成功！");
+                finishOpenDataBo.setKeyword3(new Keyword3(friendNickName));
+                finishOpenDataBo.setKeyword4(new Keyword4(DateUtil.getDatetime()));
+                keyword11.setValue("拆签成功！");
+                keyword11.setColor("#5961dd");
+                finishOpenDataBo.setKeyword1(new Keyword1(keyword11));
 
                 finishOpenBo.setTemplateId("ubj91653viz7Ci_3yeum1jpzWukjeVr4YajN3yL4RWc");
-                finishOpenBo.setEmphasisKeyword(finishOpenDataBo.getServiceType());
-                finishOpenBo.setFinishOpenDataBo(finishOpenDataBo);
+                finishOpenBo.setEmphasisKeyword("拆签成功！");
+                finishOpenBo.setData(finishOpenDataBo);
                 finishOpenBo.setPage("pages/lot/lotdetail/lotdetail?from=form&lotId=" + obj.getId());
                 finishOpenBo.setTouser(ownOpenId);
 

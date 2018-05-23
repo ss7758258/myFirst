@@ -8,7 +8,7 @@ public class FinishOpenBo implements Serializable{
     private String templateId;
     private String page;
     private String emphasisKeyword;
-    private FinishOpenDataBo finishOpenDataBo;
+    private FinishOpenDataBo data;
 
     public String getTouser() {
         return touser;
@@ -42,11 +42,11 @@ public class FinishOpenBo implements Serializable{
         this.emphasisKeyword = emphasisKeyword;
     }
 
-    public FinishOpenDataBo getFinishOpenDataBo() {
-        return finishOpenDataBo;
+    public FinishOpenDataBo getData() {
+        return data;
     }
 
-    public void setFinishOpenDataBo(FinishOpenDataBo finishOpenDataBo) {
-        this.finishOpenDataBo = finishOpenDataBo;
+    public void setData(FinishOpenDataBo data) {
+        this.data = data;
     }
 }

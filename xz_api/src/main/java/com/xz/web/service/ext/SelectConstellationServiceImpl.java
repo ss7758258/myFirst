@@ -7,8 +7,7 @@ import com.xz.framework.common.base.BeanCriteria;
 import com.xz.framework.utils.DateUtil;
 import com.xz.framework.utils.JsonUtil;
 import com.xz.framework.utils.StringUtil;
-import com.xz.web.bo.notifyRedis.LuckyRemindBo;
-import com.xz.web.bo.notifyRedis.LuckyRemindDataBo;
+import com.xz.web.bo.notifyRedis.*;
 import com.xz.web.bo.selectConstellation.X100Bo;
 import com.xz.web.dao.redis.RedisDao;
 import com.xz.web.mapper.entity.TcConstellation;
@@ -26,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.util.List;
 
 @Service
@@ -172,14 +172,17 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
             //消息推送，存redis
             LuckyRemindBo luckyRemindBo = new LuckyRemindBo();
             LuckyRemindDataBo luckyRemindDataBo = new LuckyRemindDataBo();
-            luckyRemindDataBo.setRemark("来自小哥星座");
-            luckyRemindDataBo.setRemind(tiLucky.getRemindToday());
-            luckyRemindDataBo.setNickname(StringUtil.Base64ToStr(x100Vo.getNickName()));
-            luckyRemindDataBo.setLucky("今日运势");
+            Keyword11 keyword11 = new Keyword11();
+            luckyRemindDataBo.setKeyword4(new Keyword4("来自小哥星座"));
+            luckyRemindDataBo.setKeyword3(new Keyword3(tiLucky.getRemindToday()));
+            luckyRemindDataBo.setKeyword2(new Keyword2(StringUtil.Base64ToStr(x100Vo.getNickName())));
+            keyword11.setValue("今日运势");
+            keyword11.setColor("#5961dd");
+            luckyRemindDataBo.setKeyword1(new Keyword1(keyword11));
 
             luckyRemindBo.setTemplateId("ashf_u9VlZRYUUo07TevMvag7F41N-LBIw5lGuQH1qI");
-            luckyRemindBo.setEmphasisKeyword(luckyRemindDataBo.getLucky());
-            luckyRemindBo.setLuckyRemindDataBo(luckyRemindDataBo);
+            luckyRemindBo.setEmphasisKeyword("今日运势");
+            luckyRemindBo.setData(luckyRemindDataBo);
             luckyRemindBo.setPage("pages/today/today?from=form");
             luckyRemindBo.setTouser(weixin.getOpenId());
 

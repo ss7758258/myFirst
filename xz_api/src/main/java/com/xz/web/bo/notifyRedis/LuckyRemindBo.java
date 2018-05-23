@@ -8,7 +8,7 @@ public class LuckyRemindBo implements Serializable{
     private String templateId;
     private String page;
     private String emphasisKeyword;
-    private LuckyRemindDataBo luckyRemindDataBo;
+    private LuckyRemindDataBo data;
 
     public String getTouser() {
         return touser;
@@ -42,11 +42,11 @@ public class LuckyRemindBo implements Serializable{
         this.emphasisKeyword = emphasisKeyword;
     }
 
-    public LuckyRemindDataBo getLuckyRemindDataBo() {
-        return luckyRemindDataBo;
+    public LuckyRemindDataBo getData() {
+        return data;
     }
 
-    public void setLuckyRemindDataBo(LuckyRemindDataBo luckyRemindDataBo) {
-        this.luckyRemindDataBo = luckyRemindDataBo;
+    public void setData(LuckyRemindDataBo data) {
+        this.data = data;
     }
 }
