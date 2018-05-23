@@ -20,6 +20,7 @@ Page({
     //摇签状态 
     shakeLotSpeed: false,
     potPath: false,
+    userInfo: _GData.userInfo
     // imgs: imgs
   },
 

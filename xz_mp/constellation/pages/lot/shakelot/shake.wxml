@@ -3,12 +3,14 @@
 <view class="UI_pgae">
   <view class="userInfo">
     <view class="photo">
-      <open-data type="userAvatarUrl"></open-data>
+      <image src='{{userInfo.avatarUrl}}' mode='widthFix'></image>
+      <!-- <open-data type="userAvatarUrl"></open-data> -->
     </view>
     <view class="left">
       <view>
         <text>你好，</text>
-        <open-data type="userNickName"></open-data>
+        <text>{{userInfo.nickName}}</text>
+        <!-- <open-data type="userNickName"></open-data> -->
       </view>
       <text>摇摇手机，立即抽取你的每日一签</text>
     </view>
