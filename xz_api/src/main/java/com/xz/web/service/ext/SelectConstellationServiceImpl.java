@@ -6,6 +6,9 @@ import com.xz.framework.bean.weixin.Weixin;
 import com.xz.framework.common.base.BeanCriteria;
 import com.xz.framework.utils.DateUtil;
 import com.xz.framework.utils.JsonUtil;
+import com.xz.framework.utils.StringUtil;
+import com.xz.web.bo.notifyRedis.LuckyRemindBo;
+import com.xz.web.bo.notifyRedis.LuckyRemindDataBo;
 import com.xz.web.bo.selectConstellation.X100Bo;
 import com.xz.web.dao.redis.RedisDao;
 import com.xz.web.mapper.entity.TcConstellation;
@@ -165,6 +168,24 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
                 x100Bo.setLuckyType4(tiLucky.getLuckyType4());
                 x100Bo.setRemindToday(tiLucky.getRemindToday());
             }
+
+            //消息推送，存redis
+            LuckyRemindBo luckyRemindBo = new LuckyRemindBo();
+            LuckyRemindDataBo luckyRemindDataBo = new LuckyRemindDataBo();
+            luckyRemindDataBo.setRemark("来自小哥星座");
+            luckyRemindDataBo.setRemind(tiLucky.getRemindToday());
+            luckyRemindDataBo.setNickname(StringUtil.Base64ToStr(x100Vo.getNickName()));
+            luckyRemindDataBo.setLucky("今日运势");
+
+            luckyRemindBo.setTemplateId("ashf_u9VlZRYUUo07TevMvag7F41N-LBIw5lGuQH1qI");
+            luckyRemindBo.setEmphasisKeyword(luckyRemindDataBo.getLucky());
+            luckyRemindBo.setLuckyRemindDataBo(luckyRemindDataBo);
+            luckyRemindBo.setPage("pages/today/today?from=form");
+            luckyRemindBo.setTouser(weixin.getOpenId());
+
+            String redisJson = JsonUtil.serialize(luckyRemindBo);
+            redisService.lrSet("notify_list_lucky:", redisJson);
+
 
        /*
             //每日运势页PV
