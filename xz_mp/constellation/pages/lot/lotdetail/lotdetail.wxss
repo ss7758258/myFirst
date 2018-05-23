@@ -177,25 +177,21 @@
 .invite .qipaobg {
   width: 80%;
   position: absolute;
-  margin: 0 auto;
-  bottom: 150rpx;
-  left: 10%;
+  bottom: 16.4vh;
+  left: 0;
+  right: 0;
+  margin:auto;
   z-index: 99;
   animation: qipao 3s linear;
   transform-origin: bottom center;
 }
 
 @keyframes qipao {
-  0% {
+  0%,50%  {
     -webkit-transform: scale(1) translateY(0);
   }
-
-  50% {
-    -webkit-transform: scale(1) translateY(0);
-  }
-
   100% {
-    -webkit-transform: scale(0) translateY(-80rpx);
+    -webkit-transform: scale(0) translateY(-6.997001499250375vh);
   }
 }
 
