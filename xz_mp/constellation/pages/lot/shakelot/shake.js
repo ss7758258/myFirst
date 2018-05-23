@@ -1,11 +1,12 @@
 // pages/lot/shakelot/shake.js
 
 const $vm = getApp()
-const _GData = $vm.globalData
+const _GData = $vm.globalData;
+console.log(_GData, 'data数据')
 const { parseLot } = $vm.utils
 const getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
 var mta = require('../../../utils/mta_analysis.js')
-// let imgs = require('./imgs.js')
+let imgs = require('./imgs.js')
 Page({
 
   /**
@@ -20,8 +21,8 @@ Page({
     //摇签状态 
     shakeLotSpeed: false,
     potPath: false,
-    userInfo: _GData.userInfo
-    // imgs: imgs
+    userInfo: _GData.userInfo,
+    imgs: imgs
   },
 
   /**
@@ -29,6 +30,7 @@ Page({
    */
   onLoad: function (options) {
     mta.Page.init()
+    console.log('输出参数：', options)
     let pageFrom = options.from
     if (pageFrom == 'share') {
       this.setData({
@@ -41,68 +43,68 @@ Page({
       } else if (options.where = 'shake') {
         if (options.hotapp == 1) {
           mta.Event.stat("ico_in_from_shake_qrcode", {})
-        }else{
+        } else {
           mta.Event.stat("ico_in_from_shake", {})
         }
       }
-      
+
+    } else if (options.where = 'activity') {
+      console.log('ico_in_from_shake_activity')
+      mta.Event.stat("ico_in_from_shake_activity", {})
     }
     console.log(options)
 
     const _self = this
     const _SData = this.data
+    console.log('缓存数据：', _GData.userInfo)
+    _self.setData({
+      userInfo: _GData.userInfo
+    })
     if (!_GData.userInfo) {
-      // wx.getSetting({
-      //   success: function (res) {
-      //     if (res.authSetting['scope.userInfo']) {
-      //       _self.setData({
-      //         hasAuthorize: true
-      //       })
-            getUserInfo()
-              .then(res => {
-                $vm.api.getSelectx100({
-                  nickName: res.userInfo.nickName,
-                  headImage: res.userInfo.avatarUrl,
-                  notShowLoading: true,
-                }).then(res => {
-                  if (res.userInfo) {
-                    wx.setStorage({
-                      key: 'userInfo',
-                      data: res.userInfo,
-                    })
-                    _self.setData({
-                      hasAuthorize: true
-                    })
-                    _GData.userInfo = res.userInfo
-                    $vm.api.getSelectx100({
-                      nickName: res.userInfo.nickName,
-                      headImage: res.userInfo.avatarUrl,
-                      notShowLoading: true,
-                    }).then(res => {
+      wx.getUserInfo({
+        success: function (res) {
+          console.log(res)
+          if (res.userInfo) {
+            wx.setStorage({
+              key: 'userInfo',
+              data: res.userInfo,
+            })
 
-                    })
-                  }
+            _GData.userInfo = res.userInfo
+            $vm.api.getSelectx100({
+              constellationId: _GData.selectConstellation.id,
+              nickName: res.userInfo.nickName,
+              headImage: res.userInfo.avatarUrl,
+              notShowLoading: true,
+            }).then(res => {
+
+            })
+          }
+        },
+        fail: function (res) {
+          // 查看是否授权
+          wx.getSetting({
+            success: function (res) {
+              if (!res.authSetting['scope.userInfo']) {
+
+                _self.setData({
+                  hasAuthorize: false
                 })
-              })
-              .catch(err => {
-                console.log(err)
-              })
-      //     } else {
-      //       _self.setData({
-      //         hasAuthorize: false
-      //       })
-      //       wx.showToast({
-      //         title: '请先同意授权',
-      //         icon: 'none',
-      //         mask: true,
-      //       })
-      //     }
-      //   },
-      //   fail: function (res) { },
-      //   complete: function (res) { },
-      // // })
-
-
+                wx.redirectTo({
+                  url: '/pages/checklogin/checklogin?from=shake'
+                })
+                // if (fromwhere == 'share') {
+                //   wx.showToast({
+                //     title: '请先同意授权',
+                //     icon: 'none',
+                //     mask: true,
+                //   })
+                // }
+              }
+            }
+          })
+        }
+      })
     }
   },
 
@@ -269,7 +271,7 @@ Page({
     var positivenum = 0 //正数 摇一摇总数
 
     wx.onAccelerometerChange(function (res) {  //小程序api 加速度计
-    console.log(res)
+      console.log(res)
       if (_self.data.hasReturn || _self.data.isLoading) {
         return
       }

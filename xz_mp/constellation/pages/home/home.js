@@ -35,24 +35,6 @@ Page({
   selectSign: function (e) {
     const _self = this
     const _SData = this.data
-    // if (!_GData.userInfo) {
-    //   wx.showToast({
-    //     title: '没有用户信息',
-    //     icon: 'none',
-    //     mask: true,
-
-    //   })
-    //   return
-    // }
-    // if (!_SData.hasAuthorize) {
-    //   wx.showToast({
-    //     title: '请先同意授权',
-    //     icon: 'none',
-    //     mask: true,
-
-    //   })
-    //   return
-    // }
 
     const selectConstellation = e.detail.target.dataset.item
     mta.Event.stat('ico_home_select', { 'constellation': selectConstellation.name })
@@ -87,7 +69,7 @@ Page({
         remindToday: res.remindToday ? res.remindToday : ''
       })
       if (!_self.goPage(_SData)) {
-        const myLuckLen = myLuck.length;
+        const myLuckLen = myLuck.length
         _self.circleDynamic()();
         // for (let i = 0; i < myLuckLen; i++) {
         //   _self.circleDynamic(i)()
@@ -125,7 +107,7 @@ Page({
 
     let fromwhere = options.from
     let to = options.to
-    if (fromwhere == 'share') {
+    if (fromwhere == 'share' || fromwhere == 'activity') {
       _self.setData({
         toPage: to,
         pageFrom: fromwhere
@@ -140,13 +122,15 @@ Page({
       } else if (to == 'today') {
         if (options.hotapp == 1) {
           mta.Event.stat("ico_in_from_today_qrcode", {})
+        } else if (fromwhere == 'activity') {
+          console.log('ico_in_from_brief_activity')
+          mta.Event.stat("ico_in_from_brief_activity", {})
         } else {
           mta.Event.stat("ico_in_from_today", {})
         }
 
       }
     }
-
 
     wx.getUserInfo({
       success: function (res) {
@@ -180,15 +164,15 @@ Page({
                 hasAuthorize: false
               })
               wx.redirectTo({
-                url: '/pages/checklogin/checklogin'
+                url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to
               })
-              if (fromwhere == 'share') {
-                wx.showToast({
-                  title: '请先同意授权',
-                  icon: 'none',
-                  mask: true,
-                })
-              }
+              // if (fromwhere == 'share') {
+              //   wx.showToast({
+              //     title: '请先同意授权',
+              //     icon: 'none',
+              //     mask: true,
+              //   })
+              // }
             }
           }
         })
