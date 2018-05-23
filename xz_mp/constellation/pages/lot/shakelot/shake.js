@@ -2,7 +2,7 @@
 
 const $vm = getApp()
 const _GData = $vm.globalData;
-console.log(_GData,'data数据')
+console.log(_GData, 'data数据')
 const { parseLot } = $vm.utils
 const getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
 var mta = require('../../../utils/mta_analysis.js')
@@ -30,7 +30,7 @@ Page({
    */
   onLoad: function (options) {
     mta.Page.init()
-    console.log('输出参数：',options)
+    console.log('输出参数：', options)
     let pageFrom = options.from
     if (pageFrom == 'share') {
       this.setData({
@@ -46,10 +46,11 @@ Page({
         } else {
           mta.Event.stat("ico_in_from_shake", {})
         }
-      } else if (options.where = 'activity') {
-        mta.Event.stat("ico_in_from_activity", {})
       }
 
+    } else if (options.where = 'activity') {
+      console.log('ico_in_from_shake_activity')
+      mta.Event.stat("ico_in_from_shake_activity", {})
     }
     console.log(options)
 
@@ -105,9 +106,6 @@ Page({
         }
       })
     }
-    _self.setData({
-      userInfo: _GData.userInfo
-    })
   },
 
   /**

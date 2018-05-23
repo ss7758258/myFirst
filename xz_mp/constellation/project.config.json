@@ -66,6 +66,20 @@
 					"pathName": "pages/lot/emptylot/emptylot",
 					"query": "",
 					"scene": "1011"
+				},
+				{
+					"id": 5,
+					"name": "activitytoday",
+					"pathName": "pages/home/home",
+					"query": "to=today&from=activity",
+					"scene": "1011"
+				},
+				{
+					"id": 6,
+					"name": "activityshake",
+					"pathName": "pages/lot/shakelot/shake",
+					"query": "from=activity",
+					"scene": "1011"
 				}
 			]
 		}

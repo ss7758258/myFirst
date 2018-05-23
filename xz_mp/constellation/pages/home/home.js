@@ -35,7 +35,7 @@ Page({
   selectSign: function (e) {
     const _self = this
     const _SData = this.data
-    
+
     const selectConstellation = e.detail.target.dataset.item
     mta.Event.stat('ico_home_select', { 'constellation': selectConstellation.name })
     _GData.selectConstellation = selectConstellation
@@ -107,7 +107,7 @@ Page({
 
     let fromwhere = options.from
     let to = options.to
-    if (fromwhere == 'share') {
+    if (fromwhere == 'share' || fromwhere == 'activity') {
       _self.setData({
         toPage: to,
         pageFrom: fromwhere
@@ -122,6 +122,9 @@ Page({
       } else if (to == 'today') {
         if (options.hotapp == 1) {
           mta.Event.stat("ico_in_from_today_qrcode", {})
+        } else if (fromwhere == 'activity') {
+          console.log('ico_in_from_brief_activity')
+          mta.Event.stat("ico_in_from_brief_activity", {})
         } else {
           mta.Event.stat("ico_in_from_today", {})
         }
