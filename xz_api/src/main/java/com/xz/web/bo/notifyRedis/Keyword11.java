@@ -1,6 +1,8 @@
 package com.xz.web.bo.notifyRedis;
 
-public class Keyword11 {
+import java.io.Serializable;
+
+public class Keyword11 implements Serializable {
 
     private String value;
     private String color = "#5961dd";

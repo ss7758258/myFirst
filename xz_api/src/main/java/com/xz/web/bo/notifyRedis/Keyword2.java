@@ -1,6 +1,8 @@
 package com.xz.web.bo.notifyRedis;
 
-public class Keyword2 {
+import java.io.Serializable;
+
+public class Keyword2 implements Serializable {
 
     private String keyword2;
 
