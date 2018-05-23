@@ -1,5 +1,5 @@
 <view class="UI_page page_today page_bg">
-  <image class='inImage' src='/assets/images/cbg2.png' mode='widthFix'></image>
+  <image class='inImage' src='/assets/images/cbg2.png'></image>
   <view class="UI_box">
 
     <scroll-view scroll-y>
