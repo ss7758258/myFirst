@@ -38,9 +38,9 @@ Page({
       })
       if (options.where = 'list') {
         mta.Event.stat("ico_in_from_list", {})
-      } else if (options.where = 'detail') {
+      } else if (options.where == 'detail') {
         mta.Event.stat("ico_in_from_detail", {})
-      } else if (options.where = 'shake') {
+      } else if (options.where == 'shake') {
         if (options.hotapp == 1) {
           mta.Event.stat("ico_in_from_shake_qrcode", {})
         } else {
@@ -48,7 +48,7 @@ Page({
         }
       }
 
-    } else if (options.where = 'activity') {
+    } else if (options.where == 'activity') {
       this.setData({
         isFromShare: true,
       })
