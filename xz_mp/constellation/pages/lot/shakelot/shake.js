@@ -49,6 +49,9 @@ Page({
       }
 
     } else if (options.where = 'activity') {
+      this.setData({
+        isFromShare: true,
+      })
       console.log('ico_in_from_shake_activity')
       mta.Event.stat("ico_in_from_shake_activity", {})
     }
