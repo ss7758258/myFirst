@@ -87,7 +87,7 @@ Page({
         remindToday: res.remindToday ? res.remindToday : ''
       })
       if (!_self.goPage(_SData)) {
-        const myLuckLen = myLuck.length;
+        const myLuckLen = myLuck.length
         _self.circleDynamic()();
         // for (let i = 0; i < myLuckLen; i++) {
         //   _self.circleDynamic(i)()
@@ -147,7 +147,6 @@ Page({
       }
     }
 
-
     wx.getUserInfo({
       success: function (res) {
         console.log(res)
@@ -182,13 +181,13 @@ Page({
               wx.redirectTo({
                 url: '/pages/checklogin/checklogin'
               })
-              if (fromwhere == 'share') {
-                wx.showToast({
-                  title: '请先同意授权',
-                  icon: 'none',
-                  mask: true,
-                })
-              }
+              // if (fromwhere == 'share') {
+              //   wx.showToast({
+              //     title: '请先同意授权',
+              //     icon: 'none',
+              //     mask: true,
+              //   })
+              // }
             }
           }
         })

@@ -9,7 +9,7 @@ Page({
   /**
    * 页面的初始数据
    */
-  data: { 
+  data: {
     isFromShare: false,
     huan: false,//拆签成功
     showCanvas: false,
@@ -44,8 +44,8 @@ Page({
 
     let qId = options.lotId
     let pageFrom = options.from
-    if (pageFrom == 'share' || pageFrom == 'list') {
-      if (pageFrom == 'share') {
+    if (pageFrom == 'share' || pageFrom == 'list' || pageFrom == 'form') {
+      if (pageFrom == 'share' || pageFrom == 'form') {
         _self.setData({
           isFromShare: true,
         })

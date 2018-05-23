@@ -28,7 +28,7 @@ Page({
     })
     var fromwhere = options.from
     console.log(options)
-    if (fromwhere == 'share') {
+    if (fromwhere == 'share' || fromwhere == 'form') {
       this.setData({
         isFromShare: true
       })
