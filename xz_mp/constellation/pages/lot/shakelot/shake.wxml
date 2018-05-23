@@ -46,8 +46,8 @@
   </button>
 </form>
 
-<form bindsubmit="bindGetUserInfo" class='shouquan' report-submit='true' wx:if="{{!hasAuthorize}}">
+<!-- <form bindsubmit="bindGetUserInfo" class='shouquan' report-submit='true' wx:if="{{!hasAuthorize}}">
   <button form-type="submit" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
     授权该程序获取信息
   </button>
-</form>
+</form> -->
