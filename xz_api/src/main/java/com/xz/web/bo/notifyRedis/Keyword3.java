@@ -4,20 +4,20 @@ import java.io.Serializable;
 
 public class Keyword3 implements Serializable {
 
-    private String keyword3;
+    private String value;
 
     public Keyword3() {
     }
 
-    public Keyword3(String keyword3) {
-        this.keyword3 = keyword3;
+    public Keyword3(String value) {
+        this.value = value;
     }
 
-    public String getKeyword3() {
-        return keyword3;
+    public String getValue() {
+        return value;
     }
 
-    public void setKeyword3(String keyword3) {
-        this.keyword3 = keyword3;
+    public void setValue(String value) {
+        this.value = value;
     }
 }
