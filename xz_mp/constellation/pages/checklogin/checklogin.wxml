@@ -1,0 +1,8 @@
+<view class='index_box set_details {{_system === "ios" ? "isIOS" : ""}}'>
+  <view class='login_box'>
+    <icon class='login_icon'></icon>
+    <view class='login_tips'>授权失败了，点击以下重新授权</view>
+    <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class='login_btn'>点击授权</button>
+    <button wx:else bindtap="checkLogin" class='login_btn'>点击授权</button>
+  </view>
+</view>
