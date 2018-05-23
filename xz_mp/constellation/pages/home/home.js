@@ -44,15 +44,15 @@ Page({
     //   })
     //   return
     // }
-    if (!_SData.hasAuthorize) {
-      wx.showToast({
-        title: '请先同意授权',
-        icon: 'none',
-        mask: true,
+    // if (!_SData.hasAuthorize) {
+    //   wx.showToast({
+    //     title: '请先同意授权',
+    //     icon: 'none',
+    //     mask: true,
 
-      })
-      return
-    }
+    //   })
+    //   return
+    // }
 
     const selectConstellation = e.detail.target.dataset.item
     mta.Event.stat('ico_home_select', { 'constellation': selectConstellation.name })
@@ -155,35 +155,76 @@ Page({
           _self.setData({
             hasAuthorize: true
           })
-
           wx.getUserInfo({
             success: function (res) {
-              _self.setData({
-                hasAuthorize: true
-              })
-              _GData.userInfo = res.userInfo
-              wx.setStorage({
-                key: 'userInfo',
-                data: res.userInfo,
-              })
-              // _self.goPage(_SData)
+              console.log(res)
+              if (res.userInfo) {
+                wx.setStorage({
+                  key: 'userInfo',
+                  data: res.userInfo,
+                })
+                _self.setData({
+                  hasAuthorize: true
+                })
+                _GData.userInfo = res.userInfo
+                $vm.api.getSelectx100({
+                  constellationId: _GData.selectConstellation.id,
+                  nickName: res.userInfo.nickName,
+                  headImage: res.userInfo.avatarUrl,
+                  notShowLoading: true,
+                }).then(res => {
+
+                })
+              }
             }
           })
+          
         } else {
           _self.setData({
             hasAuthorize: false
           })
-          if (fromwhere == 'share') {
-            wx.showToast({
-              title: '请先同意授权',
-              icon: 'none',
-              mask: true,
-            })
-          }
+          wx.showModal({
+            title: '警告',
+            content: '您点击了拒绝授权，无法使用此功能。',
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              }
+            }
+          })
+          // if (fromwhere == 'share') {
+          //   wx.showToast({
+          //     title: '请先同意授权',
+          //     icon: 'none',
+          //     mask: true,
+          //   })
+          // }
         }
       }
     })
+    wx.getUserInfo({
+      success: function (res) {
+        console.log(res)
+        if (res.userInfo) {
+          wx.setStorage({
+            key: 'userInfo',
+            data: res.userInfo,
+          })
+          _self.setData({
+            hasAuthorize: true
+          })
+          _GData.userInfo = res.userInfo
+          $vm.api.getSelectx100({
+            constellationId: _GData.selectConstellation.id,
+            nickName: res.userInfo.nickName,
+            headImage: res.userInfo.avatarUrl,
+            notShowLoading: true,
+          }).then(res => {
 
+          })
+        }
+      }
+    })
 
 
   },

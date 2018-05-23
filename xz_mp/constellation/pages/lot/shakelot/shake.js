@@ -51,12 +51,12 @@ Page({
     const _self = this
     const _SData = this.data
     if (!_GData.userInfo) {
-      wx.getSetting({
-        success: function (res) {
-          if (res.authSetting['scope.userInfo']) {
-            _self.setData({
-              hasAuthorize: true
-            })
+      // wx.getSetting({
+      //   success: function (res) {
+      //     if (res.authSetting['scope.userInfo']) {
+      //       _self.setData({
+      //         hasAuthorize: true
+      //       })
             getUserInfo()
               .then(res => {
                 $vm.api.getSelectx100({
@@ -64,26 +64,42 @@ Page({
                   headImage: res.userInfo.avatarUrl,
                   notShowLoading: true,
                 }).then(res => {
+                  if (res.userInfo) {
+                    wx.setStorage({
+                      key: 'userInfo',
+                      data: res.userInfo,
+                    })
+                    _self.setData({
+                      hasAuthorize: true
+                    })
+                    _GData.userInfo = res.userInfo
+                    $vm.api.getSelectx100({
+                      nickName: res.userInfo.nickName,
+                      headImage: res.userInfo.avatarUrl,
+                      notShowLoading: true,
+                    }).then(res => {
 
+                    })
+                  }
                 })
               })
               .catch(err => {
                 console.log(err)
               })
-          } else {
-            _self.setData({
-              hasAuthorize: false
-            })
-            wx.showToast({
-              title: '请先同意授权',
-              icon: 'none',
-              mask: true,
-            })
-          }
-        },
-        fail: function (res) { },
-        complete: function (res) { },
-      })
+      //     } else {
+      //       _self.setData({
+      //         hasAuthorize: false
+      //       })
+      //       wx.showToast({
+      //         title: '请先同意授权',
+      //         icon: 'none',
+      //         mask: true,
+      //       })
+      //     }
+      //   },
+      //   fail: function (res) { },
+      //   complete: function (res) { },
+      // // })
 
 
     }
