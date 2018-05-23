@@ -18,6 +18,20 @@ Page({
    */
   onLoad: function (options) {
     mta.Page.init()
+    const _self = this
+    let fromwhere = options.from
+    if (fromwhere) {
+      _self.setData({
+        pageFrom: fromwhere
+      })
+    }
+    let to = options.to
+    if (to) {
+      _self.setData({
+        toPage: to,
+      })
+    }
+
   },
 
   /**
@@ -69,7 +83,8 @@ Page({
 
   },
   bindGetUserInfo: function (e) {
-
+    const _self = this
+    const _SData = this.data
     if (e.detail.userInfo) {
       wx.setStorage({
         key: 'userInfo',
@@ -84,9 +99,16 @@ Page({
         headImage: e.detail.userInfo.avatarUrl,
         notShowLoading: true,
       }).then(res => {
-        wx.redirectTo({
-          url: '/pages/home/home',
-        })
+        if (_SData.pageFrom == 'shake') {
+          wx.redirectTo({
+            url: '/pages/lot/shakelot/shake?from=detail',
+          })
+        } else {
+          wx.redirectTo({
+            url: '/pages/home/home?from=' + _SData.pageFrom + '&to=' + _SData.toPage,
+          })
+        }
+
       })
     }
 

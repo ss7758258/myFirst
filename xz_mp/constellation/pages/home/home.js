@@ -35,25 +35,7 @@ Page({
   selectSign: function (e) {
     const _self = this
     const _SData = this.data
-    // if (!_GData.userInfo) {
-    //   wx.showToast({
-    //     title: '没有用户信息',
-    //     icon: 'none',
-    //     mask: true,
-
-    //   })
-    //   return
-    // }
-    // if (!_SData.hasAuthorize) {
-    //   wx.showToast({
-    //     title: '请先同意授权',
-    //     icon: 'none',
-    //     mask: true,
-
-    //   })
-    //   return
-    // }
-
+    
     const selectConstellation = e.detail.target.dataset.item
     mta.Event.stat('ico_home_select', { 'constellation': selectConstellation.name })
     _GData.selectConstellation = selectConstellation
@@ -179,7 +161,7 @@ Page({
                 hasAuthorize: false
               })
               wx.redirectTo({
-                url: '/pages/checklogin/checklogin'
+                url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to
               })
               // if (fromwhere == 'share') {
               //   wx.showToast({
