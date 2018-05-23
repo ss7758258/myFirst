@@ -1,7 +1,8 @@
 // pages/lot/shakelot/shake.js
 
 const $vm = getApp()
-const _GData = $vm.globalData
+const _GData = $vm.globalData;
+console.log(_GData,'data数据')
 const { parseLot } = $vm.utils
 const getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
 var mta = require('../../../utils/mta_analysis.js')
@@ -29,6 +30,7 @@ Page({
    */
   onLoad: function (options) {
     mta.Page.init()
+    console.log('输出参数：',options)
     let pageFrom = options.from
     if (pageFrom == 'share') {
       this.setData({
@@ -51,6 +53,10 @@ Page({
 
     const _self = this
     const _SData = this.data
+    console.log('缓存数据：', _GData.userInfo)
+    _self.setData({
+      userInfo: _GData.userInfo
+    })
     if (!_GData.userInfo) {
       // wx.getSetting({
       //   success: function (res) {
