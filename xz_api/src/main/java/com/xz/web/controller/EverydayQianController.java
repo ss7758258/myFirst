@@ -415,7 +415,7 @@ public class EverydayQianController extends BaseController {
             friendOpenBo.setTouser(ownOpenId);
 
             String redisJson = JsonUtil.serialize(friendOpenBo);
-            redisService.lrSet("notify_list_openqian:", redisJson);
+            redisService.lrSet("notify_list_openqian", redisJson);
 
             //拆签完成通知
             if (x511.getAlreadyOpen().intValue() == qianOpenSize) {
@@ -452,7 +452,7 @@ public class EverydayQianController extends BaseController {
                 finishOpenBo.setTouser(ownOpenId);
 
                 String redisJson2 = JsonUtil.serialize(friendOpenBo);
-                redisService.lrSet("notify_list_openfinish:", redisJson2);
+                redisService.lrSet("notify_list_openfinish", redisJson2);
             }
 
         } catch (Exception e) {
