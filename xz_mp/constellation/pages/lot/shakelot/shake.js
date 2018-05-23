@@ -59,7 +59,7 @@ Page({
 
     const _self = this
     const _SData = this.data
-    console.log('缓存数据：', _GData.userInfo)
+    
     _self.setData({
       userInfo: _GData.userInfo
     })
@@ -74,6 +74,9 @@ Page({
             })
 
             _GData.userInfo = res.userInfo
+            _self.setData({
+              userInfo: _GData.userInfo
+            })
             $vm.api.getSelectx100({
               constellationId: _GData.selectConstellation.id,
               nickName: res.userInfo.nickName,
