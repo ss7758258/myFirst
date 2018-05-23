@@ -12,6 +12,10 @@ import com.xz.framework.utils.DateUtil;
 import com.xz.framework.utils.JsonUtil;
 import com.xz.framework.utils.StringUtil;
 import com.xz.web.bo.everydayQian.X500Bo;
+import com.xz.web.bo.notifyRedis.FinishOpenBo;
+import com.xz.web.bo.notifyRedis.FinishOpenDataBo;
+import com.xz.web.bo.notifyRedis.FriendOpenBo;
+import com.xz.web.bo.notifyRedis.FriendOpenDataBo;
 import com.xz.web.dao.redis.RedisDao;
 import com.xz.web.mapper.entity.TiQianList;
 import com.xz.web.mapper.entity.TiUserQianList;
@@ -179,20 +183,18 @@ public class EverydayQianController extends BaseController {
                 }
             } else {
                 TiQianList qian = null;
-                try{
+                try {
                     String qianStr = redisService.get("randomQian");
-                    qian = JsonUtil.deserialize(qianStr,TiQianList.class);
-                }catch (Exception e)
-                {
+                    qian = JsonUtil.deserialize(qianStr, TiQianList.class);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if(null == qian)
-                {
+                if (null == qian) {
                     long count = everydayQianService.countActiveQianList();
                     int randomNum = (int) (Math.random() * count);
                     qian = everydayQianService.randomActiveQianList(randomNum);
                 }
-                if (null!=qian) {
+                if (null != qian) {
                     TiUserQianList obj = new TiUserQianList();
                     obj.setQianDate(DateUtil.getDate());
                     obj.setQianName(qian.getName());
@@ -205,7 +207,7 @@ public class EverydayQianController extends BaseController {
                     everydayQianService.save(obj);
 
                     X511 x511 = new X511();
-                    BeanUtil.copyProperties(obj, x511,true);
+                    BeanUtil.copyProperties(obj, x511, true);
                     String ownerOpenId = weixin.getOpenId();
                     if (StringUtil.isNotEmpty(ownerOpenId)) {
                         String ownerImage = redisService.get("headImage-:" + ownerOpenId);
@@ -291,63 +293,62 @@ public class EverydayQianController extends BaseController {
             criteria.andEqualTo("id", data.getUserId());
             List<WeixinUser> weixinUserList = weixinUserService.selectByExample(beanCriteria);
             String ownOpenId = "";
-            if (!weixinUserList.isEmpty()){
+            if (!weixinUserList.isEmpty()) {
                 ownOpenId = weixinUserList.get(0).getOpenId();
             }
 
 
-            if(weixin.getOpenId().equals(data.getFriendOpenId1()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId1()))
                 x511.setAlreadyOpen(1);
-            if(weixin.getOpenId().equals(data.getFriendOpenId2()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId2()))
                 x511.setAlreadyOpen(2);
-            if(weixin.getOpenId().equals(data.getFriendOpenId3()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId3()))
                 x511.setAlreadyOpen(3);
-            if(weixin.getOpenId().equals(data.getFriendOpenId4()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId4()))
                 x511.setAlreadyOpen(4);
-            if(weixin.getOpenId().equals(data.getFriendOpenId5()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId5()))
                 x511.setAlreadyOpen(5);
 
-            if(x511.getAlreadyOpen()<1) {
-                if (StringUtil.isEmpty(data.getFriendOpenId1())&&qianOpenSize>=1) {
-                    if(qianOpenSize==1)
+            if (x511.getAlreadyOpen() < 1) {
+                if (StringUtil.isEmpty(data.getFriendOpenId1()) && qianOpenSize >= 1) {
+                    if (qianOpenSize == 1)
                         data.setStatus(1);
                     data.setFriendOpenId1(weixin.getOpenId());
-                } else if (StringUtil.isEmpty(data.getFriendOpenId2())&&qianOpenSize>=2) {
-                    if(qianOpenSize==2)
+                } else if (StringUtil.isEmpty(data.getFriendOpenId2()) && qianOpenSize >= 2) {
+                    if (qianOpenSize == 2)
                         data.setStatus(1);
                     data.setFriendOpenId2(weixin.getOpenId());
-                } else if (StringUtil.isEmpty(data.getFriendOpenId3())&&qianOpenSize>=3) {
-                    if(qianOpenSize==3)
+                } else if (StringUtil.isEmpty(data.getFriendOpenId3()) && qianOpenSize >= 3) {
+                    if (qianOpenSize == 3)
                         data.setStatus(1);
                     data.setFriendOpenId3(weixin.getOpenId());
-                } else if (StringUtil.isEmpty(data.getFriendOpenId4())&&qianOpenSize>=4) {
-                    if(qianOpenSize==4)
+                } else if (StringUtil.isEmpty(data.getFriendOpenId4()) && qianOpenSize >= 4) {
+                    if (qianOpenSize == 4)
                         data.setStatus(1);
                     data.setFriendOpenId4(weixin.getOpenId());
-                } else if (StringUtil.isEmpty(data.getFriendOpenId5())&&qianOpenSize>=5) {
-                    if(qianOpenSize==5)
+                } else if (StringUtil.isEmpty(data.getFriendOpenId5()) && qianOpenSize >= 5) {
+                    if (qianOpenSize == 5)
                         data.setStatus(1);
                     data.setFriendOpenId5(weixin.getOpenId());
                 }
                 data.setUpdateTimestamp(DateUtil.getDatetime());
                 tiUserQianListService.update(data);
             }
-            BeanUtil.copyProperties(data, x511,true);
+            BeanUtil.copyProperties(data, x511, true);
 //插入数据完了再
             Long userId = Long.valueOf(useridStr);
-            if(data.getUserId().equals(userId))
-            {
+            if (data.getUserId().equals(userId)) {
                 x511.setIsMyQian(1);
             }
-            if(weixin.getOpenId().equals(data.getFriendOpenId1()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId1()))
                 x511.setAlreadyOpen(1);
-            if(weixin.getOpenId().equals(data.getFriendOpenId2()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId2()))
                 x511.setAlreadyOpen(2);
-            if(weixin.getOpenId().equals(data.getFriendOpenId3()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId3()))
                 x511.setAlreadyOpen(3);
-            if(weixin.getOpenId().equals(data.getFriendOpenId4()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId4()))
                 x511.setAlreadyOpen(4);
-            if(weixin.getOpenId().equals(data.getFriendOpenId5()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId5()))
                 x511.setAlreadyOpen(5);
 
 //            String ownerOpenId = weixin.getOpenId();
@@ -395,6 +396,65 @@ public class EverydayQianController extends BaseController {
 
             x511.setQianOpenSize(qianOpenSize);
             responseBody.setData(x511);
+
+            //好友拆签，插入redis
+            //消息推送，存redis
+            String friendOpenid = weixin.getOpenId();
+            String friendNickname = redisService.get("nickName-:" + friendOpenid);
+            FriendOpenBo friendOpenBo = new FriendOpenBo();
+            FriendOpenDataBo friendOpenDataBo = new FriendOpenDataBo();
+            friendOpenDataBo.setRemark("来自好友的热情帮助");
+            friendOpenDataBo.setFriendNickname(StringUtil.Base64ToStr(friendNickname));
+            friendOpenDataBo.setOpenTime(DateUtil.getDatetime());
+            friendOpenDataBo.setServiceType("拆签");
+
+            friendOpenBo.setTemplateId("NCp_Xt9ZB1mnAnS-FSuox0vY_m4l0PTAR4SZkQYsVFo");
+            friendOpenBo.setEmphasisKeyword(friendOpenDataBo.getServiceType());
+            friendOpenBo.setFriendOpenDataBo(friendOpenDataBo);
+            friendOpenBo.setPage("pages/lot/lotdetail/lotdetail?lotId=" + obj.getId());
+            friendOpenBo.setTouser(ownOpenId);
+
+            String redisJson = JsonUtil.serialize(friendOpenBo);
+            redisService.lrSet("notify_list_openqian:", redisJson);
+
+            //拆签完成通知
+            if (x511.getAlreadyOpen().intValue() == qianOpenSize) {
+                FinishOpenBo finishOpenBo = new FinishOpenBo();
+                FinishOpenDataBo finishOpenDataBo = new FinishOpenDataBo();
+
+                String ownerNickName = redisService.get("nickName-:" + ownOpenId);
+                finishOpenDataBo.setOwnerNickName(StringUtil.Base64ToStr(ownerNickName));
+                String friendNickName = "";
+                if (StringUtil.isNotEmpty(openId1)) {
+                    friendNickName = StringUtil.Base64ToStr(redisService.get("nickName-:" + openId1));
+                }
+                if (StringUtil.isNotEmpty(openId2)) {
+                    friendNickName = "、" + StringUtil.Base64ToStr(redisService.get("nickName-:" + openId2));
+                }
+                if (StringUtil.isNotEmpty(openId3)) {
+                    friendNickName = "、" + StringUtil.Base64ToStr(redisService.get("nickName-:" + openId3));
+                }
+                if (StringUtil.isNotEmpty(openId4)) {
+                    friendNickName = "、" + StringUtil.Base64ToStr(redisService.get("nickName-:" + openId4));
+                }
+                if (StringUtil.isNotEmpty(openId5)) {
+                    friendNickName = "、" + StringUtil.Base64ToStr(redisService.get("nickName-:" + openId5));
+                }
+
+                finishOpenDataBo.setFriendNickName(friendNickName);
+                finishOpenDataBo.setFinishTime(DateUtil.getDatetime());
+                finishOpenDataBo.setServiceType("拆签成功！");
+
+                finishOpenBo.setTemplateId("ubj91653viz7Ci_3yeum1jpzWukjeVr4YajN3yL4RWc");
+                finishOpenBo.setEmphasisKeyword(finishOpenDataBo.getServiceType());
+                finishOpenBo.setFinishOpenDataBo(finishOpenDataBo);
+                finishOpenBo.setPage("pages/lot/lotdetail/lotdetail?from=form&lotId=" + obj.getId());
+                finishOpenBo.setTouser(ownOpenId);
+
+                String redisJson2 = JsonUtil.serialize(friendOpenBo);
+                redisService.lrSet("notify_list_openfinish:", redisJson2);
+            }
+
         } catch (Exception e) {
             e.getMessage();
             ResultUtil.returnResultLog(responseBody, "服务器异常，请稍后再试", e.getMessage(), logger);
@@ -475,29 +535,26 @@ public class EverydayQianController extends BaseController {
             Long userId = Long.valueOf(useridStr);
             X511 x511 = new X511();
             BeanUtil.copyProperties(data, x511);
-            if(data.getUserId()==userId)
-            {
+            if (data.getUserId() == userId) {
                 x511.setIsMyQian(1);
             }
-            if(weixin.getOpenId().equals(data.getFriendOpenId1()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId1()))
                 x511.setAlreadyOpen(1);
-            if(weixin.getOpenId().equals(data.getFriendOpenId2()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId2()))
                 x511.setAlreadyOpen(2);
-            if(weixin.getOpenId().equals(data.getFriendOpenId3()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId3()))
                 x511.setAlreadyOpen(3);
-            if(weixin.getOpenId().equals(data.getFriendOpenId4()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId4()))
                 x511.setAlreadyOpen(4);
-            if(weixin.getOpenId().equals(data.getFriendOpenId5()))
+            if (weixin.getOpenId().equals(data.getFriendOpenId5()))
                 x511.setAlreadyOpen(5);
             //通过userid获取openId
-            String ownerOpenId = redisService.get("userId-:"+data.getUserId());
-            if(null==ownerOpenId)
-            {
+            String ownerOpenId = redisService.get("userId-:" + data.getUserId());
+            if (null == ownerOpenId) {
                 WeixinUser weixinUser = weixinUserService.selectByKey(data.getUserId());
                 ownerOpenId = weixinUser.getOpenId();
             }
-            if(null!=ownerOpenId)
-            {
+            if (null != ownerOpenId) {
                 if (StringUtil.isNotEmpty(ownerOpenId)) {
                     String ownerImage = redisService.get("headImage-:" + ownerOpenId);
                     x511.setOwnerHeadImage(ownerImage);
