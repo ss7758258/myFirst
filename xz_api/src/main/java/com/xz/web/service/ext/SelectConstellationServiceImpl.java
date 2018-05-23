@@ -181,7 +181,7 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
             luckyRemindDataBo.setKeyword1(new Keyword1(keyword11));
 
             luckyRemindBo.setTemplateId("ashf_u9VlZRYUUo07TevMvag7F41N-LBIw5lGuQH1qI");
-            luckyRemindBo.setEmphasisKeyword("今日运势");
+            luckyRemindBo.setEmphasisKeyword("keyword1.DATA");
             luckyRemindBo.setData(luckyRemindDataBo);
             luckyRemindBo.setPage("pages/today/today?from=form");
             luckyRemindBo.setTouser(weixin.getOpenId());

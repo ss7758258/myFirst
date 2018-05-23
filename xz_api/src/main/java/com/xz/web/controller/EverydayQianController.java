@@ -409,7 +409,7 @@ public class EverydayQianController extends BaseController {
             friendOpenDataBo.setKeyword1(new Keyword1(keyword11));
 
             friendOpenBo.setTemplateId("NCp_Xt9ZB1mnAnS-FSuox0vY_m4l0PTAR4SZkQYsVFo");
-            friendOpenBo.setEmphasisKeyword("拆签");
+            friendOpenBo.setEmphasisKeyword("keyword1.DATA");
             friendOpenBo.setData(friendOpenDataBo);
             friendOpenBo.setPage("pages/lot/lotdetail/lotdetail?lotId=" + obj.getId());
             friendOpenBo.setTouser(ownOpenId);
@@ -448,7 +448,7 @@ public class EverydayQianController extends BaseController {
                 finishOpenDataBo.setKeyword1(new Keyword1(keyword11));
 
                 finishOpenBo.setTemplateId("ubj91653viz7Ci_3yeum1jpzWukjeVr4YajN3yL4RWc");
-                finishOpenBo.setEmphasisKeyword("拆签成功！");
+                finishOpenBo.setEmphasisKeyword("keyword1.DATA");
                 finishOpenBo.setData(finishOpenDataBo);
                 finishOpenBo.setPage("pages/lot/lotdetail/lotdetail?from=form&lotId=" + obj.getId());
                 finishOpenBo.setTouser(ownOpenId);
