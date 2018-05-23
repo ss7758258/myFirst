@@ -183,7 +183,7 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
             luckyRemindBo.setTemplateId("ashf_u9VlZRYUUo07TevMvag7F41N-LBIw5lGuQH1qI");
             luckyRemindBo.setEmphasisKeyword("keyword1.DATA");
             luckyRemindBo.setData(luckyRemindDataBo);
-            luckyRemindBo.setPage("pages/today/today?from=form");
+            luckyRemindBo.setPage("pages/home/home?from=form");
             luckyRemindBo.setTouser(weixin.getOpenId());
 
             String redisJson = JsonUtil.serialize(luckyRemindBo);
