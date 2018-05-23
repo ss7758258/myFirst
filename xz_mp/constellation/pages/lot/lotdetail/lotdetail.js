@@ -154,67 +154,34 @@ Page({
     const _self = this
     const _Sdata = this.data
 
-    // _self.setData({
-    //   // lotDetail: lotDetail,
-    //   hasChai: true,
-    //   showHaoren: true,
-    //   huan: true,
+    // if (_Sdata.lotDetail.hasChai) {
 
-    // })
-    // setTimeout(function () {
-    //   _self.setData({
-    //     "lotDetail.lotNotCompleted": false
+    //   mta.Event.stat("ico_lotdetail", { "business": "去我的摇一摇" })
+    //   $vm.api.getX504({
+    //     notShowLoading: true,
     //   })
-    // }, 2000)
-    // setTimeout(function () {
-    //   _self.setData({
-    //     showHaoren: false,
-    //   })
-    // }, 2800)
-    // return
+    //     .then(res => {
+    //       console.log(res)
+    //       if (!res) {
+    //         wx.navigateTo({
+    //           url: '/pages/lot/shakelot/shake?formid=' + formid
+    //         })
+    //       } else {
+    //         if (res.status === 0) {
+    //           wx.navigateTo({
+    //             url: '/pages/lot/shakelot/shake?formid=' + formid
+    //           })
+    //         } else if (res.status == 1) { //没有签了
+    //           wx.navigateTo({
+    //             url: '/pages/lot/emptylot/emptylot?formid=' + formid
+    //           })
+    //         }
+    //       }
 
+    //     })
+    //   return
+    // }
 
-    if (_Sdata.lotDetail.hasChai) {
-
-      mta.Event.stat("ico_lotdetail", { "business": "去我的摇一摇" })
-      $vm.api.getX504({
-        notShowLoading: true,
-      })
-        .then(res => {
-          console.log(res)
-          if (!res) {
-            wx.navigateTo({
-              url: '/pages/lot/shakelot/shake?formid=' + formid
-            })
-          } else {
-            if (res.status === 0) {
-              wx.navigateTo({
-                url: '/pages/lot/shakelot/shake?formid=' + formid
-              })
-            } else if (res.status == 1) { //没有签了
-              wx.navigateTo({
-                url: '/pages/lot/emptylot/emptylot?formid=' + formid
-              })
-            }
-          }
-
-        })
-      return
-    }
-
-
-    mta.Event.stat("ico_lotdetail", { "business": "帮好友拆" })
-    _self.setData({
-      // lotDetail: lotDetail,
-      hasChai: true,
-      showHaoren: true,
-    })
-    // setTimeout(function () {
-    //   _self.setData({
-    //     showHaoren: false,
-    //   })
-    // }, 2800)
-    // return
     $vm.api.getX506({ id: _Sdata.lotDetail.id, notShowLoading: true })
       .then(res => {
         console.log(res)

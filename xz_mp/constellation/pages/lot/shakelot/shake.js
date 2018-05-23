@@ -59,7 +59,7 @@ Page({
 
     const _self = this
     const _SData = this.data
-    
+
     _self.setData({
       userInfo: _GData.userInfo
     })
@@ -193,6 +193,7 @@ Page({
 
     mta.Event.stat("ico_shake_shake", {})
     const _self = this
+    const _SData = this.data
     if (_self.data.shakeLotSpeed) {
       return
     }
@@ -226,6 +227,7 @@ Page({
           isLoading: false
         })
         if (!res) {
+
           wx.navigateTo({
             url: '/pages/lot/lotlist/lotlist'
           })
@@ -248,10 +250,16 @@ Page({
               shakeLotSpeed: false
             })
 
+            if (_SData.isFromShare) {
+              wx.navigateTo({
+                url: '/pages/lot/lotdetail/lotdetail?sound=1',
+              })
+            } else {
+              wx.redirectTo({
+                url: '/pages/lot/lotdetail/lotdetail?sound=1',
+              })
+            }
 
-            wx.redirectTo({
-              url: '/pages/lot/lotdetail/lotdetail?sound=1',
-            })
 
           }, 1500)
         } else if (res.status == 1) {//没有签了

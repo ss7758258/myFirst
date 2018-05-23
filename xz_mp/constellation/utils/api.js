@@ -46,6 +46,9 @@ function requst(url, method, data = {}) {
       method: method.toUpperCase(), // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
       success: function (res) {
         console.log(url)
+        if (url == 'statisticsConstellation/x610') {
+          console.log(data)
+        }
         // if (res.data && res.data.responseBody &&
         //   ('SUCCESS' == res.data.responseBody.status)) {
         if (url == 'selectConstellation/x100' && !data.constellationId) {
