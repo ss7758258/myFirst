@@ -6,7 +6,9 @@
   padding-top: 20rpx;
   height:100%;
 }
-
+.button1 image{
+  box-shadow:0 0 3px rgba(0,0,0,.3);
+}
 .UI_box {
   box-sizing: border-box;
   /* width: 100%;

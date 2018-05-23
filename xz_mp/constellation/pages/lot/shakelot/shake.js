@@ -5,7 +5,7 @@ const _GData = $vm.globalData
 const { parseLot } = $vm.utils
 const getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
 var mta = require('../../../utils/mta_analysis.js')
-let imgs = require('./imgs.js')
+// let imgs = require('./imgs.js')
 Page({
 
   /**
@@ -20,7 +20,7 @@ Page({
     //摇签状态 
     shakeLotSpeed: false,
     potPath: false,
-    imgs: imgs
+    // imgs: imgs
   },
 
   /**
@@ -245,13 +245,14 @@ Page({
   },
   shakeFun: function () { // 摇一摇方法封装
     const _self = this
-    var numX = 0 //x轴
-    var numY = 0 // y轴
-    var numZ = 0 // z轴
+    var numX = 0.2 //x轴
+    var numY = 0.2 // y轴
+    var numZ = 0.2 // z轴
     var stsw = true // 开关，保证在一定的时间内只能是一次，摇成功
     var positivenum = 0 //正数 摇一摇总数
 
     wx.onAccelerometerChange(function (res) {  //小程序api 加速度计
+    console.log(res)
       if (_self.data.hasReturn || _self.data.isLoading) {
         return
       }
