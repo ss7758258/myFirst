@@ -106,7 +106,6 @@ Page({
 	 */
   onLoad: function (options) {
     mta.Page.init()
-    console.log(options)
     const _self = this
     const _SData = this.data
     const selectConstellation = _GData.selectConstellation
@@ -148,60 +147,7 @@ Page({
       }
     }
 
-    // 查看是否授权
-    wx.getSetting({
-      success: function (res) {
-        if (res.authSetting['scope.userInfo']) {
-          _self.setData({
-            hasAuthorize: true
-          })
-          wx.getUserInfo({
-            success: function (res) {
-              console.log(res)
-              if (res.userInfo) {
-                wx.setStorage({
-                  key: 'userInfo',
-                  data: res.userInfo,
-                })
-                _self.setData({
-                  hasAuthorize: true
-                })
-                _GData.userInfo = res.userInfo
-                $vm.api.getSelectx100({
-                  constellationId: _GData.selectConstellation.id,
-                  nickName: res.userInfo.nickName,
-                  headImage: res.userInfo.avatarUrl,
-                  notShowLoading: true,
-                }).then(res => {
 
-                })
-              }
-            }
-          })
-          
-        } else {
-          _self.setData({
-            hasAuthorize: false
-          })
-          wx.showModal({
-            title: '警告',
-            content: '您点击了拒绝授权，无法使用此功能。',
-            success: function (res) {
-              if (res.confirm) {
-                console.log('用户点击确定')
-              }
-            }
-          })
-          // if (fromwhere == 'share') {
-          //   wx.showToast({
-          //     title: '请先同意授权',
-          //     icon: 'none',
-          //     mask: true,
-          //   })
-          // }
-        }
-      }
-    })
     wx.getUserInfo({
       success: function (res) {
         console.log(res)
@@ -223,6 +169,29 @@ Page({
 
           })
         }
+      },
+      fail: function (res) {
+        // 查看是否授权
+        wx.getSetting({
+          success: function (res) {
+            if (!res.authSetting['scope.userInfo']) {
+
+              _self.setData({
+                hasAuthorize: false
+              })
+              wx.redirectTo({
+                url: '/pages/checklogin/checklogin'
+              })
+              if (fromwhere == 'share') {
+                wx.showToast({
+                  title: '请先同意授权',
+                  icon: 'none',
+                  mask: true,
+                })
+              }
+            }
+          }
+        })
       }
     })
 
@@ -355,6 +324,10 @@ Page({
 
     clearTimeout(this.data.timer ? this.data.timer : '');
     mta.Event.stat("ico_home_unselect", {})
+    wx.setStorage({
+      key: 'selectConstellation',
+      data: null,
+    })
     _GData.selectConstellation = null
     this.setData({
       selectBack: true,
