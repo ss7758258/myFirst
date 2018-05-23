@@ -9,16 +9,16 @@ public class FinishOpenDataBo implements Serializable{
     private String friendNickName;
     private String finishTime;*/
 
-    private Keyword1 keyword1;
+    private Keyword11 keyword1;
     private Keyword2 keyword2;
     private Keyword3 keyword3;
     private Keyword4 keyword4;
 
-    public Keyword1 getKeyword1() {
+    public Keyword11 getKeyword1() {
         return keyword1;
     }
 
-    public void setKeyword1(Keyword1 keyword1) {
+    public void setKeyword1(Keyword11 keyword1) {
         this.keyword1 = keyword1;
     }
 

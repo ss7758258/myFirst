@@ -178,7 +178,7 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
             luckyRemindDataBo.setKeyword2(new Keyword2(StringUtil.Base64ToStr(x100Vo.getNickName())));
             keyword11.setValue("今日运势");
             keyword11.setColor("#5961dd");
-            luckyRemindDataBo.setKeyword1(new Keyword1(keyword11));
+            luckyRemindDataBo.setKeyword1(keyword11);
 
             luckyRemindBo.setTemplateId("ashf_u9VlZRYUUo07TevMvag7F41N-LBIw5lGuQH1qI");
             luckyRemindBo.setEmphasisKeyword("keyword1.DATA");

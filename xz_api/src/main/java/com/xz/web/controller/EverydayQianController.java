@@ -406,7 +406,7 @@ public class EverydayQianController extends BaseController {
             friendOpenDataBo.setKeyword3(new Keyword3(DateUtil.getDatetime()));
             keyword11.setValue("拆签");
             keyword11.setColor("#5961dd");
-            friendOpenDataBo.setKeyword1(new Keyword1(keyword11));
+            friendOpenDataBo.setKeyword1(keyword11);
 
             friendOpenBo.setTemplateId("NCp_Xt9ZB1mnAnS-FSuox0vY_m4l0PTAR4SZkQYsVFo");
             friendOpenBo.setEmphasisKeyword("keyword1.DATA");
@@ -445,7 +445,7 @@ public class EverydayQianController extends BaseController {
                 finishOpenDataBo.setKeyword4(new Keyword4(DateUtil.getDatetime()));
                 keyword11.setValue("拆签成功！");
                 keyword11.setColor("#5961dd");
-                finishOpenDataBo.setKeyword1(new Keyword1(keyword11));
+                finishOpenDataBo.setKeyword1(keyword11);
 
                 finishOpenBo.setTemplateId("ubj91653viz7Ci_3yeum1jpzWukjeVr4YajN3yL4RWc");
                 finishOpenBo.setEmphasisKeyword("keyword1.DATA");
