@@ -38,9 +38,9 @@ Page({
       })
       if (options.where = 'list') {
         mta.Event.stat("ico_in_from_list", {})
-      } else if (options.where = 'detail') {
+      } else if (options.where == 'detail') {
         mta.Event.stat("ico_in_from_detail", {})
-      } else if (options.where = 'shake') {
+      } else if (options.where == 'shake') {
         if (options.hotapp == 1) {
           mta.Event.stat("ico_in_from_shake_qrcode", {})
         } else {
@@ -48,7 +48,10 @@ Page({
         }
       }
 
-    } else if (options.where = 'activity') {
+    } else if (options.where == 'activity') {
+      this.setData({
+        isFromShare: true,
+      })
       console.log('ico_in_from_shake_activity')
       mta.Event.stat("ico_in_from_shake_activity", {})
     }
@@ -56,7 +59,7 @@ Page({
 
     const _self = this
     const _SData = this.data
-    console.log('缓存数据：', _GData.userInfo)
+    
     _self.setData({
       userInfo: _GData.userInfo
     })
@@ -71,6 +74,9 @@ Page({
             })
 
             _GData.userInfo = res.userInfo
+            _self.setData({
+              userInfo: _GData.userInfo
+            })
             $vm.api.getSelectx100({
               constellationId: _GData.selectConstellation.id,
               nickName: res.userInfo.nickName,
