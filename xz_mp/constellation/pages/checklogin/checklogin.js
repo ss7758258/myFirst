@@ -115,6 +115,10 @@ Page({
           wx.redirectTo({
             url: '/pages/lot/shakelot/shake?from=activity',
           })
+        } else if (_SData.pageFrom == 'share' && _SData.and == 'shake') {
+          wx.redirectTo({
+            url: '/pages/lot/shakelot/shake?from=share',
+          })
         } else if (_SData.pageFrom == 'share' && _SData.qId) {
           wx.redirectTo({
             url: '/pages/lot/lotdetail/lotdetail?from=' + _SData.pageFrom + '&lotId=' + _SData.qId,
