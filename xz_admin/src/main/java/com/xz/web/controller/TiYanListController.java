@@ -11,12 +11,14 @@ import com.xz.web.constant.Constant;
 import com.xz.web.entity.TiYanList;
 import com.xz.web.redis.RedisDao;
 import com.xz.web.service.TiYanListService;
+import com.xz.web.utils.OSSUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 
 @org.springframework.stereotype.Controller("tiYanListTiYanListController")
@@ -27,6 +29,8 @@ public class TiYanListController extends BaseController {
     private TiYanListService tiYanListService;
     @Autowired
     private RedisDao redisDao;
+    @Resource
+    private OSSUtil ossUtil;
 
 
     @RequestMapping("json/prevPicUpload")
@@ -41,7 +45,7 @@ public class TiYanListController extends BaseController {
             return this.ajaxJson(ajaxBean);
         }
         try {
-            String filePrevPic = FileUtil.uploadFile("tiYanList", this.getRequest(), prevPic);
+            String filePrevPic = FileUtil.uploadFile("tiYanList", this.getRequest(), prevPic,ossUtil);
             ajaxBean.setStatus(AjaxStatus.SUCCESS);
             ajaxBean.setMessage("上传成功!");
             ajaxBean.setData(filePrevPic);

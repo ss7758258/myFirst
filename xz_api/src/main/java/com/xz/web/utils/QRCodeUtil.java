@@ -1,30 +1,11 @@
 package com.xz.web.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.xz.framework.utils.JsonUtil;
-import com.xz.framework.utils.MD5;
-import com.xz.framework.utils.StringUtil;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.HttpClientConnectionManager;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.nio.charset.Charset;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class QRCodeUtil {
 	private static final Logger logger = Logger.getLogger(QRCodeUtil.class);
@@ -36,55 +17,55 @@ public class QRCodeUtil {
 	public static String qrCodeUri="https://api.weixin.qq.com/wxa/getwxacodeunlimit?";
 
 	public static int width = 430;
-
-	public static String getQRCode(HttpServletRequest request, String access_token, String page){
-		page = "pages/onebrief/brief";
-		String returnStr = "";
-		StringBuffer url = new StringBuffer(qrCodeUri);
-		url.append("access_token=").append(access_token);
-
-		JSONObject params = new JSONObject();
-		params.put("page", page);
-		params.put("width", width);
-
-		CloseableHttpClient client = HttpClients.custom().build();
-		HttpPost post = new HttpPost(url.toString());
-		StringEntity entity = new StringEntity(params.toJSONString(), "UTF-8");
-		entity.setContentType("application/json");
-		post.setEntity(entity);
-
-		try (CloseableHttpResponse resp = client.execute(post)) {
-			String body = "";
-			int statusCode = resp.getStatusLine().getStatusCode();
-			body = EntityUtils.toString(resp.getEntity(), Charset.forName("UTF-8"));
-			if (statusCode == HttpStatus.SC_OK) {
-				InputStream inputStream = resp.getEntity().getContent();
-				JSONObject result = JSON.parseObject(body);
-				String filename = StringUtil.getUUID() + ".jpg";
-				String functionPath = "upload/qrCode";
-				String timePath = FileUtil.getTimePath();
-				String rootPath = request.getSession().getServletContext().getRealPath("");
-				FileUtil.creatFolder(rootPath + "/" + functionPath + timePath);
-
-				String absolutePath = rootPath + "/" + functionPath + timePath + filename;
-				File file = new File(absolutePath);
-				FileOutputStream out = new FileOutputStream(absolutePath);
-				byte[] buffer = new byte[8192];
-				int bytesRead = 0;
-				while((bytesRead = inputStream.read(buffer, 0, 8192)) != -1) {
-					out.write(buffer, 0, bytesRead);
-				}
-				out.flush();
-				out.close();
-
-				OSSUtil oss = new OSSUtil();
-				returnStr = oss.fileToOss(file);
-			}
-		} catch (IOException e) {
-			logger.error(e.getMessage());
-		}
-		return returnStr;
-	}
+//
+//	public static String getQRCode(HttpServletRequest request, String access_token, String page){
+//		page = "pages/onebrief/brief";
+//		String returnStr = "";
+//		StringBuffer url = new StringBuffer(qrCodeUri);
+//		url.append("access_token=").append(access_token);
+//
+//		JSONObject params = new JSONObject();
+//		params.put("page", page);
+//		params.put("width", width);
+//
+//		CloseableHttpClient client = HttpClients.custom().build();
+//		HttpPost post = new HttpPost(url.toString());
+//		StringEntity entity = new StringEntity(params.toJSONString(), "UTF-8");
+//		entity.setContentType("application/json");
+//		post.setEntity(entity);
+//
+//		try (CloseableHttpResponse resp = client.execute(post)) {
+//			String body = "";
+//			int statusCode = resp.getStatusLine().getStatusCode();
+//			body = EntityUtils.toString(resp.getEntity(), Charset.forName("UTF-8"));
+//			if (statusCode == HttpStatus.SC_OK) {
+//				InputStream inputStream = resp.getEntity().getContent();
+//				JSONObject result = JSON.parseObject(body);
+//				String filename = StringUtil.getUUID() + ".jpg";
+//				String functionPath = "upload/qrCode";
+//				String timePath = FileUtil.getTimePath();
+//				String rootPath = request.getSession().getServletContext().getRealPath("");
+//				FileUtil.creatFolder(rootPath + "/" + functionPath + timePath);
+//
+//				String absolutePath = rootPath + "/" + functionPath + timePath + filename;
+//				File file = new File(absolutePath);
+//				FileOutputStream out = new FileOutputStream(absolutePath);
+//				byte[] buffer = new byte[8192];
+//				int bytesRead = 0;
+//				while((bytesRead = inputStream.read(buffer, 0, 8192)) != -1) {
+//					out.write(buffer, 0, bytesRead);
+//				}
+//				out.flush();
+//				out.close();
+//
+//				OSSUtil oss = new OSSUtil();
+//				returnStr = oss.fileToOss(file);
+//			}
+//		} catch (IOException e) {
+//			logger.error(e.getMessage());
+//		}
+//		return returnStr;
+//	}
 
 	public static AccessToken getAccessToken(){
 		AccessToken vo = null;

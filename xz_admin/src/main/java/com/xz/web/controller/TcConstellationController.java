@@ -11,12 +11,14 @@ import com.xz.web.constant.Constant;
 import com.xz.web.entity.TcConstellation;
 import com.xz.web.redis.RedisDao;
 import com.xz.web.service.TcConstellationService;
+import com.xz.web.utils.OSSUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 
 @org.springframework.stereotype.Controller("tcConstellationTcConstellationController")
@@ -28,6 +30,8 @@ public class TcConstellationController extends BaseController {
     @Autowired
     private RedisDao redisDao;
 
+    @Resource
+    private OSSUtil ossUtil;
 
     @RequestMapping("json/pictureUrlUpload")
     public
@@ -41,7 +45,7 @@ public class TcConstellationController extends BaseController {
             return this.ajaxJson(ajaxBean);
         }
         try {
-            String filePictureUrl = FileUtil.uploadFile("tcConstellation", this.getRequest(), pictureUrl);
+            String filePictureUrl = FileUtil.uploadFile("tcConstellation", this.getRequest(), pictureUrl,ossUtil);
             ajaxBean.setStatus(AjaxStatus.SUCCESS);
             ajaxBean.setMessage("上传成功!");
             ajaxBean.setData(filePictureUrl);

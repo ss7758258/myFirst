@@ -1,4 +1,5 @@
 package com.xz.web.controller;
+import com.xz.web.utils.OSSUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +21,16 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import com.xz.framework.utils.files.FileUtil;
 
+import javax.annotation.Resource;
+
 @org.springframework.stereotype.Controller("tiQianLibTiQianLibController")
 @RequestMapping("tiQianLib")
 public class TiQianLibController extends BaseController {
 
     @Autowired
     private TiQianLibService tiQianLibService;
+    @Resource
+    private OSSUtil ossUtil;
 
     @RequestMapping("json/picUpload")
     public
@@ -39,7 +44,7 @@ public class TiQianLibController extends BaseController {
             return this.ajaxJson(ajaxBean);
         }
         try {
-            String filePic = FileUtil.uploadFile("tiQianLib", this.getRequest(), pic);
+            String filePic = FileUtil.uploadFile("tiQianLib", this.getRequest(), pic,ossUtil);
             ajaxBean.setStatus(AjaxStatus.SUCCESS);
             ajaxBean.setMessage("上传成功!");
             ajaxBean.setData(filePic);

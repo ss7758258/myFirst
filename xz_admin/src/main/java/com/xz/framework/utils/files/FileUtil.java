@@ -5,6 +5,7 @@ import com.xz.web.utils.OSSUtil;
 import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class FileUtil {
      * @throws IllegalStateException
      * @throws IOException
      */
-    public static String uploadFile(String functionPath, HttpServletRequest request, MultipartFile uploadFile)
+    public static String uploadFile(String functionPath, HttpServletRequest request, MultipartFile uploadFile,OSSUtil oss)
             throws IllegalStateException, IOException {
         if (!uploadFile.isEmpty()) {
 
@@ -37,7 +38,7 @@ public class FileUtil {
             String absolutePath = rootPath +"/"+functionPath + timePath + filename;
             File file = new File(absolutePath);
             uploadFile.transferTo(file);
-            OSSUtil oss = new OSSUtil();
+            //OSSUtil oss = new OSSUtil();
             String ossLocation = oss.fileToOss(file);
 
             return ossLocation;
