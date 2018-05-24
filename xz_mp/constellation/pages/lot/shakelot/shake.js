@@ -278,6 +278,24 @@ Page({
               })
             }
           }, 1000)
+        } else {
+          setTimeout(() => {
+            wx.showModal({
+              title: '网络开小差了',
+              content: '请您检查网络后再试',
+              showCancel: false,
+              confirmText: '再摇一次',
+              success: function (res) { },
+              fail: function (res) { },
+              complete: function (res) { },
+            })
+
+            this.setData({
+              potPath: false,
+              isLoading: false,
+              shakeLotSpeed: false
+            })
+          }, 1000)
         }
       })
       .catch(err => {
@@ -294,13 +312,26 @@ Page({
             icon: 'none'
           })
         })
+        setTimeout(() => {
+          wx.showModal({
+            title: '网络开小差了',
+            content: '请您检查网络后再试',
+            showCancel: false,
 
-        //  
-        this.setData({
-          potPath: false,
-          isLoading: false,
-          shakeLotSpeed: false
-        })
+            confirmText: '再摇一次',
+            success: function (res) { },
+            fail: function (res) { },
+            complete: function (res) { },
+          })
+
+
+          //  
+          this.setData({
+            potPath: false,
+            isLoading: false,
+            shakeLotSpeed: false
+          })
+        }, 1000)
 
       })
 
