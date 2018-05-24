@@ -15,7 +15,7 @@ Page({
 
     isLoading: false,
     selectBack: false,
-    showHome: true,
+    showHome: false,
     hasAuthorize: true,
     signList: $vm.utils.constellation,
     selectStatus: {
