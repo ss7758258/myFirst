@@ -9,6 +9,7 @@ import com.qcloud.cos.model.ObjectMetadata;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.region.Region;
+import com.xz.framework.utils.id.IdUtil;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
