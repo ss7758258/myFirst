@@ -256,8 +256,6 @@ Page({
                 url: '/pages/lot/lotdetail/lotdetail?sound=1',
               })
             }
-
-
           }, 1500)
         } else if (res.status == 1) {//没有签了
           setTimeout(() => {
@@ -279,19 +277,28 @@ Page({
                 url: '/pages/lot/emptylot/emptylot',
               })
             }
-
-
-
           }, 1000)
         }
       })
       .catch(err => {
-        wx.showToast({
-          title: '网络错误，请稍后重试',
+        console.log(err)
+        $vm.getLogin().then(res => {
+          console.log(res)
+          wx.setStorage({
+            key: 'token',
+            data: res.token
+          })
+        }).catch(err => {
+          wx.showToast({
+            title: err,
+            icon: 'none'
+          })
         })
-        // 摇出一个签
-        this.setData({
 
+        //  
+        this.setData({
+          potPath: false,
+          isLoading: false,
           shakeLotSpeed: false
         })
 

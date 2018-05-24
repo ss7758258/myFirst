@@ -61,10 +61,8 @@ function requst(url, method, data = {}) {
           if (res.data && res.data.responseBody && reject) {
             reject(res.data.responseBody.message)
           } else {
-            wx.showToast({
-              title: '网络错误，请稍后重试',
-              icon: 'none'
-            })
+            reject('fail')
+            
           }
         }
 

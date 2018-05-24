@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 2,
 			"list": [
 				{
 					"id": 0,
@@ -58,13 +58,6 @@
 					"name": "shake",
 					"pathName": "pages/lot/shakelot/shake",
 					"query": "from=activity",
-					"scene": "1011"
-				},
-				{
-					"id": -1,
-					"name": "empty",
-					"pathName": "pages/lot/emptylot/emptylot",
-					"query": "",
 					"scene": "1011"
 				},
 				{
