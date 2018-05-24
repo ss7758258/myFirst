@@ -18,6 +18,7 @@ Page({
    */
   onLoad: function (options) {
     mta.Page.init()
+    console.log('输出参数：', options)
     const _self = this
     let qId = options.lotId
     let fromwhere = options.from
@@ -33,7 +34,12 @@ Page({
         toPage: to,
       })
     }
-
+    let and = options.and
+    if (and) {
+      _self.setData({
+        and: and
+      })
+    }
   },
 
   /**
@@ -104,6 +110,10 @@ Page({
         if (_SData.pageFrom == 'shake') {
           wx.redirectTo({
             url: '/pages/lot/shakelot/shake?from=detail',
+          })
+        } else if (_SData.pageFrom == 'activity' && _SData.and == 'shake') {
+          wx.redirectTo({
+            url: '/pages/lot/shakelot/shake?from=activity',
           })
         } else if (_SData.pageFrom == 'share' && _SData.qId) {
           wx.redirectTo({

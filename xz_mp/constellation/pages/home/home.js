@@ -104,7 +104,7 @@ Page({
       })
     }
 
-
+    console.log('输出参数：', options)
     let fromwhere = options.from
     let to = options.to
     if (fromwhere == 'share' || fromwhere == 'activity') {

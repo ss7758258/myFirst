@@ -49,19 +49,24 @@ function requst(url, method, data = {}) {
         if (url == 'statisticsConstellation/x610') {
           console.log(data)
         }
-        // if (res.data && res.data.responseBody &&
-        //   ('SUCCESS' == res.data.responseBody.status)) {
-        if (url == 'selectConstellation/x100' && !data.constellationId) {
-          resove(res.data.responseBody)
-        } else {
-          resove(res.data.responseBody.data)
-        }
+        if (res.data && res.data.responseBody &&
+          ('SUCCESS' == res.data.responseBody.status)) {
+          if (url == 'selectConstellation/x100' && !data.constellationId) {
+            resove(res.data.responseBody)
+          } else {
+            resove(res.data.responseBody.data)
+          }
 
-        // } else {
-        //   if (reject) {
-        //     reject(res.data.responseBody.message)
-        //   }
-        // }
+        } else {
+          if (res.data && res.data.responseBody && reject) {
+            reject(res.data.responseBody.message)
+          } else {
+            wx.showToast({
+              title: '网络错误，请稍后重试',
+              icon: 'none'
+            })
+          }
+        }
 
       },
       fail: function (msg) {

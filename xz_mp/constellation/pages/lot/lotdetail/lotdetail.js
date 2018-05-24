@@ -87,8 +87,7 @@ Page({
             }
           })
         }
-      })
-      return
+      }) 
     }
 
     if (pageFrom == 'share' || pageFrom == 'list' || pageFrom == 'form') {
@@ -202,28 +201,9 @@ Page({
     const _Sdata = this.data
 
     if (_Sdata.lotDetail.hasChai) {
-      $vm.api.getX504({
-        notShowLoading: true,
+      wx.navigateTo({
+        url: '/pages/lot/shakelot/shake?formid=' + formid
       })
-        .then(res => {
-          console.log(res)
-          if (!res) {
-            wx.navigateTo({
-              url: '/pages/lot/shakelot/shake?formid=' + formid
-            })
-          } else {
-            if (res.status === 0) {
-              wx.navigateTo({
-                url: '/pages/lot/shakelot/shake?formid=' + formid
-              })
-            } else if (res.status == 1) { //没有签了
-              wx.navigateTo({
-                url: '/pages/lot/emptylot/emptylot?formid=' + formid
-              })
-            }
-          }
-
-        })
       return
     }
 

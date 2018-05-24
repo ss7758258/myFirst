@@ -32,15 +32,19 @@ Page({
     mta.Page.init()
     console.log('输出参数：', options)
     let pageFrom = options.from
+    this.setData({
+
+      fromPage: pageFrom
+    })
     if (pageFrom == 'share') {
       this.setData({
-        isFromShare: true,
+        isFromShare: true
       })
-      if (options.where = 'list') {
+      if (pageFrom == 'list') {
         mta.Event.stat("ico_in_from_list", {})
-      } else if (options.where == 'detail') {
+      } else if (pageFrom == 'detail') {
         mta.Event.stat("ico_in_from_detail", {})
-      } else if (options.where == 'shake') {
+      } else if (pageFrom == 'shake') {
         if (options.hotapp == 1) {
           mta.Event.stat("ico_in_from_shake_qrcode", {})
         } else {
@@ -48,7 +52,7 @@ Page({
         }
       }
 
-    } else if (options.where == 'activity') {
+    } else if (pageFrom == 'activity') {
       this.setData({
         isFromShare: true,
       })
@@ -63,48 +67,49 @@ Page({
     _self.setData({
       userInfo: _GData.userInfo
     })
-    if (!_GData.userInfo) {
-      wx.getUserInfo({
-        success: function (res) {
-          console.log(res)
-          if (res.userInfo) {
-            wx.setStorage({
-              key: 'userInfo',
-              data: res.userInfo,
-            })
 
-            _GData.userInfo = res.userInfo
-            _self.setData({
-              userInfo: _GData.userInfo
-            })
-            $vm.api.getSelectx100({
-              constellationId: _GData.selectConstellation.id,
-              nickName: res.userInfo.nickName,
-              headImage: res.userInfo.avatarUrl,
-              notShowLoading: true,
-            }).then(res => {
+    wx.getUserInfo({
+      success: function (res) {
+        console.log(res)
+        if (res.userInfo) {
+          wx.setStorage({
+            key: 'userInfo',
+            data: res.userInfo,
+          })
 
-            })
-          }
-        },
-        fail: function (res) {
-          // 查看是否授权
-          wx.getSetting({
-            success: function (res) {
-              if (!res.authSetting['scope.userInfo']) {
+          _GData.userInfo = res.userInfo
+          _self.setData({
+            userInfo: _GData.userInfo
+          })
+          $vm.api.getSelectx100({
+            constellationId: _GData.selectConstellation.id,
+            nickName: res.userInfo.nickName,
+            headImage: res.userInfo.avatarUrl,
+            notShowLoading: true,
+          }).then(res => {
 
-                _self.setData({
-                  hasAuthorize: false
-                })
-                wx.redirectTo({
-                  url: '/pages/checklogin/checklogin?from=shake'
-                }) 
-              }
-            }
           })
         }
-      })
-    }
+      },
+      fail: function (res) {
+        // 查看是否授权
+        wx.getSetting({
+          success: function (res) {
+            if (!res.authSetting['scope.userInfo']) {
+
+              _self.setData({
+                hasAuthorize: false
+              })
+              console.log('=====' + _SData.fromPage)
+              wx.redirectTo({
+                url: '/pages/checklogin/checklogin?from=' + _SData.fromPage + '&and=shake'
+              })
+            }
+          }
+        })
+      }
+    })
+
   },
 
   /**
@@ -202,7 +207,6 @@ Page({
 
     // 加快 摇动速度
     this.setData({
-
       shakeLotSpeed: true,
       potPath: true,
       isLoading: true
@@ -266,20 +270,31 @@ Page({
               shakeLotSpeed: false
             })
 
-            if (_SData.isFromShare){
+            if (_SData.isFromShare) {
               wx.navigateTo({
                 url: '/pages/lot/emptylot/emptylot',
               })
-            }else{
+            } else {
               wx.redirectTo({
                 url: '/pages/lot/emptylot/emptylot',
               })
             }
 
-            
+
 
           }, 1000)
         }
+      })
+      .catch(err => {
+        wx.showToast({
+          title: '网络错误，请稍后重试',
+        })
+        // 摇出一个签
+        this.setData({
+
+          shakeLotSpeed: false
+        })
+
       })
 
   },
