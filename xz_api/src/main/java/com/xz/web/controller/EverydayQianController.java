@@ -399,28 +399,30 @@ public class EverydayQianController extends BaseController {
             x511.setQianOpenSize(qianOpenSize);
             responseBody.setData(x511);
 
-            //好友拆签，插入redis
-            //消息推送，存redis
-            String friendOpenid = weixin.getOpenId();
-            String friendNickname = redisService.get("nickName-:" + friendOpenid);
-            FriendOpenBo friendOpenBo = new FriendOpenBo();
-            Keyword11 keyword11 = new Keyword11();
-            FriendOpenDataBo friendOpenDataBo = new FriendOpenDataBo();
-            friendOpenDataBo.setKeyword4(new Keyword4("来自好友的热情帮助"));
-            friendOpenDataBo.setKeyword2(new Keyword2(StringUtil.Base64ToStr(friendNickname)));
-            friendOpenDataBo.setKeyword3(new Keyword3(DateUtil.getDatetime()));
-            keyword11.setValue("拆签");
-            keyword11.setColor("#5961dd");
-            friendOpenDataBo.setKeyword1(keyword11);
+            if (x511.getAlreadyOpen().intValue() < qianOpenSize) {
+                //好友拆签，插入redis
+                //消息推送，存redis
+                String friendOpenid = weixin.getOpenId();
+                String friendNickname = redisService.get("nickName-:" + friendOpenid);
+                FriendOpenBo friendOpenBo = new FriendOpenBo();
+                Keyword11 keyword11 = new Keyword11();
+                FriendOpenDataBo friendOpenDataBo = new FriendOpenDataBo();
+                friendOpenDataBo.setKeyword4(new Keyword4("来自好友的热情帮助"));
+                friendOpenDataBo.setKeyword2(new Keyword2(StringUtil.Base64ToStr(friendNickname)));
+                friendOpenDataBo.setKeyword3(new Keyword3(DateUtil.getDatetime()));
+                keyword11.setValue("拆签");
+                keyword11.setColor("#5961dd");
+                friendOpenDataBo.setKeyword1(keyword11);
 
-            friendOpenBo.setTemplateId("NCp_Xt9ZB1mnAnS-FSuox0vY_m4l0PTAR4SZkQYsVFo");
-            friendOpenBo.setEmphasisKeyword("keyword1.DATA");
-            friendOpenBo.setData(friendOpenDataBo);
-            friendOpenBo.setPage("pages/lot/lotdetail/lotdetail?lotId=" + obj.getId());
-            friendOpenBo.setTouser(ownOpenId);
+                friendOpenBo.setTemplateId("NCp_Xt9ZB1mnAnS-FSuox0vY_m4l0PTAR4SZkQYsVFo");
+                friendOpenBo.setEmphasisKeyword("keyword1.DATA");
+                friendOpenBo.setData(friendOpenDataBo);
+                friendOpenBo.setPage("pages/lot/lotdetail/lotdetail?lotId=" + obj.getId());
+                friendOpenBo.setTouser(ownOpenId);
 
-            String redisJson = JsonUtil.serialize(friendOpenBo);
-            redisService.lrSet("notify_list_openqian", redisJson);
+                String redisJson = JsonUtil.serialize(friendOpenBo);
+                redisService.lrSet("notify_list_openqian", redisJson);
+            }
 
             //拆签完成通知
             if (x511.getAlreadyOpen().intValue() == qianOpenSize) {

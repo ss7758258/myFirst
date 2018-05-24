@@ -207,7 +207,13 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
     public void luckyRemindTimer(){
         //1. 查询所有用户及星座
         List<WeixinUser> userList = weixinUserService.selectByExample(null);
-        List<TiLucky> luckyList = tiLuckyService.selectByExample(null);
+        BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
+        BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
+        String datatime = DateUtil.getDate();
+        String beginTime = datatime + " 00:00:00";
+        String endTime = datatime + " 23:00:00";
+        criteria.andBetween("createTimestamp", beginTime, endTime);
+        List<TiLucky> luckyList = tiLuckyService.selectByExample(beanCriteria);
 
         if (!userList.isEmpty() && !luckyList.isEmpty()) {
             for (int i=0; i<userList.size(); i++){
