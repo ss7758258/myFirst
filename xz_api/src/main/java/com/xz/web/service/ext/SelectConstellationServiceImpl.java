@@ -169,26 +169,6 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
                 x100Bo.setRemindToday(tiLucky.getRemindToday());
             }
 
-            //消息推送，存redis
-            LuckyRemindBo luckyRemindBo = new LuckyRemindBo();
-            LuckyRemindDataBo luckyRemindDataBo = new LuckyRemindDataBo();
-            Keyword11 keyword11 = new Keyword11();
-            luckyRemindDataBo.setKeyword4(new Keyword4("来自小哥星座"));
-            luckyRemindDataBo.setKeyword3(new Keyword3(tiLucky.getRemindToday()));
-            luckyRemindDataBo.setKeyword2(new Keyword2(StringUtil.Base64ToStr(x100Vo.getNickName())));
-            keyword11.setValue("今日运势");
-            keyword11.setColor("#5961dd");
-            luckyRemindDataBo.setKeyword1(keyword11);
-
-            luckyRemindBo.setTemplateId("ashf_u9VlZRYUUo07TevMvag7F41N-LBIw5lGuQH1qI");
-            luckyRemindBo.setEmphasisKeyword("keyword1.DATA");
-            luckyRemindBo.setData(luckyRemindDataBo);
-            luckyRemindBo.setPage("pages/home/home?from=form");
-            luckyRemindBo.setTouser(weixin.getOpenId());
-
-            String redisJson = JsonUtil.serialize(luckyRemindBo);
-            redisService.lrSet("notify_list_lucky", redisJson);
-
 
        /*
             //每日运势页PV
@@ -219,6 +199,47 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
         responseBody.setStatus(AjaxStatus.SUCCESS);
         responseBody.setData(x100Bo);
         return responseBody;
+    }
+
+    /**
+     * 定时器监听运势
+     */
+    public void luckyRemindTimer(){
+        //1. 查询所有用户及星座
+        List<WeixinUser> userList = weixinUserService.selectByExample(null);
+        List<TiLucky> luckyList = tiLuckyService.selectByExample(null);
+
+        if (!userList.isEmpty() && !luckyList.isEmpty()) {
+            for (int i=0; i<userList.size(); i++){
+                WeixinUser weixinUser = userList.get(i);
+                if (null != weixinUser) {
+                    for (TiLucky tiLucky : luckyList) {
+                        if (null != tiLucky) {
+                            //消息推送，存redis
+                            LuckyRemindBo luckyRemindBo = new LuckyRemindBo();
+                            LuckyRemindDataBo luckyRemindDataBo = new LuckyRemindDataBo();
+                            Keyword11 keyword11 = new Keyword11();
+                            luckyRemindDataBo.setKeyword4(new Keyword4("来自小哥星座"));
+                            luckyRemindDataBo.setKeyword3(new Keyword3(tiLucky.getRemindToday()));
+                            luckyRemindDataBo.setKeyword2(new Keyword2(StringUtil.Base64ToStr(weixinUser.getNickName())));
+                            keyword11.setValue("今日运势");
+                            keyword11.setColor("#5961dd");
+                            luckyRemindDataBo.setKeyword1(keyword11);
+
+                            luckyRemindBo.setTemplateId("ashf_u9VlZRYUUo07TevMvag7F41N-LBIw5lGuQH1qI");
+                            luckyRemindBo.setEmphasisKeyword("keyword1.DATA");
+                            luckyRemindBo.setData(luckyRemindDataBo);
+                            luckyRemindBo.setPage("pages/home/home?from=form");
+                            luckyRemindBo.setTouser(weixinUser.getOpenId());
+
+                            String redisJson = JsonUtil.serialize(luckyRemindBo);
+                            redisService.lrSet("notify_list_lucky", redisJson);
+                        }
+                    }
+                }
+            }
+
+        }
     }
 
 }

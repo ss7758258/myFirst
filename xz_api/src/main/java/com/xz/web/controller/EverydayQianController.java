@@ -113,6 +113,7 @@ public class EverydayQianController extends BaseController {
         Weixin weixin = this.getWeixin();
         if (null == weixin || StringUtil.isEmpty(weixin.getOpenId())) {
             ResultUtil.returnResult(responseBody, "认证过期，请重新认证");
+            logger.error("0001-------504", "认证失败");
             return this.toJSON(responseBody);
         }
 
@@ -170,12 +171,14 @@ public class EverydayQianController extends BaseController {
                     responseBody.setStatus(AjaxStatus.SUCCESS);
                     responseBody.setMessage("");
                     responseBody.setData(x511);
+                    logger.error("0.0-------504", x511);
                     return this.toJSON(responseBody);
                 } else {
                     x511.setQianOpenSize(qianOpenSize);
-                    responseBody.setStatus(AjaxStatus.ERROR);
+                    responseBody.setStatus(AjaxStatus.SUCCESS);
                     responseBody.setMessage("无签");
                     responseBody.setData(x511);
+                    logger.error("0.1-------504", x511);
                     return this.toJSON(responseBody);
                 }
             } else {
@@ -243,10 +246,12 @@ public class EverydayQianController extends BaseController {
                     responseBody.setStatus(AjaxStatus.SUCCESS);
                     responseBody.setMessage("");
                     responseBody.setData(x511);
+                    logger.error("1-------504", x511);
                     return this.toJSON(responseBody);
                 } else {
-                    responseBody.setStatus(AjaxStatus.ERROR);
+                    responseBody.setStatus(AjaxStatus.SUCCESS);
                     responseBody.setMessage("签已经用完!");
+                    logger.error("2-------504", "yongwnale");
                     return this.toJSON(responseBody);
                 }
             }
