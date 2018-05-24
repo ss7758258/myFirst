@@ -281,8 +281,8 @@ Page({
         } else {
           setTimeout(() => {
             wx.showModal({
-              title: '出错啦',
-              content: '手气不佳，请再摇一次。',
+              title: '网络开小差了',
+              content: '请您检查网络后再试',
               showCancel: false,
               confirmText: '再摇一次',
               success: function (res) { },
@@ -314,8 +314,8 @@ Page({
         })
         setTimeout(() => {
           wx.showModal({
-            title: '出错啦',
-            content: '手气不佳，请再摇一次。',
+            title: '网络开小差了',
+            content: '请您检查网络后再试',
             showCancel: false,
 
             confirmText: '再摇一次',
