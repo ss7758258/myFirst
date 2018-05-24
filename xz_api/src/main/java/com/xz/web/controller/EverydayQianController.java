@@ -171,14 +171,14 @@ public class EverydayQianController extends BaseController {
                     responseBody.setStatus(AjaxStatus.SUCCESS);
                     responseBody.setMessage("");
                     responseBody.setData(x511);
-                    logger.error("0.0-------504", x511);
+                    logger.error("0.0-------504", x511.toString());
                     return this.toJSON(responseBody);
                 } else {
                     x511.setQianOpenSize(qianOpenSize);
                     responseBody.setStatus(AjaxStatus.SUCCESS);
                     responseBody.setMessage("无签");
                     responseBody.setData(x511);
-                    logger.error("0.1-------504", x511);
+                    logger.error("0.1-------504", x511.toString());
                     return this.toJSON(responseBody);
                 }
             } else {
@@ -246,7 +246,7 @@ public class EverydayQianController extends BaseController {
                     responseBody.setStatus(AjaxStatus.SUCCESS);
                     responseBody.setMessage("");
                     responseBody.setData(x511);
-                    logger.error("1-------504", x511);
+                    logger.error("1-------504", x511.toString());
                     return this.toJSON(responseBody);
                 } else {
                     responseBody.setStatus(AjaxStatus.SUCCESS);

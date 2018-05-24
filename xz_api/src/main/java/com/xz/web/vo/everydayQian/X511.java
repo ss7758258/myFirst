@@ -224,4 +224,34 @@ public class X511 extends BasicBean {
         }
         this.ownerNickName = StringUtil.Base64ToStr(ownerNickName);
     }
+
+    @Override
+    public String toString() {
+        return "X511{" +
+                "id=" + id +
+                ", qianDate='" + qianDate + '\'' +
+                ", status=" + status +
+                ", qianName='" + qianName + '\'' +
+                ", qianContent='" + qianContent + '\'' +
+                ", userId=" + userId +
+                ", isMyQian=" + isMyQian +
+                ", alreadyOpen=" + alreadyOpen +
+                ", ownerOpenId='" + ownerOpenId + '\'' +
+                ", friendOpenId1='" + friendOpenId1 + '\'' +
+                ", friendOpenId2='" + friendOpenId2 + '\'' +
+                ", friendOpenId3='" + friendOpenId3 + '\'' +
+                ", friendOpenId4='" + friendOpenId4 + '\'' +
+                ", friendOpenId5='" + friendOpenId5 + '\'' +
+                ", ownerHeadImage='" + ownerHeadImage + '\'' +
+                ", ownerNickName='" + ownerNickName + '\'' +
+                ", friendHeadImage1='" + friendHeadImage1 + '\'' +
+                ", friendHeadImage2='" + friendHeadImage2 + '\'' +
+                ", friendHeadImage3='" + friendHeadImage3 + '\'' +
+                ", friendHeadImage4='" + friendHeadImage4 + '\'' +
+                ", friendHeadImage5='" + friendHeadImage5 + '\'' +
+                ", createTimestamp='" + createTimestamp + '\'' +
+                ", updateTimestamp='" + updateTimestamp + '\'' +
+                ", qianOpenSize=" + qianOpenSize +
+                '}';
+    }
 }
