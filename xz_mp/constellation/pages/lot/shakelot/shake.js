@@ -278,6 +278,24 @@ Page({
               })
             }
           }, 1000)
+        } else {
+          setTimeout(() => {
+            wx.showModal({
+              title: '出错啦',
+              content: '手气不佳，请再摇一次。',
+              showCancel: false,
+              confirmText: '再摇一次',
+              success: function (res) { },
+              fail: function (res) { },
+              complete: function (res) { },
+            })
+
+            this.setData({
+              potPath: false,
+              isLoading: false,
+              shakeLotSpeed: false
+            })
+          }, 1000)
         }
       })
       .catch(err => {
@@ -294,19 +312,26 @@ Page({
             icon: 'none'
           })
         })
-        wx.showToast({
-          title: '手气不佳，请再摇一次。',
-          icon: 'none',
-          success: function (res) { },
-          fail: function (res) { },
-          complete: function (res) { },
-        })
-        //  
-        this.setData({
-          potPath: false,
-          isLoading: false,
-          shakeLotSpeed: false
-        })
+        setTimeout(() => {
+          wx.showModal({
+            title: '出错啦',
+            content: '手气不佳，请再摇一次。',
+            showCancel: false,
+
+            confirmText: '再摇一次',
+            success: function (res) { },
+            fail: function (res) { },
+            complete: function (res) { },
+          })
+
+
+          //  
+          this.setData({
+            potPath: false,
+            isLoading: false,
+            shakeLotSpeed: false
+          })
+        }, 1000)
 
       })
 
