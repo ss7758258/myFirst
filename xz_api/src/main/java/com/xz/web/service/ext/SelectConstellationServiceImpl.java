@@ -148,10 +148,10 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
                 BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
                 criteria.andEqualTo("constellationId", x100Vo.getConstellationId());
                 criteria.andEqualTo("status", 1);
-                String datatime = DateUtil.getDate();
+                /*String datatime = DateUtil.getDate();
                 String beginTime = datatime + " 00:00:00";
                 String endTime = datatime + " 23:59:59";
-                criteria.andBetween("publishTime", beginTime, endTime);
+                criteria.andBetween("publishTime", beginTime, endTime);*/
                 //criteria.andLike("publishTime",DateUtil.getDate()+"%");
                 beanCriteria.setOrderByClause("publish_time desc");
                 List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
