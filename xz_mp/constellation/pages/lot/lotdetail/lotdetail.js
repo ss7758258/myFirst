@@ -110,10 +110,8 @@ Page({
       } else {
         $vm.getLogin().then(res => {
           console.log(res)
-          wx.setStorage({
-            key: 'token',
-            data: res.token
-          })
+          wx.setStorageSync('token', res.token)
+
           $vm.api.getX511({ id: qId })
             .then(res => {
               console.log(res)
