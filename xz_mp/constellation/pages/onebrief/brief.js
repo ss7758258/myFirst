@@ -32,7 +32,7 @@ Page({
       //   isFromShare: true
       // })
     }
-    let env = 'env';
+    let env = 'dev';
     const _self = this
     $vm.api.getDayx400({})
       .then(res => {
