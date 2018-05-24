@@ -267,9 +267,23 @@ Page({
             if (_self.data.hasReturn) {
               return
             }
-            wx.redirectTo({
-              url: '/pages/lot/emptylot/emptylot',
+            // 摇出一个签
+            this.setData({
+
+              shakeLotSpeed: false
             })
+
+            if (_SData.isFromShare){
+              wx.navigateTo({
+                url: '/pages/lot/emptylot/emptylot',
+              })
+            }else{
+              wx.redirectTo({
+                url: '/pages/lot/emptylot/emptylot',
+              })
+            }
+
+            
 
           }, 1000)
         }

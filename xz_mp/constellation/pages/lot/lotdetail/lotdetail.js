@@ -154,33 +154,31 @@ Page({
     const _self = this
     const _Sdata = this.data
 
-    // if (_Sdata.lotDetail.hasChai) {
+    if (_Sdata.lotDetail.hasChai) {
+      $vm.api.getX504({
+        notShowLoading: true,
+      })
+        .then(res => {
+          console.log(res)
+          if (!res) {
+            wx.navigateTo({
+              url: '/pages/lot/shakelot/shake?formid=' + formid
+            })
+          } else {
+            if (res.status === 0) {
+              wx.navigateTo({
+                url: '/pages/lot/shakelot/shake?formid=' + formid
+              })
+            } else if (res.status == 1) { //没有签了
+              wx.navigateTo({
+                url: '/pages/lot/emptylot/emptylot?formid=' + formid
+              })
+            }
+          }
 
-    //   mta.Event.stat("ico_lotdetail", { "business": "去我的摇一摇" })
-    //   $vm.api.getX504({
-    //     notShowLoading: true,
-    //   })
-    //     .then(res => {
-    //       console.log(res)
-    //       if (!res) {
-    //         wx.navigateTo({
-    //           url: '/pages/lot/shakelot/shake?formid=' + formid
-    //         })
-    //       } else {
-    //         if (res.status === 0) {
-    //           wx.navigateTo({
-    //             url: '/pages/lot/shakelot/shake?formid=' + formid
-    //           })
-    //         } else if (res.status == 1) { //没有签了
-    //           wx.navigateTo({
-    //             url: '/pages/lot/emptylot/emptylot?formid=' + formid
-    //           })
-    //         }
-    //       }
-
-    //     })
-    //   return
-    // }
+        })
+      return
+    }
 
     $vm.api.getX506({ id: _Sdata.lotDetail.id, notShowLoading: true })
       .then(res => {
