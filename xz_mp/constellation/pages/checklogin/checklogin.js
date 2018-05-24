@@ -19,10 +19,12 @@ Page({
   onLoad: function (options) {
     mta.Page.init()
     const _self = this
+    let qId = options.lotId
     let fromwhere = options.from
     if (fromwhere) {
       _self.setData({
-        pageFrom: fromwhere
+        pageFrom: fromwhere,
+        qId: qId
       })
     }
     let to = options.to
@@ -102,6 +104,10 @@ Page({
         if (_SData.pageFrom == 'shake') {
           wx.redirectTo({
             url: '/pages/lot/shakelot/shake?from=detail',
+          })
+        } else if (_SData.pageFrom == 'share' && _SData.qId) {
+          wx.redirectTo({
+            url: '/pages/lot/lotdetail/lotdetail?from=' + _SData.pageFrom + '&lotId=' + _SData.qId,
           })
         } else {
           wx.redirectTo({

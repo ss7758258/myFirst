@@ -41,9 +41,56 @@ Page({
     }
 
     const _self = this
-
+    const _SData = this.data
     let qId = options.lotId
     let pageFrom = options.from
+    _self.setData({
+      userInfo: _GData.userInfo
+    })
+    if (!_GData.userInfo) {
+      wx.getUserInfo({
+        success: function (res) {
+          console.log(res)
+          if (res.userInfo) {
+            wx.setStorage({
+              key: 'userInfo',
+              data: res.userInfo,
+            })
+
+            _GData.userInfo = res.userInfo
+            _self.setData({
+              userInfo: _GData.userInfo
+            })
+            $vm.api.getSelectx100({
+              constellationId: _GData.selectConstellation.id,
+              nickName: res.userInfo.nickName,
+              headImage: res.userInfo.avatarUrl,
+              notShowLoading: true,
+            }).then(res => {
+
+            })
+          }
+        },
+        fail: function (res) {
+          // 查看是否授权
+          wx.getSetting({
+            success: function (res) {
+              if (!res.authSetting['scope.userInfo']) {
+
+                _self.setData({
+                  hasAuthorize: false
+                })
+                wx.redirectTo({
+                  url: '/pages/checklogin/checklogin?from=' + pageFrom + '&lotId=' + qId
+                })
+              }
+            }
+          })
+        }
+      })
+      return
+    }
+
     if (pageFrom == 'share' || pageFrom == 'list' || pageFrom == 'form') {
       if (pageFrom == 'share' || pageFrom == 'form') {
         _self.setData({
