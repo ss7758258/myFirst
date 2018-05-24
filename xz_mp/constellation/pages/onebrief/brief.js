@@ -32,7 +32,7 @@ Page({
       //   isFromShare: true
       // })
     }
-
+    let env = 'env';
     const _self = this
     $vm.api.getDayx400({})
       .then(res => {
@@ -40,7 +40,7 @@ Page({
         if (res) {
           _self.setData({
             prevPic:
-            res.prevPic ? "https://xingzuo-1256217146.file.myqcloud.com" + res.prevPic :
+            res.prevPic ? "https://xingzuo-1256217146.file.myqcloud.com" + (env === 'dev' ? '' :'/prod') + res.prevPic :
               ""
           })
 
