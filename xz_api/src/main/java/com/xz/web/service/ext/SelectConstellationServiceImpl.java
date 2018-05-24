@@ -151,9 +151,9 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
                 String datatime = DateUtil.getDate();
                 String beginTime = datatime + " 00:00:00";
                 String endTime = datatime + " 23:59:59";
-                criteria.andBetween("createTimestamp", beginTime, endTime);
+                criteria.andBetween("publishTime", beginTime, endTime);
                 //criteria.andLike("publishTime",DateUtil.getDate()+"%");
-                beanCriteria.setOrderByClause("update_timestamp desc");
+                beanCriteria.setOrderByClause("publish_time desc");
                 List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
                 if (!tiLuckyList.isEmpty()) {
                     tiLucky = tiLuckyList.get(0);
@@ -213,10 +213,12 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
         List<WeixinUser> userList = weixinUserService.selectByExample(null);
         BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
         BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
+        criteria.andEqualTo("status", 1);
         String datatime = DateUtil.getDate();
         String beginTime = datatime + " 00:00:00";
         String endTime = datatime + " 23:00:00";
-        criteria.andBetween("createTimestamp", beginTime, endTime);
+        criteria.andBetween("publishTime", beginTime, endTime);
+        beanCriteria.setOrderByClause("publish_time desc");
         List<TiLucky> luckyList = tiLuckyService.selectByExample(beanCriteria);
 
         if (!userList.isEmpty() && !luckyList.isEmpty()) {
