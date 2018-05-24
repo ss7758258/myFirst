@@ -428,6 +428,7 @@ public class EverydayQianController extends BaseController {
             if (x511.getAlreadyOpen().intValue() == qianOpenSize) {
                 FinishOpenBo finishOpenBo = new FinishOpenBo();
                 FinishOpenDataBo finishOpenDataBo = new FinishOpenDataBo();
+                Keyword11 keyword11 = new Keyword11();
 
                 String ownerNickName = redisService.get("nickName-:" + ownOpenId);
                 finishOpenDataBo.setKeyword2(new Keyword2(StringUtil.Base64ToStr(ownerNickName)));
@@ -460,7 +461,7 @@ public class EverydayQianController extends BaseController {
                 finishOpenBo.setPage("pages/lot/lotdetail/lotdetail?from=form&lotId=" + obj.getId());
                 finishOpenBo.setTouser(ownOpenId);
 
-                String redisJson2 = JsonUtil.serialize(friendOpenBo);
+                String redisJson2 = JsonUtil.serialize(finishOpenBo);
                 redisService.lrSet("notify_list_openfinish", redisJson2);
             }
 
