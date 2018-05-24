@@ -20,6 +20,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @ContextConfiguration(locations = {"classpath:spring/spring-*.xml"})
@@ -43,14 +46,27 @@ public class CCMainTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Test
     public void test2(){
+
         BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
         BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
+        criteria.andEqualTo("status", 1);
         String datatime = DateUtil.getDate();
         String beginTime = datatime + " 00:00:00";
         String endTime = datatime + " 23:00:00";
-        criteria.andBetween("createTimestamp", beginTime, endTime);
+        criteria.andBetween("publishTime", beginTime, endTime);
+        beanCriteria.setOrderByClause("publish_time desc");
         List<TiLucky> luckyList = tiLuckyService.selectByExample(beanCriteria);
         System.out.println(1);
+
+        /*String time = "08:00:00";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd " + time);
+        Date startTime = new Date();
+        try {
+            startTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(sdf.format(new Date()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println(startTime.getTime());*/
     }
 
     @Test
