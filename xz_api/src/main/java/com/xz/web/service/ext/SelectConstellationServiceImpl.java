@@ -233,6 +233,10 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
                             luckyRemindBo.setTouser(weixinUser.getOpenId());
 
                             String redisJson = JsonUtil.serialize(luckyRemindBo);
+
+                            logger.error("timer",redisJson);
+                            logger.error(redisJson);
+
                             redisService.lrSet("notify_list_lucky", redisJson);
                         }
                     }
