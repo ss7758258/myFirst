@@ -87,7 +87,7 @@ Page({
             }
           })
         }
-      }) 
+      })
     }
 
     if (pageFrom == 'share' || pageFrom == 'list' || pageFrom == 'form') {
@@ -96,17 +96,40 @@ Page({
           isFromShare: true,
         })
       }
-      // qId = 156;
-      $vm.api.getX511({ id: qId })
-        .then(res => {
-          console.log(res)
-          // res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
-          var lotDetail = parseLot(res)
-          _self.setData({
-            lotDetail: lotDetail,
+      let token = wx.getStorageSync('token')
+      if (token) {
+        $vm.api.getX511({ id: qId })
+          .then(res => {
+            console.log(res)
+            // res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
+            var lotDetail = parseLot(res)
+            _self.setData({
+              lotDetail: lotDetail,
+            })
           })
-        })
-        .catch(err => {
+      } else {
+        $vm.getLogin().then(res => {
+          console.log(res)
+          wx.setStorage({
+            key: 'token',
+            data: res.token
+          })
+          $vm.api.getX511({ id: qId })
+            .then(res => {
+              console.log(res)
+              // res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
+              var lotDetail = parseLot(res)
+              _self.setData({
+                lotDetail: lotDetail,
+              })
+            })
+            .catch(err => {
+              wx.showToast({
+                icon: 'none',
+                title: '服务器开了小差，请稍后再试',
+              })
+            })
+        }).catch(err => {
           wx.getSetting({
             success: function (res) {
               if (!res.authSetting['scope.userInfo']) {
@@ -117,21 +140,13 @@ Page({
                 wx.redirectTo({
                   url: '/pages/checklogin/checklogin?from=' + pageFrom + '&lotId=' + qId
                 })
-              }else{
-                $vm.getLogin().then(res => {
-                  console.log(res)
-                  wx.setStorage({
-                    key: 'token',
-                    data: res.token
-                  })
+              } else {
 
-                }).catch(err => {
-                   
-                })
               }
             }
           })
         })
+      }
     } else {
       _self.setData({
         lotDetail: _GData.lotDetail,
