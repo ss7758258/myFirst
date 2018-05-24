@@ -9,15 +9,26 @@ import com.qcloud.cos.model.ObjectMetadata;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.region.Region;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
 
 public class OSSUtil {
-    public static String url = "https://xingzuo-1256217146.file.myqcloud.com";
-    public static String accessKey = "AKIDvmbKwS4NmCZnxyFIdjaBYgZDdrrcliCY";
-    public static String secretKey = "GI7g06ye5IG0iGnCWluqVv51mIZcOu97";
-    public static String regionName = "ap-guangzhou";
-    public static String bucketName = "xingzuo-1256217146";
+    @Value("#{constants.oss_url}")
+    private String url;
+    @Value("#{constants.oss_accessKey}")
+    private String accessKey;
+    @Value("#{constants.oss_secretKey}")
+    private String secretKey;
+    @Value("#{constants.oss_regionName}")
+    private String regionName;
+    @Value("#{constants.oss_bucketName}")
+    private String bucketName;
+//    public static String url = "https://xingzuo-1256217146.file.myqcloud.com";
+//    public static String accessKey = "AKIDvmbKwS4NmCZnxyFIdjaBYgZDdrrcliCY";
+//    public static String secretKey = "GI7g06ye5IG0iGnCWluqVv51mIZcOu97";
+//    public static String regionName = "ap-guangzhou";
+//    public static String bucketName = "xingzuo-1256217146";
     public String fileToOss(File file) {
         try {
             // 1 初始化用户身份信息(secretId, secretKey)
@@ -27,7 +38,7 @@ public class OSSUtil {
             // 3 生成cos客户端
             COSClient cosclient = new COSClient(cred, clientConfig);
             // bucket的命名规则为{name}-{appid} ，此处填写的存储桶名称必须为此格式
-            String bucketName = OSSUtil.bucketName;
+            String bucketName = this.bucketName;
 
             String fileName = IdUtil.getDefaultUuid() + "_" + file.getName();
             // 指定要上传到 COS 上的路径
@@ -51,7 +62,7 @@ public class OSSUtil {
             // 3 生成cos客户端
             COSClient cosclient = new COSClient(cred, clientConfig);
             // bucket的命名规则为{name}-{appid} ，此处填写的存储桶名称必须为此格式
-            String bucketName = OSSUtil.bucketName;
+            String bucketName = this.bucketName;
             File downFile = new File("src/test/resources/mydown.txt");
             // 指定要下载的文件所在的 bucket 和路径
             GetObjectRequest getObjectRequest = new GetObjectRequest(bucketName, key);
@@ -71,7 +82,7 @@ public class OSSUtil {
             // 3 生成cos客户端
             COSClient cosclient = new COSClient(cred, clientConfig);
             // bucket的命名规则为{name}-{appid} ，此处填写的存储桶名称必须为此格式
-            String bucketName = OSSUtil.bucketName;
+            String bucketName = this.bucketName;
             cosclient.deleteObject(bucketName, key);
         }catch (Exception e)
         {
