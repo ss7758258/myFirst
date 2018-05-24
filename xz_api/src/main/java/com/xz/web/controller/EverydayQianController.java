@@ -417,7 +417,7 @@ public class EverydayQianController extends BaseController {
                 friendOpenBo.setTemplateId("NCp_Xt9ZB1mnAnS-FSuox0vY_m4l0PTAR4SZkQYsVFo");
                 friendOpenBo.setEmphasisKeyword("keyword1.DATA");
                 friendOpenBo.setData(friendOpenDataBo);
-                friendOpenBo.setPage("pages/lot/lotdetail/lotdetail?lotId=" + obj.getId());
+                friendOpenBo.setPage("pages/lot/lotdetail/lotdetail?from=form&lotId=" + obj.getId());
                 friendOpenBo.setTouser(ownOpenId);
 
                 String redisJson = JsonUtil.serialize(friendOpenBo);
