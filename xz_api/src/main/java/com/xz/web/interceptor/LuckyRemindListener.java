@@ -34,7 +34,7 @@ public class LuckyRemindListener implements ServletContextListener {
          */
         //后边最后一个参数代表监视器的监视周期,现在为四个小时
         //timer.schedule(new RecordDraftTimer(event.getServletContext()), 60 * 60 * 1000, 4 * 60 * 60 * 1000);
-        String time = "14:35:00";
+        String time = "16:02:00";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd " + time);
         Date startTime = new Date();
         try {
