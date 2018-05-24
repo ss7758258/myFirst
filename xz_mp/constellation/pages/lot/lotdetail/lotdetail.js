@@ -107,8 +107,29 @@ Page({
           })
         })
         .catch(err => {
-          wx.showToast({
-            title: '签不存在',
+          wx.getSetting({
+            success: function (res) {
+              if (!res.authSetting['scope.userInfo']) {
+
+                _self.setData({
+                  hasAuthorize: false
+                })
+                wx.redirectTo({
+                  url: '/pages/checklogin/checklogin?from=' + pageFrom + '&lotId=' + qId
+                })
+              }else{
+                $vm.getLogin().then(res => {
+                  console.log(res)
+                  wx.setStorage({
+                    key: 'token',
+                    data: res.token
+                  })
+
+                }).catch(err => {
+                   
+                })
+              }
+            }
           })
         })
     } else {
