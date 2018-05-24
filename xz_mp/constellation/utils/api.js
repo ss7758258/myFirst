@@ -7,7 +7,9 @@ function requstPost(url, data) {
   return requst(url, 'POST', data)
 }
 
-const DOMAIN = 'https://xingzuoapi.yetingfm.com/xz_api/'
+const env = 'env';
+
+const DOMAIN = env === 'dev' ? 'https://xingzuoapi.yetingfm.com/xz_api/' : 'https://xingzuoapi-prod.yetingfm.com/xz_api/'
 // const DOMAIN = 'http://193.112.130.148:8888/xz_api/'
 
 // 小程序上线需要https，这里使用服务器端脚本转发请求为https
