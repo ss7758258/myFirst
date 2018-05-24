@@ -50,14 +50,14 @@
 					"id": 2,
 					"name": "lotdetail",
 					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "lotId=187&from=share",
+					"query": "lotId=192&from=share",
 					"scene": "1011"
 				},
 				{
 					"id": 3,
 					"name": "shake",
 					"pathName": "pages/lot/shakelot/shake",
-					"query": "",
+					"query": "from=activity",
 					"scene": "1011"
 				},
 				{

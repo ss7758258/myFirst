@@ -98,14 +98,7 @@ Page({
                 })
                 wx.redirectTo({
                   url: '/pages/checklogin/checklogin?from=shake'
-                })
-                // if (fromwhere == 'share') {
-                //   wx.showToast({
-                //     title: '请先同意授权',
-                //     icon: 'none',
-                //     mask: true,
-                //   })
-                // }
+                }) 
               }
             }
           })
