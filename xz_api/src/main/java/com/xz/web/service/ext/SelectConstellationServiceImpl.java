@@ -6,6 +6,8 @@ import com.xz.framework.bean.weixin.Weixin;
 import com.xz.framework.common.base.BeanCriteria;
 import com.xz.framework.utils.DateUtil;
 import com.xz.framework.utils.JsonUtil;
+import com.xz.framework.utils.StringUtil;
+import com.xz.web.bo.notifyRedis.*;
 import com.xz.web.bo.selectConstellation.X100Bo;
 import com.xz.web.dao.redis.RedisDao;
 import com.xz.web.mapper.entity.TcConstellation;
@@ -23,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.util.List;
 
 @Service
@@ -145,8 +148,12 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
                 BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
                 criteria.andEqualTo("constellationId", x100Vo.getConstellationId());
                 criteria.andEqualTo("status", 1);
+                /*String datatime = DateUtil.getDate();
+                String beginTime = datatime + " 00:00:00";
+                String endTime = datatime + " 23:59:59";
+                criteria.andBetween("publishTime", beginTime, endTime);*/
                 //criteria.andLike("publishTime",DateUtil.getDate()+"%");
-                beanCriteria.setOrderByClause("update_timestamp desc");
+                beanCriteria.setOrderByClause("publish_time desc");
                 List<TiLucky> tiLuckyList = tiLuckyService.selectByExample(beanCriteria);
                 if (!tiLuckyList.isEmpty()) {
                     tiLucky = tiLuckyList.get(0);
@@ -165,6 +172,7 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
                 x100Bo.setLuckyType4(tiLucky.getLuckyType4());
                 x100Bo.setRemindToday(tiLucky.getRemindToday());
             }
+
 
        /*
             //每日运势页PV
@@ -195,6 +203,61 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
         responseBody.setStatus(AjaxStatus.SUCCESS);
         responseBody.setData(x100Bo);
         return responseBody;
+    }
+
+    /**
+     * 定时器监听运势
+     */
+    public void luckyRemindTimer(){
+        //1. 查询所有用户及星座
+        List<WeixinUser> userList = weixinUserService.selectByExample(null);
+        BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
+        BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
+        criteria.andEqualTo("status", 1);
+        String datatime = DateUtil.getDate();
+        String beginTime = datatime + " 00:00:00";
+        String endTime = datatime + " 23:00:00";
+        criteria.andBetween("publishTime", beginTime, endTime);
+        beanCriteria.setOrderByClause("publish_time desc");
+        List<TiLucky> luckyList = tiLuckyService.selectByExample(beanCriteria);
+
+        if (!userList.isEmpty() && !luckyList.isEmpty()) {
+            for (int i=0; i<userList.size(); i++){
+                WeixinUser weixinUser = userList.get(i);
+                if (null != weixinUser) {
+                    for (TiLucky tiLucky : luckyList) {
+                        if (null != tiLucky) {
+                            if (weixinUser.getConstellationId().intValue() == tiLucky.getConstellationId().intValue()) {
+                                //消息推送，存redis
+                                LuckyRemindBo luckyRemindBo = new LuckyRemindBo();
+                                LuckyRemindDataBo luckyRemindDataBo = new LuckyRemindDataBo();
+                                Keyword11 keyword11 = new Keyword11();
+                                luckyRemindDataBo.setKeyword4(new Keyword4("来自小哥星座"));
+                                luckyRemindDataBo.setKeyword3(new Keyword3(tiLucky.getRemindToday()));
+                                luckyRemindDataBo.setKeyword2(new Keyword2(StringUtil.Base64ToStr(weixinUser.getNickName())));
+                                keyword11.setValue("今日运势");
+                                keyword11.setColor("#5961dd");
+                                luckyRemindDataBo.setKeyword1(keyword11);
+
+                                luckyRemindBo.setTemplateId("ashf_u9VlZRYUUo07TevMvag7F41N-LBIw5lGuQH1qI");
+                                luckyRemindBo.setEmphasisKeyword("keyword1.DATA");
+                                luckyRemindBo.setData(luckyRemindDataBo);
+                                luckyRemindBo.setPage("pages/home/home?from=form");
+                                luckyRemindBo.setTouser(weixinUser.getOpenId());
+
+                                String redisJson = JsonUtil.serialize(luckyRemindBo);
+
+                                logger.error("timer", redisJson);
+                                logger.error(redisJson);
+
+                                redisService.lrSet("notify_list_lucky", redisJson);
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
     }
 
 }

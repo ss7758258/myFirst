@@ -50,21 +50,28 @@
 					"id": 2,
 					"name": "lotdetail",
 					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "lotId=155&from=share",
+					"query": "lotId=192&from=share",
 					"scene": "1011"
 				},
 				{
 					"id": 3,
 					"name": "shake",
 					"pathName": "pages/lot/shakelot/shake",
-					"query": "from=share",
+					"query": "from=activity",
 					"scene": "1011"
 				},
 				{
-					"id": -1,
-					"name": "empty",
-					"pathName": "pages/lot/emptylot/emptylot",
-					"query": "",
+					"id": 5,
+					"name": "activitytoday",
+					"pathName": "pages/home/home",
+					"query": "to=today&from=activity",
+					"scene": "1011"
+				},
+				{
+					"id": 6,
+					"name": "activityshake",
+					"pathName": "pages/lot/shakelot/shake",
+					"query": "from=activity",
 					"scene": "1011"
 				}
 			]

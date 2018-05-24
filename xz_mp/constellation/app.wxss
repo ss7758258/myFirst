@@ -3,6 +3,7 @@
   background: url('/assets/images/lot.png');
   background: url('/assets/images/pot_1.png');
   background: url('/assets/images/pot_2.png');
+  background: url('/assets/images/pot_surround.png');
 }
 button::after{  
   border:none;  

@@ -28,34 +28,16 @@ Page({
     myLuck: [
 
     ],
-    timer : null
+    timer: null
   },
 
 
   selectSign: function (e) {
     const _self = this
     const _SData = this.data
-    if (!_GData.userInfo) {
-      wx.showToast({
-        title: '没有用户信息',
-        icon: 'none',
-        mask: true,
-
-      })
-      return
-    }
-    if (!_SData.hasAuthorize) {
-      wx.showToast({
-        title: '请先同意授权',
-        icon: 'none',
-        mask: true,
-
-      })
-      return
-    }
 
     const selectConstellation = e.detail.target.dataset.item
-    mta.Event.stat("ico_home", { "business": "选择", "name": selectConstellation.name })
+    mta.Event.stat('ico_home_select', { 'constellation': selectConstellation.name })
     _GData.selectConstellation = selectConstellation
     wx.setStorage({
       key: 'selectConstellation',
@@ -87,7 +69,7 @@ Page({
         remindToday: res.remindToday ? res.remindToday : ''
       })
       if (!_self.goPage(_SData)) {
-        const myLuckLen = myLuck.length;
+        const myLuckLen = myLuck.length
         _self.circleDynamic()();
         // for (let i = 0; i < myLuckLen; i++) {
         //   _self.circleDynamic(i)()
@@ -122,52 +104,80 @@ Page({
       })
     }
 
-
+    console.log('输出参数：', options)
     let fromwhere = options.from
     let to = options.to
-    if (fromwhere == 'share') {
+    if (fromwhere == 'share' || fromwhere == 'activity') {
       _self.setData({
         toPage: to,
         pageFrom: fromwhere
       })
+      if (to == 'brief') {
+        if (options.hotapp == 1) {
+          mta.Event.stat("ico_in_from_brief_qrcode", {})
+        } else {
+          mta.Event.stat("ico_in_from_brief", {})
+        }
+
+      } else if (to == 'today') {
+        if (options.hotapp == 1) {
+          mta.Event.stat("ico_in_from_today_qrcode", {})
+        } else if (fromwhere == 'activity') {
+          console.log('ico_in_from_brief_activity')
+          mta.Event.stat("ico_in_from_brief_activity", {})
+        } else {
+          mta.Event.stat("ico_in_from_today", {})
+        }
+
+      }
     }
 
-    // 查看是否授权
-    wx.getSetting({
+    wx.getUserInfo({
       success: function (res) {
-        if (res.authSetting['scope.userInfo']) {
+        console.log(res)
+        if (res.userInfo) {
+          wx.setStorage({
+            key: 'userInfo',
+            data: res.userInfo,
+          })
           _self.setData({
             hasAuthorize: true
           })
+          _GData.userInfo = res.userInfo
+          $vm.api.getSelectx100({
+            constellationId: _GData.selectConstellation.id,
+            nickName: res.userInfo.nickName,
+            headImage: res.userInfo.avatarUrl,
+            notShowLoading: true,
+          }).then(res => {
 
-          wx.getUserInfo({
-            success: function (res) {
-              _self.setData({
-                hasAuthorize: true
-              })
-              _GData.userInfo = res.userInfo
-              wx.setStorage({
-                key: 'userInfo',
-                data: res.userInfo,
-              })
-              // _self.goPage(_SData)
-            }
           })
-        } else {
-          _self.setData({
-            hasAuthorize: false
-          })
-          if (fromwhere == 'share') {
-            wx.showToast({
-              title: '请先同意授权',
-              icon: 'none',
-              mask: true,
-            })
-          }
         }
+      },
+      fail: function (res) {
+        // 查看是否授权
+        wx.getSetting({
+          success: function (res) {
+            if (!res.authSetting['scope.userInfo']) {
+
+              _self.setData({
+                hasAuthorize: false
+              })
+              wx.redirectTo({
+                url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to
+              })
+              // if (fromwhere == 'share') {
+              //   wx.showToast({
+              //     title: '请先同意授权',
+              //     icon: 'none',
+              //     mask: true,
+              //   })
+              // }
+            }
+          }
+        })
       }
     })
-
 
 
   },
@@ -215,7 +225,10 @@ Page({
 	/**
 	 * 用户点击右上角分享
 	 */
-  onShareAppMessage: function () {
+  onShareAppMessage: function (res) {
+    if (res.from = 'menu') {
+      mta.Event.stat("ico_from_home", {})
+    }
 
     return {
       title: '小哥星座，准的无话可说',
@@ -233,11 +246,13 @@ Page({
     console.log('===============')
     var shouldGo = false
     if (_SData.pageFrom == 'share') {
-      if (_SData.toPage == 'today') {
-        wx.navigateTo({
-          url: '/pages/today/today?from=share'
-        })
-      } else if (_SData.toPage == 'brief') {
+      // if (_SData.toPage == 'today') {
+      //   wx.navigateTo({
+      //     url: '/pages/today/today?from=share'
+      //   })
+      // } 
+      // else
+      if (_SData.toPage == 'brief') {
         wx.navigateTo({
           url: '/pages/onebrief/brief?from=share'
         })
@@ -263,7 +278,7 @@ Page({
       counts.push(myLuckList[ind].count);
     });
 
-    let t = 0,b = 0,d = 15;
+    let t = 0, b = 0, d = 15;
 
     function price() {
       if (!_self.data.showHome) {
@@ -292,7 +307,11 @@ Page({
   onClickConstellation: function () {
 
     clearTimeout(this.data.timer ? this.data.timer : '');
-    mta.Event.stat("ico_home", { "business": "取消选择", })
+    mta.Event.stat("ico_home_unselect", {})
+    wx.setStorage({
+      key: 'selectConstellation',
+      data: null,
+    })
     _GData.selectConstellation = null
     this.setData({
       selectBack: true,
@@ -337,7 +356,7 @@ Page({
       notShowLoading: true,
       formid: formid
     })
-    mta.Event.stat("ico_home", { "formid": formid, "topage": "一签" })
+    mta.Event.stat("ico_home_to_shake", {})
     wx.navigateTo({
       url: '/pages/lot/shakelot/shake?formid=' + formid,
       complete: function (res) {
@@ -354,7 +373,7 @@ Page({
       notShowLoading: true,
       formid: formid
     })
-    mta.Event.stat("ico_home", { "formid": formid, "topage": "一言" })
+    mta.Event.stat("ico_home_to_brief", {})
     wx.navigateTo({
       url: '/pages/onebrief/brief?formid=' + formid
     })
@@ -365,7 +384,7 @@ Page({
       notShowLoading: true,
       formid: formid
     })
-    mta.Event.stat("ico_home", { "formid": formid, "topage": "更多运势" })
+    mta.Event.stat("ico_home_to_today", {})
     wx.navigateTo({
       url: '/pages/today/today?formid=' + formid
     })

@@ -10,7 +10,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-
     isFromShare: false,
     huan: false,//拆签成功
     showCanvas: false,
@@ -42,19 +41,66 @@ Page({
     }
 
     const _self = this
-
+    const _SData = this.data
     let qId = options.lotId
     let pageFrom = options.from
-    if (pageFrom == 'share' || pageFrom == 'list') {
-      if (pageFrom == 'share') {
+    _self.setData({
+      userInfo: _GData.userInfo
+    })
+    if (!_GData.userInfo) {
+      wx.getUserInfo({
+        success: function (res) {
+          console.log(res)
+          if (res.userInfo) {
+            wx.setStorage({
+              key: 'userInfo',
+              data: res.userInfo,
+            })
+
+            _GData.userInfo = res.userInfo
+            _self.setData({
+              userInfo: _GData.userInfo
+            })
+            $vm.api.getSelectx100({
+              constellationId: _GData.selectConstellation.id,
+              nickName: res.userInfo.nickName,
+              headImage: res.userInfo.avatarUrl,
+              notShowLoading: true,
+            }).then(res => {
+
+            })
+          }
+        },
+        fail: function (res) {
+          // 查看是否授权
+          wx.getSetting({
+            success: function (res) {
+              if (!res.authSetting['scope.userInfo']) {
+
+                _self.setData({
+                  hasAuthorize: false
+                })
+                wx.redirectTo({
+                  url: '/pages/checklogin/checklogin?from=' + pageFrom + '&lotId=' + qId
+                })
+              }
+            }
+          })
+        }
+      }) 
+    }
+
+    if (pageFrom == 'share' || pageFrom == 'list' || pageFrom == 'form') {
+      if (pageFrom == 'share' || pageFrom == 'form') {
         _self.setData({
           isFromShare: true,
         })
       }
+      // qId = 156;
       $vm.api.getX511({ id: qId })
         .then(res => {
           console.log(res)
-
+          // res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
           var lotDetail = parseLot(res)
           _self.setData({
             lotDetail: lotDetail,
@@ -118,7 +164,10 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function (res) {
+    if (res.from === 'menu') {
+      mta.Event.stat("ico_shake_right_share", {})
+    }
     const _self = this
     const SData = this.data
     var shareImg = '/assets/images/share_qian.jpg'
@@ -127,7 +176,7 @@ Page({
     if (!SData.lotDetail.lotNotCompleted) {
       shareImg = '/assets/images/share_tong.jpg'
       shareMsg = '要想日子过的好，每日一签少不了。'
-      sharepath = '/pages/lot/shakelot/shake?from=share'
+      sharepath = '/pages/lot/shakelot/shake?from=share&where=detail'
     }
     console.log("shareImg-qId===" + shareImg)
     console.log("onShareAppMessage-qId===" + SData.lotDetail.id)
@@ -151,72 +200,19 @@ Page({
     const _self = this
     const _Sdata = this.data
 
-    // _self.setData({
-    //   // lotDetail: lotDetail,
-    //   hasChai: true,
-    //   showHaoren: true,
-    //   huan: true,
-
-    // })
-    // setTimeout(function () {
-    //   _self.setData({
-    //     "lotDetail.lotNotCompleted": false
-    //   })
-    // }, 2000)
-    // setTimeout(function () {
-    //   _self.setData({
-    //     showHaoren: false,
-    //   })
-    // }, 2800)
-    // return
-
-
     if (_Sdata.lotDetail.hasChai) {
-
-      mta.Event.stat("ico_lotdetail", { "business": "去我的摇一摇" })
-      $vm.api.getX504({
-        notShowLoading: true,
+      wx.navigateTo({
+        url: '/pages/lot/shakelot/shake?formid=' + formid
       })
-        .then(res => {
-          console.log(res)
-          if (!res) {
-            wx.navigateTo({
-              url: '/pages/lot/shakelot/shake?formid=' + formid
-            })
-          } else {
-            if (res.status === 0) {
-              wx.navigateTo({
-                url: '/pages/lot/shakelot/shake?formid=' + formid
-              })
-            } else if (res.status == 1) { //没有签了
-              wx.navigateTo({
-                url: '/pages/lot/emptylot/emptylot?formid=' + formid
-              })
-            }
-          }
-
-        })
       return
     }
 
-
-    mta.Event.stat("ico_lotdetail", { "business": "帮好友拆" })
-    _self.setData({
-      // lotDetail: lotDetail,
-      hasChai: true,
-      showHaoren: true,
-    })
-    // setTimeout(function () {
-    //   _self.setData({
-    //     showHaoren: false,
-    //   })
-    // }, 2800)
-    // return
     $vm.api.getX506({ id: _Sdata.lotDetail.id, notShowLoading: true })
       .then(res => {
         console.log(res)
         var lotDetail = parseLot(res)
         if (res.status == 1) {
+          mta.Event.stat("ico_chai_completed", {})
           _self.setData({
             huan: true,
           })
@@ -244,16 +240,16 @@ Page({
       })
   },
   onclickShareFriend: function (e) {
+    mta.Event.stat("ico_detail_share", {})
     let formid = e.detail.formId
 
-    mta.Event.stat("ico_lotdetail", { "business": "分享出去" })
     $vm.api.getX610({ notShowLoading: true, formid: formid })
   },
   //保存图片
   onclickShareCircle: function (e) {
+    mta.Event.stat("ico_detail_save", {})
     let formid = e.detail.formId
 
-    mta.Event.stat("ico_lotdetail", { "business": "保存图片" })
     $vm.api.getX610({ notShowLoading: true, formid: formid })
     const _self = this
     const _SData = _self.data
@@ -341,6 +337,7 @@ Page({
   },
   //分享的返回主页
   onclickHome: function (e) {
+    mta.Event.stat("ico_shake_home", {})
     let formid = e.detail.formId
     $vm.api.getX610({ notShowLoading: true, formid: formid })
     wx.reLaunch({

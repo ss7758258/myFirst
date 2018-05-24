@@ -28,7 +28,7 @@ Page({
     })
     var fromwhere = options.from
     console.log(options)
-    if (fromwhere == 'share') {
+    if (fromwhere == 'share' || fromwhere == 'form') {
       this.setData({
         isFromShare: true
       })
@@ -106,7 +106,7 @@ Page({
   },
   savePic: function (e) {//保存图片
     let formid = e.detail.formId
-    mta.Event.stat("ico_today", { "formid": formid, "business": "保存" })
+    mta.Event.stat("ico_today_save", {})
     $vm.api.getX610({ notShowLoading: true, formid: formid })
     const _self = this
     const _SData = _self.data

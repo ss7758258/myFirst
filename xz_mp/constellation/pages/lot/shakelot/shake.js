@@ -1,7 +1,8 @@
 // pages/lot/shakelot/shake.js
 
 const $vm = getApp()
-const _GData = $vm.globalData
+const _GData = $vm.globalData;
+console.log(_GData, 'data数据')
 const { parseLot } = $vm.utils
 const getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
 var mta = require('../../../utils/mta_analysis.js')
@@ -20,6 +21,7 @@ Page({
     //摇签状态 
     shakeLotSpeed: false,
     potPath: false,
+    userInfo: _GData.userInfo,
     imgs: imgs
   },
 
@@ -28,53 +30,86 @@ Page({
    */
   onLoad: function (options) {
     mta.Page.init()
+    console.log('输出参数：', options)
     let pageFrom = options.from
+    this.setData({
+
+      fromPage: pageFrom
+    })
     if (pageFrom == 'share') {
+      this.setData({
+        isFromShare: true
+      })
+      if (pageFrom == 'list') {
+        mta.Event.stat("ico_in_from_list", {})
+      } else if (pageFrom == 'detail') {
+        mta.Event.stat("ico_in_from_detail", {})
+      } else if (pageFrom == 'shake') {
+        if (options.hotapp == 1) {
+          mta.Event.stat("ico_in_from_shake_qrcode", {})
+        } else {
+          mta.Event.stat("ico_in_from_shake", {})
+        }
+      }
+
+    } else if (pageFrom == 'activity') {
       this.setData({
         isFromShare: true,
       })
+      console.log('ico_in_from_shake_activity')
+      mta.Event.stat("ico_in_from_shake_activity", {})
     }
     console.log(options)
 
     const _self = this
     const _SData = this.data
-    if (!_GData.userInfo) {
-      wx.getSetting({
-        success: function (res) {
-          if (res.authSetting['scope.userInfo']) {
-            _self.setData({
-              hasAuthorize: true
-            })
-            getUserInfo()
-              .then(res => {
-                $vm.api.getSelectx100({
-                  nickName: res.userInfo.nickName,
-                  headImage: res.userInfo.avatarUrl,
-                  notShowLoading: true,
-                }).then(res => {
 
-                })
+    _self.setData({
+      userInfo: _GData.userInfo
+    })
+
+    wx.getUserInfo({
+      success: function (res) {
+        console.log(res)
+        if (res.userInfo) {
+          wx.setStorage({
+            key: 'userInfo',
+            data: res.userInfo,
+          })
+
+          _GData.userInfo = res.userInfo
+          _self.setData({
+            userInfo: _GData.userInfo
+          })
+          $vm.api.getSelectx100({
+            constellationId: _GData.selectConstellation.id,
+            nickName: res.userInfo.nickName,
+            headImage: res.userInfo.avatarUrl,
+            notShowLoading: true,
+          }).then(res => {
+
+          })
+        }
+      },
+      fail: function (res) {
+        // 查看是否授权
+        wx.getSetting({
+          success: function (res) {
+            if (!res.authSetting['scope.userInfo']) {
+
+              _self.setData({
+                hasAuthorize: false
               })
-              .catch(err => {
-                console.log(err)
+              console.log('=====' + _SData.fromPage)
+              wx.redirectTo({
+                url: '/pages/checklogin/checklogin?from=' + _SData.fromPage + '&and=shake'
               })
-          } else {
-            _self.setData({
-              hasAuthorize: false
-            })
-            wx.showToast({
-              title: '请先同意授权',
-              icon: 'none',
-              mask: true,
-            })
+            }
           }
-        },
-        fail: function (res) { },
-        complete: function (res) { },
-      })
+        })
+      }
+    })
 
-
-    }
   },
 
   /**
@@ -136,10 +171,10 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    mta.Event.stat("ico_shake", { "business": "分享出去" })
+
     var shareImg = '/assets/images/share_tong.jpg'
     var shareMsg = '要想日子过的好，每日一签少不了。'
-    var sharepath = '/pages/lot/shakelot/shake?from=share'
+    var sharepath = '/pages/lot/shakelot/shake?from=share&where=shake'
     return {
       title: shareMsg,
       imageUrl: shareImg,
@@ -154,12 +189,13 @@ Page({
   },
   drawLots: function () {
 
-    mta.Event.stat("ico_shake", { "business": "摇一摇" })
+    mta.Event.stat("ico_shake_shake", {})
     const _self = this
+    const _SData = this.data
     if (_self.data.shakeLotSpeed) {
       return
     }
-    if (_self.data.hasReturn || _self.data.isLoading) {
+    if (_self.data.hasReturn || _self.data.isLoading || (!_self.data.hasAuthorize)) {
       return
     }
     const innerAudioContext = wx.createInnerAudioContext()
@@ -171,7 +207,6 @@ Page({
 
     // 加快 摇动速度
     this.setData({
-
       shakeLotSpeed: true,
       potPath: true,
       isLoading: true
@@ -189,6 +224,7 @@ Page({
           isLoading: false
         })
         if (!res) {
+
           wx.navigateTo({
             url: '/pages/lot/lotlist/lotlist'
           })
@@ -211,35 +247,105 @@ Page({
               shakeLotSpeed: false
             })
 
-
-            wx.redirectTo({
-              url: '/pages/lot/lotdetail/lotdetail?sound=1',
-            })
-
+            if (_SData.isFromShare) {
+              wx.navigateTo({
+                url: '/pages/lot/lotdetail/lotdetail?sound=1',
+              })
+            } else {
+              wx.redirectTo({
+                url: '/pages/lot/lotdetail/lotdetail?sound=1',
+              })
+            }
           }, 1500)
         } else if (res.status == 1) {//没有签了
           setTimeout(() => {
             if (_self.data.hasReturn) {
               return
             }
-            wx.redirectTo({
-              url: '/pages/lot/emptylot/emptylot',
+            // 摇出一个签
+            this.setData({
+
+              shakeLotSpeed: false
             })
 
+            if (_SData.isFromShare) {
+              wx.navigateTo({
+                url: '/pages/lot/emptylot/emptylot',
+              })
+            } else {
+              wx.redirectTo({
+                url: '/pages/lot/emptylot/emptylot',
+              })
+            }
+          }, 1000)
+        } else {
+          setTimeout(() => {
+            wx.showModal({
+              title: '网络开小差了',
+              content: '请您检查网络后再试',
+              showCancel: false,
+              confirmText: '再摇一次',
+              success: function (res) { },
+              fail: function (res) { },
+              complete: function (res) { },
+            })
+
+            this.setData({
+              potPath: false,
+              isLoading: false,
+              shakeLotSpeed: false
+            })
           }, 1000)
         }
+      })
+      .catch(err => {
+        console.log(err)
+        $vm.getLogin().then(res => {
+          console.log(res)
+          wx.setStorage({
+            key: 'token',
+            data: res.token
+          })
+        }).catch(err => {
+          wx.showToast({
+            title: err,
+            icon: 'none'
+          })
+        })
+        setTimeout(() => {
+          wx.showModal({
+            title: '网络开小差了',
+            content: '请您检查网络后再试',
+            showCancel: false,
+
+            confirmText: '再摇一次',
+            success: function (res) { },
+            fail: function (res) { },
+            complete: function (res) { },
+          })
+
+
+          //  
+          this.setData({
+            potPath: false,
+            isLoading: false,
+            shakeLotSpeed: false
+          })
+        }, 1000)
+
       })
 
   },
   shakeFun: function () { // 摇一摇方法封装
     const _self = this
-    var numX = 0 //x轴
-    var numY = 0 // y轴
-    var numZ = 0 // z轴
+    var numX = 0.2 //x轴
+    var numY = 0.2 // y轴
+    var numZ = 0.2 // z轴
     var stsw = true // 开关，保证在一定的时间内只能是一次，摇成功
     var positivenum = 0 //正数 摇一摇总数
 
     wx.onAccelerometerChange(function (res) {  //小程序api 加速度计
+      console.log(res)
       if (_self.data.hasReturn || _self.data.isLoading) {
         return
       }
@@ -271,7 +377,7 @@ Page({
   showLotList: function (e) {
     let formid = e.detail.formId
 
-    mta.Event.stat("ico_shake", { "formid": formid, "topage": "签列表" })
+    mta.Event.stat("ico_shake_to_list", {})
     $vm.api.getX610({ notShowLoading: true, formid: formid })
     wx.navigateTo({
       url: '/pages/lot/lotlist/lotlist?formid=' + formid
@@ -281,7 +387,7 @@ Page({
   onclickHome: function (e) {
     let formid = e.detail.formId
 
-    mta.Event.stat("ico_shake", { "formid": formid, "topage": "主页" })
+    mta.Event.stat("ico_shake_home", {})
     $vm.api.getX610({ notShowLoading: true, formid: formid })
     wx.reLaunch({
       url: '/pages/home/home',
