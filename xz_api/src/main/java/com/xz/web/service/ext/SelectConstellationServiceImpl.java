@@ -209,54 +209,61 @@ public class SelectConstellationServiceImpl implements SelectConstellationServic
      * 定时器监听运势
      */
     public void luckyRemindTimer(){
-        //1. 查询所有用户及星座
-        List<WeixinUser> userList = weixinUserService.selectByExample(null);
-        BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
-        BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
-        criteria.andEqualTo("status", 1);
-        String datatime = DateUtil.getDate();
-        String beginTime = datatime + " 00:00:00";
-        String endTime = datatime + " 23:00:00";
-        criteria.andBetween("publishTime", beginTime, endTime);
-        beanCriteria.setOrderByClause("publish_time desc");
-        List<TiLucky> luckyList = tiLuckyService.selectByExample(beanCriteria);
+        // 查询当天的redis有没有记录，没有就插入，否则不插入
+        String redisKey = "notify_lucky_log_" + DateUtil.getDate();
+        if (redisService.hasKey(redisKey)){
+            return;
+        }else {
+            //1. 查询所有用户及星座
+            List<WeixinUser> userList = weixinUserService.selectByExample(null);
+            BeanCriteria beanCriteria = new BeanCriteria(TiLucky.class);
+            BeanCriteria.Criteria criteria = beanCriteria.createCriteria();
+            criteria.andEqualTo("status", 1);
+            String datatime = DateUtil.getDate();
+            String beginTime = datatime + " 00:00:00";
+            String endTime = datatime + " 23:00:00";
+            criteria.andBetween("publishTime", beginTime, endTime);
+            beanCriteria.setOrderByClause("publish_time desc");
+            List<TiLucky> luckyList = tiLuckyService.selectByExample(beanCriteria);
 
-        if (!userList.isEmpty() && !luckyList.isEmpty()) {
-            for (int i=0; i<userList.size(); i++){
-                WeixinUser weixinUser = userList.get(i);
-                if (null != weixinUser) {
-                    for (TiLucky tiLucky : luckyList) {
-                        if (null != tiLucky) {
-                            if (weixinUser.getConstellationId().intValue() == tiLucky.getConstellationId().intValue()) {
-                                //消息推送，存redis
-                                LuckyRemindBo luckyRemindBo = new LuckyRemindBo();
-                                LuckyRemindDataBo luckyRemindDataBo = new LuckyRemindDataBo();
-                                Keyword11 keyword11 = new Keyword11();
-                                luckyRemindDataBo.setKeyword4(new Keyword4("来自小哥星座"));
-                                luckyRemindDataBo.setKeyword3(new Keyword3(tiLucky.getRemindToday()));
-                                luckyRemindDataBo.setKeyword2(new Keyword2(StringUtil.Base64ToStr(weixinUser.getNickName())));
-                                keyword11.setValue("今日运势");
-                                keyword11.setColor("#5961dd");
-                                luckyRemindDataBo.setKeyword1(keyword11);
+            if (!userList.isEmpty() && !luckyList.isEmpty()) {
+                for (int i = 0; i < userList.size(); i++) {
+                    WeixinUser weixinUser = userList.get(i);
+                    if (null != weixinUser) {
+                        for (TiLucky tiLucky : luckyList) {
+                            if (null != tiLucky) {
+                                if (weixinUser.getConstellationId().intValue() == tiLucky.getConstellationId().intValue()) {
+                                    //消息推送，存redis
+                                    LuckyRemindBo luckyRemindBo = new LuckyRemindBo();
+                                    LuckyRemindDataBo luckyRemindDataBo = new LuckyRemindDataBo();
+                                    Keyword11 keyword11 = new Keyword11();
+                                    luckyRemindDataBo.setKeyword4(new Keyword4("来自小哥星座"));
+                                    luckyRemindDataBo.setKeyword3(new Keyword3(tiLucky.getRemindToday()));
+                                    luckyRemindDataBo.setKeyword2(new Keyword2(StringUtil.Base64ToStr(weixinUser.getNickName())));
+                                    keyword11.setValue("今日运势");
+                                    keyword11.setColor("#5961dd");
+                                    luckyRemindDataBo.setKeyword1(keyword11);
 
-                                luckyRemindBo.setTemplateId("ashf_u9VlZRYUUo07TevMvag7F41N-LBIw5lGuQH1qI");
-                                luckyRemindBo.setEmphasisKeyword("keyword1.DATA");
-                                luckyRemindBo.setData(luckyRemindDataBo);
-                                luckyRemindBo.setPage("pages/home/home?from=form");
-                                luckyRemindBo.setTouser(weixinUser.getOpenId());
+                                    luckyRemindBo.setTemplateId("ashf_u9VlZRYUUo07TevMvag7F41N-LBIw5lGuQH1qI");
+                                    luckyRemindBo.setEmphasisKeyword("keyword1.DATA");
+                                    luckyRemindBo.setData(luckyRemindDataBo);
+                                    luckyRemindBo.setPage("pages/home/home?from=form");
+                                    luckyRemindBo.setTouser(weixinUser.getOpenId());
 
-                                String redisJson = JsonUtil.serialize(luckyRemindBo);
+                                    String redisJson = JsonUtil.serialize(luckyRemindBo);
 
-                                logger.error("timer", redisJson);
-                                logger.error(redisJson);
+                                    logger.error("timer", redisJson);
+                                    logger.error(redisJson);
 
-                                redisService.lrSet("notify_list_lucky", redisJson);
+                                    redisService.lrSet("notify_list_lucky", redisJson);
+                                }
                             }
                         }
                     }
                 }
-            }
 
+            }
+            redisService.setHour(redisKey, 1, 24);
         }
     }
 
