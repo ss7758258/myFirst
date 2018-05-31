@@ -12,6 +12,7 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
+    "navigationStyle": "custom",
     "navigationBarBackgroundColor": "#9262FB",
     "navigationBarTitleText": "小哥星座",
     "navigationBarTextStyle": "white",
