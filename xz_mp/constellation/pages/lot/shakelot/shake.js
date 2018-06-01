@@ -22,7 +22,17 @@ Page({
     shakeLotSpeed: false,
     potPath: false,
     userInfo: _GData.userInfo,
-    imgs: imgs
+    imgs: imgs,
+    navConf : {
+			title : '摇一摇抽签',
+			state : 'root',
+			isRoot : false,
+			isIcon : true,
+			iconPath : '',
+            root : '',
+            isTitle : true
+            // root : '/pages/home/home'
+		}
   },
 
   /**

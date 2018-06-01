@@ -1,3 +1,5 @@
+<!-- 导航 -->
+<nav opts='{{navConf}}'></nav>
 <!--pages/onelot/onelot.wxml-->
 <!-- <audio src="{{src}}" id="myAudio"></audio> -->
 <view class="UI_pgae">
