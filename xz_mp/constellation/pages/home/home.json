@@ -1,3 +1,7 @@
 {
-  "disableScroll": true
+	"disableScroll": true,
+	"usingComponents": {
+		"nav": "/components/navigation/nav",
+		"xiaodaka": "/template/xiaodaka-btn/xiaodaka-btn"
+	}
 }
