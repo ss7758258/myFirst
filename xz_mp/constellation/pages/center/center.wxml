@@ -1,0 +1,3 @@
+<!-- 导航 -->
+<nav opts='{{navConf}}'></nav>
+<view></view>
