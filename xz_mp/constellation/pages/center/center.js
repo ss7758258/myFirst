@@ -38,9 +38,11 @@ Page({
                 clockStatus : parseInt(clockStatus) === 0 ? false : true
             })
         }
-        this.setData({
-            iconPath: wx.getStorageSync('icon_Path')
-        })
+        if(wx.getStorageSync('icon_Path')) {
+            this.setData({
+                iconPath: wx.getStorageSync('icon_Path')
+            })
+        }
     },
     switchOn (e){
         console.log('触发？：',e)
