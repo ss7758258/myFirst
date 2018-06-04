@@ -15,6 +15,16 @@ Page({
     showCanvas: false,
     imgs: imgs,
 
+    navConf : {
+			title : '拆签',
+			state : 'root',
+			isRoot : false,
+			isIcon : true,
+			iconPath : '',
+            root : '',
+            isTitle : true
+            // root : '/pages/home/home'
+		},
     lotDetail: {
       qianOpenSize: 3,
     },

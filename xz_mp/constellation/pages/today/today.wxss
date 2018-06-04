@@ -20,7 +20,7 @@
 .inImage{
   position: absolute;
   width:92vw;
-  height:95vh;
+  height:86.5vh;
 }
 
 scroll-view {

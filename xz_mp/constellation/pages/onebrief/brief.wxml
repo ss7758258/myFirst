@@ -1,4 +1,6 @@
 
+<!-- 导航 -->
+<nav opts='{{navConf}}'></nav>
 <view class="UI_page page_brief page_onelot {{networkError?'noNetBg': ''}}">
   <view>
     <view class="UI_box " style='transform: scale({{isShow ? 1 : 0}});' >

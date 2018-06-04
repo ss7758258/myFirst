@@ -28,7 +28,7 @@
 
 .myLot {
   display:flex;
-  height:81.99999999999999vh;
+  height:74.99999999999999vh;
   flex-direction:column;
   justify-content:space-between;
 }

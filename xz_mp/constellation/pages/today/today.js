@@ -14,6 +14,16 @@ Page({
     isFromShare: false,
     time: null,
     showCanvas: false,
+    navConf : {
+			title : '运势详情',
+			state : 'root',
+			isRoot : false,
+			isIcon : true,
+			iconPath : '',
+            root : '',
+            isTitle : true
+            // root : '/pages/home/home'
+		},
   },
 
   /**
@@ -47,46 +57,10 @@ Page({
         })
       })
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
 
   },
 
@@ -162,7 +136,11 @@ Page({
     ctx.setFontSize(32)
     const metrics1 = ctx.measureText(aa).width / 2
     ctx.fillText(aa, 40, 1200 + 32)
-    ctx.fillText(_SData.time, 40, 625 * 2 + 32)
+    let timer = new Date();
+    let newDate = timer.getFullYear() + '-' + (timer.getMonth() + 1 > 9 ? timer.getMonth() + 1 : '0' + (timer.getMonth() + 1)) + '-' + (timer.getDate() > 9 ? timer.getDate() : '0' + timer.getDate());
+    console.log('输出日期：',newDate)
+    // ctx.fillText(_SData.time, 40, 625 * 2 + 32)
+    ctx.fillText(newDate, 40, 625 * 2 + 32)
     ctx.setFontSize(28)
     var half = (214 * 2 - (40 + metrics1 * 2)) / 2
     var left = 214 * 2 - half

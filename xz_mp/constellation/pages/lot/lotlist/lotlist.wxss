@@ -72,11 +72,13 @@
 
 .listScroll {
   width: auto;
-  height: 450rpx;
+  height: 33.733133433283356vh;
+  padding: 0 5.333333333333333vw;
   position: absolute;
-  right: 40rpx;
-  bottom: 60rpx;
-  left: 40rpx;
+  bottom: 5vw;
+  left: 0;
+  right: 0;
+  margin: auto;
   z-index: 80;
 }
 

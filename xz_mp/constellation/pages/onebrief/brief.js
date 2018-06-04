@@ -12,7 +12,17 @@ Page({
     picUserName: '',
     isFromShare: false,
     prevPic: "",
-    isShow : false
+    isShow : false,
+    navConf : {
+			title : '一言',
+			state : 'root',
+			isRoot : false,
+			isIcon : true,
+			iconPath : '',
+            root : '',
+            isTitle : true
+            // root : '/pages/home/home'
+		}
   },
 
   /**
@@ -167,7 +177,6 @@ Page({
             wx.saveImageToPhotosAlbum({
               filePath: res.tempFilePath,
               success(res) {
-                wx.hideLoading()
                 wx.showToast({
                   title: '已保存到相册',
                   duration: 3000
@@ -175,18 +184,19 @@ Page({
                 _self.setData({
                   showCanvas: false
                 })
+                wx.hideLoading()
               }
             })
           },
           fail: function (res) {
             console.log(res)
-            wx.hideLoading()
             wx.showToast({
               title: '保存失败',
             })
             _self.setData({
               showCanvas: false
             })
+            wx.hideLoading()
           }
         })
       }, 1000)

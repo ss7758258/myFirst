@@ -11,6 +11,16 @@ Page({
   data: {
     isMore: false,
     noList: true,
+    navConf : {
+			title : '一签盒',
+			state : 'root',
+			isRoot : false,
+			isIcon : true,
+			iconPath : '',
+            root : '',
+            isTitle : true
+            // root : '/pages/home/home'
+		},
   },
 
   /**

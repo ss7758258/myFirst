@@ -1,3 +1,5 @@
+<!-- 导航 -->
+<nav opts='{{navConf}}'></nav>
 <view class="UI_page page_today page_bg">
   <image class='inImage' src='/assets/images/cbg2.png'></image>
   <view class="UI_box">

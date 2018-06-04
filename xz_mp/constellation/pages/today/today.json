@@ -1,4 +1,7 @@
 {
-  "navigationBarTitleText": "更多运势",
-  "disableScroll": true
+  "navigationBarTitleText": "运势详情",
+  "disableScroll": true,
+  "usingComponents": {
+		"nav": "/components/navigation/nav"
+	}
 }
