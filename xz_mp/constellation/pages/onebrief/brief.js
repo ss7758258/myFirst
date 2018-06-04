@@ -29,6 +29,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中...',
+    })
     mta.Page.init()
     wx.hideShareMenu({
       success: function (res) { },
@@ -44,7 +47,7 @@ Page({
     }
     let env = 'dev';
     const _self = this
-    $vm.api.getDayx400({})
+    $vm.api.getDayx400({notShowLoading: true})
       .then(res => {
         console.log(res)
         if (res) {
@@ -61,52 +64,9 @@ Page({
           })
 
         }
-
       }).catch(err => {
         console.log(err)
       })
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
 
   },
 
@@ -212,6 +172,7 @@ Page({
   },
   onLodingListener: function (e) {
     console.log('图片加载完成时：',e)
+    wx.hideLoading()
     const _self = this
     if (e.detail.height && e.detail.width) {
       _self.setData({

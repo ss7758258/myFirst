@@ -298,9 +298,13 @@ Page({
     ctx.setFontSize(28)
     const metrics1 = ctx.measureText(_SData.lotDetail.ownerNickName).width / 2
     ctx.fillText(_SData.lotDetail.ownerNickName, 750 - metrics1 - 64 * 2 - 32, 205 * 2 + 28, 310 * 2)
-    const metrics2 = ctx.measureText(_SData.lotDetail.qianDate).width / 2
+    let timer = new Date();
+    let newDate = timer.getFullYear() + '-' + (timer.getMonth() + 1 > 9 ? timer.getMonth() + 1 : '0' + (timer.getMonth() + 1)) + '-' + (timer.getDate() > 9 ? timer.getDate() : '0' + timer.getDate());
+    console.log('输出日期：',newDate)
+    // 计算文本长度
+    const metrics2 = ctx.measureText(newDate).width / 2
 
-    ctx.fillText(_SData.lotDetail.qianDate, 750 - metrics2 - 64 * 2 - 32, 225 * 2 + 28, 310 * 2)
+    ctx.fillText(newDate, 750 - metrics2 - 64 * 2 - 32, 225 * 2 + 28, 310 * 2)
 
     const qrImgSize = 110
     ctx.drawImage('/assets/images/qrcodeonelot.png', 297 * 2, 306 * 2, qrImgSize, qrImgSize)
