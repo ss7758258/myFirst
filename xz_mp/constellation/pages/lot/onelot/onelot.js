@@ -594,6 +594,7 @@ Page({
           wx.hideLoading()
           wx.showToast({
             title: '保存失败',
+            icon: 'none',
           })
           _self.setData({
             showCanvas: false

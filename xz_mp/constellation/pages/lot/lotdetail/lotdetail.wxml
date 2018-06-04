@@ -74,7 +74,8 @@
         ((lotDetail.qianOpenSize - lotDetail.troops.length==0)?"上面的好人已帮你完成拆签":"还差"+(lotDetail.qianOpenSize - lotDetail.troops.length)+"个好人即可完成拆签，加油！")
         }}</text>
       </view>
-      <view wx:if="{{showHaoren}}" class='qipaobg'>
+      <!--  wx:if="{{showHaoren}}" -->
+      <view wx:if="{{showHaoren}}" class='qipaobg {{showHaoren ? "show" : ""}}'>
         <image class='qipao' src="/assets/images/qipao.png" mode="widthFix" />
         <text class='qipaowenzi'>帮助好友成功，你也去试试吧。</text>
       </view>

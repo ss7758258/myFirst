@@ -63,18 +63,18 @@ function requst(url, method, data = {}) {
           if (res.data && res.data.responseBody && reject) {
             reject(res.data.responseBody.message)
           } else {
-            reject('fail')
-            
+            // reject('fail')
+            reject('网络不好呦，请小主重新刷新')
           }
         }
 
       },
       fail: function (msg) {
         if (reject) {
-          reject('fail')
+          reject('网络不好呦，请小主重新刷新')
         } else {
           wx.showToast({
-            title: '网络错误，请稍后重试',
+            title: '网络不好呦，请小主重新刷新',
             icon: 'none'
           })
         }
@@ -166,6 +166,16 @@ function getX600(path, data) {
   return requstPost('statisticsConstellation/x' + path, data)
 }
 
+// 获取用户设置
+const getUserSetting = (data) => {
+  return requstPost('userSetting/get', data)
+}
+
+// 保存用户设置
+const setUserSetting = (data) => {
+  return requstPost('userSetting/save', data)
+}
+
 
 module.exports = {
   Promise,
@@ -193,4 +203,6 @@ module.exports = {
 
   getX600,
   getX610,
+  getUserSetting,
+  setUserSetting
 }

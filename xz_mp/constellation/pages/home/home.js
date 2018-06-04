@@ -6,6 +6,8 @@ var mta = require('../../utils/mta_analysis.js')
 const {
 	parseIndex
 } = $vm.utils
+
+
 Page({
 
 	/**
@@ -65,7 +67,8 @@ Page({
 			root : '',
 			isTitle : true,
 			centerPath : '/pages/center/center'
-		}
+		},
+		clockStatus : false  //小打卡开关
 	},
 
 
@@ -84,6 +87,7 @@ Page({
 			myConstellation: selectConstellation,
 			selectBack: false,
 			showHome: true,
+			'navConf.isIcon' : true,
 			'selectStatus.current': selectConstellation.id - 1,
 			'selectStatus.selected': true
 		})
@@ -125,6 +129,8 @@ Page({
 	 */
 	onLoad: function (options) {
 		mta.Page.init()
+		// 获取配置信息
+		getConfing(this);
 		const _self = this
 		const _SData = this.data
 		const selectConstellation = _GData.selectConstellation
@@ -132,12 +138,14 @@ Page({
 			_self.setData({
 				myConstellation: selectConstellation,
 				selectBack: false,
-				showHome: true
+				showHome: true,
+				'navConf.isIcon' : true
 			})
 			_self.onShowingHome()
 		} else {
 			_self.setData({
-				showHome: false
+				showHome: false,
+				'navConf.isIcon' : false
 			})
 		}
 
@@ -177,6 +185,7 @@ Page({
 						key: 'userInfo',
 						data: res.userInfo,
 					})
+					wx.setStorageSync('icon_Path', res.userInfo.avatarUrl)
 					_self.setData({
 						hasAuthorize: true,
 						'navConf.iconPath' : res.userInfo.avatarUrl
@@ -221,46 +230,6 @@ Page({
 	},
 
 	/**
-	 * 生命周期函数--监听页面初次渲染完成
-	 */
-	onReady: function () {
-
-	},
-
-	/**
-	 * 生命周期函数--监听页面显示
-	 */
-	onShow: function () { },
-
-	/**
-	 * 生命周期函数--监听页面隐藏
-	 */
-	onHide: function () {
-
-	},
-
-	/**
-	 * 生命周期函数--监听页面卸载
-	 */
-	onUnload: function () {
-
-	},
-
-	/**
-	 * 页面相关事件处理函数--监听用户下拉动作
-	 */
-	onPullDownRefresh: function () {
-
-	},
-
-	/**
-	 * 页面上拉触底事件的处理函数
-	 */
-	onReachBottom: function () {
-
-	},
-
-	/**
 	 * 用户点击右上角分享
 	 */
 	onShareAppMessage: function (res) {
@@ -269,8 +238,8 @@ Page({
 		}
 
 		return {
-			title: '小哥星座，准的无话可说',
-
+			title: '用小哥星座，得最全最准的运势预测！',
+			imageUrl: '/assets/images/share.jpg',
 			success: function (res) {
 				// 转发成功
 			},
@@ -354,6 +323,7 @@ Page({
 		this.setData({
 			selectBack: true,
 			showHome: false,
+			'navConf.isIcon' : false,
 			'selectStatus.current': -1,
 			'selectStatus.selected': false
 		})
@@ -428,3 +398,31 @@ Page({
 		})
 	}
 })
+
+function getConfing(me){
+	api.getUserSetting().then( res => {
+		console.log('加载配置完成：',res);
+		if(!res){
+			wx.showToast({
+				title : '加载配置失败，请小主检查网络后再试',
+				icon: 'none',
+				mask: true
+			})
+			return false;
+		}
+		// 确认小打卡配置信息
+		me.setData({
+			clockStatus : res.clockStatus && res.clockStatus === 1 ? true : false
+		})
+		// 保存通知开关状态
+		wx.setStorageSync('noticeStatus', res.noticeStatus ? res.noticeStatus : 0);
+		// 默认小打卡是关闭状态
+		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
+	}).catch( err => {
+		wx.showToast({
+			title : '加载配置失败，请小主检查网络后再试',
+			icon: 'none',
+			mask: true
+		})
+	})
+}

@@ -73,6 +73,12 @@
 					"pathName": "pages/lot/shakelot/shake",
 					"query": "from=activity",
 					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "个人中心",
+					"pathName": "pages/center/center",
+					"query": ""
 				}
 			]
 		}

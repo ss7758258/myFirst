@@ -1,7 +1,7 @@
 <!-- 导航 -->
 <nav opts='{{navConf}}'></nav>
 <!-- 引入小打卡组件 -->
-<xiaodaka opts="{{xiaodaka}}" ></xiaodaka>
+<xiaodaka opts="{{xiaodaka}}" wx:if="{{showHome && clockStatus}}"></xiaodaka>
 
 <view class="UI_page page_home page_bg" style="{{!showHome?'padding-top:0;display:flex;align-items:center;':''}}">
   <view class="UI_box cbg1" wx:if="{{!showHome}}">

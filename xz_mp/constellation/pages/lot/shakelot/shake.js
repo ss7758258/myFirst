@@ -29,9 +29,9 @@ Page({
 			isRoot : false,
 			isIcon : true,
 			iconPath : '',
-            root : '',
-            isTitle : true
-            // root : '/pages/home/home'
+      root : '',
+      isTitle : true
+      // root : '/pages/home/home'
 		}
   },
 
@@ -48,7 +48,8 @@ Page({
     })
     if (pageFrom == 'share') {
       this.setData({
-        isFromShare: true
+        isFromShare: true,
+        "navConf.root" : '/pages/home/home'
       })
       if (pageFrom == 'list') {
         mta.Event.stat("ico_in_from_list", {})
@@ -65,6 +66,7 @@ Page({
     } else if (pageFrom == 'activity') {
       this.setData({
         isFromShare: true,
+        "navConf.root" : '/pages/home/home'
       })
       console.log('ico_in_from_shake_activity')
       mta.Event.stat("ico_in_from_shake_activity", {})
@@ -183,7 +185,7 @@ Page({
   onShareAppMessage: function () {
 
     var shareImg = '/assets/images/share_tong.jpg'
-    var shareMsg = '要想日子过的好，每日一签少不了。'
+    var shareMsg = '每日抽一签，赛过活神仙。'
     var sharepath = '/pages/lot/shakelot/shake?from=share&where=shake'
     return {
       title: shareMsg,

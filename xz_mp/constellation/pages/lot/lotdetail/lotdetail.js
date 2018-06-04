@@ -14,7 +14,7 @@ Page({
     huan: false,//拆签成功
     showCanvas: false,
     imgs: imgs,
-
+    lock : false, //锁
     navConf : {
 			title : '拆签',
 			state : 'root',
@@ -27,6 +27,8 @@ Page({
 		},
     lotDetail: {
       qianOpenSize: 3,
+      showChai : true,
+      hasChai : false
     },
   },
 
@@ -114,7 +116,7 @@ Page({
             // res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
             var lotDetail = parseLot(res)
             _self.setData({
-              lotDetail: lotDetail,
+              lotDetail: lotDetail
             })
           })
       } else {
@@ -128,7 +130,7 @@ Page({
               // res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
               var lotDetail = parseLot(res)
               _self.setData({
-                lotDetail: lotDetail,
+                lotDetail: lotDetail
               })
             })
             .catch(err => {
@@ -157,52 +159,10 @@ Page({
       }
     } else {
       _self.setData({
-        lotDetail: _GData.lotDetail,
+        lotDetail: _GData.lotDetail
       })
 
     }
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
   },
 
   /**
@@ -215,11 +175,11 @@ Page({
     const _self = this
     const SData = this.data
     var shareImg = '/assets/images/share_qian.jpg'
-    var shareMsg = '要想生活过的好，每日一签少不了'
+    var shareMsg = '快来戳，真的是令人脸红心跳的结果！'
     var sharepath = '/pages/lot/lotdetail/lotdetail?from=share&lotId=' + SData.lotDetail.id
     if (!SData.lotDetail.lotNotCompleted) {
       shareImg = '/assets/images/share_tong.jpg'
-      shareMsg = '要想日子过的好，每日一签少不了。'
+      shareMsg = '快来戳，真的是令人脸红心跳的结果！'
       sharepath = '/pages/lot/shakelot/shake?from=share&where=detail'
     }
     console.log("shareImg-qId===" + shareImg)
@@ -239,7 +199,10 @@ Page({
   //拆签或者去
   chai: function (e) {
     let formid = e.detail.formId
-
+    if(this.data.lock){
+      return false;
+    }
+    this.data.lock = true;
     $vm.api.getX610({ notShowLoading: true, formid: formid })
     const _self = this
     const _Sdata = this.data
@@ -250,7 +213,9 @@ Page({
       })
       return
     }
-
+    _self.setData({
+      showHaoren: true,
+    })
     $vm.api.getX506({ id: _Sdata.lotDetail.id, notShowLoading: true })
       .then(res => {
         console.log(res)
@@ -267,9 +232,7 @@ Page({
           }, 2000)
         } else {
           _self.setData({
-            lotDetail: lotDetail,
-            hasChai: true,
-            showHaoren: true,
+            lotDetail: lotDetail
           })
         }
 
@@ -277,6 +240,7 @@ Page({
           _self.setData({
             showHaoren: false,
           })
+          _self.data.lock = true;
         }, 2800)
       })
       .catch(err => {
@@ -371,6 +335,7 @@ Page({
           wx.hideLoading()
           wx.showToast({
             title: '保存失败',
+            icon: 'none',
           })
           _self.setData({
             showCanvas: false
