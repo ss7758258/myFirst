@@ -70,6 +70,18 @@ Page({
       })
       console.log('ico_in_from_shake_activity')
       mta.Event.stat("ico_in_from_shake_activity", {})
+    }else if(pageFrom == 'outer' && options.id){
+      this.setData({
+        isFromShare: true,
+        "navConf.root" : '/pages/home/home'
+      })
+      // 验证Id是否位6位纯数字
+      let reg = /^\d{6}$/;
+      if(reg.test(options.id)){
+        mta.Event.stat('outer_' + options.id, {})
+      }else{
+        mta.Event.stat('outer_unknown', {})
+      }
     }
     console.log(options)
 
@@ -125,13 +137,6 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
@@ -164,21 +169,6 @@ Page({
       hasReturn: true,
     })
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
   /**
    * 用户点击右上角分享
    */

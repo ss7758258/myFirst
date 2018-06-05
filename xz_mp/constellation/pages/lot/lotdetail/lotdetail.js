@@ -106,6 +106,7 @@ Page({
       if (pageFrom == 'share' || pageFrom == 'form') {
         _self.setData({
           isFromShare: true,
+          "navConf.root" : '/pages/home/home'
         })
       }
       let token = wx.getStorageSync('token')
@@ -327,7 +328,7 @@ Page({
             }, fail(res) {
               console.log(res)
             }, complete(res) {
-              wx.hideLoading()
+              // wx.hideLoading()
               _self.setData({
                 showCanvas: false
               })

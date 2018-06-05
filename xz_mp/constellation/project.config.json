@@ -79,6 +79,13 @@
 					"name": "个人中心",
 					"pathName": "pages/center/center",
 					"query": ""
+				},
+				{
+					"id": 7,
+					"name": "摇签",
+					"pathName": "pages/lot/shakelot/shake",
+					"query": "from=outer&id=123456",
+					"scene": "1011"
 				}
 			]
 		}

@@ -174,7 +174,7 @@ Page({
 
             },
             complete(res) {
-              wx.hideLoading()
+              // wx.hideLoading()
               _self.setData({
                 showCanvas: false
               })
@@ -190,7 +190,7 @@ Page({
         },
         fail: function (res) {
           console.log(res)
-          wx.hideLoading()
+          // wx.hideLoading()
           wx.showToast({
             title: '保存失败',
             icon: 'none',

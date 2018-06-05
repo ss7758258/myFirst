@@ -585,7 +585,7 @@ Page({
             }, fail(res) {
               console.log(res)
             }, complete(res) {
-              wx.hideLoading()
+              // wx.hideLoading()
               _self.setData({
                 showCanvas: false
               })

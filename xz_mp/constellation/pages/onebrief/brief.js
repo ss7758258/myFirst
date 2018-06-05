@@ -148,7 +148,7 @@ Page({
                 _self.setData({
                   showCanvas: false
                 })
-                wx.hideLoading()
+                // wx.hideLoading()
               }
             })
           },
@@ -161,7 +161,7 @@ Page({
             _self.setData({
               showCanvas: false
             })
-            wx.hideLoading()
+            // wx.hideLoading()
           }
         })
       }, 1000)
