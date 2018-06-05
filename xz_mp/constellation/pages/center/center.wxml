@@ -3,6 +3,7 @@
 <view class="panel">
     <view class="photo">
         <image src="{{iconPath}}"></image>
+        <text class="text">{{nickName}}</text>
     </view>
     <view class="flex notice">
         <view>

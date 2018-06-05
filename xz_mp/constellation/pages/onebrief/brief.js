@@ -65,7 +65,11 @@ Page({
 
         }
       }).catch(err => {
-        console.log(err)
+        wx.hideLoading()
+        wx.showToast({
+          icon: 'none',
+          title: '加载失败了，请小主稍后再试',
+        })
       })
 
   },

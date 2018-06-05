@@ -7,7 +7,7 @@ function requstPost(url, data) {
   return requst(url, 'POST', data)
 }
 
-const env = 'env';
+const env = 'dev';
 
 const DOMAIN = env === 'dev' ? 'https://xingzuoapi.yetingfm.com/xz_api/' : 'https://xingzuoapi-prod.yetingfm.com/xz_api/'
 // const DOMAIN = 'http://193.112.130.148:8888/xz_api/'

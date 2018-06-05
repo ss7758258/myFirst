@@ -16,7 +16,8 @@ Page({
         imgs,
         isFlag : true,  //通知的开关 默认开启
         clockStatus : false,  //小打卡开关
-        iconPath : imgs.icon
+        iconPath : imgs.icon,
+        nickName : ''
     },
     /**
      * 生命周期初始化组件
@@ -43,6 +44,13 @@ Page({
                 iconPath: wx.getStorageSync('icon_Path')
             })
         }
+        console.log(wx.getStorageSync('userInfo').nickName)
+        let userInfo = wx.getStorageSync('userInfo')
+        if(userInfo){
+            this.setData({
+                nickName: userInfo.nickName ? userInfo.nickName : ''
+            })
+        }
     },
     switchOn (e){
         console.log('触发？：',e)
@@ -53,7 +61,8 @@ Page({
         let ye = this.data.isFlag ? 1 : 0;
         
         api.setUserSetting({
-            noticeStatus : ye
+            noticeStatus : ye,
+            notShowLoading : true
         }).then((res) => {
             console.log('通知开关成功：',res)
             if(!res){
