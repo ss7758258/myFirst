@@ -157,7 +157,7 @@ function canvasTextAutoLine(ctx, str, initX, initY, lineHeight, exWidth) {
 
 
 function parseLot(res) {
-
+  console.log('未加工的数据信息：',res)
   var troops = []
   for (var i = 1; i < res.qianOpenSize + 1; i++) {
     if (res['friendOpenId' + i]) {
@@ -200,7 +200,7 @@ function parseLot(res) {
     troops: troops
   }
   console.log("=====lotDetail=====")
-  console.log(myLot)
+  console.log('加工后的数据：',myLot)
   console.log("=====lotDetail=====")
   return myLot
 

@@ -1,5 +1,4 @@
 /* pages/onebrief/brief.wxss */
-
 .page_brief {
   box-sizing: border-box;
   padding-left: 20rpx;

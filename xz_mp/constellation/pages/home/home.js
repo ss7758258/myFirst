@@ -59,7 +59,7 @@ Page({
 			version: 'release'
 		},
 		navConf : {
-			title : '今日运势',
+			title : '小哥星座',
 			state : 'root',
 			isRoot : true,
 			isIcon : true,
