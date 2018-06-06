@@ -125,7 +125,7 @@ Page({
       ctx.fillText(_GData.userInfo.nickName, 375 / 2, 570 / 2)
       ctx.stroke()
       const qrImgSize = 100
-      ctx.drawImage('/assets/images/qrcodebrief.png', (375 - qrImgSize) / 2, 506, qrImgSize, qrImgSize)
+      ctx.drawImage('/assets/images/qrcodebrief.png', (375 - qrImgSize) / 2, 518, qrImgSize, qrImgSize)
       ctx.stroke()
       ctx.setTextAlign('center')    // 文字居中
       ctx.setFillStyle('#333333')  // 文字颜色：黑色
