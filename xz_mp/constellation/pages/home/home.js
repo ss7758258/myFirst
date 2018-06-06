@@ -129,8 +129,6 @@ Page({
 	 */
 	onLoad: function (options) {
 		mta.Page.init()
-		// 获取配置信息
-		getConfing(this);
 		const _self = this
 		const _SData = this.data
 		const selectConstellation = _GData.selectConstellation
@@ -176,15 +174,17 @@ Page({
 
 			}
 		}
-
+		let me = this;
 		wx.getUserInfo({
 			success: function (res) {
-				console.log(res)
+				console.log('获取用户配置成功：',res)
 				if (res.userInfo) {
 					wx.setStorage({
 						key: 'userInfo',
 						data: res.userInfo,
 					})
+					// 获取配置信息
+					getConfing(me);
 					wx.setStorageSync('icon_Path', res.userInfo.avatarUrl)
 					_self.setData({
 						hasAuthorize: true,
@@ -400,7 +400,9 @@ Page({
 })
 
 function getConfing(me){
-	api.getUserSetting().then( res => {
+	api.getUserSetting({
+		notShowLoading: true
+	}).then( res => {
 		console.log('加载配置完成：',res);
 		if(!res){
 			wx.showToast({

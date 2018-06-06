@@ -18,7 +18,7 @@
             </view>
         </view>
     </view>
-    <view class="flex card_record" wx:if="{{clockStatus}}" bindtap="goXiaodaka">
+    <!-- <view class="flex card_record" wx:if="{{clockStatus}}" bindtap="goXiaodaka">
         <view>
             <image class="notice_icon" src="{{imgs.daka}}"></image>
         </view>
@@ -26,7 +26,7 @@
         <view>
             <image class="notice_icon" src="{{imgs.right}}"></image>
         </view>
-    </view>
+    </view> -->
     <view class="flex opinion"  bindtap="clickHandle">
         <view>
             <image class="notice_icon" src="{{imgs.opinion}}"></image>
