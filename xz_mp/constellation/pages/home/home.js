@@ -7,6 +7,8 @@ const {
 	parseIndex
 } = $vm.utils
 
+// 验证Id是否位6位纯数字
+let reg = /^\d{6}$/;
 
 Page({
 
@@ -132,7 +134,7 @@ Page({
 		const _self = this
 		const _SData = this.data
 		const selectConstellation = _GData.selectConstellation
-		if (selectConstellation) {
+		if (selectConstellation && !selectConstellation.isFirst) {
 			_self.setData({
 				myConstellation: selectConstellation,
 				selectBack: false,
@@ -174,6 +176,25 @@ Page({
 
 			}
 		}
+		else if(fromwhere === 'spread'){ // 活动推广统计
+			console.log('输出活动来源',options.id)
+            if (reg.test(options.id)) {
+                mta.Event.stat('spread_' + options.id, {})
+            } else {
+                mta.Event.stat('spread_unknown', {})
+            }
+		}
+		
+		// 统计特殊来源
+        if(options.source && options.source.constructor === String && options.source !== ''){
+			console.log('输出活动来源',options.id)
+            if (reg.test(options.id)) {
+                mta.Event.stat(options.source + '_' + options.id, {})
+            } else {
+                mta.Event.stat(options.source + '_unknown', {})
+            }
+		}
+		
 		let me = this;
 		wx.getUserInfo({
 			success: function (res) {

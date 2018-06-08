@@ -33,6 +33,8 @@
               <text class="time">{{item.time}}</text>
               <text class="status">{{item.status==0? '拆签中':'已拆签'}}</text>
               <image src="/assets/images/arrow.png" mode="widthFix" />
+              <!-- 拆签标记 -->
+              <icon class="red_dot" wx:if="{{item.isClick}}"></icon>
             </view>
           </button>
         </form>

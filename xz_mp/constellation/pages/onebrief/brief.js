@@ -98,7 +98,7 @@ Page({
     const _self = this
     const _SData = _self.data
     wx.showLoading({
-      title: '努力保存中...',
+      title: '图片生成中...',
       mask: true
     })
     _self.setData({
@@ -141,9 +141,11 @@ Page({
             wx.saveImageToPhotosAlbum({
               filePath: res.tempFilePath,
               success(res) {
-                wx.showToast({
-                  title: '已保存到相册',
-                  duration: 3000
+                wx.hideLoading()
+                wx.showModal({
+                  title: '保存成功',
+                  content: '图片已经保存到相册，可以分享到朋友圈了',
+                  showCancel: false
                 })
                 _self.setData({
                   showCanvas: false

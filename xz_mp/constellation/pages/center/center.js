@@ -89,10 +89,6 @@ Page({
         wx.navigateToMiniProgram({
             appId: 'wx855c5d7718f218c9',
             path: '/pages/index/index?wxID=ad6377&scene=gzhgl922689',
-            // extraData: {
-            //     id: '29914'
-            // },
-            // envVersion: 'develop',
             success(res) {
                 // 打开成功
             }

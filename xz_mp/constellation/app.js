@@ -24,7 +24,7 @@ App({
         icon: 'none'
       })
     })
-    _SData.selectConstellation = wx.getStorageSync('selectConstellation')
+    _SData.selectConstellation = wx.getStorageSync('selectConstellation') || {id:1,name:"白羊座",time:"3.21-4.19",img:"/assets/images/aries.png",isFirst : true}
     _SData.userInfo = wx.getStorageSync('userInfo')
     mta.App.init({
       "appID": "500613478",

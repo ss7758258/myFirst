@@ -86,6 +86,27 @@
 					"pathName": "pages/lot/shakelot/shake",
 					"query": "from=outer&id=123456",
 					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "一签盒",
+					"pathName": "pages/lot/lotlist/lotlist",
+					"query": "",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "活动首页",
+					"pathName": "pages/home/home",
+					"query": "from=spread&id=123456",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "活动摇签",
+					"pathName": "pages/lot/shakelot/shake",
+					"query": "from=spread&id=789456",
+					"scene": "1011"
 				}
 			]
 		}
