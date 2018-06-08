@@ -66,16 +66,19 @@
     </view>
 
     <view class="activity">
+      <form bindsubmit="oneword" report-submit='true'>
+        <view class="banner_panel">
+          <button class='button1 {{isBanner ? "banner_show" : ""}}' form-type="submit" type='' hover-class="none">
+            <image src="/assets/images/yiyan.jpg" />
+          </button>
+          <button class='button1 banner' wx:if="{{isBanner}}" data-name="banner" form-type="submit" type='' hover-class="none">
+            <image src="/assets/images/yiyan.jpg" />
+          </button>
+        </view>
+      </form>
       <form bindsubmit="onelot" report-submit='true'>
         <button class='button1' form-type="submit" type='' hover-class="none">
-
           <image src="/assets/images/yiqian.jpg" />
-
-        </button>
-      </form>
-      <form bindsubmit="oneword" report-submit='true'>
-        <button class='button1' form-type="submit" type='' hover-class="none">
-          <image src="/assets/images/yiyan.jpg" />
         </button>
       </form>
     </view>

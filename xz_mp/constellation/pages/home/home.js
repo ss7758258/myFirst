@@ -70,7 +70,8 @@ Page({
 			isTitle : true,
 			centerPath : '/pages/center/center'
 		},
-		clockStatus : false  //小打卡开关
+		clockStatus : false,  //小打卡开关
+		isBanner : true // 广告位开关
 	},
 
 
