@@ -32,26 +32,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 9,
 			"list": [
-				{
-					"id": 0,
-					"name": "today",
-					"pathName": "pages/home/home",
-					"query": "to=today&from=share"
-				},
 				{
 					"id": 1,
 					"name": "brief",
 					"pathName": "pages/home/home",
 					"query": "to=brief&from=share"
-				},
-				{
-					"id": 2,
-					"name": "lotdetail",
-					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "lotId=192&from=share",
-					"scene": "1011"
 				},
 				{
 					"id": 3,
@@ -106,6 +93,13 @@
 					"name": "活动摇签",
 					"pathName": "pages/lot/shakelot/shake",
 					"query": "from=spread&id=789456",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "Banner",
+					"pathName": "pages/banner/banner",
+					"query": "",
 					"scene": "1011"
 				}
 			]

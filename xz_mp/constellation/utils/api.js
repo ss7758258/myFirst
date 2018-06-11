@@ -1,4 +1,6 @@
 const Promise = require('./Promise')
+const env = require('../config')
+
 function requstGet(url, data) {
   return requst(url, 'GET', data)
 }
@@ -7,7 +9,6 @@ function requstPost(url, data) {
   return requst(url, 'POST', data)
 }
 
-const env = 'env';
 
 const DOMAIN = env === 'dev' ? 'https://xingzuoapi.yetingfm.com/xz_api/' : 'https://xingzuoapi-prod.yetingfm.com/xz_api/'
 // const DOMAIN = 'http://193.112.130.148:8888/xz_api/'
@@ -175,6 +176,10 @@ const getUserSetting = (data) => {
 const setUserSetting = (data) => {
   return requstPost('userSetting/save', data)
 }
+// 获取Banner列表
+const getBannerList = (data) => {
+  return requstPost('ad/list', data)
+}
 
 
 module.exports = {
@@ -204,5 +209,6 @@ module.exports = {
   getX600,
   getX610,
   getUserSetting,
-  setUserSetting
+  setUserSetting,
+  getBannerList
 }
