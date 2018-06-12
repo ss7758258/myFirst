@@ -71,10 +71,12 @@ Page({
 			centerPath : '/pages/center/center'
 		},
 		clockStatus : false,  //小打卡开关
-		isBanner : true // 广告位开关
+		isBanner : false // 广告位开关
 	},
 
-
+	goMore (e){
+		console.log('触犯了更多事件')
+	},
 	selectSign: function (e) {
 		const _self = this
 		const _SData = this.data
@@ -115,9 +117,6 @@ Page({
 			if (!_self.goPage(_SData)) {
 				const myLuckLen = myLuck.length
 				_self.circleDynamic()();
-				// for (let i = 0; i < myLuckLen; i++) {
-				//   _self.circleDynamic(i)()
-				// }
 			}
 
 
@@ -235,13 +234,6 @@ Page({
 							wx.redirectTo({
 								url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to
 							})
-							// if (fromwhere == 'share') {
-							//   wx.showToast({
-							//     title: '请先同意授权',
-							//     icon: 'none',
-							//     mask: true,
-							//   })
-							// }
 						}
 					}
 				})
@@ -275,12 +267,6 @@ Page({
 		console.log('===============')
 		var shouldGo = false
 		if (_SData.pageFrom == 'share') {
-			// if (_SData.toPage == 'today') {
-			//   wx.navigateTo({
-			//     url: '/pages/today/today?from=share'
-			//   })
-			// } 
-			// else
 			if (_SData.toPage == 'brief') {
 				wx.navigateTo({
 					url: '/pages/onebrief/brief?from=share'
@@ -397,12 +383,20 @@ Page({
 		})
 	},
 	oneword: function (e) {
-
+		console.log('进入一言',e)
+		let type = e.detail.target.dataset.key || 'yiyan';
 		let formid = e.detail.formId
 		$vm.api.getX610({
 			notShowLoading: true,
 			formid: formid
 		})
+		if(type === 'more'){
+			mta.Event.stat("ico_home_to_banner", {})
+			wx.navigateTo({
+				url: '/pages/banner/banner?formid=' + formid
+			})
+			return false;
+		}
 		mta.Event.stat("ico_home_to_brief", {})
 		wx.navigateTo({
 			url: '/pages/onebrief/brief?formid=' + formid
@@ -421,6 +415,10 @@ Page({
 	}
 })
 
+/**
+ * 获取配置信息
+ * @param {*} me
+ */
 function getConfing(me){
 	api.getUserSetting({
 		notShowLoading: true
@@ -440,6 +438,37 @@ function getConfing(me){
 		})
 		// 保存通知开关状态
 		wx.setStorageSync('noticeStatus', res.noticeStatus ? res.noticeStatus : 0);
+		// 默认小打卡是关闭状态
+		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
+	}).catch( err => {
+		wx.showToast({
+			title : '加载配置失败，请小主检查网络后再试',
+			icon: 'none',
+			mask: true
+		})
+	})
+
+	api.globalSetting({
+		notShowLoading: true
+	}).then( res => {
+		console.log('加载配置完成：',res);
+		console.log(!res)
+		if(!res){
+			wx.showToast({
+				title : '加载配置失败，请小主检查网络后再试',
+				icon: 'none',
+				mask: true
+			})
+			return false;
+		}
+		res.bannerStatus = 1
+		// console.log(res)
+		me.setData({
+			isBanner : res.bannerStatus && res.bannerStatus === 1 ? true : false,
+			clockStatus : res.clockStatus && res.clockStatus === 1 ? true : false
+		})
+		// res.adBtnText = '开始'
+		wx.setStorageSync('adBtnText', res.adBtnText ? res.adBtnText : '查看');
 		// 默认小打卡是关闭状态
 		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
 	}).catch( err => {

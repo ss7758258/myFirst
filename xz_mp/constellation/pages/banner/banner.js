@@ -1,4 +1,5 @@
 const API = require('../../utils/api')
+const mta = require('../../utils/mta_analysis.js')
 
 // 处理方法存放的对象
 const methods = {
@@ -46,6 +47,7 @@ const methods = {
         let res = data && data.res ? data.res : {};
         console.log('参数信息：',res)
         if(res.appId){
+			mta.Event.stat("to_outer_" + res.id, {})
             wx.navigateToMiniProgram({
                 appId: res.appId,
                 path: res.path,
@@ -54,6 +56,14 @@ const methods = {
                 }
             })
         }
+    },
+    /**
+     * 获取btn的文字信息
+     */
+    getBtnText (){
+        this.self.setData({
+            text : wx.getStorageSync('adBtnText') || '查看'
+        })
     }
 }
 
@@ -89,6 +99,8 @@ const Conf = {
         methods.setThis(this);
         // 获取banner列表
         methods.getBanner(this);
+        // 获取默认文字信息
+        methods.getBtnText();
     },
     goOuter : methods.goOuter
 }

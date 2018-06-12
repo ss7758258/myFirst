@@ -28,7 +28,9 @@ Page({
 		lotDetail: {
 			qianOpenSize: 3,
 			showChai: true,
-			hasChai: false
+			hasChai: false,
+			lotNotCompleted : true,
+			troops : []
 		},
 	},
 
@@ -111,35 +113,36 @@ Page({
 			}
 			let token = wx.getStorageSync('token')
 			if (token) {
-				$vm.api.getX511({ id: qId })
-					.then(res => {
-						console.log('签的数据===================：', res)
-						// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
-						var lotDetail = parseLot(res)
-						_self.setData({
-							lotDetail: lotDetail
-						})
-					})
+				getQian(qId,_self)
+				// $vm.api.getX511({ id: qId })
+				// 	.then(res => {
+				// 		console.log('签的数据===================：', res)
+				// 		// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
+				// 		var lotDetail = parseLot(res)
+				// 		_self.setData({
+				// 			lotDetail: lotDetail
+				// 		})
+				// 	})
 			} else {
 				$vm.getLogin().then(res => {
 					console.log(res)
 					wx.setStorageSync('token', res.token)
-
-					$vm.api.getX511({ id: qId })
-						.then(res => {
-							console.log('签的数据：', res)
-							// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
-							var lotDetail = parseLot(res)
-							_self.setData({
-								lotDetail: lotDetail
-							})
-						})
-						.catch(err => {
-							wx.showToast({
-								icon: 'none',
-								title: '服务器开了小差，请稍后再试',
-							})
-						})
+					getQian(qId,_self)
+					// $vm.api.getX511({ id: qId })
+					// 	.then(res => {
+					// 		console.log('签的数据：', res)
+					// 		// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
+					// 		var lotDetail = parseLot(res)
+					// 		_self.setData({
+					// 			lotDetail: lotDetail
+					// 		})
+					// 	})
+					// 	.catch(err => {
+					// 		wx.showToast({
+					// 			icon: 'none',
+					// 			title: '服务器开了小差，请稍后再试',
+					// 		})
+					// 	})
 				}).catch(err => {
 					wx.getSetting({
 						success: function (res) {
@@ -362,3 +365,34 @@ Page({
 
 
 })
+
+
+/**
+ * 重新加载数据
+ * @param {*} qId
+ */
+function getQian(qId,_self){
+	$vm.api.getX511({ id: qId })
+	.then(res => {
+		console.log('签的数据===================：', res)
+		// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
+		var lotDetail = parseLot(res)
+		_self.setData({
+			lotDetail: lotDetail
+		})
+	}).catch(err =>{
+		_self.setData({
+			isError : true
+		})
+		wx.showModal({
+			title: '网络错误',
+			content: '小主您的网络有点小问题哦,请重新尝试',
+			confirmText : '重新尝试',
+			showCancel: false,
+			success (){
+				getQian(qId,_self);
+			}
+		})
+		console.log('进入错误状态')
+	})
+}

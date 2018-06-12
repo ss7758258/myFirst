@@ -172,6 +172,11 @@ const getUserSetting = (data) => {
   return requstPost('userSetting/get', data)
 }
 
+// 获取用户设置
+const globalSetting = (data) => {
+  return requstPost('globalSetting/get', data)
+}
+
 // 保存用户设置
 const setUserSetting = (data) => {
   return requstPost('userSetting/save', data)
@@ -210,5 +215,6 @@ module.exports = {
   getX610,
   getUserSetting,
   setUserSetting,
-  getBannerList
+  getBannerList,
+  globalSetting
 }

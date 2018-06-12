@@ -31,7 +31,7 @@
         <view>
             <image class="notice_icon" src="{{imgs.opinion}}"></image>
         </view>
-        <view>意见反馈</view>
+        <view>我要吐槽</view>
         <view>
             <image class="notice_icon" src="{{imgs.right}}"></image>
         </view>
