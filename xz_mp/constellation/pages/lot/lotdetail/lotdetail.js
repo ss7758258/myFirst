@@ -23,7 +23,6 @@ Page({
 			iconPath: '',
 			root: '',
 			isTitle: true
-			// root : '/pages/home/home'
 		},
 		lotDetail: {
 			qianOpenSize: 3,
@@ -362,8 +361,6 @@ Page({
 			url: '/pages/home/home',
 		})
 	}
-
-
 })
 
 
@@ -372,27 +369,64 @@ Page({
  * @param {*} qId
  */
 function getQian(qId,_self){
-	$vm.api.getX511({ id: qId })
-	.then(res => {
-		console.log('签的数据===================：', res)
-		// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
-		var lotDetail = parseLot(res)
-		_self.setData({
-			lotDetail: lotDetail
-		})
-	}).catch(err =>{
-		_self.setData({
-			isError : true
-		})
-		wx.showModal({
-			title: '网络错误',
-			content: '小主您的网络有点小问题哦,请重新尝试',
-			confirmText : '重新尝试',
-			showCancel: false,
-			success (){
-				getQian(qId,_self);
+	wx.getNetworkType({
+		success: function(res) {
+			console.log('输出当前网络状态：',res)
+			if(res.networkType === 'none'){
+				wx.showLoading({
+					title : '加载中...',
+					mask : true
+				})
+				setTimeout(function(){
+					$vm.api.getX511({ id: qId })
+					.then(res => {
+						console.log('签的数据===================：', res)
+						// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
+						var lotDetail = parseLot(res)
+						_self.setData({
+							lotDetail: lotDetail
+						})
+					}).catch(err =>{
+						_self.setData({
+							isError : true
+						})
+						wx.showModal({
+							title: '网络错误',
+							content: '小主您的网络有点小问题哦,请重新尝试',
+							confirmText : '重新尝试',
+							showCancel: false,
+							success (){
+								getQian(qId,_self);
+							}
+						})
+						console.log('进入错误状态')
+					})
+				},3000)
+			}else{
+				$vm.api.getX511({ id: qId })
+				.then(res => {
+					console.log('签的数据===================：', res)
+					// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
+					var lotDetail = parseLot(res)
+					_self.setData({
+						lotDetail: lotDetail
+					})
+				}).catch(err =>{
+					_self.setData({
+						isError : true
+					})
+					wx.showModal({
+						title: '网络错误',
+						content: '小主您的网络有点小问题哦,请重新尝试',
+						confirmText : '重新尝试',
+						showCancel: false,
+						success (){
+							getQian(qId,_self);
+						}
+					})
+					console.log('进入错误状态')
+				})
 			}
-		})
-		console.log('进入错误状态')
+		}
 	})
 }

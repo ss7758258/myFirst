@@ -71,7 +71,8 @@ Page({
 			centerPath : '/pages/center/center'
 		},
 		clockStatus : false,  //小打卡开关
-		isBanner : false // 广告位开关
+		isBanner : false, // 广告位开关
+		isIPhoneX : false
 	},
 
 	goMore (e){
@@ -130,6 +131,7 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
+		getSystemInfo(this);
 		mta.Page.init()
 		const _self = this
 		const _SData = this.data
@@ -461,7 +463,7 @@ function getConfing(me){
 			})
 			return false;
 		}
-		res.bannerStatus = 1
+		// res.bannerStatus = 0
 		// console.log(res)
 		me.setData({
 			isBanner : res.bannerStatus && res.bannerStatus === 1 ? true : false,
@@ -478,4 +480,22 @@ function getConfing(me){
 			mask: true
 		})
 	})
+}
+
+
+/**
+ * 获取系统比例加入比例标识
+ * @param {*} self
+ */
+function getSystemInfo(self){
+	let res = wx.getSystemInfoSync();
+	console.log('设备信息：',res);
+	if(res){
+		// 长屏手机适配
+		if(res.screenWidth <= 375 && res.screenHeight >= 750){
+			self.setData({
+				isIPhoneX : true
+			})
+		}
+	}
 }
