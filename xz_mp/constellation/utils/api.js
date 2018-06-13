@@ -14,6 +14,7 @@ const DOMAIN = env === 'dev' ? 'https://xingzuoapi.yetingfm.com/xz_api/' : 'http
 // const DOMAIN = 'http://193.112.130.148:8888/xz_api/'
 
 // 小程序上线需要https，这里使用服务器端脚本转发请求为https
+
 function requst(url, method, data = {}) {
   var notShowLoading = data.notShowLoading
   var loadingStr = data.loaingStr
@@ -48,7 +49,7 @@ function requst(url, method, data = {}) {
 
       method: method.toUpperCase(), // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
       success: function (res) {
-        console.log(url)
+        // console.log(url)
         if (url == 'statisticsConstellation/x610') {
           console.log(data)
         }

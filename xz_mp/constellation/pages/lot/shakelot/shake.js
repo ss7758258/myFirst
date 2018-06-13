@@ -1,15 +1,14 @@
 // pages/lot/shakelot/shake.js
 
 const $vm = getApp()
-const _GData = $vm.globalData;
-console.log(_GData, 'data数据')
+const _GData = $vm.globalData
 const { parseLot } = $vm.utils
 const getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
 var mta = require('../../../utils/mta_analysis.js')
 let imgs = require('./imgs.js')
 
 // 验证Id是否位6位纯数字
-let reg = /^\d{6}$/;
+let reg = /^\d{6}$/
 
 Page({
 
@@ -121,7 +120,6 @@ Page({
 
         wx.getUserInfo({
             success: function (res) {
-                console.log(res)
                 if (res.userInfo) {
                     wx.setStorage({
                         key: 'userInfo',
@@ -133,7 +131,7 @@ Page({
                         userInfo: _GData.userInfo
                     })
                     // 获取一签盒数据状态
-                    getX510(_self);
+                    getX510(_self)
                     $vm.api.getSelectx100({
                         constellationId: _GData.selectConstellation.id,
                         nickName: res.userInfo.nickName,
@@ -174,7 +172,7 @@ Page({
           hasReturn: false,
         })
         // 获取一签盒数据状态
-        getX510(this);
+        getX510(this)
     },
 
     /**
@@ -455,11 +453,11 @@ Page({
  * @param {number} [pageSize=10]
  */
 const getX510 = (self, pageNum = 1, pageSize = 10) => {
-    let clicks = wx.getStorageSync('click_list') || [];
+    let clicks = wx.getStorageSync('click_list') || []
     $vm.api.getX510({ notShowLoading : true,pageNum, pageSize }).then(res => {
         console.log('一签盒列表：', res)
         if (res && res.constructor === Array) {
-            let red_dot = false;
+            let red_dot = false
             res.forEach(v => {
                 // 如果有状态为0并且点击列表中又不存在点击行为的确定为未点击状态
                 if (v.status === 0 && clicks.indexOf(v.id) === -1) {
@@ -473,7 +471,7 @@ const getX510 = (self, pageNum = 1, pageSize = 10) => {
             })
             // 本地缓存下数据
             wx.setStorageSync('sign_lists', res)
-            return false;
+            return false
         }
         // 本地缓存下数据
         wx.setStorageSync('sign_lists', '')

@@ -1,25 +1,18 @@
-// pages/home/home.js
-const $vm = getApp()
+const $vm = getApp() // 顶级对象实例
 const _GData = $vm.globalData
+const { parseIndex } = $vm.utils
 const api = $vm.api
-var mta = require('../../utils/mta_analysis.js')
-const {
-	parseIndex
-} = $vm.utils
-
-// 验证Id是否位6位纯数字
-let reg = /^\d{6}$/;
+const mta = require('../../utils/mta_analysis.js') //腾讯云数据分析
+const reg = /^\d{6}$/ // 验证Id是否位6位纯数字
 
 Page({
-
 	/**
 	 * 页面的初始数据
 	 */
 	data: {
-
-		isLoading: false,
-		selectBack: false,
-		showHome: false,
+		isLoading: false, //是否加载
+		selectBack: false, // 回退
+		showHome: false, //显示主页
 		hasAuthorize: true,
 		signList: $vm.utils.constellation,
 		selectStatus: {
@@ -29,26 +22,25 @@ Page({
 		pageFrom: null,
 		myConstellation: {},
 		remindToday: '',
-		myLuck: [
-			{
-				name : '爱情运',
-				count : 1,
-				color : '#9262FB'
+		myLuck: [{
+				name: '爱情运',
+				count: 1,
+				color: '#9262FB'
 			},
 			{
-				name : '升值运',
-				count : 2,
-				color : '#DA6AE4'
+				name: '升值运',
+				count: 2,
+				color: '#DA6AE4'
 			},
 			{
-				name : '暴富运',
-				count : 3,
-				color : '#B3B4FF'
+				name: '暴富运',
+				count: 3,
+				color: '#B3B4FF'
 			},
 			{
-				name : '健康运',
-				count : 4,
-				color : '#88BB74'
+				name: '健康运',
+				count: 4,
+				color: '#88BB74'
 			}
 		],
 		timer: null,
@@ -60,179 +52,175 @@ Page({
 			txt: '打卡',
 			version: 'release'
 		},
-		navConf : {
-			title : '小哥星座',
-			state : 'root',
-			isRoot : true,
-			isIcon : true,
-			iconPath : '',
-			root : '',
-			isTitle : true,
-			centerPath : '/pages/center/center'
+		navConf: {
+			title: '小哥星座',
+			state: 'root',
+			isRoot: true,
+			isIcon: true,
+			iconPath: '',
+			root: '',
+			isTitle: true,
+			centerPath: '/pages/center/center'
 		},
-		clockStatus : false,  //小打卡开关
-		isBanner : false, // 广告位开关
-		isIPhoneX : false
+		clockStatus: false, //小打卡开关
+		isBanner: false, // 广告位开关
+		isIPhoneX: false //判断是否是iPhoneX
 	},
 
-	goMore (e){
-		console.log('触犯了更多事件')
+	goMore(e) {
+		console.log('触发了更多事件')
 	},
-	selectSign: function (e) {
-		const _self = this
+
+	/**
+	 * 获取幸运值数据并渲染
+	 */
+	renderLuckCircle: function () {
 		const _SData = this.data
-
-		const selectConstellation = e.detail.target.dataset.item
-		mta.Event.stat('ico_home_select', { 'constellation': selectConstellation.name })
-		_GData.selectConstellation = selectConstellation
-		wx.setStorage({
-			key: 'selectConstellation',
-			data: e.detail.target.dataset.item,
-		})
-		_self.setData({
-			myConstellation: selectConstellation,
-			selectBack: false,
-			showHome: true,
-			'navConf.isIcon' : true,
-			'selectStatus.current': selectConstellation.id - 1,
-			'selectStatus.selected': true
-		})
-		_self.onShowingHome()
-	},
-
-	onShowingHome: function () {
-		const _self = this
-		const _SData = this.data
-		$vm.api.getSelectx100({
+		api.getSelectx100({
 			constellationId: _GData.selectConstellation.id,
 			nickName: _GData.userInfo.nickName,
 			headImage: _GData.userInfo.avatarUrl,
 			notShowLoading: true,
 		}).then(res => {
-			console.log(res)
 			var myLuck = parseIndex(res)
 			this.setData({
 				myLuck: myLuck,
 				remindToday: res.remindToday ? res.remindToday : ''
 			})
-			if (!_self.goPage(_SData)) {
-				const myLuckLen = myLuck.length
-				_self.circleDynamic()();
+			if (!this.goPage(_SData)) {
+				this.circleDynamic()()
 			}
-
-
-		}).catch(err => {
-			console.log(err)
-		})
-
+		}).catch(err => {})
 	},
 
+	//圈圈的动态
+	circleDynamic: function (n) {
+		const _self = this
+		const _SData = this.data
+		const myLuckList = _SData.myLuck
+
+		let keys = []
+		let	counts = []
+		let countOffset =  (t, b, c, d)=> c * t / d + b
+
+		myLuckList.forEach((v, ind) => {
+			keys.push('myLuck[' + ind + '].count')
+			counts.push(myLuckList[ind].count)
+		})
+
+		let t = 0
+		let b = 0
+		let d = 15
+
+		function price() {
+			if (!_self.data.showHome) return
+			t++
+			if (t > d) return
+			keys.forEach((v, ind) => {
+				_self.setData({
+					[v]: Math.floor(countOffset(t, b, counts[ind], d))
+				})
+			})
+			_self.data.timer = setTimeout(price, 15)
+		}
+		return price
+	},
+	
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
-		getSystemInfo(this);
-		mta.Page.init()
+		getSystemInfo(this) //获取设备信息，判断是否是长屏手机
+		mta.Page.init() //页面初始化
 		const _self = this
-		const _SData = this.data
 		const selectConstellation = _GData.selectConstellation
+
 		if (selectConstellation && !selectConstellation.isFirst) {
-			_self.setData({
+			this.setData({
 				myConstellation: selectConstellation,
 				selectBack: false,
 				showHome: true,
-				'navConf.isIcon' : true
+				'navConf.isIcon': true
 			})
-			_self.onShowingHome()
+			this.renderLuckCircle()
 		} else {
-			_self.setData({
+			this.setData({
 				showHome: false,
-				'navConf.isIcon' : false
+				'navConf.isIcon': false
 			})
 		}
 
-		console.log('输出参数：', options)
 		let fromwhere = options.from
 		let to = options.to
-		if (fromwhere == 'share' || fromwhere == 'activity') {
-			_self.setData({
+
+		if (fromwhere === 'share' || fromwhere === 'activity') {
+			this.setData({
 				toPage: to,
 				pageFrom: fromwhere
 			})
-			if (to == 'brief') {
-				if (options.hotapp == 1) {
+			if (to === 'brief') {
+				if (options.hotapp === 1) {
 					mta.Event.stat("ico_in_from_brief_qrcode", {})
 				} else {
 					mta.Event.stat("ico_in_from_brief", {})
 				}
 
-			} else if (to == 'today') {
-				if (options.hotapp == 1) {
+			} else if (to === 'today') {
+				if (options.hotapp === 1) {
 					mta.Event.stat("ico_in_from_today_qrcode", {})
-				} else if (fromwhere == 'activity') {
-					console.log('ico_in_from_brief_activity')
+				} else if (fromwhere === 'activity') {
 					mta.Event.stat("ico_in_from_brief_activity", {})
 				} else {
 					mta.Event.stat("ico_in_from_today", {})
 				}
-
+			}
+		} else if (fromwhere === 'spread') { // 活动推广统计
+			if (reg.test(options.id)) {
+				mta.Event.stat('spread_' + options.id, {})
+			} else {
+				mta.Event.stat('spread_unknown', {})
 			}
 		}
-		else if(fromwhere === 'spread'){ // 活动推广统计
-			console.log('输出活动来源',options.id)
-            if (reg.test(options.id)) {
-                mta.Event.stat('spread_' + options.id, {})
-            } else {
-                mta.Event.stat('spread_unknown', {})
-            }
-		}
-		
+
 		// 统计特殊来源
-        if(options.source && options.source.constructor === String && options.source !== ''){
-			console.log('输出活动来源',options.id)
-            if (reg.test(options.id)) {
-                mta.Event.stat(options.source + '_' + options.id, {})
-            } else {
-                mta.Event.stat(options.source + '_unknown', {})
-            }
+		if (options.source && options.source.constructor === String && options.source !== '') {
+			if (reg.test(options.id)) {
+				mta.Event.stat(options.source + '_' + options.id, {})
+			} else {
+				mta.Event.stat(options.source + '_unknown', {})
+			}
 		}
-		
-		let me = this;
+
 		wx.getUserInfo({
 			success: function (res) {
-				console.log('获取用户配置成功：',res)
-				if (res.userInfo) {
+				let {userInfo} =res
+				if (userInfo) {
 					wx.setStorage({
 						key: 'userInfo',
-						data: res.userInfo,
+						data: userInfo
 					})
 					// 获取配置信息
-					getConfing(me);
-					wx.setStorageSync('icon_Path', res.userInfo.avatarUrl)
+					getConfing(_self)
+					wx.setStorageSync('icon_Path', userInfo.avatarUrl)
 					_self.setData({
 						hasAuthorize: true,
-						'navConf.iconPath' : res.userInfo.avatarUrl
+						'navConf.iconPath': userInfo.avatarUrl
 					})
-					_GData.userInfo = res.userInfo
-					$vm.api.getSelectx100({
+					_GData.userInfo = userInfo
+					api.getSelectx100({
 						constellationId: _GData.selectConstellation.id,
-						nickName: res.userInfo.nickName,
-						headImage: res.userInfo.avatarUrl,
+						nickName: userInfo.nickName,
+						headImage: userInfo.avatarUrl,
 						notShowLoading: true,
-					}).then(res => {
-
 					})
 				}
 			},
 			fail: function (res) {
-				// 查看是否授权
+				// 检查是否授权
 				wx.getSetting({
 					success: function (res) {
 						if (!res.authSetting['scope.userInfo']) {
-
-							_self.setData({
-								hasAuthorize: false
-							})
+							_self.setData({ hasAuthorize: false })
 							wx.redirectTo({
 								url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to
 							})
@@ -241,8 +229,6 @@ Page({
 				})
 			}
 		})
-
-
 	},
 
 	/**
@@ -255,75 +241,61 @@ Page({
 
 		return {
 			title: '用小哥星座，得最全最准的运势预测！',
-			imageUrl: '/assets/images/share.jpg',
-			success: function (res) {
-				// 转发成功
-			},
-			fail: function (res) {
-				// 转发失败
-			}
+			imageUrl: '/assets/images/share.jpg'
 		}
 	},
 
+	// 判断 来源是“分享” 并且 前往页面是 “一言”
 	goPage: function (_SData) {
-		console.log('===============')
-		var shouldGo = false
-		if (_SData.pageFrom == 'share') {
-			if (_SData.toPage == 'brief') {
+		let shouldGo = false
+		if (_SData.pageFrom === 'share' &&  _SData.toPage === 'brief') {
 				wx.navigateTo({
 					url: '/pages/onebrief/brief?from=share'
 				})
-			}
 			shouldGo = true
 		}
 		return shouldGo
 	},
 
-	tween: function (t, b, c, d) {
-		return c * t / d + b;
+	
+
+
+	// 点击选择某个星座
+	handleCurrentConstellationClick: function (e) {
+
+		// 获取该元素的dom信息
+		const selectConstellation = e.detail.target.dataset.item
+
+		// 自定义事件上报
+		mta.Event.stat('ico_home_select', {
+			'constellation': selectConstellation.name
+		})
+
+		// 更新全局数据的selectConstellation
+		_GData.selectConstellation = selectConstellation
+
+		// 设置本地缓存
+		wx.setStorage({
+			key: 'selectConstellation',
+			data: selectConstellation,
+		})
+
+		this.setData({
+			myConstellation: selectConstellation,
+			selectBack: false,
+			showHome: true,
+			'navConf.isIcon': true,
+			'selectStatus.current': selectConstellation.id - 1,
+			'selectStatus.selected': true
+		})
+
+		this.renderLuckCircle()
 	},
-	//圈圈的动态
-	circleDynamic: function (n) {
-
-		const _self = this
-		const _SData = this.data
-		const myLuckList = _SData.myLuck
-		let keys = [], counts = [];
-
-		myLuckList.forEach((v, ind) => {
-			keys.push('myLuck[' + ind + '].count');
-			counts.push(myLuckList[ind].count);
-		});
-
-		let t = 0, b = 0, d = 15;
-
-		function price() {
-			if (!_self.data.showHome) {
-				return
-			}
-			t++
-			if (t > d) {
-				return
-			} else {
-				keys.forEach((v, ind) => {
-					_self.setData({
-						[v]: Math.floor(_self.tween(t, b, counts[ind], d))
-					})
-				})
-			}
-			let temp = setTimeout(price, 15);
-
-			_self.setData({
-				timer: temp
-			})
-
-		}
-		return price
-	},
-
-	onClickConstellation: function () {
-
-		clearTimeout(this.data.timer ? this.data.timer : '');
+	/**
+	 *	点击当前星座，清空_GData和Storage
+	 */
+	handleConstellationClick: function () {
+		clearTimeout(this.data.timer ? this.data.timer : '')
 		mta.Event.stat("ico_home_unselect", {})
 		wx.setStorage({
 			key: 'selectConstellation',
@@ -333,35 +305,17 @@ Page({
 		this.setData({
 			selectBack: true,
 			showHome: false,
-			'navConf.isIcon' : false,
+			'navConf.isIcon': false,
 			'selectStatus.current': -1,
 			'selectStatus.selected': false
 		})
-
 	},
-	bindGetUserInfo: function (e) {
 
-
-		if (e.detail.userInfo) {
-			wx.setStorage({
-				key: 'userInfo',
-				data: e.detail.userInfo,
-			})
-			this.setData({
-				hasAuthorize: true
-			})
-			_GData.userInfo = e.detail.userInfo
-			$vm.api.getSelectx100({
-				nickName: e.detail.userInfo.nickName,
-				headImage: e.detail.userInfo.avatarUrl,
-				notShowLoading: true,
-			}).then(res => {
-
-			})
-		}
-
-	},
-	onelot: function (e) {
+	/**
+	 *点击“一签”事件
+	 * @param {*} e
+	 */
+	handleOneLotClick: function (e) {
 		const _self = this
 		if (_self.data.isLoading) {
 			return
@@ -370,7 +324,7 @@ Page({
 			isLoading: true
 		})
 		let formid = e.detail.formId
-		$vm.api.getX610({
+		api.getX610({
 			notShowLoading: true,
 			formid: formid
 		})
@@ -384,117 +338,135 @@ Page({
 			}
 		})
 	},
-	oneword: function (e) {
-		console.log('进入一言',e)
-		let type = e.detail.target.dataset.key || 'yiyan';
+	/**
+	 * 点击“一言”事件
+	 * @param {*} e
+	 * @returns
+	 */
+	handleOneWordClick: function (e) {
+		let key = e.detail.target.dataset.key || 'yiyan'
 		let formid = e.detail.formId
-		$vm.api.getX610({
-			notShowLoading: true,
-			formid: formid
-		})
-		if(type === 'more'){
+
+		api.getX610({ notShowLoading: true, formid: formid })
+
+		if (key === 'more') {
 			mta.Event.stat("ico_home_to_banner", {})
 			wx.navigateTo({
 				url: '/pages/banner/banner?formid=' + formid
 			})
-			return false;
+			return
 		}
 		mta.Event.stat("ico_home_to_brief", {})
 		wx.navigateTo({
 			url: '/pages/onebrief/brief?formid=' + formid
 		})
 	},
-	today: function (e) {
-		let formid = e.detail.formId
-		$vm.api.getX610({
-			notShowLoading: true,
-			formid: formid
-		})
+
+	/**
+	 *	点击跳转运势详情
+	 * @param {*} e
+	 */
+	handleLuckDetailClick: function (e) {
+		let formid = e.detail.formId 
+		api.getX610({ notShowLoading: true, formid: formid })
 		mta.Event.stat("ico_home_to_today", {})
 		wx.navigateTo({
 			url: '/pages/today/today?formid=' + formid
 		})
+	},
+
+
+	bindGetUserInfo: function (e) {
+		if (e.detail.userInfo) {
+			wx.setStorage({
+				key: 'userInfo',
+				data: e.detail.userInfo,
+			})
+			this.setData({
+				hasAuthorize: true
+			})
+			_GData.userInfo = e.detail.userInfo
+			api.getSelectx100({
+				nickName: e.detail.userInfo.nickName,
+				headImage: e.detail.userInfo.avatarUrl,
+				notShowLoading: true,
+			})
+		}
 	}
 })
 
 /**
  * 获取配置信息
- * @param {*} me
+ * @param {*} obj
  */
-function getConfing(me){
-	api.getUserSetting({
-		notShowLoading: true
-	}).then( res => {
-		console.log('加载配置完成：',res);
-		if(!res){
-			wx.showToast({
-				title : '加载配置失败，请小主检查网络后再试',
-				icon: 'none',
-				mask: true
-			})
-			return false;
+function getConfing(obj) {
+	// 默认请求参数
+	const param = {notShowLoading: true }
+
+	// 加载失败信息
+	const FailMsg  = function (option) {  
+		return  Object.assign({},{
+			title: '加载配置失败，请小主检查网络后再试',
+			icon: 'none',
+			mask: true
+		}, option)
+	}
+
+	// 获取用户信息
+	api.getUserSetting(param).then(res => {
+		if (!res) {
+			wx.showToast(FailMsg)
+			return
 		}
 		// 确认小打卡配置信息
-		me.setData({
-			clockStatus : res.clockStatus && res.clockStatus === 1 ? true : false
+		obj.setData({
+			clockStatus: res.clockStatus && res.clockStatus === 1 
 		})
 		// 保存通知开关状态
-		wx.setStorageSync('noticeStatus', res.noticeStatus ? res.noticeStatus : 0);
+		wx.setStorageSync('noticeStatus', res.noticeStatus ? res.noticeStatus : 0)
+
 		// 默认小打卡是关闭状态
-		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
-	}).catch( err => {
-		wx.showToast({
-			title : '加载配置失败，请小主检查网络后再试',
-			icon: 'none',
-			mask: true
-		})
+		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0)
+
+	}).catch(err => {
+		wx.showToast(FailMsg)
 	})
 
-	api.globalSetting({
-		notShowLoading: true
-	}).then( res => {
-		console.log('加载配置完成：',res);
-		console.log(!res)
-		if(!res){
-			wx.showToast({
-				title : '加载配置失败，请小主检查网络后再试',
-				icon: 'none',
-				mask: true
-			})
-			return false;
+	// 获取用户信息
+	api.globalSetting(param).then(res => {
+		if (!res) {
+			wx.showToast(FailMsg)
+			return
 		}
-		// res.bannerStatus = 0
-		// console.log(res)
-		me.setData({
-			isBanner : res.bannerStatus && res.bannerStatus === 1 ? true : false,
-			clockStatus : res.clockStatus && res.clockStatus === 1 ? true : false
+		
+		obj.setData({
+			isBanner: res.bannerStatus && res.bannerStatus === 1,
+			clockStatus: res.clockStatus && res.clockStatus === 1 
 		})
-		// res.adBtnText = '开始'
-		wx.setStorageSync('adBtnText', res.adBtnText ? res.adBtnText : '查看');
+
+		// res.adBtnText默认是'开始'
+		wx.setStorageSync('adBtnText', res.adBtnText || '查看')
+		
 		// 默认小打卡是关闭状态
-		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
-	}).catch( err => {
-		wx.showToast({
-			title : '加载配置失败，请小主检查网络后再试',
-			icon: 'none',
-			mask: true
-		})
+		wx.setStorageSync('clockStatus', res.clockStatus || 0)
+
+	}).catch(err => {
+		wx.showToast(FailMsg)
 	})
 }
-
 
 /**
  * 获取系统比例加入比例标识
  * @param {*} self
  */
-function getSystemInfo(self){
-	let res = wx.getSystemInfoSync();
-	console.log('设备信息：',res);
-	if(res){
+function getSystemInfo(self) {
+	let res = wx.getSystemInfoSync()
+
+	if (res) {
 		// 长屏手机适配
-		if(res.screenWidth <= 375 && res.screenHeight >= 750){
+		if (res.screenWidth <= 375 && res.screenHeight >= 750) {
 			self.setData({
-				isIPhoneX : true
+				isIPhoneX: true
 			})
 		}
 	}

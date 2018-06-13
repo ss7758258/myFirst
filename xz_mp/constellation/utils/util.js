@@ -99,7 +99,7 @@ function parseIndex(data) {
       name: data['luckyType' + (i + 1)],
       color: colors[i],
       count: count
-    }
+    } 
     myLuck.push(d)
   }
   return myLuck
