@@ -36,7 +36,8 @@ Page({
             root: '',
             isTitle: true
             // root : '/pages/home/home'
-        }
+        },
+        fromPage:''
     },
 
     /**
@@ -47,8 +48,7 @@ Page({
         console.log('输出参数：', options)
         let pageFrom = options.from
         this.setData({
-
-            fromPage: pageFrom
+            fromPage: pageFrom || ''
         })
         if (pageFrom == 'share') {
             this.setData({
@@ -396,12 +396,6 @@ const getX504 = (_self,_SData) => {
         _self.setData({
             isLoading: false
         })
-        // if (!res) {
-        //     wx.navigateTo({
-        //         url: '/pages/lot/lotlist/lotlist'
-        //     })
-        //     return
-        // }
         res.isMyQian = 1
         res.alreadyOpen = 1
         var lotDetail = parseLot(res)

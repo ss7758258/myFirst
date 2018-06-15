@@ -38,6 +38,10 @@
 			<view class="signTitle">
 				<text class="name">{{myConstellation.name}}</text>
 				<text class="time">{{myConstellation.time}}</text>
+				<!-- <image class="noticeBtnStatus" src="/assets/images/notice.png" wx:if="{{noticeBtnStatus}}" catchtap="onNotice"></image>
+				<view class="noticeBtnStatus" wx:if="{{noticeBtnStatus}}" catchtap="onNotice">
+					好运提醒我
+				</view> -->
 			</view>
 		</button>
 		<view class="myLuck cbg3">
@@ -105,9 +109,3 @@
 		</view>
 	</view>
 </view>
-
-<!-- <form bindsubmit="bindGetUserInfo" class='getUserInfo' report-submit='true' wx:if="{{!hasAuthorize}}">
-  <button form-type="submit" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
-    授权该程序获取信息
-  </button>
-</form> -->

@@ -69,7 +69,8 @@ Page({
 							key: 'userInfo',
 							data: res.userInfo,
 						})
-
+						// 获取签的数据
+						getTokenQian(pageFrom,_self,qId,_GData)
 						_GData.userInfo = res.userInfo
 						_self.setData({
 							userInfo: _GData.userInfo
@@ -101,70 +102,9 @@ Page({
 					})
 				}
 			})
-		}
-
-		if (pageFrom == 'share' || pageFrom == 'list' || pageFrom == 'form') {
-			if (pageFrom == 'share' || pageFrom == 'form') {
-				_self.setData({
-					isFromShare: true,
-					"navConf.root": '/pages/home/home'
-				})
-			}
-			let token = wx.getStorageSync('token')
-			if (token) {
-				getQian(qId,_self)
-				// $vm.api.getX511({ id: qId })
-				// 	.then(res => {
-				// 		console.log('签的数据===================：', res)
-				// 		// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
-				// 		var lotDetail = parseLot(res)
-				// 		_self.setData({
-				// 			lotDetail: lotDetail
-				// 		})
-				// 	})
-			} else {
-				$vm.getLogin().then(res => {
-					console.log(res)
-					wx.setStorageSync('token', res.token)
-					getQian(qId,_self)
-					// $vm.api.getX511({ id: qId })
-					// 	.then(res => {
-					// 		console.log('签的数据：', res)
-					// 		// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
-					// 		var lotDetail = parseLot(res)
-					// 		_self.setData({
-					// 			lotDetail: lotDetail
-					// 		})
-					// 	})
-					// 	.catch(err => {
-					// 		wx.showToast({
-					// 			icon: 'none',
-					// 			title: '服务器开了小差，请稍后再试',
-					// 		})
-					// 	})
-				}).catch(err => {
-					wx.getSetting({
-						success: function (res) {
-							if (!res.authSetting['scope.userInfo']) {
-
-								_self.setData({
-									hasAuthorize: false
-								})
-								wx.redirectTo({
-									url: '/pages/checklogin/checklogin?from=' + pageFrom + '&lotId=' + qId
-								})
-							} else {
-
-							}
-						}
-					})
-				})
-			}
-		} else {
-			_self.setData({
-				lotDetail: _GData.lotDetail
-			})
-
+		}else{
+			// 获取签的数据
+			getTokenQian(pageFrom,_self,qId,_GData)
 		}
 	},
 
@@ -221,7 +161,7 @@ Page({
 		})
 		$vm.api.getX506({ id: _Sdata.lotDetail.id, notShowLoading: true })
 			.then(res => {
-				console.log(res)
+				console.log('未知数据：',res)
 				var lotDetail = parseLot(res)
 				if (res.status == 1) {
 					mta.Event.stat("ico_chai_completed", {})
@@ -381,7 +321,6 @@ function getQian(qId,_self){
 					$vm.api.getX511({ id: qId })
 					.then(res => {
 						console.log('签的数据===================：', res)
-						// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
 						var lotDetail = parseLot(res)
 						_self.setData({
 							lotDetail: lotDetail
@@ -406,7 +345,6 @@ function getQian(qId,_self){
 				$vm.api.getX511({ id: qId })
 				.then(res => {
 					console.log('签的数据===================：', res)
-					// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
 					var lotDetail = parseLot(res)
 					_self.setData({
 						lotDetail: lotDetail
@@ -429,4 +367,53 @@ function getQian(qId,_self){
 			}
 		}
 	})
+}
+
+/**
+ * 获取用户信息后进行登录拉取签的数据
+ * @param {*} pageFrom
+ * @param {*} _self
+ * @param {*} qId
+ * @param {*} _GData
+ */
+function getTokenQian(pageFrom,_self,qId,_GData){
+	if (pageFrom == 'share' || pageFrom == 'list' || pageFrom == 'form') {
+		if (pageFrom == 'share' || pageFrom == 'form') {
+			_self.setData({
+				isFromShare: true,
+				"navConf.root": '/pages/home/home'
+			})
+		}
+		let token = wx.getStorageSync('token')
+		if (token) {
+			getQian(qId,_self)
+		} else {
+			$vm.getLogin().then(res => {
+				console.log(res)
+				wx.setStorageSync('token', res.token)
+				getQian(qId,_self)
+			}).catch(err => {
+				wx.getSetting({
+					success: function (res) {
+						if (!res.authSetting['scope.userInfo']) {
+
+							_self.setData({
+								hasAuthorize: false
+							})
+							wx.redirectTo({
+								url: '/pages/checklogin/checklogin?from=' + pageFrom + '&lotId=' + qId
+							})
+						} else {
+
+						}
+					}
+				})
+			})
+		}
+	} else {
+		_self.setData({
+			lotDetail: _GData.lotDetail
+		})
+
+	}
 }

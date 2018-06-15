@@ -74,6 +74,7 @@ Page({
 		clockStatus : false,  //小打卡开关
 		isBanner : false, // 广告位开关
 		isIPhoneX : false,
+		noticeBtnStatus : false, // 通知开关
 		shareCard : {
 			list:[]
 		}
@@ -211,8 +212,11 @@ Page({
 						key: 'userInfo',
 						data: res.userInfo,
 					})
-					// 获取配置信息
-					getConfing(me);
+					$vm.getLogin().then(res => {
+						wx.setStorageSync('token', res.token)
+						// 获取配置信息
+						getConfing(me);
+					})
 					wx.setStorageSync('icon_Path', res.userInfo.avatarUrl)
 					_self.setData({
 						hasAuthorize: true,
@@ -473,7 +477,6 @@ function getConfing(me){
 		notShowLoading: true
 	}).then( res => {
 		console.log('加载配置完成：',res);
-		console.log(!res)
 		if(!res){
 			wx.showToast({
 				title : '加载配置失败，请小主检查网络后再试',
@@ -486,7 +489,8 @@ function getConfing(me){
 		// console.log(res)
 		me.setData({
 			isBanner : res.bannerStatus && res.bannerStatus === 1 ? true : false,
-			clockStatus : res.clockStatus && res.clockStatus === 1 ? true : false
+			clockStatus : res.clockStatus && res.clockStatus === 1 ? true : false,
+			noticeBtnStatus : res.noticeBtnStatus && res.noticeBtnStatus === 1
 		})
 		// res.adBtnText = '开始'
 		wx.setStorageSync('adBtnText', res.adBtnText ? res.adBtnText : '查看');

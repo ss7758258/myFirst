@@ -31,7 +31,7 @@ Page({
     onLoad: function(options) {
         mta.Page.init()
         const _self = this
-            // 获取签列表
+        // 获取签列表
         getLists(_self);
     },
 
@@ -102,8 +102,8 @@ Page({
         let t = 86400000000000,dt = new Date(),i = -1;//86400000
         
         for(let ind = timers.length - 1 ; ind >= 0 ; ind--){
-            console.log(dt.getTime() - timers[ind] > t)
-            console.log('日期数据：',dt.getTime() , timers[ind] )
+            // console.log(dt.getTime() - timers[ind] > t)
+            // console.log('日期数据：',dt.getTime() , timers[ind] )
             if(dt.getTime() - timers[ind] > t){
                 i = ind;
                 break
