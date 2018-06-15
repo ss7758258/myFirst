@@ -34,7 +34,7 @@
                 <image class="lot" src="{{imgs.lot}}" />
             </view>
         </view>
-        <form bindsubmit="showLotList" class='savepic' report-submit='true'>
+        <form catchsubmit="showLotList" class='savepic' report-submit='true'>
             <button class="button1 moreLot_btn" form-type="submit" type='' hover-class="none">
         <view wx:if="{{!shakeLotSpeed}}" class="moreLot">
           <icon class="red_dot" wx:if="{{dot}}"></icon>

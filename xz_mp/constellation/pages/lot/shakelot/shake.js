@@ -2,7 +2,6 @@
 
 const $vm = getApp()
 const _GData = $vm.globalData;
-console.log(_GData, 'data数据')
 const { parseLot } = $vm.utils
 const getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
 var mta = require('../../../utils/mta_analysis.js')
@@ -245,140 +244,37 @@ Page({
             isLoading: true
         })
 
-
-        $vm.api.getX504({ notShowLoading: true, })
-            .then(res => {
-                if (_self.data.hasReturn) {
-                    return
-                }
-                console.log(res)
-                this.setData({
-
-                    isLoading: false
-                })
-                if (!res) {
-
-                    wx.navigateTo({
-                        url: '/pages/lot/lotlist/lotlist'
-                    })
-                    return
-                }
-                res.isMyQian = 1
-                res.alreadyOpen = 1
-                var lotDetail = parseLot(res)
-
-                _GData.lotDetail = lotDetail
-
-                if (res.status === 0) {
-                    setTimeout(() => {
-                        if (_self.data.hasReturn) {
-                            return
-                        }
-                        // 摇出一个签
-                        this.setData({
-
-                            shakeLotSpeed: false
-                        })
-
-                        if (_SData.isFromShare) {
-                            wx.navigateTo({
-                                url: '/pages/lot/lotdetail/lotdetail?sound=1',
-                            })
-                        } else {
-                            wx.redirectTo({
-                                url: '/pages/lot/lotdetail/lotdetail?sound=1',
-                            })
-                        }
-                    }, 1500)
-                } else if (res.status == 1) { //没有签了
-                    setTimeout(() => {
-                        if (_self.data.hasReturn) {
-                            return
-                        }
-                        // 摇出一个签
-                        this.setData({
-
-                            shakeLotSpeed: false
-                        })
-
-                        if (_SData.isFromShare) {
-                            wx.navigateTo({
-                                url: '/pages/lot/emptylot/emptylot',
-                            })
-                        } else {
-                            wx.redirectTo({
-                                url: '/pages/lot/emptylot/emptylot',
-                            })
-                        }
-                    }, 1000)
-                } else {
-                    setTimeout(() => {
-                        wx.showModal({
-                            title: '网络开小差了',
-                            content: '请您检查网络后再试',
-                            showCancel: false,
-                            confirmText: '再摇一次',
-                            success: function (res) { },
-                            fail: function (res) { },
-                            complete: function (res) { },
-                        })
-
-                        this.setData({
-                            potPath: false,
-                            isLoading: false,
-                            shakeLotSpeed: false
-                        })
-                    }, 1000)
-                }
-            })
-            .catch(err => {
-                console.log(err)
+        // 获取摇签数据
+        if(wx.getStorageSync('token')){
+            // 拉取摇签数据
+            getX504(_self,_SData)
+        }else{
+            $vm.getLogin().then(res => {
+                wx.setStorageSync('token', res.token)
+                // 拉取摇签数据
+                getX504(_self,_SData)
+            }).catch(err => {
                 $vm.getLogin().then(res => {
-                    console.log(res)
-                    wx.setStorage({
-                        key: 'token',
-                        data: res.token
-                    })
+                    wx.setStorageSync('token', res.token)
+                    // 拉取摇签数据
+                    getX504(_self,_SData)
                 }).catch(err => {
-                    wx.showToast({
-                        title: err,
-                        icon: 'none'
-                    })
+                    
                 })
-                setTimeout(() => {
-                    wx.showModal({
-                        title: '网络开小差了',
-                        content: '请您检查网络后再试',
-                        showCancel: false,
-
-                        confirmText: '再摇一次',
-                        success: function (res) { },
-                        fail: function (res) { },
-                        complete: function (res) { },
-                    })
-
-
-                    //  
-                    this.setData({
-                        potPath: false,
-                        isLoading: false,
-                        shakeLotSpeed: false
-                    })
-                }, 1000)
-
             })
+        }
 
     },
     shakeFun: function () { // 摇一摇方法封装
         const _self = this
-        var numX = 0.2 //x轴
-        var numY = 0.2 // y轴
-        var numZ = 0.2 // z轴
+        var numX = 0.15 //x轴
+        var numY = 0.15 // y轴
+        var numZ = 0.15 // z轴
         var stsw = true // 开关，保证在一定的时间内只能是一次，摇成功
         var positivenum = 0 //正数 摇一摇总数
 
         wx.onAccelerometerChange(function (res) { //小程序api 加速度计
-            console.log(res)
+            
             if (_self.data.hasReturn || _self.data.isLoading) {
                 return
             }
@@ -391,14 +287,12 @@ Page({
                 positivenum++
                 setTimeout(() => { positivenum = 0 }, 2000) //计时两秒内没有摇到指定次数，重新计算
             }
-            if (positivenum == 2 && stsw) { //是否摇了指定的次数，执行成功后的操作
+            if (positivenum == 1 && stsw) { //是否摇了指定的次数，执行成功后的操作
                 stsw = false
 
                 _self.drawLots()
                 console.log('摇一摇成功')
-                wx.stopAccelerometer({
-
-                })
+                wx.stopAccelerometer({})
                 setTimeout(() => {
                     positivenum = 0 // 摇一摇总数，重新0开始，计算
                     stsw = true
@@ -446,7 +340,7 @@ Page({
         }
 
     },
-
+    
 })
 
 /**
@@ -477,5 +371,136 @@ const getX510 = (self, pageNum = 1, pageSize = 10) => {
         }
         // 本地缓存下数据
         wx.setStorageSync('sign_lists', '')
+    })
+}
+
+// 发送请求次数
+let sendLen = 0;
+
+// 重置请求次数
+const resetLen = () => {
+    sendLen = 0;
+}
+/**
+ * 获取签的数据信息
+ * @param {*} _self
+ * @param {*} _SData
+ */
+const getX504 = (_self,_SData) => {
+    if(sendLen > 1) return (sendLen = 0)
+    $vm.api.getX504({ notShowLoading: true, })
+    .then(res => {
+        if (_self.data.hasReturn) {
+            return
+        }
+        _self.setData({
+            isLoading: false
+        })
+        // if (!res) {
+        //     wx.navigateTo({
+        //         url: '/pages/lot/lotlist/lotlist'
+        //     })
+        //     return
+        // }
+        res.isMyQian = 1
+        res.alreadyOpen = 1
+        var lotDetail = parseLot(res)
+
+        _GData.lotDetail = lotDetail
+
+        if (res.status === 0) {
+            sendLen = 0
+            setTimeout(() => {
+                if (_self.data.hasReturn) {
+                    return
+                }
+                // 摇出一个签
+                _self.setData({
+                    shakeLotSpeed: false
+                })
+
+                if (_SData.isFromShare) {
+                    wx.navigateTo({
+                        url: '/pages/lot/lotdetail/lotdetail?sound=1',
+                    })
+                } else {
+                    wx.redirectTo({
+                        url: '/pages/lot/lotdetail/lotdetail?sound=1',
+                    })
+                }
+            }, 1500)
+        } else if (res.status == 1) { //没有签了
+            sendLen = 0
+            setTimeout(() => {
+                if (_self.data.hasReturn) {
+                    return
+                }
+                // 摇出一个签
+                _self.setData({
+                    shakeLotSpeed: false
+                })
+
+                if (_SData.isFromShare) {
+                    wx.navigateTo({
+                        url: '/pages/lot/emptylot/emptylot',
+                    })
+                } else {
+                    wx.redirectTo({
+                        url: '/pages/lot/emptylot/emptylot',
+                    })
+                }
+            }, 1000)
+        } else {
+            sendLen++
+            if(sendLen > 1){
+                sendLen = 0
+                setTimeout(() => {
+                    wx.showModal({
+                        title: '网络开小差了',
+                        content: '小主，请您检查网络后再试',
+                        showCancel: false,
+                        confirmText: '再试一次',
+                        success: function (res) { },
+                        fail: function (res) { },
+                        complete: function (res) { },
+                    })
+                    // 变更UI状态
+                    _self.setData({
+                        potPath: false,
+                        isLoading: false,
+                        shakeLotSpeed: false
+                    })
+                    _self.shakeFun()
+                }, 1000)
+                return
+            }
+            getX504(_self,_SData)
+        }
+    })
+    .catch(err => {
+        sendLen++
+        if(sendLen > 1){
+            sendLen = 0
+            setTimeout(() => {
+                wx.showModal({
+                    title: '网络开小差了',
+                    content: '小主，请您检查网络后再试',
+                    showCancel: false,
+                    confirmText: '再试一次',
+                    success: function (res) { },
+                    fail: function (res) { },
+                    complete: function (res) { },
+                })
+                // 变更UI状态
+                _self.setData({
+                    potPath: false,
+                    isLoading: false,
+                    shakeLotSpeed: false
+                })
+                _self.shakeFun()
+            }, 1000)
+            return
+        }
+        getX504(_self,_SData)
     })
 }
