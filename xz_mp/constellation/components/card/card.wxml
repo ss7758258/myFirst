@@ -1,0 +1,41 @@
+<view class="panel">
+    <view class="card_panel">
+        <!-- 头部 -->
+        <view class="card_body_panel">
+            <swiper bindchange="change" indicator-dots="{{swiper.indicatorDots}}" autoplay="{{swiper.autoplay}}" circular="{{swiper.circular}}" vertical="{{swiper.vertical}}"
+                interval="{{swiper.interval}}" duration="{{swiper.duration}}" previous-margin="{{swiper.previousMargin}}px" next-margin="{{swiper.nextMargin}}px">
+                <block wx:for="{{opts.list}}" >
+                    <!-- 可滑动Banner -->
+                    <swiper-item>
+                        <view class="swiper-item" data-res="{{item}}">
+                            <image mode="scaleToFill" src="{{item.imgUrl}}"></image>
+                        </view>
+
+                        <!-- 红点 -->
+                        <view></view>
+    
+                        <!-- 文字 -->
+                        <view class="card_body">
+                            <view class="card_body_head">
+                                <view class="card_body_head_text {{swiper.current === index ? 'show' : ''}}">
+                                    <text class="card_nickName">{{item.nickName}}</text>
+                                    <text class="card_body_score">{{item.text_score}}</text>
+                                </view>
+                                <view class="score {{swiper.current === index ? 'show' : ''}}">
+                                    <block wx:for="{{item.score}}"  wx:for-item="res">
+                                        <view wx:if="{{res < item.score * 0.6}}" class="score_rect score_no_t"></view>
+                                        <view wx:if="{{res >= item.score * 0.6}}" class="score_rect score_transparent"></view>
+                                    </block>
+                                </view>
+                            </view>
+                            <view class="card_content">
+                                {{item.content}}{{item.content}}{{item.content}}{{item.content}}{{item.content}}{{item.content}}{{item.content}}{{item.content}}{{item.content}}{{item.content}}{{item.content}}
+                            </view>
+                        </view>
+                    </swiper-item>
+
+                </block>
+            </swiper>
+        </view>
+    </view>
+</view>
