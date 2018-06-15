@@ -2,6 +2,8 @@
 <nav opts='{{navConf}}'></nav>
 <!-- 引入小打卡组件 -->
 <xiaodaka opts="{{xiaodaka}}" wx:if="{{showHome && clockStatus}}"></xiaodaka>
+<!-- 引入卡片 -->
+<!-- <shareCard opts="{{shareCard}}"></shareCard> -->
 
 <view class="UI_page page_home page_bg {{isIPhoneX ? 'iPhoneX' : ''}} {{!showHome ? 'page_home_key' : ''}}">
 	<!-- 选择星座 -->
@@ -42,7 +44,7 @@
 			<block wx:for="{{myLuck}}" wx:key="index">
 				<view class="item">
 					<view class="title">{{item.name}}</view>
-					<view class="circle" style="color: {{item.color}}">
+					<view class="circle" catchtap="show_card" data-index="{{index}}" style="color: {{item.color}}">
 						<text>{{item.count}}%</text>
 						<view class="left">
 							<view class="semicircle" style="-webkit-transform: rotate({{item.count*-3.6+45 < -135 ? -135 : item.count*-3.6+45}}deg)"></view>

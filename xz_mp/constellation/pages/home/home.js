@@ -3,6 +3,8 @@ const $vm = getApp()
 const _GData = $vm.globalData
 const api = $vm.api
 var mta = require('../../utils/mta_analysis.js')
+const conf = require('../../conf')[require('../../config')] || {}
+
 const {
 	parseIndex
 } = $vm.utils
@@ -16,7 +18,6 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
-
 		isLoading: false,
 		selectBack: false,
 		showHome: false,
@@ -72,7 +73,10 @@ Page({
 		},
 		clockStatus : false,  //小打卡开关
 		isBanner : false, // 广告位开关
-		isIPhoneX : false
+		isIPhoneX : false,
+		shareCard : {
+			list:[]
+		}
 	},
 
 	goMore (e){
@@ -109,10 +113,11 @@ Page({
 			headImage: _GData.userInfo.avatarUrl,
 			notShowLoading: true,
 		}).then(res => {
-			console.log(res)
+			console.log('输出百分值：',res)
 			var myLuck = parseIndex(res)
 			this.setData({
 				myLuck: myLuck,
+				'shareCard.list': formatShareCard(res),
 				remindToday: res.remindToday ? res.remindToday : ''
 			})
 			if (!_self.goPage(_SData)) {
@@ -406,14 +411,28 @@ Page({
 	},
 	today: function (e) {
 		let formid = e.detail.formId
+		let me = this
 		$vm.api.getX610({
 			notShowLoading: true,
 			formid: formid
 		})
 		mta.Event.stat("ico_home_to_today", {})
+		
+		let temp = wx.getStorageSync('userInfo') || {nickName : ''}
+		console.log('/pages/home/home?id=' + _GData.selectConstellation.id + '&nickName=' + temp.nickName)
+		// wx.navigateToMiniProgram({
+		// 	appId: 'wx0c094a79c17431cc',
+		// 	path: '/pages/home/home?id=' + _GData.selectConstellation.id + '&nickName=' + temp.nickName,
+		// 	success(res) {
+		// 		// 打开成功
+		// 	}
+		// })
 		wx.navigateTo({
 			url: '/pages/today/today?formid=' + formid
 		})
+	},
+	show_card (e){
+		console.log('展示卡片数据：',e)
 	}
 })
 
@@ -498,4 +517,30 @@ function getSystemInfo(self){
 			})
 		}
 	}
+}
+
+/**
+ * 将对象解析成所需要的数组
+ * @param {*} res
+ */
+function formatShareCard(res){
+	if(!res) return
+	let temps = []
+	for(let ind = 0;ind < 4; ind++){
+		temps.push({
+			imgUrl : conf.cdn + '/' + res['luckyImg' + (ind + 1)] || '',
+			content : res['luckyContent' + (ind + 1)] || '',
+			text_score : (res['luckyType' + (ind + 1)] || '') + ('（' + res['luckyScore' + (ind + 1)] + '）' || ''),
+			score : parseHandle(res['luckyScore' + (ind + 1)] || 10),
+			nickName : _GData.userInfo.nickName
+		})
+	}
+	console.log('卡片数据信息：',temps)
+	return temps
+}
+
+function parseHandle(res){
+    let temp = parseInt(res.replace('%'))
+    console.log(Math.ceil(temp / 10))
+    return Math.ceil(temp / 10)
 }
