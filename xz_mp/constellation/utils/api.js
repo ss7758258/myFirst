@@ -1,221 +1,176 @@
 const Promise = require('./Promise')
-const env = require('../config')
+const ENV = require('../config')
 
-function requstGet(url, data) {
-  return requst(url, 'GET', data)
-}
+const DEV_PORT = 'https://xingzuoapi.yetingfm.com/xz_api/' // 开发环境
+const PRO_PORT = 'https://xingzuoapi-prod.yetingfm.com/xz_api/' // 生产环境
 
-function requstPost(url, data) {
-  return requst(url, 'POST', data)
-}
-
-
-const DOMAIN = env === 'dev' ? 'https://xingzuoapi.yetingfm.com/xz_api/' : 'https://xingzuoapi-prod.yetingfm.com/xz_api/'
-// const DOMAIN = 'http://193.112.130.148:8888/xz_api/'
+const DOMAIN = ENV === 'dev' ? DEV_PORT : PRO_PORT
 
 // 小程序上线需要https，这里使用服务器端脚本转发请求为https
 
-function requst(url, method, data = {}) {
-  var notShowLoading = data.notShowLoading
-  var loadingStr = data.loaingStr
+const requstGet = (url, data) => requst(url, 'GET', data)
+
+const requstPost = (url, data) => requst(url, 'POST', data)
+
+const requst = (url, method, data = {}) => {
+  let notShowLoading = data.notShowLoading
+  let loadingStr = data.loaingStr
+  let netErrorMsg = '网络不好呦，请小主重新刷新'
   if (!loadingStr) {
     loadingStr = '加载中...'
   }
-  delete (data.notShowLoading)
-  delete (data.loaingStr)
-  // wx.showNavigationBarLoading()
+  delete(data.notShowLoading)
+  delete(data.loaingStr)
   if (!notShowLoading) {
     wx.showLoading({
       title: loadingStr,
     })
   }
 
-  var rewriteUrl = url
   return new Promise((resove, reject) => {
     wx.request({
-      url: DOMAIN + rewriteUrl,
-      data:
-      {
+      url: DOMAIN + url,
+      data: {
         requestHeader: JSON.stringify({
           token: wx.getStorageSync('token')
         }),
         requestBody: JSON.stringify(data)
-      }
-      ,
+      },
       header: {
         'Accept': 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
 
-      method: method.toUpperCase(), // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+      // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+      method: method.toUpperCase(),
       success: function (res) {
-        // console.log(url)
-        if (url == 'statisticsConstellation/x610') {
-          console.log(data)
-        }
-        if (res.data && res.data.responseBody &&
-          ('SUCCESS' == res.data.responseBody.status)) {
-          if (url == 'selectConstellation/x100' && !data.constellationId) {
-            resove(res.data.responseBody)
-          } else {
-            resove(res.data.responseBody.data)
-          }
+        let resData = res.data
+        let resBody = resData.responseBody
 
-        } else {
-          if (res.data && res.data.responseBody && reject) {
-            reject(res.data.responseBody.message)
+        if (resData && resBody &&
+          (resBody.status === 'SUCCESS')) {
+          if (url == 'selectConstellation/x100' && !data.constellationId) {
+            resove(resBody)
           } else {
-            // reject('fail')
-            reject('网络不好呦，请小主重新刷新')
+            resove(resBody.data)
+          }
+        } else {
+          if (resData && resBody && reject) {
+            reject(resBody.message)
           }
         }
 
       },
       fail: function (msg) {
         if (reject) {
-          reject('网络不好呦，请小主重新刷新')
+          reject(netErrorMsg)
         } else {
           wx.showToast({
-            title: '网络不好呦，请小主重新刷新',
+            title: netErrorMsg,
             icon: 'none'
           })
         }
       },
       complete: function (res) {
-        // wx.hideNavigationBarLoading()
         if (!notShowLoading) {
           wx.hideLoading()
         }
-
       }
-
     })
   })
 }
 
-function getLogin(data) {//登录
-  return requstPost('loginConstellation/x000', data)
+const PORT = {
+  getLogin(data) { //登录
+    return requstPost('loginConstellation/x000', data)
+  },
+  getSelectx100(data) { //选择星座
+    return requstPost('selectConstellation/x100', data)
+  },
+  getSelectx101(data) { //选中星座
+    return requstPost('selectConstellation/x101', data)
+  },
+  getSelectx102(data) {
+    return requstPost('selectConstellation/x102', data)
+  },
+  getIndexx200(data) {
+    return requstPost('indexConstellation/x200', data)
+  },
+  getMorex300(data) {
+    return requstPost('moreConstellation/x300', data)
+  },
+  getDayx400(data) {
+    return requstPost('everydayWords/x400', data)
+  },
+  getDayx401(data) {
+    return requstPost('everydayWords/x401', data)
+  },
+  getX500(data) {
+    return requstPost('everydayQian/x500', data)
+  },
+  getX501(data) {
+    return requstPost('everydayQian/x501', data)
+  },
+  getX503(data) {
+    return requstPost('everydayQian/x503', data)
+  },
+  getX504(data) {
+    return requstPost('everydayQian/x504', data)
+  },
+  getX506(data) { //拆签   签id
+    return requstPost('everydayQian/x506', data)
+  },
+  getX507(data) {
+    return requstPost('everydayQian/x507', data)
+  },
+  getX510(data) {
+    return requstPost('everydayQian/x510', data)
+  },
+  getX511(data) {
+    return requstPost('everydayQian/x511', data)
+  },
+  getX600(path, data) {
+    requstPost('statisticsConstellation/x' + path, data)
+  },
+  getX610(data) {
+    return requstPost('statisticsConstellation/x610', data)
+  },
+  // 获取用户设置(需授权)
+  getUserSetting(data) {
+    return requstPost('userSetting/get', data)
+  },
+  // 获取用户设置(免授权)
+  globalSetting(data) {
+    return requstPost('globalSetting/get', data)
+  },
+  // 保存用户设置
+  setUserSetting(data) {
+    return requstPost('userSetting/save', data)
+  },
+  getBannerList(data) {
+    return requstPost('ad/list', data)
+  },
+  /*---------------------------------------
+      充值页面
+  ---------------------------------------*/
+  // 获取商品列表
+  getGoods(data) {
+    return requstPost('pay/getgoods', data)
+  },
+  // 获取钱包信息
+  getBlance(data) {
+    return requstPost('pay/getbalance', data)
+  },
+  // 充值操作
+  getRecharge(data) {
+    return requstPost('pay/recharge', data)
+  }
 }
-
-function getSelectx100(data) {//选择星座
-  return requstPost('selectConstellation/x100', data)
-}
-
-// function getSelectx101(data) {//选中星座
-//   return requstPost('selectConstellation/x101', data)
-// }
-
-// function getSelectx102(data) {
-//   return requstPost('selectConstellation/x102', data)
-// }
-
-function getIndexx200(data) {
-  return requstPost('indexConstellation/x200', data)
-}
-
-function getMorex300(data) {
-  return requstPost('moreConstellation/x300', data)
-}
-
-function getDayx400(data) {
-  return requstPost('everydayWords/x400', data)
-}
-function getDayx401(data) {
-  return requstPost('everydayWords/x401', data)
-}
-
-function getX500(data) {
-  return requstPost('everydayQian/x500', data)
-}
-
-
-function getX501(data) {
-  return requstPost('everydayQian/x501', data)
-}
-
-
-function getX503(data) {
-  return requstPost('everydayQian/x503', data)
-}
-
-
-function getX504(data) {
-  return requstPost('everydayQian/x504', data)
-}
-
-
-function getX506(data) {//拆签   签id
-  return requstPost('everydayQian/x506', data)
-}
-
-
-function getX507(data) {
-  return requstPost('everydayQian/x507', data)
-}
-
-function getX510(data) {
-  return requstPost('everydayQian/x510', data)
-}
-
-function getX511(data) {
-  return requstPost('everydayQian/x511', data)
-}
-
-function getX610(data) {
-  return requstPost('statisticsConstellation/x610', data)
-}
-function getX600(path, data) {
-  return requstPost('statisticsConstellation/x' + path, data)
-}
-
-// 获取用户设置
-const getUserSetting = (data) => {
-  return requstPost('userSetting/get', data)
-}
-
-// 获取用户设置
-const globalSetting = (data) => {
-  return requstPost('globalSetting/get', data)
-}
-
-// 保存用户设置
-const setUserSetting = (data) => {
-  return requstPost('userSetting/save', data)
-}
-// 获取Banner列表
-const getBannerList = (data) => {
-  return requstPost('ad/list', data)
-}
-
 
 module.exports = {
   Promise,
   get: requstGet,
   post: requstPost,
   requst,
-
-  //接口
-  getLogin,
-  getSelectx100,
-  // getSelectx101,
-  // getSelectx102,
-  getIndexx200,
-  getMorex300,
-  getDayx400,
-  getDayx401,
-  getX500,
-  getX501,
-  getX503,
-  getX504,
-  getX506,
-  getX507,
-  getX510,
-  getX511,
-
-  getX600,
-  getX610,
-  getUserSetting,
-  setUserSetting,
-  getBannerList,
-  globalSetting
+  ...PORT
 }

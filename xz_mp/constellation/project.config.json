@@ -32,11 +32,11 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 10,
 			"list": [
 				{
 					"id": 1,
-					"name": "brief",
+					"name": "主页",
 					"pathName": "pages/home/home",
 					"query": "to=brief&from=share"
 				},
@@ -99,6 +99,13 @@
 					"id": -1,
 					"name": "Banner",
 					"pathName": "pages/banner/banner",
+					"query": "",
+					"scene": "1011"
+				},
+				{
+					"id": 10,
+					"name": "我的账户",
+					"pathName": "pages/myAccount/myAccount",
 					"query": "",
 					"scene": "1011"
 				}

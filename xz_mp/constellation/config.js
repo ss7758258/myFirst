@@ -1,2 +1,3 @@
-// 使用什么环境
-module.exports = 'dev'
+const DEV  = 'dev' // 开发环境
+
+module.exports = DEV

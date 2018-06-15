@@ -1,5 +1,5 @@
 <!-- 导航 -->
-<nav opts='{{navConf}}'></nav>
+<nav opts="{{navConf}}"></nav>
 <!-- 引入小打卡组件 -->
 <xiaodaka opts="{{xiaodaka}}" wx:if="{{showHome && clockStatus}}"></xiaodaka>
 
@@ -30,7 +30,7 @@
 
 	<!-- 当前星座信息 -->
 	<view class="UI_box2" wx:if="{{showHome}}">
-		<button class="mySign {{selectBack ? 'selectItem1 ':''}}" bindtap='handleConstellationClick' hover-class="itemClick">
+		<button class="mySign {{selectBack ? 'selectItem1 ':''}}" bindtap="handleConstellationClick" hover-class="itemClick">
 			<view class="signImg">
 				<image wx:if="{{myConstellation.img}}" src="{{myConstellation.img}}" />
 			</view>
