@@ -1,5 +1,6 @@
-<!--pages/onelot/onelot.wxml-->
-<!-- <audio src="{{src}}" id="myAudio"></audio> -->
+<!-- 导航 -->
+<nav opts='{{navConf}}'></nav>
+
 <view class="UI_pgae">
   <!--空签  -->
   <view class='emptyLot'>
