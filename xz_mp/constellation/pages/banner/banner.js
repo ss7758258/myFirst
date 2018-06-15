@@ -1,6 +1,7 @@
 const API = require('../../utils/api')
 const mta = require('../../utils/mta_analysis.js')
-
+const conf = require('../../conf')[require('../../config')] || {}
+console.log('配置信息：',conf)
 // 处理方法存放的对象
 const methods = {
 
@@ -70,6 +71,7 @@ const methods = {
 // Page对象的配置参数
 const Conf = {
     data : {
+        cdn_base : conf.cdn,
         list : [],
         navConf : {
 			title : '更多好玩',
