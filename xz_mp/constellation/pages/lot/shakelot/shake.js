@@ -6,9 +6,8 @@ const { parseLot } = $vm.utils
 // const getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
 const mta = require('../../../utils/mta_analysis.js')
 
-// 验证Id是否位6位纯数字
-let imgs = require('./imgs.js')
-let reg = /^\d{6}$/
+const imgs = require('./imgs.js')
+const reg = /^\d{6}$/ // 验证Id是否位6位纯数字
 
 Page({
 
@@ -42,19 +41,15 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
+    onLoad(options) {
         mta.Page.init()
         let pageFrom = options.from || '' // 页面来源
-        let hotapp = options.hotapp
-        let {
-            id
-        } = options
-        let isNumber = reg.test(id)
+        let { id ,hotapp,source} = options
+        let isPureNumber = reg.test(id)
 
         this.setData({
             fromPage: pageFrom
         })
-
         switch (pageFrom) {
             case 'share':
                 this.setData({
@@ -84,20 +79,19 @@ Page({
                         mta.Event.stat(hotapp === 1 ? "ico_in_from_shake_qrcode" : "ico_in_from_shake", {})
                 }
             case 'outer':
-
                 if (id) {
                     this.setData({
                         isFromShare: true,
                         "navConf.root": '/pages/home/home'
                     })
                 }
-                mta.Event.stat(isNumber ? `outer_${id}` : `outer_unknown`, {})
+                mta.Event.stat(isPureNumber ? `outer_${id}` : `outer_unknown`, {})
             case 'spread':
                 this.setData({
                     isFromShare: true,
                     "navConf.root": '/pages/home/home'
                 })
-                mta.Event.stat(isNumber ? `spread_${id}` : `spread_unknown`, {})
+                mta.Event.stat(isPureNumber ? `spread_${id}` : `spread_unknown`, {})
         }
 
         // if (pageFrom === 'share') {
@@ -147,23 +141,15 @@ Page({
 
 
         // 统计特殊来源
-        if (options.source && options.source.constructor === String && options.source !== '') {
+        if (source && source.constructor === String) {
             this.setData({
                 isFromShare: true,
                 "navConf.root": '/pages/home/home'
             })
-            console.log('输出活动来源', options.id)
-            if (reg.test(options.id)) {
-                mta.Event.stat(options.source + '_' + options.id, {})
-            } else {
-                mta.Event.stat(options.source + '_unknown', {})
-            }
+            mta.Event.stat(isPureNumber?`${source}_${id}`:source, {})
         }
 
-        const _self = this
-        const _SData = this.data
-
-        _self.setData({
+        this.setData({
             userInfo: _GData.userInfo
         })
 
@@ -176,7 +162,7 @@ Page({
                     })
 
                     _GData.userInfo = res.userInfo
-                    _self.setData({
+                    this.setData({
                         userInfo: _GData.userInfo
                     })
                     // 获取一签盒数据状态
@@ -189,29 +175,28 @@ Page({
                     })
                 }
             },
-            fail: (res) => {
+            fail: () => {
                 // 查看是否授权
                 wx.getSetting({
                     success: (res) => {
                         if (!res.authSetting['scope.userInfo']) {
-                            _self.setData({
+                            this.setData({
                                 hasAuthorize: false
                             })
                             wx.redirectTo({
-                                url: '/pages/checklogin/checklogin?from=' + _SData.fromPage + '&and=shake'
+                                url: '/pages/checklogin/checklogin?from=' + this.data.fromPage + '&and=shake'
                             })
                         }
                     }
                 })
             }
         })
-
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function () {
+    onShow() {
         this.shakeFun()
         this.setData({
             hasReturn: false,
@@ -223,7 +208,7 @@ Page({
     /**
      * 生命周期函数--监听页面隐藏
      */
-    onHide: function () {
+    onHide() {
         wx.stopAccelerometer({
 
         })
@@ -235,7 +220,7 @@ Page({
     /**
      * 生命周期函数--监听页面卸载
      */
-    onUnload: function () {
+    onUnload() {
         this.setData({
             hasReturn: true,
         })
@@ -246,11 +231,11 @@ Page({
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function () {
+    onShareAppMessage() {
 
-        let shareImg = '/assets/images/share_tong.jpg'
-        let shareMsg = '每日抽一签，赛过活神仙。'
-        let sharepath = '/pages/lot/shakelot/shake?from=share&where=shake'
+        const shareImg = '/assets/images/share_tong.jpg'
+        const shareMsg = '每日抽一签，赛过活神仙。'
+        const sharepath = '/pages/lot/shakelot/shake?from=share&where=shake'
         return {
             title: shareMsg,
             imageUrl: shareImg,
@@ -276,6 +261,7 @@ Page({
             console.log('开始播放')
         })
 
+
         // 加快 摇动速度
         this.setData({
             shakeLotSpeed: true,
@@ -287,7 +273,7 @@ Page({
                 notShowLoading: true,
             })
             .then(res => {
-                if (_self.data.hasReturn)  return
+                if (_SData.hasReturn) return
                 this.setData({
                     isLoading: false
                 })
@@ -305,7 +291,7 @@ Page({
 
                 if (res.status === 0) {
                     setTimeout(() => {
-                        if (_self.data.hasReturn) return
+                        if (_SData.hasReturn) return
                         // 摇出一个签
                         this.setData({
                             shakeLotSpeed: false
@@ -320,10 +306,10 @@ Page({
                                 url: '/pages/lot/lotdetail/lotdetail?sound=1',
                             })
                         }
-                    }, 1500)
+                    }, 1000)
                 } else if (res.status === 1) { //没有签了
                     setTimeout(() => {
-                        if (_self.data.hasReturn) return
+                        if (_SData.hasReturn) return
                         // 摇出一个签
                         this.setData({
                             shakeLotSpeed: false
@@ -360,7 +346,6 @@ Page({
                 }
             })
             .catch(err => {
-                console.log(err)
                 $vm.getLogin().then(res => {
                     console.log(res)
                     wx.setStorage({
@@ -378,22 +363,15 @@ Page({
                         title: '网络开小差了',
                         content: '请您检查网络后再试',
                         showCancel: false,
-
-                        confirmText: '再摇一次',
-                        success: function (res) {},
-                        fail: function (res) {},
-                        complete: function (res) {},
+                        confirmText: '再摇一次'
                     })
 
-
-                    //  
                     this.setData({
                         potPath: false,
                         isLoading: false,
                         shakeLotSpeed: false
                     })
                 }, 1000)
-
             })
 
     },
@@ -548,11 +526,11 @@ Page({
     // },
     shakeFun: function () { // 摇一摇方法封装
         const _self = this
-        var numX = 0.2 //x轴
-        var numY = 0.2 // y轴
-        var numZ = 0.2 // z轴
-        var stsw = true // 开关，保证在一定的时间内只能是一次，摇成功
-        var positivenum = 0 //正数 摇一摇总数
+        const numX = 0.2 //x轴
+        const numY = 0.2 // y轴
+        const numZ = 0.2 // z轴
+        let stsw = true // 开关，保证在一定的时间内只能是一次，摇成功
+        let positivenum = 0 //正数 摇一摇总数
 
         wx.onAccelerometerChange(function (res) { //小程序api 加速度计
             if (_self.data.hasReturn || _self.data.isLoading) return
@@ -582,7 +560,7 @@ Page({
         })
     },
     // 显示我的签列表
-    showLotList: function (e) {
+    showLotList(e) {
         let formid = e.detail.formId
 
         mta.Event.stat("ico_shake_to_list", {})
@@ -595,7 +573,7 @@ Page({
         })
     },
     //分享的返回主页
-    onclickHome: function (e) {
+    onclickHome(e) {
         let formid = e.detail.formId
 
         mta.Event.stat("ico_shake_home", {})
@@ -607,7 +585,7 @@ Page({
             url: '/pages/home/home',
         })
     },
-    bindGetUserInfo: function (e) {
+    bindGetUserInfo(e) {
         if (e.detail.userInfo) {
             wx.setStorage({
                 key: 'userInfo',
@@ -621,12 +599,9 @@ Page({
                 nickName: e.detail.userInfo.nickName,
                 headImage: e.detail.userInfo.avatarUrl,
                 notShowLoading: true,
-            }).then(res => {
-
             })
         }
-
-    },
+    }
 
 })
 

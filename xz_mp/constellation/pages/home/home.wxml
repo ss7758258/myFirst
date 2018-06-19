@@ -72,8 +72,8 @@
 
 		<!-- activity -->
 		<view class="card_content">
-			<form bindsubmit="handleOneLotClick" report-submit='true'>
-				<button class='button1' form-type="submit" type='' hover-class="none">
+			<form bindsubmit="handleOneLotClick" report-submit="true">
+				<button class="button1" form-type="submit"  hover-class="none">
 					<view class="circle"></view>
 					<view class="circle"></view>
 					<view class="circle"></view>
