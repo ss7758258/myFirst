@@ -23,10 +23,10 @@ Page({
         hasAuthorize: true,
         isFromShare: false,
         isOther: false,
-        //摇签状态 
-        shakeLotSpeed: false,
+        shakeLotSpeed: false, //摇签状态 
         potPath: false,
         userInfo: _GData.userInfo,
+        isShaking:false, // 是否正在摇
         imgs: imgs,
         dot: false,
         navConf: {
@@ -113,12 +113,12 @@ Page({
         const _self = this
         const _SData = this.data
 
-        _self.setData({
+        this.setData({
             userInfo: _GData.userInfo
         })
 
         wx.getUserInfo({
-            success: function (res) {
+            success: (res)=> {
                 if (res.userInfo) {
                     wx.setStorage({
                         key: 'userInfo',
@@ -130,27 +130,23 @@ Page({
                         userInfo: _GData.userInfo
                     })
                     // 获取一签盒数据状态
-                    getX510(_self);
+                    // getX510(_self);
                     $vm.api.getSelectx100({
                         constellationId: _GData.selectConstellation.id,
                         nickName: res.userInfo.nickName,
                         headImage: res.userInfo.avatarUrl,
                         notShowLoading: true,
-                    }).then(res => {
-
                     })
                 }
             },
-            fail: function (res) {
+            fail: (res)=> {
                 // 查看是否授权
                 wx.getSetting({
-                    success: function (res) {
+                    success: (res)=> {
                         if (!res.authSetting['scope.userInfo']) {
-
-                            _self.setData({
+                            this.setData({
                                 hasAuthorize: false
                             })
-                            console.log('=====' + _SData.fromPage)
                             wx.redirectTo({
                                 url: '/pages/checklogin/checklogin?from=' + _SData.fromPage + '&and=shake'
                             })
@@ -165,22 +161,20 @@ Page({
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function () {
+    onShow () {
         this.shakeFun()
         this.setData({
             hasReturn: false,
         })
         // 获取一签盒数据状态
-        getX510(this);
+        getX510(this)
     },
 
     /**
      * 生命周期函数--监听页面隐藏
      */
     onHide: function () {
-        wx.stopAccelerometer({
-
-        })
+        wx.stopAccelerometer({ })
         this.setData({
             hasReturn: true,
         })
@@ -193,9 +187,7 @@ Page({
         this.setData({
             hasReturn: true,
         })
-        wx.stopAccelerometer({
-
-        })
+        wx.stopAccelerometer({ })
     },
     
     //用户点击右上角分享
@@ -209,8 +201,8 @@ Page({
             path: sharepath
         }
     },
-    drawLots() {
 
+    drawLots() {
         mta.Event.stat("ico_shake_shake", {})
         const _self = this
         const _SData = this.data
@@ -248,8 +240,6 @@ Page({
                     wx.setStorageSync('token', res.token)
                     // 拉取摇签数据
                     getX504(_self, _SData)
-                }).catch(err => {
-
                 })
             })
         }
@@ -275,11 +265,15 @@ Page({
             }
             if (positivenum == 1 && !isShaking) { //是否摇了指定的次数，执行成功后的操作
                 isShaking = true
+                this.setData( {isShaking} )
                 this.drawLots()
                 wx.stopAccelerometer({})
                 setTimeout(() => {
                     positivenum = 0 // 摇一摇总数，重新0开始，计算
                     isShaking = false
+                    // this.setData( {
+                    //     isShaking
+                    // }} )
                 }, 2000)
             }
         })
