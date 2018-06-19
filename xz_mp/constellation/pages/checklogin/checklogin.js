@@ -90,7 +90,6 @@ Page({
   onShareAppMessage: function () {
 
   },
-  
   bindGetUserInfo: function (e) {
     const _self = this
     const _SData = this.data
@@ -134,7 +133,6 @@ Page({
     }
 
   },
-
   //点击重试按钮
   checkLogin: function (e) {
     var that = this

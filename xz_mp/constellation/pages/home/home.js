@@ -69,7 +69,6 @@ Page({
 
 	//生命周期函数--监听页面加载
 	onLoad: function (options) {
-
 		getSystemInfo(this) //获取设备信息，判断是否是长屏手机
 		mta.Page.init() //页面初始化
 		const selectConstellation = _GData.selectConstellation
@@ -130,7 +129,6 @@ Page({
 			}
 		}
 
-
 		wx.getUserInfo({
 			success: (res) => {
 				let {
@@ -157,7 +155,7 @@ Page({
 					})
 				}
 			},
-			fail: () => {
+			fail: function () {
 				// 检查是否授权
 				wx.getSetting({
 					success: (res) => {
@@ -224,7 +222,6 @@ Page({
 		let keys = []
 		let counts = []
 		let countOffset = (t, b, c, d) => c * t / d + b
-		let _this = this
 
 		myLuckList.forEach((v, ind) => {
 			keys.push('myLuck[' + ind + '].count')
@@ -240,7 +237,7 @@ Page({
 			t++
 			if (t > d) return
 			keys.forEach((v, ind) => {
-				_this.setData({
+				this.setData({
 					[v]: Math.floor(countOffset(t, b, counts[ind], d))
 				})
 			})
@@ -250,7 +247,7 @@ Page({
 	},
 
 	// 点击选择某个星座触发事件
-	handleConstellationClick(e) {
+	handleAnyXzClick(e) {
 
 		// 获取该元素的dom信息
 		const selectConstellation = e.detail.target.dataset.item
@@ -282,8 +279,7 @@ Page({
 	},
 
 	//点击当前星座，清空_GData和Storage
-	handleCurrentConstellationClick(e) {
-
+	handleCurrentXzClick(e) {
 		// 清除定时器,重新绘制幸运值圆圈
 		if (this.data.timer) {
 			clearTimeout(this.data.timer)
@@ -296,6 +292,7 @@ Page({
 		})
 		_GData.selectConstellation = null
 
+
 		this.setData({
 			selectBack: true,
 			showHome: false,
@@ -307,7 +304,6 @@ Page({
 
 	//点击“一签”触发事件
 	handleOneLotClick(e) {
-
 		if (this.data.isLoading) return
 		this.setData({
 			isLoading: true

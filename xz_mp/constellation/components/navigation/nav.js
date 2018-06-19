@@ -10,65 +10,65 @@
 Component({
     //组件的属性列表
     properties: {
-        opts: Object
+        opts : Object
     },
 
     //组件的初始数据
     data: {
-        status: 'back',
-        path: '',
-        root: ''
+        status : 'back',
+        path : '',
+        root : ''
     },
 
     //组件的方法列表
     methods: {
         // 进入个人中心
-        goCenter() {
+        goCenter (){
             wx.navigateTo({
-                url: this.data.opts.centerPath,
-                success: () => {
+                url: this.data.opts.centerPath, 
+                success: function(res){
                     // success
                 },
-                fail: () => {
+                fail: function() {
                     wx.showToast({
                         title: '跳转失败'
                     })
                 },
-                complete: () => {
+                complete: function() {
                     // complete
                 }
             })
         },
         // 返回
-        goBack() {
+        goBack (){
             wx.navigateBack({
-                delta: 1,
-                success: () => {
+                delta: 1, 
+                success: function(res){
                     // success
                 },
-                fail: () => {
+                fail: function() {
                     wx.showToast({
                         title: '回退失败'
                     })
                 },
-                complete: () => {
+                complete: function() {
                     // complete
                 }
             })
         },
         // 进入主页
-        goHome() {
+        goHome (){
             wx.reLaunch({
-                url: this.data.opts.root,
-                success: () => {
+                url: this.data.opts.root, 
+                success: function(res){
                     // success
                 },
-                fail: () => {
+                fail: function() {
                     wx.showToast({
                         title: '返回首页失败'
                     })
                 },
-                complete: () => {
+                complete: function() {
                     // complete
                 }
             })

@@ -1,10 +1,7 @@
 // pages/lot/lotdetail/lotdetail.js
 const $vm = getApp()
 const _GData = $vm.globalData
-const {
-	canvasTextAutoLine,
-	parseLot
-} = $vm.utils
+const { canvasTextAutoLine, parseLot } = $vm.utils
 var mta = require('../../../utils/mta_analysis.js');
 const imgs = require('./imgs.js')
 Page({
@@ -14,7 +11,7 @@ Page({
 	 */
 	data: {
 		isFromShare: false,
-		huan: false, //拆签成功
+		huan: false,//拆签成功
 		showCanvas: false,
 		imgs: imgs,
 		lock: false, //锁
@@ -31,8 +28,8 @@ Page({
 			qianOpenSize: 3,
 			showChai: true,
 			hasChai: false,
-			lotNotCompleted: true,
-			troops: []
+			lotNotCompleted : true,
+			troops : []
 		},
 	},
 
@@ -43,9 +40,9 @@ Page({
 		mta.Page.init()
 		console.log(options)
 		wx.hideShareMenu({
-			success: function (res) {},
-			fail: function (res) {},
-			complete: function (res) {},
+			success: function (res) { },
+			fail: function (res) { },
+			complete: function (res) { },
 		})
 		if (options.sound) {
 			const innerAudioContext = wx.createInnerAudioContext()
@@ -57,6 +54,7 @@ Page({
 		}
 
 		const _self = this
+		const _SData = this.data
 		let qId = options.lotId
 		let pageFrom = options.from
 		_self.setData({
@@ -65,6 +63,7 @@ Page({
 		if (!_GData.userInfo) {
 			wx.getUserInfo({
 				success: function (res) {
+					console.log(res)
 					if (res.userInfo) {
 						wx.setStorage({
 							key: 'userInfo',
@@ -80,14 +79,17 @@ Page({
 							nickName: res.userInfo.nickName,
 							headImage: res.userInfo.avatarUrl,
 							notShowLoading: true,
+						}).then(res => {
+
 						})
 					}
 				},
-				fail: (res) => {
+				fail: function (res) {
 					// 查看是否授权
 					wx.getSetting({
-						success: (res) => {
+						success: function (res) {
 							if (!res.authSetting['scope.userInfo']) {
+
 								_self.setData({
 									hasAuthorize: false
 								})
@@ -110,7 +112,7 @@ Page({
 			}
 			let token = wx.getStorageSync('token')
 			if (token) {
-				getQian(qId, _self)
+				getQian(qId,_self)
 				// $vm.api.getX511({ id: qId })
 				// 	.then(res => {
 				// 		console.log('签的数据===================：', res)
@@ -122,8 +124,9 @@ Page({
 				// 	})
 			} else {
 				$vm.getLogin().then(res => {
+					console.log(res)
 					wx.setStorageSync('token', res.token)
-					getQian(qId, _self)
+					getQian(qId,_self)
 					// $vm.api.getX511({ id: qId })
 					// 	.then(res => {
 					// 		console.log('签的数据：', res)
@@ -182,14 +185,16 @@ Page({
 			shareMsg = '快来戳，真的是令人脸红心跳的结果！'
 			sharepath = '/pages/lot/shakelot/shake?from=share&where=detail'
 		}
+		console.log("shareImg-qId===" + shareImg)
+		console.log("onShareAppMessage-qId===" + SData.lotDetail.id)
 		return {
 			title: shareMsg,
 			imageUrl: shareImg,
 			path: sharepath,
-			success: (res) => {
+			success: function (res) {
 				// 转发成功
 			},
-			fail: (res) => {
+			fail: function (res) {
 				// 转发失败
 			}
 		}
@@ -198,13 +203,10 @@ Page({
 	chai: function (e) {
 		let formid = e.detail.formId
 		if (this.data.lock && !this.data.lotDetail.hasChai) {
-			return false
+			return false;
 		}
-		this.data.lock = true
-		$vm.api.getX610({
-			notShowLoading: true,
-			formid: formid
-		})
+		this.data.lock = true;
+		$vm.api.getX610({ notShowLoading: true, formid: formid })
 		const _self = this
 		const _Sdata = this.data
 
@@ -217,11 +219,9 @@ Page({
 		_self.setData({
 			showHaoren: true,
 		})
-		$vm.api.getX506({
-				id: _Sdata.lotDetail.id,
-				notShowLoading: true
-			})
+		$vm.api.getX506({ id: _Sdata.lotDetail.id, notShowLoading: true })
 			.then(res => {
+				console.log(res)
 				var lotDetail = parseLot(res)
 				if (res.status == 1) {
 					mta.Event.stat("ico_chai_completed", {})
@@ -254,20 +254,14 @@ Page({
 		mta.Event.stat("ico_detail_share", {})
 		let formid = e.detail.formId
 
-		$vm.api.getX610({
-			notShowLoading: true,
-			formid: formid
-		})
+		$vm.api.getX610({ notShowLoading: true, formid: formid })
 	},
 	//保存图片
 	onclickShareCircle: function (e) {
 		mta.Event.stat("ico_detail_save", {})
 		let formid = e.detail.formId
 
-		$vm.api.getX610({
-			notShowLoading: true,
-			formid: formid
-		})
+		$vm.api.getX610({ notShowLoading: true, formid: formid })
 		const _self = this
 		const _SData = _self.data
 		wx.showLoading({
@@ -278,17 +272,19 @@ Page({
 			showCanvas: true,
 		})
 
+		console.log(e)
 		const ctx = wx.createCanvasContext('shareCanvas')
 		ctx.drawImage('/assets/images/share1Bg.png', 0, 0, 750, 750)
 		// 签类型
-		ctx.setTextAlign('center') // 文字居中
-		ctx.setFillStyle('#ffffff') // 文字颜色：白色
-		ctx.setFontSize(40) // 文字字号：22px
+		ctx.setTextAlign('center')    // 文字居中
+		ctx.setFillStyle('#ffffff')  // 文字颜色：白色
+		ctx.setFontSize(40)         // 文字字号：22px
 		ctx.fillText(_SData.lotDetail.qianName, 750 / 2, 77 * 2 + 40)
 
 
 		var s = _SData.lotDetail.qianContent.split('\n')
 
+		console.log(s)
 		if (s.length == 1) {
 			ctx.setTextAlign('left')
 			ctx.setFontSize(29)
@@ -307,6 +303,7 @@ Page({
 		ctx.fillText(_SData.lotDetail.ownerNickName, 750 - metrics1 - 64 * 2 - 32, 205 * 2 + 28, 310 * 2)
 		let timer = new Date();
 		let newDate = timer.getFullYear() + '-' + (timer.getMonth() + 1 > 9 ? timer.getMonth() + 1 : '0' + (timer.getMonth() + 1)) + '-' + (timer.getDate() > 9 ? timer.getDate() : '0' + timer.getDate());
+		console.log('输出日期：', newDate)
 		// 计算文本长度
 		const metrics2 = ctx.measureText(newDate).width / 2
 
@@ -320,18 +317,20 @@ Page({
 			wx.canvasToTempFilePath({
 				canvasId: 'shareCanvas',
 				success: function (res) {
+					console.log(res.tempFilePath)
 					wx.saveImageToPhotosAlbum({
 						filePath: res.tempFilePath,
-						success: (res) => {
+						success(res) {
 							wx.hideLoading()
 							wx.showModal({
 								title: '保存成功',
 								content: '图片已经保存到相册，可以分享到朋友圈了',
 								showCancel: false
 							})
-						},
-						fail: (res) => {},
-						complete: (res) => {
+
+						}, fail(res) {
+							console.log(res)
+						}, complete(res) {
 							// wx.hideLoading()
 							_self.setData({
 								showCanvas: false
@@ -339,7 +338,8 @@ Page({
 						}
 					})
 				},
-				fail: (res) => {
+				fail: function (res) {
+					console.log(res)
 					wx.hideLoading()
 					wx.showToast({
 						title: '保存失败',
@@ -356,10 +356,7 @@ Page({
 	onclickHome: function (e) {
 		mta.Event.stat("ico_shake_home", {})
 		let formid = e.detail.formId
-		$vm.api.getX610({
-			notShowLoading: true,
-			formid: formid
-		})
+		$vm.api.getX610({ notShowLoading: true, formid: formid })
 		wx.reLaunch({
 			url: '/pages/home/home',
 		})
@@ -371,61 +368,64 @@ Page({
  * 重新加载数据
  * @param {*} qId
  */
-function getQian(qId, _self) {
+function getQian(qId,_self){
 	wx.getNetworkType({
-		success: (res) => {
-			if (res.networkType === 'none') {
+		success: function(res) {
+			console.log('输出当前网络状态：',res)
+			if(res.networkType === 'none'){
 				wx.showLoading({
-					title: '加载中...',
-					mask: true
+					title : '加载中...',
+					mask : true
 				})
-				setTimeout(function () {
-					$vm.api.getX511({
-							id: qId
-						})
-						.then(res => {
-							let lotDetail = parseLot(res)
-							_self.setData({
-								lotDetail: lotDetail
-							})
-						}).catch(err => {
-							_self.setData({
-								isError: true
-							})
-							wx.showModal({
-								title: '网络错误',
-								content: '小主您的网络有点小问题哦,请重新尝试',
-								confirmText: '重新尝试',
-								showCancel: false,
-								success() {
-									getQian(qId, _self);
-								}
-							})
-						})
-				}, 3000)
-			} else {
-				$vm.api.getX511({
-						id: qId
-					})
+				setTimeout(function(){
+					$vm.api.getX511({ id: qId })
 					.then(res => {
-						let lotDetail = parseLot(res)
+						console.log('签的数据===================：', res)
+						// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
+						var lotDetail = parseLot(res)
 						_self.setData({
 							lotDetail: lotDetail
 						})
-					}).catch(err => {
+					}).catch(err =>{
 						_self.setData({
-							isError: true
+							isError : true
 						})
 						wx.showModal({
 							title: '网络错误',
 							content: '小主您的网络有点小问题哦,请重新尝试',
-							confirmText: '重新尝试',
+							confirmText : '重新尝试',
 							showCancel: false,
-							success() {
-								getQian(qId, _self);
+							success (){
+								getQian(qId,_self);
 							}
 						})
+						console.log('进入错误状态')
 					})
+				},3000)
+			}else{
+				$vm.api.getX511({ id: qId })
+				.then(res => {
+					console.log('签的数据===================：', res)
+					// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
+					var lotDetail = parseLot(res)
+					_self.setData({
+						lotDetail: lotDetail
+					})
+				}).catch(err =>{
+					_self.setData({
+						isError : true
+					})
+					wx.showModal({
+						title: '网络错误',
+						content: '小主您的网络有点小问题哦,请重新尝试',
+						confirmText : '重新尝试',
+						showCancel: false,
+						success (){
+							getQian(qId,_self);
+						}
+					})
+					console.log('进入错误状态')
+				})
 			}
 		}
 	})
