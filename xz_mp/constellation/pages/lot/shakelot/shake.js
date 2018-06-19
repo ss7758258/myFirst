@@ -3,11 +3,11 @@
 const $vm = getApp()
 const _GData = $vm.globalData
 const { parseLot } = $vm.utils
-const getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
-var mta = require('../../../utils/mta_analysis.js')
-let imgs = require('./imgs.js')
+// const getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
+const mta = require('../../../utils/mta_analysis.js')
 
 // 验证Id是否位6位纯数字
+let imgs = require('./imgs.js')
 let reg = /^\d{6}$/
 
 Page({
@@ -44,72 +44,121 @@ Page({
      */
     onLoad: function (options) {
         mta.Page.init()
-        console.log('输出参数：', options)
-        let pageFrom = options.from
-        this.setData({
+        let pageFrom = options.from || '' // 页面来源
+        let hotapp = options.hotapp
+        let {
+            id
+        } = options
+        let isNumber = reg.test(id)
 
+        this.setData({
             fromPage: pageFrom
         })
-        if (pageFrom == 'share') {
-            this.setData({
-                isFromShare: true,
-                "navConf.root": '/pages/home/home'
-            })
-            if (pageFrom == 'list') {
-                mta.Event.stat("ico_in_from_list", {})
-            } else if (pageFrom == 'detail') {
-                mta.Event.stat("ico_in_from_detail", {})
-            } else if (pageFrom == 'shake') {
-                if (options.hotapp == 1) {
-                    mta.Event.stat("ico_in_from_shake_qrcode", {})
-                } else {
-                    mta.Event.stat("ico_in_from_shake", {})
-                }
-            }
 
-        } else if (pageFrom == 'activity') {
-            this.setData({
-                isFromShare: true,
-                "navConf.root": '/pages/home/home'
-            })
-            console.log('ico_in_from_shake_activity')
-            mta.Event.stat("ico_in_from_shake_activity", {})
-        } else if (pageFrom == 'outer' && options.id) {
-            this.setData({
-                isFromShare: true,
-                "navConf.root": '/pages/home/home'
-            })
-            if (reg.test(options.id)) {
-                mta.Event.stat('outer_' + options.id, {})
-            } else {
-                mta.Event.stat('outer_unknown', {})
-            }
-        } else if(pageFrom === 'spread'){ // 活动推广统计
-            this.setData({
-                isFromShare: true,
-                "navConf.root": '/pages/home/home'
-            })
-			console.log('输出活动来源',options.id)
-            if (reg.test(options.id)) {
-                mta.Event.stat('spread_' + options.id, {})
-            } else {
-                mta.Event.stat('spread_unknown', {})
-            }
+        switch (pageFrom) {
+            case 'share':
+                this.setData({
+                    isFromShare: true,
+                    "navConf.root": '/pages/home/home'
+                })
+                switch (pageFrom) {
+                    case 'list':
+                        mta.Event.stat("ico_in_from_list", {})
+                    case 'detail':
+                        mta.Event.stat("ico_in_from_detail", {})
+                    case 'shake':
+                        mta.Event.stat(hotapp === 1 ? "ico_in_from_shake_qrcode" : "ico_in_from_shake", {})
+                }
+            case 'activity':
+                this.setData({
+                    isFromShare: true,
+                    "navConf.root": '/pages/home/home'
+                })
+                mta.Event.stat("ico_in_from_shake_activity", {})
+                switch (pageFrom) {
+                    case 'list':
+                        mta.Event.stat("ico_in_from_list", {})
+                    case 'detail':
+                        mta.Event.stat("ico_in_from_detail", {})
+                    case 'shake':
+                        mta.Event.stat(hotapp === 1 ? "ico_in_from_shake_qrcode" : "ico_in_from_shake", {})
+                }
+            case 'outer':
+
+                if (id) {
+                    this.setData({
+                        isFromShare: true,
+                        "navConf.root": '/pages/home/home'
+                    })
+                }
+                mta.Event.stat(isNumber ? `outer_${id}` : `outer_unknown`, {})
+            case 'spread':
+                this.setData({
+                    isFromShare: true,
+                    "navConf.root": '/pages/home/home'
+                })
+                mta.Event.stat(isNumber ? `spread_${id}` : `spread_unknown`, {})
         }
+
+        // if (pageFrom === 'share') {
+        //     this.setData({
+        //         isFromShare: true,
+        //         "navConf.root": '/pages/home/home'
+        //     })
+        //     if (pageFrom == 'list') {
+        //         mta.Event.stat("ico_in_from_list", {})
+        //     } else if (pageFrom == 'detail') {
+        //         mta.Event.stat("ico_in_from_detail", {})
+        //     } else if (pageFrom == 'shake') {
+        //         if (options.hotapp == 1) {
+        //             mta.Event.stat("ico_in_from_shake_qrcode", {})
+        //         } else {
+        //             mta.Event.stat("ico_in_from_shake", {})
+        //         }
+        //     }
+
+        // } else if (pageFrom == 'activity') {
+        //     this.setData({
+        //         isFromShare: true,
+        //         "navConf.root": '/pages/home/home'
+        //     })
+        //     mta.Event.stat("ico_in_from_shake_activity", {})
+        // } else if (pageFrom == 'outer' && options.id) {
+        //     this.setData({
+        //         isFromShare: true,
+        //         "navConf.root": '/pages/home/home'
+        //     })
+        //     if (reg.test(options.id)) {
+        //         mta.Event.stat('outer_' + options.id, {})
+        //     } else {
+        //         mta.Event.stat('outer_unknown', {})
+        //     }
+        // } else if (pageFrom === 'spread') { // 活动推广统计
+        //     this.setData({
+        //         isFromShare: true,
+        //         "navConf.root": '/pages/home/home'
+        //     })
+        //     if (reg.test(options.id)) {
+        //         mta.Event.stat('spread_' + options.id, {})
+        //     } else {
+        //         mta.Event.stat('spread_unknown', {})
+        //     }
+        // }
+
+
         // 统计特殊来源
-        if(options.source && options.source.constructor === String && options.source !== ''){
+        if (options.source && options.source.constructor === String && options.source !== '') {
             this.setData({
                 isFromShare: true,
                 "navConf.root": '/pages/home/home'
             })
-			console.log('输出活动来源',options.id)
+            console.log('输出活动来源', options.id)
             if (reg.test(options.id)) {
                 mta.Event.stat(options.source + '_' + options.id, {})
             } else {
                 mta.Event.stat(options.source + '_unknown', {})
             }
         }
-        console.log(options)
 
         const _self = this
         const _SData = this.data
@@ -119,7 +168,7 @@ Page({
         })
 
         wx.getUserInfo({
-            success: function (res) {
+            success: (res) => {
                 if (res.userInfo) {
                     wx.setStorage({
                         key: 'userInfo',
@@ -131,27 +180,23 @@ Page({
                         userInfo: _GData.userInfo
                     })
                     // 获取一签盒数据状态
-                    getX510(_self)
+                    // getX510(_self)
                     $vm.api.getSelectx100({
                         constellationId: _GData.selectConstellation.id,
                         nickName: res.userInfo.nickName,
                         headImage: res.userInfo.avatarUrl,
                         notShowLoading: true,
-                    }).then(res => {
-
                     })
                 }
             },
-            fail: function (res) {
+            fail: (res) => {
                 // 查看是否授权
                 wx.getSetting({
-                    success: function (res) {
+                    success: (res) => {
                         if (!res.authSetting['scope.userInfo']) {
-
                             _self.setData({
                                 hasAuthorize: false
                             })
-                            console.log('=====' + _SData.fromPage)
                             wx.redirectTo({
                                 url: '/pages/checklogin/checklogin?from=' + _SData.fromPage + '&and=shake'
                             })
@@ -169,7 +214,7 @@ Page({
     onShow: function () {
         this.shakeFun()
         this.setData({
-          hasReturn: false,
+            hasReturn: false,
         })
         // 获取一签盒数据状态
         getX510(this)
@@ -183,7 +228,7 @@ Page({
 
         })
         this.setData({
-          hasReturn: true,
+            hasReturn: true,
         })
     },
 
@@ -203,32 +248,27 @@ Page({
      */
     onShareAppMessage: function () {
 
-        var shareImg = '/assets/images/share_tong.jpg'
-        var shareMsg = '每日抽一签，赛过活神仙。'
-        var sharepath = '/pages/lot/shakelot/shake?from=share&where=shake'
+        let shareImg = '/assets/images/share_tong.jpg'
+        let shareMsg = '每日抽一签，赛过活神仙。'
+        let sharepath = '/pages/lot/shakelot/shake?from=share&where=shake'
         return {
             title: shareMsg,
             imageUrl: shareImg,
-            path: sharepath,
-            success: function (res) {
-                // 转发成功
-            },
-            fail: function (res) {
-                // 转发失败
-            }
+            path: sharepath
         }
     },
-    drawLots: function () {
-
+    drawLots() {
         mta.Event.stat("ico_shake_shake", {})
         const _self = this
         const _SData = this.data
-        if (_self.data.shakeLotSpeed) {
-            return
-        }
-        if (_self.data.hasReturn || _self.data.isLoading || (!_self.data.hasAuthorize)) {
-            return
-        }
+        const {
+            shakeLotSpeed,
+            hasReturn,
+            isLoading,
+            hasAuthorize
+        } = _SData
+        if (shakeLotSpeed || hasReturn || isLoading || !hasAuthorize) return
+
         const innerAudioContext = wx.createInnerAudioContext()
         innerAudioContext.autoplay = true
         innerAudioContext.src = '/assets/shake.mp3'
@@ -243,19 +283,15 @@ Page({
             isLoading: true
         })
 
-
-        $vm.api.getX504({ notShowLoading: true, })
+        $vm.api.getX504({
+                notShowLoading: true,
+            })
             .then(res => {
-                if (_self.data.hasReturn) {
-                    return
-                }
-                console.log(res)
+                if (_self.data.hasReturn)  return
                 this.setData({
-
                     isLoading: false
                 })
                 if (!res) {
-
                     wx.navigateTo({
                         url: '/pages/lot/lotlist/lotlist'
                     })
@@ -263,18 +299,15 @@ Page({
                 }
                 res.isMyQian = 1
                 res.alreadyOpen = 1
-                var lotDetail = parseLot(res)
+                let lotDetail = parseLot(res)
 
                 _GData.lotDetail = lotDetail
 
                 if (res.status === 0) {
                     setTimeout(() => {
-                        if (_self.data.hasReturn) {
-                            return
-                        }
+                        if (_self.data.hasReturn) return
                         // 摇出一个签
                         this.setData({
-
                             shakeLotSpeed: false
                         })
 
@@ -288,14 +321,11 @@ Page({
                             })
                         }
                     }, 1500)
-                } else if (res.status == 1) { //没有签了
+                } else if (res.status === 1) { //没有签了
                     setTimeout(() => {
-                        if (_self.data.hasReturn) {
-                            return
-                        }
+                        if (_self.data.hasReturn) return
                         // 摇出一个签
                         this.setData({
-
                             shakeLotSpeed: false
                         })
 
@@ -316,9 +346,9 @@ Page({
                             content: '请您检查网络后再试',
                             showCancel: false,
                             confirmText: '再摇一次',
-                            success: function (res) { },
-                            fail: function (res) { },
-                            complete: function (res) { },
+                            success: function (res) {},
+                            fail: function (res) {},
+                            complete: function (res) {},
                         })
 
                         this.setData({
@@ -350,9 +380,9 @@ Page({
                         showCancel: false,
 
                         confirmText: '再摇一次',
-                        success: function (res) { },
-                        fail: function (res) { },
-                        complete: function (res) { },
+                        success: function (res) {},
+                        fail: function (res) {},
+                        complete: function (res) {},
                     })
 
 
@@ -367,6 +397,155 @@ Page({
             })
 
     },
+    // drawLots () {
+
+    //     mta.Event.stat("ico_shake_shake", {})
+    //     const _self = this
+    //     const _SData = this.data
+    //     if (_self.data.shakeLotSpeed) {
+    //         return
+    //     }
+    //     if (_self.data.hasReturn || _self.data.isLoading || (!_self.data.hasAuthorize)) {
+    //         return
+    //     }
+    //     const innerAudioContext = wx.createInnerAudioContext()
+    //     innerAudioContext.autoplay = true
+    //     innerAudioContext.src = '/assets/shake.mp3'
+    //     innerAudioContext.onPlay(() => {
+    //         console.log('开始播放')
+    //     })
+
+    //     // 加快 摇动速度
+    //     this.setData({
+    //         shakeLotSpeed: true,
+    //         potPath: true,
+    //         isLoading: true
+    //     })
+
+
+    //     $vm.api.getX504({
+    //             notShowLoading: true,
+    //         })
+    //         .then(res => {
+    //             if (_self.data.hasReturn) {
+    //                 return
+    //             }
+    //             console.log(res)
+    //             this.setData({
+    //                 isLoading: false
+    //             })
+    //             if (!res) {
+    //                 wx.navigateTo({
+    //                     url: '/pages/lot/lotlist/lotlist'
+    //                 })
+    //                 return
+    //             }
+    //             res.isMyQian = 1
+    //             res.alreadyOpen = 1
+    //             let lotDetail = parseLot(res)
+
+    //             _GData.lotDetail = lotDetail
+
+    //             if (res.status === 0) {
+    //                 setTimeout(() => {
+    //                     if (_self.data.hasReturn) {
+    //                         return
+    //                     }
+    //                     // 摇出一个签
+    //                     this.setData({
+
+    //                         shakeLotSpeed: false
+    //                     })
+
+    //                     if (_SData.isFromShare) {
+    //                         wx.navigateTo({
+    //                             url: '/pages/lot/lotdetail/lotdetail?sound=1',
+    //                         })
+    //                     } else {
+    //                         wx.redirectTo({
+    //                             url: '/pages/lot/lotdetail/lotdetail?sound=1',
+    //                         })
+    //                     }
+    //                 }, 1500)
+    //             } else if (res.status == 1) { //没有签了
+    //                 setTimeout(() => {
+    //                     if (_self.data.hasReturn) {
+    //                         return
+    //                     }
+    //                     // 摇出一个签
+    //                     this.setData({
+
+    //                         shakeLotSpeed: false
+    //                     })
+
+    //                     if (_SData.isFromShare) {
+    //                         wx.navigateTo({
+    //                             url: '/pages/lot/emptylot/emptylot',
+    //                         })
+    //                     } else {
+    //                         wx.redirectTo({
+    //                             url: '/pages/lot/emptylot/emptylot',
+    //                         })
+    //                     }
+    //                 }, 1000)
+    //             } else {
+    //                 setTimeout(() => {
+    //                     wx.showModal({
+    //                         title: '网络开小差了',
+    //                         content: '请您检查网络后再试',
+    //                         showCancel: false,
+    //                         confirmText: '再摇一次',
+    //                         success: function (res) {},
+    //                         fail: function (res) {},
+    //                         complete: function (res) {},
+    //                     })
+
+    //                     this.setData({
+    //                         potPath: false,
+    //                         isLoading: false,
+    //                         shakeLotSpeed: false
+    //                     })
+    //                 }, 1000)
+    //             }
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //             $vm.getLogin().then(res => {
+    //                 console.log(res)
+    //                 wx.setStorage({
+    //                     key: 'token',
+    //                     data: res.token
+    //                 })
+    //             }).catch(err => {
+    //                 wx.showToast({
+    //                     title: err,
+    //                     icon: 'none'
+    //                 })
+    //             })
+    //             setTimeout(() => {
+    //                 wx.showModal({
+    //                     title: '网络开小差了',
+    //                     content: '请您检查网络后再试',
+    //                     showCancel: false,
+
+    //                     confirmText: '再摇一次',
+    //                     success: function (res) {},
+    //                     fail: function (res) {},
+    //                     complete: function (res) {},
+    //                 })
+
+
+    //                 //  
+    //                 this.setData({
+    //                     potPath: false,
+    //                     isLoading: false,
+    //                     shakeLotSpeed: false
+    //                 })
+    //             }, 1000)
+
+    //         })
+
+    // },
     shakeFun: function () { // 摇一摇方法封装
         const _self = this
         var numX = 0.2 //x轴
@@ -376,27 +555,25 @@ Page({
         var positivenum = 0 //正数 摇一摇总数
 
         wx.onAccelerometerChange(function (res) { //小程序api 加速度计
-            console.log(res)
-            if (_self.data.hasReturn || _self.data.isLoading) {
-                return
-            }
+            if (_self.data.hasReturn || _self.data.isLoading) return
 
             if (numX < res.x && numY < res.y) { //个人看法，一次正数算摇一次，还有更复杂的
                 positivenum++
-                setTimeout(() => { positivenum = 0 }, 2000) //计时两秒内没有摇到指定次数，重新计算
+                setTimeout(() => {
+                    positivenum = 0
+                }, 2000) //计时两秒内没有摇到指定次数，重新计算
             }
             if (numZ < res.z && numY < res.y) { //可以上下摇，上面的是左右摇
                 positivenum++
-                setTimeout(() => { positivenum = 0 }, 2000) //计时两秒内没有摇到指定次数，重新计算
+                setTimeout(() => {
+                    positivenum = 0
+                }, 2000) //计时两秒内没有摇到指定次数，重新计算
             }
             if (positivenum == 2 && stsw) { //是否摇了指定的次数，执行成功后的操作
                 stsw = false
 
                 _self.drawLots()
-                console.log('摇一摇成功')
-                wx.stopAccelerometer({
-
-                })
+                wx.stopAccelerometer({})
                 setTimeout(() => {
                     positivenum = 0 // 摇一摇总数，重新0开始，计算
                     stsw = true
@@ -409,7 +586,10 @@ Page({
         let formid = e.detail.formId
 
         mta.Event.stat("ico_shake_to_list", {})
-        $vm.api.getX610({ notShowLoading: true, formid: formid })
+        $vm.api.getX610({
+            notShowLoading: true,
+            formid: formid
+        })
         wx.navigateTo({
             url: '/pages/lot/lotlist/lotlist?formid=' + formid
         })
@@ -419,7 +599,10 @@ Page({
         let formid = e.detail.formId
 
         mta.Event.stat("ico_shake_home", {})
-        $vm.api.getX610({ notShowLoading: true, formid: formid })
+        $vm.api.getX610({
+            notShowLoading: true,
+            formid: formid
+        })
         wx.reLaunch({
             url: '/pages/home/home',
         })
@@ -454,7 +637,12 @@ Page({
  */
 const getX510 = (self, pageNum = 1, pageSize = 10) => {
     let clicks = wx.getStorageSync('click_list') || []
-    $vm.api.getX510({ notShowLoading : true,pageNum, pageSize }).then(res => {
+
+    $vm.api.getX510({
+        notShowLoading: true,
+        pageNum,
+        pageSize
+    }).then(res => {
         console.log('一签盒列表：', res)
         if (res && res.constructor === Array) {
             let red_dot = false

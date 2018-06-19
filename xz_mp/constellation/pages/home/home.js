@@ -69,6 +69,7 @@ Page({
 
 	//生命周期函数--监听页面加载
 	onLoad: function (options) {
+
 		getSystemInfo(this) //获取设备信息，判断是否是长屏手机
 		mta.Page.init() //页面初始化
 		const selectConstellation = _GData.selectConstellation
@@ -129,9 +130,12 @@ Page({
 			}
 		}
 
+
 		wx.getUserInfo({
-			success:  (res)=> {
-				let { userInfo } = res
+			success: (res) => {
+				let {
+					userInfo
+				} = res
 				if (userInfo) {
 					wx.setStorage({
 						key: 'userInfo',
@@ -153,10 +157,10 @@ Page({
 					})
 				}
 			},
-			fail: function () {
+			fail: () => {
 				// 检查是否授权
 				wx.getSetting({
-					success:  (res)=> {
+					success: (res) => {
 						if (!res.authSetting['scope.userInfo']) {
 							this.setData({
 								hasAuthorize: false
@@ -220,6 +224,7 @@ Page({
 		let keys = []
 		let counts = []
 		let countOffset = (t, b, c, d) => c * t / d + b
+		let _this = this
 
 		myLuckList.forEach((v, ind) => {
 			keys.push('myLuck[' + ind + '].count')
@@ -235,7 +240,7 @@ Page({
 			t++
 			if (t > d) return
 			keys.forEach((v, ind) => {
-				this.setData({
+				_this.setData({
 					[v]: Math.floor(countOffset(t, b, counts[ind], d))
 				})
 			})
@@ -290,6 +295,7 @@ Page({
 			data: null,
 		})
 		_GData.selectConstellation = null
+
 		this.setData({
 			selectBack: true,
 			showHome: false,
@@ -301,6 +307,7 @@ Page({
 
 	//点击“一签”触发事件
 	handleOneLotClick(e) {
+
 		if (this.data.isLoading) return
 		this.setData({
 			isLoading: true
@@ -316,7 +323,7 @@ Page({
 
 		wx.navigateTo({
 			url: '/pages/lot/shakelot/shake?formid=' + formid,
-			complete() {
+			complete: () => {
 				this.setData({
 					isLoading: false
 				})
