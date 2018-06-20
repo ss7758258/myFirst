@@ -1,7 +1,5 @@
 <!-- 导航 -->
-<nav opts='{{navConf}}'></nav>
-<!--pages/onelot/onelot.wxml-->
-<!-- <audio src="{{src}}" id="myAudio"></audio> -->
+<nav opts="{{navConf}}"></nav>
 <view class="UI_pgae">
   <view class="userInfo">
     <view class="photo">
@@ -76,20 +74,16 @@
       </view>
       <!--  wx:if="{{showHaoren}}" -->
       <view wx:if="{{showHaoren}}" class='qipaobg {{showHaoren ? "show" : ""}}'>
-        <image class='qipao' src="/assets/images/qipao.png" mode="widthFix" />
-        <text class='qipaowenzi'>帮助好友成功，你也去试试吧。</text>
+        <image class="qipao" src="/assets/images/qipao.png" mode="widthFix" />
+        <text class="qipaowenzi">帮助好友成功，你也去试试吧。</text>
       </view>
-      <form wx:if="{{lotDetail.showChai}}" class="botton " bindsubmit="chai" report-submit='true'>
+      <form wx:if="{{lotDetail.showChai}}" class="botton " bindsubmit="chai" report-submit="true">
         <button form-type="submit" hover-class="none" style='width:80%;color: rgb(158, 29, 29);margin: 0 auto;'>
           {{lotDetail.hasChai?'查看我的每日一签':'帮好友拆签'}}
         </button>
       </form>
 
-
-      <!-- <button wx:if="{{lotDetail.showChai}}" bindtap='chai' class="botton ">{{lotDetail.hasChai?'查看我的星运签':'帮好友拆签'}}</button> -->
-      <view class='shareBox' wx:else>
-        <!-- <button open-type="share" class="{{lotDetail.lotNotCompleted?'botton':''}}">{{lotDetail.lotNotCompleted?"立即找好友帮忙":"给好友玩"}}</button> -->
-        <!-- <button wx:if="{{!lotDetail.lotNotCompleted}}" bindtap='onclickShareCircle'>保存此签</button> -->
+      <view class="shareBox" wx:else>
 
         <form class="{{lotDetail.lotNotCompleted?'botton':''}}" wx:if="{{lotDetail.lotNotCompleted&&(!lotDetail.isOther)}}" bindsubmit="onclickShareFriend" report-submit='true'>
           <button style="{{lotDetail.lotNotCompleted?'':'width:80%;'}}" form-type="submit" open-type="share" type='' hover-class="none">

@@ -11,7 +11,7 @@ const methods = {
      * @returns
      */
     setThis(self){
-        this.self = self;
+        this.self = self
     },
     /**
      * 获取Banner列表
@@ -22,17 +22,18 @@ const methods = {
         API.getBannerList().then( (res) => {
             console.log('输出广告列表：',res)
             if(res && res.constructor === Array){
-                let temp = [];
+                let temp = []
                 res.forEach(elem => {
                     if(elem.type === 4){
                         temp.push(elem)
                     }
-                });
+                })
                 self.setData({
                     list : res,
                     'swiper.list' : temp,
                     'swiper.indicatorDots' : temp.length > 1 ? true : false
                 })
+
             }
         }).catch( (err) => {
             console.log(err)
@@ -43,17 +44,14 @@ const methods = {
      * @param {*} e
      */
     goOuter (e){
-        let data = e.currentTarget.dataset;
-        let res = data && data.res ? data.res : {};
+        let data = e.currentTarget.dataset
+        let res = data && data.res ? data.res : {}
         console.log('参数信息：',res)
         if(res.appId){
 			mta.Event.stat("to_outer_" + res.id, {})
             wx.navigateToMiniProgram({
                 appId: res.appId,
-                path: res.path,
-                success(res) {
-                    // 打开成功
-                }
+                path: res.path
             })
         }
     },
@@ -96,11 +94,11 @@ const Conf = {
     },
     onLoad (){
         // 将Page对象放入methods中
-        methods.setThis(this);
+        methods.setThis(this)
         // 获取banner列表
-        methods.getBanner(this);
+        methods.getBanner(this)
         // 获取默认文字信息
-        methods.getBtnText();
+        methods.getBtnText()
     },
     goOuter : methods.goOuter
 }

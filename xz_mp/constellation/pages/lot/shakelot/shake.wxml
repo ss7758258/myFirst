@@ -12,14 +12,13 @@
             <view>
                 <text>你好，</text>
                 <text>{{userInfo.nickName}}</text>
-                <!-- <open-data type="userNickName"></open-data> -->
             </view>
             <text>摇摇手机，立即抽取你的每日一签</text>
         </view>
     </view>
     <!--摇签-->
     <view class="drawLots">
-        <view class="lotPot {{shakeLotSpeed? 'shake' : ''}}" bindtap="drawLots">
+        <view class="lotPot {{shakeLotSpeed? 'shake' : ''}}" bindtap="handleShakingClick">
             <view class="box">
                 <image class="pot" wx:if="{{potPath}}" src="{{imgs.pot_1}}" />
                 <image class="pot" wx:else src="{{imgs.pot_2}}" />

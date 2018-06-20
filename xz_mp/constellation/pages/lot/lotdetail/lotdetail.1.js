@@ -36,9 +36,14 @@ Page({
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
-	onLoad (options) {
+	onLoad: function (options) {
 		mta.Page.init()
-		wx.hideShareMenu({})
+		console.log(options)
+		wx.hideShareMenu({
+			success: function (res) { },
+			fail: function (res) { },
+			complete: function (res) { },
+		})
 		if (options.sound) {
 			const innerAudioContext = wx.createInnerAudioContext()
 			innerAudioContext.autoplay = true
@@ -57,7 +62,8 @@ Page({
 		})
 		if (!_GData.userInfo) {
 			wx.getUserInfo({
-				success:  (res)=> {
+				success: function (res) {
+					console.log(res)
 					if (res.userInfo) {
 						wx.setStorage({
 							key: 'userInfo',
@@ -184,7 +190,13 @@ Page({
 		return {
 			title: shareMsg,
 			imageUrl: shareImg,
-			path: sharepath
+			path: sharepath,
+			success: function (res) {
+				// 转发成功
+			},
+			fail: function (res) {
+				// 转发失败
+			}
 		}
 	},
 	//拆签或者去
@@ -359,6 +371,7 @@ Page({
 function getQian(qId,_self){
 	wx.getNetworkType({
 		success:(res)=> {
+			console.log('输出当前网络状态：',res)
 			if(res.networkType === 'none'){
 				wx.showLoading({
 					title : '加载中...',
@@ -367,6 +380,7 @@ function getQian(qId,_self){
 				setTimeout(function(){
 					$vm.api.getX511({ id: qId })
 					.then(res => {
+						console.log('签的数据===================：', res)
 						let lotDetail = parseLot(res)
 						_self.setData({
 							lotDetail: lotDetail
@@ -387,32 +401,31 @@ function getQian(qId,_self){
 						console.log('进入错误状态')
 					})
 				},3000)
+			}else{
+				$vm.api.getX511({ id: qId })
+				.then(res => {
+					console.log('签的数据===================：', res)
+					// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
+					var lotDetail = parseLot(res)
+					_self.setData({
+						lotDetail: lotDetail
+					})
+				}).catch(err =>{
+					_self.setData({
+						isError : true
+					})
+					wx.showModal({
+						title: '网络错误',
+						content: '小主您的网络有点小问题哦,请重新尝试',
+						confirmText : '重新尝试',
+						showCancel: false,
+						success (){
+							getQian(qId,_self);
+						}
+					})
+					console.log('进入错误状态')
+				})
 			}
-			// else{
-			// 	$vm.api.getX511({ id: qId })
-			// 	.then(res => {
-			// 		console.log('签的数据===================：', res)
-			// 		// res.qianContent = '近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜\n近朱者赤近你者甜'
-			// 		var lotDetail = parseLot(res)
-			// 		_self.setData({
-			// 			lotDetail: lotDetail
-			// 		})
-			// 	}).catch(err =>{
-			// 		_self.setData({
-			// 			isError : true
-			// 		})
-			// 		wx.showModal({
-			// 			title: '网络错误',
-			// 			content: '小主您的网络有点小问题哦,请重新尝试',
-			// 			confirmText : '重新尝试',
-			// 			showCancel: false,
-			// 			success (){
-			// 				getQian(qId,_self);
-			// 			}
-			// 		})
-			// 		console.log('进入错误状态')
-			// 	})
-			// }
 		}
 	})
 }

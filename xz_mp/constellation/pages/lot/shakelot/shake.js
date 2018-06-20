@@ -5,7 +5,6 @@ const _GData = $vm.globalData;
 const {
     parseLot
 } = $vm.utils
-const getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
 var mta = require('../../../utils/mta_analysis.js')
 let imgs = require('./imgs.js')
 
@@ -14,16 +13,14 @@ let reg = /^\d{6}$/;
 
 Page({
 
-    /**
-     * 页面的初始数据
-     */
+    // 页面的初始数据
     data: {
         isLoading: false,
         hasReturn: false,
         hasAuthorize: true,
         isFromShare: false,
         isOther: false,
-        shakeLotSpeed: false, //摇签状态 
+        shakeLotSpeed: false, //摇签状态,是否在摇动 
         potPath: false,
         userInfo: _GData.userInfo,
         isShaking:false, // 是否正在摇
@@ -44,7 +41,7 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function (options) {
+    onLoad (options) {
         mta.Page.init()
         let fromPage = options.from || ''
         this.setData({
@@ -72,7 +69,6 @@ Page({
                 isFromShare: true,
                 "navConf.root": '/pages/home/home'
             })
-            console.log('ico_in_from_shake_activity')
             mta.Event.stat("ico_in_from_shake_activity", {})
         } else if (fromPage == 'outer' && options.id) {
             this.setData({
@@ -89,7 +85,6 @@ Page({
                 isFromShare: true,
                 "navConf.root": '/pages/home/home'
             })
-            console.log('输出活动来源', options.id)
             if (reg.test(options.id)) {
                 mta.Event.stat('spread_' + options.id, {})
             } else {
@@ -102,7 +97,6 @@ Page({
                 isFromShare: true,
                 "navConf.root": '/pages/home/home'
             })
-            console.log('输出活动来源', options.id)
             if (reg.test(options.id)) {
                 mta.Event.stat(options.source + '_' + options.id, {})
             } else {
@@ -114,7 +108,8 @@ Page({
         const _SData = this.data
 
         this.setData({
-            userInfo: _GData.userInfo
+            userInfo: _GData.userInfo,
+            shakeLotSpeed:false
         })
 
         wx.getUserInfo({
@@ -130,7 +125,6 @@ Page({
                         userInfo: _GData.userInfo
                     })
                     // 获取一签盒数据状态
-                    // getX510(_self);
                     $vm.api.getSelectx100({
                         constellationId: _GData.selectConstellation.id,
                         nickName: res.userInfo.nickName,
@@ -155,7 +149,6 @@ Page({
                 })
             }
         })
-
     },
 
     /**
@@ -165,6 +158,9 @@ Page({
         this.shakeFun()
         this.setData({
             hasReturn: false,
+            potPath: false,
+            shakeLotSpeed:false,  // 摇晃回正
+            "navConf.isIcon":true // 显示返回
         })
         // 获取一签盒数据状态
         getX510(this)
@@ -202,16 +198,20 @@ Page({
         }
     },
 
-    drawLots() {
+    handleShakingClick() {
         mta.Event.stat("ico_shake_shake", {})
         const _self = this
         const _SData = this.data
+        // if (_SData.shakeLotSpeed||_SData.hasReturn || _SData.isLoading || !_SData.hasAuthorize)  return
+        console.log('是否摇动了？？',_self.data.shakeLotSpeed,_self.data.hasReturn, _self.data.isLoading,!_self.data.hasAuthorize)
+       
         if (_self.data.shakeLotSpeed) {
             return
         }
         if (_self.data.hasReturn || _self.data.isLoading || (!_self.data.hasAuthorize)) {
             return
         }
+
         const innerAudioContext = wx.createInnerAudioContext()
         innerAudioContext.autoplay = true
         innerAudioContext.src = '/assets/shake.mp3'
@@ -223,7 +223,8 @@ Page({
         this.setData({
             shakeLotSpeed: true,
             potPath: true,
-            isLoading: true
+            isLoading: true,
+            "navConf.isIcon":false
         })
 
         // 获取摇签数据
@@ -251,7 +252,7 @@ Page({
         const numX = 0.15 //x轴
         const numY = 0.15 // y轴
         const numZ = 0.15 // z轴
-        let isShaking = false // 开关，保证在一定的时间内只能是一次，摇成功
+        let _this = this
         let positivenum = 0 //正数 摇一摇总数
 
         wx.onAccelerometerChange((res) => { //小程序api 加速度计
@@ -263,17 +264,13 @@ Page({
                     positivenum = 0
                 }, 2000) //计时两秒内没有摇到指定次数，重新计算
             }
-            if (positivenum == 1 && !isShaking) { //是否摇了指定的次数，执行成功后的操作
-                isShaking = true
-                this.setData( {isShaking} )
-                this.drawLots()
+            if (positivenum === 1) { //是否摇了指定的次数，执行成功后的操作
+                _this.handleShakingClick()
+                console.log('摇动了没',_this)
                 wx.stopAccelerometer({})
                 setTimeout(() => {
                     positivenum = 0 // 摇一摇总数，重新0开始，计算
-                    isShaking = false
-                    // this.setData( {
-                    //     isShaking
-                    // }} )
+                    _this.setData( {shakeLotSpeed:false} )
                 }, 2000)
             }
         })
@@ -380,18 +377,19 @@ const getX504 = (_self, _SData) => {
             notShowLoading: true,
         })
         .then(res => {
+            
             if (_self.data.hasReturn) {
                 return
             }
             _self.setData({
                 isLoading: false
             })
-            // if (!res) {
-            //     wx.navigateTo({
-            //         url: '/pages/lot/lotlist/lotlist'
-            //     })
-            //     return
-            // }
+            if (!res) {
+                wx.navigateTo({
+                    url: '/pages/lot/lotlist/lotlist'
+                })
+                return
+            }
             res.isMyQian = 1
             res.alreadyOpen = 1
             var lotDetail = parseLot(res)
@@ -472,14 +470,12 @@ const getX504 = (_self, _SData) => {
             if (sendLen > 1) {
                 sendLen = 0
                 setTimeout(() => {
+                    console.log('err',err)
                     wx.showModal({
                         title: '网络开小差了',
                         content: '小主，请您检查网络后再试',
                         showCancel: false,
-                        confirmText: '再试一次',
-                        success: function (res) {},
-                        fail: function (res) {},
-                        complete: function (res) {},
+                        confirmText: '再试一次'
                     })
                     // 变更UI状态
                     _self.setData({

@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 5,
+			"current": 9,
 			"list": [
 				{
 					"id": 1,
@@ -108,6 +108,18 @@
 					"pathName": "pages/myAccount/myAccount",
 					"query": "",
 					"scene": "1011"
+				},
+				{
+					"id": 11,
+					"name": "抽签次数为0",
+					"pathName": "pages/lot/emptylot/emptylot",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "拆签页",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": ""
 				}
 			]
 		}

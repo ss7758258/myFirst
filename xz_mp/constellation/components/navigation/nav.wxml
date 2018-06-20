@@ -7,7 +7,7 @@
         src="{{opts.iconPath === '' ? '' : opts.iconPath}}">
         </image>
         <icon class="nav_state back_img {{opts.color}}" wx:if="{{opts.root === '' && !opts.isRoot && opts.isIcon}}" catchtap="goBack"></icon>
-        <icon class="nav_state home_img" wx:if="{{opts.root !== '' && !opts.isRoot && opts.isIcon}}" catchtap="goHome">jiazai</icon>
+        <icon class="nav_state home_img" wx:if="{{opts.root !== '' && !opts.isRoot && opts.isIcon}}" catchtap="goHome"></icon>
         <text class="nav_title" wx:if="{{opts.isTitle}}">{{opts.title}}</text>
     </view>
 </view>
