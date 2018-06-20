@@ -131,9 +131,7 @@ Page({
 
 		wx.getUserInfo({
 			success: (res) => {
-				let {
-					userInfo
-				} = res
+				let { userInfo } = res
 				if (userInfo) {
 					wx.setStorage({
 						key: 'userInfo',
@@ -155,7 +153,7 @@ Page({
 					})
 				}
 			},
-			fail: function () {
+			fail: (err) => {
 				// 检查是否授权
 				wx.getSetting({
 					success: (res) => {
@@ -174,7 +172,7 @@ Page({
 	},
 
 	// 点击右上角分享
-	onShareAppMessage: function (res) {
+	onShareAppMessage (res) {
 		mta.Event.stat("ico_from_home", {})
 		return {
 			title: '用小哥星座，得最全最准的运势预测！',
@@ -216,6 +214,7 @@ Page({
 
 	//圈圈的动态
 	_circleDynamic() {
+		const _this = this
 		const _SData = this.data
 		const myLuckList = _SData.myLuck
 
@@ -237,11 +236,11 @@ Page({
 			t++
 			if (t > d) return
 			keys.forEach((v, ind) => {
-				this.setData({
+				_this.setData({
 					[v]: Math.floor(countOffset(t, b, counts[ind], d))
 				})
 			})
-			this.data.timer = setTimeout(price, 15)
+			_SData.timer = setTimeout(price, 15)
 		}
 		return price
 	},
@@ -291,7 +290,6 @@ Page({
 			data: null,
 		})
 		_GData.selectConstellation = null
-
 
 		this.setData({
 			selectBack: true,

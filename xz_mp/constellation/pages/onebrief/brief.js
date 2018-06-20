@@ -30,13 +30,17 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage() {
     return {
       path: '/pages/onebrief/brief?from=share&to=brief'
     }
   },
+
+  // 显示图片
   _showImg() {
-    wx.showLoading({ title: '加载中...' })
+    wx.showLoading({
+      title: '加载中...'
+    })
     mta.Page.init()
     let env = 'dev'
     api.getDayx400({
@@ -51,7 +55,6 @@ Page({
           networkError: true,
           prevPic: "/assets/images/loading.png"
         })
-
       }
     }).catch(err => {
       wx.hideLoading()
@@ -90,7 +93,6 @@ Page({
         ctx.setFillStyle('white')
         ctx.fillRect(0, 0, 375, 667)
         ctx.drawImage(res[0].path, 0, 0, 375, 375.0 / res[0].width * res[0].height)
-
         ctx.setTextAlign('center') // 文字居中
         ctx.setFillStyle('#333333') // 文字颜色：黑色
         ctx.setFontSize(12) // 文字字号：22px
@@ -102,15 +104,15 @@ Page({
         ctx.setFillStyle('#333333') // 文字颜色：黑色
         ctx.setFontSize(12) // 文字字号：22px
         ctx.fillText("来自一言", 375 / 2, 631 + 12)
-
         ctx.draw()
-        setTimeout(function () {
+
+        setTimeout(() => {
           wx.canvasToTempFilePath({
             canvasId: 'shareCanvas',
-            success:  (res)=> {
+            success: (res) => {
               wx.saveImageToPhotosAlbum({
                 filePath: res.tempFilePath,
-                success:(res)=> {
+                success: (res) => {
                   wx.hideLoading()
                   wx.showModal({
                     title: '保存成功',
@@ -123,7 +125,7 @@ Page({
                 }
               })
             },
-            fail:  (res)=> {
+            fail: (res) => {
               wx.showToast({
                 title: '保存失败',
                 icon: 'none',
