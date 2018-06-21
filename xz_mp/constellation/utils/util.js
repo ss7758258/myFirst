@@ -169,15 +169,18 @@ function parseLot(res) {
     }
   }
 
+  console.log('=======================>troops',troops)
+
   var lotTitleHint = '下面是你的每日一签，快找好友帮你拆签吧~'
-  if (res.status == 1) {
-    if (res.isMyQian == 1) {
+  
+  if (res.status === 1) {
+    if (res.isMyQian === 1) {
       lotTitleHint = '你的好友已帮你完成拆签'
     } else {
       lotTitleHint = '此签已完成拆签'
     }
   } else {
-    if (res.isMyQian == 1) {
+    if (res.isMyQian === 1) {
       lotTitleHint = '下面是你的每日一签，快找好友帮你拆签吧~'
     } else {
       lotTitleHint = '是否能够拆签成功，全都仰仗你们了！'
@@ -188,10 +191,10 @@ function parseLot(res) {
     lotTitleHint: lotTitleHint,
     id: res.id,
     qianOpenSize: res.qianOpenSize,
-    hasChai: res.alreadyOpen > 0 || res.status == 1,
-    isOther: res.isMyQian == 0,
-    showChai: res.isMyQian == 0,
-    lotNotCompleted: res.status == 0,
+    isOpen: res.alreadyOpen > 0 || res.status === 1,
+    isOther: res.isMyQian === 0,
+    showChai: res.isMyQian === 0,
+    lotNotCompleted: res.status === 0,
     ownerHeadImage: res.ownerHeadImage,
     ownerNickName: res.ownerNickName,
     qianContent: res.qianContent,

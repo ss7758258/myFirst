@@ -14,8 +14,8 @@ Page({
     },
     balance: 0, // 默认余额
     currentItem: {}, //当前选中项,默认无
-    payBtnDisabled: true, // 支付按钮禁用状态
-    starList: [], // 选择列表
+    payBtnDisabled: true, // 支付按钮禁用状态，默认禁用
+    starList: [] // 星星列表
   },
 
   // 生命周期初始化组件
@@ -36,9 +36,7 @@ Page({
 
   // 获取商品列表
   _getGoodsList() {
-    let params = {
-      startpage: 1
-    }
+    let params = { startpage: 1 }
     api.getGoods(params).then(res => {
       let starList = res.goods
       this.setData({
@@ -60,7 +58,6 @@ Page({
   handlePayClick(ev) {
     let {id} = this.data.currentItem
     let params = { id }
-    let _this = this
 
     api.getRecharge(params).then(res => {
       res.payResponse.package = res.payResponse.packAge
@@ -69,12 +66,11 @@ Page({
       // 选项参数
       const payConfig = {
         ...res.payResponse,
-        success:(rr)=> {
-
+        success:()=> {
           // 更新余额
           this._getBlance()
         },
-        fail(res) {
+        fail:(res)=> {
 
         }
       }

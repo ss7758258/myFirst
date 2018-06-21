@@ -6,9 +6,7 @@ let imgs = require('../lotdetail/imgs')
 var pageNum = 1
 Page({
 
-    /**
-     * 页面的初始数据
-     */
+    // 页面的初始数据
     data: {
         isMore: false,
         noList: true,
@@ -30,9 +28,8 @@ Page({
      */
     onLoad: function(options) {
         mta.Page.init()
-        const _self = this
             // 获取签列表
-        getLists(_self);
+        getLists(this)
     },
 
     /**
@@ -55,7 +52,7 @@ Page({
             }
         }
     },
-    moreLot: function(e) {
+    moreLot(e) {
         const _self = this
         if (!_self.data.isMore) {
             return
@@ -94,7 +91,7 @@ Page({
                 })
             })
     },
-    onItemClick: function(e) {
+    onItemClick(e) {
         let clicks = wx.getStorageSync('click_list') || [];
         let timers = wx.getStorageSync('timer_list') || [];
         const _self = this
@@ -177,7 +174,7 @@ const getLists = (self) => {
                 time: temp.qianDate,
                 status: temp.status,
                 id: temp.id,
-                isClick: temp.status === 0 && clicks.indexOf(temp.id) === -1 ? true : false
+                isClick: temp.status === 0 && clicks.indexOf(temp.id) === -1 
             })
         }
         self.setData({

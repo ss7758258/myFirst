@@ -8,6 +8,7 @@ const mta = require('../../utils/mta_analysis.js') //腾讯云数据分析
 const reg = /^\d{6}$/ // 验证Id是否位6位纯数字
 
 Page({
+
 	//页面的初始数据
 	data: {
 		isLoading: false, //是否加载
@@ -67,10 +68,12 @@ Page({
 		isIPhoneX: false //判断是否是iPhoneX
 	},
 
-	//生命周期函数--监听页面加载
-	onLoad: function (options) {
+
+	// 监听页面加载
+	onLoad(options) {
 		getSystemInfo(this) //获取设备信息，判断是否是长屏手机
 		mta.Page.init() //页面初始化
+		const _self = this
 		const selectConstellation = _GData.selectConstellation
 
 		if (selectConstellation && !selectConstellation.isFirst) {
@@ -80,7 +83,7 @@ Page({
 				showHome: true,
 				'navConf.isIcon': true
 			})
-			this._renderLuckCircle()
+			this.renderLuckCircle()
 		} else {
 			this.setData({
 				showHome: false,
@@ -130,17 +133,19 @@ Page({
 		}
 
 		wx.getUserInfo({
-			success: (res) => {
-				let { userInfo } = res
+			success: function (res) {
+				let {
+					userInfo
+				} = res
 				if (userInfo) {
 					wx.setStorage({
 						key: 'userInfo',
 						data: userInfo
 					})
 					// 获取配置信息
-					getConfig(this)
+					getConfing(_self)
 					wx.setStorageSync('icon_Path', userInfo.avatarUrl)
-					this.setData({
+					_self.setData({
 						hasAuthorize: true,
 						'navConf.iconPath': userInfo.avatarUrl
 					})
@@ -153,12 +158,12 @@ Page({
 					})
 				}
 			},
-			fail: (err) => {
+			fail: function (res) {
 				// 检查是否授权
 				wx.getSetting({
-					success: (res) => {
+					success: function (res) {
 						if (!res.authSetting['scope.userInfo']) {
-							this.setData({
+							_self.setData({
 								hasAuthorize: false
 							})
 							wx.redirectTo({
@@ -171,17 +176,22 @@ Page({
 		})
 	},
 
-	// 点击右上角分享
-	onShareAppMessage (res) {
-		mta.Event.stat("ico_from_home", {})
+	// 用户点击右上角分享
+	onShareAppMessage(res) {
+		if (res.from = 'menu') {
+			mta.Event.stat("ico_from_home", {})
+		}
+
 		return {
 			title: '用小哥星座，得最全最准的运势预测！',
 			imageUrl: '/assets/images/share.jpg'
 		}
 	},
 
+
 	// 获取幸运值数据并渲染
-	_renderLuckCircle() {
+	renderLuckCircle() {
+		const _SData = this.data
 		api.getSelectx100({
 			constellationId: _GData.selectConstellation.id,
 			nickName: _GData.userInfo.nickName,
@@ -193,28 +203,15 @@ Page({
 				myLuck: myLuck,
 				remindToday: res.remindToday ? res.remindToday : ''
 			})
-
-			if (!this._pageSource(this.data)) {
-				this._circleDynamic()()
+			if (!this.goPage(_SData)) {
+				this.circleDynamic()()
 			}
 		})
 	},
 
-	// 判断 来源是“分享” 并且 前往页面是 “一言”
-	_pageSource(_SData) {
-		let shouldGo = false
-		if (_SData.pageFrom === 'share' && _SData.toPage === 'brief') {
-			wx.navigateTo({
-				url: '/pages/onebrief/brief?from=share'
-			})
-			shouldGo = true
-		}
-		return shouldGo
-	},
-
 	//圈圈的动态
-	_circleDynamic() {
-		const _this = this
+	circleDynamic(n) {
+		const _self = this
 		const _SData = this.data
 		const myLuckList = _SData.myLuck
 
@@ -232,20 +229,32 @@ Page({
 		let d = 15
 
 		function price() {
-			if (!this.data.showHome) return
+			if (!_self.data.showHome) return
 			t++
 			if (t > d) return
 			keys.forEach((v, ind) => {
-				_this.setData({
+				_self.setData({
 					[v]: Math.floor(countOffset(t, b, counts[ind], d))
 				})
 			})
-			_SData.timer = setTimeout(price, 15)
+			_self.data.timer = setTimeout(price, 15)
 		}
 		return price
 	},
 
-	// 点击选择某个星座触发事件
+	// 判断 来源是“分享” 并且 前往页面是 “一言”
+	goPage(_SData) {
+		let shouldGo = false
+		if (_SData.pageFrom === 'share' && _SData.toPage === 'brief') {
+			wx.navigateTo({
+				url: '/pages/onebrief/brief?from=share'
+			})
+			shouldGo = true
+		}
+		return shouldGo
+	},
+
+	// 点击选择某个星座
 	handleAnyXzClick(e) {
 
 		// 获取该元素的dom信息
@@ -274,15 +283,13 @@ Page({
 			'selectStatus.selected': true
 		})
 
-		this._renderLuckCircle()
+		this.renderLuckCircle()
 	},
 
-	//点击当前星座，清空_GData和Storage
-	handleCurrentXzClick(e) {
-		// 清除定时器,重新绘制幸运值圆圈
-		if (this.data.timer) {
-			clearTimeout(this.data.timer)
-		}
+	// 点击当前星座，清空_GData和Storage
+	handleCurrentXzClick() {
+
+		this.data.timer && clearTimeout(this.data.timer)
 
 		mta.Event.stat("ico_home_unselect", {})
 		wx.setStorage({
@@ -290,7 +297,6 @@ Page({
 			data: null,
 		})
 		_GData.selectConstellation = null
-
 		this.setData({
 			selectBack: true,
 			showHome: false,
@@ -300,33 +306,33 @@ Page({
 		})
 	},
 
-	//点击“一签”触发事件
-	handleOneLotClick(e) {
-		if (this.data.isLoading) return
-		this.setData({
+	// 点击“一签”事件
+	handleOneLotClick: function (e) {
+		const _self = this
+		if (_self.data.isLoading) {
+			return
+		}
+		_self.setData({
 			isLoading: true
 		})
-
 		let formid = e.detail.formId
-
 		api.getX610({
 			notShowLoading: true,
 			formid: formid
 		})
 		mta.Event.stat("ico_home_to_shake", {})
-
 		wx.navigateTo({
 			url: '/pages/lot/shakelot/shake?formid=' + formid,
-			complete: () => {
-				this.setData({
+			complete: function (res) {
+				_self.setData({
 					isLoading: false
 				})
 			}
 		})
 	},
 
-	// 点击“一言”触发事件
-	handleOneWordClick(e) {
+	//点击“一言”事件
+	handleOneWordClick: function (e) {
 		let key = e.detail.target.dataset.key || 'yiyan'
 		let formid = e.detail.formId
 
@@ -342,7 +348,6 @@ Page({
 			})
 			return
 		}
-
 		mta.Event.stat("ico_home_to_brief", {})
 		wx.navigateTo({
 			url: '/pages/onebrief/brief?formid=' + formid
@@ -350,7 +355,7 @@ Page({
 	},
 
 	// 点击跳转运势详情
-	handleLuckDetailClick(e) {
+	handleLuckDetailClick: function (e) {
 		let formid = e.detail.formId
 		api.getX610({
 			notShowLoading: true,
@@ -362,7 +367,7 @@ Page({
 		})
 	},
 
-	bindGetUserInfo(e) {
+	bindGetUserInfo: function (e) {
 		if (e.detail.userInfo) {
 			wx.setStorage({
 				key: 'userInfo',
@@ -381,11 +386,8 @@ Page({
 	}
 })
 
-/**
- * 获取配置信息
- * @param {*} obj
- */
-function getConfig(obj) {
+//获取配置信息
+function getConfing(obj) {
 	// 默认请求参数
 	const param = {
 		notShowLoading: true
@@ -411,10 +413,10 @@ function getConfig(obj) {
 			clockStatus: res.clockStatus && res.clockStatus === 1
 		})
 		// 保存通知开关状态
-		wx.setStorageSync('noticeStatus', res.noticeStatus || 0)
+		wx.setStorageSync('noticeStatus', res.noticeStatus ? res.noticeStatus : 0)
 
 		// 默认小打卡是关闭状态
-		wx.setStorageSync('clockStatus', res.clockStatus || 0)
+		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0)
 
 	}).catch(err => {
 		wx.showToast(FailMsg)
@@ -443,10 +445,7 @@ function getConfig(obj) {
 	})
 }
 
-/**
- * 获取系统比例加入比例标识
- * @param {*} self
- */
+// 获取系统比例加入比例标识
 function getSystemInfo(self) {
 	let res = wx.getSystemInfoSync()
 

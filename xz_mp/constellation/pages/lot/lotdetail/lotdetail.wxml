@@ -27,12 +27,12 @@
 
   <!--幸运签详情-->
   <view class="myLot">
-    <view class="box {{huan?'chaiwanqianxiaoshi':''}}" wx:if="{{lotDetail.lotNotCompleted}}">
+    <view class="box {{isOpend?'chaiwanqianxiaoshi':''}}" wx:if="{{lotDetail.lotNotCompleted}}">
       <image class="xiaoge" src="{{imgs.xiao}}"  />
       <image class="lot" src="{{imgs.lot}}"  />
       <image class="lotBg" src="/assets/images/lotBg.png"  />
     </view>
-    <view class="unLogBox  {{huan?'chaiwanqianchuxian':''}}" wx:else>
+    <view class="unLogBox  {{isOpend?'chaiwanqianchuxian':''}}" wx:else>
       <view class="unlotBg"></view>
       <view class="unLog">
         <view class="autoflex"></view>
@@ -77,9 +77,9 @@
         <image class="qipao" src="/assets/images/qipao.png" mode="widthFix" />
         <text class="qipaowenzi">帮助好友成功，你也去试试吧。</text>
       </view>
-      <form wx:if="{{lotDetail.showChai}}" class="botton " bindsubmit="chai" report-submit="true">
+      <form wx:if="{{lotDetail.showChai}}" class="botton " bindsubmit="handleOpenLotClick" report-submit="true">
         <button form-type="submit" hover-class="none" style="width:80%;color: rgb(158, 29, 29);margin: 0 auto;">
-          {{lotDetail.hasChai?'查看我的每日一签':'帮好友拆签'}}
+          {{lotDetail.isOpen?'查看我的每日一签':'帮好友拆签'}}
         </button>
       </form>
 

@@ -1,20 +1,20 @@
 <!-- 导航 -->
-<nav opts='{{navConf}}'></nav>
+<nav opts="{{navConf}}"></nav>
 
 
-<view class="banner" wx:if="{{swiper.list.length > 0 ? true : false}}">
+<view class="banner" wx:if="{{swiper.list.length > 0 }}">
     <swiper indicator-dots="{{swiper.indicatorDots}}" autoplay="{{swiper.autoplay}}" circular="{{swiper.circular}}" vertical="{{swiper.vertical}}"
         interval="{{swiper.interval}}" duration="{{swiper.duration}}" previous-margin="{{swiper.previousMargin}}px" next-margin="{{swiper.nextMargin}}px">
         <block wx:for="{{swiper.list}}">
             <!-- 可滑动Banner -->
-            <swiper-item wx:if="{{swiper.list.length > 1 ? true : false}}">
-                <view class="swiper-item" catchtap="goOuter" data-res="{{item}}">
+            <swiper-item wx:if="{{swiper.list.length > 1 }}">
+                <view class="swiper-item" catchtap="handleOutLinkClick" data-res="{{item}}">
                     <image mode="scaleToFill" src="{{item.imgUrl}}"></image>
                 </view>
             </swiper-item>
             <!-- 单条不可滑动状态 -->
             <swiper-item catchtouchmove="move" wx:else>
-                <view class="swiper-item" catchtap="goOuter" data-res="{{item}}">
+                <view class="swiper-item" catchtap="handleOutLinkClick" data-res="{{item}}">
                     <image mode="scaleToFill" src="{{item.imgUrl}}"></image>
                 </view>
             </swiper-item>
@@ -23,10 +23,17 @@
 </view>
 <view>
 
-
-    <view wx:for="{{list}}" wx:key="item.id" wx:if="{{item.type !== 4 ? true : false}}">
-        <!-- type为1是列表形式 -->
-        <view class="banner_list_panel" catchtap="goOuter" data-res="{{item}}" wx:if="{{item.type === 1 ? true : false}}">
+    <navigator wx:for="{{list}}" 
+            wx:key="{{item.id}}"
+            wx:if="{{item.type !== 4}}"
+            open-type="navigate"
+            target="miniProgram"
+            app-id="{{item.appId}}"
+            path= "{{item.path}}"
+            target="miniProgram">
+        <view class="banner_list_panel" 
+             data-res="{{item}}" 
+             wx:if="{{item.type === 1}}">
             <view class="banner_logo">
                 <view>
                     <image src="{{item.logo}}"></image>
@@ -42,9 +49,8 @@
             </view>
         </view>
 
-        <!-- 纯图片广告位 -->
         <view class="banner_img_panel" catchtap="goOuter" data-res="{{item}}" wx:if="{{item.type === 3 ? true : false}}">
             <image src="{{item.imgUrl}}"></image>
         </view>
-    </view>
+    </navigator>
 </view>

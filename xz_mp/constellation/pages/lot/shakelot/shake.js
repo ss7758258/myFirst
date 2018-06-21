@@ -124,13 +124,23 @@ Page({
                     _self.setData({
                         userInfo: _GData.userInfo
                     })
-                    // 获取一签盒数据状态
+                    // 获取星座
+                    // getX510(_self)
+                    console.log('-----------res.userInfo--------',res.userInfo)
+                    // console.log('-----------id--------',_GData.selectConstellation.id)
                     $vm.api.getSelectx100({
                         constellationId: _GData.selectConstellation.id,
                         nickName: res.userInfo.nickName,
-                        headImage: res.userInfo.avatarUrl,
-                        notShowLoading: true,
+                        headImage: res.userInfo.avatarUrl||'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2414722708,998833133&fm=58&w=121&h=140&img.JPEG',
+                        notShowLoading: true
+                    }).then((res)=>{
+                        console.log('==============>res',res)
+
+                    }).catch(err=>{
+                        console.log("==============>err",err)
+
                     })
+                   
                 }
             },
             fail: (res)=> {
@@ -202,8 +212,6 @@ Page({
         mta.Event.stat("ico_shake_shake", {})
         const _self = this
         const _SData = this.data
-        // if (_SData.shakeLotSpeed||_SData.hasReturn || _SData.isLoading || !_SData.hasAuthorize)  return
-        console.log('是否摇动了？？',_self.data.shakeLotSpeed,_self.data.hasReturn, _self.data.isLoading,!_self.data.hasAuthorize)
        
         if (_self.data.shakeLotSpeed) {
             return
@@ -215,9 +223,7 @@ Page({
         const innerAudioContext = wx.createInnerAudioContext()
         innerAudioContext.autoplay = true
         innerAudioContext.src = '/assets/shake.mp3'
-        innerAudioContext.onPlay(() => {
-            console.log('开始播放')
-        })
+        innerAudioContext.onPlay(() => { console.log('开始播放') })
 
         // 加快 摇动速度
         this.setData({
@@ -227,17 +233,19 @@ Page({
             "navConf.isIcon":false
         })
 
-        // 获取摇签数据
+        // 根据当前Storage的token值判断是否是新用户
         if (wx.getStorageSync('token')) {
-            // 拉取摇签数据
             getX504(_self, _SData)
         } else {
+            // 根据数据库匹配判断是否是新用户
             $vm.getLogin().then(res => {
                 wx.setStorageSync('token', res.token)
+                console.log('res1===============',res)
                 // 拉取摇签数据
                 getX504(_self, _SData)
             }).catch(err => {
                 $vm.getLogin().then(res => {
+                    console.log('res2===============',res)
                     wx.setStorageSync('token', res.token)
                     // 拉取摇签数据
                     getX504(_self, _SData)
@@ -246,8 +254,8 @@ Page({
         }
 
     },
+    
     shakeFun() { // 摇一摇方法封装
-
         const _SData = this.data
         const numX = 0.15 //x轴
         const numY = 0.15 // y轴
@@ -280,6 +288,7 @@ Page({
         let formid = e.detail.formId
 
         mta.Event.stat("ico_shake_to_list", {})
+
         $vm.api.getX610({
             notShowLoading: true,
             formid: formid
@@ -319,16 +328,10 @@ Page({
 
             })
         }
-
     },
-
 })
 
-/**
- * 获取一签盒列表数据
- * @param {number} [pageNum=1]
- * @param {number} [pageSize=10]
- */
+//获取一签盒列表数据
 const getX510 = (self, pageNum = 1, pageSize = 10) => {
     let clicks = wx.getStorageSync('click_list') || [];
     $vm.api.getX510({
@@ -364,20 +367,16 @@ let sendLen = 0;
 
 // 重置请求次数
 const resetLen = () => {
-    sendLen = 0;
+    sendLen = 0
 }
-/**
- * 获取签的数据信息
- * @param {*} _self
- * @param {*} _SData
- */
+
+// 获取签的数据信息
 const getX504 = (_self, _SData) => {
     if (sendLen > 1) return (sendLen = 0)
-    $vm.api.getX504({
-            notShowLoading: true,
-        })
+
+    $vm.api.getX504({ notShowLoading: true })
         .then(res => {
-            
+            console.log("res拿openId============",res.ownerOpenId)
             if (_self.data.hasReturn) {
                 return
             }
@@ -396,6 +395,7 @@ const getX504 = (_self, _SData) => {
 
             _GData.lotDetail = lotDetail
 
+            console.log("res.status============",res.status)
             if (res.status === 0) {
                 sendLen = 0
                 setTimeout(() => {
@@ -447,10 +447,7 @@ const getX504 = (_self, _SData) => {
                             title: '网络开小差了',
                             content: '小主，请您检查网络后再试',
                             showCancel: false,
-                            confirmText: '再试一次',
-                            success: function (res) {},
-                            fail: function (res) {},
-                            complete: function (res) {},
+                            confirmText: '再试一次'
                         })
                         // 变更UI状态
                         _self.setData({
@@ -470,7 +467,6 @@ const getX504 = (_self, _SData) => {
             if (sendLen > 1) {
                 sendLen = 0
                 setTimeout(() => {
-                    console.log('err',err)
                     wx.showModal({
                         title: '网络开小差了',
                         content: '小主，请您检查网络后再试',

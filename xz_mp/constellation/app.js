@@ -42,6 +42,7 @@ App({
   getLogin() {
     return new utils.Promise((resolve, reject) => {
       return utils.login().then(res => {
+        console.log("res.code================",res.code)
         api.getLogin({
           notShowLoading: true,
           code: res.code

@@ -22,7 +22,7 @@
     </view>
 
     <!-- 小星星 -->
-    <view class="flex card_record"  bindtap="handleWalletClick">
+    <!-- <view class="flex card_record"  bindtap="handleWalletClick">
         <view>
             <image class="notice_icon" src="{{imgs.wallet}}"></image>
         </view>
@@ -30,7 +30,9 @@
         <view>
             <image class="notice_icon" src="{{imgs.right}}"></image>
         </view>
-    </view>
+    </view> -->
+
+
     <!-- 每日打卡-->
     <!-- <view class="flex card_record" wx:if="{{clockStatus}}" bindtap="handleClockinClick">
         <view>

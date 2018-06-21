@@ -466,7 +466,6 @@ Page({
 
     $vm.api.getX506({ id: this.data.qId })
       .then(res => {
-        console.log(res)
         var myLot = _self.parseLot(res)
         _self.setData({
           myLot: myLot,
@@ -506,8 +505,13 @@ Page({
           name: res['friendOpenId' + i],
           photo: res['friendHeadImage' + i],
         })
+
+       
       }
     }
+
+    
+  console.log('troops=======================>',troops)
 
     var myLot = {
       troops: troops
@@ -537,7 +541,6 @@ Page({
       showCanvas: true,
     })
 
-    console.log(res)
     const ctx = wx.createCanvasContext('shareCanvas')
     ctx.drawImage('/assets/images/share1Bg.png', 0, 0, 750, 750)
     // 签类型

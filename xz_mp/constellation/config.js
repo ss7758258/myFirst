@@ -1,3 +1,4 @@
-const DEV  = 'dev' // 开发环境
+// const DEV  = 'dev' // 开发环境
+// const PRO  = 'pro' // shen
 
-module.exports = DEV
+module.exports = 'pro'

@@ -7,7 +7,7 @@
 		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
-		"minified": false,
+		"minified": true,
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
@@ -89,10 +89,10 @@
 					"scene": "1011"
 				},
 				{
-					"id": -1,
+					"id": 8,
 					"name": "活动摇签",
 					"pathName": "pages/lot/shakelot/shake",
-					"query": "from=spread&id=789456",
+					"query": "from=share",
 					"scene": "1011"
 				},
 				{
@@ -116,10 +116,11 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 12,
 					"name": "拆签页",
 					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": ""
+					"query": "lotId=331796&from=share",
+					"scene": "1011"
 				},
 				{
 					"id": 13,
