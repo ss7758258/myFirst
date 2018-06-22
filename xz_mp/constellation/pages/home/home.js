@@ -14,8 +14,9 @@ Page({
 		isLoading: false, //是否加载
 		selectBack: false, // 回退
 		showHome: false, //显示主页
-		hasAuthorize: true,
-		signList: $vm.utils.constellation,
+		hasAuthorize: true, //是否已授权
+		signList: $vm.utils.constellation, //星座列表
+		luckyBtnShow: true, // 显示运势提醒 ，默认显示
 		selectStatus: {
 			selected: false,
 			current: -1
@@ -252,6 +253,28 @@ Page({
 			shouldGo = true
 		}
 		return shouldGo
+	},
+
+	// 是否打开运势提醒
+	handleOpenLuckyClick(e) {
+		wx.showModal({
+			title: '是否打开运势提醒？',
+			success: (res) => {
+				const { confirm, cancel } = res
+				let noticeStatus =  confirm ? 1:0
+
+				if (confirm) {
+					this.setData({
+						luckyBtnShow: false
+					})
+					api.setUserSetting({
+            noticeStatus
+       	  })
+				} else if (cancel) {
+					console.log('用户点击取消')
+				}
+			}
+		})
 	},
 
 	// 点击选择某个星座

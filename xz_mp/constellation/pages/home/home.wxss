@@ -459,8 +459,10 @@
 }
 
 .signTitle {
+	display: block;
 	height: 5.893553223388306vh;
-	margin-top: 0.7vh;
+	margin:auto;
+	width:24vw;
 	padding: 0.18740629685157423vh;
 	font-size: 3.7333333333333334vw;
 	line-height: 3vh;
@@ -469,6 +471,38 @@
 	color: white;
 	background-color: rgba(255, 255, 255, 0.2);
 }
+
+/* 运势提醒按钮 */
+.lucky-wrapper{
+	position: relative;
+	text-align: center;
+	padding:0.7vw 0 0 0;
+}
+
+.lucky-btn {
+	position: relative;
+	width: 230rpx;
+	height: 130rpx;
+	line-height: 130rpx;
+	padding:0;
+	color: #fff;
+	background-image: linear-gradient(to bottom,#C49BFD,#9262FB);
+	box-shadow: inset 1rpx -1rpx 2rpx rgba(255,255,255,1);
+	border-top: 0.5rpx solid rgba(255,255,255,1);
+}
+.lucky-wrapper::before{
+	content: "";
+	position: absolute;
+	z-index: 1;
+	width: 200px;
+	height: 100%;
+	top: 0;
+	left: -150px;
+	background: linear-gradient( left, rgba(255, 255, 255, 0)0, rgba(255, 255, 255, 0.52)50%, rgba(255, 255, 255, 0)100%);
+	transform: skewX(28deg);
+	transition: left 1s ease 0s;
+}
+
 
 .signTitle>text {
 	display: block;

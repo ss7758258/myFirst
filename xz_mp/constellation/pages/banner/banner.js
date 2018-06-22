@@ -2,18 +2,6 @@ const API = require('../../utils/api')
 const mta = require('../../utils/mta_analysis.js')
 
 
-
-var obj = new Proxy({}, {
-    get(target, key, receiver) {
-        console.log(`getting ${key}!`)
-        return Reflect.get(target, key, receiver)
-    },
-    set(target, key, value, receiver) {
-        console.log(`setting ${key}!`)
-        return Reflect.set(target, key, value, receiver)
-    }
-})
-
 // 处理方法存放的对象
 let methods = function (self = null) {
 
@@ -84,8 +72,6 @@ const Conf = {
         isLock: false
     },
     onLoad() {
-
-        console.log(obj.set)
 
         methods = methods(this)
 
