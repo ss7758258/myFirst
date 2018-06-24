@@ -82,6 +82,7 @@
 	display: flex;
 	align-items: center;
 	padding: 20rpx;
+    height: 6.133333333333334vw;
 	margin-top: 5rpx;
 	line-height: 1;
 	background-color: rgba(0, 0, 0, 0.3);
