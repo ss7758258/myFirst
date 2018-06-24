@@ -14,7 +14,7 @@ Page({
             // root : '/pages/home/home'
         },
         imgs,
-        isFlag : true,  //通知的开关 默认开启
+        isFlag : false,  //通知的开关 默认关闭
         clockStatus : false,  //小打卡开关
         iconPath : imgs.icon,
         nickName : ''
