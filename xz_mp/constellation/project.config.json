@@ -101,6 +101,12 @@
 					"pathName": "pages/banner/banner",
 					"query": "",
 					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "帮好友拆签",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": "from=share&lotId=565200"
 				}
 			]
 		}

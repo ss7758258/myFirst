@@ -1,6 +1,6 @@
 // pages/lot/lotdetail/lotdetail.js
 const $vm = getApp()
-const _GData = $vm.globalData
+let _GData = $vm.globalData
 const { canvasTextAutoLine, parseLot } = $vm.utils
 var mta = require('../../../utils/mta_analysis.js');
 const imgs = require('./imgs.js')
@@ -38,6 +38,8 @@ Page({
 	 */
 	onLoad: function (options) {
 		mta.Page.init()
+		// 重新获取一次全局数据
+		_GData = $vm.globalData
 		console.log(options)
 		wx.hideShareMenu({
 			success: function (res) { },
@@ -269,7 +271,14 @@ Page({
 							})
 
 						}, fail(res) {
-							console.log(res)
+							wx.showToast({
+								title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+								icon: 'none',
+								duration: 3000
+							})
+							_self.setData({
+								showCanvas: false,
+							})
 						}, complete(res) {
 							// wx.hideLoading()
 							_self.setData({
@@ -282,8 +291,9 @@ Page({
 					console.log(res)
 					wx.hideLoading()
 					wx.showToast({
-						title: '保存失败',
+						title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
 						icon: 'none',
+						duration: 3000
 					})
 					_self.setData({
 						showCanvas: false
