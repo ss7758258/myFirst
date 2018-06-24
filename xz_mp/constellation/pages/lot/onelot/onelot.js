@@ -6,7 +6,7 @@ const getImageInfo = $vm.utils.wxPromisify(wx.getImageInfo)
 const { canvasTextAutoLine } = $vm.utils
 Page({
 
-	/**
+  /**
 	 * 页面的初始数据
 	 */
   data: {
@@ -15,7 +15,7 @@ Page({
     isOther: false,
     qianOpenSize: 3,
     src: '',
-    //模块显示状态
+    // 模块显示状态
     shakeLotShow: true,
     lotListShow: false,
     myLotShow: false,
@@ -23,7 +23,7 @@ Page({
     showChai: false,
 
     hasChai: false,
-    //摇签状态
+    // 摇签状态
     shakeLotStatus: false,
     shakeLotSpeed: false,
     lotNotCompleted: true,
@@ -33,13 +33,13 @@ Page({
     lotTitleHint: '摇摇手机，立即抽取你的每日一签',
     lotList: {
       count: 0,
-      list: []
+      list: [],
     },
 
 
     myLot: {
-      troops: []
-    }
+      troops: [],
+    },
 
   },
 
@@ -55,11 +55,11 @@ Page({
     const _self = this
     // 加快 摇动速度
     this.setData({
-      shakeLotSpeed: true
+      shakeLotSpeed: true,
     })
-    //状态status 的值： @4-状态-1=已拆,0=拆迁中
+    // 状态status 的值： @4-状态-1=已拆,0=拆迁中
     $vm.api.getX504({})
-      .then(res => {
+      .then((res) => {
         console.log(res)
         wx.setNavigationBarTitle({
           title: '拆签',
@@ -77,14 +77,14 @@ Page({
           qianContent: res.qianContent,
           ownerNickName: res.ownerNickName,
           ownerHeadImage: res.ownerHeadImage,
-          qianDate: res.qianDate
+          qianDate: res.qianDate,
         })
         if (res.status === 0) {
           setTimeout(() => {
             // 摇出一个签
             this.setData({
               shakeLotStatus: true,
-              shakeLotSpeed: false
+              shakeLotSpeed: false,
             })
 
             setTimeout(() => {
@@ -104,15 +104,13 @@ Page({
             this.setData({
               lotTitleHint: '你的好友已帮你完成拆签',
               shakeLotStatus: false,
-              shakeLotSpeed: false
+              shakeLotSpeed: false,
             })
             // 显示签详情
             _self.showEmptyLot()
-
           }, 1500)
         }
       })
-
   },
 
   // 显示我的签列表
@@ -122,7 +120,7 @@ Page({
     })
     const _self = this
     $vm.api.getX510({ pageNum: 1, pageSize: 10 })
-      .then(res => {
+      .then((res) => {
         console.log(res)
         var list = []
         for (var i = 0; i < res.length; i++) {
@@ -131,7 +129,7 @@ Page({
             index: i,
             time: dd.qianDate,
             status: dd.status,
-            id: dd.id
+            id: dd.id,
           })
         }
         _self.setData({
@@ -156,7 +154,8 @@ Page({
       showEmptyLot: true,
     })
   },
-	/**
+
+  /**
 	 * 生命周期函数--监听页面加载
 	 */
   onLoad: function (options) {
@@ -178,7 +177,7 @@ Page({
         qId: qId,
       })
       $vm.api.getX511({ id: qId })
-        .then(res => {
+        .then((res) => {
           console.log(res)
           wx.setNavigationBarTitle({
             title: '拆签',
@@ -191,20 +190,18 @@ Page({
             qianContent: res.qianContent,
             ownerNickName: res.ownerNickName,
             ownerHeadImage: res.ownerHeadImage,
-            qianDate: res.qianDate
+            qianDate: res.qianDate,
 
           })
-          ///这个签被你开过了
+          // /这个签被你开过了
           if (res.alreadyOpen > 0) {
             _self.setData({
               hasChai: true,
             })
           }
-          ////是自己的签
+          // //是自己的签
           if (res.isMyQian == 1) {
-
             if (res.status == 1) {
-
               _self.setData({
                 shakeLotShow: false,
                 myLotShow: true,
@@ -215,7 +212,6 @@ Page({
                 isOther: false,
                 lotTitleHint: '你的好友已帮你完成拆签',
               })
-
             } else {
               _self.setData({
                 showChai: false,
@@ -223,7 +219,6 @@ Page({
                 lotTitleHint: '下面是你的每日一签，快找好友帮你拆签吧~',
               })
             }
-
           } else {
             if (res.status == 1) {
               _self.setData({
@@ -240,7 +235,7 @@ Page({
             }
           }
         })
-        .catch(err => {
+        .catch((err) => {
           wx.showToast({
             title: err,
           })
@@ -248,32 +243,34 @@ Page({
     } else {
       if (pageFrom == 'shake') {
         _self.setData({
-          isFromShare: true
+          isFromShare: true,
         })
       }
       _self.shakeFun()
     }
-
-
   },
   shakeFun: function () { // 摇一摇方法封装
     const _self = this
-    var numX = 0 //x轴
+    var numX = 0 // x轴
     var numY = 0 // y轴
     var numZ = 0 // z轴
     var stsw = true // 开关，保证在一定的时间内只能是一次，摇成功
-    var positivenum = 0 //正数 摇一摇总数
+    var positivenum = 0 // 正数 摇一摇总数
 
-    wx.onAccelerometerChange(function (res) {  //小程序api 加速度计
-      if (numX < res.x && numY < res.y) {  //个人看法，一次正数算摇一次，还有更复杂的
+    wx.onAccelerometerChange(function (res) { // 小程序api 加速度计
+      if (numX < res.x && numY < res.y) { // 个人看法，一次正数算摇一次，还有更复杂的
         positivenum++
-        setTimeout(() => { positivenum = 0 }, 2000) //计时两秒内没有摇到指定次数，重新计算
+        setTimeout(() => {
+          positivenum = 0
+        }, 2000) // 计时两秒内没有摇到指定次数，重新计算
       }
-      if (numZ < res.z && numY < res.y) { //可以上下摇，上面的是左右摇
+      if (numZ < res.z && numY < res.y) { // 可以上下摇，上面的是左右摇
         positivenum++
-        setTimeout(() => { positivenum = 0 }, 2000) //计时两秒内没有摇到指定次数，重新计算
+        setTimeout(() => {
+          positivenum = 0
+        }, 2000) // 计时两秒内没有摇到指定次数，重新计算
       }
-      if (positivenum == 2 && stsw) { //是否摇了指定的次数，执行成功后的操作
+      if (positivenum == 2 && stsw) { // 是否摇了指定的次数，执行成功后的操作
         stsw = false
 
         _self.drawLots()
@@ -288,49 +285,38 @@ Page({
       }
     })
   },
-	/**
+
+  /**
 	 * 生命周期函数--监听页面初次渲染完成
 	 */
-  onReady: function () {
+  onReady: function () {},
 
-  },
-
-	/**
+  /**
 	 * 生命周期函数--监听页面显示
 	 */
-  onShow: function () {
+  onShow: function () {},
 
-  },
-
-	/**
+  /**
 	 * 生命周期函数--监听页面隐藏
 	 */
-  onHide: function () {
+  onHide: function () {},
 
-  },
-
-	/**
+  /**
 	 * 生命周期函数--监听页面卸载
 	 */
-  onUnload: function () {
+  onUnload: function () {},
 
-  },
-
-	/**
+  /**
 	 * 页面相关事件处理函数--监听用户下拉动作
 	 */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function () {},
 
-  },
-
-	/**
+  /**
 	 * 页面上拉触底事件的处理函数
 	 */
-  onReachBottom: function () {
+  onReachBottom: function () {},
 
-  },
-
-	/**
+  /**
 	 * 用户点击右上角分享
 	 */
   onShareAppMessage: function (res) {
@@ -360,7 +346,7 @@ Page({
       },
       fail: function (res) {
         // 转发失败
-      }
+      },
     }
   },
 
@@ -385,7 +371,7 @@ Page({
       lotNotCompleted: lotNotCompleted,
     })
     $vm.api.getX511({ id: id })
-      .then(res => {
+      .then((res) => {
         console.log(res)
         var myLot = _self.parseLot(res)
         _self.setData({
@@ -396,19 +382,17 @@ Page({
           qianContent: res.qianContent,
           ownerNickName: res.ownerNickName,
           ownerHeadImage: res.ownerHeadImage,
-          qianDate: res.qianDate
+          qianDate: res.qianDate,
         })
-        ///这个签被你开过了
+        // /这个签被你开过了
         if (res.alreadyOpen > 0) {
           _self.setData({
             hasChai: true,
           })
         }
-        ////是自己的签
+        // //是自己的签
         if (res.isMyQian == 1) {
-
           if (res.status == 1) {
-
             _self.setData({
               shakeLotShow: false,
               myLotShow: true,
@@ -419,7 +403,6 @@ Page({
               isOther: false,
               lotTitleHint: '你的好友已帮你完成拆签',
             })
-
           } else {
             _self.setData({
               showChai: false,
@@ -428,7 +411,6 @@ Page({
               lotTitleHint: '下面是你的每日一签，快找好友帮你拆签吧~',
             })
           }
-
         } else {
           if (res.status == 1) {
             _self.setData({
@@ -443,19 +425,15 @@ Page({
               lotTitleHint: '是否能够拆签成功，全都仰仗你们了！',
             })
           }
-
         }
       })
-
-
-
   },
   chai: function () {
     const _self = this
     const _Sdata = this.data
     if (_Sdata.hasChai) {
       _self.setData({
-        //模块显示状态
+        // 模块显示状态
         shakeLotShow: true,
         lotListShow: false,
         myLotShow: false,
@@ -471,7 +449,7 @@ Page({
     }
 
     $vm.api.getX506({ id: this.data.qId })
-      .then(res => {
+      .then((res) => {
         console.log(res)
         var myLot = _self.parseLot(res)
         _self.setData({
@@ -498,12 +476,9 @@ Page({
           })
         }
       })
-      .catch(err => {
-
-      })
+      .catch((err) => {})
   },
   parseLot: function (res) {
-
     var troops = []
     for (var i = 1; i < res.qianOpenSize + 1; i++) {
       if (res['friendOpenId' + i]) {
@@ -516,10 +491,9 @@ Page({
     }
 
     var myLot = {
-      troops: troops
+      troops: troops,
     }
     return myLot
-
   },
   onclickqian: function (res) {
     this.setData({
@@ -531,13 +505,12 @@ Page({
     })
   },
   onclickShareCircle: function (res) {
-
-    //保存图片
+    // 保存图片
     const _self = this
     const _SData = _self.data
     wx.showLoading({
       title: '图片生成中...',
-      mask: true
+      mask: true,
     })
     _self.setData({
       showCanvas: true,
@@ -547,9 +520,9 @@ Page({
     const ctx = wx.createCanvasContext('shareCanvas')
     ctx.drawImage('/assets/images/share1Bg.png', 0, 0, 750, 750)
     // 签类型
-    ctx.setTextAlign('center')    // 文字居中
-    ctx.setFillStyle('#ffffff')  // 文字颜色：白色
-    ctx.setFontSize(40)         // 文字字号：22px
+    ctx.setTextAlign('center') // 文字居中
+    ctx.setFillStyle('#ffffff') // 文字颜色：白色
+    ctx.setFontSize(40) // 文字字号：22px
     ctx.fillText(_SData.qianName, 750 / 2, 77 * 2 + 40)
     ctx.setTextAlign('left')
     ctx.setFontSize(32)
@@ -560,7 +533,7 @@ Page({
     ctx.fillText(_SData.ownerNickName, 750 - metrics1 - 64 * 2 - 32, 205 * 2 + 28, 310 * 2)
     let timer = new Date();
     let newDate = timer.getFullYear() + '-' + (timer.getMonth() + 1 > 9 ? timer.getMonth() + 1 : '0' + (timer.getMonth() + 1)) + '-' + (timer.getDate() > 9 ? timer.getDate() : '0' + timer.getDate());
-    console.log('输出日期：',newDate)
+    console.log('输出日期：', newDate)
     const metrics2 = ctx.measureText(newDate).width / 2
 
     ctx.fillText(newDate, 750 - metrics2 - 64 * 2 - 32, 225 * 2 + 28, 310 * 2)
@@ -577,35 +550,44 @@ Page({
           wx.saveImageToPhotosAlbum({
             filePath: res.tempFilePath,
             success(res) {
-
-							wx.hideLoading()
-              wx.showModal({
-								title: '保存成功',
-								content: '图片已经保存到相册，可以分享到朋友圈了',
-								showCancel: false
-							})
-
-            }, fail(res) {
-              console.log(res)
-            }, complete(res) {
-              // wx.hideLoading()
-              _self.setData({
-                showCanvas: false
-              })
-            }
+				wx.hideLoading()
+				wx.showModal({
+					title: '保存成功',
+					content: '图片已经保存到相册，可以分享到朋友圈了',
+					showCancel: false,
+				})
+            },
+            fail(res) {
+				console.log(res)
+				wx.showToast({
+					title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+					icon: 'none',
+					duration: 3000
+				})
+				_self.setData({
+					showCanvas: false,
+				})
+            },
+            complete(res) {
+				// wx.hideLoading()
+				_self.setData({
+					showCanvas: false,
+				})
+            },
           })
         },
         fail: function (res) {
-          console.log(res)
-          wx.hideLoading()
-          wx.showToast({
-            title: '保存失败',
-            icon: 'none',
-          })
-          _self.setData({
-            showCanvas: false
-          })
-        }
+			console.log(res)
+			wx.hideLoading()
+			wx.showToast({
+				title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+				icon: 'none',
+				duration: 3000
+			})
+			_self.setData({
+				showCanvas: false,
+			})
+        },
       })
     }, 1000)
   },
@@ -613,6 +595,6 @@ Page({
     wx.reLaunch({
       url: '/pages/home/home',
     })
-  }
+  },
 
 })

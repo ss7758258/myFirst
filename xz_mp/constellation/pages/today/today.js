@@ -14,16 +14,16 @@ Page({
     isFromShare: false,
     time: null,
     showCanvas: false,
-    navConf : {
-			title : '运势详情',
-			state : 'root',
-			isRoot : false,
-			isIcon : true,
-			iconPath : '',
-            root : '',
-            isTitle : true
-            // root : '/pages/home/home'
-		},
+    navConf: {
+      title: '运势详情',
+      state: 'root',
+      isRoot: false,
+      isIcon: true,
+      iconPath: '',
+      root: '',
+      isTitle: true,
+      // root : '/pages/home/home'
+    },
   },
 
   /**
@@ -32,37 +32,36 @@ Page({
   onLoad: function (options) {
     mta.Page.init()
     wx.hideShareMenu({
-      success: function (res) { },
-      fail: function (res) { },
-      complete: function (res) { },
+      success: function (res) {},
+      fail: function (res) {},
+      complete: function (res) {},
     })
     var fromwhere = options.from
     console.log(options)
     if (fromwhere == 'share' || fromwhere == 'form') {
       this.setData({
-        isFromShare: true
+        isFromShare: true,
       })
     }
 
     const _self = this
     $vm.api.getMorex300({ constellationId: _GData.selectConstellation.id })
-      .then(res => {
+      .then((res) => {
         console.log(res)
 
         var todayList = parseToady(res)
         _self.setData({
           time: res.createTime.substring(0, 10),
 
-          todayList: todayList
+          todayList: todayList,
         })
       })
   },
+
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-
-  },
+  onShow: function () {},
 
   /**
    * 用户点击右上角分享
@@ -75,10 +74,10 @@ Page({
       },
       fail: function (res) {
         // 转发失败
-      }
+      },
     }
   },
-  savePic: function (e) {//保存图片
+  savePic: function (e) { // 保存图片
     let formid = e.detail.formId
     mta.Event.stat("ico_today_save", {})
     $vm.api.getX610({ notShowLoading: true, formid: formid })
@@ -86,21 +85,21 @@ Page({
     const _SData = _self.data
     wx.showLoading({
       title: '图片生成中...',
-      mask: true
+      mask: true,
     })
     _self.setData({
       showCanvas: true,
     })
 
     const ctx = wx.createCanvasContext('shareCanvas')
-    ctx.drawImage('/assets/images/share2Bg.png', 0, 0, 750, 1334)//画背景
+    ctx.drawImage('/assets/images/share2Bg.png', 0, 0, 750, 1334)// 画背景
 
     for (var i = 0; i < _SData.todayList.length; i++) {
       let today = _SData.todayList[i]
 
       ctx.drawImage(today.img, 34 * 2, 59 * 2 + (70 * 2) * i, 34 * 2, 34 * 2)
       ctx.setTextAlign('left')
-      ctx.setFillStyle('#ffffff')  // 文字颜色：白色
+      ctx.setFillStyle('#ffffff') // 文字颜色：白色
       ctx.setFontSize(36)
       ctx.fillText(today.name, 71 * 2, 36 + 62 * 2 + (70 * 2) * i)
 
@@ -132,13 +131,13 @@ Page({
     let name = _GData.userInfo.nickName
     let signName = _GData.selectConstellation.name
     let aa = name + " " + signName
-    ctx.setFillStyle('#000000')  // 文字颜色：黑色
+    ctx.setFillStyle('#000000') // 文字颜色：黑色
     ctx.setFontSize(32)
     const metrics1 = ctx.measureText(aa).width / 2
     ctx.fillText(aa, 40, 1200 + 32)
     let timer = new Date();
     let newDate = timer.getFullYear() + '-' + (timer.getMonth() + 1 > 9 ? timer.getMonth() + 1 : '0' + (timer.getMonth() + 1)) + '-' + (timer.getDate() > 9 ? timer.getDate() : '0' + timer.getDate());
-    console.log('输出日期：',newDate)
+    console.log('输出日期：', newDate)
     // ctx.fillText(_SData.time, 40, 625 * 2 + 32)
     ctx.fillText(newDate, 40, 625 * 2 + 32)
     ctx.setFontSize(28)
@@ -163,50 +162,50 @@ Page({
         canvasId: 'shareCanvas',
         success: function (res) {
           console.log(res.tempFilePath)
-          wx.saveImageToPhotosAlbum({
-            filePath: res.tempFilePath,
-            success(res) {
-							wx.hideLoading()
-              wx.showModal({
-                title: '保存成功',
-                content: '图片已经保存到相册，可以分享到朋友圈了',
-                showCancel: false
-              })
-            },
-            complete(res) {
-              // wx.hideLoading()
-              _self.setData({
-                showCanvas: false
-              })
-            },
-            fail(res) {
-              wx.showToast({
-                title: '取消保存',
-                duration: 3000
-              })
-            }
-          })
+			wx.saveImageToPhotosAlbum({
+				filePath: res.tempFilePath,
+				success(res) {
+					wx.hideLoading()
+					wx.showModal({
+						title: '保存成功',
+						content: '图片已经保存到相册，可以分享到朋友圈了',
+						showCancel: false,
+					})
+				},
+				complete(res) {
+					// wx.hideLoading()
+					_self.setData({
+						showCanvas: false,
+					})
+				},
+				fail(res) {
+					wx.showToast({
+						title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+						icon: 'none',
+						duration: 3000
+					})
+					_self.setData({
+						showCanvas: false,
+					})
+				},
+			})
         },
         fail: function (res) {
-          console.log(res)
-          // wx.hideLoading()
-          wx.showToast({
-            title: '保存失败',
-            icon: 'none',
-          })
-          _self.setData({
-            showCanvas: false
-          })
-        }
+			wx.showToast({
+				title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+				icon: 'none',
+				duration: 3000
+			})
+			_self.setData({
+				showCanvas: false,
+			})
+        },
       })
     }, 1000)
-
-
-
   },
   onclickHome: function () {
     wx.reLaunch({
       url: '/pages/home/home',
     })
-  }
+  },
 })
