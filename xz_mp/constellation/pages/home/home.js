@@ -254,6 +254,19 @@ Page({
 
 	},
 
+	onShow(){
+		if(wx.getStorageSync('noticeStatus') === 1){
+			this.setData({
+				noticeBtnStatus : false
+			})
+		}else if(wx.getStorageSync('noticeStatus') === 0){
+			// 在用户未点击 且状态关闭时 按钮开关为打开状态下开启
+			this.setData({
+				noticeBtnStatus : true
+			})
+		}
+	},
+	
 	/**
 	 * 用户点击右上角分享
 	 */
@@ -437,6 +450,40 @@ Page({
 	},
 	show_card (e){
 		console.log('展示卡片数据：',e)
+	},
+	// 打开通知并且隐藏
+	openNotice(){
+		let me = this
+		// 更改通知设置 
+		api.setUserSetting({
+            noticeStatus : 1,
+            notShowLoading : true
+        }).then((res) => {
+            console.log('通知开关成功：',res)
+            if(res){
+                me.setData({
+                    noticeBtnStatus : false
+                })
+				// 保存通知开关状态
+				wx.setStorageSync('noticeStatus', 1);
+				wx.showToast({
+					title: '已为您开启提醒，关闭请前往个人中心',
+					icon: 'none',
+					duration: 2000
+				})
+                return false;
+            }
+			me.setData({
+				noticeBtnStatus : false
+			})
+        }).catch( () => {
+            console.log('通知开关失败：',res)
+            me.setData({
+				noticeBtnStatus : false
+			})
+			// 保存通知开关状态
+			wx.setStorageSync('noticeStatus', 0);
+        })
 	}
 })
 
@@ -465,6 +512,18 @@ function getConfing(me){
 		wx.setStorageSync('noticeStatus', res.noticeStatus ? res.noticeStatus : 0);
 		// 默认小打卡是关闭状态
 		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
+		let noticeFlag = true
+		// 开启了通知
+		if(wx.getStorageSync('noticeStatus') === 1){
+			noticeFlag = false
+		}
+		// 用户关闭了通知
+		if(wx.getStorageSync('noticeStatus') === 0){
+			noticeFlag = true
+		}
+		me.setData({
+			noticeBtnStatus : noticeFlag
+		})
 	}).catch( err => {
 		wx.showToast({
 			title : '加载配置失败，请小主检查网络后再试',
@@ -485,13 +544,13 @@ function getConfing(me){
 			})
 			return false;
 		}
-		// res.bannerStatus = 0
-		// console.log(res)
+
+		// 变更状态
 		me.setData({
 			isBanner : res.bannerStatus && res.bannerStatus === 1 ? true : false,
-			clockStatus : res.clockStatus && res.clockStatus === 1 ? true : false,
-			noticeBtnStatus : res.noticeBtnStatus && res.noticeBtnStatus === 1
+			clockStatus : res.clockStatus && res.clockStatus === 1 ? true : false
 		})
+
 		// res.adBtnText = '开始'
 		wx.setStorageSync('adBtnText', res.adBtnText ? res.adBtnText : '查看');
 		// 默认小打卡是关闭状态

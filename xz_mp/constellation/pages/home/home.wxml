@@ -35,7 +35,7 @@
 			<view class="signImg">
 				<image wx:if="{{myConstellation.img}}" src="{{myConstellation.img}}" />
 			</view>
-			<view class="signTitle">
+			<view class="signTitle" wx:if="{{!noticeBtnStatus}}" >
 				<text class="name">{{myConstellation.name}}</text>
 				<text class="time">{{myConstellation.time}}</text>
 				<!-- <image class="noticeBtnStatus" src="/assets/images/notice.png" wx:if="{{noticeBtnStatus}}" catchtap="onNotice"></image>
@@ -44,7 +44,12 @@
 				</view> -->
 			</view>
 		</button>
-		<view class="myLuck cbg3">
+		<view class="noticeBtnStatus" wx:if="{{noticeBtnStatus}}" catchtap="openNotice">
+			<view class="light"></view>
+			<view class="light"></view>
+			好运提醒我
+		</view>
+		<view class="myLuck cbg3 {{noticeBtnStatus ? 'notice' : ''}}">
 			<block wx:for="{{myLuck}}" wx:key="index">
 				<view class="item">
 					<view class="title">{{item.name}}</view>
