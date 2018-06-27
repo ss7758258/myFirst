@@ -53,58 +53,39 @@ Page({
 				hasAuthorize: true
 			})
 			_GData.userInfo = e.detail.userInfo
+			// 保存用户信息
 			$vm.api.getSelectx100({
 				constellationId : _GData.selectConstellation.id || 1,
 				nickName: e.detail.userInfo.nickName,
 				headImage: e.detail.userInfo.avatarUrl,
 				notShowLoading: true,
 			}).then(res => {
-				console.log(res)
-				$vm.getLogin().then(res => {
-					wx.setStorageSync('token', res.token)
-					if (_SData.pageFrom == 'shake') {
-						wx.redirectTo({
-							url: '/pages/lot/shakelot/shake?from=detail',
-						})
-					} else if (_SData.pageFrom == 'activity' && _SData.and == 'shake') {
-						wx.redirectTo({
-							url: '/pages/lot/shakelot/shake?from=activity',
-						})
-					} else if (_SData.pageFrom == 'share' && _SData.and == 'shake') {
-						wx.redirectTo({
-							url: '/pages/lot/shakelot/shake?from=share',
-						})
-					} else if (_SData.pageFrom == 'share' && _SData.qId) {
-						wx.redirectTo({
-							url: '/pages/lot/lotdetail/lotdetail?from=' + _SData.pageFrom + '&lotId=' + _SData.qId,
-						})
-					} else {
-						wx.redirectTo({
-							url: '/pages/home/home?from=' + _SData.pageFrom + '&to=' + _SData.toPage,
-						})
-					}	
-				}).catch(err => {
-					if (_SData.pageFrom == 'shake') {
-						wx.redirectTo({
-							url: '/pages/lot/shakelot/shake?from=detail',
-						})
-					} else if (_SData.pageFrom == 'activity' && _SData.and == 'shake') {
-						wx.redirectTo({
-							url: '/pages/lot/shakelot/shake?from=activity',
-						})
-					} else if (_SData.pageFrom == 'share' && _SData.and == 'shake') {
-						wx.redirectTo({
-							url: '/pages/lot/shakelot/shake?from=share',
-						})
-					} else if (_SData.pageFrom == 'share' && _SData.qId) {
-						wx.redirectTo({
-							url: '/pages/lot/lotdetail/lotdetail?from=' + _SData.pageFrom + '&lotId=' + _SData.qId,
-						})
-					} else {
-						wx.redirectTo({
-							url: '/pages/home/home?from=' + _SData.pageFrom + '&to=' + _SData.toPage,
-						})
-					}
+				console.log('------------------------',res)
+				if (_SData.pageFrom == 'shake') {
+					wx.redirectTo({
+						url: '/pages/lot/shakelot/shake?from=detail',
+					})
+				} else if (_SData.pageFrom == 'activity' && _SData.and == 'shake') {
+					wx.redirectTo({
+						url: '/pages/lot/shakelot/shake?from=activity',
+					})
+				} else if (_SData.pageFrom == 'share' && _SData.and == 'shake') {
+					wx.redirectTo({
+						url: '/pages/lot/shakelot/shake?from=share',
+					})
+				} else if (_SData.pageFrom == 'share' && _SData.qId) {
+					wx.redirectTo({
+						url: '/pages/lot/lotdetail/lotdetail?from=' + _SData.pageFrom + '&lotId=' + _SData.qId,
+					})
+				} else {
+					wx.redirectTo({
+						url: '/pages/home/home?from=' + _SData.pageFrom + '&to=' + _SData.toPage,
+					})
+				}
+			}).catch(() => {
+				wx.showToast({
+					title: '登录失败,请小主重新尝试',
+					icon: 'none'
 				})
 			})
 		}
