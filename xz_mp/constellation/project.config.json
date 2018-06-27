@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 11,
 			"list": [
 				{
 					"id": 1,
@@ -107,6 +107,12 @@
 					"name": "帮好友拆签",
 					"pathName": "pages/lot/lotdetail/lotdetail",
 					"query": "from=share&lotId=565200"
+				},
+				{
+					"id": -1,
+					"name": "新版摇一摇",
+					"pathName": "pages/lot/shake/shake",
+					"query": ""
 				}
 			]
 		}

@@ -4,20 +4,18 @@ const utils = require('./utils/util.js')
 const api = require('./utils/api.js')
 const mta = require('./utils/mta_analysis.js')
 App({
-
-
-
 	onLaunch: function (options) {
-		const _self = this
-		const _SData = this.globalData
+		let _self = this
+		let _SData = this.globalData
 
 		_SData.userInfo = wx.getStorageSync('userInfo')
 		_self.getLogin().then(res => {
-			console.log(res)
+			console.log('输出后台解密后的token:',res)
 			wx.setStorageSync('token', res.token)
+			wx.setStorageSync('openId', res.openId)
 		}).catch(err => {
 			wx.showToast({
-				title: err,
+				title: '登录失败',
 				icon: 'none'
 			})
 		})
@@ -34,8 +32,9 @@ App({
 	},
 
 	getLogin() {
-		return new utils.Promise((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			return utils.login().then(res => {
+				console.log('获取到的code信息：',res)
 				api.getLogin({
 					notShowLoading: true,
 					code: res.code

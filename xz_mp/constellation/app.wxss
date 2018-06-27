@@ -1,5 +1,8 @@
 /**app.wxss**/
-
+.panel_scene {
+	padding: 2vw;
+    height: calc(100% - 4vw - 2.9962546816479403vh - 6.6vh);
+}
 .img_0 {
 	background: url('/assets/images/lot.png');
 	background: url('/assets/images/pot_1.png');
