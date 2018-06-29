@@ -5,7 +5,7 @@
         <image src="{{iconPath}}"></image>
         <text class="text">{{nickName}}</text>
     </view>
-    <view class="flex notice">
+    <!-- <view class="flex notice">
         <view>
             <image class="notice_icon" src="{{imgs.notice_icon}}"></image>
         </view>
@@ -17,7 +17,7 @@
                 </view>
             </view>
         </view>
-    </view>
+    </view> -->
     <!-- <view class="flex card_record" wx:if="{{clockStatus}}" bindtap="goXiaodaka">
         <view>
             <image class="notice_icon" src="{{imgs.daka}}"></image>
