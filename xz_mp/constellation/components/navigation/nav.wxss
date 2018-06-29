@@ -1,6 +1,9 @@
 .navigtion_panel{
     padding-top:2.9962546816479403vh;
 }
+.iPhoneX.navigtion_panel{
+    padding-top:calc(2.9962546816479403vh + 2vh);
+}
 .navigtion_nav{
     height: 6.6vh;
     text-align: center;
