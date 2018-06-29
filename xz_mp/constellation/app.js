@@ -3,19 +3,13 @@ const aldstat = require("./utils/ald-stat.js")
 const utils = require('./utils/util.js')
 const api = require('./utils/api.js')
 const mta = require('./utils/mta_analysis.js')
+const Storage = require('./utils/storage')
 App({
 	onLaunch: function (options) {
 		const _self = this
 		const _SData = this.globalData
-		_self.getLogin().then(res => {
-			console.log(res)
-			// throw err = new Error( '用户自定义异常信息' )
-			wx.setStorageSync('token', res.token)
-		}).catch(err => {
-			wx.redirectTo({
-				url: '/pages/checklogin/checklogin'
-			})
-		})
+		// 处理登录问题
+		loginHandle(this)
 		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || { id: 1, name: "白羊座", time: "3.21-4.19", img: "/assets/images/aries.png", isFirst: true }
 		_SData.userInfo = wx.getStorageSync('userInfo')
 		mta.App.init({
@@ -42,8 +36,7 @@ App({
 			})
 		})
 	},
-
-
+   
 	globalData: {
 		selectConstellation: null,
 		userInfo: null,
@@ -53,3 +46,28 @@ App({
 	utils,
 	api
 })
+
+/**
+ * 处理登录功能
+ * @param {*} self
+ */
+function loginHandle(self,len = 0){
+
+	self.getLogin().then(res => {
+		console.log(res)
+		// throw err = new Error( '用户自定义异常信息' )
+		wx.setStorageSync('token', res.token)
+		// 登录状态
+		Storage.loginStatus = true
+		Storage.sessionKey = res.sessionKey
+	}).catch(err => {
+		len++
+		if(len === 3){
+			wx.redirectTo({
+				url: '/pages/checklogin/checklogin'
+			})
+		}else{
+			loginHandle(self,len)
+		}
+	})
+}

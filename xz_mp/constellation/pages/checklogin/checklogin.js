@@ -2,6 +2,8 @@ const $vm = getApp()
 const _GData = $vm.globalData
 const api = $vm.api
 var mta = require('../../utils/mta_analysis.js')
+let loginErrorNum = 0
+
 Page({
 
 	/**
@@ -44,7 +46,11 @@ Page({
 	bindGetUserInfo: function (e) {
 		const _self = this
 		const _SData = this.data
+		console.log('用户授权信息：',e)
 		if (e.detail.userInfo) {
+			wx.showLoading({
+				title: '登录中...',
+			})
 			wx.setStorage({
 				key: 'userInfo',
 				data: e.detail.userInfo,
@@ -53,15 +59,15 @@ Page({
 				hasAuthorize: true
 			})
 			_GData.userInfo = e.detail.userInfo
-			$vm.api.getSelectx100({
-				constellationId : _GData.selectConstellation.id || 1,
-				nickName: e.detail.userInfo.nickName,
-				headImage: e.detail.userInfo.avatarUrl,
-				notShowLoading: true,
-			}).then(res => {
-				console.log(res)
-				$vm.getLogin().then(res => {
-					wx.setStorageSync('token', res.token)
+			$vm.getLogin().then(res => {
+				wx.setStorageSync('token', res.token)
+				$vm.api.getSelectx100({
+					constellationId : _GData.selectConstellation.id || 1,
+					nickName: e.detail.userInfo.nickName,
+					headImage: e.detail.userInfo.avatarUrl,
+					notShowLoading: true,
+				}).then(res => {
+					// throw err = new Error( '用户自定义异常信息' )
 					if (_SData.pageFrom == 'shake') {
 						wx.redirectTo({
 							url: '/pages/lot/shakelot/shake?from=detail',
@@ -84,29 +90,12 @@ Page({
 						})
 					}	
 				}).catch(err => {
-					if (_SData.pageFrom == 'shake') {
-						wx.redirectTo({
-							url: '/pages/lot/shakelot/shake?from=detail',
-						})
-					} else if (_SData.pageFrom == 'activity' && _SData.and == 'shake') {
-						wx.redirectTo({
-							url: '/pages/lot/shakelot/shake?from=activity',
-						})
-					} else if (_SData.pageFrom == 'share' && _SData.and == 'shake') {
-						wx.redirectTo({
-							url: '/pages/lot/shakelot/shake?from=share',
-						})
-					} else if (_SData.pageFrom == 'share' && _SData.qId) {
-						wx.redirectTo({
-							url: '/pages/lot/lotdetail/lotdetail?from=' + _SData.pageFrom + '&lotId=' + _SData.qId,
-						})
-					} else {
-						wx.redirectTo({
-							url: '/pages/home/home?from=' + _SData.pageFrom + '&to=' + _SData.toPage,
-						})
-					}
+					errorHandle()
 				})
+			}).catch(err => {
+				errorHandle()
 			})
+			
 		}
 
 	},
@@ -158,3 +147,50 @@ Page({
 
 	},
 })
+
+
+/**
+ * 错误提示
+ */
+function errorHandle(){
+	wx.getNetworkType({
+		success: function(res) {
+			console.log('输出当前网络状态：',res)
+			if(res.networkType === 'none'){
+				wx.hideLoading()
+				wx.showModal({
+					title: '网络异常',
+					content: '非常抱歉，小主您的网络尚未打开',
+					showCancel: false,
+					confirmText: '稍后再试',
+					confirmColor: '#3CC51F',
+					success: res => {
+						
+					}
+				});
+			}else{
+				loginErrorNum++
+				if(loginErrorNum === 5){
+					loginErrorNum = 0
+					wx.hideLoading()
+					wx.showModal({
+						title: '警告',
+						content: '服务器异常，程序员哥哥正在加班维修',
+						showCancel: false,
+						confirmText: '稍后再试',
+						confirmColor: '#3CC51F',
+						success: res => {
+							
+						}
+					});
+					return false
+				}
+				wx.showToast({
+					title: '小主，为您加载失败了',
+					icon: 'none',
+					duration: 1000
+				})
+			}
+		}
+	})
+}
