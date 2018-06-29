@@ -22,9 +22,12 @@ Component({
     data: {
         status : 'back',
         path : '',
-        root : ''
+        root : '',
+        isIPhoneX : false
     },
-
+    ready(){
+        getSystemInfo(this)
+    },
     /**
      * 组件的方法列表
      */
@@ -83,3 +86,19 @@ Component({
         }
     }
 })
+
+/**
+ * 获取系统比例加入比例标识
+ * @param {*} self
+ */
+function getSystemInfo(self){
+	let res = wx.getSystemInfoSync();
+	if(res){
+        console.log('验证是不是iPhone X的时候到了：',res)
+        if(res.model.indexOf('iPhone X') != -1){
+            self.setData({
+                isIPhoneX : true
+            })
+        }
+	}
+}
