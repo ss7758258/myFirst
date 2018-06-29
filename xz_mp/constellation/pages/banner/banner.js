@@ -29,6 +29,7 @@ const methods = {
                         temp.push(elem)
                     }
                 });
+                // res = res.concat(res).concat(res).concat(res).concat(res).concat(res)
                 self.setData({
                     list : res,
                     'swiper.list' : temp,

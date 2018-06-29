@@ -1,24 +1,19 @@
 //app.js
-var aldstat = require("./utils/ald-stat.js")
+const aldstat = require("./utils/ald-stat.js")
 const utils = require('./utils/util.js')
 const api = require('./utils/api.js')
 const mta = require('./utils/mta_analysis.js')
 App({
-
-
-
 	onLaunch: function (options) {
 		const _self = this
 		const _SData = this.globalData
-
-		_SData.userInfo = wx.getStorageSync('userInfo')
 		_self.getLogin().then(res => {
 			console.log(res)
+			// throw err = new Error( '用户自定义异常信息' )
 			wx.setStorageSync('token', res.token)
 		}).catch(err => {
-			wx.showToast({
-				title: err,
-				icon: 'none'
+			wx.redirectTo({
+				url: '/pages/checklogin/checklogin'
 			})
 		})
 		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || { id: 1, name: "白羊座", time: "3.21-4.19", img: "/assets/images/aries.png", isFirst: true }
