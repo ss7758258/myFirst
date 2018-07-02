@@ -1,0 +1,6 @@
+{
+	"disableScroll": true,
+	"usingComponents": {
+		"banner": "/components/banner/banner"
+	}
+}
