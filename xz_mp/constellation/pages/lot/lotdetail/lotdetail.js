@@ -4,6 +4,7 @@ let _GData = $vm.globalData
 const { canvasTextAutoLine, parseLot } = $vm.utils
 var mta = require('../../../utils/mta_analysis.js');
 const imgs = require('./imgs.js')
+const Storage = require('../../../utils/storage')
 Page({
 
 	/**
@@ -63,8 +64,11 @@ Page({
 		_self.setData({
 			userInfo: _GData.userInfo
 		})
+		let login_timer = ''
 		if (!_GData.userInfo) {
-			let login_timer = setInterval(() => {
+			console.log('进入授权功能=============')
+			login_timer = setInterval(() => {
+				console.log('进入授权功能=============',Storage)
 				if(!Storage.loginStatus){
 					return false
 				}
