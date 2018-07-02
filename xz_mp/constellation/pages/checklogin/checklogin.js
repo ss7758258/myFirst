@@ -1,7 +1,8 @@
+const mta = require('../../utils/mta_analysis.js')
 const $vm = getApp()
-const _GData = $vm.globalData
+const Storage = require('../../utils/storage')
 const api = $vm.api
-var mta = require('../../utils/mta_analysis.js')
+let _GData = $vm.globalData
 let loginErrorNum = 0
 
 Page({
@@ -10,6 +11,7 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
+		isFirst : true,
 		isClicked: false,
 		canIUse: wx.canIUse('button.open-type.getUserInfo')
 	},
@@ -42,11 +44,40 @@ Page({
 			})
 		}
 	},
-
-	bindGetUserInfo: function (e) {
+	/**
+	 * 按钮点击时进行一次登录操作
+	 * @param {*} e
+	 */
+	login(e){
+		if(this.data.isFirst){
+			this.data.isFirst = false
+			return false
+		}
+		// 初始化状态值
+		Storage.init()
+		console.log('触发了登录：',e)
+		$vm.getLogin().then(res => {
+			console.log(res)
+			console.log('-----------------------------------token', res.token)
+			wx.setStorageSync('token', res.token)
+			// 登录状态
+			Storage.loginStatus = true
+			Storage.sessionKey = res.sessionKey
+		}).catch(err => {
+			Storage.loginStatus = false
+			Storage.sessionKey = null
+			errorHandle()
+		})
+	},
+	/**
+	 * 获取用户信息
+	 * @param {*} e
+	 */
+	bindGetUserInfo(e) {
 		const _self = this
 		const _SData = this.data
-		console.log('用户授权信息：',e)
+		_GData = $vm.globalData
+		console.log('用户授权信息：',e.detail)
 		if (e.detail.userInfo) {
 			wx.showLoading({
 				title: '登录中...',
@@ -59,15 +90,26 @@ Page({
 				hasAuthorize: true
 			})
 			_GData.userInfo = e.detail.userInfo
-			$vm.getLogin().then(res => {
-				wx.setStorageSync('token', res.token)
-				$vm.api.getSelectx100({
-					constellationId : _GData.selectConstellation.id || 1,
-					nickName: e.detail.userInfo.nickName,
-					headImage: e.detail.userInfo.avatarUrl,
+
+			let res = e.detail
+			let login_timer = setInterval(() => {
+				console.log(1)
+				if(!Storage.loginStatus){
+					return false
+				}
+				// 清除等待
+				clearInterval(login_timer)
+				// 上报用户加密信息
+				api.loginForMore({
+					encryptedData: res.encryptedData,
+					iv: res.iv,
+					sessionKey : Storage.sessionKey,
+					nickName: res.userInfo.nickName,
+					headImage: res.userInfo.avatarUrl,
 					notShowLoading: true,
-				}).then(res => {
-					// throw err = new Error( '用户自定义异常信息' )
+				}).then(result => {
+					// 确定用户信息已经上报
+					Storage.loginForMore = true
 					if (_SData.pageFrom == 'shake') {
 						wx.redirectTo({
 							url: '/pages/lot/shakelot/shake?from=detail',
@@ -88,14 +130,44 @@ Page({
 						wx.redirectTo({
 							url: '/pages/home/home?from=' + _SData.pageFrom + '&to=' + _SData.toPage,
 						})
-					}	
+					}
 				}).catch(err => {
-					errorHandle()
+					api.loginForMore({
+						encryptedData: res.encryptedData,
+						iv: res.iv,
+						sessionKey : Storage.sessionKey,
+						nickName: res.userInfo.nickName,
+						headImage: res.userInfo.avatarUrl,
+						notShowLoading: true,
+					}).then(result => {
+						// 确定用户信息已经上报
+						Storage.loginForMore = true
+						if (_SData.pageFrom == 'shake') {
+							wx.redirectTo({
+								url: '/pages/lot/shakelot/shake?from=detail',
+							})
+						} else if (_SData.pageFrom == 'activity' && _SData.and == 'shake') {
+							wx.redirectTo({
+								url: '/pages/lot/shakelot/shake?from=activity',
+							})
+						} else if (_SData.pageFrom == 'share' && _SData.and == 'shake') {
+							wx.redirectTo({
+								url: '/pages/lot/shakelot/shake?from=share',
+							})
+						} else if (_SData.pageFrom == 'share' && _SData.qId) {
+							wx.redirectTo({
+								url: '/pages/lot/lotdetail/lotdetail?from=' + _SData.pageFrom + '&lotId=' + _SData.qId,
+							})
+						} else {
+							wx.redirectTo({
+								url: '/pages/home/home?from=' + _SData.pageFrom + '&to=' + _SData.toPage,
+							})
+						}
+					}).catch(err => {
+						errorHandle()
+					})
 				})
-			}).catch(err => {
-				errorHandle()
-			})
-			
+			},200)
 		}
 
 	},
