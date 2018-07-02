@@ -107,6 +107,12 @@
 					"name": "帮好友拆签",
 					"pathName": "pages/lot/lotdetail/lotdetail",
 					"query": "from=share&lotId=565200"
+				},
+				{
+					"id": -1,
+					"name": "banner组件",
+					"pathName": "pages/index/index",
+					"query": ""
 				}
 			]
 		}

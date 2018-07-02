@@ -23,6 +23,9 @@ App({
 	},
 
 	getLogin() {
+		wx.removeStorageSync('token')
+		// 初始化状态值
+		Storage.init()
 		return new utils.Promise((resolve, reject) => {
 			return utils.login().then(res => {
 				api.getLogin({
@@ -57,9 +60,11 @@ function loginHandle(self,len = 0){
 		console.log(res)
 		// throw err = new Error( '用户自定义异常信息' )
 		wx.setStorageSync('token', res.token)
+		wx.setStorageSync('openId', res.openId)
 		// 登录状态
 		Storage.loginStatus = true
 		Storage.sessionKey = res.sessionKey
+		getUserInfo(self)
 	}).catch(err => {
 		len++
 		if(len === 3){
@@ -68,6 +73,40 @@ function loginHandle(self,len = 0){
 			})
 		}else{
 			loginHandle(self,len)
+		}
+	})
+}
+
+/**
+ * 获取用户加密信息并上报获取unionId
+ */
+function getUserInfo(self){
+	wx.getUserInfo({
+		withCredentials : true,
+		success: function (res) {
+			console.log('获取用户配置成功!!!!!!!!!!!!!!!!!!!!!!：',res)
+			if (res.userInfo) {
+				wx.setStorage({
+					key: 'userInfo',
+					data: res.userInfo,
+				})
+				// 上报用户加密信息
+				api.loginForMore({
+					encryptedData: res.encryptedData,
+					iv: res.iv,
+					sessionKey : Storage.sessionKey,
+					nickName: res.userInfo.nickName,
+					headImage: res.userInfo.avatarUrl,
+					notShowLoading: true,
+				}).then(result => {
+					// 确定用户信息已经上报
+					Storage.loginForMore = true
+				})
+				wx.setStorageSync('icon_Path', res.userInfo.avatarUrl)
+			}
+		},
+		fail: function (res) {
+			
 		}
 	})
 }

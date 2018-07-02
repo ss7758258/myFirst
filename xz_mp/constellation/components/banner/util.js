@@ -1,4 +1,5 @@
 const API = require('./api')
+const mta = require('./analytics')
 
 const methods = {
 
@@ -49,10 +50,16 @@ const methods = {
         if(res.appId){
             API.upAnalytics({
                 resourceId : res.id,
-                appId : res.appId,
+                appId : self.data.opts.appId,
                 openId : self.data.opts.openId,
                 type : 1 
             })
+            console.log('============',self.data)
+            // 所有资源统计
+            mta.Event.stat("click_all", {})
+            // 点击资源统计，依赖资源ID
+            mta.Event.stat("click_" + res.id, {})
+            
             wx.navigateToMiniProgram({
                 appId: res.appId,
                 path: res.path,
@@ -60,10 +67,14 @@ const methods = {
                     // 打开成功
                     API.upAnalytics({
                         resourceId : res.id,
-                        appId : res.appId,
+                        appId : self.data.opts.appId,
                         openId : self.data.opts.openId,
                         type : 2 
                     })
+                    // 所有打开成功的资源统计
+                    mta.Event.stat("open_success_all", {})
+                    // 打开成功的资源统计，依赖资源ID
+                    mta.Event.stat("open_success_" + res.id, {})
                 },
                 fail: function() {
                     console.log('打开失败')

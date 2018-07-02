@@ -1,6 +1,7 @@
 
 const API = require('./api')
 const methods = require('./util')
+const mta = require('./analytics')
 
 // 更新列表视图
 const ViewUpdate = function(self){
@@ -47,6 +48,7 @@ Component({
      * 组件的初始数据
      */
     data: {
+        mta : mta, // 数据分析
         list : [], // 数据集合
         swiper : {
             list: [],
@@ -68,7 +70,7 @@ Component({
         goOuter : methods.goOuter
     },
     ready(){
-        console.log('组件加载完成时')
+		mta.Page.init()
         // 将Page对象放入methods中
         methods.setThis(this);
         ViewUpdate(this)
