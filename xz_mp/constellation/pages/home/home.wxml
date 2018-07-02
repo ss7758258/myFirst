@@ -7,7 +7,7 @@
 
 <!-- 关注服务号-弹窗 -->
 <view class="contact_follow_mask {{showFollow ? 'show':''}}" catchtap="hideFollow">
-	<view class="contact_follow {{showFollow ? 'show':''}}" catchtap="hideFollow">
+	<view class="contact_follow {{showFollow ? 'show':''}}" catchtap="catchHide">
 		<view class="contact_panel">
 			<view class="contact_head_panel">
 				<view class="contact_head"></view>

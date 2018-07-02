@@ -3,6 +3,7 @@ const $vm = getApp()
 const _GData = $vm.globalData
 const getImageInfo = $vm.utils.wxPromisify(wx.getImageInfo)
 var mta = require('../../utils/mta_analysis.js')
+const Storage = require('../../utils/storage')
 Page({
 
 	/**
@@ -49,7 +50,8 @@ Page({
 		}
 		let env = 'dev';
 		const _self = this
-		$vm.api.getDayx400({ notShowLoading: true })
+		if(!Storage.prevPic){
+			$vm.api.getDayx400({ notShowLoading: true })
 			.then((res) => {
 				console.log(res)
 				if (res) {
@@ -71,6 +73,12 @@ Page({
 					title: '加载失败了，请小主稍后再试',
 				})
 			})
+		}else{
+			_self.setData({
+				prevPic:Storage.prevPic
+			})
+		}
+		
 	},
 
 	/**

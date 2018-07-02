@@ -1,9 +1,10 @@
 // pages/lot/shakelot/shake.js
 
-const $vm = getApp()
-const _GData = $vm.globalData;
+let $vm = getApp()
+let _GData = $vm.globalData;
 const { parseLot } = $vm.utils
 const getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
+const Storage = require('../../../utils/storage')
 var mta = require('../../../utils/mta_analysis.js')
 let imgs = require('./imgs.js')
 
@@ -46,122 +47,78 @@ Page({
     onLoad: function (options) {
         mta.Page.init()
         console.log('输出参数：', options)
-        let pageFrom = options.from
-        this.setData({
-            fromPage: pageFrom || ''
-        })
-        if (pageFrom == 'share') {
-            this.setData({
-                isFromShare: true,
-                "navConf.root": '/pages/home/home'
-            })
-            if (pageFrom == 'list') {
-                mta.Event.stat("ico_in_from_list", {})
-            } else if (pageFrom == 'detail') {
-                mta.Event.stat("ico_in_from_detail", {})
-            } else if (pageFrom == 'shake') {
-                if (options.hotapp == 1) {
-                    mta.Event.stat("ico_in_from_shake_qrcode", {})
-                } else {
-                    mta.Event.stat("ico_in_from_shake", {})
-                }
-            }
-
-        } else if (pageFrom == 'activity') {
-            this.setData({
-                isFromShare: true,
-                "navConf.root": '/pages/home/home'
-            })
-            console.log('ico_in_from_shake_activity')
-            mta.Event.stat("ico_in_from_shake_activity", {})
-        } else if (pageFrom == 'outer' && options.id) {
-            this.setData({
-                isFromShare: true,
-                "navConf.root": '/pages/home/home'
-            })
-            if (reg.test(options.id)) {
-                mta.Event.stat('outer_' + options.id, {})
-            } else {
-                mta.Event.stat('outer_unknown', {})
-            }
-        } else if(pageFrom === 'spread'){ // 活动推广统计
-            this.setData({
-                isFromShare: true,
-                "navConf.root": '/pages/home/home'
-            })
-			console.log('输出活动来源',options.id)
-            if (reg.test(options.id)) {
-                mta.Event.stat('spread_' + options.id, {})
-            } else {
-                mta.Event.stat('spread_unknown', {})
-            }
-        }
-        // 统计特殊来源
-        if(options.source && options.source.constructor === String && options.source !== ''){
-            this.setData({
-                isFromShare: true,
-                "navConf.root": '/pages/home/home'
-            })
-			console.log('输出活动来源',options.id)
-            if (reg.test(options.id)) {
-                mta.Event.stat(options.source + '_' + options.id, {})
-            } else {
-                mta.Event.stat(options.source + '_unknown', {})
-            }
-        }
-        console.log(options)
+        // 来源统计
+        parseFrom(this,options)
 
         const _self = this
         const _SData = this.data
-
+        
         _self.setData({
-            userInfo: _GData.userInfo
+            userInfo: _GData.userInfo,
+            fromPage:  options.from || ''
         })
-
-        wx.getUserInfo({
-            success: function (res) {
-                console.log(res)
-                if (res.userInfo) {
-                    wx.setStorage({
-                        key: 'userInfo',
-                        data: res.userInfo,
-                    })
-
-                    _GData.userInfo = res.userInfo
-                    _self.setData({
-                        userInfo: _GData.userInfo
-                    })
-                    // 获取一签盒数据状态
-                    getX510(_self);
-                    $vm.api.getSelectx100({
-                        constellationId: _GData.selectConstellation.id,
-                        nickName: res.userInfo.nickName,
-                        headImage: res.userInfo.avatarUrl,
-                        notShowLoading: true,
-                    }).then(res => {
-
-                    })
-                }
-            },
-            fail: function (res) {
-                // 查看是否授权
-                wx.getSetting({
-                    success: function (res) {
-                        if (!res.authSetting['scope.userInfo']) {
-
-                            _self.setData({
-                                hasAuthorize: false
-                            })
-                            console.log('=====' + _SData.fromPage)
-                            wx.redirectTo({
-                                url: '/pages/checklogin/checklogin?from=' + _SData.fromPage + '&and=shake'
+        let login_timer = setInterval(() => {
+			if(!Storage.loginStatus){
+				return false
+			}
+			// 清除等待
+			clearInterval(login_timer)
+            wx.getUserInfo({
+                success: function (res) {
+                    console.log('是否授权成功===================================',res)
+                    console.log(res)
+                    if (res.userInfo) {
+                        wx.setStorage({
+                            key: 'userInfo',
+                            data: res.userInfo,
+                        })
+                        if(!Storage.loginForMore){
+                            // 上报用户加密信息
+                            $vm.api.loginForMore({
+                                encryptedData: res.encryptedData,
+                                iv: res.iv,
+                                sessionKey : Storage.sessionKey,
+                                nickName: res.userInfo.nickName,
+                                headImage: res.userInfo.avatarUrl,
+                                notShowLoading: true,
+                            }).then(result => {
+                                // 确定用户信息已经上报
+                                Storage.loginForMore = true
+                            }).catch(err => {
+                                Storage.loginForMore = false
+                                wx.redirectTo({
+                                    url: '/pages/checklogin/checklogin?from=' + _SData.fromPage + '&and=shake'
+                                })
                             })
                         }
+                        
+                        _GData.userInfo = res.userInfo
+                        _self.setData({
+                            userInfo: _GData.userInfo
+                        })
+                        // 获取一签盒数据状态
+                        getX510(_self);
                     }
-                })
-            }
-        })
-
+                },
+                fail: function (res) {
+                    console.log('是否授权失败===================================',res)
+                    // 查看是否授权
+                    wx.getSetting({
+                        success: function (res) {
+                            if (res.authSetting || !res.authSetting['scope.userInfo']) {
+                                _self.setData({
+                                    hasAuthorize: false
+                                })
+                                console.log('=====' + _SData.fromPage)
+                                wx.redirectTo({
+                                    url: '/pages/checklogin/checklogin?from=' + _SData.fromPage + '&and=shake'
+                                })
+                            }
+                        }
+                    })
+                }
+            })
+        },200)
     },
 
     /**
@@ -220,7 +177,7 @@ Page({
         }
     },
     drawLots: function () {
-
+        _GData = $vm.globalData;
         mta.Event.stat("ico_shake_shake", {})
         const _self = this
         const _SData = this.data
@@ -249,18 +206,9 @@ Page({
             // 拉取摇签数据
             getX504(_self,_SData)
         }else{
-            $vm.getLogin().then(res => {
-                wx.setStorageSync('token', res.token)
-                // 拉取摇签数据
+            // 重新登录拉取
+            againLogin(_self,_GData,function(){
                 getX504(_self,_SData)
-            }).catch(err => {
-                $vm.getLogin().then(res => {
-                    wx.setStorageSync('token', res.token)
-                    // 拉取摇签数据
-                    getX504(_self,_SData)
-                }).catch(err => {
-                    
-                })
             })
         }
 
@@ -390,6 +338,7 @@ const getX504 = (_self,_SData) => {
     if(sendLen > 1) return (sendLen = 0)
     $vm.api.getX504({ notShowLoading: true, })
     .then(res => {
+        // throw err = new Error('自定义错误')
         if (_self.data.hasReturn) {
             return
         }
@@ -401,7 +350,7 @@ const getX504 = (_self,_SData) => {
         var lotDetail = parseLot(res)
 
         _GData.lotDetail = lotDetail
-
+        // throw err = new Error('312')
         if (res.status === 0) {
             sendLen = 0
             setTimeout(() => {
@@ -449,20 +398,16 @@ const getX504 = (_self,_SData) => {
             if(sendLen > 1){
                 sendLen = 0
                 setTimeout(() => {
-                    wx.showModal({
-                        title: '网络开小差了',
-                        content: '小主，请您检查网络后再试',
-                        showCancel: false,
-                        confirmText: '再试一次',
-                        success: function (res) { },
-                        fail: function (res) { },
-                        complete: function (res) { },
-                    })
                     // 变更UI状态
                     _self.setData({
                         potPath: false,
                         isLoading: false,
                         shakeLotSpeed: false
+                    })
+                    
+                    // 重新登录拉取
+                    againLogin(_self,_GData,function(){
+                        getX504(_self,_SData)
                     })
                     _self.shakeFun()
                 }, 1000)
@@ -476,20 +421,15 @@ const getX504 = (_self,_SData) => {
         if(sendLen > 1){
             sendLen = 0
             setTimeout(() => {
-                wx.showModal({
-                    title: '网络开小差了',
-                    content: '小主，请您检查网络后再试',
-                    showCancel: false,
-                    confirmText: '再试一次',
-                    success: function (res) { },
-                    fail: function (res) { },
-                    complete: function (res) { },
-                })
                 // 变更UI状态
                 _self.setData({
                     potPath: false,
                     isLoading: false,
                     shakeLotSpeed: false
+                })
+                // 重新登录拉取
+                againLogin(_self,_GData,function(){
+                    console.log('静默登录')
                 })
                 _self.shakeFun()
             }, 1000)
@@ -497,4 +437,185 @@ const getX504 = (_self,_SData) => {
         }
         getX504(_self,_SData)
     })
+}
+
+/**
+ * 来源统计
+ * @param {*} self
+ * @param {*} options
+ */
+function parseFrom(self,options){
+    let pageFrom = options.from
+    if (pageFrom == 'share') {
+        self.setData({
+            isFromShare: true,
+            "navConf.root": '/pages/home/home'
+        })
+        if (pageFrom == 'list') {
+            mta.Event.stat("ico_in_from_list", {})
+        } else if (pageFrom == 'detail') {
+            mta.Event.stat("ico_in_from_detail", {})
+        } else if (pageFrom == 'shake') {
+            if (options.hotapp == 1) {
+                mta.Event.stat("ico_in_from_shake_qrcode", {})
+            } else {
+                mta.Event.stat("ico_in_from_shake", {})
+            }
+        }
+
+    } else if (pageFrom == 'activity') {
+        self.setData({
+            isFromShare: true,
+            "navConf.root": '/pages/home/home'
+        })
+        console.log('ico_in_from_shake_activity')
+        mta.Event.stat("ico_in_from_shake_activity", {})
+    } else if (pageFrom == 'outer' && options.id) {
+        self.setData({
+            isFromShare: true,
+            "navConf.root": '/pages/home/home'
+        })
+        if (reg.test(options.id)) {
+            mta.Event.stat('outer_' + options.id, {})
+        } else {
+            mta.Event.stat('outer_unknown', {})
+        }
+    } else if(pageFrom === 'spread'){ // 活动推广统计
+        self.setData({
+            isFromShare: true,
+            "navConf.root": '/pages/home/home'
+        })
+        console.log('输出活动来源',options.id)
+        if (reg.test(options.id)) {
+            mta.Event.stat('spread_' + options.id, {})
+        } else {
+            mta.Event.stat('spread_unknown', {})
+        }
+    }
+    // 统计特殊来源
+    if(options.source && options.source.constructor === String && options.source !== ''){
+        self.setData({
+            isFromShare: true,
+            "navConf.root": '/pages/home/home'
+        })
+        console.log('输出活动来源',options.id)
+        if (reg.test(options.id)) {
+            mta.Event.stat(options.source + '_' + options.id, {})
+        } else {
+            mta.Event.stat(options.source + '_unknown', {})
+        }
+    }
+}
+/**
+ * 重新登录
+ * @param {*} self
+ * @param {*} GData
+ */
+function againLogin(self,GData,cb){
+    wx.getNetworkType({
+		success: function(res) {
+			console.log('输出当前网络状态：',res)
+			if(res.networkType === 'none'){
+				wx.hideLoading()
+				wx.showModal({
+					title: '网络异常',
+					content: '非常抱歉，小主您的网络尚未打开',
+					showCancel: false,
+					confirmText: '稍后再试',
+					confirmColor: '#3CC51F',
+					success: res => {
+                        // 变更UI状态
+                        self.setData({
+                            potPath: false,
+                            isLoading: false,
+                            shakeLotSpeed: false
+                        })
+					}
+				});
+            }else{
+                // 重新进行登录
+                $vm.getLogin().then(data => {
+                    console.log(data)
+                    wx.setStorageSync('token', data.token)
+                    // 登录状态
+                    Storage.loginStatus = true
+                    Storage.sessionKey = data.sessionKey
+                    wx.getUserInfo({
+                        success: function (res) {
+                            console.log(res)
+                            if (res.userInfo) {
+                                wx.setStorage({
+                                    key: 'userInfo',
+                                    data: res.userInfo,
+                                })
+                                // 上报用户加密信息
+                                $vm.api.loginForMore({
+                                    encryptedData: res.encryptedData,
+                                    iv: res.iv,
+                                    sessionKey : Storage.sessionKey,
+                                    nickName: res.userInfo.nickName,
+                                    headImage: res.userInfo.avatarUrl,
+                                    notShowLoading: true,
+                                }).then(result => {
+                                    // 确定用户信息已经上报
+                                    Storage.loginForMore = true
+                                    cb && cb.constructor === Function ? cb() : ''
+                                }).catch(err => {
+                                    Storage.loginForMore = false
+                                    wx.showModal({
+                                        title: '网络开小差了',
+                                        content: '小主，请您检查网络后再试',
+                                        showCancel: false,
+                                        confirmText: '再试一次',
+                                        success: function (res) {
+                                            // 变更UI状态
+                                            self.setData({
+                                                potPath: false,
+                                                isLoading: false,
+                                                shakeLotSpeed: false
+                                            })
+                                        }
+                                    })
+                                })
+                                $vm.api.getSelectx100({
+                                    constellationId: GData.selectConstellation.id,
+                                    nickName: res.userInfo.nickName,
+                                    headImage: res.userInfo.avatarUrl,
+                                    notShowLoading: true,
+                                }).then(res => {
+                
+                                })
+                                GData.userInfo = res.userInfo
+                                self.setData({
+                                    userInfo: GData.userInfo
+                                })
+                                
+                            }
+                        },
+                        fail: function (res) {
+                            wx.redirectTo({
+                                url: '/pages/checklogin/checklogin'
+                            })
+                        }
+                    })
+                }).catch(err => {
+                    wx.showModal({
+                        title: '网络开小差了',
+                        content: '小主，请您检查网络后再试',
+                        showCancel: false,
+                        confirmText: '再试一次',
+                        success: function (res) {
+                            // 变更UI状态
+                            self.setData({
+                                potPath: false,
+                                isLoading: false,
+                                shakeLotSpeed: false
+                            })
+                        }
+                    })
+                })
+            }
+        }
+    })
+    
 }

@@ -22,6 +22,7 @@
 	height: 93.33333333333333vw;
 	background: #fff;
 	transition: all .15s ease-in-out;
+	z-index: 100;
 }
 .contact_follow.show{
 	top: 0;
@@ -398,7 +399,7 @@
 	background: none;
 }
 .iPhoneX .mySign {
-	margin:13vw auto 2vw;
+	margin:10vw auto 2vw;
 }
 .mySign.itemClick::after {
 	width: 320rpx;
