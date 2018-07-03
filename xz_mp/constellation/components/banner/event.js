@@ -59,7 +59,7 @@ EventFun.prototype = {
      * @param {string} [eventName='']
      * @param {*} [opts={}]
      * @param {string} [elem='']
-     * @param {boolean} [flag=true]
+     * @param {boolean} [flag=true] 是否放入队列 默认是
      */
     emit (eventName = '' , opts = {}, elem = '',flag = true){
         let me = this

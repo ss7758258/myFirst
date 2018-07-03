@@ -1,0 +1,4 @@
+
+.listBanner{
+    height: calc(100% - 2.9962546816479403vh - 6.6vh);
+}

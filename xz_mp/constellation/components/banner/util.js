@@ -1,5 +1,6 @@
 const API = require('./api')
 const mta = require('./analytics')
+const bus = require('./event')
 
 const methods = {
 
@@ -48,6 +49,7 @@ const methods = {
         let data = e.currentTarget.dataset
         let res = data && data.res ? data.res : {}
         if(res.appId){
+
             API.upAnalytics({
                 resourceId : res.id,
                 appId : self.data.opts.appId,
@@ -60,6 +62,12 @@ const methods = {
             // 点击资源统计，依赖资源ID
             mta.Event.stat("click_" + res.id, {})
             
+            // 事件通知
+            bus.emit('resource_click',{
+                res,
+                opts : self.data.opts
+            },'banner-app',false)
+
             wx.navigateToMiniProgram({
                 appId: res.appId,
                 path: res.path,
@@ -75,9 +83,20 @@ const methods = {
                     mta.Event.stat("open_success_all", {})
                     // 打开成功的资源统计，依赖资源ID
                     mta.Event.stat("open_success_" + res.id, {})
+                    
+                    // 事件通知
+                    bus.emit('resource_open_success',{
+                        res,
+                        opts : self.data.opts
+                    },'banner-app',false)
                 },
                 fail: function() {
                     console.log('打开失败')
+                    // 事件通知
+                    bus.emit('resource_open_fail',{
+                        res,
+                        opts : self.data.opts
+                    },'banner-app',false)
                 }
             })
         }
