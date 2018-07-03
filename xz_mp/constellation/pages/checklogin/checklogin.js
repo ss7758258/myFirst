@@ -9,6 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    hasAuthorize: false, //是否有授权
     isClicked: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
@@ -16,167 +17,152 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad(options) {
+
     mta.Page.init()
     console.log('输出参数：', options)
-    const _self = this
-    let qId = options.lotId
+    let lotId = options.lotId
     let fromwhere = options.from
+
+
     if (fromwhere) {
-      _self.setData({
+      this.setData({
         pageFrom: fromwhere,
-        qId: qId
+        lotId: lotId
       })
     }
     let to = options.to
     if (to) {
-      _self.setData({
-        toPage: to,
+      this.setData({
+        toPage: to
       })
     }
     let and = options.and
     if (and) {
-      _self.setData({
+      this.setData({
         and: and
       })
     }
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+  // 获取用户信息
+  handleGetUserClick(e) {
 
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
-  bindGetUserInfo: function (e) {
-    const _self = this
     const _SData = this.data
-    if (e.detail.userInfo) {
-      wx.setStorage({
-        key: 'userInfo',
-        data: e.detail.userInfo,
-      })
-      this.setData({
-        hasAuthorize: true
-      })
-      _GData.userInfo = e.detail.userInfo
-      $vm.api.getSelectx100({
-        nickName: e.detail.userInfo.nickName,
-        headImage: e.detail.userInfo.avatarUrl,
-        notShowLoading: true,
-      }).then(res => {
-        if (_SData.pageFrom == 'shake') {
-          wx.redirectTo({
-            url: '/pages/lot/shakelot/shake?from=detail',
-          })
-        } else if (_SData.pageFrom == 'activity' && _SData.and == 'shake') {
-          wx.redirectTo({
-            url: '/pages/lot/shakelot/shake?from=activity',
-          })
-        } else if (_SData.pageFrom == 'share' && _SData.and == 'shake') {
-          wx.redirectTo({
-            url: '/pages/lot/shakelot/shake?from=share',
-          })
-        } else if (_SData.pageFrom == 'share' && _SData.qId) {
-          wx.redirectTo({
-            url: '/pages/lot/lotdetail/lotdetail?from=' + _SData.pageFrom + '&lotId=' + _SData.qId,
-          })
-        } else {
-          wx.redirectTo({
-            url: '/pages/home/home?from=' + _SData.pageFrom + '&to=' + _SData.toPage,
-          })
-        }
+    const userInfo = e.detail.userInfo || wx.getStorage({ key: 'userInfo' })
 
-      })
+    console.log("userInfo",userInfo)
+    
+    if (!userInfo || !Object.keys(userInfo).length) {
+      return 
     }
 
-  },
-  //点击重试按钮
-  checkLogin: function (e) {
-    var that = this
-    if (that.data.isClicked) {
-      return;
-    }
-    that.setData({
-      isClicked: true
+    // this.setData({
+    //   canIUse:false
+    // })
+    const { nickName, avatarUrl } = userInfo
+
+    // 用户信息存入Storage
+    wx.setStorage({
+      key: 'userInfo',
+      data: userInfo,
     })
+
+    this.setData({
+      hasAuthorize: true
+    })
+
+    _GData.userInfo = userInfo
+
+    $vm.api.getSelectx100({
+      nickName,
+      constellationId: _GData.selectConstellation.id,
+      headImage: avatarUrl,
+      notShowLoading: true,
+    }).then((res) => {
+      console.log('res', res)
+      let { pageFrom, and, lotId, toPage } = _SData
+      let url = ''
+      // switch (pageFrom) {
+      //   case 'shake':
+      //     url = '/pages/lot/shakelot/shake?from=detail'
+      //   case 'activity':
+      //     if (and === 'shake') {
+      //       url = '/pages/lot/shakelot/shake?from=activity'
+      //     }
+      //   case 'share':
+      //     if (and === 'shake') {
+      //       url = '/pages/lot/shakelot/shake?from=share'
+      //     } else if (lotId)(
+      //       url = `/pages/lot/lotdetail/lotdetail?from={pageFrom}&lotId=${lotId}`
+      //     )
+      //   default:
+      //     url = `/pages/home/home?from=${pageFrom}&to=${toPage}`
+      // }
+
+      // wx.redirectTo({ url })
+
+      if (pageFrom === 'shake') {
+        url = '/pages/lot/shakelot/shake?from=detail'
+      } else if (pageFrom === 'activity' && and === 'shake') {
+        url = '/pages/lot/shakelot/shake?from=activity'
+      } else if (pageFrom === 'share' && and === 'shake') {
+        url = '/pages/lot/shakelot/shake?from=share'
+      } else if (pageFrom === 'share' && lotId) {
+        url = '/pages/lot/lotdetail/lotdetail?from=' + pageFrom + '&lotId=' + lotId
+      } else {
+        url = '/pages/home/home?from=' + pageFrom + '&to=' + toPage
+      }
+
+      wx.redirectTo({ url })
+
+
+    }).catch(err => {
+      console.log("err",err)
+    })
+  },
+
+
+  // 授权小程序
+  handleAutorizeClick(e) {
+    // if (this.data.isClicked) {
+    //   return
+    // }
+    // this.setData({
+    //   isClicked: true
+    // })
 
     wx.openSetting({
       success: (res) => {
-        if (res.authSetting["scope.userInfo"]) {////如果用户重新同意了授权登录
+        if (res.authSetting["scope.userInfo"]) { //如果用户重新同意了授权登录
           wx.getUserInfo({
-            success: function (res) {
-              _GData.userInfo = res.userInfo;
-
+            success: (res) => {
+              _GData.userInfo = res.userInfo
               $vm.api.getSelectx100({
                 nickName: res.userInfo.nickName,
                 headImage: res.userInfo.avatarUrl,
-                notShowLoading: true,
-              }).then(res => {
-
+                constellationId: 1,
+                notShowLoading: true
+              }).then((res) => {
                 wx.redirectTo({
-                  url: '/pages/home/home',
+                  url: '/pages/home/home'
                 })
               })
-
-            }, fail: (res) => {
-              console.log("拒接登录01");
+            },
+            fail: (res) => {
               wx.redirectTo({
                 url: '/pages/checklogin/checklogin'
               })
             }
           })
-        } else {
-          //用户未授权
-          // wx.redirectTo({
-          //   url: '/pages/checklogin/checklogin'
-          // })
         }
+        // else {
+        //   用户未授权
+        //   wx.redirectTo({
+        //     url: '/pages/checklogin/checklogin'
+        //   })
+        // }
       }
     })
-
-
-  },
+  }
 })

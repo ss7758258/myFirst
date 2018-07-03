@@ -5,15 +5,12 @@ const api = require('./utils/api.js')
 const mta = require('./utils/mta_analysis.js')
 App({
 
-
-
   onLaunch: function (options) {
     const _self = this
     const _SData = this.globalData
-    
+
     _SData.userInfo = wx.getStorageSync('userInfo')
     _self.getLogin().then(res => {
-      console.log(res)
       wx.setStorage({
         key: 'token',
         data: res.token
@@ -24,7 +21,13 @@ App({
         icon: 'none'
       })
     })
-    _SData.selectConstellation = wx.getStorageSync('selectConstellation') || {id:1,name:"白羊座",time:"3.21-4.19",img:"/assets/images/aries.png",isFirst : true}
+    _SData.selectConstellation = wx.getStorageSync('selectConstellation') || {
+      id: 1,
+      name: "白羊座",
+      time: "3.21-4.19",
+      img: "/assets/images/aries.png",
+      isFirst: true
+    }
     _SData.userInfo = wx.getStorageSync('userInfo')
     mta.App.init({
       "appID": "500613478",
@@ -39,6 +42,7 @@ App({
   getLogin() {
     return new utils.Promise((resolve, reject) => {
       return utils.login().then(res => {
+        console.log("res.code================",res.code)
         api.getLogin({
           notShowLoading: true,
           code: res.code
@@ -50,7 +54,6 @@ App({
       })
     })
   },
-
 
   globalData: {
     selectConstellation: null,
