@@ -11,7 +11,8 @@
         "pages/lot/shakelot/shake",
         "pages/lot/emptylot/emptylot",
         "pages/lot/lotdetail/lotdetail",
-        "pages/checklogin/checklogin"
+        "pages/checklogin/checklogin",
+        "pages/myAccount/myAccount"
     ],
     "window": {
         "backgroundTextStyle": "light",
