@@ -1,0 +1,27 @@
+{
+    "pages": [
+        "pages/home/home",
+        "pages/index/index",
+        "pages/banner/banner",
+        "pages/center/center",
+        "pages/today/today",
+        "pages/onebrief/brief",
+        "pages/lot/lotlist/lotlist",
+        "pages/lot/shake/shake",
+        "pages/lot/shakelot/shake",
+        "pages/lot/emptylot/emptylot",
+        "pages/lot/lotdetail/lotdetail",
+        "pages/checklogin/checklogin"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationStyle": "custom",
+        "navigationBarBackgroundColor": "#9262FB",
+        "navigationBarTitleText": "小哥星座",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": false
+    },
+    "networkTimeout": {
+        "request": 10000
+    }
+}

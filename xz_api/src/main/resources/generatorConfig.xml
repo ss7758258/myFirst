@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <properties resource="config-dev/conf.properties"/>
+
+    <context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <plugin type="${mapper.plugin}">
+        <property name="mappers" value="${mapper.Mapper}" />
+        <property name="queryObjectSuffix" value="Criteria" />
+        </plugin>
+        <!--数据库链接URL，用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="${jdbc.url}" userId="${jdbc.username}"
+                        password="${jdbc.password}"></jdbcConnection>
+                        
+        <!--生成实体类） -->
+        <javaModelGenerator targetPackage="${package}.entity" targetProject="${project}">
+            <property name="enableSubPackages" value="false" />
+            <property name="trimStrings" value="true" />
+            <property name="constructorBased" value="true" />
+            <property name="rootClass" value="com.xz.framework.common.base.BasicBean" />
+        </javaModelGenerator>
+        <!--生成SQLMAP文件 -->
+        <!-- <sqlMapGenerator targetPackage="${package}"  targetProject="${project}">
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator> -->
+        <!--生成xml映射文件 ANNOTATEDMAPPER XMLMAPPER-->
+        <javaClientGenerator type="ANNOTATEDMAPPER" targetPackage="${package}"  targetProject="${project}">
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
+
+        <!--<table tableName="tc_qian_yan_url" domainObjectName="TcQianYanUrl" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
+        <table tableName="ti_yan_list" domainObjectName="TiYanList" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+
+    <!--
+        <table tableName="weixin_user" domainObjectName="WeixinUser" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="ti_lucky" domainObjectName="TiLucky" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table tableName="tc_constellation" domainObjectName="TcConstellation" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+    -->
+    </context>
+</generatorConfiguration>

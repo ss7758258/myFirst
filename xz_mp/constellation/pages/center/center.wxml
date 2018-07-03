@@ -1,0 +1,39 @@
+<!-- 导航 -->
+<nav opts='{{navConf}}'></nav>
+<view class="panel">
+    <view class="photo">
+        <image src="{{iconPath}}"></image>
+        <text class="text">{{nickName}}</text>
+    </view>
+    <!-- <view class="flex notice">
+        <view>
+            <image class="notice_icon" src="{{imgs.notice_icon}}"></image>
+        </view>
+        <view>运势提醒</view>
+        <view bindtap="switchOn">
+            <view class="switchOn {{isFlag ? '' : 'off'}}">
+                <view>
+                    <view></view>
+                </view>
+            </view>
+        </view>
+    </view> -->
+    <!-- <view class="flex card_record" wx:if="{{clockStatus}}" bindtap="goXiaodaka">
+        <view>
+            <image class="notice_icon" src="{{imgs.daka}}"></image>
+        </view>
+        <view>每日打卡</view>
+        <view>
+            <image class="notice_icon" src="{{imgs.right}}"></image>
+        </view>
+    </view> -->
+    <view class="flex opinion"  bindtap="clickHandle">
+        <view>
+            <image class="notice_icon" src="{{imgs.opinion}}"></image>
+        </view>
+        <view>我要吐槽</view>
+        <view>
+            <image class="notice_icon" src="{{imgs.right}}"></image>
+        </view>
+    </view>
+</view>

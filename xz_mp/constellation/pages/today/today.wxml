@@ -1,0 +1,37 @@
+<!-- 导航 -->
+<nav opts='{{navConf}}'></nav>
+<view class="UI_page page_today page_bg">
+  <image class='inImage' src='/assets/images/cbg2.png'></image>
+  <view class="UI_box">
+
+    <scroll-view scroll-y>
+      <view class="todayList">
+        <balck class="item {{item.name?'':'itemHint'}}" wx:for="{{todayList}}" wx:key="index" bindtap="selectSign" id="{{index}}">
+          <view class="title" wx:if="{{item.name}}">
+            <image src="{{item.img}}" />
+            <text>{{item.name}}</text>
+            <view wx:if="{{item.level}}">
+              <image src="/assets/images/stars{{item.level>=1 ? '1' : '2'}}.png" mode="widthFix" />
+              <image src="/assets/images/stars{{item.level>=2 ? '1' : '2'}}.png" mode="widthFix" />
+              <image src="/assets/images/stars{{item.level>=3 ? '1' : '2'}}.png" mode="widthFix" />
+              <image src="/assets/images/stars{{item.level>=4 ? '1' : '2'}}.png" mode="widthFix" />
+              <image src="/assets/images/stars{{item.level>=5 ? '1' : '2'}}.png" mode="widthFix" />
+            </view>
+          </view>
+          <view class="content">
+            <text>{{item.content}}</text>
+          </view>
+          <view class='line' style='width:{{item.width}}rem'></view>
+        </balck>
+      </view>
+    </scroll-view>
+    <form bindsubmit="savePic" class='savepic' report-submit='true' wx:if="{{!networkError}}">
+      <button class="button1" form-type="submit" type='' hover-class="none">
+        <image src="/assets/images/save.png" mode="widthFix" />
+      </button>
+    </form>
+  </view>
+</view>
+<view class='canvasBox' wx:if="{{showCanvas}}">
+  <canvas canvas-id="shareCanvas" style="width:750px;height:1334px"></canvas>
+</view>

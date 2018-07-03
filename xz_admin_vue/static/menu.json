@@ -1,0 +1,101 @@
+[{
+        "children": [{
+                "path": "/fate/add-fate",
+
+                "meta": {
+                    "icon": "",
+                    "title": "运势发布"
+                },
+                "index": 1
+            }, {
+                "path": "/fate/fate-draft",
+                "meta": {
+                    "icon": null,
+                    "title": "历史发布"
+
+                },
+                "index": 1
+            }
+        ],
+        "meta": {
+            "icon": "form",
+            "title": "运势管理"
+        },
+        "sort": 1,
+        "name": "/fate"
+    },
+    {
+        "children": [{
+                "path": "/yiyan/add-yiyan",
+
+                "meta": {
+                    "icon": null,
+                    "title": "一言发布"
+                },
+                "index": 1
+            },
+            {
+                "path": "/yiyan/yiyan-history",
+
+                "meta": {
+                    "icon": null,
+                    "title": "一言历史"
+                },
+                "index": 1
+            }
+        ],
+        "meta": {
+            "icon": "form",
+            "title": "一言模块"
+        },
+        "sort": 2,
+        "name": "/yiyan"
+    }, {
+        "children": [{
+            "path": "/yiqian/yiqian-content",
+
+            "meta": {
+                "icon": null,
+                "title": "签内容管理"
+            },
+            "index": 1
+        }],
+        "meta": {
+            "icon": "form",
+            "title": "一签模块"
+        },
+        "sort": 2,
+        "name": "/yiqian"
+    },
+    {
+        "children": [{
+            "path": "/user/admin",
+            "meta": {
+                "icon": null,
+                "title": "系统用户管理"
+            },
+            "index": 1
+        }, {
+            "path": "/user/wxUser",
+            "meta": {
+                "icon": null,
+                "title": "微信用户管理"
+            },
+            "index": 1
+        }],
+        "meta": {
+            "icon": "form",
+            "title": "用户管理"
+        },
+        "sort": 3,
+        "name": "/user"
+    }, {
+        "children": [],
+        "meta": {
+            "icon": "form",
+            "title": "系统管理"
+        },
+        "sort": 3,
+        "name": "/sys"
+    }
+]

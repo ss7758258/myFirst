@@ -1,0 +1,58 @@
+<!-- 导航 -->
+<nav opts='{{navConf}}'></nav>
+<!--pages/onelot/onelot.wxml-->
+<!-- <audio src="{{src}}" id="myAudio"></audio> -->
+<view class="UI_pgae">
+    <view class="userInfo">
+        <view class="photo">
+            <image src='{{userInfo.avatarUrl}}' mode='widthFix'></image>
+            <!-- <open-data type="userAvatarUrl"></open-data> -->
+        </view>
+        <view class="left">
+            <view>
+                <text>你好，</text>
+                <text>{{userInfo.nickName}}</text>
+                <!-- <open-data type="userNickName"></open-data> -->
+            </view>
+            <text>摇摇手机，立即抽取你的每日一签</text>
+        </view>
+    </view>
+    <!--摇签-->
+    <view class="drawLots">
+        <view class="lotPot {{shakeLotSpeed? 'shake' : ''}}" bindtap="drawLots">
+
+            <view class="box">
+                <image class="pot" wx:if="{{potPath}}" src="{{imgs.pot_1}}" />
+                <image class="pot" wx:else src="{{imgs.pot_2}}" />
+                <image class="pot surround" src="{{imgs.pot_surround}}" />
+                <image class="lot" src="{{imgs.lot}}" />
+                <image class="lot" src="{{imgs.lot}}" />
+                <image class="lot" src="{{imgs.lot}}" />
+                <image class="lot" src="{{imgs.lot}}" />
+                <image class="lot" src="{{imgs.lot}}" />
+                <image class="lot" src="{{imgs.lot}}" />
+                <image class="lot" src="{{imgs.lot}}" />
+            </view>
+        </view>
+        <form catchsubmit="showLotList" class='savepic' report-submit='true'>
+            <button class="button1 moreLot_btn" form-type="submit" type='' hover-class="none">
+        <view wx:if="{{!shakeLotSpeed}}" class="moreLot">
+          <icon class="red_dot" wx:if="{{dot}}"></icon>
+          <text>一签盒</text>
+          <image src="/assets/images/arrow.png" />
+        </view>
+      </button>
+        </form>
+    </view>
+</view>
+<!-- <form wx:if="{{isFromShare}}" bindsubmit="onclickHome" class='home' report-submit='true'>
+  <button class='button1' form-type="submit" type='' hover-class="none">
+    <image src="/assets/images/icon_home.png" mode="widthFix" />
+  </button>
+</form> -->
+
+<!-- <form bindsubmit="bindGetUserInfo" class='shouquan' report-submit='true' wx:if="{{!hasAuthorize}}">
+  <button form-type="submit" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+    授权该程序获取信息
+  </button>
+</form> -->
