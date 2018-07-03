@@ -3,6 +3,7 @@ const $vm = getApp()
 const _GData = $vm.globalData
 const getImageInfo = $vm.utils.wxPromisify(wx.getImageInfo)
 var mta = require('../../utils/mta_analysis.js')
+const Storage = require('../../utils/storage')
 Page({
 
 	/**
@@ -20,15 +21,16 @@ Page({
 			isIcon: true,
 			iconPath: '',
 			root: '',
-			isTitle: true,
-			// root : '/pages/home/home'
+			isTitle: true
 		},
+		isIPhoneX : false
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
+		getSystemInfo(this)
 		wx.showLoading({
 			title: '加载中...',
 		})
@@ -42,13 +44,14 @@ Page({
 		console.log(options)
 		if (fromwhere == 'share') {
 			this.setData({
-			  isFromShare: true,
-			  "navConf.root": '/pages/home/home'
+			  	// isFromShare: true,
+				"navConf.root": '/pages/home/home'
 			})
 		}
 		let env = 'dev';
 		const _self = this
-		$vm.api.getDayx400({ notShowLoading: true })
+		if(!Storage.prevPic){
+			$vm.api.getDayx400({ notShowLoading: true })
 			.then((res) => {
 				console.log(res)
 				if (res) {
@@ -70,6 +73,12 @@ Page({
 					title: '加载失败了，请小主稍后再试',
 				})
 			})
+		}else{
+			_self.setData({
+				prevPic:Storage.prevPic
+			})
+		}
+		
 	},
 
 	/**
@@ -106,10 +115,8 @@ Page({
 		$vm.utils.Promise.all([
 			getImageInfo({
 				src: _SData.prevPic,
-			}),
-			// getImageInfo({
-			//   src: 'https://xingzuo-1256217146.file.myqcloud.com/bb733a041549436ba3177cde06ed8346_1661223abb6d4429904326d15723679a.png'
-			// })
+			})
+			
 		]).then((res) => {
 			console.log(res)
 			const ctx = wx.createCanvasContext('shareCanvas')
@@ -206,3 +213,20 @@ Page({
 		})
 	},
 })
+
+/**
+ * 获取系统比例加入比例标识
+ * @param {*} self
+ */
+function getSystemInfo(self){
+	let res = wx.getSystemInfoSync();
+	console.log('设备信息：',res);
+	if(res){
+		// 长屏手机适配
+		if(res.screenWidth <= 375 && res.screenHeight >= 750){
+			self.setData({
+				isIPhoneX : true
+			})
+		}
+	}
+}

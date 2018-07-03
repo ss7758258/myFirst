@@ -7,22 +7,20 @@
 }
 
 .UI_box {
-  /* padding-left: 20rpx;
-  padding-right: 20rpx; */
   position: relative;
   align-items: center;
   text-align: center;
   transform: scale(0);
   transition: all .3s linear;
-  /* background-color: white; *//* padding-bottom: 90rpx; */
 }
 
 .UI_box .pic {
   width: 94.66666666666667vw;
   height: 84.46vh;
-  /* max-height: 388px;  */
 }
-
+.iPhoneX .UI_box .pic{
+  height: 69.37785714285715vh;
+}
 .picUserName {
   left: 0;
   width: 480rpx;
@@ -34,7 +32,9 @@
   color: gray;
   font-size: 28rpx;
 }
-
+.iPhoneX .picUserName{
+  top: 32.980509745127435vh;
+}
 .noNetBg {
   display: flex;
   align-items: center;
@@ -104,19 +104,15 @@
 .save {
   width: 80%;
   margin: 0 auto;
-  /* color: rgb(158, 29, 29); */
   background-color: #d3a0ff;
   color: white;
-  /* margin-top: 30rpx;
-  width: 40%;
-  height: 2rem;
-  line-height: 2rem;
-  border-radius: 1rem;
-  text-align: center;
-  align-content: center;
-  border: 1px solid #fff;
-  color: white;
-  background-image: linear-gradient(90deg, #7568ee 0%, #9425a6 100%); */
+}
+.iPhoneX .saveform{
+  bottom: -160rpx;
+}
+.iPhoneX .save{
+  background: #fff;
+  color: #9262FB;
 }
 
 .page_b {

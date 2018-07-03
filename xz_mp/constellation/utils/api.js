@@ -96,6 +96,11 @@ function getLogin(data) {//登录
   return requstPost('loginConstellation/x000', data)
 }
 
+// 上报用户的加密信息
+function loginForMore(data){
+  return requstPost('loginConstellation/loginForMore', data)
+}
+
 function getSelectx100(data) {//选择星座
   return requstPost('selectConstellation/x100', data)
 }
@@ -216,5 +221,6 @@ module.exports = {
   getUserSetting,
   setUserSetting,
   getBannerList,
-  globalSetting
+  globalSetting,
+  loginForMore
 }

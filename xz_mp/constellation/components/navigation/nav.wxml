@@ -1,4 +1,4 @@
-<view class="navigtion_panel">
+<view class="navigtion_panel {{isIPhoneX ? 'iPhoneX' : ''}}">
     <view class="navigtion_nav">
         <image class="nav_state {{opts.iconPath === '' ? 'default_icon' : ''}}" wx:if="{{opts.isRoot && opts.isIcon}}" catchtap="goCenter" src="{{opts.iconPath === '' ? '' : opts.iconPath}}"></image>
         <icon class="nav_state back_img" wx:if="{{opts.root === '' && !opts.isRoot && opts.isIcon}}" catchtap="goBack" ></icon>

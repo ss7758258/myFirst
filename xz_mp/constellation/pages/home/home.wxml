@@ -5,6 +5,31 @@
 <!-- 引入卡片 -->
 <!-- <shareCard opts="{{shareCard}}"></shareCard> -->
 
+<!-- 关注服务号-弹窗 -->
+<view class="contact_follow_mask {{showFollow ? 'show':''}}" catchtap="hideFollow">
+	<view class="contact_follow {{showFollow ? 'show':''}}" catchtap="catchHide">
+		<view class="contact_panel">
+			<view class="contact_head_panel">
+				<view class="contact_head"></view>
+			</view>
+			<view class="contact_head_panel_2">
+				<view class="contact_head">
+					<image class="contact_image" src="/assets/img/p.png" mode="aspectFit" binderror="" bindload=""></image>
+					<text class="contact_head_text">由于平台限制，好运提醒需要关注<text class="st">【小哥星座】</text>公众号才能发送</text>
+				</view>
+			</view>
+			<view class="contact_body_panel">
+				<view class="contact_title">关注步骤</view>
+				<view class="contact_body">
+					<view class="contact_body_title">点击下方按钮，回复数字“1”即可</view>
+					<button class="contact_body_botton" open-type='contact' catchtap="openContact">马上关注</button>
+				</view>
+			</view>
+		</view>
+	</view>
+</view>
+<!-- End关注服务号-弹窗 -->
+
 <view class="UI_page page_home page_bg {{isIPhoneX ? 'iPhoneX' : ''}} {{!showHome ? 'page_home_key' : ''}}">
 	<!-- 选择星座 -->
 	<view class="star_panel" wx:if="{{!showHome}}">
@@ -38,10 +63,6 @@
 			<view class="signTitle" wx:if="{{!noticeBtnStatus}}" >
 				<text class="name">{{myConstellation.name}}</text>
 				<text class="time">{{myConstellation.time}}</text>
-				<!-- <image class="noticeBtnStatus" src="/assets/images/notice.png" wx:if="{{noticeBtnStatus}}" catchtap="onNotice"></image>
-				<view class="noticeBtnStatus" wx:if="{{noticeBtnStatus}}" catchtap="onNotice">
-					好运提醒我
-				</view> -->
 			</view>
 		</button>
 		<view class="noticeBtnStatus" wx:if="{{noticeBtnStatus}}" catchtap="openNotice">

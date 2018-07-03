@@ -4,6 +4,7 @@ let _GData = $vm.globalData
 const { canvasTextAutoLine, parseLot } = $vm.utils
 var mta = require('../../../utils/mta_analysis.js');
 const imgs = require('./imgs.js')
+const Storage = require('../../../utils/storage')
 Page({
 
 	/**
@@ -25,6 +26,7 @@ Page({
 			isTitle: true
 		},
 		lotDetail: {
+			troops : [{photo : '/assets/images/default_head.png'}],
 			qianOpenSize: 3,
 			showChai: true,
 			hasChai: false,
@@ -62,48 +64,73 @@ Page({
 		_self.setData({
 			userInfo: _GData.userInfo
 		})
+		let login_timer = ''
 		if (!_GData.userInfo) {
-			wx.getUserInfo({
-				success: function (res) {
-					console.log(res)
-					if (res.userInfo) {
-						wx.setStorage({
-							key: 'userInfo',
-							data: res.userInfo,
-						})
-						// 获取签的数据
-						getTokenQian(pageFrom,_self,qId,_GData)
-						_GData.userInfo = res.userInfo
-						_self.setData({
-							userInfo: _GData.userInfo
-						})
-						$vm.api.getSelectx100({
-							constellationId: _GData.selectConstellation.id,
-							nickName: res.userInfo.nickName,
-							headImage: res.userInfo.avatarUrl,
-							notShowLoading: true,
-						}).then(res => {
-
-						})
-					}
-				},
-				fail: function (res) {
-					// 查看是否授权
-					wx.getSetting({
-						success: function (res) {
-							if (!res.authSetting['scope.userInfo']) {
-
-								_self.setData({
-									hasAuthorize: false
+			console.log('进入授权功能=============')
+			login_timer = setInterval(() => {
+				console.log('进入授权功能=============',Storage)
+				if(!Storage.loginStatus){
+					return false
+				}
+				// 清除等待
+				clearInterval(login_timer)
+				wx.getUserInfo({
+					success: function (res) {
+						console.log(res)
+						if (res.userInfo) {
+							wx.setStorage({
+								key: 'userInfo',
+								data: res.userInfo,
+							})
+							_GData.userInfo = res.userInfo
+							_self.setData({
+								userInfo: _GData.userInfo
+							})
+							if(!Storage.loginForMore){
+								// 上报用户加密信息
+								$vm.api.loginForMore({
+									encryptedData: res.encryptedData,
+									iv: res.iv,
+									sessionKey : Storage.sessionKey,
+									nickName: res.userInfo.nickName,
+									headImage: res.userInfo.avatarUrl,
+									notShowLoading: true,
+								}).then(result => {
+									// 确定用户信息已经上报
+									Storage.loginForMore = true
+									// 获取签的数据
+									getTokenQian(pageFrom,_self,qId,_GData)
+								}).catch(err => {
+									Storage.loginForMore = false
+									wx.redirectTo({
+										url: '/pages/checklogin/checklogin?from=' + _SData.fromPage + '&and=shake'
+									})
 								})
-								wx.redirectTo({
-									url: '/pages/checklogin/checklogin?from=' + pageFrom + '&lotId=' + qId
-								})
+
+							}else{
+								getTokenQian(pageFrom,_self,qId,_GData)
 							}
 						}
-					})
-				}
-			})
+					},
+					fail: function (res) {
+						// 查看是否授权
+						wx.getSetting({
+							success: function (res) {
+								if (!res.authSetting['scope.userInfo']) {
+	
+									_self.setData({
+										hasAuthorize: false
+									})
+									wx.redirectTo({
+										url: '/pages/checklogin/checklogin?from=' + pageFrom + '&lotId=' + qId
+									})
+								}
+							}
+						})
+					}
+				})
+			},200)
+			
 		}else{
 			// 获取签的数据
 			getTokenQian(pageFrom,_self,qId,_GData)
@@ -318,7 +345,7 @@ Page({
  * 重新加载数据
  * @param {*} qId
  */
-function getQian(qId,_self){
+function getQian(qId,_self,GData){
 	wx.getNetworkType({
 		success: function(res) {
 			console.log('输出当前网络状态：',res)
@@ -345,7 +372,7 @@ function getQian(qId,_self){
 							confirmText : '重新尝试',
 							showCancel: false,
 							success (){
-								getQian(qId,_self);
+								login(_self,GData,qId)
 							}
 						})
 						console.log('进入错误状态')
@@ -369,7 +396,8 @@ function getQian(qId,_self){
 						confirmText : '重新尝试',
 						showCancel: false,
 						success (){
-							getQian(qId,_self);
+							// getQian(qId,_self);
+							login(_self,GData,qId)
 						}
 					})
 					console.log('进入错误状态')
@@ -398,32 +426,97 @@ function getTokenQian(pageFrom,_self,qId,_GData){
 		if (token) {
 			getQian(qId,_self)
 		} else {
-			$vm.getLogin().then(res => {
-				console.log(res)
-				wx.setStorageSync('token', res.token)
-				getQian(qId,_self)
-			}).catch(err => {
-				wx.getSetting({
-					success: function (res) {
-						if (!res.authSetting['scope.userInfo']) {
-
-							_self.setData({
-								hasAuthorize: false
-							})
-							wx.redirectTo({
-								url: '/pages/checklogin/checklogin?from=' + pageFrom + '&lotId=' + qId
-							})
-						} else {
-
-						}
-					}
-				})
-			})
+			login(_self,_GData,qId)
 		}
 	} else {
 		_self.setData({
 			lotDetail: _GData.lotDetail
 		})
-
 	}
+}
+
+/**
+ * 重新登录，重新授权
+ * @param {*} self
+ * @param {*} GData
+ * @param {*} qId
+ */
+function login(self,GData,qId){
+	$vm.getLogin().then(data => {
+		console.log(data)
+		wx.setStorageSync('token', data.token)
+		// 登录状态
+		Storage.loginStatus = true
+		Storage.sessionKey = data.sessionKey
+		wx.getUserInfo({
+			success: function (res) {
+				console.log(res)
+				if (res.userInfo) {
+					wx.setStorage({
+						key: 'userInfo',
+						data: res.userInfo,
+					})
+					GData.userInfo = res.userInfo
+					self.setData({
+						userInfo: GData.userInfo
+					})
+					// 上报用户加密信息
+					$vm.api.loginForMore({
+						encryptedData: res.encryptedData,
+						iv: res.iv,
+						sessionKey : Storage.sessionKey,
+						nickName: res.userInfo.nickName,
+						headImage: res.userInfo.avatarUrl,
+						notShowLoading: true,
+					}).then(result => {
+						// 确定用户信息已经上报
+						Storage.loginForMore = true
+						// 获取签的数据
+						getQian(qId,self,GData)
+					}).catch(err => {
+						Storage.loginForMore = false
+						wx.redirectTo({
+							url: '/pages/checklogin/checklogin?from=' + _SData.fromPage + '&and=shake'
+						})
+					})
+					
+					$vm.api.getSelectx100({
+						constellationId: GData.selectConstellation.id,
+						nickName: res.userInfo.nickName,
+						headImage: res.userInfo.avatarUrl,
+						notShowLoading: true,
+					}).then(res => {
+						
+					})
+				}
+			},
+			fail: function (res) {
+				// 查看是否授权
+				wx.getSetting({
+					success: function (res) {
+						if (!res.authSetting['scope.userInfo']) {
+							self.setData({
+								hasAuthorize: false
+							})
+							wx.redirectTo({
+								url: '/pages/checklogin/checklogin?from=' + pageFrom + '&lotId=' + qId
+							})
+						}
+					}
+				})
+			}
+		})
+	}).catch(err => {
+		Storage.loginStatus = false
+		Storage.sessionKey = ''
+		wx.showModal({
+			title: '网络错误',
+			content: '小主您的网络有点小问题哦,请重新尝试',
+			confirmText : '重新尝试',
+			showCancel: false,
+			success (){
+				login(self,GData,qId)
+			}
+		})
+	})
 }

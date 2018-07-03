@@ -1,16 +1,15 @@
 // pages/home/home.js
-const $vm = getApp()
-const _GData = $vm.globalData
+let $vm = getApp()
 const api = $vm.api
-var mta = require('../../utils/mta_analysis.js')
+const mta = require('../../utils/mta_analysis.js')
 const conf = require('../../conf')[require('../../config')] || {}
-
-const {
-	parseIndex
-} = $vm.utils
+const Storage = require('../../utils/storage')
+const {parseIndex} = $vm.utils
+let _GData = $vm.globalData
 
 // 验证Id是否位6位纯数字
 let reg = /^\d{6}$/;
+let timer = null
 
 Page({
 
@@ -75,6 +74,7 @@ Page({
 		isBanner : false, // 广告位开关
 		isIPhoneX : false,
 		noticeBtnStatus : false, // 通知开关
+		showFollow : false, // 关注服务号开关
 		shareCard : {
 			list:[]
 		}
@@ -106,6 +106,7 @@ Page({
 	},
 
 	onShowingHome: function () {
+		Storage.prevPic = null
 		const _self = this
 		const _SData = this.data
 		$vm.api.getSelectx100({
@@ -114,6 +115,8 @@ Page({
 			headImage: _GData.userInfo.avatarUrl,
 			notShowLoading: true,
 		}).then(res => {
+			// 获取一言图片
+			getDay()
 			console.log('输出百分值：',res)
 			var myLuck = parseIndex(res)
 			this.setData({
@@ -125,8 +128,6 @@ Page({
 				const myLuckLen = myLuck.length
 				_self.circleDynamic()();
 			}
-
-
 		}).catch(err => {
 			console.log(err)
 		})
@@ -139,132 +140,90 @@ Page({
 	onLoad: function (options) {
 		getSystemInfo(this);
 		mta.Page.init()
-		const _self = this
-		const _SData = this.data
-		const selectConstellation = _GData.selectConstellation
-		if (selectConstellation && !selectConstellation.isFirst) {
-			_self.setData({
-				myConstellation: selectConstellation,
-				selectBack: false,
-				showHome: true,
-				'navConf.isIcon' : true
-			})
-			_self.onShowingHome()
-		} else {
-			_self.setData({
-				showHome: false,
-				'navConf.isIcon' : false
-			})
-		}
-
-		console.log('输出参数：', options)
+		
+		_GData = $vm.globalData
+		let _self = this
+		let selectConstellation = _GData.selectConstellation
 		let fromwhere = options.from
 		let to = options.to
-		if (fromwhere == 'share' || fromwhere == 'activity') {
-			_self.setData({
-				toPage: to,
-				pageFrom: fromwhere
-			})
-			if (to == 'brief') {
-				if (options.hotapp == 1) {
-					mta.Event.stat("ico_in_from_brief_qrcode", {})
-				} else {
-					mta.Event.stat("ico_in_from_brief", {})
-				}
 
-			} else if (to == 'today') {
-				if (options.hotapp == 1) {
-					mta.Event.stat("ico_in_from_today_qrcode", {})
-				} else if (fromwhere == 'activity') {
-					console.log('ico_in_from_brief_activity')
-					mta.Event.stat("ico_in_from_brief_activity", {})
-				} else {
-					mta.Event.stat("ico_in_from_today", {})
-				}
+		// 获取选中星座的数据
+		getContent(this,selectConstellation)
+		// 用于解析用户来源
+		parseForm(this,options)
 
-			}
-		}
-		else if(fromwhere === 'spread'){ // 活动推广统计
-			console.log('输出活动来源',options.id)
-            if (reg.test(options.id)) {
-                mta.Event.stat('spread_' + options.id, {})
-            } else {
-                mta.Event.stat('spread_unknown', {})
-            }
-		}
-		
-		// 统计特殊来源
-        if(options.source && options.source.constructor === String && options.source !== ''){
-			console.log('输出活动来源',options.id)
-            if (reg.test(options.id)) {
-                mta.Event.stat(options.source + '_' + options.id, {})
-            } else {
-                mta.Event.stat(options.source + '_unknown', {})
-            }
-		}
-		
 		let me = this;
-		wx.getUserInfo({
-			success: function (res) {
-				console.log('获取用户配置成功：',res)
-				if (res.userInfo) {
-					wx.setStorage({
-						key: 'userInfo',
-						data: res.userInfo,
-					})
-					$vm.getLogin().then(res => {
-						wx.setStorageSync('token', res.token)
-						// 获取配置信息
-						getConfing(me);
-					})
-					wx.setStorageSync('icon_Path', res.userInfo.avatarUrl)
-					_self.setData({
-						hasAuthorize: true,
-						'navConf.iconPath' : res.userInfo.avatarUrl
-					})
-					_GData.userInfo = res.userInfo
-					$vm.api.getSelectx100({
-						constellationId: _GData.selectConstellation.id,
-						nickName: res.userInfo.nickName,
-						headImage: res.userInfo.avatarUrl,
-						notShowLoading: true,
-					}).then(res => {
-
-					})
-				}
-			},
-			fail: function (res) {
-				// 查看是否授权
-				wx.getSetting({
-					success: function (res) {
-						if (!res.authSetting['scope.userInfo']) {
-
-							_self.setData({
-								hasAuthorize: false
-							})
+		let login_timer = setInterval(() => {
+			if(!Storage.loginStatus){
+				return false
+			}
+			// 清除等待
+			clearInterval(login_timer)
+			wx.getUserInfo({
+				success: function (res) {
+					console.log('获取用户配置成功：',res)
+					if (res.userInfo) {
+						wx.setStorage({
+							key: 'userInfo',
+							data: res.userInfo,
+						})
+						_self.setData({
+							hasAuthorize: true,
+							'navConf.iconPath' : res.userInfo.avatarUrl
+						})
+						_GData.userInfo = res.userInfo
+						// 上报用户加密信息
+						$vm.api.loginForMore({
+							encryptedData: res.encryptedData,
+							iv: res.iv,
+							sessionKey : Storage.sessionKey,
+							nickName: res.userInfo.nickName,
+							headImage: res.userInfo.avatarUrl,
+							notShowLoading: true,
+						}).then(result => {
+							// 确定用户信息已经上报
+							Storage.loginForMore = true
+							// 获取配置信息
+							getConfing(me);
+						}).catch(err => {
+							Storage.loginForMore = false
+							// 上报失败的情况跳转到重新授权登录页面
 							wx.redirectTo({
 								url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to
 							})
-						}
+						})
+						wx.setStorageSync('icon_Path', res.userInfo.avatarUrl)
 					}
-				})
-			}
-		})
-
-
+				},
+				fail: function (res) {
+					// 查看是否授权
+					wx.getSetting({
+						success: function (res) {
+							if (!res.authSetting['scope.userInfo']) {
+	
+								_self.setData({
+									hasAuthorize: false
+								})
+								wx.redirectTo({
+									url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to
+								})
+							}
+						}
+					})
+				}
+			})
+		},200)
 	},
 
 	onShow(){
-		if(wx.getStorageSync('noticeStatus') === 1){
-			this.setData({
-				noticeBtnStatus : false
-			})
-		}else if(wx.getStorageSync('noticeStatus') === 0){
-			// 在用户未点击 且状态关闭时 按钮开关为打开状态下开启
-			this.setData({
-				noticeBtnStatus : true
-			})
-		}
+		let me = this
+		let login_timer = setInterval(() => {
+			if(!Storage.loginForMore){
+				return false
+			}
+			clearInterval(login_timer)
+			getUserConf(me)
+		},200)
 	},
 	
 	/**
@@ -286,8 +245,12 @@ Page({
 			}
 		}
 	},
-
-	goPage: function (_SData) {
+	/**
+	 * 前往一言
+	 * @param {*} _SData
+	 * @returns
+	 */
+	goPage (_SData) {
 		console.log('===============')
 		var shouldGo = false
 		if (_SData.pageFrom == 'share') {
@@ -333,19 +296,21 @@ Page({
 					})
 				})
 			}
-			let temp = setTimeout(price, 15);
-
-			_self.setData({
-				timer: temp
-			})
+			// 记录timer
+			timer = setTimeout(price, 15);
+			
+			// _self.setData({
+			// 	timer: temp
+			// })
 
 		}
 		return price
 	},
 
 	onClickConstellation: function () {
-
-		clearTimeout(this.data.timer ? this.data.timer : '');
+		// 清除定时
+		clearTimeout(timer ? timer : '');
+		// clearTimeout(this.data.timer ? this.data.timer : '');
 		mta.Event.stat("ico_home_unselect", {})
 		wx.setStorage({
 			key: 'selectConstellation',
@@ -361,29 +326,11 @@ Page({
 		})
 
 	},
-	bindGetUserInfo: function (e) {
-
-
-		if (e.detail.userInfo) {
-			wx.setStorage({
-				key: 'userInfo',
-				data: e.detail.userInfo,
-			})
-			this.setData({
-				hasAuthorize: true
-			})
-			_GData.userInfo = e.detail.userInfo
-			$vm.api.getSelectx100({
-				nickName: e.detail.userInfo.nickName,
-				headImage: e.detail.userInfo.avatarUrl,
-				notShowLoading: true,
-			}).then(res => {
-
-			})
-		}
-
-	},
-	onelot: function (e) {
+	/**
+	 * 摇签页面
+	 * @param {*} e
+	 */
+	onelot(e) {
 		const _self = this
 		if (_self.data.isLoading) {
 			return
@@ -426,7 +373,11 @@ Page({
 			url: '/pages/onebrief/brief?formid=' + formid
 		})
 	},
-	today: function (e) {
+	/**
+	 * 运势
+	 * @param {*} e
+	 */
+	today(e) {
 		let formid = e.detail.formId
 		let me = this
 		$vm.api.getX610({
@@ -436,14 +387,6 @@ Page({
 		mta.Event.stat("ico_home_to_today", {})
 		
 		let temp = wx.getStorageSync('userInfo') || {nickName : ''}
-		console.log('/pages/home/home?id=' + _GData.selectConstellation.id + '&nickName=' + temp.nickName)
-		// wx.navigateToMiniProgram({
-		// 	appId: 'wx0c094a79c17431cc',
-		// 	path: '/pages/home/home?id=' + _GData.selectConstellation.id + '&nickName=' + temp.nickName,
-		// 	success(res) {
-		// 		// 打开成功
-		// 	}
-		// })
 		wx.navigateTo({
 			url: '/pages/today/today?formid=' + formid
 		})
@@ -451,104 +394,81 @@ Page({
 	show_card (e){
 		console.log('展示卡片数据：',e)
 	},
+	openContact(){
+		this.hideFollow()
+		mta.Event.stat("spread_123437", {})
+		// console.log('打开了客服',arguments)
+	},
+	catchHide(){
+
+	},
+	/**
+	 * 关闭弹窗
+	 */
+	hideFollow(){
+		console.log('触发关闭')
+		this.setData({
+			showFollow : false
+		})
+	},
 	// 打开通知并且隐藏
 	openNotice(){
 		let me = this
-		// 更改通知设置 
-		api.setUserSetting({
-            noticeStatus : 1,
-            notShowLoading : true
-        }).then((res) => {
-            console.log('通知开关成功：',res)
-            if(res){
-                me.setData({
-                    noticeBtnStatus : false
-                })
-				// 保存通知开关状态
-				wx.setStorageSync('noticeStatus', 1);
-				wx.showToast({
-					title: '已为您开启提醒，关闭请前往个人中心',
-					icon: 'none',
-					duration: 2000
-				})
-                return false;
-            }
-			me.setData({
-				noticeBtnStatus : false
-			})
-        }).catch( () => {
-            console.log('通知开关失败：',res)
-            me.setData({
-				noticeBtnStatus : false
-			})
-			// 保存通知开关状态
-			wx.setStorageSync('noticeStatus', 0);
-        })
+		me.setData({
+			showFollow : true
+		})
+		mta.Event.stat("spread_123438", {})
+		console.log('弹窗')
+		return false
 	}
 })
+/**
+ * 获取需要token的用户配置
+ * @param {*} me
+ */
+function getUserConf(me){
+	
+	api.getUserSetting({
+		notShowLoading: true
+	}).then( res => {
+		console.log('加载配置完成---------用户:',res);
+		if(!res){
+			console.log('----------------输出错误信息----------用户配置错误')
+			return false;
+		}
+		// res.noticeStatus = 0
+		// 确认小打卡配置信息
+		me.setData({
+			noticeBtnStatus :  res.noticeStatus === 0,
+			clockStatus : res.clockStatus === 1
+		})
+		
+		// 默认小打卡是关闭状态
+		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
+		
+	}).catch( err => {
+		console.log('加载用户配置失败---------------------------------用户配置错误')
+	})
+}
 
 /**
  * 获取配置信息
  * @param {*} me
  */
 function getConfing(me){
-	api.getUserSetting({
-		notShowLoading: true
-	}).then( res => {
-		console.log('加载配置完成：',res);
-		if(!res){
-			wx.showToast({
-				title : '加载配置失败，请小主检查网络后再试',
-				icon: 'none',
-				mask: true
-			})
-			return false;
-		}
-		// 确认小打卡配置信息
-		me.setData({
-			clockStatus : res.clockStatus && res.clockStatus === 1 ? true : false
-		})
-		// 保存通知开关状态
-		wx.setStorageSync('noticeStatus', res.noticeStatus ? res.noticeStatus : 0);
-		// 默认小打卡是关闭状态
-		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
-		let noticeFlag = true
-		// 开启了通知
-		if(wx.getStorageSync('noticeStatus') === 1){
-			noticeFlag = false
-		}
-		// 用户关闭了通知
-		if(wx.getStorageSync('noticeStatus') === 0){
-			noticeFlag = true
-		}
-		me.setData({
-			noticeBtnStatus : noticeFlag
-		})
-	}).catch( err => {
-		wx.showToast({
-			title : '加载配置失败，请小主检查网络后再试',
-			icon: 'none',
-			mask: true
-		})
-	})
 
 	api.globalSetting({
 		notShowLoading: true
 	}).then( res => {
-		console.log('加载配置完成：',res);
+		console.log('加载配置完成---------全局：',res);
 		if(!res){
-			wx.showToast({
-				title : '加载配置失败，请小主检查网络后再试',
-				icon: 'none',
-				mask: true
-			})
 			return false;
 		}
 
 		// 变更状态
 		me.setData({
-			isBanner : res.bannerStatus && res.bannerStatus === 1 ? true : false,
-			clockStatus : res.clockStatus && res.clockStatus === 1 ? true : false
+			isBanner : res.bannerStatus === 1,
+			clockStatus : res.clockStatus === 1
 		})
 
 		// res.adBtnText = '开始'
@@ -556,11 +476,7 @@ function getConfing(me){
 		// 默认小打卡是关闭状态
 		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
 	}).catch( err => {
-		wx.showToast({
-			title : '加载配置失败，请小主检查网络后再试',
-			icon: 'none',
-			mask: true
-		})
+		console.log('加载失败---------------------------------全局配置')
 	})
 }
 
@@ -575,6 +491,7 @@ function getSystemInfo(self){
 	if(res){
 		// 长屏手机适配
 		if(res.screenWidth <= 375 && res.screenHeight >= 750){
+			wx.setStorageSync('IPhoneX', true);
 			self.setData({
 				isIPhoneX : true
 			})
@@ -604,6 +521,102 @@ function formatShareCard(res){
 
 function parseHandle(res){
     let temp = parseInt(res.replace('%'))
-    console.log(Math.ceil(temp / 10))
+    // console.log(Math.ceil(temp / 10))
     return Math.ceil(temp / 10)
+}
+
+/**
+ * 解析来源
+ * @param {*} self
+ */
+function parseForm(self,options){
+	let fromwhere = options.from
+	let to = options.to
+	if (fromwhere == 'share' || fromwhere == 'activity') {
+		self.setData({
+			toPage: to,
+			pageFrom: fromwhere
+		})
+		if (to == 'brief') {
+			if (options.hotapp == 1) {
+				mta.Event.stat("ico_in_from_brief_qrcode", {})
+			} else {
+				mta.Event.stat("ico_in_from_brief", {})
+			}
+
+		} else if (to == 'today') {
+			if (options.hotapp == 1) {
+				mta.Event.stat("ico_in_from_today_qrcode", {})
+			} else if (fromwhere == 'activity') {
+				console.log('ico_in_from_brief_activity')
+				mta.Event.stat("ico_in_from_brief_activity", {})
+			} else {
+				mta.Event.stat("ico_in_from_today", {})
+			}
+
+		}
+	}else if(fromwhere === 'spread'){ // 活动推广统计
+		console.log('输出活动来源',options.id)
+		if (reg.test(options.id)) {
+			mta.Event.stat('spread_' + options.id, {})
+		} else {
+			mta.Event.stat('spread_unknown', {})
+		}
+	}
+	
+	// 统计特殊来源
+	if(options.source && options.source.constructor === String && options.source !== ''){
+		console.log('输出活动来源',options.id)
+		if (reg.test(options.id)) {
+			mta.Event.stat(options.source + '_' + options.id, {})
+		} else {
+			mta.Event.stat(options.source + '_unknown', {})
+		}
+	}
+}
+
+/**
+ * 获取每日的幸运值
+ * @param {*} self
+ * @param {*} selectConstellation
+ */
+function getContent(self,selectConstellation){
+	if (selectConstellation && !selectConstellation.isFirst) {
+		self.setData({
+			myConstellation: selectConstellation,
+			selectBack: false,
+			showHome: true,
+			'navConf.isIcon' : true
+		})
+		let login_timer_k = setInterval(() => {
+			if(!Storage.loginForMore){
+				return false
+			}
+			clearInterval(login_timer_k)
+			self.onShowingHome()
+		},200)
+	} else {
+		self.setData({
+			showHome: false,
+			'navConf.isIcon' : false
+		})
+	}
+}
+
+/**
+ * 获取一言图片信息
+ */
+function getDay(){
+	$vm.api.getDayx400({ notShowLoading: true })
+	.then((res) => {
+		console.log(res)
+		if (res) {
+			let env = 'dev';
+			Storage.prevPic = res.prevPic ? "https://xingzuo-1256217146.file.myqcloud.com" + (env === 'dev' ? '' : '/prod') + res.prevPic :
+			"";
+		}
+		
+	}).catch((err) => {
+		Storage.prevPic = null
+	})
 }

@@ -1,9 +1,9 @@
 <view class="UI_pgae">
-  <view class='emptyLot'>
-    <image src="/assets/images/bqc.png" mode="widthFix"></image>
-    <view class='noLot'>不知道为啥失败了</view>
+	<view class='emptyLot'>
+		<image src="/assets/images/bqc.png" mode="widthFix"></image>
+		<view class='noLot'>不知道为啥失败了</view>
 
-    <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class='botton'>点击重试</button>
-    <button wx:else bindtap="checkLogin" class='botton'>点击重试</button>
-  </view>
+		<button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class='botton' catchtap="login">点击重试</button>
+		<button wx:else bindtap="checkLogin" class='botton'>点击重试</button>
+	</view>
 </view>

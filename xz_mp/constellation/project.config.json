@@ -113,6 +113,12 @@
 					"name": "新版摇一摇",
 					"pathName": "pages/lot/shake/shake",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "banner组件",
+					"pathName": "pages/index/index",
+					"query": ""
 				}
 			]
 		}

@@ -1,46 +1,49 @@
 <!-- 导航 -->
 <nav opts='{{navConf}}'></nav>
-<view class="banner" wx:if="{{swiper.list.length > 0 ? true : false}}">
-    <swiper indicator-dots="{{swiper.indicatorDots}}" autoplay="{{swiper.autoplay}}" circular="{{swiper.circular}}" vertical="{{swiper.vertical}}"
-        interval="{{swiper.interval}}" duration="{{swiper.duration}}" previous-margin="{{swiper.previousMargin}}px" next-margin="{{swiper.nextMargin}}px">
-        <block wx:for="{{swiper.list}}" >
-            <!-- 可滑动Banner -->
-            <swiper-item wx:if="{{swiper.list.length > 1 ? true : false}}">
-                <view class="swiper-item" catchtap="goOuter" data-res="{{item}}">
-                    <image mode="scaleToFill" src="{{cdn_base + '/' + item.imgUrl}}"></image>
-                </view>
-            </swiper-item>
-            <!-- 单条不可滑动状态 -->
-            <swiper-item catchtouchmove="move" wx:else>
-                <view class="swiper-item" catchtap="goOuter" data-res="{{item}}">
-                    <image mode="scaleToFill" src="{{cdn_base + '/' + item.imgUrl}}"></image>
-                </view>
-            </swiper-item>
-        </block>
-    </swiper>
-</view>
-<view>
-    <view wx:for="{{list}}" wx:key="item.id" wx:if="{{item.type !== 4 ? true : false}}">
-        <!-- type为1是列表形式 -->
-        <view class="banner_list_panel" catchtap="goOuter" data-res="{{item}}" wx:if="{{item.type === 1 ? true : false}}">
-            <view class="banner_logo">
-                <view>
-                    <image src="{{cdn_base + '/' + item.logo}}"></image>
-                </view>
-            </view>
-            <view class="banner_content">
-                <text class="banner_title">{{item.title}}</text>
-                <text class="banner_desc">{{item.description}}</text>
-            </view>
-            <view class="banner_btn_text">
-                <text class="banner-users">{{item.users}}万人在玩</text>
-                <text class="banner-text">{{text}}</text>
-            </view>
-        </view>
 
-        <!-- 纯图片广告位 -->
-        <view class="banner_img_panel" catchtap="goOuter" data-res="{{item}}" wx:if="{{item.type === 3 ? true : false}}">
-            <image src="{{cdn_base + '/' + item.imgUrl}}"></image>
+<scroll-view class="listBanner" scroll-y bindscrolltolower="">
+    <view class="banner" wx:if="{{swiper.list.length > 0 ? true : false}}">
+        <swiper indicator-dots="{{swiper.indicatorDots}}" autoplay="{{swiper.autoplay}}" circular="{{swiper.circular}}" vertical="{{swiper.vertical}}"
+            interval="{{swiper.interval}}" duration="{{swiper.duration}}" previous-margin="{{swiper.previousMargin}}px" next-margin="{{swiper.nextMargin}}px">
+            <block wx:for="{{swiper.list}}" >
+                <!-- 可滑动Banner -->
+                <swiper-item wx:if="{{swiper.list.length > 1 ? true : false}}">
+                    <view class="swiper-item" catchtap="goOuter" data-res="{{item}}">
+                        <image mode="scaleToFill" src="{{cdn_base + '/' + item.imgUrl}}"></image>
+                    </view>
+                </swiper-item>
+                <!-- 单条不可滑动状态 -->
+                <swiper-item catchtouchmove="move" wx:else>
+                    <view class="swiper-item" catchtap="goOuter" data-res="{{item}}">
+                        <image mode="scaleToFill" src="{{cdn_base + '/' + item.imgUrl}}"></image>
+                    </view>
+                </swiper-item>
+            </block>
+        </swiper>
+    </view>
+    <view>
+        <view wx:for="{{list}}" wx:key="item.id" wx:if="{{item.type !== 4 ? true : false}}">
+            <!-- type为1是列表形式 -->
+            <view class="banner_list_panel" catchtap="goOuter" data-res="{{item}}" wx:if="{{item.type === 1 ? true : false}}">
+                <view class="banner_logo">
+                    <view>
+                        <image src="{{cdn_base + '/' + item.logo}}"></image>
+                    </view>
+                </view>
+                <view class="banner_content">
+                    <text class="banner_title">{{item.title}}</text>
+                    <text class="banner_desc">{{item.description}}</text>
+                </view>
+                <view class="banner_btn_text">
+                    <text class="banner-users">{{item.users}}万人在玩</text>
+                    <text class="banner-text">{{text}}</text>
+                </view>
+            </view>
+    
+            <!-- 纯图片广告位 -->
+            <view class="banner_img_panel" catchtap="goOuter" data-res="{{item}}" wx:if="{{item.type === 3 ? true : false}}">
+                <image src="{{cdn_base + '/' + item.imgUrl}}"></image>
+            </view>
         </view>
     </view>
-</view>
+</scroll-view>

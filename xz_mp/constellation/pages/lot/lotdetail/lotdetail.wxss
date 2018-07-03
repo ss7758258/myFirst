@@ -1,5 +1,8 @@
 /* pages/lot/lotdetail/lotdetail.wxss */
-
+.photo_img{
+  width: 100%;
+  height: 100%;
+}
 .userInfo {
   display: flex;
   align-items: center;

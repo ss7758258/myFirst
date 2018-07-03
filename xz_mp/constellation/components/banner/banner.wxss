@@ -1,3 +1,6 @@
+.banner{
+    height: 150px;
+}
 .banner_list_panel,.banner_img_panel{
     display: flex;
     width: 92vw;
@@ -100,8 +103,4 @@
 .swiper-item > image{
     width: 100%;
     height: 100%;
-}
-
-.listBanner{
-    height: calc(100% - 2.9962546816479403vh - 6.6vh);
 }
