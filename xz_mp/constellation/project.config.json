@@ -103,10 +103,10 @@
 					"scene": "1011"
 				},
 				{
-					"id": -1,
+					"id": 10,
 					"name": "帮好友拆签",
 					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "from=share&lotId=565200"
+					"query": "from=share&lotId=565230"
 				},
 				{
 					"id": -1,
