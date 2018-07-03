@@ -1,6 +1,0 @@
-{
-	"usingComponents": {
-		"nav": "/components/navigation/nav"
-	},
-	"disableScroll": true
-}

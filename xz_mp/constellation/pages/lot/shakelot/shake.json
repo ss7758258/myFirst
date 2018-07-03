@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "摇一摇抽签",
-  "disableScroll": true,
-  "usingComponents": {
-		"nav": "/components/navigation/nav"
-	}
-}
