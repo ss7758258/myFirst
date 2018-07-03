@@ -99,7 +99,7 @@ function parseIndex(data) {
       name: data['luckyType' + (i + 1)],
       color: colors[i],
       count: count
-    }
+    } 
     myLuck.push(d)
   }
   return myLuck
@@ -157,7 +157,7 @@ function canvasTextAutoLine(ctx, str, initX, initY, lineHeight, exWidth) {
 
 
 function parseLot(res) {
-  console.log('未加工的数据信息：',res)
+  // console.log('未加工的数据信息：',res)
   var troops = []
   for (var i = 1; i < res.qianOpenSize + 1; i++) {
     if (res['friendOpenId' + i]) {
@@ -169,15 +169,18 @@ function parseLot(res) {
     }
   }
 
+  console.log('=======================>troops',troops)
+
   var lotTitleHint = '下面是你的每日一签，快找好友帮你拆签吧~'
-  if (res.status == 1) {
-    if (res.isMyQian == 1) {
+  
+  if (res.status === 1) {
+    if (res.isMyQian === 1) {
       lotTitleHint = '你的好友已帮你完成拆签'
     } else {
       lotTitleHint = '此签已完成拆签'
     }
   } else {
-    if (res.isMyQian == 1) {
+    if (res.isMyQian === 1) {
       lotTitleHint = '下面是你的每日一签，快找好友帮你拆签吧~'
     } else {
       lotTitleHint = '是否能够拆签成功，全都仰仗你们了！'
@@ -188,10 +191,10 @@ function parseLot(res) {
     lotTitleHint: lotTitleHint,
     id: res.id,
     qianOpenSize: res.qianOpenSize,
-    hasChai: res.alreadyOpen > 0 || res.status == 1,
-    isOther: res.isMyQian == 0,
-    showChai: res.isMyQian == 0,
-    lotNotCompleted: res.status == 0,
+    isOpen: res.alreadyOpen > 0 || res.status === 1,
+    isOther: res.isMyQian === 0,
+    showChai: res.isMyQian === 0,
+    lotNotCompleted: res.status === 0,
     ownerHeadImage: res.ownerHeadImage,
     ownerNickName: res.ownerNickName,
     qianContent: res.qianContent,
@@ -199,16 +202,38 @@ function parseLot(res) {
     qianName: res.qianName,
     troops: troops
   }
-  console.log("=====lotDetail=====")
-  console.log('加工后的数据：',myLot)
-  console.log("=====lotDetail=====")
+  // console.log("=====lotDetail=====")
+  // console.log('加工后的数据：',myLot)
+  // console.log("=====lotDetail=====")
   return myLot
-
-
-
 }
 
 
+/*
+ * 获取随机字符串，返回两种结果 （单个字符串或者指定长度的数组，内含随机数）
+ * @param len  字符串长度(Number) 默认32
+ * @param length 数组长度(Number)
+ * @returns 'aAaa123'或者['aAa111','bBb111']
+ * Example:getRadomString(5) -> 'PPXNw'
+ * Example:getRadomString(5,3) -> ["th5PP", "MaTWd", "c6dAc"]
+ */
+function getRadomString (len = 6, length) {
+  let chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
+  let pwd = ''
+
+  for (let i = 0; i < len; i++) {
+      pwd += chars.charAt(Math.floor(Math.random() * chars.length))
+  }
+
+  if (length) { // 如果带二参，返回为数组
+      let arr = []
+      for (let j = 0; j < length; j++) {
+          arr.push(getRadomString(len))
+      }
+      return arr
+  }
+  return pwd
+}
 
 
 
@@ -224,5 +249,6 @@ module.exports = {
   parseToady,
   parseIndex,
   canvasTextAutoLine,
+  getRadomString,
   parseLot
 }

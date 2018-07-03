@@ -2,9 +2,8 @@
 
 const $vm = getApp()
 const _GData = $vm.globalData;
-const {
-    parseLot
-} = $vm.utils
+const { parseLot } = $vm.utils
+const getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
 var mta = require('../../../utils/mta_analysis.js')
 let imgs = require('./imgs.js')
 
@@ -13,17 +12,19 @@ let reg = /^\d{6}$/;
 
 Page({
 
-    // 页面的初始数据
+    /**
+     * 页面的初始数据
+     */
     data: {
         isLoading: false,
         hasReturn: false,
         hasAuthorize: true,
         isFromShare: false,
         isOther: false,
-        shakeLotSpeed: false, //摇签状态,是否在摇动 
+        //摇签状态 
+        shakeLotSpeed: false,
         potPath: false,
         userInfo: _GData.userInfo,
-        isShaking:false, // 是否正在摇
         imgs: imgs,
         dot: false,
         navConf: {
@@ -41,22 +42,22 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad (options) {
+    onLoad: function (options) {
         mta.Page.init()
-        let fromPage = options.from || ''
+        let pageFrom = options.from
         this.setData({
-            fromPage
+            fromPage: pageFrom
         })
-        if (fromPage == 'share') {
+        if (pageFrom == 'share') {
             this.setData({
                 isFromShare: true,
                 "navConf.root": '/pages/home/home'
             })
-            if (fromPage == 'list') {
+            if (pageFrom == 'list') {
                 mta.Event.stat("ico_in_from_list", {})
-            } else if (fromPage == 'detail') {
+            } else if (pageFrom == 'detail') {
                 mta.Event.stat("ico_in_from_detail", {})
-            } else if (fromPage == 'shake') {
+            } else if (pageFrom == 'shake') {
                 if (options.hotapp == 1) {
                     mta.Event.stat("ico_in_from_shake_qrcode", {})
                 } else {
@@ -64,13 +65,14 @@ Page({
                 }
             }
 
-        } else if (fromPage == 'activity') {
+        } else if (pageFrom == 'activity') {
             this.setData({
                 isFromShare: true,
                 "navConf.root": '/pages/home/home'
             })
+            console.log('ico_in_from_shake_activity')
             mta.Event.stat("ico_in_from_shake_activity", {})
-        } else if (fromPage == 'outer' && options.id) {
+        } else if (pageFrom == 'outer' && options.id) {
             this.setData({
                 isFromShare: true,
                 "navConf.root": '/pages/home/home'
@@ -80,11 +82,12 @@ Page({
             } else {
                 mta.Event.stat('outer_unknown', {})
             }
-        } else if (fromPage === 'spread') { // 活动推广统计
+        } else if(pageFrom === 'spread'){ // 活动推广统计
             this.setData({
                 isFromShare: true,
                 "navConf.root": '/pages/home/home'
             })
+			console.log('输出活动来源',options.id)
             if (reg.test(options.id)) {
                 mta.Event.stat('spread_' + options.id, {})
             } else {
@@ -92,11 +95,12 @@ Page({
             }
         }
         // 统计特殊来源
-        if (options.source && options.source.constructor === String && options.source !== '') {
+        if(options.source && options.source.constructor === String && options.source !== ''){
             this.setData({
                 isFromShare: true,
                 "navConf.root": '/pages/home/home'
             })
+			console.log('输出活动来源',options.id)
             if (reg.test(options.id)) {
                 mta.Event.stat(options.source + '_' + options.id, {})
             } else {
@@ -107,13 +111,12 @@ Page({
         const _self = this
         const _SData = this.data
 
-        this.setData({
-            userInfo: _GData.userInfo,
-            shakeLotSpeed:false
+        _self.setData({
+            userInfo: _GData.userInfo
         })
 
         wx.getUserInfo({
-            success: (res)=> {
+            success: function (res) {
                 if (res.userInfo) {
                     wx.setStorage({
                         key: 'userInfo',
@@ -124,33 +127,28 @@ Page({
                     _self.setData({
                         userInfo: _GData.userInfo
                     })
-                    // 获取星座
-                    // getX510(_self)
-                    console.log('-----------res.userInfo--------',res.userInfo)
-                    // console.log('-----------id--------',_GData.selectConstellation.id)
+                    // 获取一签盒数据状态
+                    getX510(_self);
                     $vm.api.getSelectx100({
                         constellationId: _GData.selectConstellation.id,
                         nickName: res.userInfo.nickName,
-                        headImage: res.userInfo.avatarUrl||'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2414722708,998833133&fm=58&w=121&h=140&img.JPEG',
-                        notShowLoading: true
-                    }).then((res)=>{
-                        console.log('==============>res',res)
-
-                    }).catch(err=>{
-                        console.log("==============>err",err)
+                        headImage: res.userInfo.avatarUrl,
+                        notShowLoading: true,
+                    }).then(res => {
 
                     })
-                   
                 }
             },
-            fail: (res)=> {
+            fail: function (res) {
                 // 查看是否授权
                 wx.getSetting({
-                    success: (res)=> {
+                    success: function (res) {
                         if (!res.authSetting['scope.userInfo']) {
-                            this.setData({
+
+                            _self.setData({
                                 hasAuthorize: false
                             })
+                            console.log('=====' + _SData.fromPage)
                             wx.redirectTo({
                                 url: '/pages/checklogin/checklogin?from=' + _SData.fromPage + '&and=shake'
                             })
@@ -159,30 +157,30 @@ Page({
                 })
             }
         })
+
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow () {
+    onShow: function () {
         this.shakeFun()
         this.setData({
-            hasReturn: false,
-            potPath: false,
-            shakeLotSpeed:false,  // 摇晃回正
-            "navConf.isIcon":true // 显示返回
+          hasReturn: false,
         })
         // 获取一签盒数据状态
-        getX510(this)
+        getX510(this);
     },
 
     /**
      * 生命周期函数--监听页面隐藏
      */
     onHide: function () {
-        wx.stopAccelerometer({ })
+        wx.stopAccelerometer({
+
+        })
         this.setData({
-            hasReturn: true,
+          hasReturn: true,
         })
     },
 
@@ -193,92 +191,109 @@ Page({
         this.setData({
             hasReturn: true,
         })
-        wx.stopAccelerometer({ })
+        wx.stopAccelerometer({
+
+        })
     },
-    
-    //用户点击右上角分享
-    onShareAppMessage () {
-        const shareImg = '/assets/images/share_tong.jpg'
-        const shareMsg = '每日抽一签，赛过活神仙。'
-        const sharepath = '/pages/lot/shakelot/shake?from=share&where=shake'
+    /**
+     * 用户点击右上角分享
+     */
+    onShareAppMessage: function () {
+
+        var shareImg = '/assets/images/share_tong.jpg'
+        var shareMsg = '每日抽一签，赛过活神仙。'
+        var sharepath = '/pages/lot/shakelot/shake?from=share&where=shake'
         return {
             title: shareMsg,
             imageUrl: shareImg,
-            path: sharepath
+            path: sharepath,
+            success: function (res) {
+                // 转发成功
+            },
+            fail: function (res) {
+                // 转发失败
+            }
         }
     },
+    drawLots: function () {
 
-    handleShakingClick() {
         mta.Event.stat("ico_shake_shake", {})
         const _self = this
         const _SData = this.data
-       
         if (_self.data.shakeLotSpeed) {
             return
         }
         if (_self.data.hasReturn || _self.data.isLoading || (!_self.data.hasAuthorize)) {
             return
         }
-
         const innerAudioContext = wx.createInnerAudioContext()
         innerAudioContext.autoplay = true
         innerAudioContext.src = '/assets/shake.mp3'
-        innerAudioContext.onPlay(() => { console.log('开始播放') })
+        innerAudioContext.onPlay(() => {
+            console.log('开始播放')
+        })
 
         // 加快 摇动速度
         this.setData({
             shakeLotSpeed: true,
             potPath: true,
-            isLoading: true,
-            "navConf.isIcon":false
+            isLoading: true
         })
 
-        // 根据当前Storage的token值判断是否是新用户
-        if (wx.getStorageSync('token')) {
-            getX504(_self, _SData)
-        } else {
-            // 根据数据库匹配判断是否是新用户
+        // 获取摇签数据
+        if(wx.getStorageSync('token')){
+            // 拉取摇签数据
+            getX504(_self,_SData)
+        }else{
             $vm.getLogin().then(res => {
                 wx.setStorageSync('token', res.token)
-                console.log('res1===============',res)
                 // 拉取摇签数据
-                getX504(_self, _SData)
+                getX504(_self,_SData)
             }).catch(err => {
                 $vm.getLogin().then(res => {
-                    console.log('res2===============',res)
                     wx.setStorageSync('token', res.token)
                     // 拉取摇签数据
-                    getX504(_self, _SData)
+                    getX504(_self,_SData)
+                }).catch(err => {
+                    
                 })
             })
         }
 
     },
-    
-    shakeFun() { // 摇一摇方法封装
-        const _SData = this.data
-        const numX = 0.15 //x轴
-        const numY = 0.15 // y轴
-        const numZ = 0.15 // z轴
-        let _this = this
-        let positivenum = 0 //正数 摇一摇总数
+    shakeFun: function () { // 摇一摇方法封装
 
-        wx.onAccelerometerChange((res) => { //小程序api 加速度计
-            if (_SData.hasReturn || _SData.isLoading) return
+        console.log("摇了摇")
+        const _self = this
+        var numX = 0.15 //x轴
+        var numY = 0.15 // y轴
+        var numZ = 0.15 // z轴
+        var stsw = true // 开关，保证在一定的时间内只能是一次，摇成功
+        var positivenum = 0 //正数 摇一摇总数
 
-            if ((numX < res.x && numY < res.y) || (numZ < res.z && numY < res.y)) { //左右摇 或者上下摇
-                positivenum++
-                setTimeout(() => {
-                    positivenum = 0
-                }, 2000) //计时两秒内没有摇到指定次数，重新计算
+        wx.onAccelerometerChange(function (res) { //小程序api 加速度计
+            
+            if (_self.data.hasReturn || _self.data.isLoading) {
+                return
             }
-            if (positivenum === 1) { //是否摇了指定的次数，执行成功后的操作
-                _this.handleShakingClick()
-                console.log('摇动了没',_this)
+
+            if (numX < res.x && numY < res.y) { //个人看法，一次正数算摇一次，还有更复杂的
+                positivenum++
+                setTimeout(() => { positivenum = 0 }, 2000) //计时两秒内没有摇到指定次数，重新计算
+            }
+            if (numZ < res.z && numY < res.y) { //可以上下摇，上面的是左右摇
+                positivenum++
+                setTimeout(() => { positivenum = 0 }, 2000) //计时两秒内没有摇到指定次数，重新计算
+            }
+            if (positivenum == 1 && stsw) { //是否摇了指定的次数，执行成功后的操作
+                stsw = false
+
+                _self.drawLots()
+                console.log('摇一摇成功')
                 wx.stopAccelerometer({})
                 setTimeout(() => {
                     positivenum = 0 // 摇一摇总数，重新0开始，计算
-                    _this.setData( {shakeLotSpeed:false} )
+                    stsw = true
                 }, 2000)
             }
         })
@@ -288,11 +303,7 @@ Page({
         let formid = e.detail.formId
 
         mta.Event.stat("ico_shake_to_list", {})
-
-        $vm.api.getX610({
-            notShowLoading: true,
-            formid: formid
-        })
+        $vm.api.getX610({ notShowLoading: true, formid: formid })
         wx.navigateTo({
             url: '/pages/lot/lotlist/lotlist?formid=' + formid
         })
@@ -302,10 +313,7 @@ Page({
         let formid = e.detail.formId
 
         mta.Event.stat("ico_shake_home", {})
-        $vm.api.getX610({
-            notShowLoading: true,
-            formid: formid
-        })
+        $vm.api.getX610({ notShowLoading: true, formid: formid })
         wx.reLaunch({
             url: '/pages/home/home',
         })
@@ -328,17 +336,19 @@ Page({
 
             })
         }
+
     },
+    
 })
 
-//获取一签盒列表数据
+/**
+ * 获取一签盒列表数据
+ * @param {number} [pageNum=1]
+ * @param {number} [pageSize=10]
+ */
 const getX510 = (self, pageNum = 1, pageSize = 10) => {
     let clicks = wx.getStorageSync('click_list') || [];
-    $vm.api.getX510({
-        notShowLoading: true,
-        pageNum,
-        pageSize
-    }).then(res => {
+    $vm.api.getX510({ notShowLoading : true,pageNum, pageSize }).then(res => {
         console.log('一签盒列表：', res)
         if (res && res.constructor === Array) {
             let red_dot = false;
@@ -367,111 +377,90 @@ let sendLen = 0;
 
 // 重置请求次数
 const resetLen = () => {
-    sendLen = 0
+    sendLen = 0;
 }
+/**
+ * 获取签的数据信息
+ * @param {*} _self
+ * @param {*} _SData
+ */
+const getX504 = (_self,_SData) => {
+    if(sendLen > 1) return (sendLen = 0)
+    $vm.api.getX504({ notShowLoading: true, })
+    .then(res => {
+        if (_self.data.hasReturn) {
+            return
+        }
+        _self.setData({
+            isLoading: false
+        })
+        // if (!res) {
+        //     wx.navigateTo({
+        //         url: '/pages/lot/lotlist/lotlist'
+        //     })
+        //     return
+        // }
+        res.isMyQian = 1
+        res.alreadyOpen = 1
+        var lotDetail = parseLot(res)
 
-// 获取签的数据信息
-const getX504 = (_self, _SData) => {
-    if (sendLen > 1) return (sendLen = 0)
+        _GData.lotDetail = lotDetail
 
-    $vm.api.getX504({ notShowLoading: true })
-        .then(res => {
-            console.log("res拿openId============",res.ownerOpenId)
-            if (_self.data.hasReturn) {
-                return
-            }
-            _self.setData({
-                isLoading: false
-            })
-            if (!res) {
-                wx.navigateTo({
-                    url: '/pages/lot/lotlist/lotlist'
-                })
-                return
-            }
-            res.isMyQian = 1
-            res.alreadyOpen = 1
-            var lotDetail = parseLot(res)
-
-            _GData.lotDetail = lotDetail
-
-            console.log("res.status============",res.status)
-            if (res.status === 0) {
-                sendLen = 0
-                setTimeout(() => {
-                    if (_self.data.hasReturn) {
-                        return
-                    }
-                    // 摇出一个签
-                    _self.setData({
-                        shakeLotSpeed: false
-                    })
-
-                    if (_SData.isFromShare) {
-                        wx.navigateTo({
-                            url: '/pages/lot/lotdetail/lotdetail?sound=1',
-                        })
-                    } else {
-                        wx.redirectTo({
-                            url: '/pages/lot/lotdetail/lotdetail?sound=1',
-                        })
-                    }
-                }, 1500)
-            } else if (res.status == 1) { //没有签了
-                sendLen = 0
-                setTimeout(() => {
-                    if (_self.data.hasReturn) {
-                        return
-                    }
-                    // 摇出一个签
-                    _self.setData({
-                        shakeLotSpeed: false
-                    })
-
-                    if (_SData.isFromShare) {
-                        wx.navigateTo({
-                            url: '/pages/lot/emptylot/emptylot',
-                        })
-                    } else {
-                        wx.redirectTo({
-                            url: '/pages/lot/emptylot/emptylot',
-                        })
-                    }
-                }, 1000)
-            } else {
-                sendLen++
-                if (sendLen > 1) {
-                    sendLen = 0
-                    setTimeout(() => {
-                        wx.showModal({
-                            title: '网络开小差了',
-                            content: '小主，请您检查网络后再试',
-                            showCancel: false,
-                            confirmText: '再试一次'
-                        })
-                        // 变更UI状态
-                        _self.setData({
-                            potPath: false,
-                            isLoading: false,
-                            shakeLotSpeed: false
-                        })
-                        _self.shakeFun()
-                    }, 1000)
+        if (res.status === 0) {
+            sendLen = 0
+            setTimeout(() => {
+                if (_self.data.hasReturn) {
                     return
                 }
-                getX504(_self, _SData)
-            }
-        })
-        .catch(err => {
+                // 摇出一个签
+                _self.setData({
+                    shakeLotSpeed: false
+                })
+
+                if (_SData.isFromShare) {
+                    wx.navigateTo({
+                        url: '/pages/lot/lotdetail/lotdetail?sound=1',
+                    })
+                } else {
+                    wx.redirectTo({
+                        url: '/pages/lot/lotdetail/lotdetail?sound=1',
+                    })
+                }
+            }, 1500)
+        } else if (res.status == 1) { //没有签了
+            sendLen = 0
+            setTimeout(() => {
+                if (_self.data.hasReturn) {
+                    return
+                }
+                // 摇出一个签
+                _self.setData({
+                    shakeLotSpeed: false
+                })
+
+                if (_SData.isFromShare) {
+                    wx.navigateTo({
+                        url: '/pages/lot/emptylot/emptylot',
+                    })
+                } else {
+                    wx.redirectTo({
+                        url: '/pages/lot/emptylot/emptylot',
+                    })
+                }
+            }, 1000)
+        } else {
             sendLen++
-            if (sendLen > 1) {
+            if(sendLen > 1){
                 sendLen = 0
                 setTimeout(() => {
                     wx.showModal({
                         title: '网络开小差了',
                         content: '小主，请您检查网络后再试',
                         showCancel: false,
-                        confirmText: '再试一次'
+                        confirmText: '再试一次',
+                        success: function (res) { },
+                        fail: function (res) { },
+                        complete: function (res) { },
                     })
                     // 变更UI状态
                     _self.setData({
@@ -483,6 +472,33 @@ const getX504 = (_self, _SData) => {
                 }, 1000)
                 return
             }
-            getX504(_self, _SData)
-        })
+            getX504(_self,_SData)
+        }
+    })
+    .catch(err => {
+        sendLen++
+        if(sendLen > 1){
+            sendLen = 0
+            setTimeout(() => {
+                wx.showModal({
+                    title: '网络开小差了',
+                    content: '小主，请您检查网络后再试',
+                    showCancel: false,
+                    confirmText: '再试一次',
+                    success: function (res) { },
+                    fail: function (res) { },
+                    complete: function (res) { },
+                })
+                // 变更UI状态
+                _self.setData({
+                    potPath: false,
+                    isLoading: false,
+                    shakeLotSpeed: false
+                })
+                _self.shakeFun()
+            }, 1000)
+            return
+        }
+        getX504(_self,_SData)
+    })
 }

@@ -1,5 +1,5 @@
 <!-- 导航 -->
-<nav opts='{{navConf}}'></nav>
+<nav opts="{{navConf}}"></nav>
 <!-- 引入小打卡组件 -->
 <xiaodaka opts="{{xiaodaka}}" wx:if="{{showHome && clockStatus}}"></xiaodaka>
 
@@ -12,12 +12,11 @@
 			</view>
 			<view class="signList {{selectStatus.selected? 'isSelect':''}}">
 				<block wx:for="{{signList}}" wx:key="index">
-					<form bindsubmit="selectSign" class="signItem" report-submit='true'>
-						<button class='signItemBox' form-type="submit" type='' data-item='{{item}}' hover-class="itemClick">
+					<form bindsubmit="handleAnyXzClick" class="signItem" report-submit="true">
+						<button class="signItemBox" form-type="submit"  data-item="{{item}}" hover-class="itemClick">
 							<view class="signImg">
 								<image src="{{item.img}}" />
 							</view>
-
 							<view class="signTitle">
 								<text class="name">{{item.name}}</text>
 								<text class="time">{{item.time}}</text>
@@ -28,16 +27,22 @@
 			</view>
 		</view>
 	</view>
+
+	<!-- 当前星座信息 -->
 	<view class="UI_box2" wx:if="{{showHome}}">
-		<button class="mySign {{selectBack ? 'selectItem1 ':''}}" bindtap='onClickConstellation' hover-class="itemClick">
+		<button class="mySign {{selectBack ? 'selectItem1 ':''}}" bindtap="handleCurrentXzClick" hover-class="itemClick">
 			<view class="signImg">
 				<image wx:if="{{myConstellation.img}}" src="{{myConstellation.img}}" />
 			</view>
-			<view class="signTitle">
-				<text class="name">{{myConstellation.name}}</text>
-				<text class="time">{{myConstellation.time}}</text>
-			</view>
 		</button>
+		<view  class="lucky-wrapper">
+				<button class="lucky-btn" bindtap="handleOpenLuckyClick"  wx:if="{{luckyBtnShow}}">运势提醒</button>
+				<view wx:else class="signTitle">
+					<text class="name">{{myConstellation.name}}</text>
+					<text class="time">{{myConstellation.time}}</text>
+				</view>
+		</view>
+	
 		<view class="myLuck cbg3">
 			<block wx:for="{{myLuck}}" wx:key="index">
 				<view class="item">
@@ -55,22 +60,24 @@
 				</view>
 			</block>
 
+			<!-- 更多信息以及详情 -->
 			<view class="more">
 				<image class="icon_clock" src="/assets/images/icon_clock.png" />
 				<text>{{remindToday}}</text>
-				<form bindsubmit="today" report-submit='true'>
-					<button class='button1 text1' form-type="submit" type='' hover-class="none">
+				<form bindsubmit="handleLuckDetailClick" report-submit="true">
+					<button class="button1 text1" form-type="submit"  hover-class="none">
 						<text>运势详情</text>
 						<image class="icon_more forward" src="/assets/images/more.png" />
 					</button>
 				</form>
 			</view>
 		</view>
+
+
 		<!-- activity -->
 		<view class="card_content">
-
-			<form bindsubmit="onelot" report-submit='true'>
-				<button class='button1' form-type="submit" type='' hover-class="none">
+			<form bindsubmit="handleOneLotClick" report-submit="true">
+				<button class="button1" form-type="submit"  hover-class="none">
 					<view class="circle"></view>
 					<view class="circle"></view>
 					<view class="circle"></view>
@@ -80,9 +87,9 @@
 				</button>
 			</form>
 
-			<form bindsubmit="oneword" report-submit='true'>
+			<form bindsubmit="handleOneWordClick" report-submit="true">
 				<view class="banner_panel">
-					<button class='button1 {{isBanner ? "banner_show" : ""}}' form-type="submit" type='' hover-class="none">
+					<button class='button1 {{isBanner ? "banner_show" : ""}}' form-type="submit"  hover-class="none">
 						<view class="card_line" wx:if="{{!isBanner}}"></view>
 						<view class="card_line" wx:if="{{!isBanner}}"></view>
 						<view class="card_line" wx:if="{{!isBanner}}"></view>

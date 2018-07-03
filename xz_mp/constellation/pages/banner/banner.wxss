@@ -47,14 +47,14 @@
 }
 .banner_content>.banner_title{
     margin-top: 18px;
-    font-size:4.8vw;
-    line-height:4.8vw;
+    line-height: 40rpx;
+    margin-bottom: 20rpx;
+    font-size:36rpx;
     color: #000;
 }
 .banner_content>.banner_desc{
-    margin-top: 17px;
-    font-size:3.2vw;
-    line-height: 3.2vw;
+    line-height: 30rpx;
+    font-size:24rpx;
     color: #8a8a8a;
 }
 /* 文字按钮 */

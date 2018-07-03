@@ -1,9 +1,15 @@
 <view class="UI_pgae">
-  <view class='emptyLot'>
+  <view class="emptyLot">
     <image src="/assets/images/bqc.png" mode="widthFix"></image>
-    <view class='noLot'>不知道为啥失败了</view>
+    <view class="noLot">不知道为啥失败了</view>
 
-    <button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo" class='botton'>点击重试</button>
-    <button wx:else bindtap="checkLogin" class='botton'>点击重试</button>
+    <button
+    wx:if="{{canIUse}}"
+    open-type="getUserInfo" 
+    bindgetuserinfo="handleGetUserClick" 
+    class="botton">点击重试</button>
+
+    <!-- 授权按钮 -->
+    <button wx:else bindtap="handleAutorizeClick" class="botton">点击授权</button>
   </view>
 </view>

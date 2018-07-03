@@ -1,10 +1,10 @@
 <!-- 导航 -->
-<nav opts='{{navConf}}'></nav>
+<nav opts="{{navConf}}"></nav>
 <!--pages/onelot/onelot.wxml-->
 <!-- <audio src="{{src}}" id="myAudio"></audio> -->
 <view class="UI_pgae {{noList?'nolotBg':''}}">
   <view class="UI_box " wx:if="{{noList}}">
-    <image class=' nolot' src="/assets/images/nolot.png" />
+    <image class="nolot" src="/assets/images/nolot.png" />
   </view>
 
   <!--我的幸运签列表-->
@@ -18,7 +18,7 @@
 
     <view class="box">
 
-      <image class='xiaoge' src="{{imgs.xiao}}" mode="widthFix" />
+      <image class="xiaoge" src="{{imgs.xiao}}" mode="widthFix" />
       <image class="lot" src="{{imgs.lot}}" mode="widthFix" />
       <image class="lotBg" src="/assets/images/lotBg.png" mode="widthFix" />
     </view>
@@ -27,7 +27,7 @@
       <block wx:for="{{lotList.list}}" wx:key="index">
 
         <form bindsubmit="onItemClick" class="item" report-submit='true'>
-          <button class='button1' form-type="submit" type='' data-item='{{item}}' hover-class="none">
+          <button class="button1" form-type="submit" data-item="{{item}}" hover-class="none">
 
             <view class="listItem" id="item.id" data-index="{{item.index}}" data-id="{{ item.id }}">
               <text class="time">{{item.time}}</text>
@@ -41,11 +41,9 @@
 
       </block>
     </scroll-view>
-    <form bindsubmit="moreLot" class='morelot' report-submit='true' wx:if="{{false}}">
-      <button class="button1" form-type="submit" type='' hover-class="none">
-
+    <form bindsubmit="moreLot" class="morelot" report-submit="true" wx:if="{{false}}">
+      <button class="button1" form-type="submit"  hover-class="none">
         查看更多...
-
       </button>
     </form>
   </view>

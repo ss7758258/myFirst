@@ -364,17 +364,13 @@ Page({
     }
   },
 
-  onItemClick: function (e) {
+  //  拆签
+  handleOpenLotClick (e) {
     const _self = this
     let index = e.currentTarget.dataset.index
-    var id = e.currentTarget.dataset.id
+    let id = e.currentTarget.dataset.id
     let lot = this.data.lotList.list[index]
-    var lotNotCompleted = true
-    if (lot.status == 0) {
-      lotNotCompleted = true
-    } else {
-      lotNotCompleted = false
-    }
+    let lotNotCompleted = lot.status === 0
 
     _self.setData({
       qId: lot.id,
@@ -384,10 +380,9 @@ Page({
       showEmptyLot: false,
       lotNotCompleted: lotNotCompleted,
     })
-    $vm.api.getX511({ id: id })
+    $vm.api.getX511({ id })
       .then(res => {
-        console.log(res)
-        var myLot = _self.parseLot(res)
+        let myLot = _self.parseLot(res)
         _self.setData({
           myLot: myLot,
           qId: res.id,
@@ -443,7 +438,6 @@ Page({
               lotTitleHint: '是否能够拆签成功，全都仰仗你们了！',
             })
           }
-
         }
       })
 
@@ -472,7 +466,6 @@ Page({
 
     $vm.api.getX506({ id: this.data.qId })
       .then(res => {
-        console.log(res)
         var myLot = _self.parseLot(res)
         _self.setData({
           myLot: myLot,
@@ -512,8 +505,13 @@ Page({
           name: res['friendOpenId' + i],
           photo: res['friendHeadImage' + i],
         })
+
+       
       }
     }
+
+    
+  console.log('troops=======================>',troops)
 
     var myLot = {
       troops: troops
@@ -543,7 +541,6 @@ Page({
       showCanvas: true,
     })
 
-    console.log(res)
     const ctx = wx.createCanvasContext('shareCanvas')
     ctx.drawImage('/assets/images/share1Bg.png', 0, 0, 750, 750)
     // 签类型
