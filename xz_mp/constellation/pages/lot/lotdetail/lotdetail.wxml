@@ -60,12 +60,8 @@
 					</view>
 				</block>
 				<block wx:for="{{lotDetail.qianOpenSize - lotDetail.troops.length}}" wx:key="index">
-					<view class="nomPerch" wx:if="{{index === 0 && (lotDetail.qianOpenSize - lotDetail.troops.length) === 3}}">
-						<view class="photo">
-							<image class="photo" src="/assets/images/default_head.png" />
-						</view>
-					</view>
-					<view class="nomPerch" wx:else>
+					
+					<view class="nomPerch">
 						<view class="photo">
 							<image class="photo" src="/assets/images/haoren.png" />
 						</view>

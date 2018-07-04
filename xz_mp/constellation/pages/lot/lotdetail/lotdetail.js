@@ -26,10 +26,12 @@ Page({
 			isTitle: true
 		},
 		lotDetail: {
+			ownerHeadImage : '/assets/images/default_head.png',
 			troops : [{photo : '/assets/images/default_head.png'}],
 			qianOpenSize: 3,
 			showChai: true,
 			hasChai: false,
+			isOther : true,
 			lotNotCompleted : true,
 			troops : []
 		},
@@ -368,7 +370,9 @@ function getQian(qId,_self,GData){
 						_self.setData({
 							lotDetail: lotDetail
 						})
-						wx.hideLoading()
+						setTimeout(() => {
+							wx.hideLoading()
+						},500)
 					}).catch(err =>{
 						_self.setData({
 							isError : true
