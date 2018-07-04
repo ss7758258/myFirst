@@ -46,10 +46,10 @@
 .flex>view:nth-child(2){
     flex: 4;
 }
-.flex>view:nth-child(1),.flex>view:nth-child(3){
+.flex>view:first-child,.flex>view:last-child{
     position: relative;
 }
-.flex>view:nth-child(1)>image,.flex>view:nth-child(3)>image{
+.flex>view:first-child>image,.flex>view:last-child>image{
     margin:atuo;
     position:absolute;
     top:0;
@@ -57,7 +57,7 @@
     right:1.3vw;
     margin: auto;
 }
-.flex>view:nth-child(3)>image{
+.flex>view:last-child>image{
     left: 0;
     right: 0;
 }
@@ -105,4 +105,12 @@
 .switchOn.off>view>view{
     left: 0.2vw;
     right: auto;
+}
+.card_star{
+    float: right;
+    font-size:4.8vw;
+    font-family:'PingFangSC-Medium';
+    color:rgba(204,204,204,1);
+    font-weight: 100;
+    /* line-height:6.666666666666667vw; */
 }
