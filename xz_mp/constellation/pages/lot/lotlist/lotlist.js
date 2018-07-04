@@ -4,6 +4,9 @@ const _GData = $vm.globalData
 var mta = require('../../../utils/mta_analysis.js')
 let imgs = require('../lotdetail/imgs')
 var pageNum = 1
+// 加载更多的锁
+let lock = false
+
 Page({
 
     /**
@@ -60,7 +63,11 @@ Page({
         if (!_self.data.isMore) {
             return
         }
-
+        if(lock){
+            return
+        }
+        // 立即上锁
+        lock = true
         pageNum++
         let formid = e.detail.formId
 
@@ -69,8 +76,8 @@ Page({
         var list = _self.data.lotList.list
         $vm.api.getX510({ pageNum: pageNum, pageSize: 10 })
             .then(res => {
-                console.log(res)
-                if (res.length < 10) {
+                console.log('一签盒数据：',res)
+                if (res.length < 10 || !res) {
                     _self.setData({
                         isMore: false
                     })
@@ -79,6 +86,7 @@ Page({
                         isMore: true
                     })
                 }
+                lock = false
                 for (var i = 0; i < res.length; i++) {
                     let dd = res[i]
                     list.push({
