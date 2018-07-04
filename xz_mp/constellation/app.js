@@ -3,11 +3,14 @@ const aldstat = require("./utils/ald-stat.js")
 const utils = require('./utils/util.js')
 const api = require('./utils/api.js')
 const mta = require('./utils/mta_analysis.js')
+const bus = require('./event')
 const Storage = require('./utils/storage')
+const updateManager = wx.getUpdateManager()
 App({
 	onLaunch: function (options) {
 		const _self = this
 		const _SData = this.globalData
+		updateHandle();
 		// 处理登录问题
 		loginHandle(this)
 		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || { id: 1, name: "白羊座", time: "3.21-4.19", img: "/assets/images/aries.png", isFirst: true }
@@ -109,5 +112,39 @@ function getUserInfo(self){
 		fail: function (res) {
 			
 		}
+	})
+}
+/**
+ * 版本更新处理
+ */
+function updateHandle(){
+	// 检查是否有更新
+	updateManager.onCheckForUpdate(function (res) {
+		// 请求完新版本信息的回调
+		console.log('版本更新：',res.hasUpdate)
+		if(res.hasUpdate){
+			// 触发弹窗提示
+			bus.emit('check_update',{ res },'app')
+		}
+	})
+	// 当小程序下载完成后
+	updateManager.onUpdateReady(function () {
+		// 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+		bus.on('update_ready',(res) => {
+			updateManager.applyUpdate()
+		},'app')
+	})
+	// 当小程序下载失败
+	updateManager.onUpdateFailed(function () {
+		// 新的版本下载失败
+		wx.hideLoading();
+		wx.showToast({
+			title: '升级失败，请重新尝试',
+			icon: 'none',
+			duration: 1500,
+		});
+		setTimeout(function(){
+			bus.emit('update_fail',{},'app')
+		},1500)
 	})
 }

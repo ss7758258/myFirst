@@ -2,6 +2,7 @@
 <nav opts='{{navConf}}'></nav>
 <!--pages/onelot/onelot.wxml-->
 <!-- <audio src="{{src}}" id="myAudio"></audio> -->
+<updateApp></updateApp>
 <view class="UI_pgae">
 	<view class="userInfo">
 		<view class="photo">
@@ -60,6 +61,7 @@
 					</view>
 				</block>
 				<block wx:for="{{lotDetail.qianOpenSize - lotDetail.troops.length}}" wx:key="index">
+					
 					<view class="nomPerch">
 						<view class="photo">
 							<image class="photo" src="/assets/images/haoren.png" />

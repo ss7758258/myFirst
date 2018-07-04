@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 11,
+			"current": 4,
 			"list": [
 				{
 					"id": 1,
@@ -68,7 +68,7 @@
 					"query": ""
 				},
 				{
-					"id": 7,
+					"id": 5,
 					"name": "摇签",
 					"pathName": "pages/lot/shakelot/shake",
 					"query": "from=outer&id=123456",
@@ -82,11 +82,11 @@
 					"scene": "1011"
 				},
 				{
-					"id": -1,
-					"name": "活动首页",
+					"id": 7,
+					"name": "首页",
 					"pathName": "pages/home/home",
-					"query": "from=spread&id=123456",
-					"scene": "1011"
+					"query": "",
+					"scene": "1001"
 				},
 				{
 					"id": -1,
@@ -103,10 +103,11 @@
 					"scene": "1011"
 				},
 				{
-					"id": -1,
+					"id": 10,
 					"name": "帮好友拆签",
 					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "from=share&lotId=565200"
+					"query": "from=share&lotId=565230",
+					"scene": "1011"
 				},
 				{
 					"id": -1,

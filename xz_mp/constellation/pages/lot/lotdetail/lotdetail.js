@@ -26,10 +26,12 @@ Page({
 			isTitle: true
 		},
 		lotDetail: {
+			ownerHeadImage : '/assets/images/default_head.png',
 			troops : [{photo : '/assets/images/default_head.png'}],
 			qianOpenSize: 3,
 			showChai: true,
 			hasChai: false,
+			isOther : true,
 			lotNotCompleted : true,
 			troops : []
 		},
@@ -39,9 +41,19 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
-		mta.Page.init()
 		// 重新获取一次全局数据
 		_GData = $vm.globalData
+		const _self = this
+		const _SData = this.data
+		let qId = options.lotId
+		let pageFrom = options.from
+		if(qId){
+			wx.showLoading({
+				title: '加载中...',
+				mask: true,
+			})
+		}
+		mta.Page.init()
 		console.log(options)
 		wx.hideShareMenu({
 			success: function (res) { },
@@ -57,10 +69,6 @@ Page({
 			})
 		}
 
-		const _self = this
-		const _SData = this.data
-		let qId = options.lotId
-		let pageFrom = options.from
 		_self.setData({
 			userInfo: _GData.userInfo
 		})
@@ -362,6 +370,9 @@ function getQian(qId,_self,GData){
 						_self.setData({
 							lotDetail: lotDetail
 						})
+						setTimeout(() => {
+							wx.hideLoading()
+						},500)
 					}).catch(err =>{
 						_self.setData({
 							isError : true

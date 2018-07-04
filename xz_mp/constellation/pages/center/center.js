@@ -17,7 +17,8 @@ Page({
         isFlag : false,  //通知的开关 默认关闭
         clockStatus : false,  //小打卡开关
         iconPath : imgs.icon,
-        nickName : ''
+        nickName : '',
+        starNum : 0 // 星星数量
     },
     /**
      * 生命周期初始化组件
@@ -109,6 +110,23 @@ Page({
             // envVersion: 'develop',
             success(res) {
                 // 打开成功
+            }
+        })
+    },
+    /**
+     * 前往充值页面
+     */
+    goPay(){
+        wx.navigateTo({
+            url: '/pages/myAccount/myAccount',
+            success: function(res){
+                // success
+            },
+            fail: function() {
+                // fail
+            },
+            complete: function() {
+                // complete
             }
         })
     }
