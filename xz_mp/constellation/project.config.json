@@ -68,7 +68,7 @@
 					"query": ""
 				},
 				{
-					"id": 7,
+					"id": 5,
 					"name": "摇签",
 					"pathName": "pages/lot/shakelot/shake",
 					"query": "from=outer&id=123456",
