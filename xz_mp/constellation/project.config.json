@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 11,
+			"current": 7,
 			"list": [
 				{
 					"id": 1,
@@ -82,11 +82,11 @@
 					"scene": "1011"
 				},
 				{
-					"id": -1,
-					"name": "活动首页",
+					"id": 7,
+					"name": "首页",
 					"pathName": "pages/home/home",
-					"query": "from=spread&id=123456",
-					"scene": "1011"
+					"query": "",
+					"scene": "1001"
 				},
 				{
 					"id": -1,
