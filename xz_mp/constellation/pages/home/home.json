@@ -3,6 +3,7 @@
 	"usingComponents": {
 		"nav": "/components/navigation/nav",
 		"shareCard": "/components/card/card",
+		"updateApp": "/components/update/update",
 		"xiaodaka": "/template/xiaodaka-btn/xiaodaka-btn"
 	}
 }

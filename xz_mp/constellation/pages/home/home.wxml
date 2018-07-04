@@ -4,6 +4,7 @@
 <xiaodaka opts="{{xiaodaka}}" wx:if="{{showHome && clockStatus}}"></xiaodaka>
 <!-- 引入卡片 -->
 <!-- <shareCard opts="{{shareCard}}"></shareCard> -->
+<updateApp></updateApp>
 
 <!-- 关注服务号-弹窗 -->
 <view class="contact_follow_mask {{showFollow ? 'show':''}}" catchtap="hideFollow">
