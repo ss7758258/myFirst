@@ -23,9 +23,9 @@ App({
 	},
 
 	getLogin() {
-		wx.removeStorageSync('token')
+		// wx.removeStorageSync('token')
 		// 初始化状态值
-		Storage.init()
+		// Storage.init()
 		return new utils.Promise((resolve, reject) => {
 			return utils.login().then(res => {
 				console.log('获取到的code信息：',res)

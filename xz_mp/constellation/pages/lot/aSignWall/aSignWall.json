@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "nav": "/components/navigation/nav",
+    "shareCard": "/components/card/card"
+  }
+}

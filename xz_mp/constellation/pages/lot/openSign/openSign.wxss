@@ -1,0 +1,10 @@
+/* pages/lot/openSign/openSign.wxss */
+page{
+  background: #fff;
+}
+canvas{
+  width:750rpx;
+  height:1070rpx;
+  margin-top:128rpx;
+  /* border:1px solid #fff; */
+}
