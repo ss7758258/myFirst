@@ -1,0 +1,52 @@
+.footer{
+  width:710rpx;
+  height:400rpx;
+  background:rgba(255,255,255,0.2);
+  box-shadow:0px 6px 12px 0px rgba(127,75,240,0.4);
+  border-radius:6rpx;
+  border:2rpx solid rgba(255,255,255,0.5);
+  box-sizing: border-box;
+  position: fixed;
+  left: 20rpx;
+  bottom: 30rpx; 
+}
+.coin{
+  display: block;
+  width:100rpx;
+  height:100rpx;
+  margin: 40rpx auto 0;
+  background:rgba(255,214,64,1);
+  box-shadow:2rpx 2rpx 0px 0px rgba(255,255,255,0.2),-1rpx -2rpx 0px 0px rgba(255,208,38,1);
+  border-radius: 50%;
+}
+.shadow{
+  width:76rpx;
+  height:7rpx;
+  background:rgba(136,91,235,1);
+  margin: 8rpx auto;
+}
+.txt{
+  width:290rpx;
+  height:37rpx;
+  font-size:26rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,255,255,1);
+  line-height:37rpx;
+  margin: 0 auto;
+}
+.save_btn{
+  width:480rpx;
+  height:88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background:rgba(255,255,255,1);
+  border-radius:8rpx;
+  font-size:36rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(146,98,251,1);
+  margin: 46rpx auto 0;
+}
+button::after{
+  border: none;
+  padding: 0
+}

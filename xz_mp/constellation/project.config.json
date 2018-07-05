@@ -120,6 +120,20 @@
 					"name": "banner组件",
 					"pathName": "pages/index/index",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "拆签成功(绘图)",
+					"pathName": "pages/lot/openSign/openSign",
+					"query": "",
+					"scene": "1001"
+				},
+				{
+					"id": -1,
+					"name": "硬币",
+					"pathName": "/components/coin/coin",
+					"query": "",
+					"scene": "1001"
 				}
 			]
 		}

@@ -1,0 +1,18 @@
+<view class='footer'>
+  <!-- 使用星星拆签成功 -->
+  <block wx:if="{{flag}}">
+    <image src='/assets/img/coin.png' class='coin'></image>
+    <view class='shadow'></view>
+    <view class='txt'>恭喜你使用星星拆签成功</view>
+  </block>
+
+  <!-- 通过好友拆签成功 -->
+  <block wx:else>
+
+  </block>
+
+  <form bindsubmit="saveResult" report-submit>
+    <button class='save_btn'>保存拆签结果</button>
+  </form>
+  
+</view>
