@@ -52,6 +52,7 @@ Page({
                 nickName: userInfo.nickName ? userInfo.nickName : ''
             })
         }
+        this._getBlance();
     },
     switchOn (e){
         console.log('触发？：',e)
@@ -129,5 +130,17 @@ Page({
                 // complete
             }
         })
-    }
+    },
+    
+	/**
+     * 获取用户钱包信息
+     */
+    _getBlance() {
+		api.getBlance().then(res => {
+			console.log('获取钱包信息：',res)
+			this.setData({
+				starNum : res.balance
+			})
+		})
+	}
 })
