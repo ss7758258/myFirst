@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 13,
 			"list": [
 				{
 					"id": 1,
@@ -120,6 +120,13 @@
 					"name": "banner组件",
 					"pathName": "pages/index/index",
 					"query": ""
+				},
+				{
+					"id": 13,
+					"name": "首页",
+					"pathName": "pages/home/home",
+					"query": "q=http%3A%2F%2Fxingzuoapi-prod.yetingfm.com%2Fcode%2Fleyaoyao%3Fuid%3D1231231",
+					"scene": "1001"
 				}
 			]
 		}
