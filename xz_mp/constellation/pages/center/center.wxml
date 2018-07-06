@@ -38,7 +38,7 @@
     </view>
 
     <!-- 小星星 -->
-    <view class="flex card_record" bindtap="goPay">
+    <!-- <view class="flex card_record" bindtap="goPay">
         <view>
             <image class="notice_icon" src="{{imgs.star}}"></image>
         </view>
@@ -46,5 +46,5 @@
         <view>
             <image class="notice_icon" src="{{imgs.right}}"></image>
         </view>
-    </view>
+    </view> -->
 </view>
