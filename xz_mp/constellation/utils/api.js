@@ -1,5 +1,6 @@
 const Promise = require('./Promise')
 const env = require('../config')
+const Storage = require('./storage')
 
 function requstGet(url, data) {
 	return requst(url, 'GET', data)
@@ -36,7 +37,8 @@ function requst(url, method, data = {}) {
 			data:
 			{
 				requestHeader: JSON.stringify({
-					token: wx.getStorageSync('token')
+					// token: wx.getStorageSync('token')
+					token : Storage.token
 				}),
 				requestBody: JSON.stringify(data)
 			}
