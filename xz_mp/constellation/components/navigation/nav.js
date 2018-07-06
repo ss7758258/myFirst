@@ -94,24 +94,7 @@ Component({
  * @param {*} self
  */
 function getSystemInfo(self){
-    let isIPhoneX = wx.getStorageSync('iPhoneX') || ''
-    if(isIPhoneX !== ''){
-        Storage.iPhoneX = isIPhoneX
-        self.setData({
-            isIPhoneX : isIPhoneX
-        })
-        return false;
-    }
-	let res = wx.getSystemInfoSync();
-	if(res){
-        console.log('验证是不是iPhone X的时候到了：',res)
-        if(res.model.indexOf('iPhone X') != -1){
-            wx.setStorageSync('iPhoneX',true)
-            self.setData({
-                isIPhoneX : true
-            })
-        }else{
-            wx.setStorageSync('iPhoneX',false)
-        }
-	}
+    self.setData({
+        isIPhoneX : Storage.iPhoneX
+    })
 }
