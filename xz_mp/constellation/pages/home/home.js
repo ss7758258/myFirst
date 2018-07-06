@@ -5,6 +5,7 @@ const mta = require('../../utils/mta_analysis.js')
 const confing = require('../../conf')
 const conf = confing[require('../../config')] || {}
 const Storage = require('../../utils/storage')
+const bus = require('../../event')
 const {parseIndex} = $vm.utils
 let _GData = $vm.globalData
 
@@ -74,6 +75,7 @@ Page({
 		clockStatus : false,  //小打卡开关
 		isBanner : false, // 广告位开关
 		isIPhoneX : false,
+		isLogin : false, // 是否登录完成
 		noticeBtnStatus : false, // 通知开关
 		showFollow : false, // 关注服务号开关
 		shareCard : {
@@ -141,92 +143,60 @@ Page({
 	onLoad: function (options) {
 		getSystemInfo(this);
 		mta.Page.init()
-		
+		Storage.forMore = false
 		_GData = $vm.globalData
-		let _self = this
+		let self = this
 		let selectConstellation = _GData.selectConstellation
-		let fromwhere = options.from
-		let to = options.to
 
-		// 获取选中星座的数据
-		getContent(this,selectConstellation)
-		// 用于解析用户来源
-		parseForm(this,options)
-
-		let me = this;
-		let login_timer = setInterval(() => {
-			if(!Storage.loginStatus){
-				return false
+		// 获取乐摇摇推广信息
+		getLeYaoyao(self,options)
+		
+		// 注册监听事件
+		bus.emit('loadUserConf',() => {
+			if(Storage.forMore){
+				// 加载用户配置
+				getUserConf(me)
 			}
-			// 清除等待
-			clearInterval(login_timer)
-			wx.getUserInfo({
-				success: function (res) {
-					// 获取乐摇摇推广信息
-					getLeYaoyao(_self,options)
-					console.log('获取用户配置成功：',res)
-					if (res.userInfo) {
-						wx.setStorage({
-							key: 'userInfo',
-							data: res.userInfo,
-						})
-						_self.setData({
-							hasAuthorize: true,
-							'navConf.iconPath' : res.userInfo.avatarUrl
-						})
-						_GData.userInfo = res.userInfo
-						// 上报用户加密信息
-						$vm.api.loginForMore({
-							encryptedData: res.encryptedData,
-							iv: res.iv,
-							sessionKey : Storage.sessionKey,
-							nickName: res.userInfo.nickName,
-							headImage: res.userInfo.avatarUrl,
-							notShowLoading: true,
-						}).then(result => {
-							// 确定用户信息已经上报
-							Storage.loginForMore = true
-							// 获取配置信息
-							getConfing(me);
-						}).catch(err => {
-							Storage.loginForMore = false
-							// 上报失败的情况跳转到重新授权登录页面
-							wx.redirectTo({
-								url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to + '&q=' + options.q
-							})
-						})
-						wx.setStorageSync('icon_Path', res.userInfo.avatarUrl)
-					}
-				},
-				fail: function (res) {
-					// 查看是否授权
-					wx.getSetting({
-						success: function (res) {
-							if (!res.authSetting['scope.userInfo']) {
-	
-								_self.setData({
-									hasAuthorize: false
-								})
-								wx.redirectTo({
-									url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to + '&q=' + options.q
-								})
-							}
-						}
-					})
-				}
+		},'home')
+
+		// 注册登录成功事件
+		bus.on('login-success', () => {
+			
+			self.setData({
+				isLogin : true
 			})
-		},200)
+
+			// 加载用户配置的依赖
+			Storage.forMore = true
+			// 触发加载用户配置函数
+			bus.emit('loadUserConf',{},'home')
+
+			// 获取选中星座的数据
+			getContent(self,selectConstellation)
+
+			// 用于解析用户来源
+			parseForm(self,options)
+			console.log('用户信息======================：',Storage.userInfo)
+			self.setData({
+				// hasAuthorize: true,
+				'navConf.iconPath' : Storage.userInfo.avatarUrl
+			})
+
+			_GData.userInfo = Storage.userInfo
+
+			// 获取配置信息
+			getConfing(self);
+
+			// 保存头像信息
+			wx.setStorageSync('icon_Path', Storage.userInfo.avatarUrl)
+			
+		} , 'login-com')
+
 	},
 
 	onShow(){
-		let me = this
-		let login_timer = setInterval(() => {
-			if(!Storage.loginForMore){
-				return false
-			}
-			clearInterval(login_timer)
-			getUserConf(me)
-		},200)
+		// 触发加载用户配置函数
+		bus.emit('loadUserConf',{},'home')
 	},
 	
 	/**
@@ -489,7 +459,7 @@ function getConfing(me){
  * @param {*} self
  */
 function getSystemInfo(self){
-	let res = wx.getSystemInfoSync();
+	let res = Storage.systemInfo
 	console.log('设备信息：',res);
 	if(res){
 		// 长屏手机适配
@@ -591,13 +561,7 @@ function getContent(self,selectConstellation){
 			showHome: true,
 			'navConf.isIcon' : true
 		})
-		let login_timer_k = setInterval(() => {
-			if(!Storage.loginForMore){
-				return false
-			}
-			clearInterval(login_timer_k)
-			self.onShowingHome()
-		},200)
+		self.onShowingHome()
 	} else {
 		self.setData({
 			showHome: false,

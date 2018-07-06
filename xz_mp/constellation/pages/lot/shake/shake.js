@@ -4,6 +4,8 @@ let $vm = getApp()
 let _GData = $vm.globalData;
 const { parseLot } = $vm.utils
 let getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
+const bus = require('../../../event')
+const Storage = require('../../../utils/storage')
 const methods = require('./util')
 
 // 验证Id是否位6位纯数字
@@ -39,62 +41,26 @@ const conf = {
      */
     onLoad: function (options) {
         let pageFrom = options.from
-        let _self = this
+        let self = this
         let _SData = this.data
         $vm = getApp()
         _GData = $vm.globalData
         // 调用数据分析进行统计
-        methods.analytics(_self,options,pageFrom,mta)
+        methods.analytics(self,options,pageFrom,mta)
         console.log('输出参数：', options)
 
-        _self.setData({
-            userInfo: _GData.userInfo,
-            'bannerConf.openId' : wx.getStorageSync('openId') || ''
-        })
+        // 监听事件
+        bus.on('login-success', () => {
 
-        wx.getUserInfo({
-            success: function (res) {
-                console.log(res)
-                if (res.userInfo) {
-                    wx.setStorage({
-                        key: 'userInfo',
-                        data: res.userInfo,
-                    })
-                    _GData.userInfo = res.userInfo
-                    _self.setData({
-                        userInfo: _GData.userInfo
-                    })
-                    // 上传用户信息
-                    methods.setUserInfo(res,_GData.selectConstellation.id)
-                    // 获取一签盒数据状态
-                    getX510(_self);
-                }else{
-                    // 查看是否授权
-                    wx.getSetting({
-                        success: function (res) {
-                            if (!res.authSetting['scope.userInfo']) {
-                                wx.redirectTo({
-                                    url: '/pages/checklogin/checklogin?from=' + _SData.fromPage + '&and=shake'
-                                })
-                            }
-                        }
-                    })
-                }
-            },
-            fail: function (res) {
-                // 查看是否授权
-                wx.getSetting({
-                    success: function (res) {
-                        if (!res.authSetting['scope.userInfo']) {
-                            wx.redirectTo({
-                                url: '/pages/checklogin/checklogin?from=' + _SData.fromPage + '&and=shake'
-                            })
-                        }
-                    }
-                })
-            }
-        })
+            self.setData({
+                userInfo: Storage.userInfo,
+                'bannerConf.openId' : wx.getStorageSync('openId') || ''
+            })
+            // 上报选择星座
+            methods.setUserInfo(Storage.userC,_GData.selectConstellation.id)
 
+        }, 'login-com')
+        
     },
 
     /**
@@ -102,8 +68,6 @@ const conf = {
      */
     onShow: function () {
         this.shakeFun()
-        // 获取一签盒数据状态
-        getX510(this);
     },
 
     /**

@@ -1,11 +1,10 @@
 <!-- 导航 -->
 <nav opts='{{navConf}}'></nav>
+<!-- 登录 -->
+<loginApp></loginApp>
+
 <form>
     <view class="panel_scene">
-        <!-- <web-view src="https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzUzMjgzNDg3MQ==&scene=126#wechat_redirect"></web-view>     -->
-        <!-- <view class="panel_head">
-            <button open-type='contact' session-from='{"type": "url", "title": "夹娃娃", "url": "https://book.afander.com/"}'>夹娃娃</button>
-        </view> -->
         <!-- 内容主体 -->
         <view class="panel_body">
             <!-- start云 -->

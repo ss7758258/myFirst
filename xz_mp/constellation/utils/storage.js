@@ -9,6 +9,7 @@ let storageObj = {
     loginForMore : false,
     // 初始化状态信息
     init (){
+        this.token = null
         this.loginStatus = false
         this.loginForMore = false
         this.sessionKey = null
