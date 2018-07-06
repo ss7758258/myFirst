@@ -1,0 +1,6 @@
+
+<view class="app_login_mask" wx:if="{{showLogin}}">
+    <view class="app_login_panel" wx:if="{{showLogin}}">
+        
+    </view>
+</view>

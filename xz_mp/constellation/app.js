@@ -10,9 +10,9 @@ App({
 	onLaunch: function (options) {
 		const _self = this
 		const _SData = this.globalData
-		updateHandle();
+		// updateHandle();
 		// 处理登录问题
-		loginHandle(this)
+		// loginHandle(this)
 		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || { id: 1, name: "白羊座", time: "3.21-4.19", img: "/assets/images/aries.png", isFirst: true }
 		_SData.userInfo = wx.getStorageSync('userInfo')
 		mta.App.init({

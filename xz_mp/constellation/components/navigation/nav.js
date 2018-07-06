@@ -6,7 +6,7 @@
 // root : '',
 // isTitle : true,
 // centerPath : '/pages/center/center'
-
+const bus = require('../../event')
 Component({
     /**
      * 组件的属性列表
@@ -27,6 +27,7 @@ Component({
     },
     ready(){
         getSystemInfo(this)
+        // bus.on('')
     },
     /**
      * 组件的方法列表
