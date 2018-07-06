@@ -43,6 +43,8 @@ Page({
 				and: and
 			})
 		}
+		// 创建参数q
+		options.q ? this.data.q = options.q : ''
 	},
 	/**
 	 * 按钮点击时进行一次登录操作
@@ -128,7 +130,7 @@ Page({
 						})
 					} else {
 						wx.redirectTo({
-							url: '/pages/home/home?from=' + _SData.pageFrom + '&to=' + _SData.toPage,
+							url: '/pages/home/home?from=' + _SData.pageFrom + '&to=' + _SData.toPage + (_self.data.q ? '&q=' + _self.data.q : ''),
 						})
 					}
 				}).catch(err => {

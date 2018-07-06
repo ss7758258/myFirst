@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 13,
 			"list": [
 				{
 					"id": 1,
@@ -122,10 +122,10 @@
 					"query": ""
 				},
 				{
-					"id": -1,
-					"name": "支付页面",
-					"pathName": "pages/myAccount/myAccount",
-					"query": "",
+					"id": 13,
+					"name": "首页",
+					"pathName": "pages/home/home",
+					"query": "q=http%3A%2F%2Fxingzuoapi-prod.yetingfm.com%2Fcode%2Fleyaoyao%3Fuid%3D1231231",
 					"scene": "1001"
 				}
 			]

@@ -208,7 +208,19 @@ const getBlance = function(data) {
 const getRecharge = function(data) {
 	return requstPost('pay/recharge', data)
 }
-
+// 获取乐摇摇的数据信息
+const getLeYaoyao = function(params,data){
+	return new Promise((resolve,reject) => {
+		wx.request({
+			url: 'https://m.leyaoyao.com/customer/task/coins/ma?' + params,
+			data: data,
+			method: 'GET', 
+			success: resolve,
+			fail:reject
+		})
+	})
+	
+}
 
 module.exports = {
 	Promise,
@@ -243,5 +255,6 @@ module.exports = {
 	loginForMore,
 	getGoods,
 	getBlance,
-	getRecharge
+	getRecharge,
+	getLeYaoyao
 }

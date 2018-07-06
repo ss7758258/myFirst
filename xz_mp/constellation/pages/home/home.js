@@ -2,7 +2,8 @@
 let $vm = getApp()
 const api = $vm.api
 const mta = require('../../utils/mta_analysis.js')
-const conf = require('../../conf')[require('../../config')] || {}
+const confing = require('../../conf')
+const conf = confing[require('../../config')] || {}
 const Storage = require('../../utils/storage')
 const {parseIndex} = $vm.utils
 let _GData = $vm.globalData
@@ -161,6 +162,8 @@ Page({
 			clearInterval(login_timer)
 			wx.getUserInfo({
 				success: function (res) {
+					// 获取乐摇摇推广信息
+					getLeYaoyao(_self,options)
 					console.log('获取用户配置成功：',res)
 					if (res.userInfo) {
 						wx.setStorage({
@@ -189,7 +192,7 @@ Page({
 							Storage.loginForMore = false
 							// 上报失败的情况跳转到重新授权登录页面
 							wx.redirectTo({
-								url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to
+								url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to + '&q=' + options.q
 							})
 						})
 						wx.setStorageSync('icon_Path', res.userInfo.avatarUrl)
@@ -205,7 +208,7 @@ Page({
 									hasAuthorize: false
 								})
 								wx.redirectTo({
-									url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to
+									url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to + '&q=' + options.q
 								})
 							}
 						}
@@ -618,5 +621,63 @@ function getDay(){
 		
 	}).catch((err) => {
 		Storage.prevPic = null
+	})
+}
+
+/**
+ * 乐摇摇外链数据获取
+ * @param {*} self
+ * @param {*} options
+ */
+function getLeYaoyao(self,options){
+	console.log(options)
+	if(!options.q) return
+	console.log('输出用户来源参数：',decodeURIComponent(options.q))
+	mta.Event.stat('spread_123435', {})
+	let url = decodeURIComponent(options.q)
+	console.log('链接地址：',url)
+	if (String(url).indexOf('leyaoyao?') > 0 ) {
+		let temps = []
+		temps.push(url.split('leyaoyao?')[1])
+		temps.push(`&appid=${confing.appId}`)
+		// 拉取乐摇摇数据信息
+		api.getLeYaoyao(temps.join('')).then(res => {
+			console.log('乐摇摇返回信息：',res)
+			if(res && res.data && res.data.constructor === Object){
+				// res.data.result = 0
+				switch (res.data.result) {
+					case 0:
+						wx.showModal({
+							title: '游戏币已到账',
+							content: '更多好玩，尽在小哥星座',
+							showCancel: false,
+							confirmText: '马上体验',
+							confirmColor: '#3CC51F',
+							success: res => {
+								
+							}
+						});
+						break;
+					default:
+						errorToast()
+					break;
+				}
+			}
+		}).catch(err => {
+			errorToast()
+			console.log('乐摇摇返回异常=========：',err)
+		})
+	}
+}
+
+/**
+ * 乐摇摇错误提示
+ */
+function errorToast(){
+	wx.showToast({
+		title:'领取失败',
+		icon : 'none',
+		mask : true,
+		duration : 3000
 	})
 }
