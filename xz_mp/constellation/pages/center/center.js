@@ -54,6 +54,11 @@ Page({
         }
         this._getBlance();
     },
+
+    onShow(){
+        // 激活下刷新金额
+        this._getBlance();
+    },
     switchOn (e){
         console.log('触发？：',e)
         this.setData({
