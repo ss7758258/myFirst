@@ -3,7 +3,7 @@ const $vm = getApp()
 const { canvasTextAutoLine, parseLot } = $vm.utils
 Page({
   data: {
-    lotdetail:{
+    lotdetail:{ 
       hasChai:true,
       id:646857,
       isOther:false,

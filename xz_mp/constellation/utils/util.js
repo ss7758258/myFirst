@@ -156,7 +156,7 @@ function canvasTextAutoLine(ctx, str, initX, initY, lineHeight, exWidth) {
 }
 
 
-function parseLot(res) {
+function parseLot(res) {  //签数据加工
   console.log('未加工的数据信息：',res)
   var troops = []
   for (var i = 1; i < res.qianOpenSize + 1; i++) {

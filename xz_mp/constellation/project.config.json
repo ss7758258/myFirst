@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 13,
 			"list": [
 				{
 					"id": 1,
@@ -125,13 +125,6 @@
 					"id": -1,
 					"name": "拆签成功(绘图)",
 					"pathName": "pages/lot/openSign/openSign",
-					"query": "",
-					"scene": "1001"
-				},
-				{
-					"id": -1,
-					"name": "硬币",
-					"pathName": "/components/coin/coin",
 					"query": "",
 					"scene": "1001"
 				}
