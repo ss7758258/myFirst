@@ -1,4 +1,145 @@
 const bus = require('../../event')
+const Storage = require('../../utils/storage')
+const API = require('../../utils/api')
+const $vm = getApp()
+
+const methods = (function (){
+    return {
+        /**
+         * 事件监听的处理方案
+         * @param {*} self
+         */
+        onEventHandle(self){
+            bus.on('no-login-app',(res) => {
+                wx.hideLoading()
+                wx.hideToast()
+                self.setData({
+                    showLogin : true
+                })
+            },'app')
+            
+            bus.on('login-success',(res) => {
+                wx.hideLoading()
+                self.setData({
+                    showLogin : false
+                })
+            },'login-com')
+        
+            bus.on('load-userinfo-success',(res) => {
+                console.log('上报用户信息=========================')
+                // 判断是不是静默登录
+                let silent = false
+                if(res.silent){
+                    res = res.data
+                    silent = true
+                }
+                console.log('用户信息加载完成并且上报',res)
+                console.log(Storage)
+                // 上报用户加密信息
+				API.loginForMore({
+					encryptedData: res.encryptedData,
+					iv: res.iv,
+					sessionKey : Storage.sessionKey,
+					nickName: res.userInfo.nickName,
+					headImage: res.userInfo.avatarUrl,
+					notShowLoading: true,
+				}).then(result => {
+                    console.log('加载的信息：',result)
+                    if(result && result.status === 'SUCCESS'){
+                        // 缓存用户的配置信息
+                        wx.setStorageSync('userConfig',{
+                            userInfo : res.userInfo,
+                            token : Storage.token,
+                            openId : Storage.openId
+                        })
+                        // 登录成功通知
+                        bus.emit('login-success', {} , 'login-com')
+                    }else{
+                        if(silent){
+                            console.log('静默登录--------------------上报结果失败')
+                            // 用户未授权
+                            bus.emit('no-login-app', res , 'app')
+                            return
+                        }
+                        wx.hideLoading()
+                        wx.showToast({
+                            title : '登录失败',
+                            icon : 'none',
+                            image : '/assets/img/error.svg',
+                            duration : 3000,
+                            mask : true
+                        })
+                    }
+				}).catch(err => {
+                    if(silent){
+                        console.log('静默登录--------------------上报信息失败')
+                        // 用户未授权
+                        bus.emit('no-login-app', res , 'app')
+                        return
+                    }
+                    wx.hideLoading()
+                    wx.showToast({
+                        title : '登录失败',
+                        icon : 'none',
+                        image : '/assets/img/error.svg',
+                        duration : 3000,
+                        mask : true
+                    })
+                })
+            },'login-com')
+        },
+        /**
+         * 用户登录获取用户iv
+         * @param {*} self
+         */
+        login(self){
+            wx.showLoading({
+                title : '登录中...',
+                mask : true
+            })
+            console.log('加载登录')
+            $vm.getLogin().then(res => {
+                console.log(`登录成功：`,res)
+                // 缓存关键数据
+                Storage.token = res.token
+                Storage.sessionKey = res.sessionKey
+                Storage.openId = res.openId
+
+                // 获取用户信息进行上报
+                wx.getUserInfo({
+                    withCredentials: true,
+                    success(data){
+                        console.log('输出永华信息：',data)
+                        Storage.userInfo = data.userInfo
+                        Storage.userC = data
+                        // 确定触发消息
+                        bus.emit('load-userinfo-success', data , 'login-com')
+                    },
+                    fail (err){
+                        wx.hideLoading()
+                        wx.showToast({
+                            title : '获取用户信息失败',
+                            icon : 'none',
+                            image : '/assets/img/error.svg',
+                            duration : 3000,
+                            mask : true
+                        })
+                    }
+                })
+
+            }).catch(err => {
+                wx.hideLoading()
+                wx.showToast({
+                    title : '登录失败',
+                    icon : 'none',
+                    image : '/assets/img/error.svg',
+                    duration : 3000,
+                    mask : true
+                })
+            })
+        }
+    }
+})()
 
 Component({
     /**
@@ -13,38 +154,33 @@ Component({
      * 组件的初始数据
      */
     data: {
-        showLogin : true
+        showLogin : false,
+        iPhoneX : Storage.iPhoneX
     },
     ready(){
-        let me = this
-        console.log(this.data.showUpdate)
-        bus.on('no-login-app',(res) => {
-            me.setData({
-                showLogin : true
-            })
-        },'app')
-        
-        bus.on('login-success',(res) => {
-            me.setData({
-                showLogin : false
-            })
-        },'app')
+        methods.onEventHandle(this)
     },
     /**
      * 组件的方法列表
      */
     methods: {
-        confirmUpdate(){
-            let me = this
-            me.setData({
-                showUpdate : false
-            })
-            wx.showLoading({
-                title: '正在为您升级',
-                mask: true,
-            });
-            // 更新成功
-            bus.emit('update_ready',{},'app')
+        getUserInfo(e){
+            console.log('用户详情信息:',e.detail)
+            // e.detail.userInfo = undefined
+            if(e.detail.userInfo){
+                // 用户授权后进行登录
+                methods.login(this)
+            }else{
+                wx.hideLoading()
+                wx.showToast({
+                    title : '获取用户信息失败',
+                    icon : 'none',
+                    image : '/assets/img/error.svg',
+                    duration : 3000,
+                    mask : true
+                })
+            }
         }
     }
 })
+
