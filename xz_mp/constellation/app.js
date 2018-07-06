@@ -5,11 +5,17 @@ const api = require('./utils/api.js')
 const mta = require('./utils/mta_analysis.js')
 const bus = require('./event')
 const Storage = require('./utils/storage')
+const methods = require('./server/login')
 const updateManager = wx.getUpdateManager()
 App({
 	onLaunch: function (options) {
+		console.log('开始获取设备信息')
+		// 获取用户的设备信息
+		getSystemInfo()
 		const _self = this
 		const _SData = this.globalData
+		// 检查用户的登录信息
+		methods.checkLogin()
 		// updateHandle();
 		// 处理登录问题
 		// loginHandle(this)
@@ -26,7 +32,7 @@ App({
 	},
 
 	getLogin() {
-		wx.removeStorageSync('token')
+		// wx.removeStorageSync('token')
 		// 初始化状态值
 		Storage.init()
 		return new utils.Promise((resolve, reject) => {
@@ -54,66 +60,6 @@ App({
 	api
 })
 
-/**
- * 处理登录功能
- * @param {*} self
- */
-function loginHandle(self,len = 0){
-
-	self.getLogin().then(res => {
-		console.log(res)
-		// throw err = new Error( '用户自定义异常信息' )
-		wx.setStorageSync('token', res.token)
-		wx.setStorageSync('openId', res.openId)
-		// 登录状态
-		Storage.loginStatus = true
-		Storage.sessionKey = res.sessionKey
-		getUserInfo(self)
-	}).catch(err => {
-		len++
-		if(len === 3){
-			wx.redirectTo({
-				url: '/pages/checklogin/checklogin'
-			})
-		}else{
-			loginHandle(self,len)
-		}
-	})
-}
-
-/**
- * 获取用户加密信息并上报获取unionId
- */
-function getUserInfo(self){
-	wx.getUserInfo({
-		withCredentials : true,
-		success: function (res) {
-			console.log('获取用户配置成功!!!!!!!!!!!!!!!!!!!!!!：',res)
-			if (res.userInfo) {
-				wx.setStorage({
-					key: 'userInfo',
-					data: res.userInfo,
-				})
-				// 上报用户加密信息
-				api.loginForMore({
-					encryptedData: res.encryptedData,
-					iv: res.iv,
-					sessionKey : Storage.sessionKey,
-					nickName: res.userInfo.nickName,
-					headImage: res.userInfo.avatarUrl,
-					notShowLoading: true,
-				}).then(result => {
-					// 确定用户信息已经上报
-					Storage.loginForMore = true
-				})
-				wx.setStorageSync('icon_Path', res.userInfo.avatarUrl)
-			}
-		},
-		fail: function (res) {
-			
-		}
-	})
-}
 /**
  * 版本更新处理
  */
@@ -147,4 +93,32 @@ function updateHandle(){
 			bus.emit('update_fail',{},'app')
 		},1500)
 	})
+}
+
+/**
+ * 获取系统比例加入比例标识
+ */
+function getSystemInfo(){
+	let res = wx.getSystemInfoSync();
+	console.log('app实例下的设备信息：',res)
+	if(res){
+		Storage.systemInfo = res
+		wx.setStorage({
+			key: 'systemInfo',
+			data: res
+		});
+        if(res.model.indexOf('iPhone X') != -1){
+			wx.setStorage({
+				key: 'iPhoneX',
+				data: true
+			});
+			Storage.iPhoneX = true
+        }else{
+			wx.setStorage({
+				key: 'iPhoneX',
+				data: false
+			});
+			Storage.iPhoneX = false
+        }
+	}
 }
