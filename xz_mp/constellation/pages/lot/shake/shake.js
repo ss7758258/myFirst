@@ -51,10 +51,11 @@ const conf = {
 
         // 监听事件
         bus.on('login-success', () => {
+            console.log('登录标识')
+            Storage.shakeLogin = true
 
             self.setData({
-                userInfo: Storage.userInfo,
-                'bannerConf.openId' : wx.getStorageSync('openId') || ''
+                userInfo: Storage.userInfo
             })
             // 上报选择星座
             methods.setUserInfo(Storage.userC,_GData.selectConstellation.id)
@@ -104,7 +105,7 @@ const conf = {
         }
     },
     drawLots: function () {
-
+        if(!Storage.shakeLogin) return
         mta.Event.stat("ico_shake_shake", {})
         const _self = this
         const _SData = this.data
@@ -126,25 +127,8 @@ const conf = {
             isLoading: true
         })
 
-        // 获取摇签数据
-        if(wx.getStorageSync('token')){
-            // 拉取摇签数据
-            getX504(_self,_SData)
-        }else{
-            $vm.getLogin().then(res => {
-                wx.setStorageSync('token', res.token)
-                // 拉取摇签数据
-                getX504(_self,_SData)
-            }).catch(err => {
-                $vm.getLogin().then(res => {
-                    wx.setStorageSync('token', res.token)
-                    // 拉取摇签数据
-                    getX504(_self,_SData)
-                }).catch(err => {
-                    
-                })
-            })
-        }
+        // 拉取摇签数据
+        getX504(_self,_SData)
 
     },
     shakeFun: function () { // 摇一摇方法封装

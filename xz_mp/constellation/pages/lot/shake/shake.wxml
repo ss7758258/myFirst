@@ -37,6 +37,9 @@
                     <image class="heart heart_left" src="/assets/img/heart_left.png" mode="aspectFit"></image>
                     <image class="heart heart_right" src="/assets/img/heart_right.png" mode="aspectFit"></image>
                     <!-- End爱心 -->
+                    <!-- 信封 -->
+                    <image class="envelope {{shakeLotSpeed ? 'flyAnimate' : ''}}" src="/assets/img/envelope.png" mode="aspectFit"></image>
+                    <!-- End信封 -->
                 </view>
             </view>
             <!-- End树 -->

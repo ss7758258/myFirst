@@ -52,6 +52,34 @@ page{
     transform: rotate(-15deg);
     animation: rotate 4s infinite ease-in-out;
 }
+.envelope{
+    position: fixed;
+    width: 338rpx;
+    height: 228rpx;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    /* top: 245rpx;
+    left: 245rpx;
+    transform-origin:center top;
+    transform: scale(1); */
+}
+.envelope.flyAnimate{
+    animation: flyAn 1s 1 ease-in-out;
+}
+@keyframes flyAn{
+    0%{
+        opacity: 0;
+        transform: scale(0);
+    }
+    100%{
+        margin: auto;
+        opacity: 1;
+        transform: scale(1);
+    }
+}
 .lot_2{
     width: 46rpx;
     height: 169rpx;

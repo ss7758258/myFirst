@@ -42,6 +42,7 @@ const methods = () => {
                                         Storage.token = userConf.token
                                         Storage.openId = userConf.openId
                                         Storage.userInfo = userConf.userInfo
+                                        bus.emit('login-success', {} , 'login-com')
                                         
                                     }else{
                                         // 当前用户不存在登录信息

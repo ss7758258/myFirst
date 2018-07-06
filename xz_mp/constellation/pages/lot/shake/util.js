@@ -78,6 +78,7 @@ module.exports = {
      */
     setUserInfo (res,id,cb){
         let me = this
+        console.log(res)
         // 保存用户信息
         $vm.api.getSelectx100({
             constellationId: id,
