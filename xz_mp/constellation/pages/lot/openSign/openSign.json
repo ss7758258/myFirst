@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "coin": "/components/coin/coin"
+    "coin": "/components/coin/coin",
+    "loading":"/components/loading/loading"
   }
 }
