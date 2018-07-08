@@ -272,10 +272,6 @@ Page({
 			// 记录timer
 			timer = setTimeout(price, 15);
 			
-			// _self.setData({
-			// 	timer: temp
-			// })
-
 		}
 		return price
 	},
@@ -283,7 +279,6 @@ Page({
 	onClickConstellation: function () {
 		// 清除定时
 		clearTimeout(timer ? timer : '');
-		// clearTimeout(this.data.timer ? this.data.timer : '');
 		mta.Event.stat("ico_home_unselect", {})
 		wx.setStorage({
 			key: 'selectConstellation',
@@ -318,7 +313,7 @@ Page({
 		})
 		mta.Event.stat("ico_home_to_shake", {})
 		wx.navigateTo({
-			url: '/pages/lot/shakelot/shake?formid=' + formid,
+			url: '/pages/lot/shake/shake?fromSource=home&formid=' + formid,
 			complete: function (res) {
 				_self.setData({
 					isLoading: false
