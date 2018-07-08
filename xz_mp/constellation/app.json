@@ -8,7 +8,6 @@
         "pages/onebrief/brief",
         "pages/lot/lotlist/lotlist",
         "pages/lot/shake/shake",
-        "pages/lot/shakelot/shake",
         "pages/lot/emptylot/emptylot",
         "pages/lot/lotdetail/lotdetail",
         "pages/checklogin/checklogin",
