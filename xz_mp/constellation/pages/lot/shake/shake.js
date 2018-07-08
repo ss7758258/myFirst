@@ -8,8 +8,14 @@ const bus = require('../../../event')
 const Storage = require('../../../utils/storage')
 const methods = require('./util')
 
-// 验证Id是否位6位纯数字
-let reg = /^\d{6}$/;
+let animation = wx.createAnimation({
+    duration: 1000,
+    delay : 0,
+    transformOrigin : 'center 85%',
+    timingFunction: 'ease-in-out',
+})
+// 签的动画
+let timerLot = null
 
 // 配置参数
 const conf = {
@@ -30,10 +36,14 @@ const conf = {
             pageNum : 1,
             pageSize : 20
         },
-        // 摇动状态
+        // 结束摇动的时候触发
+        endSpeed : false,
+        // 是否为摇动状态
         shakeLotSpeed : false,
         // 来源数据
-        fromPage:''
+        fromPage:'',
+        // 动画对象
+        animationData : {}
     },
 
     /**
@@ -53,15 +63,26 @@ const conf = {
         bus.on('login-success', () => {
             console.log('登录标识')
             Storage.shakeLogin = true
-
             self.setData({
                 userInfo: Storage.userInfo
             })
             // 上报选择星座
-            methods.setUserInfo(Storage.userC,_GData.selectConstellation.id)
+            methods.setUserInfo({ userInfo : Storage.userInfo },_GData.selectConstellation.id)
 
         }, 'login-com')
-        
+
+        // 来源
+        if(options.fromSource){
+            switch (options.fromSource) {
+                case 'home':
+                    // 手动触发登录状态 
+                    bus.emit('login-success', {}, 'login-com')
+                    break;
+                default:
+                    break;
+            }
+        }
+
     },
 
     /**
@@ -69,12 +90,24 @@ const conf = {
      */
     onShow: function () {
         this.shakeFun()
+        animation.rotate(0).step()
+        // 确认信封出来动画以及树停止动画
+        this.setData({
+            animationData : animation.export()
+        })
     },
 
     /**
      * 生命周期函数--监听页面隐藏
      */
     onHide: function () {
+        clearTimeout(timerLot)
+        animation.rotate(0).step()
+        // 确认信封出来动画以及树停止动画
+        this.setData({
+            animationData : animation.export()
+        })
+        console.log('动画隐藏')
         wx.stopAccelerometer({})
     },
 
@@ -104,33 +137,50 @@ const conf = {
             }
         }
     },
+    /**
+	 * 打开摇到的签
+	 * @param {*} e
+	 */
+    openEnvelope(){
+        // 前往签详情页
+        wx.redirectTo({
+            url: '/pages/lot/lotdetail/lotdetail?fromSource=shake&lotId=' + Storage.lotId,
+        })
+        // 重置状态，消除信封动画
+        resetLot(this)
+    },
+    /**
+	 * 摇签按钮
+	 */
     drawLots: function () {
-        if(!Storage.shakeLogin) return
+        if(!Storage.shakeLogin || this.data.endSpeed) return
+        // 上报摇签次数
         mta.Event.stat("ico_shake_shake", {})
-        const _self = this
-        const _SData = this.data
-        // 已经zai
-        if (_self.data.shakeLotSpeed) {
-            return
-        }
+        
+        // 动画重置
+        this.setData({
+            // 进入摇动状态
+            shakeLotSpeed : true,
+            // 结束摇动值重置
+            endSpeed : false
+        })
+
+
         const innerAudioContext = wx.createInnerAudioContext()
         innerAudioContext.autoplay = true
         innerAudioContext.src = '/assets/shake.mp3'
         innerAudioContext.onPlay(() => {
             console.log('开始播放')
         })
-
-        // 加快 摇动速度
-        this.setData({
-            shakeLotSpeed: true,
-            potPath: true,
-            isLoading: true
-        })
-
+        // 震动
+        wx.vibrateLong()
         // 拉取摇签数据
-        getX504(_self,_SData)
+        getX504(this,this.data)
 
     },
+    /**
+	 * 摇签
+	 */
     shakeFun: function () { // 摇一摇方法封装
         const _self = this
         var numX = 0.12 //x轴
@@ -162,13 +212,25 @@ const conf = {
             }
         })
     },
-    // 显示我的签列表
+    /**
+	 * 进入一签盒
+	 * @param {*} e
+	 */
     showLotList: function (e) {
         let formid = e.detail.formId
         mta.Event.stat("ico_shake_to_list", {})
         $vm.api.getX610({ notShowLoading: true, formid: formid })
         wx.navigateTo({
             url: '/pages/lot/lotlist/lotlist?formid=' + formid
+        })
+    },
+    /**
+	 * 打开一签盒
+	 * @param {*} e
+	 */
+    openLotBox (){
+        wx.navigateTo({
+            url: '/pages/lot/lotlist/lotlist'
         })
     }
 }
@@ -204,134 +266,113 @@ const getX510 = (self, pageNum = 1, pageSize = 10) => {
     })
 }
 
-// 发送请求次数
-let sendLen = 0;
-
-// 重置请求次数
-const resetLen = () => {
-    sendLen = 0;
-}
 /**
  * 获取签的数据信息
  * @param {*} _self
  * @param {*} _SData
  */
-const getX504 = (_self,_SData) => {
-    if(sendLen > 1) return (sendLen = 0)
-    // 等待请求5s时间
-    setTimeout(function(){
-
-    },5000)
+const getX504 = (self,_SData) => {
+    // 签的心跳
+    lotBeat(self)
+    
+    // 获取摇签Id
     $vm.api.getX504({ notShowLoading: true, })
     .then(res => {
         console.log('摇出的签数据：',res)
-        if (_self.data.hasReturn) {
-            return
-        }
-        _self.setData({
-            isLoading: false
-        })
-        res.isMyQian = 1
-        res.alreadyOpen = 1
-        var lotDetail = parseLot(res)
-
-        _GData.lotDetail = lotDetail
-
+        // res.status = 1
         if (res.status === 0) {
-            sendLen = 0
-            setTimeout(() => {
-                if (_self.data.hasReturn) {
-                    return
-                }
-                // 摇出一个签
-                _self.setData({
-                    shakeLotSpeed: false
-                })
-                return false
-                if (_SData.isFromShare) {
-                    wx.navigateTo({
-                        url: '/pages/lot/lotdetail/lotdetail?sound=1',
-                    })
-                } else {
-                    wx.redirectTo({
-                        url: '/pages/lot/lotdetail/lotdetail?sound=1',
-                    })
-                }
-            }, 1500)
-        } else if (res.status == 1) { //没有签了
-            sendLen = 0
-            setTimeout(() => {
-                if (_self.data.hasReturn) {
-                    return
-                }
-                // 摇出一个签
-                _self.setData({
-                    shakeLotSpeed: false
-                })
+            // 解决后台返回数据不是自己的签的问题
+            res.isMyQian = 1
+            // 缓存签的信息 ,解析签信息
+            Storage.lotDetail = parseLot(res)
+            // 是否出签
+            Storage.loExist = true
+            // 摇出的id
+            Storage.lotId = res.id
 
-                if (_SData.isFromShare) {
-                    wx.navigateTo({
-                        url: '/pages/lot/emptylot/emptylot',
-                    })
-                } else {
-                    wx.redirectTo({
-                        url: '/pages/lot/emptylot/emptylot',
-                    })
-                }
-            }, 1000)
+        } else if (res.status === 1) { //没有签了
+            // 是否出签
+            Storage.loExist = true
+            // 重置状态
+            resetLot(self)
+            wx.navigateTo({
+                url: '/pages/lot/emptylot/emptylot',
+            })
         } else {
-            sendLen++
-            if(sendLen > 1){
-                sendLen = 0
-                setTimeout(() => {
-                    wx.showModal({
-                        title: '网络开小差了',
-                        content: '小主，请您检查网络后再试',
-                        showCancel: false,
-                        confirmText: '再试一次',
-                        success: function (res) { },
-                        fail: function (res) { },
-                        complete: function (res) { },
-                    })
-                    // 变更UI状态
-                    _self.setData({
-                        potPath: false,
-                        isLoading: false,
-                        shakeLotSpeed: false
-                    })
-                    _self.shakeFun()
-                }, 1000)
-                return
-            }
-            getX504(_self,_SData)
+            // 异常状态
+            Storage.lotCatch = true
         }
     })
     .catch(err => {
-        sendLen++
-        if(sendLen > 1){
-            sendLen = 0
-            setTimeout(() => {
-                wx.showModal({
-                    title: '网络开小差了',
-                    content: '小主，请您检查网络后再试',
-                    showCancel: false,
-                    confirmText: '再试一次',
-                    success: function (res) { },
-                    fail: function (res) { },
-                    complete: function (res) { },
-                })
-                // 变更UI状态
-                _self.setData({
-                    potPath: false,
-                    isLoading: false,
-                    shakeLotSpeed: false
-                })
-                _self.shakeFun()
-            }, 1000)
-            return
-        }
-        getX504(_self,_SData)
+        // 异常状态
+        Storage.lotCatch = true
     })
 }
 
+// 签动画心跳
+function lotBeat(self,num = 0){
+    if(num === 0){
+        animation.rotate(-5).step({duration:1000})
+        animation.rotate(5).step()
+        self.setData({
+            animationData : animation.export()
+        })
+    }
+    // 定时动画
+    timerLot = setTimeout(() =>{
+        if(Storage.loExist){
+            clearTimeout(timerLot)
+            animation.rotate(0).step()
+            // 确认信封出来动画以及树停止动画
+            self.setData({
+                animationData : animation.export(),
+                endSpeed : true,
+                // 结束摇动后重置
+                shakeLotSpeed : false,
+            })
+            return
+        }
+        // 异常状态停止动画
+        if(Storage.lotCatch){
+            animation.rotate(0).step()
+            // 异常后停止动画
+            self.setData({
+                animationData : animation.export()
+            })
+            
+            // 重置签的状态
+            resetLot(self)
+            wx.showModal({
+                title: '网络开小差了',
+                content: '小主，请您检查网络后再试',
+                showCancel: false,
+                confirmText: '再试一次',
+                success: function (res) { },
+                fail: function (res) { },
+                complete: function (res) { },
+            })
+            self.shakeFun()
+
+            return
+        }
+        // 左右摇动动画
+        animation.rotate(-5).step()
+        animation.rotate(5).step()
+        self.setData({
+            animationData : animation.export()
+        })
+        lotBeat(self,++num)
+    },2000)
+}
+
+// 重置签的状态
+function resetLot(self){
+    // 出签状态
+    Storage.loExist = false
+    // 变更UI状态
+    self.setData({
+        shakeLotSpeed : false,
+        endSpeed: false
+    })
+}
 Page(conf)

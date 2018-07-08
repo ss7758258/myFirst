@@ -1,6 +1,10 @@
 // 用户信息上传次数
 let userInfoLen = 0;
 let $vm = getApp()
+
+// 验证Id是否位6位纯数字
+let reg = /^\d{6}$/;
+
 module.exports = {
     /**
      * 数据分析
