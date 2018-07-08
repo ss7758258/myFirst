@@ -32,33 +32,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 0,
 			"list": [
 				{
-					"id": 1,
-					"name": "brief",
-					"pathName": "pages/home/home",
-					"query": "to=brief&from=share"
-				},
-				{
-					"id": 3,
-					"name": "shake",
-					"pathName": "pages/lot/shakelot/shake",
-					"query": "from=activity",
-					"scene": "1011"
-				},
-				{
-					"id": 5,
-					"name": "activitytoday",
-					"pathName": "pages/home/home",
-					"query": "to=today&from=activity",
-					"scene": "1011"
-				},
-				{
-					"id": 6,
-					"name": "activityshake",
-					"pathName": "pages/lot/shakelot/shake",
-					"query": "from=activity",
+					"id": 0,
+					"name": "签详情",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": "from=share&lotId=955360",
 					"scene": "1011"
 				},
 				{

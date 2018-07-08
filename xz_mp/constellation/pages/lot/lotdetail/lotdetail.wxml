@@ -1,119 +1,67 @@
 <!-- 导航 -->
 <nav opts='{{navConf}}'></nav>
+<!-- 登录 -->
+<loginApp></loginApp>
 
-<view class="UI_pgae">
-	<view class="userInfo">
-		<view class="photo">
-			<image wx:if="{{lotDetail.isOther}}" src="{{lotDetail.ownerHeadImage}}" class="photo_img"></image>
-			<open-data wx:else type="userAvatarUrl"></open-data>
+<!-- 签详情页 -->
+<form>
+	<view class="panel_scene">
+		<!-- 内容主体 -->
+		<view class="panel_body">
+			<!-- 头部 -->
+			<view class="header_panel">
+				<!-- 签头像显示 -->
+				<image src="{{lotDetail.ownerHeadImage}}"></image>
+				<!-- End签头像显示 -->
+				<!-- 用户名称 -->
+				<text class="lot_name">{{helloText}}{{lotDetail.ownerNickName}}</text>
+				<!-- End用户名称 -->
+				<!-- 提示语 -->
+				<text class="lot_desc_text">{{descText}}</text>
+				<!-- End提示语 -->
+			</view>
+			<!-- End头部 -->
 
-		</view>
-		<view wx:if="{{!lotDetail.lotNotCompleted&&lotDetail.isOther}}" class="left">
-			<text>{{lotDetail.lotTitleHint}}</text>
-			<view>
-				<text wx:if="{{lotDetail.isOther}}">{{lotDetail.ownerNickName}}</text>
-				<open-data wx:else type="userNickName"></open-data>
-				<text>在这里谢谢大家</text>
-			</view>
-		</view>
-		<view wx:else class="left">
-			<view>
-				<text>{{lotDetail.isOther?"朋友们好，我是":"你好，"}}</text>
-				<text wx:if="{{lotDetail.isOther}}">{{lotDetail.ownerNickName}}</text>
-				<open-data wx:else type="userNickName"></open-data>
-			</view>
-			<text>{{lotDetail.lotTitleHint}}</text>
-		</view>
-	</view>
+			<!-- 签详情 -->
+			<view class="content_panel {{isOpen ? 'open' : 'not_dis'}}">
+				<!-- 信封背景 -->
+				<image class="envelope" src="/assets/img/envelope.png"></image>
+				<!-- End信封背景 -->
 
-	<!--幸运签详情-->
-	<view class="myLot">
-		<view class="box {{huan?'chaiwanqianxiaoshi':''}}" wx:if="{{lotDetail.lotNotCompleted}}">
-			<image class='xiaoge' src="{{imgs.xiao}}" />
-			<image class="lot" src="{{imgs.lot}}" />
-			<image class="lotBg" src="/assets/images/lotBg.png" />
-		</view>
-		<view class="unLogBox  {{huan?'chaiwanqianchuxian':''}}" wx:else>
-			<view class='unlotBg'></view>
-			<view class="unLog">
-				<view class='autoflex'></view>
-				<view class='logType'>
-					<text>{{lotDetail.qianName}}</text>
-				</view>
-				<view class='content'>
-					<text>{{lotDetail.qianContent}}</text>
-				</view>
-				<view class='name'>
-					<text>{{lotDetail.ownerNickName}}</text>
-				</view>
-				<view class='date'>
-					<text>{{lotDetail.qianDate}}</text>
-				</view>
-			</view>
-		</view>
-		<view class="invite">
-			<view class="troops">
-				<block wx:for="{{lotDetail.troops}}" wx:key="index">
-					<view class="nom">
-						<image class="photo" src="{{item.photo}}" />
-					</view>
-				</block>
-				<block wx:for="{{lotDetail.qianOpenSize - lotDetail.troops.length}}" wx:key="index">
-					
-					<view class="nomPerch">
-						<view class="photo">
-							<image class="photo" src="/assets/images/haoren.png" />
+				<!-- 信封上的内容 -->
+				<view class="envelope_content">
+					<view class="envelope_content_panel">
+						<!-- 信封头 -->
+						<image class="header_envelope" src="/assets/img/envelope_up.png"></image>
+						<!-- End信封头 -->
+
+						<!-- 签名称 -->
+						<text class="envelope_content_lotName">{{lotDetail.qianName}}</text>
+						<!-- End签名称 -->
+
+						<!-- 爱心 -->
+						<image class="heart_big" src="/assets/img/heart_big.png"></image>
+						<!-- End爱心 -->
+						
+						<!-- 小爱心 -->
+						<image class="heart_small" wx:if="{{isOpen}}" src="/assets/img/heart_small.png"></image>
+						<!-- End小爱心 -->
+
+						<!-- 未拆开文字 -->
+						<view class="no_dis_text" wx:if="{{!isOpen}}" catchtap="goPay">
+							快速查看
+							<image class="lock" src="/assets/img/heart_small.png"></image>
 						</view>
+						<!-- End未拆开文字 -->
+
 					</view>
-				</block>
+				</view>
+				<!-- End信封上的内容 -->
 			</view>
-			<view class="number">
-				<text>{{lotDetail.isOther? ((lotDetail.qianOpenSize - lotDetail.troops.length==0)?"上面的好人已完成拆签":"还差"+(lotDetail.qianOpenSize
-					- lotDetail.troops.length)+"个人即可完成拆签！") : ((lotDetail.qianOpenSize - lotDetail.troops.length==0)?"上面的好人已帮你完成拆签":"还差"+(lotDetail.qianOpenSize
-					- lotDetail.troops.length)+"个好人即可完成拆签，加油！") }}
-				</text>
-			</view>
-			<!--  wx:if="{{showHaoren}}" -->
-			<view wx:if="{{showHaoren}}" class='qipaobg {{showHaoren ? "show" : ""}}'>
-				<image class='qipao' src="/assets/images/qipao.png" mode="widthFix" />
-				<text class='qipaowenzi'>帮助好友成功，你也去试试吧。</text>
-			</view>
-			<form wx:if="{{lotDetail.showChai}}" class="botton " bindsubmit="chai" report-submit='true'>
-				<button form-type="submit" hover-class="none" style='width:80%;color: rgb(158, 29, 29);margin: 0 auto;'>
-					{{lotDetail.hasChai?'查看我的每日一签':'帮好友拆签'}}
-				</button>
-			</form>
+			<!-- End签详情 -->
 
-
-			<!-- <button wx:if="{{lotDetail.showChai}}" bindtap='chai' class="botton ">{{lotDetail.hasChai?'查看我的星运签':'帮好友拆签'}}</button> -->
-			<view class='shareBox' wx:else>
-				<!-- <button open-type="share" class="{{lotDetail.lotNotCompleted?'botton':''}}">{{lotDetail.lotNotCompleted?"立即找好友帮忙":"给好友玩"}}</button> -->
-				<!-- <button wx:if="{{!lotDetail.lotNotCompleted}}" bindtap='onclickShareCircle'>保存此签</button> -->
-
-				<form class="{{lotDetail.lotNotCompleted?'botton':''}}" wx:if="{{lotDetail.lotNotCompleted&&(!lotDetail.isOther)}}" bindsubmit="onclickShareFriend"
-				 report-submit='true'>
-					<button style="{{lotDetail.lotNotCompleted?'':'width:80%;'}}" form-type="submit" open-type="share" type='' hover-class="none">
-						立即找好友帮忙
-					</button>
-				</form>
-				<form bindsubmit="onclickShareCircle" wx:else report-submit='true'>
-					<button style="{{lotDetail.lotNotCompleted?'':'width:80%;'}}" form-type="submit" type='' hover-class="none">
-						保存拆签结果
-					</button>
-				</form>
-
-
-			</view>
 		</view>
+		<!-- End内容主体 -->
 	</view>
-
-</view>
-
-<view class='canvasBox' wx:if="{{showCanvas}}">
-	<canvas canvas-id="shareCanvas" style="width:750px;height:750px;z-index=-1"></canvas>
-</view>
-<!-- <form wx:if="{{isFromShare}}" bindsubmit="onclickHome" class='home' report-submit='true'>
-  <button class='button1' form-type="submit" type='' hover-class="none">
-    <image src="/assets/images/icon_home.png" mode="widthFix" />
-  </button>
-</form> -->
+</form>
+<!-- End签详情页 -->

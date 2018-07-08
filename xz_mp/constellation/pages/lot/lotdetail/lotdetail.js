@@ -2,22 +2,23 @@
 const $vm = getApp()
 let _GData = $vm.globalData
 const { canvasTextAutoLine, parseLot } = $vm.utils
-var mta = require('../../../utils/mta_analysis.js');
+const mta = require('../../../utils/mta_analysis.js');
 const imgs = require('./imgs.js')
 const bus = require('../../../event')
 const Storage = require('../../../utils/storage')
 
-Page({
-
-	/**
-	 * 页面的初始数据
-	 */
-	data: {
+const config = {
+	data : {
+		
 		isFromShare: false,
 		huan: false,//拆签成功
 		showCanvas: false,
 		imgs: imgs,
 		lock: false, //锁
+		// 问候语句
+		helloText : '你好！',
+		// 描述语句
+		descText : '下面是你的每日一签,快去拆签吧!',
 		navConf: {
 			title: '拆签',
 			state: 'root',
@@ -36,23 +37,19 @@ Page({
 			isOther : true,
 			lotNotCompleted : true,
 			troops : []
-		},
+		}
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
-		// 重新获取一次全局数据
-		_GData = $vm.globalData
-		const _self = this
-		const _SData = this.data
-		let qId = options.lotId
-		let pageFrom = options.from
+		// 缓存对象
+		let self = this
 		// 缓存签详情的来源参数
 		Storage.lotOpts = options
 
-		if(qId){
+		if(options.lotId){
 			wx.showLoading({
 				title: '加载中...',
 				mask: true,
@@ -60,11 +57,10 @@ Page({
 		}
 		mta.Page.init()
 		console.log(options)
-		wx.hideShareMenu({
-			success: function (res) { },
-			fail: function (res) { },
-			complete: function (res) { },
-		})
+		
+		// 隐藏分享
+		wx.hideShareMenu()
+
 		if (options.sound) {
 			const innerAudioContext = wx.createInnerAudioContext()
 			innerAudioContext.autoplay = true
@@ -73,81 +69,30 @@ Page({
 				console.log('开始播放')
 			})
 		}
+		
+		// 监听事件
+        bus.on('login-success', () => {
+            console.log('------------------登录标识-----------------------')
+            self.setData({
+                userInfo: Storage.userInfo
+            })
 
-		_self.setData({
-			userInfo: _GData.userInfo
-		})
-		let login_timer = ''
-		if (!_GData.userInfo) {
-			console.log('进入授权功能=============')
-			login_timer = setInterval(() => {
-				console.log('进入授权功能=============',Storage)
-				if(!Storage.loginStatus){
-					return false
-				}
-				// 清除等待
-				clearInterval(login_timer)
-				wx.getUserInfo({
-					success: function (res) {
-						console.log(res)
-						if (res.userInfo) {
-							wx.setStorage({
-								key: 'userInfo',
-								data: res.userInfo,
-							})
-							_GData.userInfo = res.userInfo
-							_self.setData({
-								userInfo: _GData.userInfo
-							})
-							if(!Storage.loginForMore){
-								// 上报用户加密信息
-								$vm.api.loginForMore({
-									encryptedData: res.encryptedData,
-									iv: res.iv,
-									sessionKey : Storage.sessionKey,
-									nickName: res.userInfo.nickName,
-									headImage: res.userInfo.avatarUrl,
-									notShowLoading: true,
-								}).then(result => {
-									// 确定用户信息已经上报
-									Storage.loginForMore = true
-									// 获取签的数据
-									getTokenQian(pageFrom,_self,qId,_GData)
-								}).catch(err => {
-									Storage.loginForMore = false
-									wx.redirectTo({
-										url: '/pages/checklogin/checklogin?from=' + _SData.fromPage + '&and=shake'
-									})
-								})
-
-							}else{
-								getTokenQian(pageFrom,_self,qId,_GData)
-							}
-						}
-					},
-					fail: function (res) {
-						// 查看是否授权
-						wx.getSetting({
-							success: function (res) {
-								if (!res.authSetting['scope.userInfo']) {
-	
-									_self.setData({
-										hasAuthorize: false
-									})
-									wx.redirectTo({
-										url: '/pages/checklogin/checklogin?from=' + pageFrom + '&lotId=' + qId
-									})
-								}
-							}
-						})
-					}
-				})
-			},200)
-			
-		}else{
 			// 获取签的数据
-			getTokenQian(pageFrom,_self,qId,_GData)
-		}
+			getTokenQian(options.from,self,options.lotId,_GData)
+
+        }, 'login-com')
+
+        // 来源
+        if(options.fromSource){
+            switch (options.fromSource) {
+                case 'shake':
+                    // 手动触发登录状态 
+                    bus.emit('login-success', {}, 'login-com')
+                    break;
+                default:
+                    break;
+            }
+        }
 	},
 
 	/**
@@ -351,7 +296,10 @@ Page({
 			url: '/pages/home/home',
 		})
 	}
-})
+
+}
+
+Page(config)
 
 
 /**
