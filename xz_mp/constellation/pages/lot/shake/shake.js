@@ -230,7 +230,7 @@ const conf = {
 	 */
     openLotBox (){
         wx.navigateTo({
-            url: '/pages/lot/lotlist/lotlist'
+            url: '/pages/lot/lotlist/lotlist?fromSource=shake'
         })
     }
 }
