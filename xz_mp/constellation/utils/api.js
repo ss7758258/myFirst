@@ -226,6 +226,10 @@ const getBlance = function(data) {
 const getRecharge = function(data) {
 	return requstPost('pay/recharge', data)
 }
+// 购买小星星
+const buyStar = function(data) {
+	return requstPost('pay/buylook', data)
+}
 // 获取乐摇摇的数据信息
 const getLeYaoyao = function(params,data){
 	return new Promise((resolve,reject) => {
@@ -274,5 +278,6 @@ module.exports = {
 	getGoods,
 	getBlance,
 	getRecharge,
-	getLeYaoyao
+	getLeYaoyao,
+	buyStar
 }

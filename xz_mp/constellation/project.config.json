@@ -38,7 +38,7 @@
 					"id": 0,
 					"name": "签详情",
 					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "from=share&lotId=955360",
+					"query": "from=share&lotId=565250",
 					"scene": "1011"
 				},
 				{
@@ -83,10 +83,10 @@
 					"scene": "1011"
 				},
 				{
-					"id": 10,
+					"id": 7,
 					"name": "帮好友拆签",
 					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "from=share&lotId=565230",
+					"query": "from=share&lotId=565221",
 					"scene": "1011"
 				},
 				{
