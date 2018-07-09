@@ -59,8 +59,7 @@ const conf = {
         methods.analytics(self,options,pageFrom,mta)
         console.log('输出参数：', options)
 
-        // 监听事件
-        bus.on('login-success', () => {
+        let handle = () => {
             console.log('登录标识')
             Storage.shakeLogin = true
             self.setData({
@@ -68,15 +67,20 @@ const conf = {
             })
             // 上报选择星座
             methods.setUserInfo({ userInfo : Storage.userInfo },_GData.selectConstellation.id)
+        }
 
-        }, 'login-com')
+        // 监听事件
+        bus.on('login-success', handle , 'login-com')
+        bus.on('login-success', handle , 'shake-app')
 
         // 来源
         if(options.fromSource){
             switch (options.fromSource) {
                 case 'home':
+                case 'lotdetail':
+                    console.log()
                     // 手动触发登录状态 
-                    bus.emit('login-success', {}, 'login-com')
+                    bus.emit('login-success', {}, 'shake-app')
                     break;
                 default:
                     break;
@@ -217,6 +221,7 @@ const conf = {
 	 * @param {*} e
 	 */
     showLotList: function (e) {
+        if(!Storage.shakeLogin || this.data.endSpeed) return
         let formid = e.detail.formId
         mta.Event.stat("ico_shake_to_list", {})
         $vm.api.getX610({ notShowLoading: true, formid: formid })

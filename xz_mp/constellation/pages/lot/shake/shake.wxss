@@ -32,7 +32,7 @@ page{
     margin: auto;
     width: 836rpx;
     height: 962rpx;
-    bottom: 130rpx;
+    bottom: 160rpx;
 }
 .people{
     position: absolute;
@@ -55,8 +55,8 @@ page{
 }
 .envelope{
     position: fixed;
-    width:676rpx;
-    height:456rpx;
+    width:561rpx;
+    height:351rpx;
     top: 0;
     bottom: 0;
     left: 0;
@@ -77,16 +77,16 @@ page{
     100%{
         margin: auto;
         opacity: 1;
-        transform: scale(.95);
+        transform: scale(.98);
     }
 }
 @keyframes glint {
     0%,100% {
-        box-shadow: 0 0 5px rgba(255,255,255,.2);
-        transform: scale(.95);
+        box-shadow: 0 0 10px 5px rgba(255,255,255,.2);
+        transform: scale(.98);
     }
     50% {
-        box-shadow: 0 0 20px rgba(255, 255, 255, .5);
+        box-shadow: 0 0 20px 10px rgba(255,255,255,.5);
         transform: scale(1);
     }
 }
