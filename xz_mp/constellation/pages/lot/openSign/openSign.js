@@ -23,14 +23,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // this.canvasCard()
+    this.canvasCard()
   },
 
   canvasCard(){
-    wx.showLoading({
-			title: '图片生成中...',
-			mask: true
-		})
+    // wx.showLoading({
+		// 	title: '图片生成中...',
+		// 	mask: true
+		// })
     let _self=this
     let lotdetail=this.data.lotdetail
     wx.getImageInfo({ //将头像转路径
@@ -96,61 +96,108 @@ Page({
           ctx.draw()  
           console.log('画图完成===================')
 
-          wx.getSetting({
-            success(res) {
-              if (res.authSetting['scope.writePhotosAlbum']) {
-                wx.canvasToTempFilePath({ //画图完成保存图片
-                  canvasId: 'openSign',
-                  success: res => {
-                    console.log('图片临时路径', res.tempFilePath)
-                    let filePath = res.tempFilePath
-                    wx.hideLoading()
+          // wx.getSetting({
+          //   success(res) {
+          //     if (res.authSetting['scope.writePhotosAlbum']) {
+          //       wx.canvasToTempFilePath({ //画图完成保存图片
+          //         canvasId: 'openSign',
+          //         success: res => {
+          //           console.log('图片临时路径', res.tempFilePath)
+          //           let filePath = res.tempFilePath
+          //           wx.hideLoading()
 
 
-                    wx.saveImageToPhotosAlbum({
-                      filePath: filePath,
-                      success: res => {
-                        console.log('本地保存路径', res)
-                        wx.showModal({
-                          title: '保存成功', //提示的内容,
-                          content: '图片已经保存到相册，可以分享到朋友圈了',
-                          mask: true, //显示透明蒙层，防止触摸穿透,
-                        });
-                      }, fail: res => {
-                        wx.showToast({
-                          title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
-                          icon: 'none',
-                          duration: 3000
-                        })
-                        console.log('错误信息', res)
-                      }
-                    })
+          //           wx.saveImageToPhotosAlbum({
+          //             filePath: filePath,
+          //             success: res => {
+          //               console.log('本地保存路径', res)
+          //               wx.showModal({
+          //                 title: '保存成功', //提示的内容,
+          //                 content: '图片已经保存到相册，可以分享到朋友圈了',
+          //                 mask: true, //显示透明蒙层，防止触摸穿透,
+          //               });
+          //             }, fail: res => {
+          //               wx.showToast({
+          //                 title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+          //                 icon: 'none',
+          //                 duration: 3000
+          //               })
+          //               console.log('错误信息', res)
+          //             }
+          //           })
 
-                  },
-                  fail: res => {
-                    wx.showToast({
-                      title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
-                      icon: 'none',
-                      duration: 3000
-                    })
-                    _self.setData({
-                      showCanvas: false,
-                    })
-                  },
-                  complete: res => {
-                    wx.hideLoading()
-                    _self.setData({
-                      showCanvas: false
-                    })
-                  },
-                })
+          //         },
+          //         fail: res => {
+          //           wx.showToast({
+          //             title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+          //             icon: 'none',
+          //             duration: 3000
+          //           })
+          //           _self.setData({
+          //             showCanvas: false,
+          //           })
+          //         },
+          //         complete: res => {
+          //           wx.hideLoading()
+          //           _self.setData({
+          //             showCanvas: false
+          //           })
+          //         },
+          //       })
 
 
-              }
-            }
+          //     }
+          //   }
+          // })
+
+          wx.canvasToTempFilePath({ //画图完成保存图片
+            canvasId: 'openSign',
+            success: res => {
+              console.log('图片临时路径', res.tempFilePath)
+              let filePath = res.tempFilePath
+              wx.hideLoading()
+
+
+              wx.saveImageToPhotosAlbum({
+                filePath: filePath,
+                success: res => {
+                  console.log('本地保存路径', res)
+                  wx.showModal({
+                    title: '保存成功', //提示的内容,
+                    content: '图片已经保存到相册，可以分享到朋友圈了',
+                    mask: true, //显示透明蒙层，防止触摸穿透,
+                  });
+                }, fail: res => {
+                  wx.showToast({
+                    title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+                    icon: 'none',
+                    duration: 3000
+                  })
+                  console.log('错误信息', res)
+                }
+              })
+
+            },
+            fail: res => {
+              wx.showToast({
+                title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+                icon: 'none',
+                duration: 3000
+              })
+              _self.setData({
+                showCanvas: false,
+              })
+            },
+            complete: res => {
+              wx.hideLoading()
+              _self.setData({
+                showCanvas: false
+              })
+            },
           })
 
-        
+
+
       },
     })
   },

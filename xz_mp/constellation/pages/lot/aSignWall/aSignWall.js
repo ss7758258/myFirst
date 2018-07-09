@@ -60,10 +60,7 @@ Page({
           [status]: value.status
         })
       })
-
-      self.setData({
-        date_list:false
-      })
+ 
      }).catch(err=>{
        console.log('bbbb',err)
      })
