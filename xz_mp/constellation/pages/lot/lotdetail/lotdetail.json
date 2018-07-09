@@ -2,7 +2,6 @@
   "navigationBarTitleText": "拆签",
   "disableScroll": true,
   "usingComponents": {
-		"updateApp": "/components/update/update",
 		"nav": "/components/navigation/nav",
 		"loginApp": "/components/login/login"
 	}

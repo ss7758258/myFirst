@@ -107,46 +107,46 @@ Page({
         let timers = wx.getStorageSync('timer_list') || [];
         const _self = this
         let lot = e.detail.target.dataset.item
-        let t = 86400000000000,dt = new Date(),i = -1;//86400000
+        // let t = 86400000000000,dt = new Date(),i = -1;//86400000
         
-        for(let ind = timers.length - 1 ; ind >= 0 ; ind--){
-            // console.log(dt.getTime() - timers[ind] > t)
-            // console.log('日期数据：',dt.getTime() , timers[ind] )
-            if(dt.getTime() - timers[ind] > t){
-                i = ind;
-                break
-            }
-        }
+        // for(let ind = timers.length - 1 ; ind >= 0 ; ind--){
+        //     // console.log(dt.getTime() - timers[ind] > t)
+        //     // console.log('日期数据：',dt.getTime() , timers[ind] )
+        //     if(dt.getTime() - timers[ind] > t){
+        //         i = ind;
+        //         break
+        //     }
+        // }
 
-        if(i !== -1){
-            // 删除已经过期的数据id
-            timers = timers.slice(i + 1,timers.length)
-            console.log('下标：',i)
-            clicks = clicks.slice(i + 1,clicks.length)
-            wx.setStorageSync('timer_list',timers)
-            wx.setStorageSync('click_list', clicks)
-        }
+        // if(i !== -1){
+        //     // 删除已经过期的数据id
+        //     timers = timers.slice(i + 1,timers.length)
+        //     console.log('下标：',i)
+        //     clicks = clicks.slice(i + 1,clicks.length)
+        //     wx.setStorageSync('timer_list',timers)
+        //     wx.setStorageSync('click_list', clicks)
+        // }
 
-        console.log(clicks)
-        // 不存在当前签的情况下
-        if(clicks.indexOf(lot.id) === -1){
-            let date = new Date();
-            // 将签的ID放入列表
-            clicks.push(lot.id)
-            timers.push(date.getTime())
-            wx.setStorageSync('click_list', clicks)
-            wx.setStorageSync('timer_list',timers)
-            let temp_obj = {}
-            // 将点击的红点消除
-            temp_obj['lotList.list[' + lot.index + '].isClick'] = false;
-            _self.setData(temp_obj)
-        }
+        // console.log(clicks)
+        // // 不存在当前签的情况下
+        // if(clicks.indexOf(lot.id) === -1){
+        //     let date = new Date();
+        //     // 将签的ID放入列表
+        //     clicks.push(lot.id)
+        //     timers.push(date.getTime())
+        //     wx.setStorageSync('click_list', clicks)
+        //     wx.setStorageSync('timer_list',timers)
+        //     let temp_obj = {}
+        //     // 将点击的红点消除
+        //     temp_obj['lotList.list[' + lot.index + '].isClick'] = false;
+        //     _self.setData(temp_obj)
+        // }
         let formid = e.detail.formId
 
         mta.Event.stat("ico_list_detail", {})
         $vm.api.getX610({ notShowLoading: true, formid: formid })
         wx.navigateTo({
-            url: '/pages/lot/lotdetail/lotdetail?formid=' + formid + '&from=list&lotId=' + lot.id,
+            url: '/pages/lot/lotdetail/lotdetail?fromSource=lotlist&formid=' + formid + '&from=list&lotId=' + lot.id,
             success: function(res) {},
             fail: function(res) {},
             complete: function(res) {},

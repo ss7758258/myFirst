@@ -1,24 +1,29 @@
 // pages/lot/lotdetail/lotdetail.js
 const $vm = getApp()
+const API = require('../../../utils/api')
 let _GData = $vm.globalData
 const { canvasTextAutoLine, parseLot } = $vm.utils
 const mta = require('../../../utils/mta_analysis.js');
-const imgs = require('./imgs.js')
 const bus = require('../../../event')
 const Storage = require('../../../utils/storage')
+// 星星数量
+const starNum = 9
 
 const config = {
 	data : {
-		
 		isFromShare: false,
 		huan: false,//拆签成功
 		showCanvas: false,
-		imgs: imgs,
-		lock: false, //锁
-		// 问候语句
-		helloText : '你好！',
-		// 描述语句
-		descText : '下面是你的每日一签,快去拆签吧!',
+		// 帮好友拆签的锁
+		lock: false, 
+		// 总拆签人数
+		disNum : 3,
+		// 头像的定位样式
+		flyStyle : '',
+		// 头像飞入哪里
+		fly : '',
+		// 是否已经拆签完成
+		disLotSuccess : false,
 		navConf: {
 			title: '拆签',
 			state: 'root',
@@ -29,21 +34,26 @@ const config = {
 			isTitle: true
 		},
 		lotDetail: {
+			// 问候语句
+			helloText : '你好！',
 			ownerHeadImage : '/assets/images/default_head.png',
 			troops : [{photo : '/assets/images/default_head.png'}],
 			qianOpenSize: 3,
 			showChai: true,
+			// 是否已经拆了
 			hasChai: false,
+			// 是否是自己的签
 			isOther : true,
-			lotNotCompleted : true,
-			troops : []
+			// 描述语句
+			lotTitleHint : '下面是你的每日一签，快找好友帮你拆签吧~',
+			lotNotCompleted : true
 		}
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
-	onLoad: function (options) {
+	onLoad (options) {
 		// 缓存对象
 		let self = this
 		// 缓存签详情的来源参数
@@ -69,9 +79,7 @@ const config = {
 				console.log('开始播放')
 			})
 		}
-		
-		// 监听事件
-        bus.on('login-success', () => {
+		let handle =  () => {
             console.log('------------------登录标识-----------------------')
             self.setData({
                 userInfo: Storage.userInfo
@@ -79,15 +87,19 @@ const config = {
 
 			// 获取签的数据
 			getTokenQian(options.from,self,options.lotId,_GData)
-
-        }, 'login-com')
+		}
+		
+		// 监听事件
+		bus.on('login-success',handle , 'login-com')
+		bus.on('login-success',handle , 'lotdetail-app')
 
         // 来源
         if(options.fromSource){
             switch (options.fromSource) {
-                case 'shake':
+				case 'shake':
+				case 'lotlist':
                     // 手动触发登录状态 
-                    bus.emit('login-success', {}, 'login-com')
+                    bus.emit('login-success', {}, 'lotdetail-app')
                     break;
                 default:
                     break;
@@ -98,7 +110,7 @@ const config = {
 	/**
 	 * 用户点击右上角分享
 	 */
-	onShareAppMessage: function (res) {
+	onShareAppMessage(res) {
 		if (res.from === 'menu') {
 			mta.Event.stat("ico_shake_right_share", {})
 		}
@@ -126,65 +138,17 @@ const config = {
 			}
 		}
 	},
-	//拆签或者去
-	chai: function (e) {
+	/**
+	 * 获取formId进行上报
+	 * @param {*} e
+	 */
+	getFormId(e) {
+		console.log('获取到的formId',e)
 		let formid = e.detail.formId
-		if (this.data.lock && !this.data.lotDetail.hasChai) {
-			return false;
-		}
-		this.data.lock = true;
-		$vm.api.getX610({ notShowLoading: true, formid: formid })
-		const _self = this
-		const _Sdata = this.data
-
-		if (_Sdata.lotDetail.hasChai) {
-			wx.navigateTo({
-				url: '/pages/lot/shakelot/shake?formid=' + formid
-			})
-			return
-		}
-		_self.setData({
-			showHaoren: true,
-		})
-		$vm.api.getX506({ id: _Sdata.lotDetail.id, notShowLoading: true })
-			.then(res => {
-				console.log('未知数据：',res)
-				var lotDetail = parseLot(res)
-				if (res.status == 1) {
-					mta.Event.stat("ico_chai_completed", {})
-					_self.setData({
-						huan: true,
-					})
-					setTimeout(function () {
-						_self.setData({
-							lotDetail: lotDetail,
-						})
-					}, 2000)
-				} else {
-					_self.setData({
-						lotDetail: lotDetail
-					})
-				}
-
-				setTimeout(function () {
-					_self.setData({
-						showHaoren: false,
-					})
-					_self.data.lock = true;
-				}, 2800)
-			})
-			.catch(err => {
-
-			})
-	},
-	onclickShareFriend: function (e) {
-		mta.Event.stat("ico_detail_share", {})
-		let formid = e.detail.formId
-
 		$vm.api.getX610({ notShowLoading: true, formid: formid })
 	},
 	//保存图片
-	onclickShareCircle: function (e) {
+	saveShare (e) {
 		mta.Event.stat("ico_detail_save", {})
 		let formid = e.detail.formId
 
@@ -295,8 +259,142 @@ const config = {
 		wx.reLaunch({
 			url: '/pages/home/home',
 		})
-	}
+	},
+	
+	/**
+	 * 前往支付页面
+	 */
+	goPay (){
+		let self = this
+		console.log('前往支付')
+		wx.showModal({
+			title: '\t\n',
+			content: '快速查看需要消耗' + starNum + '颗小星星确定\t\n快速查看？',
+			showCancel: true,
+			cancelColor : '#999999',
+			cancelText : '我在想想',
+			confirmText: '确定',
+			confirmColor : '#9262FB',
+			success: function (res) {
+				console.log(res)
+				if(res.confirm){
+					API.getBlance({notShowLoading:true}).then(data => {
+						if(!data){
+							return
+						}
+						console.log('钱包星星数量：',data)
+						// data.balance = 1
+						// 当小星星不足时进行提示
+						if(data.balance < starNum){
+							wx.showModal({
+								title: '\t\n',
+								content: '账号余额不足，请先去买些小星星吧！',
+								showCancel: true,
+								cancelColor : '#999999',
+								cancelText : '取消',
+								confirmText: '去购买',
+								confirmColor : '#9262FB',
+								success: function (res) {
+									if(res.confirm){
+										// 跳转到小星星页面
+										wx.navigateTo({
+											url: '/pages/myAccount/myAccount'
+										})
+									}
+								}
+							})
+						}else{
+							API.buyStar({
+								id : self.data.lotDetail.id
+							}).then(res => {
+								console.log('购买结果：',res)
+								if(res.retcode === 0){
+									console.log('购买成功')
+								}
+							})
+						}
+					})
+				}
+			}
+		})
+	},
+	/**
+	 * 帮助好友拆签，或者查看自己的一签
+	 */
+	openDis(){
+		// 如果已经拆过了进入每日一签
+		if(this.data.lotDetail.hasChai){
+			wx.navigateTo({
+				url: '/pages/lot/shake/shake?fromSource=lotdetail'
+			})
+			return
+		}
+		// 加载中上锁
+		this.data.lock = true
 
+		// 确定动画类型
+		let animatype = this.data.disNum - this.data.lotDetail.troops.length
+		let self = this
+		// 创建选择器
+		let query = wx.createSelectorQuery()
+		query.select('.heart_big').boundingClientRect()
+		query.selectViewport().scrollOffset()
+		query.exec(function(res){
+			console.log('输出节点信息：',res)
+			self.setData({
+				flyStyle : `top:${res[0].top}px;bottom:auto;transform: scale(1);`
+			})
+			$vm.api.getX506({ id: self.data.lotDetail.id, notShowLoading: true })
+			.then(res => {
+				console.log('未知数据：',res)
+				// 拆签失败
+				if(!res){
+					wx.showModal({
+						title: '提示',
+						content: '小主，拆签失败了',
+						confirmText : '重新尝试',
+						showCancel: false,
+						success (){ }
+					})
+					self.setData({
+						flyStyle : `transform: scale(0);`
+					})
+					return
+				}
+				self.setData({
+					fly : animatype === 1 ? 'pto_two' : 'pto_one'
+				})
+				// 解析一遍数据
+				let lotDetail = parseLot(res)
+				
+				// 解锁操作
+				self.data.lock = false
+
+				// 确认是否已经解签
+				if (res.status == 1) {
+					mta.Event.stat("ico_chai_completed", {})
+				}
+				setTimeout(() => {
+					self.setData({
+						lotDetail: lotDetail
+					})
+				},500)
+			}).catch(err => {
+				wx.showModal({
+					title: '提示',
+					content: '小主，拆签失败了',
+					confirmText : '重新尝试',
+					showCancel: false,
+					success (){ }
+				})
+				self.setData({
+					flyStyle : `transform: scale(0);`
+				})
+				return
+			})
+		})
+		
+	}
 }
 
 Page(config)
@@ -306,7 +404,7 @@ Page(config)
  * 重新加载数据
  * @param {*} qId
  */
-function getQian(qId,_self,GData){
+function getQian(qId,self,GData){
 	wx.getNetworkType({
 		success: function(res) {
 			console.log('输出当前网络状态：',res)
@@ -319,50 +417,62 @@ function getQian(qId,_self,GData){
 					$vm.api.getX511({ id: qId })
 					.then(res => {
 						console.log('签的数据===================：', res)
-						var lotDetail = parseLot(res)
-						_self.setData({
+						let lotDetail = parseLot(res)
+						
+						self.setData({
 							lotDetail: lotDetail
 						})
+						console.log(lotDetail.isOpen)
+						// 如果为购买的签
+						if(lotDetail.isOpen){
+							self.setData({
+								disLotSuccess: true
+							})
+						}
+						
 						setTimeout(() => {
 							wx.hideLoading()
 						},500)
 					}).catch(err =>{
-						_self.setData({
-							isError : true
-						})
+						console.log('进入错误状态')
 						wx.showModal({
 							title: '网络错误',
 							content: '小主您的网络有点小问题哦,请重新尝试',
 							confirmText : '重新尝试',
 							showCancel: false,
-							success (){
-								login(_self,GData,qId)
-							}
+							success (){ }
 						})
-						console.log('进入错误状态')
 					})
 				},3000)
 			}else{
 				$vm.api.getX511({ id: qId })
 				.then(res => {
 					console.log('签的数据===================：', res)
-					var lotDetail = parseLot(res)
-					_self.setData({
+					let lotDetail = parseLot(res)
+					// 默认用户没有拆签
+					// lotDetail.hasChai = false
+					
+					self.setData({
 						lotDetail: lotDetail
 					})
+					console.log(lotDetail.isOpen)
+					// lotDetail.isOpen = false
+					// 如果为购买的签
+					if(lotDetail.isOpen){
+						self.setData({
+							disLotSuccess: true
+						})
+					}
+					setTimeout(() => {
+						wx.hideLoading()
+					},500)
 				}).catch(err =>{
-					_self.setData({
-						isError : true
-					})
 					wx.showModal({
 						title: '网络错误',
 						content: '小主您的网络有点小问题哦,请重新尝试',
 						confirmText : '重新尝试',
 						showCancel: false,
-						success (){
-							// getQian(qId,_self);
-							login(_self,GData,qId)
-						}
+						success (){ }
 					})
 					console.log('进入错误状态')
 				})
