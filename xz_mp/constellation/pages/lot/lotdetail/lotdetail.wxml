@@ -40,6 +40,10 @@
 					<view class="envelope_content">
 						<view class="envelope_content_panel">
 							
+							<!-- 内容白色底色 -->
+							<view class="lot_detail_bg"></view>
+							<!-- End内容白色底色 -->
+							
 							<!-- 签内容 -->
 							<view class="lot_detail {{disLotSuccess ? 'dis_open' : 'dis_hide'}}">
 								<view class="lot_title">

@@ -160,7 +160,9 @@ const conf = {
         if(!Storage.shakeLogin || this.data.endSpeed) return
         // 上报摇签次数
         mta.Event.stat("ico_shake_shake", {})
-        
+    
+        // 是否出签
+        Storage.loExist = false
         // 动画重置
         this.setData({
             // 进入摇动状态

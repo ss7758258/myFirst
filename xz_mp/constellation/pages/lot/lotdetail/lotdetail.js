@@ -394,6 +394,7 @@ const config = {
 						}
 					},500)
 				}).catch(err => {
+					wx.hideLoading()
 					wx.showModal({
 						title: '提示',
 						content: '小主，拆签失败了',
@@ -424,19 +425,55 @@ function getQian(qId,self,GData){
 	wx.getNetworkType({
 		success: function(res) {
 			console.log('输出当前网络状态：',res)
+			wx.showLoading({
+				title : '加载中...',
+				mask : true
+			})
 			if(res.networkType === 'none'){
-				wx.showLoading({
-					title : '加载中...',
-					mask : true
-				})
 				setTimeout(function(){
-					$vm.api.getX511({ id: qId })
+					$vm.api.getX511({ id: qId ,notShowLoading:true})
 					.then(res => {
 						console.log('签的数据===================：', res)
 						let lotDetail = parseLot(res)
 						// 默认用户没有拆签
 						// lotDetail.hasChai = false
 						
+						setTimeout(() => {
+							self.setData({
+								lotDetail: lotDetail
+							})
+							console.log(lotDetail.isOpen)
+							// lotDetail.isOpen = false
+							// 如果为购买的签
+							if(lotDetail.isOpen || !lotDetail.lotNotCompleted){
+								// 拆签动画
+								self.setData({
+									disLotSuccess: true
+								})
+							}
+							wx.hideLoading()
+						},800)
+					}).catch(err =>{
+						console.log('进入错误状态')
+						wx.hideLoading()
+						wx.showModal({
+							title: '网络错误',
+							content: '小主您的网络有点小问题哦,请重新尝试',
+							confirmText : '重新尝试',
+							showCancel: false,
+							success (){ }
+						})
+					})
+				},3000)
+			}else{
+				$vm.api.getX511({ id: qId ,notShowLoading : true})
+				.then(res => {
+					console.log('签的数据===================：', res)
+					let lotDetail = parseLot(res)
+					// 默认用户没有拆签
+					// lotDetail.hasChai = false
+					
+					setTimeout(() => {
 						self.setData({
 							lotDetail: lotDetail
 						})
@@ -449,44 +486,10 @@ function getQian(qId,self,GData){
 								disLotSuccess: true
 							})
 						}
-						setTimeout(() => {
-							wx.hideLoading()
-						},500)
-					}).catch(err =>{
-						console.log('进入错误状态')
-						wx.showModal({
-							title: '网络错误',
-							content: '小主您的网络有点小问题哦,请重新尝试',
-							confirmText : '重新尝试',
-							showCancel: false,
-							success (){ }
-						})
-					})
-				},3000)
-			}else{
-				$vm.api.getX511({ id: qId })
-				.then(res => {
-					console.log('签的数据===================：', res)
-					let lotDetail = parseLot(res)
-					// 默认用户没有拆签
-					// lotDetail.hasChai = false
-					
-					self.setData({
-						lotDetail: lotDetail
-					})
-					console.log(lotDetail.isOpen)
-					// lotDetail.isOpen = false
-					// 如果为购买的签
-					if(lotDetail.isOpen || !lotDetail.lotNotCompleted){
-						// 拆签动画
-						self.setData({
-							disLotSuccess: true
-						})
-					}
-					setTimeout(() => {
 						wx.hideLoading()
-					},500)
+					},800)
 				}).catch(err =>{
+					wx.hideLoading()
 					wx.showModal({
 						title: '网络错误',
 						content: '小主您的网络有点小问题哦,请重新尝试',

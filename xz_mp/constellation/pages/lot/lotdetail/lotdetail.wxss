@@ -298,12 +298,18 @@ page {
 	height: 100%;
 	color:#000;
 	background: #fff;
-	transition: all .4s ease-in-out;
+	transition: all .4s cubic-bezier(0, .9, .9, 1.08);
 	transition-delay: 0.8s;
 }
+.lot_detail_bg{
+	height:20%;
+	background:#fff;
+	position:absolute;
+	bottom:200rpx;
+	width:100%;
+}
 .lot_detail.dis_open{
-	transform: translateY(-50%);
-	height: 124%;
+	transform: translateY(-70%);
 }
 .lot_detail.dis_open .lot_content_time{
 	opacity: 1;
@@ -354,14 +360,21 @@ page {
 	right: 0;
 }
 .lot_content{
-	margin-top: 52rpx;
+	position: relative;
+	display: flex;
+	width: 100%;
+	height: 192rpx;
+	margin-top:30rpx;
 	font-size:32rpx;
 	font-family:'PingFangSC-Regular';
 	color:rgba(51,51,51,1);
 	line-height:48rpx;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+  	align-items: center;
 }
 .lot_content_time{
-	margin-top: 20rpx;
 	font-size:24rpx;
 	font-family:'PingFangSC-Regular';
 	color:#666666;
@@ -369,6 +382,11 @@ page {
 	opacity: 0;
 	transition: all .6s ease-in-out;
 	transition-delay: .6s;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
 }
 .lot_content_head{
 	position: absolute;
@@ -378,8 +396,8 @@ page {
 	height: 100rpx;
 	border-radius: 50%;
 	top: 0;
-	transition: all .2s ease-in-out;
-	transition-delay: 1.2s;
+	transition: all .3s cubic-bezier(0, .9, .9, 1);
+	transition-delay: 1.3s;
 	transform: translateY(-50%) scale(0);
 	box-shadow:0px 6rpx 12rpx 0px rgba(0,0,0,0.2);
 	left: 0;
