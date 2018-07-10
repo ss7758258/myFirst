@@ -1,0 +1,31 @@
+<!-- 导航 -->
+<nav opts='{{navConf}}'></nav>
+<scroll-view scroll-y scroll-with-animation class='scroll-view' bindscrolltolower="reachBottom">
+  <view class='box' wx:if="{{date_list!=''&& date_list}}">
+    <view class='emptyview'></view> 
+    <block wx:for="{{date_list}}" wx:key="{{item.id}}">
+
+      <!-- 日期 -->
+      <view class='date'>
+        <view class='day' wx:if="{{item.day}}">{{item.day}}</view>
+        <!-- <view class='day' wx:else>0{{item.day}}</view> -->
+        <view class='date_detail'>{{item.date}}</view>
+      </view>
+
+      <!-- 拆签数据 -->
+      <view class='content'>
+        <view class='open_lot1' > <!-- status=0未拆签 1已拆签   -->
+          <image src='/assets/img/icon_close.png' class='open_lot_img'></image>  
+          <text wx:if="{{item.status === 0}}">未拆签</text>
+          <text wx:if="{{item.status === 1}}">已拆签</text>
+        </view>
+        <!-- <image src='/assets/img/icon_open.png' class='open_lot2' wx:if="{{item.status === 1}}"></image> -->
+      </view>
+
+    </block>
+  </view>
+  <view class='box_empty' wx:else="{{date_list!=''&& date_list}}">
+    <image src='/assets/img/empty.png' class='box_empty_img'></image>
+    <text>你还没摇过签哟！</text>
+  </view> 
+</scroll-view>

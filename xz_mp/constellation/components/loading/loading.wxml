@@ -1,0 +1,7 @@
+<view class="mask" bindtap='close' hidden='{{flag}}'>
+  <view class='loading'  bindmyevent="onMyEvent">
+    <image class='loading_img' src='{{loading.icon}}' wx:if="{{loading.icon}}" catchtap='loading'></image>
+    <view class='loading_title'>{{loading.title}}</view>
+  </view>
+</view> 
+<!-- <loading></loading> -->

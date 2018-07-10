@@ -11,6 +11,8 @@
         "pages/lot/emptylot/emptylot",
         "pages/lot/lotdetail/lotdetail",
         "pages/checklogin/checklogin",
+        "pages/lot/aSignWall/aSignWall",
+        "pages/lot/openSign/openSign",
         "pages/myAccount/myAccount"
     ],
     "window": {
