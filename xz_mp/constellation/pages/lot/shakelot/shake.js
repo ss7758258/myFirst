@@ -256,6 +256,7 @@ Page({
         $vm.api.getX610({ notShowLoading: true, formid: formid })
         wx.navigateTo({
             url: '/pages/lot/lotlist/lotlist?formid=' + formid
+          // url: '/pages/lot/aSignWall/aSignWall?formid=' + formid
         })
     },
     //分享的返回主页

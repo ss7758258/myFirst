@@ -48,9 +48,11 @@ Page({
           ctx.drawImage('/assets/img/text.png', 97, 445, 184, 45) //小哥星座文字图
 
           // 签类型
-          ctx.setFillStyle('#333333')  // 文字颜色：白色
-          ctx.font = "20px bold"        //文字大小为20px并加粗
+          ctx.save()
+          ctx.setFillStyle('#333333')  // 文字颜色：白色          
+          ctx.font = "normal bold 20px ''"        //文字大小为20px并加粗
           ctx.fillText(lotdetail.qianName, 30, 130)
+          ctx.restore()
 
           //用户名称
           // const mea_username = ctx.measureText(lotdetail.ownerNickName).width / 2
@@ -60,7 +62,7 @@ Page({
           ctx.fillText(lotdetail.ownerNickName, 345, 131)
 
           // 签内容
-          ctx.beginPath()
+          
           var s = lotdetail.qianContent.split('\n')
           console.log(s)
           if (s.length == 1) {
@@ -74,7 +76,7 @@ Page({
               ctx.fillText(s[i], 187.5, 180 + 24 * (i))
             }
           }
-
+          
           // 时间
           ctx.setTextAlign('center')
           ctx.setFontSize(12)
@@ -83,72 +85,22 @@ Page({
           // console.log('输出日期：', newDate)
           // 计算文本长度
           const mea_date = ctx.measureText(newDate).width / 2
-
           ctx.fillText(newDate, 187.5, 290)
 
           // 头像
+          ctx.setShadow(0, 3, 6, '#000000')
           ctx.arc(187.5, 85, 25, 0, 2 * Math.PI)
-          ctx.clip()
+          // ctx.fillRect(162.5,60,50,50)
+          // ctx.save()
+          // ctx.beginPath()
+          ctx.clip() 
           console.log('头像路径', face)
           ctx.drawImage(face, 162.5, 60, 50, 50)
           ctx.restore()
 
           ctx.draw()  
           console.log('画图完成===================')
-
-          // wx.getSetting({
-          //   success(res) {
-          //     if (res.authSetting['scope.writePhotosAlbum']) {
-          //       wx.canvasToTempFilePath({ //画图完成保存图片
-          //         canvasId: 'openSign',
-          //         success: res => {
-          //           console.log('图片临时路径', res.tempFilePath)
-          //           let filePath = res.tempFilePath
-          //           wx.hideLoading()
-
-
-          //           wx.saveImageToPhotosAlbum({
-          //             filePath: filePath,
-          //             success: res => {
-          //               console.log('本地保存路径', res)
-          //               wx.showModal({
-          //                 title: '保存成功', //提示的内容,
-          //                 content: '图片已经保存到相册，可以分享到朋友圈了',
-          //                 mask: true, //显示透明蒙层，防止触摸穿透,
-          //               });
-          //             }, fail: res => {
-          //               wx.showToast({
-          //                 title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
-          //                 icon: 'none',
-          //                 duration: 3000
-          //               })
-          //               console.log('错误信息', res)
-          //             }
-          //           })
-
-          //         },
-          //         fail: res => {
-          //           wx.showToast({
-          //             title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
-          //             icon: 'none',
-          //             duration: 3000
-          //           })
-          //           _self.setData({
-          //             showCanvas: false,
-          //           })
-          //         },
-          //         complete: res => {
-          //           wx.hideLoading()
-          //           _self.setData({
-          //             showCanvas: false
-          //           })
-          //         },
-          //       })
-
-
-          //     }
-          //   }
-          // })
+          return;
 
           wx.canvasToTempFilePath({ //画图完成保存图片
             canvasId: 'openSign',

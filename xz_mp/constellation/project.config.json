@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 14,
+			"current": 13,
 			"list": [
 				{
 					"id": 1,
@@ -131,7 +131,8 @@
 				{
 					"id": -1,
 					"name": "一签墙",
-					"pathName": "pages/lot/aSignWall/aSignWall"
+					"pathName": "pages/lot/aSignWall/aSignWall",
+					"query": ""
 				}
 			]
 		}
