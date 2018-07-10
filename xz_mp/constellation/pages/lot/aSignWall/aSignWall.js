@@ -35,22 +35,29 @@ Page({
       // },'app')
   },
 
-   useApi(){
+   useApi(){  // 摇签数据
      let self=this;
-     let pageNum = this.data.pageNum;
-     app.api.getX510({ pageNum:pageNum,pageSize: 5}).then(res=>{
+     let pageNum = this.data.pageNum; // 页数
+     console.log(pageNum)
+     app.api.getX510({ pageNum:pageNum,pageSize: 5}).then(res=>{ 
       console.log('aaaaaa',res)
-      if (res.length > 0 && pageNum>1){
+      if (res.length > 0 && pageNum>1){  // 分页
         self.setData({
           date_list:self.data.date_list.concat(res)
         })
-      }else{
+      }else if(res.length<1 && pageNum>1){ //没有更多数据了
+        wx.showToast({
+          title: '没有更多数据了呢！',
+          icon: 'none',
+          mask: true,
+        })
+      }else{  
         self.setData({
-          date_list:res
+          date_list: res
         })
       }
 
-      self.data.date_list.forEach((value, key) => {
+      self.data.date_list.forEach((value, key) => {  //对数据进行处理
         let day = `date_list[${key}].day`;
         let date = `date_list[${key}].date`;
         let status = `date_list[${key}].status`;
@@ -62,9 +69,23 @@ Page({
       })
  
      }).catch(err=>{
+       wx.showToast({
+         title: '抱歉您的网络出了点问题呢',
+         icon: 'none',
+         mask: true,
+       })
        console.log('bbbb',err)
      })
    } ,
+
+   reachBottom(e){
+     
+    this.setData({
+      pageNum: ++this.data.pageNum
+    })
+    console.log('嗯哼', this.data.pageNum)
+    this.useApi()
+   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
@@ -105,10 +126,7 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    this.setData({
-      pageNum:++this.data.pageNum
-    })
-    this.useApi()
+    
   },
 
   /**

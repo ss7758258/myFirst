@@ -40,113 +40,112 @@ Page({
         let face=res.path
 
         // 画图
-          const ctx = wx.createCanvasContext('openSign')
+        const ctx = wx.createCanvasContext('openSign')
 
-          ctx.drawImage('/assets/img/background.png', 0, 0, 375, 535) //背景图
-          ctx.drawImage('/assets/img/card.png', 0, 75, 375, 275) //拆签数据图
-          ctx.drawImage('/assets/images/qrcodebrief.png', 150, 360, 75, 75) //小哥星座二维码图
-          ctx.drawImage('/assets/img/text.png', 97, 445, 184, 45) //小哥星座文字图
+        ctx.drawImage('/assets/img/background.png', 0, 0, 375, 535) //背景图
+        ctx.drawImage('/assets/img/card.png', 0, 75, 375, 275) //拆签数据图
+        ctx.drawImage('/assets/images/qrcodebrief.png', 150, 360, 75, 75) //小哥星座二维码图
+        ctx.drawImage('/assets/img/text.png', 97, 445, 184, 45) //小哥星座文字图
 
-          // 签类型
-          ctx.save()
-          ctx.setFillStyle('#333333')  // 文字颜色：白色          
-          ctx.font = "normal bold 20px ''"        //文字大小为20px并加粗
-          ctx.fillText(lotdetail.qianName, 30, 130)
-          ctx.restore()
+        // 签类型
+        ctx.save()
+        ctx.setFillStyle('#333333')  // 文字颜色：白色          
+        ctx.font = "normal bold 20px ''"        //文字大小为20px并加粗
+        ctx.fillText(lotdetail.qianName, 30, 130)
+        ctx.restore()
 
-          //用户名称
-          // const mea_username = ctx.measureText(lotdetail.ownerNickName).width / 2
-          ctx.setFillStyle('#333333')
-          ctx.setFontSize(14)
-          ctx.setTextAlign('right')
-          ctx.fillText(lotdetail.ownerNickName, 345, 131)
+        //用户名称
+        // const mea_username = ctx.measureText(lotdetail.ownerNickName).width / 2
+        ctx.setFillStyle('#333333')
+        ctx.setFontSize(14)
+        ctx.setTextAlign('right')
+        ctx.fillText(lotdetail.ownerNickName, 345, 131)
 
-          // 签内容
-          
-          var s = lotdetail.qianContent.split('\n')
-          console.log(s)
-          if (s.length == 1) {
-            ctx.setTextAlign('left')
-            ctx.setFontSize(16)
-            canvasTextAutoLine(ctx, lotdetail.qianContent, 32, 168, 40, 64)
-          } else {
-            ctx.setTextAlign('center')
-            ctx.setFontSize(16)
-            for (var i = 0; i < s.length; i++) {
-              ctx.fillText(s[i], 187.5, 180 + 24 * (i))
-            }
-          }
-          
-          // 时间
+        // 签内容
+        var s = lotdetail.qianContent.split('\n')
+        console.log(s)
+        if (s.length == 1) {
+          ctx.setTextAlign('left')
+          ctx.setFontSize(16)
+          canvasTextAutoLine(ctx, lotdetail.qianContent, 32, 168, 40, 64)
+        } else {
           ctx.setTextAlign('center')
-          ctx.setFontSize(12)
-          let timer = new Date();
-          let newDate = '一 ' + timer.getFullYear() + '.' + (timer.getMonth() + 1 > 9 ? timer.getMonth() + 1 : '0' + (timer.getMonth() + 1)) + '.' + (timer.getDate() > 9 ? timer.getDate() : '0' + timer.getDate()) + ' 一';
-          // console.log('输出日期：', newDate)
-          // 计算文本长度
-          const mea_date = ctx.measureText(newDate).width / 2
-          ctx.fillText(newDate, 187.5, 290)
+          ctx.setFontSize(16)
+          for (var i = 0; i < s.length; i++) {
+            ctx.fillText(s[i], 187.5, 180 + 24 * (i))
+          }
+        }
+        
+        // 时间
+        ctx.setTextAlign('center')
+        ctx.setFontSize(12)
+        let timer = new Date();
+        let newDate = '一 ' + timer.getFullYear() + '.' + (timer.getMonth() + 1 > 9 ? timer.getMonth() + 1 : '0' + (timer.getMonth() + 1)) + '.' + (timer.getDate() > 9 ? timer.getDate() : '0' + timer.getDate()) + ' 一';
+        // console.log('输出日期：', newDate)
+        // 计算文本长度
+        const mea_date = ctx.measureText(newDate).width / 2
+        ctx.fillText(newDate, 187.5, 290)
 
-          // 头像
-          ctx.setShadow(0, 3, 6, '#000000')
-          ctx.arc(187.5, 85, 25, 0, 2 * Math.PI)
-          // ctx.fillRect(162.5,60,50,50)
-          // ctx.save()
-          // ctx.beginPath()
-          ctx.clip() 
-          console.log('头像路径', face)
-          ctx.drawImage(face, 162.5, 60, 50, 50)
-          ctx.restore()
+        ctx.setShadow(0, 3, 6, 'rgba(0,0,0,.2)')
+        ctx.arc(187.5, 85, 25, 0, 2 * Math.PI)
+        ctx.fill()
 
-          ctx.draw()  
-          console.log('画图完成===================')
-          return;
+        // 头像
+        ctx.save()
+        ctx.setShadow(0, 3, 6, '#000000')
+        ctx.arc(187.5, 85, 25, 0, 2 * Math.PI)
+        ctx.clip() 
+        console.log('头像路径', face)
+        ctx.drawImage(face, 162.5, 60, 50, 50)
+        ctx.restore()
+        
+        ctx.draw()  
+        console.log('画图完成===================')
+        // return;
 
-          wx.canvasToTempFilePath({ //画图完成保存图片
-            canvasId: 'openSign',
-            success: res => {
-              console.log('图片临时路径', res.tempFilePath)
-              let filePath = res.tempFilePath
-              wx.hideLoading()
+        wx.canvasToTempFilePath({ //画图完成保存图片
+          canvasId: 'openSign',
+          success: res => {
+            console.log('图片临时路径', res.tempFilePath)
+            let filePath = res.tempFilePath
+            wx.hideLoading()
 
-
-              wx.saveImageToPhotosAlbum({
-                filePath: filePath,
-                success: res => {
-                  console.log('本地保存路径', res)
-                  wx.showModal({
-                    title: '保存成功', //提示的内容,
-                    content: '图片已经保存到相册，可以分享到朋友圈了',
-                    mask: true, //显示透明蒙层，防止触摸穿透,
-                  });
-                }, fail: res => {
-                  wx.showToast({
-                    title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
-                    icon: 'none',
-                    duration: 3000
-                  })
-                  console.log('错误信息', res)
-                }
-              })
-
-            },
-            fail: res => {
-              wx.showToast({
-                title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
-                icon: 'none',
-                duration: 3000
-              })
-              _self.setData({
-                showCanvas: false,
-              })
-            },
-            complete: res => {
-              wx.hideLoading()
-              _self.setData({
-                showCanvas: false
-              })
-            },
-          })
+            wx.saveImageToPhotosAlbum({
+              filePath: filePath,
+              success: res => {
+                console.log('本地保存路径', res)
+                wx.showModal({
+                  title: '保存成功', //提示的内容,
+                  content: '图片已经保存到相册，可以分享到朋友圈了',
+                  mask: true, //显示透明蒙层，防止触摸穿透,
+                });
+              }, fail: res => {
+                wx.showToast({
+                  title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+                  icon: 'none',
+                  duration: 3000
+                })
+                console.log('错误信息', res)
+              }
+            })
+          },
+          fail: res => {
+            wx.showToast({
+              title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+              icon: 'none',
+              duration: 3000
+            })
+            _self.setData({
+              showCanvas: false,
+            })
+          },
+          complete: res => {
+            wx.hideLoading()
+            _self.setData({
+              showCanvas: false
+            })
+          },
+        })
 
 
 

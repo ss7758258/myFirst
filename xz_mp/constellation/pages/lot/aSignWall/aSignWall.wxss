@@ -1,9 +1,7 @@
 /* pages/aSignWall/aSignWall.wxss */
-page{
+.scroll-view{
   width:750rpx;
-  height:1334rpx;
-  background:rgba(146,98,251,1);
-  overflow: visible;
+  height:1039rpx; 
 }
 .box{ 
   padding: 0 30rpx;
