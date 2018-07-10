@@ -182,20 +182,20 @@ function parseLot(res) {
 	} else {
 		if (res.isMyQian == 1) {
 			lotTitleHint = '下面是你的每日一签，快找好友帮你拆签吧~'
-			helloText = '你好！'
+			helloText = '使用星星拆签完成'
 		} else {
 			lotTitleHint = '是否能够拆签成功，全都仰仗你们了！'
 			helloText = '朋友们好，我是'
 		}
 	}
 	if(res.buy === 0 || res.buy){
-		lotTitleHint = '你已打开此签'
+		lotTitleHint = '使用星星拆签完成'
 	}
-	let date = new Date(res.createTimestamp)
 	
+	let dates = res.qianDate.split('-')
 	let timer = {
-		day : (date.getDate() > 9 ? date.getDate() : '0' + date.getDate()),
-		time : date.getFullYear() + '.' + (date.getMonth() + 1 > 9 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1))
+		day : dates[2],
+		time : `${dates[0]}.${dates[1]}`
 	}
 	console.log(timer)
 	console.log(`-----------------------------`,res.alreadyOpen > 0 || res.status == 1)
@@ -208,10 +208,11 @@ function parseLot(res) {
 		// 当前用户是否已经帮拆签 或者签已经被拆开
 		hasChai: res.alreadyOpen > 0 || res.status == 1,
 		// 是否是其它的签
-		isOther: res.isMyQian == 0,
+		isOther: res.isMyQian === 0,
 		// 是否已经帮忙拆签
-		showChai: res.isMyQian == 0,
-		lotNotCompleted: res.status == 0,
+		showChai: res.isMyQian === 0,
+		// 签是否还未打开
+		lotNotCompleted: res.status === 0,
 		ownerHeadImage: res.ownerHeadImage || '/assets/images/default_head.png',
 		ownerNickName: res.ownerNickName,
 		qianContent: res.qianContent,
