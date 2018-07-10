@@ -310,6 +310,8 @@ const config = {
 								console.log('购买结果：',res)
 								if(res.retcode === 0){
 									console.log('购买成功')
+									// 重新加载一遍数据
+									getQian(Storage.detailLotId,self)
 								}
 							})
 						}
@@ -338,17 +340,60 @@ const config = {
 		// 创建选择器
 		let query = wx.createSelectorQuery()
 		query.select('.heart_big').boundingClientRect()
-		query.selectViewport().scrollOffset()
 		query.exec(function(res){
 			console.log('输出节点信息：',res)
 			self.setData({
-				flyStyle : `top:${res[0].top}px;bottom:auto;transform: scale(1);`
+				flyStyle : `top:${res[0].top}px;left:${res[0].left}px;transform: scale(1);`
 			})
-			$vm.api.getX506({ id: self.data.lotDetail.id, notShowLoading: true })
-			.then(res => {
-				console.log('未知数据：',res)
-				// 拆签失败
-				if(!res){
+			let query = wx.createSelectorQuery()
+			query.select('.head_pto_0').boundingClientRect()
+			query.exec(function(v){
+				console.log('输出坐标：',v)
+				$vm.api.getX506({ id: self.data.lotDetail.id, notShowLoading: true })
+				.then(res => {
+					console.log('未知数据：',res)
+					// 拆签失败
+					if(!res){
+						wx.showModal({
+							title: '提示',
+							content: '小主，拆签失败了',
+							confirmText : '重新尝试',
+							showCancel: false,
+							success (){ }
+						})
+						self.setData({
+							flyStyle : `transform: scale(0);`
+						})
+						return
+					}
+					self.setData({
+						flyStyle : `top:${v[0].top}px;left:${v[0].left}px;transform: scale(1);`
+					})
+					// 解析一遍数据
+					let lotDetail = parseLot(res)
+					
+					// 解锁操作
+					self.data.lock = false
+	
+					// 确认是否已经解签
+					if (res.status == 1) {
+						mta.Event.stat("ico_chai_completed", {})
+					}
+					
+					setTimeout(() => {
+						self.setData({
+							lotDetail: lotDetail
+						})
+					
+						// 如果为购买的签
+						if(lotDetail.isOpen){
+							// 拆签动画
+							self.setData({
+								disLotSuccess: true
+							})
+						}
+					},500)
+				}).catch(err => {
 					wx.showModal({
 						title: '提示',
 						content: '小主，拆签失败了',
@@ -360,38 +405,9 @@ const config = {
 						flyStyle : `transform: scale(0);`
 					})
 					return
-				}
-				self.setData({
-					fly : animatype === 1 ? 'pto_two' : 'pto_one'
 				})
-				// 解析一遍数据
-				let lotDetail = parseLot(res)
-				
-				// 解锁操作
-				self.data.lock = false
-
-				// 确认是否已经解签
-				if (res.status == 1) {
-					mta.Event.stat("ico_chai_completed", {})
-				}
-				setTimeout(() => {
-					self.setData({
-						lotDetail: lotDetail
-					})
-				},500)
-			}).catch(err => {
-				wx.showModal({
-					title: '提示',
-					content: '小主，拆签失败了',
-					confirmText : '重新尝试',
-					showCancel: false,
-					success (){ }
-				})
-				self.setData({
-					flyStyle : `transform: scale(0);`
-				})
-				return
 			})
+			
 		})
 		
 	}
@@ -418,18 +434,21 @@ function getQian(qId,self,GData){
 					.then(res => {
 						console.log('签的数据===================：', res)
 						let lotDetail = parseLot(res)
+						// 默认用户没有拆签
+						lotDetail.hasChai = false
 						
 						self.setData({
 							lotDetail: lotDetail
 						})
 						console.log(lotDetail.isOpen)
+						// lotDetail.isOpen = false
 						// 如果为购买的签
 						if(lotDetail.isOpen){
+							// 拆签动画
 							self.setData({
 								disLotSuccess: true
 							})
 						}
-						
 						setTimeout(() => {
 							wx.hideLoading()
 						},500)
@@ -459,6 +478,7 @@ function getQian(qId,self,GData){
 					// lotDetail.isOpen = false
 					// 如果为购买的签
 					if(lotDetail.isOpen){
+						// 拆签动画
 						self.setData({
 							disLotSuccess: true
 						})
@@ -489,6 +509,9 @@ function getQian(qId,self,GData){
  * @param {*} _GData
  */
 function getTokenQian(pageFrom,_self,qId,_GData){
+	// 保存当前的签 
+	Storage.detailLotId = qId
+
 	if (pageFrom == 'share' || pageFrom == 'list' || pageFrom == 'form') {
 		if (pageFrom == 'share' || pageFrom == 'form') {
 			_self.setData({

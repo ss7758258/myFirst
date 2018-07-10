@@ -48,7 +48,7 @@
 									<view class="lot_line_two "></view>
 								</view>
 								<!-- 签文本 -->
-								<view class="lot_content">
+								<view class="lot_content" wx:if="{{disLotSuccess}}">
 									<text>{{lotDetail.qianContent}}</text>
 								</view>
 								<!-- 时间 -->
@@ -83,7 +83,8 @@
 								<image class="header_envelope {{disLotSuccess ? 'show_delay' : ''}}" wx:if="{{disLotSuccess}}" src="/assets/img/envelope_up.png"></image>
 								<!-- End打开之后的信封头 -->
 							</view>
-							<!-- 信封头容器 -->
+							<!-- End信封头容器 -->
+							
 						</view>
 					</view>
 					<!-- End信封上的内容 -->
@@ -92,7 +93,44 @@
 					<image class="envelope" src="/assets/img/envelope_bg.png"></image>
 					<!-- End信封背景 -->
 
-					<!-- 信封上的内容 -->
+					<!-- 信封上的内容-顶层翻转之后放入底层 -->
+					<view class="envelope_content {{disLotSuccess ? 'dis_open' : ''}}">
+						<view class="envelope_content_panel">
+							<!-- 信封头容器 -->
+							<view class="envelope_panel {{disLotSuccess ? 'dis_open' : ''}}">
+								<!-- 信封头 -->
+								<image class="header_envelope {{disLotSuccess ? 'dis_open_hide' : ''}}" src="/assets/img/envelope_up.png"></image>
+								<!-- End信封头 -->
+		
+								<!-- 签名称 -->
+								<text class="envelope_content_lotName">{{lotDetail.qianName}}</text>
+								<!-- End签名称 -->
+		
+								<!-- 爱心 -->
+								<image class="heart_big" src="/assets/img/heart_big.png"></image>
+								<!-- End爱心 -->
+
+								<!-- 打开之后的信封头 -->
+								<image class="header_envelope {{disLotSuccess ? 'show_delay' : ''}}" wx:if="{{disLotSuccess}}" src="/assets/img/envelope_up.png"></image>
+								<!-- End打开之后的信封头 -->
+							</view>
+							<!-- End信封头容器 -->
+							
+							<!-- 小爱心 -->
+							<image class="heart_small" wx:if="{{lotDetail.isOpen || lotDetail.isOther}}" src="/assets/img/heart_small.png"></image>
+							<!-- End小爱心 -->
+	
+							<!-- 未拆开文字 -->
+							<view class="no_dis_text" wx:if="{{!lotDetail.isOpen && !lotDetail.isOther}}" catchtap="goPay">
+								快速查看
+								<image class="lock" src="/assets/img/lock.png"></image>
+							</view>
+							<!-- End未拆开文字 -->
+						</view>
+					</view>
+					<!-- End信封上的内容-顶层翻转之后放入底层 -->
+
+					<!-- 信封上的内容-小爱心部位 -->
 					<view class="envelope_content">
 						<view class="envelope_content_panel">
 							<!-- 小爱心 -->
@@ -107,11 +145,11 @@
 							<!-- End未拆开文字 -->
 						</view>
 					</view>
-					<!-- End信封上的内容 -->
+					<!-- End信封上的内容-小爱心部位 -->
 
 				</view>
 				<!-- 用户头像 -->
-				<image class="user_pto {{fly}}" src="{{userInfo.avatarUrl}}" style="{{flyStyle}}"></image>
+				<image class="user_pto" src="{{userInfo.avatarUrl}}" style="{{flyStyle}}"></image>
 				<!-- End用户头像 -->
 			</view>
 			<!-- End签详情 -->
@@ -119,26 +157,30 @@
 			<!-- 底部好友栏 -->
 			<view class="bottom_panel">
 				<!-- 头像组 -->
-				<view class="heads">
+				<view class="heads" wx:if="{{!lotDetail.isOpen}}">
 					<block wx:for="{{lotDetail.troops}}">
 						<image class="head_pto" src="{{item.photo}}"></image>
 					</block>
 					<block wx:for="{{disNum - lotDetail.troops.length}}">
-						<image class="head_pto default_head" src="/assets/images/haoren.png"></image>
+						<image class="head_pto head_pto_{{index}} default_head" src="/assets/images/haoren.png"></image>
 					</block>
+				</view>
+				<view class="heads" wx:if="{{disNum - lotDetail.troops.length == 0 && lotDetail.isOpen}}">
+					
 				</view>
 				<!-- End头像组 -->
 
 				<!-- 文案 -->
-				<view class="bottom_text" wx:if="{{disNum - lotDetail.troops.length == 0}}">{{!lotDetail.isOther ? '上面的好人已帮你完成拆签' : '上面的好人已完成拆签'}}</view>
-				<view class="bottom_text" wx:else>还差<text>{{disNum - lotDetail.troops.length}}</text>个好人即可免费拆签!</view>
+				<view class="bottom_text" wx:if="{{lotDetail.isOpen}}">{{!lotDetail.isOther ? '恭喜你使用星星拆签成功' : '已使用星星拆签'}}</view>
+				<view class="bottom_text" wx:if="{{disNum - lotDetail.troops.length == 0 && !lotDetail.isOpen}}">{{!lotDetail.isOther ? '上面的好人已帮你完成拆签' : '上面的好人已完成拆签'}}</view>
+				<view class="bottom_text" wx:if="{{!lotDetail.isOpen}}">还差<text>{{disNum - lotDetail.troops.length}}</text>个好人即可免费拆签!</view>
 				<!-- End文案 -->
 
 				<!-- 按钮组 -->
 				<view class="btn_group">
-					<button class="btn_share" form-type="submit" open-type="share" wx:if="{{!lotDetail.isOther && (disNum - lotDetail.troops.length != 0)}}" >立即找好友帮忙</button>
-					<button class="btn_share" form-type="submit" catchtap="saveShare" wx:if="{{!lotDetail.isOther && (disNum - lotDetail.troops.length == 0)}}" >保存拆签结果</button>
-					<button class="btn_dis {{lotDetail.hasChai ? 'dis_success' : ''}}" form-type="submit"  hover-class="btn_dis_click"  wx:if="{{lotDetail.isOther}}" catchtap="openDis">{{lotDetail.hasChai ? '查看我的每日一签' : '帮助好友拆签'}}</button>
+					<button class="btn_share" form-type="submit" open-type="share" wx:if="{{!lotDetail.isOther && lotDetail.lotNotCompleted}}" >立即找好友帮忙</button>
+					<button class="btn_share" form-type="submit" catchtap="saveShare" wx:if="{{!lotDetail.isOther && !lotDetail.lotNotCompleted}}" >保存拆签结果</button>
+					<button class="btn_dis {{lotDetail.hasChai ? 'dis_success' : ''}}" form-type="submit"  hover-class="btn_dis_click" wx:if="{{lotDetail.isOther}}" catchtap="openDis">{{lotDetail.hasChai ? '查看我的每日一签' : '帮助好友拆签'}}</button>
 				</view>
 			</view>
 			<!-- End底部好友栏 -->

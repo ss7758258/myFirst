@@ -58,12 +58,12 @@ page {
 /* 签详情信息 */
 .panel{
 	position: relative;
-	height: 420rpx;
+	height: 390rpx;
 }
 .content_panel{
 	position: absolute;
 	width: 100%;
-	height: 420rpx;
+	height: 390rpx;
 	top: 0;
 }
 .content_panel.not_dis{
@@ -99,6 +99,11 @@ page {
 	text-align: center;
 	width: 100%;
 	height: 100%;
+	transition: all .4s ease-in-out;
+	transition-delay: .6s;
+}
+.envelope_content.dis_open{
+	opacity: 0;
 }
 .envelope_content_panel{
 	position: relative;
@@ -165,20 +170,18 @@ page {
 	height:100rpx;
 	border-radius: 50%;
 	border:2rpx solid rgba(255,255,255,1);
-	left: 0;
-	right: 0;
 	margin: auto;
 	transform: scale(0);
 	transition: all .5s ease-in-out;
 }
-.user_pto.pto_one{
+/* .user_pto.pto_one{
 	top: 957rpx !important;
 	transform: scale(1) translateX(2rpx) !important;
 }
 .user_pto.pto_two{
 	top: 957rpx !important;
 	transform: scale(1) translateX(160rpx) !important;
-}
+} */
 .content_panel .heart_small{
 	position: absolute;
 	width: 64rpx;
@@ -204,6 +207,8 @@ page {
 .no_dis_text{
 	position: absolute;
 	display: flex;
+	justify-content: center;
+	align-items: center;
 	text-align: center;
 	font-size:28rpx;
 	font-family:'PingFangSC-Regular';
@@ -293,13 +298,12 @@ page {
 	transition: all .4s ease-in-out;
 	transition-delay: 0.8s;
 }
-/* 签打开动画 */
 .lot_detail.dis_open{
 	transform: translateY(-50%);
 	height: 124%;
 }
-.lot_detail.dis_hide .lot_content>text{
-	color: #fff;
+.lot_detail.dis_open .lot_content_time{
+	opacity: 1;
 }
 .lot_title{
 	position: relative;
@@ -359,6 +363,9 @@ page {
 	font-family:'PingFangSC-Regular';
 	color:#666666;
 	line-height:33rpx;
+	opacity: 0;
+	transition: all .6s ease-in-out;
+	transition-delay: .6s;
 }
 .lot_content_head{
 	position: absolute;
