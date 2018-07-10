@@ -39,7 +39,8 @@ page{
 }
 .content{
   margin-left: 40rpx;
-  padding:0 0 20rpx 50rpx;
+  /* padding:0 0 20rpx 50rpx; */
+  padding-left:50rpx;
   border-left: 2rpx solid #fff;
 }
 .open_lot1,.open_lot2{
