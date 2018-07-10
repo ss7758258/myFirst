@@ -32,13 +32,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "签详情",
 					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "from=share&lotId=565250",
+					"query": "from=share&lotId=565235",
 					"scene": "1011"
 				},
 				{
@@ -100,6 +100,13 @@
 					"pathName": "pages/home/home",
 					"query": "q=http%3A%2F%2Fxingzuoapi-prod.yetingfm.com%2Fcode%2Fleyaoyao%3Fuid%3D1231231",
 					"scene": "1001"
+				},
+				{
+					"id": 10,
+					"name": "未拆的签",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": "from=share&lotId=565230",
+					"scene": "1011"
 				}
 			]
 		}

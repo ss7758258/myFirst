@@ -182,13 +182,14 @@ function parseLot(res) {
 	} else {
 		if (res.isMyQian == 1) {
 			lotTitleHint = '下面是你的每日一签，快找好友帮你拆签吧~'
-			helloText = '使用星星拆签完成'
+			helloText = '你好！'
 		} else {
 			lotTitleHint = '是否能够拆签成功，全都仰仗你们了！'
 			helloText = '朋友们好，我是'
 		}
 	}
 	if(res.buy === 0 || res.buy){
+		helloText = '使用星星拆签完成'
 		lotTitleHint = '使用星星拆签完成'
 	}
 	
@@ -204,7 +205,7 @@ function parseLot(res) {
 		id: res.id,
 		qianOpenSize: res.qianOpenSize,
 		// 是否是购买的签 存在即购买的
-		isOpen : (res.buy === 0 || res.buy) ? true : false,
+		isOpen : res.buy,
 		// 当前用户是否已经帮拆签 或者签已经被拆开
 		hasChai: res.alreadyOpen > 0 || res.status == 1,
 		// 是否是其它的签

@@ -19,6 +19,7 @@ page {
 .header_panel{
 	height: 300rpx;
 	text-align: center;
+	margin-top:50rpx;
 	transition: all .8s ease-in-out;
 }
 .header_panel.dis_open{
@@ -41,6 +42,7 @@ page {
 	margin-top: 20rpx;
 	height:45rpx;
 	font-size:32rpx;
+	font-weight : 600;
 	font-family:'PingFangSC-Medium';
 	color:rgba(255, 255, 255, 1);
 	line-height:45rpx;
@@ -59,6 +61,7 @@ page {
 .panel{
 	position: relative;
 	height: 390rpx;
+	margin-top:-40rpx;
 }
 .content_panel{
 	position: absolute;
@@ -351,14 +354,14 @@ page {
 	right: 0;
 }
 .lot_content{
-	margin-top: 62rpx;
+	margin-top: 52rpx;
 	font-size:32rpx;
 	font-family:'PingFangSC-Regular';
 	color:rgba(51,51,51,1);
 	line-height:48rpx;
 }
 .lot_content_time{
-	margin-top: 50rpx;
+	margin-top: 20rpx;
 	font-size:24rpx;
 	font-family:'PingFangSC-Regular';
 	color:#666666;

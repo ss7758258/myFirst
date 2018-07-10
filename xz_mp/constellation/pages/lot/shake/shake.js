@@ -9,7 +9,7 @@ const Storage = require('../../../utils/storage')
 const methods = require('./util')
 
 let animation = wx.createAnimation({
-    duration: 1000,
+    duration: 500,
     delay : 0,
     transformOrigin : 'center 85%',
     timingFunction: 'ease-in-out',
@@ -300,8 +300,10 @@ const getX504 = (self,_SData) => {
         } else if (res.status === 1) { //没有签了
             // 是否出签
             Storage.loExist = true
+            // 异常状态 已经没有签的情况下处理方案
+            Storage.lotCatch = true
             // 重置状态
-            resetLot(self)
+            // resetLot(self)
             wx.navigateTo({
                 url: '/pages/lot/emptylot/emptylot',
             })
@@ -319,7 +321,7 @@ const getX504 = (self,_SData) => {
 // 签动画心跳
 function lotBeat(self,num = 0){
     if(num === 0){
-        animation.rotate(-5).step({duration:1000})
+        animation.rotate(-5).step({duration:500})
         animation.rotate(5).step()
         self.setData({
             animationData : animation.export()
@@ -330,6 +332,16 @@ function lotBeat(self,num = 0){
         if(Storage.loExist){
             clearTimeout(timerLot)
             animation.rotate(0).step()
+            
+            if(Storage.lotCatch){
+                self.setData({
+                    animationData : animation.export()
+                })
+                // 重置签的状态
+                resetLot(self)
+                self.shakeFun()
+                return 
+            }
             // 确认信封出来动画以及树停止动画
             self.setData({
                 animationData : animation.export(),
@@ -369,7 +381,7 @@ function lotBeat(self,num = 0){
             animationData : animation.export()
         })
         lotBeat(self,++num)
-    },2000)
+    },1000)
 }
 
 // 重置签的状态

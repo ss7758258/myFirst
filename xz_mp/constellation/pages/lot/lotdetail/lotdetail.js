@@ -435,7 +435,7 @@ function getQian(qId,self,GData){
 						console.log('签的数据===================：', res)
 						let lotDetail = parseLot(res)
 						// 默认用户没有拆签
-						lotDetail.hasChai = false
+						// lotDetail.hasChai = false
 						
 						self.setData({
 							lotDetail: lotDetail
@@ -443,7 +443,7 @@ function getQian(qId,self,GData){
 						console.log(lotDetail.isOpen)
 						// lotDetail.isOpen = false
 						// 如果为购买的签
-						if(lotDetail.isOpen){
+						if(lotDetail.isOpen || !lotDetail.lotNotCompleted){
 							// 拆签动画
 							self.setData({
 								disLotSuccess: true
@@ -477,7 +477,7 @@ function getQian(qId,self,GData){
 					console.log(lotDetail.isOpen)
 					// lotDetail.isOpen = false
 					// 如果为购买的签
-					if(lotDetail.isOpen){
+					if(lotDetail.isOpen || !lotDetail.lotNotCompleted){
 						// 拆签动画
 						self.setData({
 							disLotSuccess: true

@@ -3,6 +3,7 @@
 <!-- 登录 -->
 <loginApp></loginApp>
 
+
 <!-- 签详情页 -->
 <form bindsubmit="getFormId" report-submit="true">
 	<view class="panel_scene">
@@ -29,7 +30,7 @@
 
 			<!-- 签详情 -->
 			<view class="panel">
-				<view class="content_panel {{lotDetail.isOpen ? 'open' : 'not_dis'}}">
+				<view class="content_panel {{lotDetail.isOpen || lotDetail.hasChai ? 'open' : 'not_dis'}}">
 
 					<!-- 信封背景 -->
 					<image class="envelope envelope_bg" src="/assets/img/bg.png"></image>
@@ -117,11 +118,11 @@
 							<!-- End信封头容器 -->
 							
 							<!-- 小爱心 -->
-							<image class="heart_small" wx:if="{{lotDetail.isOpen || lotDetail.isOther}}" src="/assets/img/heart_small.png"></image>
+							<image class="heart_small" wx:if="{{!lotDetail.lotNotCompleted || lotDetail.isOther}}" src="/assets/img/heart_small.png"></image>
 							<!-- End小爱心 -->
 	
 							<!-- 未拆开文字 -->
-							<view class="no_dis_text" wx:if="{{!lotDetail.isOpen && !lotDetail.isOther}}" catchtap="goPay">
+							<view class="no_dis_text" wx:if="{{lotDetail.lotNotCompleted && !lotDetail.isOther}}" catchtap="goPay">
 								快速查看
 								<image class="lock" src="/assets/img/lock.png"></image>
 							</view>
@@ -134,11 +135,11 @@
 					<view class="envelope_content">
 						<view class="envelope_content_panel">
 							<!-- 小爱心 -->
-							<image class="heart_small" wx:if="{{lotDetail.isOpen || lotDetail.isOther}}" src="/assets/img/heart_small.png"></image>
+							<image class="heart_small" wx:if="{{!lotDetail.lotNotCompleted || lotDetail.isOther}}" src="/assets/img/heart_small.png"></image>
 							<!-- End小爱心 -->
 	
 							<!-- 未拆开文字 -->
-							<view class="no_dis_text" wx:if="{{!lotDetail.isOpen && !lotDetail.isOther}}" catchtap="goPay">
+							<view class="no_dis_text"  wx:if="{{lotDetail.lotNotCompleted && !lotDetail.isOther}}" catchtap="goPay">
 								快速查看
 								<image class="lock" src="/assets/img/lock.png"></image>
 							</view>
@@ -172,8 +173,8 @@
 
 				<!-- 文案 -->
 				<view class="bottom_text" wx:if="{{lotDetail.isOpen}}">{{!lotDetail.isOther ? '恭喜你使用星星拆签成功' : '已使用星星拆签'}}</view>
-				<view class="bottom_text" wx:if="{{disNum - lotDetail.troops.length == 0 && !lotDetail.isOpen}}">{{!lotDetail.isOther ? '上面的好人已帮你完成拆签' : '上面的好人已完成拆签'}}</view>
-				<view class="bottom_text" wx:if="{{!lotDetail.isOpen}}">还差<text>{{disNum - lotDetail.troops.length}}</text>个好人即可免费拆签!</view>
+				<view class="bottom_text" wx:if="{{disNum - lotDetail.troops.length == 0 && !lotDetail.isOpen && !lotDetail.lotNotCompleted}}">{{!lotDetail.isOther ? '上面的好人已帮你完成拆签' : '上面的好人已完成拆签'}}</view>
+				<view class="bottom_text" wx:if="{{!lotDetail.isOpen && lotDetail.lotNotCompleted}}">还差<text>{{disNum - lotDetail.troops.length}}</text>个好人即可免费拆签!</view>
 				<!-- End文案 -->
 
 				<!-- 按钮组 -->
