@@ -97,6 +97,7 @@ const conf = {
         animation.rotate(0).step()
         // 确认信封出来动画以及树停止动画
         this.setData({
+            shakeLotSpeed : false,
             animationData : animation.export()
         })
     },
@@ -239,40 +240,9 @@ const conf = {
 	 */
     openLotBox (){
         wx.navigateTo({
-            url: '/pages/lot/lotlist/lotlist?fromSource=shake'
+            url: '/pages/lot/aSignWall/aSignWall?fromSource=shake'
         })
     }
-}
-
-/**
- * 获取一签盒列表数据
- * @param {number} [pageNum=1]
- * @param {number} [pageSize=10]
- */
-const getX510 = (self, pageNum = 1, pageSize = 10) => {
-    let clicks = wx.getStorageSync('click_list') || [];
-    $vm.api.getX510({ notShowLoading : true,pageNum, pageSize }).then(res => {
-        console.log('一签盒列表：', res)
-        if (res && res.constructor === Array) {
-            let red_dot = false;
-            res.forEach(v => {
-                // 如果有状态为0并且点击列表中又不存在点击行为的确定为未点击状态
-                if (v.status === 0 && clicks.indexOf(v.id) === -1) {
-                    red_dot = true
-                }
-            })
-
-            // 设置红点是否显示状态
-            self.setData({
-                dot: red_dot
-            })
-            // 本地缓存下数据
-            wx.setStorageSync('sign_lists', res)
-            return false;
-        }
-        // 本地缓存下数据
-        wx.setStorageSync('sign_lists', '')
-    })
 }
 
 /**
@@ -287,32 +257,34 @@ const getX504 = (self,_SData) => {
     // 获取摇签Id
     $vm.api.getX504({ notShowLoading: true, })
     .then(res => {
-        console.log('摇出的签数据：',res)
-        // res.status = 1
-        if (res.status === 0) {
-            // 解决后台返回数据不是自己的签的问题
-            res.isMyQian = 1
-            // 缓存签的信息 ,解析签信息
-            Storage.lotDetail = parseLot(res)
-            // 是否出签
-            Storage.loExist = true
-            // 摇出的id
-            Storage.lotId = res.id
+        setTimeout( () => {
+            console.log('摇出的签数据：',res)
+            // res.status = 1
+            if (res.status === 0) {
+                // 解决后台返回数据不是自己的签的问题
+                res.isMyQian = 1
+                // 缓存签的信息 ,解析签信息
+                Storage.lotDetail = parseLot(res)
+                // 是否出签
+                Storage.loExist = true
+                // 摇出的id
+                Storage.lotId = res.id
 
-        } else if (res.status === 1) { //没有签了
-            // 是否出签
-            Storage.loExist = true
-            // 异常状态 已经没有签的情况下处理方案
-            Storage.lotCatch = true
-            // 重置状态
-            // resetLot(self)
-            wx.navigateTo({
-                url: '/pages/lot/emptylot/emptylot',
-            })
-        } else {
-            // 异常状态
-            Storage.lotCatch = true
-        }
+            } else if (res.status === 1) { //没有签了
+                // 是否出签
+                Storage.loExist = true
+                // 异常状态 已经没有签的情况下处理方案
+                Storage.lotCatch = true
+                // 重置状态
+                // resetLot(self)
+                wx.navigateTo({
+                    url: '/pages/lot/emptylot/emptylot',
+                })
+            } else {
+                // 异常状态
+                Storage.lotCatch = true
+            }
+        },800)
     })
     .catch(err => {
         // 异常状态

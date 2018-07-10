@@ -27,11 +27,13 @@ page{
 } */
 .tree{
     position: absolute;
-    left: 0;
-    right: 0;
+    left: -50rpx;
+    /* right: 0; */
     margin: auto;
-    width: 836rpx;
-    height: 962rpx;
+    /* width: 836rpx; */
+    width: 850rpx;
+    max-width: 850rpx;
+    height: 1000rpx;
     bottom: 160rpx;
 }
 .people{
@@ -67,7 +69,7 @@ page{
 }
 .envelope_mask{
     position: fixed;
-    top: 0;
+    top: calc(2.9962546816479403vh + 6.6vh);
     bottom: 0;
     left: 0;
     right: 0;
@@ -368,7 +370,7 @@ page{
     width: 51rpx;
     height: 35rpx;
     left: 161rpx;
-    bottom:990rpx;
+    bottom:1075rpx;
     animation: cloud_up 18s infinite linear;
 }
 .cloud_left {

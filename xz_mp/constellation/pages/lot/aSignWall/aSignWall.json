@@ -1,6 +1,6 @@
 {
+  "disableScroll": true,
   "usingComponents": {
-    "nav": "/components/navigation/nav",
-    "shareCard": "/components/card/card"
+    "nav": "/components/navigation/nav"
   }
 }

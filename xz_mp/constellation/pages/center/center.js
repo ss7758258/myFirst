@@ -1,6 +1,8 @@
 const imgs = require('./imgs')
 const $vm = getApp()
 const api = $vm.api
+const Storage = require('../../utils/storage')
+
 Page({
     data : {
 		navConf : {
@@ -18,6 +20,7 @@ Page({
         clockStatus : false,  //小打卡开关
         iconPath : imgs.icon,
         nickName : '',
+        showOpen : false,
         starNum : 0 // 星星数量
     },
     /**
@@ -27,6 +30,22 @@ Page({
     onLoad (opts){
         let noticeStatus = wx.getStorageSync('noticeStatus');
         let clockStatus = wx.getStorageSync('clockStatus');
+        
+        // 小星星  ios上关闭打开
+        if(Storage.sys === 'ios' && Storage.openIos){
+            this.setData({
+                showOpen : true
+            })
+        }else if(Storage.sys === 'ios' && !Storage.openIos){
+            this.setData({
+                showOpen : false
+            })
+        }else{
+            this.setData({
+                showOpen : true
+            })
+        }
+
         console.log(noticeStatus === 0 ? false : true)
         // 通知开关状态判断
         if(noticeStatus != null &&  noticeStatus != undefined){

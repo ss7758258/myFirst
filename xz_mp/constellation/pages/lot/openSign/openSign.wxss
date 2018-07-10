@@ -8,8 +8,8 @@ page{
 canvas{
   width:375px;
   height:535px;
-  /* opacity: 0;
+  opacity: 0;
   z-index: -1;
   position:fixed;
-  bottom: -535px;  */
+  bottom: -535px; 
 }

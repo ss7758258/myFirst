@@ -12,6 +12,7 @@ App({
 		console.log('开始获取设备信息')
 		// 获取用户的设备信息
 		getSystemInfo()
+		getGlobal()
 		const _self = this
 		const _SData = this.globalData
 		// 检查用户的登录信息
@@ -119,6 +120,29 @@ function getSystemInfo(){
 				data: false
 			});
 			Storage.iPhoneX = false
-        }
+		}
+		// 确认是不是ios系统
+		if(res.system.toLowerCase().indexOf('ios') != -1){
+			Storage.sys = 'ios'
+		}
 	}
+}
+
+/**
+ * 获取全局ios功能 以及星星价格
+ */
+function getGlobal(){
+	api.globalSetting({
+		notShowLoading: true
+	}).then( res => {
+		console.log('加载配置完成---------全局：',res);
+		if(!res){
+			return false;
+		}
+		// 星星加个
+		Storage.starPrice = res.price || 0
+		Storage.openIos = res.openIos || 0
+	}).catch( err => {
+		console.log('加载失败---------------------------------全局配置')
+	})
 }

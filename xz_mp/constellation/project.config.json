@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -48,9 +48,9 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 2,
 					"name": "一签盒",
-					"pathName": "pages/lot/lotlist/lotlist",
+					"pathName": "pages/lot/aSignWall/aSignWall",
 					"query": "",
 					"scene": "1011"
 				},
@@ -106,6 +106,13 @@
 					"name": "未拆的签",
 					"pathName": "pages/lot/lotdetail/lotdetail",
 					"query": "from=share&lotId=565230",
+					"scene": "1011"
+				},
+				{
+					"id": 11,
+					"name": "组件页面",
+					"pathName": "pages/lot/openSign/openSign",
+					"query": "",
 					"scene": "1011"
 				}
 			]

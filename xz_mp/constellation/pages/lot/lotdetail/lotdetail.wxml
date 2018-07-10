@@ -30,7 +30,7 @@
 
 			<!-- 签详情 -->
 			<view class="panel">
-				<view class="content_panel {{lotDetail.isOpen || lotDetail.hasChai ? 'open' : 'not_dis'}}">
+				<view class="content_panel {{(lotDetail.isOpen || !lotDetail.lotNotCompleted) ? 'open' : 'not_dis'}}">
 
 					<!-- 信封背景 -->
 					<image class="envelope envelope_bg" src="/assets/img/bg.png"></image>
@@ -126,7 +126,7 @@
 							<!-- End小爱心 -->
 	
 							<!-- 未拆开文字 -->
-							<view class="no_dis_text" wx:if="{{lotDetail.lotNotCompleted && !lotDetail.isOther}}" catchtap="goPay">
+							<view class="no_dis_text" wx:if="{{lotDetail.lotNotCompleted && !lotDetail.isOther && iosOpen}}" catchtap="goPay">
 								快速查看
 								<image class="lock" src="/assets/img/lock.png"></image>
 							</view>
@@ -143,7 +143,7 @@
 							<!-- End小爱心 -->
 	
 							<!-- 未拆开文字 -->
-							<view class="no_dis_text"  wx:if="{{lotDetail.lotNotCompleted && !lotDetail.isOther}}" catchtap="goPay">
+							<view class="no_dis_text"  wx:if="{{lotDetail.lotNotCompleted && !lotDetail.isOther && iosOpen}}" catchtap="goPay">
 								快速查看
 								<image class="lock" src="/assets/img/lock.png"></image>
 							</view>
@@ -170,8 +170,16 @@
 						<image class="head_pto head_pto_{{index}} default_head" src="/assets/images/haoren.png"></image>
 					</block>
 				</view>
-				<view class="heads" wx:if="{{disNum - lotDetail.troops.length == 0 && lotDetail.isOpen}}">
-					
+				
+				<!-- 金币 -->
+				<view class="heads heads_center" wx:if="{{lotDetail.isOpen}}">
+					<!-- 硬币动画效果 -->
+					<view class='coin'>
+						<image src='/assets/img/big_star.png' class='starup star'></image>
+						<image src='/assets/img/coin.png' class='coin_img'></image>
+						<image src='/assets/img/little_star.png' class='stardown star'></image>
+					</view>
+					<view class='shadow'></view>
 				</view>
 				<!-- End头像组 -->
 
@@ -194,3 +202,7 @@
 	</view>
 </form>
 <!-- End签详情页 -->
+
+
+<!-- 保存图片的canvas -->
+<canvas canvas-id="openSign"></canvas>

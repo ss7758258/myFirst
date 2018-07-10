@@ -48,7 +48,7 @@ Page({
 		let formid = e.detail.formId
 		mta.Event.stat("ico_emptylot", { "formid": formid, "topage": "签列表" })
 		wx.navigateTo({
-			url: '/pages/lot/lotlist/lotlist?formid=' + formid,
+			url: '/pages/lot/aSignWall/aSignWall',
 		})
 	}
 })
