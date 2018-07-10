@@ -47,7 +47,7 @@ page{
     position: absolute;
     width: 48rpx;
     height: 160rpx;
-    top: 200rpx;
+    top: 156rpx;
     left: 166rpx;
     transform-origin:center top;
     transform: rotate(-15deg);
@@ -110,13 +110,13 @@ page{
 .lot_2{
     width: 46rpx;
     height: 169rpx;
-    top: 322rpx;
+    top: 288rpx;
     left: 280rpx;
 }
 .lot_3{
     width: 60rpx;
     height: 206rpx;
-    top: 256rpx;
+    top: 217rpx;
     left: 466rpx;
 }
 .shake_panel{
