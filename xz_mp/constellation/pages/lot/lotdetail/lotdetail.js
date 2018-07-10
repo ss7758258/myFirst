@@ -216,18 +216,12 @@ const config = {
 				// 签内容
 				var s = lotdetail.qianContent.split('\n')
 				console.log(s)
-				if (s.length == 1) {
-					ctx.setTextAlign('left')
-					ctx.setFontSize(16)
-					canvasTextAutoLine(ctx, lotdetail.qianContent, 32, 168, 40, 64)
-				} else {
-					ctx.setTextAlign('center')
-					ctx.setFontSize(16)
-					for (var i = 0; i < s.length; i++) {
-						ctx.fillText(s[i], 187.5, 180 + 24 * (i))
-					}
+				ctx.setTextAlign('center')
+				ctx.setFontSize(16)
+				for (var i = 0; i < s.length; i++) {
+					ctx.fillText(s[i], 187.5, 168 + ((4-i)*45/2))
 				}
-
+				
 				// 时间
 				ctx.setTextAlign('center')
 				ctx.setFontSize(12)
