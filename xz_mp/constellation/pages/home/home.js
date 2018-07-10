@@ -158,9 +158,7 @@ Page({
 				getUserConf(me)
 			}
 		},'home')
-
-		// 注册登录成功事件
-		bus.on('login-success', () => {
+		let handle = () => {
 			
 			self.setData({
 				isLogin : true
@@ -190,7 +188,20 @@ Page({
 			// 保存头像信息
 			wx.setStorageSync('icon_Path', Storage.userInfo.avatarUrl)
 			
-		} , 'login-com')
+		}
+		// 注册登录成功事件
+		bus.on('login-success', handle , 'login-com')
+		bus.on('login-success', handle , 'home')
+
+		switch (options.fromSource) {
+			case 'nav':
+				// 手动触发登录状态 
+				bus.emit('login-success', {}, 'home')
+				break;
+		
+			default:
+				break;
+		}
 
 	},
 

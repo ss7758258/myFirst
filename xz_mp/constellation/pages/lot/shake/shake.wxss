@@ -62,7 +62,24 @@ page{
     left: 0;
     right: 0;
     margin: auto;
+    z-index: 10;
     transform: scale(0);
+}
+.envelope_mask{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background: rgba(0,0,0,.6);
+    z-index: 10;
+    transform: scale(0);
+    transition: all 0s ease-in-out;
+    transition-delay: .2s;
+}
+.envelope_mask.flyAnimate{
+    transform: scale(1);
 }
 .envelope.flyAnimate{
     animation: flyAn 1s 1 ease-in-out,
@@ -347,25 +364,26 @@ page{
     height: 100%;
 }
 .cloud_up{
+    z-index: 0;
     width: 51rpx;
     height: 35rpx;
     left: 161rpx;
     bottom:990rpx;
-    animation: cloud_up 8s infinite linear;
+    animation: cloud_up 18s infinite linear;
 }
 .cloud_left {
     width: 67rpx;
     height: 46rpx;
     left: 60rpx;
     bottom: 450rpx;
-    animation: cloud_left 5s infinite linear;
+    animation: cloud_left 12s infinite linear;
 }
 .cloud_right {
     width: 100rpx;
     height: 66rpx;
     right: -5rpx;
     bottom: 400rpx;
-    animation: cloud_right 7s infinite linear;
+    animation: cloud_right 15s infinite linear;
 }
 @keyframes cloud_right {
     0%, 100% {

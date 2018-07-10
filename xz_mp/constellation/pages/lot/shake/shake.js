@@ -169,13 +169,15 @@ const conf = {
             endSpeed : false
         })
 
+        // const innerAudioContext = wx.createInnerAudioContext()
+        // innerAudioContext.autoplay = true
+        // innerAudioContext.src = '/assets/shake.mp3'
+        // innerAudioContext.onPlay(() => {
+        //     console.log('开始播放')
+        // })
 
-        const innerAudioContext = wx.createInnerAudioContext()
-        innerAudioContext.autoplay = true
-        innerAudioContext.src = '/assets/shake.mp3'
-        innerAudioContext.onPlay(() => {
-            console.log('开始播放')
-        })
+        // 震动
+        wx.vibrateLong()
         // 震动
         wx.vibrateLong()
         // 拉取摇签数据

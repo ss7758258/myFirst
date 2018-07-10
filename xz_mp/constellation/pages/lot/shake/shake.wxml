@@ -54,6 +54,10 @@
                     <image class="heart heart_many" src="/assets/img/many.png" wx:if="{{shakeLotSpeed}}"></image>
                     <!-- End飘落的心 -->
                     
+                    <!-- 遮罩 -->
+                    <view class="envelope_mask {{endSpeed ? 'flyAnimate' : ''}}"></view>
+                    <!-- End遮罩 -->
+                    
                     <!-- 信封 -->
                     <image class="envelope {{endSpeed ? 'flyAnimate' : ''}}" catchtap="openEnvelope" src="/assets/img/envelope.png"></image>
                     <!-- End信封 -->

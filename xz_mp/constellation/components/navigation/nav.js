@@ -72,7 +72,7 @@ Component({
         },
         goHome (){
             wx.reLaunch({
-                url: this.data.opts.root, 
+                url: this.data.opts.root + '?fromSource=nav', 
                 success: function(res){
                     // success
                 },
