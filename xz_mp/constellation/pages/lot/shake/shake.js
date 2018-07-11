@@ -52,7 +52,8 @@ const conf = {
         // 动画对象
         animationData : {},
         // 是否是长屏机
-        longScreen : Storage.LongScreen
+        longScreen : Storage.LongScreen,
+        iPhoneX : Storage.iPhoneX
     },
 
     /**
@@ -63,6 +64,7 @@ const conf = {
         gloThis = this
         // 重置登录状态
         Storage.shakeLogin = false
+        resetLot(this)
         let pageFrom = options.from
         if(len === 0){
             self.shakeFun()
@@ -74,7 +76,8 @@ const conf = {
         console.log('输出参数：', options)
 
         this.setData({
-            longScreen : Storage.LongScreen || false
+            longScreen : Storage.LongScreen || false,
+            iPhoneX : Storage.iPhoneX
         })
 
         // shake原型对象
@@ -124,6 +127,9 @@ const conf = {
         }
         // 开启加速监听
         wx.startAccelerometer()
+		if(Storage.isLogin){
+			bus.emit('login-success', {}, 'shake-app')
+		}
     },
 
     /**
@@ -140,6 +146,12 @@ const conf = {
         console.log('动画隐藏')
         wx.stopAccelerometer()
         resetLot(gloThis)
+        
+        if(!Storage.isLogin){
+            // wx.redirectTo({
+            //     url : '/pages/home/home'
+            // })
+        }
     },
 
     /**
@@ -185,8 +197,6 @@ const conf = {
         wx.redirectTo({
             url: '/pages/lot/lotdetail/lotdetail?fromSource=shake&lotId=' + Storage.lotId,
         })
-        // 重置状态，消除信封动画
-        resetLot(this)
     },
     /**
 	 * 摇签按钮
@@ -205,11 +215,14 @@ const conf = {
             // 结束摇动值重置
             endSpeed : false
         })
-
         // 震动
-        wx.vibrateLong()
-        // 震动
-        wx.vibrateLong()
+        wx.vibrateLong({
+            success(){
+                setTimeout(function(){
+                    wx.vibrateLong()
+                },400)
+            }
+        })
         // 拉取摇签数据
         getX504(this,this.data)
 
@@ -239,7 +252,7 @@ const conf = {
             if (positivenum == 1 && stsw) { //是否摇了指定的次数，执行成功后的操作
                 stsw = false
 
-                self.drawLots()
+                gloThis.drawLots()
                 console.log('摇一摇成功')
                 wx.stopAccelerometer({})
                 setTimeout(() => {
@@ -287,7 +300,6 @@ const getX504 = (self,_SData) => {
     // 获取摇签Id
     $vm.api.getX504({ notShowLoading: true, })
     .then(res => {
-
         reqTimer = setTimeout( () => {
             console.log('摇出的签数据：',res)
             // res.status = 1
@@ -353,7 +365,12 @@ function lotBeat(self,num = 0){
                 // 结束摇动后重置
                 shakeLotSpeed : false,
             })
-            
+            const innerAudioContext = wx.createInnerAudioContext()
+			innerAudioContext.autoplay = true
+			innerAudioContext.src = '/assets/incoming.m4a'
+			innerAudioContext.onPlay(() => {
+				console.log('开始播放')
+			})
             // 重置签的状态
             // resetLot(self)
             

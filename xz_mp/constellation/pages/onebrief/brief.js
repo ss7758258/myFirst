@@ -66,6 +66,7 @@ Page({
 						prevPic: "/assets/images/loading.png",
 					})
 				}
+				wx.hideLoading()
 			}).catch((err) => {
 				wx.hideLoading()
 				wx.showToast({
@@ -184,13 +185,13 @@ Page({
 				})
 			}, 1000)
 		})
-			.catch((err) => {
-				wx.hideLoading()
-				wx.showToast({
-					icon: 'none',
-					title: '加载失败了，请检查网络',
-				})
+		.catch((err) => {
+			wx.hideLoading()
+			wx.showToast({
+				icon: 'none',
+				title: '加载失败了，请检查网络',
 			})
+		})
 	},
 	onLodingListener: function (e) {
 		console.log('图片加载完成时：', e)
@@ -203,6 +204,37 @@ Page({
 				isShow: true,
 			})
 		}
+	},
+
+	/**
+	 *
+	 * 图片加载失败
+	 */
+	errorOpen(){
+		let self = this
+		$vm.api.getDayx400({ notShowLoading: true })
+		.then((res) => {
+			console.log(res)
+			wx.hideLoading()
+			if (res) {
+				self.setData({
+					prevPic:
+						res.prevPic ? "https://xingzuo-1256217146.file.myqcloud.com" + (env === 'dev' ? '' : '/prod') + res.prevPic :
+							"",
+				})
+			} else {
+				self.setData({
+					networkError: true,
+					prevPic: "/assets/images/loading.png",
+				})
+			}
+		}).catch((err) => {
+			wx.hideLoading()
+			wx.showToast({
+				icon: 'none',
+				title: '加载失败了，请小主稍后再试',
+			})
+		})
 	},
 	onclickHome: function (e) {
 		mta.Event.stat("ico_brief_home", {})

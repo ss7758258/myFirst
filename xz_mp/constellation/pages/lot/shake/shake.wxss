@@ -83,6 +83,9 @@ page{
     transition: all 0s ease-in-out;
     transition-delay: .2s;
 }
+.PX .envelope_mask{
+    top: calc(2.9962546816479403vh + 2vh + 6.6vh);
+}
 .envelope_mask.flyAnimate{
     transform: scale(1);
 }

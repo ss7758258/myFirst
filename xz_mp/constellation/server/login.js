@@ -8,6 +8,7 @@ const methods = () => {
          * 检测是否登录
          */
         checkLogin(num = 0){
+            Storage.isLogin = false
             wx.getSetting({
                 success (res) {
                     console.log('用户授权信息：',!res.authSetting['scope.userInfo'])
@@ -42,6 +43,7 @@ const methods = () => {
                                         Storage.token = userConf.token
                                         Storage.openId = userConf.openId
                                         Storage.userInfo = userConf.userInfo
+                                        Storage.isLogin = true
                                         bus.emit('login-success', {} , 'login-com')
                                         
                                     }else{

@@ -9,6 +9,8 @@ const methods = require('./server/login')
 const updateManager = wx.getUpdateManager()
 App({
 	onLaunch: function (options) {
+		
+		Storage.isLogin = false
 		console.log('开始获取设备信息')
 		// 获取用户的设备信息
 		getSystemInfo()

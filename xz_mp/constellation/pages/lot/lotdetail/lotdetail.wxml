@@ -5,7 +5,7 @@
 
 
 <!-- 签详情页 -->
-<form bindsubmit="getFormId" report-submit="true">
+<form bindsubmit="getFormId" report-submit="true" wx:if="{{lotDetail.lotTitleHint}}">
 	<view class="panel_scene {{longScreen ? 'iPhoneX' : ''}}">
 		<!-- 内容主体 -->
 		<view class="panel_body">

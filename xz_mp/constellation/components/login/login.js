@@ -3,6 +3,12 @@ const Storage = require('../../utils/storage')
 const API = require('../../utils/api')
 const $vm = getApp()
 
+const time = 3000
+const tm = 500
+let num = 0
+let timer = null
+let clickLogin = false
+
 const methods = (function (){
     return {
         /**
@@ -10,6 +16,32 @@ const methods = (function (){
          * @param {*} self
          */
         onEventHandle(self){
+            
+            timer = setInterval(() => {
+                console.log('----------------------------检测登录---------------------------')
+                console.log(num,Storage.isLogin)
+                console.log('----------------------------检测登录---------------------------')
+                if(clickLogin){
+                    num = 0
+                    clearInterval(timer)
+                    return
+                }
+                if(Storage.isLogin){
+                    num = 0
+                    clearInterval(timer)
+                    return
+                }
+                if(num >= (time / tm)){
+                    num = 0
+                    console.log('检测登录---------------------------')
+                    clearInterval(timer)
+                    // 检测到未登录
+                    bus.emit('no-login-app', {} , 'app')
+                    return
+                }
+                num++
+            },tm)
+
             bus.on('no-login-app',(res) => {
                 wx.hideLoading()
                 wx.hideToast()
@@ -19,6 +51,9 @@ const methods = (function (){
             },'app')
             
             bus.on('login-success',(res) => {
+                console.log('-----------------------------登录成功---------------------------------')
+                Storage.isLogin = true
+                clickLogin = false
                 wx.hideLoading()
                 self.setData({
                     showLogin : false
@@ -69,6 +104,7 @@ const methods = (function (){
                             duration : 3000,
                             mask : true
                         })
+                        clickLogin = false
                     }
 				}).catch(err => {
                     if(silent){
@@ -77,6 +113,7 @@ const methods = (function (){
                         bus.emit('no-login-app', res , 'app')
                         return
                     }
+                    clickLogin = false
                     wx.hideLoading()
                     wx.showToast({
                         title : '登录失败',
@@ -116,6 +153,7 @@ const methods = (function (){
                         bus.emit('load-userinfo-success', data , 'login-com')
                     },
                     fail (err){
+                        clickLogin = false
                         wx.hideLoading()
                         wx.showToast({
                             title : '获取用户信息失败',
@@ -128,6 +166,7 @@ const methods = (function (){
                 })
 
             }).catch(err => {
+                clickLogin = false
                 wx.hideLoading()
                 wx.showToast({
                     title : '登录失败',
@@ -165,12 +204,15 @@ Component({
      */
     methods: {
         getUserInfo(e){
+            // 是否点击登录
+            clickLogin = true
             console.log('用户详情信息:',e.detail)
             // e.detail.userInfo = undefined
             if(e.detail.userInfo){
                 // 用户授权后进行登录
                 methods.login(this)
             }else{
+                clickLogin = false
                 wx.hideLoading()
                 wx.showToast({
                     title : '获取用户信息失败',

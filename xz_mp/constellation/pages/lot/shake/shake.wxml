@@ -4,7 +4,7 @@
 <loginApp></loginApp>
 
 <form>
-    <view class="panel_scene {{longScreen ? 'iPhoneX' : ''}}">
+    <view class="panel_scene {{longScreen ? 'iPhoneX' : ''}} {{iPhoneX ? 'PX' : ''}}">
         <!-- 内容主体 -->
         <view class="panel_body">
             <!-- start云 -->

@@ -113,8 +113,8 @@ Page({
 		const _SData = this.data
 		$vm.api.getSelectx100({
 			constellationId: _GData.selectConstellation.id,
-			nickName: _GData.userInfo.nickName,
-			headImage: _GData.userInfo.avatarUrl,
+			nickName: Storage.userInfo.nickName,
+			headImage: Storage.userInfo.avatarUrl,
 			notShowLoading: true,
 		}).then(res => {
 			// 获取一言图片
@@ -153,10 +153,10 @@ Page({
 		getLeYaoyao(self,options)
 		
 		// 注册监听事件
-		bus.emit('loadUserConf',() => {
+		bus.on('loadUserConf',() => {
 			if(Storage.forMore){
 				// 加载用户配置
-				getUserConf(me)
+				getUserConf(self)
 			}
 		},'home')
 
@@ -214,10 +214,24 @@ Page({
 	},
 
 	onShow(){
+		// console.log('是否已经登录：',Storage.isLogin)
+		// if(!Storage.isLogin){
+		// 	bus.emit('no-login-app', {} , 'app')
+		// 	return
+        // }
 		// 触发加载用户配置函数
 		bus.emit('loadUserConf',{},'home')
 	},
-	
+	/**
+	 * app隐藏时判断
+	 */
+	onHide(){
+		if(!Storage.isLogin){
+			wx.redirectTo({
+				url : '/pages/home/home'
+			})
+		}
+	},
 	/**
 	 * 用户点击右上角分享
 	 */

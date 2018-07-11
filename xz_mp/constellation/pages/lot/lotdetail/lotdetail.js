@@ -127,7 +127,22 @@ const config = {
 			bus.emit('login-success', {}, 'lotdetail-app')
 		}
 	},
-
+	/**
+	 * 检查登录
+	 */
+	onShow(){
+		
+	},
+	/**
+	 * app隐藏时判断
+	 */
+	onHide(){
+		if(!Storage.isLogin){
+			// wx.redirectTo({
+			// 	url : '/pages/home/home'
+			// })
+		}
+	},
 	/**
 	 * 用户点击右上角分享
 	 */
@@ -291,11 +306,11 @@ const config = {
 		console.log('前往支付')
 		mta.Event.stat('pay_click', {})
 		wx.showModal({
-			title: '是否快速查看？',
-			content: '快速查看需要花费' + starNum + '颗小星星确定',
+			title: '确定快速查看？',
+			content: '快速查看需要花费' + starNum + '颗小星星',
 			showCancel: true,
 			cancelColor: '#999999',
-			cancelText: '稍后再买',
+			cancelText: '我再想想',
 			confirmText: '确定',
 			confirmColor: '#9262FB',
 			success: function (res) {
@@ -318,8 +333,8 @@ const config = {
 								content: '账号余额不足，请先去买些小星星吧！',
 								showCancel: true,
 								cancelColor: '#999999',
-								cancelText: '取消',
-								confirmText: '去购买',
+								cancelText: '稍后再买',
+								confirmText: '立即购买',
 								confirmColor: '#9262FB',
 								success: function (res) {
 									if (res.confirm) {
@@ -422,7 +437,7 @@ const config = {
 									disLotSuccess: true
 								})
 							}
-						}, 500)
+						}, 100)
 					}).catch(err => {
 						wx.hideLoading()
 						wx.showModal({
@@ -509,7 +524,7 @@ function getTokenQian(pageFrom, self, qId, _GData) {
 		}
 		setTimeout( () => {
 			getQian(qId, self)
-		},500)
+		},100)
 	} else if (Storage.lotOpts.fromSource && Storage.lotOpts.fromSource !== '') {
 		setTimeout(() => {
 			self.setData({
@@ -525,6 +540,6 @@ function getTokenQian(pageFrom, self, qId, _GData) {
 			}
 			wx.hideLoading()
 
-		}, 500)
+		}, 100)
 	}
 }
