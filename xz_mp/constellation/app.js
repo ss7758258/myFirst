@@ -145,6 +145,8 @@ function getGlobal(){
 		if(!res){
 			return false;
 		}
+		// 默认开
+		// res.openIos = 1
 		// 星星加个
 		Storage.starPrice = res.price || 0
 		Storage.openIos = res.openIos || 0

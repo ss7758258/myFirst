@@ -19,7 +19,7 @@
 			<text>选择购买数量</text>
 		</view>
 		<view class="star-list">
-			<view wx:for="{{starList}}" wx:key="index" class="item  {{currentItem.id===item.id? 'active' :''}}" bindtap="handleSelectOrderClick"
+			<view wx:for="{{starList}}" wx:key="index" class="item {{currentItem.id === item.id? 'active' :''}}" bindtap="handleSelectOrderClick"
 			 data-id="{{item.id}}" data-price="{{item.price}}">
 				<view class="total">{{item.name}}</view>
 				<view class="price">{{item.price/100}}元</view>
@@ -29,7 +29,7 @@
 
 	<!-- 提交按钮 -->
 	<view class="pannel-wrapper ">
-		<button bindtap="handlePayClick" class="pay-btn" disabled="{{payBtnDisabled}}" hover-class="pay-btn-active">
+		<button bindtap="handlePayClick" class="pay-btn" hover-class="pay-btn-active">
 			微信支付
 		</button>
 	</view>

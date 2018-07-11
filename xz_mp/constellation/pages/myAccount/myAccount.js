@@ -42,6 +42,7 @@ Page({
 			console.log('获取商品列表：',res)
 			let starList = res.goods
 			this.setData({
+				'currentItem.id' : starList[0] ? starList[0].id : 1,
 				starList
 			})
 		})
