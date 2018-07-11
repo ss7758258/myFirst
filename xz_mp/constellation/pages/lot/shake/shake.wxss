@@ -5,7 +5,9 @@ page{
 /* 动画主体内容 */
 .panel_body{
     position: relative;
+    width: 100%;
     height: 100%;
+    overflow-x: hidden;
 }
 /* 树 */
 .tree_panel {
@@ -13,6 +15,7 @@ page{
     bottom: 0;
     width: 100%;
     height: 962rpx;
+
 }
 .tree_panel_container{
     position: relative;
