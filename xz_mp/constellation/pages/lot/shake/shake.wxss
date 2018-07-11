@@ -138,6 +138,10 @@ page{
     padding: 15rpx;
     animation: opacity_shake 2s infinite linear;
 }
+.shake_panel.tap_opacity{
+    opacity: 0;
+    animation: none;
+}
 .shake_one{
     width: 121rpx;
     height: 121rpx;
@@ -417,7 +421,16 @@ page{
     }
 }
 /* End云 */
-
+.panel_scene.iPhoneX{
+    height: calc(100% - 2.9962546816479403vh - 6.6vh - 184rpx);
+}
+.iPhoneX .bootom_x{
+    width: 100%;
+    height: 184rpx;
+}
+.iPhoneX .bootom_x>image{
+    width: 100%;
+}
 /* 背景 */
 .panel_scene{
     padding : 0;

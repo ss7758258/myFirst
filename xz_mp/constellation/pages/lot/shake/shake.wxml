@@ -4,7 +4,7 @@
 <loginApp></loginApp>
 
 <form>
-    <view class="panel_scene">
+    <view class="panel_scene {{longScreen ? 'iPhoneX' : ''}}">
         <!-- 内容主体 -->
         <view class="panel_body">
             <!-- start云 -->
@@ -26,7 +26,7 @@
 
             <!-- 树 -->
             <view class="tree_panel">
-                <view animation="{{animationData}}" class="tree_panel_container {{shakeLotSpeed ? 'animate':''}}" catchtap="drawLots">
+                <view animation="{{animationData}}" class="tree_panel_container {{shakeLotSpeed ? 'animate':''}}">
                     <image class="tree" src="/assets/img/tree.png" ></image>
                     <!-- 签 -->
                     <image class="lot lot_1" src="/assets/img/lot_left.png"></image>
@@ -43,7 +43,8 @@
                 </view>
             </view>
             <view class="tree_panel">
-                <view class="tree_panel_container" catchtap="drawLots">
+                <!--  catchtap="drawLots" -->
+                <view class="tree_panel_container">
                     <image class="people" src="/assets/img/people.png"></image>
                     <!-- 爱心 -->
                     <image class="heart heart_left" src="/assets/img/heart_left.png" wx:if="{{!shakeLotSpeed}}"></image>
@@ -61,6 +62,8 @@
                     <!-- 信封 -->
                     <image class="envelope {{endSpeed ? 'flyAnimate' : ''}}" catchtap="openEnvelope" src="/assets/img/envelope.png"></image>
                     <!-- End信封 -->
+
+                    <view class="shake_panel tap_opacity" catchtap="drawLots"></view>
                 </view>
             </view>
             <!-- End树 -->
@@ -77,6 +80,9 @@
             <!-- 一签盒 -->
             <image class="lotBox" src="/assets/img/lotbox.png" catchtap="openLotBox"></image>
             <!-- End一签盒 -->
+        </view>
+        <view class="bootom_x" wx:if="{{longScreen}}">
+            <image src="/assets/img/grass_bottom.png" ></image>
         </view>
     </view>
 </form>

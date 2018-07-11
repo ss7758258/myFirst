@@ -2,6 +2,7 @@
   "navigationBarTitleText": "运势详情",
   "disableScroll": true,
   "usingComponents": {
-		"nav": "/components/navigation/nav"
+		"nav": "/components/navigation/nav",
+		"loginApp": "/components/login/login"
 	}
 }

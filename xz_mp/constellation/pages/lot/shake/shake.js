@@ -14,6 +14,10 @@ let animation = wx.createAnimation({
     transformOrigin : 'center 85%',
     timingFunction: 'ease-in-out',
 })
+
+// 请求的定时器
+let reqTimer = null
+
 // 签的动画
 let timerLot = null
 
@@ -43,21 +47,28 @@ const conf = {
         // 来源数据
         fromPage:'',
         // 动画对象
-        animationData : {}
+        animationData : {},
+        // 是否是长屏机
+        longScreen : Storage.LongScreen
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        // 重置登录状态
+        Storage.shakeLogin = false
         let pageFrom = options.from
         let self = this
-        let _SData = this.data
         $vm = getApp()
         _GData = $vm.globalData
         // 调用数据分析进行统计
         methods.analytics(self,options,pageFrom,mta)
         console.log('输出参数：', options)
+
+        this.setData({
+            longScreen : Storage.LongScreen || false
+        })
 
         let handle = () => {
             console.log('登录标识')
@@ -66,29 +77,19 @@ const conf = {
                 userInfo: Storage.userInfo
             })
             // 上报选择星座
-            methods.setUserInfo({ userInfo : Storage.userInfo },_GData.selectConstellation.id)
+            // methods.setUserInfo({ userInfo : Storage.userInfo },_GData.selectConstellation.id)
         }
 
         // 监听事件
         bus.on('login-success', handle , 'login-com')
         bus.on('login-success', handle , 'shake-app')
 
-        // 来源
-        // if(options.fromSource){
-        //     switch (options.fromSource) {
-        //         case 'home':
-        //         case 'lotdetail':
-        //             console.log()
-        //             // 手动触发登录状态 
-        //             bus.emit('login-success', {}, 'shake-app')
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // }
-        
 		// 如果已经存在用户信息触发登录标识
 		if(Storage.userInfo){
+            // 已经触发过登录不在触发
+			if(Storage.shakeLogin){
+				return
+			}
 			bus.emit('login-success', {}, 'shake-app')
 		}
     },
@@ -111,6 +112,7 @@ const conf = {
      */
     onHide: function () {
         clearTimeout(timerLot)
+        clearTimeout(reqTimer)
         animation.rotate(0).step()
         // 确认信封出来动画以及树停止动画
         this.setData({
@@ -124,6 +126,13 @@ const conf = {
      * 生命周期函数--监听页面卸载
      */
     onUnload: function () {
+        clearTimeout(timerLot)
+        clearTimeout(reqTimer)
+        animation.rotate(0).step()
+        // 确认信封出来动画以及树停止动画
+        this.setData({
+            animationData : animation.export()
+        })
         wx.stopAccelerometer({})
     },
     /**
@@ -131,9 +140,9 @@ const conf = {
      */
     onShareAppMessage: function () {
 
-        var shareImg = 'https://xingzuo-1256217146.file.myqcloud.com/share_shake.jpg'
+        var shareImg = '/assets/images/share_shake.jpg'
         var shareMsg = '每日抽一签，赛过活神仙。'
-        var sharepath = '/pages/lot/shakelot/shake?from=share&where=shake'
+        var sharepath = '/pages/lot/shake/shake?from=share&where=shake'
         return {
             title: shareMsg,
             imageUrl: shareImg,
@@ -175,13 +184,6 @@ const conf = {
             // 结束摇动值重置
             endSpeed : false
         })
-
-        // const innerAudioContext = wx.createInnerAudioContext()
-        // innerAudioContext.autoplay = true
-        // innerAudioContext.src = '/assets/shake.mp3'
-        // innerAudioContext.onPlay(() => {
-        //     console.log('开始播放')
-        // })
 
         // 震动
         wx.vibrateLong()
@@ -261,7 +263,8 @@ const getX504 = (self,_SData) => {
     // 获取摇签Id
     $vm.api.getX504({ notShowLoading: true, })
     .then(res => {
-        setTimeout( () => {
+
+        reqTimer = setTimeout( () => {
             console.log('摇出的签数据：',res)
             // res.status = 1
             if (res.status === 0) {
@@ -277,13 +280,9 @@ const getX504 = (self,_SData) => {
             } else if (res.status === 1) { //没有签了
                 // 是否出签
                 Storage.loExist = true
-                // 异常状态 已经没有签的情况下处理方案
-                Storage.lotCatch = true
-                // 重置状态
-                // resetLot(self)
-                wx.navigateTo({
-                    url: '/pages/lot/emptylot/emptylot',
-                })
+                //已经没有签的情况下处理方案
+                Storage.lotNot = true
+                
             } else {
                 // 异常状态
                 Storage.lotCatch = true
@@ -311,13 +310,17 @@ function lotBeat(self,num = 0){
             clearTimeout(timerLot)
             animation.rotate(0).step()
             
-            if(Storage.lotCatch){
+            if(Storage.lotNot){
                 self.setData({
                     animationData : animation.export()
                 })
                 // 重置签的状态
                 resetLot(self)
                 self.shakeFun()
+                
+                wx.navigateTo({
+                    url: '/pages/lot/emptylot/emptylot',
+                })
                 return 
             }
             // 确认信封出来动画以及树停止动画
@@ -366,6 +369,8 @@ function lotBeat(self,num = 0){
 function resetLot(self){
     // 出签状态
     Storage.loExist = false
+    Storage.lotNot = false
+    Storage.lotCatch = false
     // 变更UI状态
     self.setData({
         shakeLotSpeed : false,

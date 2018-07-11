@@ -114,6 +114,11 @@ function getSystemInfo(){
 			key: 'systemInfo',
 			data: res
 		});
+		if(res.screenWidth <= 375 && res.screenHeight >= 750){
+			// 是否是长屏机型
+			Storage.LongScreen = true
+			wx.setStorageSync('LongScreen', true);
+		}
         if(res.model.indexOf('iPhone X') != -1){
 			wx.setStorage({
 				key: 'iPhoneX',

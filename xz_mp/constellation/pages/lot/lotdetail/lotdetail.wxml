@@ -6,7 +6,7 @@
 
 <!-- 签详情页 -->
 <form bindsubmit="getFormId" report-submit="true">
-	<view class="panel_scene">
+	<view class="panel_scene {{longScreen ? 'iPhoneX' : ''}}">
 		<!-- 内容主体 -->
 		<view class="panel_body">
 			<!-- 头部 -->
@@ -184,9 +184,9 @@
 				<!-- End头像组 -->
 
 				<!-- 文案 -->
-				<view class="bottom_text" wx:if="{{lotDetail.isOpen}}">{{!lotDetail.isOther ? '恭喜你使用小星星拆签成功' : '对方已使用小星星拆签成功'}}</view>
-				<view class="bottom_text" wx:if="{{disNum - lotDetail.troops.length == 0 && !lotDetail.isOpen && !lotDetail.lotNotCompleted}}">{{!lotDetail.isOther ? '上面的好人已帮你完成拆签' : '上面的好人已完成拆签'}}</view>
-				<view class="bottom_text" wx:if="{{!lotDetail.isOpen && lotDetail.lotNotCompleted}}">还差<text>{{disNum - lotDetail.troops.length}}</text>个好人即可免费拆签{{!lotDetail.isOther ? '，加油' : ''}}</view>
+				<view class="bottom_text {{lotDetail.isOpen ? 'buy' : ''}}" wx:if="{{lotDetail.isOpen}}">{{!lotDetail.isOther ? '恭喜你使用小星星拆签成功' : '对方已使用小星星拆签成功'}}</view>
+				<view class="bottom_text {{lotDetail.isOpen ? 'buy' : ''}}" wx:if="{{disNum - lotDetail.troops.length == 0 && !lotDetail.isOpen && !lotDetail.lotNotCompleted}}">{{!lotDetail.isOther ? '上面的好人已帮你完成拆签' : '上面的好人已完成拆签'}}</view>
+				<view class="bottom_text {{lotDetail.isOpen ? 'buy' : ''}}" wx:if="{{!lotDetail.isOpen && lotDetail.lotNotCompleted}}">还差<text>{{disNum - lotDetail.troops.length}}</text>个好人即可免费拆签{{!lotDetail.isOther ? '，加油' : ''}}</view>
 				<!-- End文案 -->
 
 				<!-- 按钮组 -->

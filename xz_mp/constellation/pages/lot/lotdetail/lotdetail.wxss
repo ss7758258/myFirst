@@ -286,20 +286,25 @@ page {
 	border-radius: 6rpx;
 	border: 2rpx solid rgba(255, 255, 255, 0.5);
 }
-
+.iPhoneX .bottom_panel{
+	height: 460rpx;
+	margin-bottom: 118rpx;
+}
 .btn_group>.btn_share, .btn_group>.btn_dis {
 	width: 480rpx;
-	height: 88rpx;
+	height: 100rpx;
 	margin-top: 46rpx;
 	background: rgba(255, 255, 255, 1);
 	border-radius: 8rpx;
 	font-size: 36rpx;
 	font-family: 'PingFangSC-Regular';
 	color: rgba(146, 98, 251, 1);
-	line-height: 88rpx;
+	line-height: 100rpx;
 	transition: all .2s linear;
 }
-
+.iPhoneX .btn_group>.btn_share,.iPhoneX .btn_group>.btn_dis{
+	margin-top: 75rpx;
+}
 .bottom_text {
 	margin-top: 28rpx;
 	text-align: center;
@@ -308,7 +313,9 @@ page {
 	color: rgba(255, 255, 255, 1);
 	line-height: 37rpx;
 }
-
+.iPhoneX .bottom_text.buy{
+	margin-top: 10rpx;
+}
 .heads {
 	width: 480rpx;
 	margin: 0 auto;
@@ -318,6 +325,9 @@ page {
 	align-items: flex-start;
 	align-content: flex-start;
 	justify-content: space-around;
+}
+.iPhoneX .heads{
+	margin-top: 60rpx;
 }
 
 .heads_center {
