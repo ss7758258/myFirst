@@ -289,16 +289,18 @@ const config = {
 	goPay() {
 		let self = this
 		console.log('前往支付')
+		mta.Event.stat('pay_click', {})
 		wx.showModal({
-			title: '\t\n',
-			content: '快速查看需要消耗' + starNum + '颗小星星确定\t\n快速查看？',
+			title: '是否快速查看？',
+			content: '快速查看需要花费' + starNum + '颗小星星确定',
 			showCancel: true,
 			cancelColor: '#999999',
-			cancelText: '我在想想',
+			cancelText: '稍后再买',
 			confirmText: '确定',
 			confirmColor: '#9262FB',
 			success: function (res) {
 				console.log(res)
+				mta.Event.stat('pay_click_success', {})
 				if (res.confirm) {
 					API.getBlance({ notShowLoading: true }).then(data => {
 						if (!data) {
@@ -308,8 +310,11 @@ const config = {
 						// data.balance = 1
 						// 当小星星不足时进行提示
 						if (data.balance < starNum) {
+							
+							mta.Event.stat('pay_fail', {})
+
 							wx.showModal({
-								title: '\t\n',
+								title: '余额不足',
 								content: '账号余额不足，请先去买些小星星吧！',
 								showCancel: true,
 								cancelColor: '#999999',
@@ -326,6 +331,9 @@ const config = {
 								}
 							})
 						} else {
+
+							mta.Event.stat('pay_success', {})
+
 							API.buyStar({
 								id: self.data.lotDetail.id
 							}).then(res => {

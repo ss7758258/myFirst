@@ -15,6 +15,8 @@ let animation = wx.createAnimation({
     timingFunction: 'ease-in-out',
 })
 
+// 全局this
+let gloThis = null
 let len = 0
 // 请求的定时器
 let reqTimer = null
@@ -58,6 +60,7 @@ const conf = {
      */
     onLoad: function (options) {
         let self = this
+        gloThis = this
         // 重置登录状态
         Storage.shakeLogin = false
         let pageFrom = options.from
@@ -136,6 +139,7 @@ const conf = {
         })
         console.log('动画隐藏')
         wx.stopAccelerometer()
+        resetLot(gloThis)
     },
 
     /**
@@ -150,6 +154,7 @@ const conf = {
             animationData : animation.export()
         })
         wx.stopAccelerometer({})
+        resetLot(gloThis)
     },
     /**
      * 用户点击右上角分享
@@ -350,7 +355,7 @@ function lotBeat(self,num = 0){
             })
             
             // 重置签的状态
-            resetLot(self)
+            // resetLot(self)
             
             return
         }
