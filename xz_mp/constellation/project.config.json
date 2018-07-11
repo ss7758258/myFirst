@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -32,13 +32,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 7,
 			"list": [
 				{
 					"id": 0,
 					"name": "签详情",
 					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "from=share&lotId=565235",
+					"query": "from=share&lotId=565263",
 					"scene": "1011"
 				},
 				{
@@ -113,6 +113,13 @@
 					"name": "组件页面",
 					"pathName": "pages/lot/openSign/openSign",
 					"query": "",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "其他人签详情",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": "from=share&lotId=565266",
 					"scene": "1011"
 				}
 			]

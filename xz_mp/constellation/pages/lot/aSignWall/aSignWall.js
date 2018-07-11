@@ -1,6 +1,8 @@
 // pages/aSignWall/aSignWall.js
 const app = getApp()
 const bus = require('../../../event.js')
+const { parseLot } = app.utils
+const Storage = require('../../../utils/storage')
 Page({
 
 	/**
@@ -85,6 +87,9 @@ Page({
 		console.log('详情信息：',e.currentTarget.dataset.item)
 		if(e.currentTarget.dataset.item){
 			let lot = e.currentTarget.dataset.item
+			Storage.lotDetail = parseLot(lot)
+			
+			console.log(Storage.lotDetail)
 			wx.navigateTo({
 				url : '/pages/lot/lotdetail/lotdetail?fromSource=lotlist&from=list&lotId=' + lot.id
 			})

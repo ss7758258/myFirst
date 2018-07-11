@@ -193,16 +193,20 @@ Page({
 		bus.on('login-success', handle , 'login-com')
 		bus.on('login-success', handle , 'home')
 
-		switch (options.fromSource) {
-			case 'nav':
-				// 手动触发登录状态 
-				bus.emit('login-success', {}, 'home')
-				break;
+		// switch (options.fromSource) {
+		// 	case 'nav':
+		// 		// 手动触发登录状态 
+		// 		bus.emit('login-success', {}, 'home')
+		// 		break;
 		
-			default:
-				break;
+		// 	default:
+		// 		break;
+		// }
+		
+		// 如果已经存在用户信息触发登录标识
+		if(Storage.userInfo){
+			bus.emit('login-success', {}, 'home')
 		}
-
 	},
 
 	onShow(){
@@ -220,7 +224,7 @@ Page({
 
 		return {
 			title: '用小哥星座，得最全最准的运势预测！',
-			imageUrl: '/assets/images/share.jpg',
+			imageUrl: 'https://xingzuo-1256217146.file.myqcloud.com/share_home.jpg',
 			success: function (res) {
 				// 转发成功
 			},

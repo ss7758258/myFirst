@@ -20,7 +20,12 @@ module.exports = {
         self.setData({
             fromPage: pageFrom || 'share'
         })
-
+        if(options.from === 'qrcode'){
+            self.setData({
+                "navConf.root": '/pages/home/home'
+            })
+            mta.Event.stat("ico_in_from_shake_qrcode", {})
+        }
         if (pageFrom == 'share') {
             self.setData({
                 "navConf.root": '/pages/home/home'

@@ -31,7 +31,13 @@ App({
 			"statReachBottom": true // 使用分析-页面触底次数/人数，必须先开通自定义事件，并配置了合法的eventID
 		})
 	},
-
+	/**
+	 * 分享触发消息
+	 * @param {*} res
+	 */
+	onShow (res){
+		console.log('触发全局实例：',res)
+	},
 	getLogin() {
 		// wx.removeStorageSync('token')
 		// 初始化状态值

@@ -58,7 +58,7 @@ const config = {
 	onLoad(options) {
 		// 获取星星
 		starNum = Storage.starPrice
-        Storage.openIos = 1
+        // Storage.openIos = 1
 		// ios上关闭打开
 		if(Storage.sys === 'ios' && Storage.openIos){
             this.setData({
@@ -85,19 +85,21 @@ const config = {
 			})
 		}
 		mta.Page.init()
+		
 		console.log(options)
 
 		// 隐藏分享
 		wx.hideShareMenu()
 
-		if (options.sound) {
-			const innerAudioContext = wx.createInnerAudioContext()
-			innerAudioContext.autoplay = true
-			innerAudioContext.src = '/assets/incoming.m4a'
-			innerAudioContext.onPlay(() => {
-				console.log('开始播放')
-			})
-		}
+		// if (options.sound) {
+		// 	const innerAudioContext = wx.createInnerAudioContext()
+		// 	innerAudioContext.autoplay = true
+		// 	innerAudioContext.src = '/assets/incoming.m4a'
+		// 	innerAudioContext.onPlay(() => {
+		// 		console.log('开始播放')
+		// 	})
+		// }
+
 		let handle = () => {
 			console.log('------------------登录标识-----------------------')
 			self.setData({
@@ -113,22 +115,27 @@ const config = {
 		bus.on('login-success', handle, 'lotdetail-app')
 
 		// 来源
-		if (options.fromSource) {
-			switch (options.fromSource) {
-				case 'shake':
-					self.setData({
-						"navConf.root": '/pages/home/home'
-					})
-					// 手动触发登录状态 
-					bus.emit('login-success', {}, 'lotdetail-app')
-					break;
-				case 'lotlist':
-					// 手动触发登录状态 
-					bus.emit('login-success', {}, 'lotdetail-app')
-					break;
-				default:
-					break;
-			}
+		// if (options.fromSource) {
+		// 	switch (options.fromSource) {
+		// 		case 'shake':
+		// 			self.setData({
+		// 				"navConf.root": '/pages/home/home'
+		// 			})
+		// 			// 手动触发登录状态 
+		// 			bus.emit('login-success', {}, 'lotdetail-app')
+		// 			break;
+		// 		case 'lotlist':
+		// 			// 手动触发登录状态 
+		// 			bus.emit('login-success', {}, 'lotdetail-app')
+		// 			break;
+		// 		default:
+		// 			break;
+		// 	}
+		// }
+
+		// 如果已经存在用户信息触发登录标识
+		if(Storage.userInfo){
+			bus.emit('login-success', {}, 'lotdetail-app')
 		}
 	},
 
@@ -139,27 +146,23 @@ const config = {
 		if (res.from === 'menu') {
 			mta.Event.stat("ico_shake_right_share", {})
 		}
-		const _self = this
+		
 		const SData = this.data
-		var shareImg = '/assets/images/share_qian.jpg'
-		var shareMsg = '快来戳，真的是令人脸红心跳的结果！'
+		var shareImg = 'https://xingzuo-1256217146.file.myqcloud.com/share_lot.jpg'
+		var shareMsg = '从未想过，世上竟有如此神奇的操作'
 		var sharepath = '/pages/lot/lotdetail/lotdetail?from=share&lotId=' + SData.lotDetail.id
-		if (!SData.lotDetail.lotNotCompleted) {
-			shareImg = '/assets/images/share_tong.jpg'
-			shareMsg = '快来戳，真的是令人脸红心跳的结果！'
-			sharepath = '/pages/lot/shakelot/shake?from=share&where=detail'
-		}
-		console.log("shareImg-qId===" + shareImg)
+
 		console.log("onShareAppMessage-qId===" + SData.lotDetail.id)
 		return {
 			title: shareMsg,
 			imageUrl: shareImg,
 			path: sharepath,
 			success: function (res) {
-				// 转发成功
+				console.log('转发成功的数据：',res)
 			},
 			fail: function (res) {
 				// 转发失败
+				console.log('转发失败：',res)
 			}
 		}
 	},
@@ -184,7 +187,7 @@ const config = {
 		let self = this
 		let lotdetail = this.data.lotDetail
 		console.log(lotdetail)
-
+		console.log('头像地址：',Storage.userInfo.avatarUrl)
 		wx.getImageInfo({ //将头像转路径
 			src: Storage.userInfo.avatarUrl, //图片的路径，可以是相对路径，临时文件路径，存储文件路径，网络图片路径,
 			success: res => {
@@ -196,7 +199,7 @@ const config = {
 
 				ctx.drawImage('/assets/img/background.png', 0, 0, 375, 535) //背景图
 				ctx.drawImage('/assets/img/card.png', 0, 75, 375, 275) //拆签数据图
-				ctx.drawImage('/assets/images/qrcodebrief.png', 150, 360, 75, 75) //小哥星座二维码图
+				ctx.drawImage('/assets/images/qrcodelot.png', 150, 360, 75, 75) //小哥星座二维码图
 				ctx.drawImage('/assets/img/text.png', 97, 445, 184, 45) //小哥星座文字图
 
 				// 签类型
@@ -459,6 +462,7 @@ Page(config)
  * @param {*} qId
  */
 function getQian(qId, self, GData) {
+	console.log('加载签详情')
 	wx.getNetworkType({
 		success: function (res) {
 			console.log('输出当前网络状态：', res)
@@ -537,6 +541,16 @@ function getQian(qId, self, GData) {
 						console.log('进入错误状态')
 					})
 			}
+		},
+		fail(){
+			wx.hideLoading()
+			wx.showModal({
+				title: '网络错误',
+				content: '小主您的网络有点小问题哦,请重新尝试',
+				confirmText: '重新尝试',
+				showCancel: false,
+				success() { }
+			})
 		}
 	})
 }
@@ -544,26 +558,38 @@ function getQian(qId, self, GData) {
 /**
  * 获取用户信息后进行登录拉取签的数据
  * @param {*} pageFrom
- * @param {*} _self
+ * @param {*} self
  * @param {*} qId
  * @param {*} _GData
  */
-function getTokenQian(pageFrom, _self, qId, _GData) {
+function getTokenQian(pageFrom, self, qId, _GData) {
+	
 	// 保存当前的签 
 	Storage.detailLotId = qId
-
+	console.log('进入token页')
 	if (pageFrom == 'share' || pageFrom == 'list' || pageFrom == 'form') {
 		if (pageFrom == 'share' || pageFrom == 'form') {
-			_self.setData({
+			self.setData({
 				isFromShare: true,
 				"navConf.root": '/pages/home/home'
 			})
 		}
-		getQian(qId, _self)
-	} else if (Storage.lotOpts.fromSource && Storage.lotOpts.fromSource === 'shake') {
-		_self.setData({
-			lotDetail: Storage.lotDetail
-		})
-		wx.hideLoading()
+		getQian(qId, self)
+	} else if (Storage.lotOpts.fromSource && Storage.lotOpts.fromSource !== '') {
+		setTimeout(() => {
+			self.setData({
+				lotDetail: Storage.lotDetail
+			})
+			console.log(Storage.lotDetail.isOpen)
+			// lotDetail.isOpen = false
+			// 如果为购买的签
+			if (Storage.lotDetail.isOpen || !Storage.lotDetail.lotNotCompleted) {
+				// 拆签动画
+				self.setData({
+					disLotSuccess: true
+				})
+			}
+			wx.hideLoading()
+		}, 800)
 	}
 }

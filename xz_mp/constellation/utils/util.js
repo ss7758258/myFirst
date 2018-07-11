@@ -176,21 +176,26 @@ function parseLot(res) {
 			lotTitleHint = '你的好友已帮你完成拆签'
 			helloText = '你好！'
 		} else {
-			lotTitleHint = '此签已完成拆签'
-			helloText = '在这里谢谢大家'
+			lotTitleHint = ''
+			helloText = '此签已拆开，我在这里谢谢大家'
 		}
 	} else {
 		if (res.isMyQian == 1) {
-			lotTitleHint = '下面是你的每日一签，快找好友帮你拆签吧~'
-			helloText = '你好！'
+			lotTitleHint = '下面是你的每日一签，快去拆签吧'
+			helloText = ''
 		} else {
 			lotTitleHint = '是否能够拆签成功，全都仰仗你们了！'
-			helloText = '朋友们好，我是'
+			helloText = '朋友们好，'
 		}
 	}
 	if(res.buy === 0 || res.buy){
-		helloText = '使用星星拆签完成'
-		lotTitleHint = '使用星星拆签完成'
+		if (res.isMyQian == 1) {
+			helloText = ''
+			lotTitleHint = '恭喜你已完成拆签'
+		}else{
+			helloText = ''
+			lotTitleHint = '此签已拆开，同样感谢你能来'
+		}
 	}
 	
 	let dates = res.qianDate.split('-')
