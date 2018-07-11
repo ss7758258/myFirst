@@ -1,6 +1,8 @@
 
 <!-- 导航 -->
 <nav opts='{{navConf}}'></nav>
+<loginApp></loginApp>
+
 <view class="UI_page page_brief page_onelot {{networkError?'noNetBg': ''}} {{isIPhoneX ? 'iPhoneX' : ''}}">
   <view>
     <view class="UI_box " style='transform: scale({{isShow ? 1 : 0}});' >

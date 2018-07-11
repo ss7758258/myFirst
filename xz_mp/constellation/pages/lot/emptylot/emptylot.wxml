@@ -1,6 +1,6 @@
 <!-- 导航 -->
 <nav opts='{{navConf}}'></nav>
-
+<loginApp></loginApp>
 <view class="UI_pgae panel_scene">
 	<!--空签  -->
 	<view class='emptyLot'>

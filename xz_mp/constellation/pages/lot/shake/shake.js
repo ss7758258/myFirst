@@ -130,7 +130,7 @@ const conf = {
 
         var shareImg = '/assets/images/share_shake.jpg'
         var shareMsg = '每日抽一签，赛过活神仙。'
-        var sharepath = '/pages/lot/shakelot/shake?from=share&where=shake'
+        var sharepath = '/pages/lot/shake/shake?from=share&where=shake'
         return {
             title: shareMsg,
             imageUrl: shareImg,
