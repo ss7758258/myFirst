@@ -26,10 +26,13 @@ page{
 }
 
 .emptyLot .botton {
-	width: 80%;
+	width: 550rpx;
 	margin: 0 auto;
 	color: rgb(158, 29, 29);
 	margin-top: 100rpx;
 }
-
+.emptyLot-img{
+	max-width: 406rpx;
+	max-height: 315rpx;
+}
 /* 空签 */

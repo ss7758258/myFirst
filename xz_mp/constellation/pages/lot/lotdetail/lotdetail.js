@@ -215,9 +215,11 @@ const config = {
 				let timer = new Date();
 				let newDate = '一 ' + timer.getFullYear() + '.' + (timer.getMonth() + 1 > 9 ? timer.getMonth() + 1 : '0' + (timer.getMonth() + 1)) + '.' + (timer.getDate() > 9 ? timer.getDate() : '0' + timer.getDate()) + ' 一';
 				// console.log('输出日期：', newDate)
+				lotdetail.qianDate = lotdetail.qianDate.split('-').join('.')
+        		ctx.fillText(lotdetail.qianDate, 187.5, 290)
 				// 计算文本长度
 				const mea_date = ctx.measureText(newDate).width / 2
-				ctx.fillText(newDate, 187.5, 290)
+				// ctx.fillText(newDate, 187.5, 290)
 
 				ctx.setShadow(0, 3, 6, 'rgba(0,0,0,.2)')
 				ctx.arc(187.5, 85, 25, 0, 2 * Math.PI)

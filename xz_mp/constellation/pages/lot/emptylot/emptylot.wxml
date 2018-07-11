@@ -4,7 +4,7 @@
 <view class="UI_pgae panel_scene">
 	<!--空签  -->
 	<view class='emptyLot'>
-		<image src="/assets/img/empty.png"></image>
+		<image class="emptyLot-img" src="/assets/img/empty.png"></image>
 		<view class='noLot'>今天的签已经抽完了喔~</view>
 
 		<form bindsubmit="onclickqian" report-submit='true'>

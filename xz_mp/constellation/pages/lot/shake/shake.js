@@ -14,6 +14,10 @@ let animation = wx.createAnimation({
     transformOrigin : 'center 85%',
     timingFunction: 'ease-in-out',
 })
+
+// 请求的定时器
+let reqTimer = null
+
 // 签的动画
 let timerLot = null
 
@@ -73,7 +77,7 @@ const conf = {
                 userInfo: Storage.userInfo
             })
             // 上报选择星座
-            methods.setUserInfo({ userInfo : Storage.userInfo },_GData.selectConstellation.id)
+            // methods.setUserInfo({ userInfo : Storage.userInfo },_GData.selectConstellation.id)
         }
 
         // 监听事件
@@ -108,6 +112,7 @@ const conf = {
      */
     onHide: function () {
         clearTimeout(timerLot)
+        clearTimeout(reqTimer)
         animation.rotate(0).step()
         // 确认信封出来动画以及树停止动画
         this.setData({
@@ -121,6 +126,13 @@ const conf = {
      * 生命周期函数--监听页面卸载
      */
     onUnload: function () {
+        clearTimeout(timerLot)
+        clearTimeout(reqTimer)
+        animation.rotate(0).step()
+        // 确认信封出来动画以及树停止动画
+        this.setData({
+            animationData : animation.export()
+        })
         wx.stopAccelerometer({})
     },
     /**
@@ -172,13 +184,6 @@ const conf = {
             // 结束摇动值重置
             endSpeed : false
         })
-
-        // const innerAudioContext = wx.createInnerAudioContext()
-        // innerAudioContext.autoplay = true
-        // innerAudioContext.src = '/assets/shake.mp3'
-        // innerAudioContext.onPlay(() => {
-        //     console.log('开始播放')
-        // })
 
         // 震动
         wx.vibrateLong()
@@ -258,7 +263,8 @@ const getX504 = (self,_SData) => {
     // 获取摇签Id
     $vm.api.getX504({ notShowLoading: true, })
     .then(res => {
-        setTimeout( () => {
+
+        reqTimer = setTimeout( () => {
             console.log('摇出的签数据：',res)
             // res.status = 1
             if (res.status === 0) {
@@ -274,13 +280,9 @@ const getX504 = (self,_SData) => {
             } else if (res.status === 1) { //没有签了
                 // 是否出签
                 Storage.loExist = true
-                // 异常状态 已经没有签的情况下处理方案
-                Storage.lotCatch = true
-                // 重置状态
-                // resetLot(self)
-                wx.navigateTo({
-                    url: '/pages/lot/emptylot/emptylot',
-                })
+                //已经没有签的情况下处理方案
+                Storage.lotNot = true
+                
             } else {
                 // 异常状态
                 Storage.lotCatch = true
@@ -308,13 +310,17 @@ function lotBeat(self,num = 0){
             clearTimeout(timerLot)
             animation.rotate(0).step()
             
-            if(Storage.lotCatch){
+            if(Storage.lotNot){
                 self.setData({
                     animationData : animation.export()
                 })
                 // 重置签的状态
                 resetLot(self)
                 self.shakeFun()
+                
+                wx.navigateTo({
+                    url: '/pages/lot/emptylot/emptylot',
+                })
                 return 
             }
             // 确认信封出来动画以及树停止动画
@@ -363,6 +369,8 @@ function lotBeat(self,num = 0){
 function resetLot(self){
     // 出签状态
     Storage.loExist = false
+    Storage.lotNot = false
+    Storage.lotCatch = false
     // 变更UI状态
     self.setData({
         shakeLotSpeed : false,

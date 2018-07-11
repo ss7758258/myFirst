@@ -135,8 +135,9 @@ page{
     padding: 15rpx;
     animation: opacity_shake 2s infinite linear;
 }
-.shake_panel.shake_img.tap_opacity{
+.shake_panel.tap_opacity{
     opacity: 0;
+    animation: none;
 }
 .shake_one{
     width: 121rpx;
