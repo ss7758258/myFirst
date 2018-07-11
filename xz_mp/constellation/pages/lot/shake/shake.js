@@ -43,21 +43,28 @@ const conf = {
         // 来源数据
         fromPage:'',
         // 动画对象
-        animationData : {}
+        animationData : {},
+        // 是否是长屏机
+        longScreen : Storage.LongScreen
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        // 重置登录状态
+        Storage.shakeLogin = false
         let pageFrom = options.from
         let self = this
-        let _SData = this.data
         $vm = getApp()
         _GData = $vm.globalData
         // 调用数据分析进行统计
         methods.analytics(self,options,pageFrom,mta)
         console.log('输出参数：', options)
+
+        this.setData({
+            longScreen : Storage.LongScreen || false
+        })
 
         let handle = () => {
             console.log('登录标识')
@@ -73,22 +80,12 @@ const conf = {
         bus.on('login-success', handle , 'login-com')
         bus.on('login-success', handle , 'shake-app')
 
-        // 来源
-        // if(options.fromSource){
-        //     switch (options.fromSource) {
-        //         case 'home':
-        //         case 'lotdetail':
-        //             console.log()
-        //             // 手动触发登录状态 
-        //             bus.emit('login-success', {}, 'shake-app')
-        //             break;
-        //         default:
-        //             break;
-        //     }
-        // }
-        
 		// 如果已经存在用户信息触发登录标识
 		if(Storage.userInfo){
+            // 已经触发过登录不在触发
+			if(Storage.shakeLogin){
+				return
+			}
 			bus.emit('login-success', {}, 'shake-app')
 		}
     },
@@ -131,7 +128,7 @@ const conf = {
      */
     onShareAppMessage: function () {
 
-        var shareImg = 'https://xingzuo-1256217146.file.myqcloud.com/share_shake.jpg'
+        var shareImg = '/assets/images/share_shake.jpg'
         var shareMsg = '每日抽一签，赛过活神仙。'
         var sharepath = '/pages/lot/shakelot/shake?from=share&where=shake'
         return {

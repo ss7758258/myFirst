@@ -88,7 +88,6 @@ Page({
 	},
 	selectSign: function (e) {
 		const _self = this
-		const _SData = this.data
 
 		const selectConstellation = e.detail.target.dataset.item
 		mta.Event.stat('ico_home_select', { 'constellation': selectConstellation.name })
@@ -141,6 +140,8 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
+		// 重置登录信息
+		Storage.homeLogin = false
 		getSystemInfo(this);
 		mta.Page.init()
 		Storage.forMore = false
@@ -158,8 +159,12 @@ Page({
 				getUserConf(me)
 			}
 		},'home')
+
 		let handle = () => {
 			
+			// 登录状态
+			Storage.homeLogin = true
+
 			self.setData({
 				isLogin : true
 			})
@@ -205,6 +210,10 @@ Page({
 		
 		// 如果已经存在用户信息触发登录标识
 		if(Storage.userInfo){
+            // 已经触发过登录不在触发
+			if(Storage.homeLogin){
+				return
+			}
 			bus.emit('login-success', {}, 'home')
 		}
 	},
@@ -224,7 +233,7 @@ Page({
 
 		return {
 			title: '用小哥星座，得最全最准的运势预测！',
-			imageUrl: 'https://xingzuo-1256217146.file.myqcloud.com/share_home.jpg',
+			imageUrl: '/assets/images/share_home.jpg',
 			success: function (res) {
 				// 转发成功
 			},

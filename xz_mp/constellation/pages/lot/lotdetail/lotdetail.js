@@ -49,13 +49,24 @@ const config = {
 			// 描述语句
 			lotTitleHint: '下面是你的每日一签，快找好友帮你拆签吧~',
 			lotNotCompleted: true
-		}
+		},
+        // 是否是长屏机
+        longScreen : Storage.LongScreen
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad(options) {
+
+		if (options.lotId) {
+			wx.showLoading({
+				title: '加载中...',
+				mask: true,
+			})
+		}
+		// 重置状态
+		Storage.lotLogin = false
 		// 获取星星
 		starNum = Storage.starPrice
         // Storage.openIos = 1
@@ -72,40 +83,24 @@ const config = {
             this.setData({
                 iosOpen : true
             })
-        }
+		}
 		// 缓存对象
 		let self = this
 		// 缓存签详情的来源参数
 		Storage.lotOpts = options
-
-		if (options.lotId) {
-			wx.showLoading({
-				title: '加载中...',
-				mask: true,
-			})
-		}
+		console.log('签页面参数：',options)
 		mta.Page.init()
-		
-		console.log(options)
 
 		// 隐藏分享
 		wx.hideShareMenu()
 
-		// if (options.sound) {
-		// 	const innerAudioContext = wx.createInnerAudioContext()
-		// 	innerAudioContext.autoplay = true
-		// 	innerAudioContext.src = '/assets/incoming.m4a'
-		// 	innerAudioContext.onPlay(() => {
-		// 		console.log('开始播放')
-		// 	})
-		// }
-
 		let handle = () => {
 			console.log('------------------登录标识-----------------------')
+			// 签详情页登录状态
+			Storage.lotLogin = true
 			self.setData({
 				userInfo: Storage.userInfo
 			})
-
 			// 获取签的数据
 			getTokenQian(options.from, self, options.lotId, _GData)
 		}
@@ -114,27 +109,16 @@ const config = {
 		bus.on('login-success', handle, 'login-com')
 		bus.on('login-success', handle, 'lotdetail-app')
 
-		// 来源
-		// if (options.fromSource) {
-		// 	switch (options.fromSource) {
-		// 		case 'shake':
-		// 			self.setData({
-		// 				"navConf.root": '/pages/home/home'
-		// 			})
-		// 			// 手动触发登录状态 
-		// 			bus.emit('login-success', {}, 'lotdetail-app')
-		// 			break;
-		// 		case 'lotlist':
-		// 			// 手动触发登录状态 
-		// 			bus.emit('login-success', {}, 'lotdetail-app')
-		// 			break;
-		// 		default:
-		// 			break;
-		// 	}
-		// }
-
 		// 如果已经存在用户信息触发登录标识
 		if(Storage.userInfo){
+			this.setData({
+				// 是否是长屏机
+				longScreen : Storage.LongScreen
+			})
+			// 已经触发过登录不在触发
+			if(Storage.lotLogin){
+				return
+			}
 			bus.emit('login-success', {}, 'lotdetail-app')
 		}
 	},
@@ -148,7 +132,7 @@ const config = {
 		}
 		
 		const SData = this.data
-		var shareImg = 'https://xingzuo-1256217146.file.myqcloud.com/share_lot.jpg'
+		var shareImg = '/assets/images/share_lot.jpg'
 		var shareMsg = '从未想过，世上竟有如此神奇的操作'
 		var sharepath = '/pages/lot/lotdetail/lotdetail?from=share&lotId=' + SData.lotDetail.id
 
@@ -290,15 +274,6 @@ const config = {
 			}
 		})
 
-	},
-	//分享的返回主页
-	onclickHome: function (e) {
-		mta.Event.stat("ico_shake_home", {})
-		let formid = e.detail.formId
-		$vm.api.getX610({ notShowLoading: true, formid: formid })
-		wx.reLaunch({
-			url: '/pages/home/home',
-		})
 	},
 
 	/**
@@ -463,95 +438,39 @@ Page(config)
  */
 function getQian(qId, self, GData) {
 	console.log('加载签详情')
-	wx.getNetworkType({
-		success: function (res) {
-			console.log('输出当前网络状态：', res)
-			wx.showLoading({
-				title: '加载中...',
-				mask: true
+	$vm.api.getX511({ id: qId, notShowLoading: true })
+	.then(res => {
+		console.log('签的数据===================：', res)
+
+		let lotDetail = parseLot(res)
+
+		setTimeout(() => {
+			self.setData({
+				lotDetail: lotDetail
 			})
-			if (res.networkType === 'none') {
-				setTimeout(function () {
-					$vm.api.getX511({ id: qId, notShowLoading: true })
-						.then(res => {
-							console.log('签的数据===================：', res)
-							let lotDetail = parseLot(res)
-							// 默认用户没有拆签
-							// lotDetail.hasChai = false
-
-							setTimeout(() => {
-								self.setData({
-									lotDetail: lotDetail
-								})
-								console.log(lotDetail.isOpen)
-								// lotDetail.isOpen = false
-								// 如果为购买的签
-								if (lotDetail.isOpen || !lotDetail.lotNotCompleted) {
-									// 拆签动画
-									self.setData({
-										disLotSuccess: true
-									})
-								}
-								wx.hideLoading()
-							}, 800)
-						}).catch(err => {
-							console.log('进入错误状态')
-							wx.hideLoading()
-							wx.showModal({
-								title: '网络错误',
-								content: '小主您的网络有点小问题哦,请重新尝试',
-								confirmText: '重新尝试',
-								showCancel: false,
-								success() { }
-							})
-						})
-				}, 3000)
-			} else {
-				$vm.api.getX511({ id: qId, notShowLoading: true })
-					.then(res => {
-						console.log('签的数据===================：', res)
-						let lotDetail = parseLot(res)
-						// 默认用户没有拆签
-						// lotDetail.hasChai = false
-
-						setTimeout(() => {
-							self.setData({
-								lotDetail: lotDetail
-							})
-							console.log(lotDetail.isOpen)
-							// lotDetail.isOpen = false
-							// 如果为购买的签
-							if (lotDetail.isOpen || !lotDetail.lotNotCompleted) {
-								// 拆签动画
-								self.setData({
-									disLotSuccess: true
-								})
-							}
-							wx.hideLoading()
-						}, 800)
-					}).catch(err => {
-						wx.hideLoading()
-						wx.showModal({
-							title: '网络错误',
-							content: '小主您的网络有点小问题哦,请重新尝试',
-							confirmText: '重新尝试',
-							showCancel: false,
-							success() { }
-						})
-						console.log('进入错误状态')
-					})
+			
+			// 如果为购买的签
+			if (lotDetail.isOpen || !lotDetail.lotNotCompleted) {
+				// 拆签动画
+				self.setData({
+					disLotSuccess: true
+				})
 			}
-		},
-		fail(){
+
 			wx.hideLoading()
-			wx.showModal({
-				title: '网络错误',
-				content: '小主您的网络有点小问题哦,请重新尝试',
-				confirmText: '重新尝试',
-				showCancel: false,
-				success() { }
-			})
-		}
+
+		}, 500)
+
+	}).catch(err => {
+		wx.hideLoading()
+		wx.showModal({
+			title: '网络错误',
+			content: '小主您的网络有点小问题哦,请重新尝试',
+			confirmText: '重新尝试',
+			showCancel: false,
+			success() { }
+		})
+		console.log('进入错误状态')
 	})
 }
 
@@ -580,8 +499,7 @@ function getTokenQian(pageFrom, self, qId, _GData) {
 			self.setData({
 				lotDetail: Storage.lotDetail
 			})
-			console.log(Storage.lotDetail.isOpen)
-			// lotDetail.isOpen = false
+
 			// 如果为购买的签
 			if (Storage.lotDetail.isOpen || !Storage.lotDetail.lotNotCompleted) {
 				// 拆签动画
@@ -590,6 +508,7 @@ function getTokenQian(pageFrom, self, qId, _GData) {
 				})
 			}
 			wx.hideLoading()
-		}, 800)
+
+		}, 500)
 	}
 }
