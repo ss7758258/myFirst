@@ -15,6 +15,7 @@ let animation = wx.createAnimation({
     timingFunction: 'ease-in-out',
 })
 
+let len = 0
 // 请求的定时器
 let reqTimer = null
 
@@ -26,7 +27,7 @@ const conf = {
     data: {
         // 导航数据
         navConf: {
-            title: '摇一摇',
+            title: '每日一签',
             state: 'root',
             isRoot: false,
             isIcon: true,
@@ -56,10 +57,13 @@ const conf = {
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        let self = this
         // 重置登录状态
         Storage.shakeLogin = false
         let pageFrom = options.from
-        let self = this
+        if(len === 0){
+            self.shakeFun()
+        }
         $vm = getApp()
         _GData = $vm.globalData
         // 调用数据分析进行统计
@@ -70,19 +74,26 @@ const conf = {
             longScreen : Storage.LongScreen || false
         })
 
+        // shake原型对象
+        Storage.shakeSelf = self
+
         let handle = () => {
             console.log('登录标识')
             Storage.shakeLogin = true
-            self.setData({
+            Storage.shakeSelf.setData({
                 userInfo: Storage.userInfo
             })
             // 上报选择星座
             // methods.setUserInfo({ userInfo : Storage.userInfo },_GData.selectConstellation.id)
         }
 
-        // 监听事件
-        bus.on('login-success', handle , 'login-com')
-        bus.on('login-success', handle , 'shake-app')
+		// 是否是首次注册
+		if(!Storage.firstShake){
+			Storage.firstShake = true
+            // 监听事件
+            bus.on('login-success', handle , 'login-com')
+            bus.on('login-success', handle , 'shake-app')
+		}
 
 		// 如果已经存在用户信息触发登录标识
 		if(Storage.userInfo){
@@ -98,13 +109,18 @@ const conf = {
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        this.shakeFun()
         animation.rotate(0).step()
         // 确认信封出来动画以及树停止动画
         this.setData({
             shakeLotSpeed : false,
             animationData : animation.export()
         })
+        if(len === 0){
+            len++
+            return
+        }
+        // 开启加速监听
+        wx.startAccelerometer()
     },
 
     /**
@@ -119,7 +135,7 @@ const conf = {
             animationData : animation.export()
         })
         console.log('动画隐藏')
-        wx.stopAccelerometer({})
+        wx.stopAccelerometer()
     },
 
     /**
@@ -197,7 +213,7 @@ const conf = {
 	 * 摇签
 	 */
     shakeFun: function () { // 摇一摇方法封装
-        const _self = this
+        const self = this
         var numX = 0.12 //x轴
         var numY = 0.12 // y轴
         var numZ = 0.12 // z轴
@@ -206,6 +222,7 @@ const conf = {
 
         wx.onAccelerometerChange(function (res) { //小程序api 加速度计
             
+            console.log('---------------------------------加速度：',res)
             if (numX < res.x && numY < res.y) { //个人看法，一次正数算摇一次，还有更复杂的
                 positivenum++
                 setTimeout(() => { positivenum = 0 }, 2000) //计时两秒内没有摇到指定次数，重新计算
@@ -217,7 +234,7 @@ const conf = {
             if (positivenum == 1 && stsw) { //是否摇了指定的次数，执行成功后的操作
                 stsw = false
 
-                _self.drawLots()
+                self.drawLots()
                 console.log('摇一摇成功')
                 wx.stopAccelerometer({})
                 setTimeout(() => {
@@ -226,6 +243,8 @@ const conf = {
                 }, 2000)
             }
         })
+        // 停止监听
+        // wx.stopAccelerometer()
     },
     /**
 	 * 进入一签盒
@@ -316,7 +335,6 @@ function lotBeat(self,num = 0){
                 })
                 // 重置签的状态
                 resetLot(self)
-                self.shakeFun()
                 
                 wx.navigateTo({
                     url: '/pages/lot/emptylot/emptylot',
@@ -330,6 +348,10 @@ function lotBeat(self,num = 0){
                 // 结束摇动后重置
                 shakeLotSpeed : false,
             })
+            
+            // 重置签的状态
+            resetLot(self)
+            
             return
         }
         // 异常状态停止动画
@@ -351,7 +373,6 @@ function lotBeat(self,num = 0){
                 fail: function (res) { },
                 complete: function (res) { },
             })
-            self.shakeFun()
 
             return
         }

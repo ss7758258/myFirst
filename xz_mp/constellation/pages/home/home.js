@@ -194,19 +194,14 @@ Page({
 			wx.setStorageSync('icon_Path', Storage.userInfo.avatarUrl)
 			
 		}
-		// 注册登录成功事件
-		bus.on('login-success', handle , 'login-com')
-		bus.on('login-success', handle , 'home')
-
-		// switch (options.fromSource) {
-		// 	case 'nav':
-		// 		// 手动触发登录状态 
-		// 		bus.emit('login-success', {}, 'home')
-		// 		break;
 		
-		// 	default:
-		// 		break;
-		// }
+		// 是否是首次注册
+		if(!Storage.firstHome){
+			Storage.firstHome = true
+            // 监听事件
+			bus.on('login-success', handle , 'login-com')
+			bus.on('login-success', handle , 'home')
+		}
 		
 		// 如果已经存在用户信息触发登录标识
 		if(Storage.userInfo){

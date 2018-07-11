@@ -51,7 +51,7 @@ const config = {
 			lotNotCompleted: true
 		},
         // 是否是长屏机
-        longScreen : Storage.LongScreen
+        longScreen : false
 	},
 
 	/**
@@ -88,6 +88,7 @@ const config = {
 		let self = this
 		// 缓存签详情的来源参数
 		Storage.lotOpts = options
+		Storage.self = self
 		console.log('签页面参数：',options)
 		mta.Page.init()
 
@@ -98,16 +99,20 @@ const config = {
 			console.log('------------------登录标识-----------------------')
 			// 签详情页登录状态
 			Storage.lotLogin = true
-			self.setData({
+			Storage.self.setData({
 				userInfo: Storage.userInfo
 			})
 			// 获取签的数据
-			getTokenQian(options.from, self, options.lotId, _GData)
+			getTokenQian(Storage.lotOpts.from, Storage.self, Storage.lotOpts.lotId, _GData)
 		}
 
-		// 监听事件
-		bus.on('login-success', handle, 'login-com')
-		bus.on('login-success', handle, 'lotdetail-app')
+		// 是否是首次注册
+		if(!Storage.firstLot){
+			Storage.firstLot = true
+			// 监听事件
+			bus.on('login-success', handle, 'login-com')
+			bus.on('login-success', handle, 'lotdetail-app')
+		}
 
 		// 如果已经存在用户信息触发登录标识
 		if(Storage.userInfo){
@@ -446,22 +451,21 @@ function getQian(qId, self, GData) {
 
 		let lotDetail = parseLot(res)
 
-		setTimeout(() => {
+		self.setData({
+			lotDetail: lotDetail
+		})
+		
+		// 如果为购买的签
+		if (lotDetail.isOpen || !lotDetail.lotNotCompleted) {
+			// 拆签动画
 			self.setData({
-				lotDetail: lotDetail
+				disLotSuccess: true
 			})
-			
-			// 如果为购买的签
-			if (lotDetail.isOpen || !lotDetail.lotNotCompleted) {
-				// 拆签动画
-				self.setData({
-					disLotSuccess: true
-				})
-			}
+			console.log('设置对象数据：',self)
+		}
 
-			wx.hideLoading()
+		wx.hideLoading()
 
-		}, 500)
 
 	}).catch(err => {
 		wx.hideLoading()
@@ -495,7 +499,9 @@ function getTokenQian(pageFrom, self, qId, _GData) {
 				"navConf.root": '/pages/home/home'
 			})
 		}
-		getQian(qId, self)
+		setTimeout( () => {
+			getQian(qId, self)
+		},500)
 	} else if (Storage.lotOpts.fromSource && Storage.lotOpts.fromSource !== '') {
 		setTimeout(() => {
 			self.setData({
