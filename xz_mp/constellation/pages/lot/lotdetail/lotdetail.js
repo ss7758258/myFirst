@@ -322,7 +322,7 @@ const config = {
 							return
 						}
 						console.log('钱包星星数量：', data)
-						// data.balance = 1
+						// data.balance = 2000
 						// 当小星星不足时进行提示
 						if (data.balance < starNum) {
 							
@@ -348,16 +348,32 @@ const config = {
 						} else {
 
 							mta.Event.stat('pay_success', {})
-
+							wx.showLoading({
+								title : '拆签中...'
+							})
 							API.buyStar({
-								id: self.data.lotDetail.id
+								id: self.data.lotDetail.id,
+								notShowLoading: true
 							}).then(res => {
+								// throw err = new Error('12122')
 								console.log('购买结果：', res)
 								if (res.retcode === 0) {
 									console.log('购买成功')
 									// 重新加载一遍数据
 									getQian(Storage.detailLotId, self)
 								}
+								wx.hideLoading()
+							}).catch(err => {
+								setTimeout(() => {
+									wx.hideLoading()
+									wx.showToast({
+										title : '拆签失败',
+										icon : 'none',
+										image : '/assets/img/error.svg',
+										duration : 2000,
+										mask : true
+									})
+								},500)
 							})
 						}
 					})
@@ -431,7 +447,7 @@ const config = {
 							})
 
 							// 如果为购买的签
-							if (lotDetail.isOpen) {
+							if (lotDetail.isOpen || !lotDetail.lotNotCompleted) {
 								// 拆签动画
 								self.setData({
 									disLotSuccess: true

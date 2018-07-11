@@ -34,7 +34,7 @@
 
 <view class="UI_page page_home page_bg {{isIPhoneX ? 'iPhoneX' : ''}} {{!showHome ? 'page_home_key' : ''}}">
 	<!-- 选择星座 -->
-	<view class="star_panel" wx:if="{{!showHome && isLogin}}">
+	<view class="star_panel" wx:if="{{!showHome}}">
 		<view class="UI_box cbg1">
 			<view class="header">
 				<text>选择星座</text>
@@ -57,7 +57,7 @@
 			</view>
 		</view>
 	</view>
-	<view class="UI_box2" wx:if="{{showHome && isLogin}}">
+	<view class="UI_box2" wx:if="{{showHome}}">
 		<button class="mySign {{selectBack ? 'selectItem1 ':''}}" bindtap='onClickConstellation' hover-class="itemClick">
 			<view class="signImg">
 				<image wx:if="{{myConstellation.img}}" src="{{myConstellation.img}}" />

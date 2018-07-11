@@ -353,15 +353,19 @@ page{
     height: 147rpx;
     bottom:16rpx;
     right: 5rpx;
-    animation: lotBox 5s infinite linear;
+    /* animation: lotBox 5s infinite linear; */
+}
+.lotBox_active{
+    animation: lotBox 2s infinite linear;
 }
 @keyframes lotBox{
-    0%,90%,100%{
+    0%,100%{
         transform: scale(1);
     }
-    95%{
-        transform: scale(1.1);
+    50%{
+        transform: scale(1.2);
     }
+    
 }
 /* End一签盒 */
 

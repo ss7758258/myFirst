@@ -60,7 +60,11 @@ Page({
 	// 支付操作
 	handlePayClick(ev) {
 		let { id } = this.data.currentItem
-		let params = { id }
+		wx.showLoading({
+			title:'购买中...',
+			mask : true
+		})
+		let params = { id , notShowLoading: true }
 		// 充值变更
 		api.getRecharge(params).then(res => {
 			console.log('支付后的返回：',res)
@@ -74,9 +78,10 @@ Page({
 					console.log('完成支付后：',arguments)
 					// 更新余额
 					this._getBlance()
+					wx.hideLoading()
 				},
 				fail: (res) => {
-
+					wx.hideLoading()
 				}
 			}
 

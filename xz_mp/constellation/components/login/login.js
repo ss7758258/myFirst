@@ -5,7 +5,6 @@ const $vm = getApp()
 
 const time = 3000
 const tm = 500
-let num = 0
 let timer = null
 let clickLogin = false
 
@@ -19,27 +18,27 @@ const methods = (function (){
             
             timer = setInterval(() => {
                 console.log('----------------------------检测登录---------------------------')
-                console.log(num,Storage.isLogin)
+                console.log(self.data.num,Storage.isLogin,clickLogin)
                 console.log('----------------------------检测登录---------------------------')
                 if(clickLogin){
-                    num = 0
+                    self.data.num = 0
                     clearInterval(timer)
                     return
                 }
                 if(Storage.isLogin){
-                    num = 0
+                    self.data.num = 0
                     clearInterval(timer)
                     return
                 }
-                if(num >= (time / tm)){
-                    num = 0
+                if(self.data.num >= (time / tm)){
+                    self.data.num = 0
                     console.log('检测登录---------------------------')
                     clearInterval(timer)
                     // 检测到未登录
                     bus.emit('no-login-app', {} , 'app')
                     return
                 }
-                num++
+                self.data.num++
             },tm)
 
             bus.on('no-login-app',(res) => {
@@ -194,7 +193,8 @@ Component({
      */
     data: {
         showLogin : false,
-        iPhoneX : Storage.iPhoneX
+        iPhoneX : Storage.iPhoneX,
+        num : 0
     },
     ready(){
         methods.onEventHandle(this)

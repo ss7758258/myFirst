@@ -78,7 +78,7 @@
             <!-- End广告牌 -->
 
             <!-- 一签盒 -->
-            <image class="lotBox" src="/assets/img/lotbox.png" catchtap="openLotBox"></image>
+            <image class="lotBox {{lotBox}}" src="/assets/img/lotbox.png" catchtap="openLotBox"></image>
             <!-- End一签盒 -->
         </view>
         <view class="bootom_x" wx:if="{{longScreen}}">

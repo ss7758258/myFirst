@@ -65,7 +65,7 @@ Page({
             })
         }
         console.log(wx.getStorageSync('userInfo').nickName)
-        let userInfo = wx.getStorageSync('userInfo')
+        let userInfo = Storage.userInfo
         if(userInfo){
             this.setData({
                 nickName: userInfo.nickName ? userInfo.nickName : ''

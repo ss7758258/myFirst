@@ -52,8 +52,9 @@ const conf = {
         // 动画对象
         animationData : {},
         // 是否是长屏机
-        longScreen : Storage.LongScreen,
-        iPhoneX : Storage.iPhoneX
+        longScreen : false,
+        iPhoneX : Storage.iPhoneX,
+        lotBox:'' //样式
     },
 
     /**
@@ -85,10 +86,12 @@ const conf = {
 
         let handle = () => {
             console.log('登录标识')
+            // self.shakeLotBox()
             Storage.shakeLogin = true
             Storage.shakeSelf.setData({
                 userInfo: Storage.userInfo
             })
+            getX510(Storage.shakeSelf)
             // 上报选择星座
             // methods.setUserInfo({ userInfo : Storage.userInfo },_GData.selectConstellation.id)
         }
@@ -115,6 +118,7 @@ const conf = {
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
+        // this.shakeLotBox()
         animation.rotate(0).step()
         // 确认信封出来动画以及树停止动画
         this.setData({
@@ -127,9 +131,9 @@ const conf = {
         }
         // 开启加速监听
         wx.startAccelerometer()
-		if(Storage.isLogin){
-			bus.emit('login-success', {}, 'shake-app')
-		}
+        
+        // 获取一签盒数据状态
+        getX510(this)
     },
 
     /**
@@ -188,6 +192,58 @@ const conf = {
             }
         }
     },
+    
+    shakeLotBox() {
+        // debugger
+        this.setData({
+            lotBox:''
+        })
+        let self=this
+        let lotBox_status=[]
+        
+        wx.getStorage({
+            key:'lotBox_status',
+            success:res=>{
+                lotBox_status=res.data
+                console.log(res.data)
+                if(lotBox_status){
+                    for(let i=0;i<lotBox_status.length;i++){
+                        if(lotBox_status[i] == 0){
+                            self.setData({
+                                lotBox:'lotBox_active'
+                            })
+                        }
+                    }
+                }
+            },
+            fail:res=>{
+                // console.log('lotBox_status',lotBox_status)
+                $vm.api.getX510({ notShowLoading: true, pageNum: 1, pageSize: 10 }).then(res => {
+                    console.log('签数据====', res)
+                    let lotBox_id=[],lotBox_status=[]
+                    for (let i = 0; i < res.length; i++) {
+                        lotBox_id.push(res[i].id)
+                        lotBox_status.push(res[i].status)
+                    }
+                    console.log(11111111111111)
+                    wx.setStorage({ key: 'lotBox_id', data: lotBox_id ,}) //设置缓存签id
+                    wx.setStorage({ key: 'lotBox_status', data: lotBox_status, })//设置缓存签状态
+                    for (let i = 0; i < lotBox_status.length; i++) //若有状态为未拆签则执行动画效果
+                        if (lotBox_status[i] == 0) {
+                        this.setData({
+                            lotBox: "lotBox_active"
+                        })
+                        return
+                    }
+                }).catch(res => {
+                    console.log('错误信息的味道无多无多无多无', res)
+                })
+            }
+        })
+        
+       
+    },
+
     /**
 	 * 打开摇到的签
 	 * @param {*} e
@@ -220,7 +276,7 @@ const conf = {
             success(){
                 setTimeout(function(){
                     wx.vibrateLong()
-                },400)
+                },800)
             }
         })
         // 拉取摇签数据
@@ -420,4 +476,36 @@ function resetLot(self){
         endSpeed: false
     })
 }
+
+/**
+ * 获取一签盒列表数据
+ * @param {number} [pageNum=1]
+ * @param {number} [pageSize=10]
+ */
+const getX510 = (self, pageNum = 1, pageSize = 10) => {
+    let clicks = wx.getStorageSync('click_list') || [];
+    $vm.api.getX510({ notShowLoading : true,pageNum, pageSize }).then(res => {
+        console.log('一签盒列表：', res)
+        if (res && res.constructor === Array) {
+            let red_dot = false;
+            res.forEach(v => {
+                // 如果有状态为0并且点击列表中又不存在点击行为的确定为未点击状态
+                if (v.status === 0 && clicks.indexOf(v.id) === -1) {
+                    red_dot = true
+                }
+            })
+
+            // 设置红点是否显示状态
+            self.setData({
+                lotBox: red_dot ? 'lotBox_active' : ''
+            })
+            // 本地缓存下数据
+            wx.setStorageSync('sign_lists', res)
+            return false;
+        }
+        // 本地缓存下数据
+        wx.setStorageSync('sign_lists', '')
+    })
+}
+
 Page(conf)

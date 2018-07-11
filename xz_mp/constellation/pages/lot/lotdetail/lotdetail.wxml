@@ -5,7 +5,7 @@
 
 
 <!-- 签详情页 -->
-<form bindsubmit="getFormId" report-submit="true" wx:if="{{lotDetail.lotTitleHint}}">
+<form bindsubmit="getFormId" report-submit="true">
 	<view class="panel_scene {{longScreen ? 'iPhoneX' : ''}}">
 		<!-- 内容主体 -->
 		<view class="panel_body">
@@ -30,7 +30,7 @@
 
 			<!-- 签详情 -->
 			<view class="panel">
-				<view class="content_panel {{(lotDetail.isOpen || !lotDetail.lotNotCompleted) ? 'open' : 'not_dis'}}">
+				<view class="content_panel {{lotDetail.isOpen || !lotDetail.lotNotCompleted ? 'open' : 'not_dis'}}">
 
 					<!-- 信封背景 -->
 					<image class="envelope envelope_bg" src="/assets/img/bg.png"></image>

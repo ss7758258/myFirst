@@ -60,7 +60,7 @@ App({
 	},
    
 	globalData: {
-		selectConstellation: null,
+		selectConstellation: wx.getStorageSync('selectConstellation') || { id: 1, name: "白羊座", time: "3.21-4.19", img: "/assets/images/aries.png", isFirst: true },
 		userInfo: null,
 		lotDetail: {},
 	},

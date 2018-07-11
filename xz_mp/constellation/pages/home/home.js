@@ -88,13 +88,12 @@ Page({
 	},
 	selectSign: function (e) {
 		const _self = this
-
 		const selectConstellation = e.detail.target.dataset.item
 		mta.Event.stat('ico_home_select', { 'constellation': selectConstellation.name })
 		_GData.selectConstellation = selectConstellation
 		wx.setStorage({
 			key: 'selectConstellation',
-			data: e.detail.target.dataset.item,
+			data: e.detail.target.dataset.item
 		})
 		_self.setData({
 			myConstellation: selectConstellation,
@@ -145,9 +144,8 @@ Page({
 		getSystemInfo(this);
 		mta.Page.init()
 		Storage.forMore = false
-		_GData = $vm.globalData
 		let self = this
-		let selectConstellation = _GData.selectConstellation
+		Storage.homeSelf = this
 
 		// 获取乐摇摇推广信息
 		getLeYaoyao(self,options)
@@ -159,13 +157,19 @@ Page({
 				getUserConf(self)
 			}
 		},'home')
+		
+		// 用于解析用户来源
+		parseForm(self,options)
 
 		let handle = () => {
+
+			$vm = getApp()
+			_GData = $vm.globalData
 			
 			// 登录状态
 			Storage.homeLogin = true
 
-			self.setData({
+			Storage.homeSelf.setData({
 				isLogin : true
 			})
 
@@ -175,24 +179,20 @@ Page({
 			bus.emit('loadUserConf',{},'home')
 
 			// 获取选中星座的数据
-			getContent(self,selectConstellation)
+			getContent(Storage.homeSelf,_GData.selectConstellation)
 
-			// 用于解析用户来源
-			parseForm(self,options)
 			console.log('用户信息======================：',Storage.userInfo)
-			self.setData({
-				// hasAuthorize: true,
+			Storage.homeSelf.setData({
 				'navConf.iconPath' : Storage.userInfo.avatarUrl
 			})
 
 			_GData.userInfo = Storage.userInfo
 
 			// 获取配置信息
-			getConfing(self);
+			getConfing(Storage.homeSelf);
 
 			// 保存头像信息
 			wx.setStorageSync('icon_Path', Storage.userInfo.avatarUrl)
-			
 		}
 		
 		// 是否是首次注册
