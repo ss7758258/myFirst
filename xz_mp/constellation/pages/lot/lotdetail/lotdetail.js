@@ -226,7 +226,7 @@ const config = {
 				ctx.setTextAlign('center')
 				ctx.setFontSize(16)
 				for (var i = 0; i < s.length; i++) {
-					ctx.fillText(s[i], 187.5, 168 + ((4-i)*45/2))
+					ctx.fillText(s[i], 187.5, 168 + ((i + 1)*45/2))
 				}
 				
 				// 时间
@@ -235,8 +235,8 @@ const config = {
 				let timer = new Date();
 				let newDate = '一 ' + timer.getFullYear() + '.' + (timer.getMonth() + 1 > 9 ? timer.getMonth() + 1 : '0' + (timer.getMonth() + 1)) + '.' + (timer.getDate() > 9 ? timer.getDate() : '0' + timer.getDate()) + ' 一';
 				// console.log('输出日期：', newDate)
-				lotdetail.qianDate = lotdetail.qianDate.split('-').join('.')
-        		ctx.fillText(lotdetail.qianDate, 187.5, 290)
+				let qianDate = lotdetail.qianDate.split('-').join('.')
+        		ctx.fillText(qianDate, 187.5, 290)
 				// 计算文本长度
 				const mea_date = ctx.measureText(newDate).width / 2
 				// ctx.fillText(newDate, 187.5, 290)
