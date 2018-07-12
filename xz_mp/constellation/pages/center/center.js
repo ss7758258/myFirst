@@ -32,17 +32,13 @@ Page({
         let clockStatus = wx.getStorageSync('clockStatus');
         
         // 小星星  ios上关闭打开
-        if(Storage.sys === 'ios' && Storage.openIos){
+        if(Storage.sys === 'ios'){
             this.setData({
-                showOpen : true
-            })
-        }else if(Storage.sys === 'ios' && !Storage.openIos){
-            this.setData({
-                showOpen : false
+                showOpen : Storage.openIos === 1
             })
         }else{
             this.setData({
-                showOpen : true
+                showOpen : Storage.openAndriod === 1
             })
         }
 

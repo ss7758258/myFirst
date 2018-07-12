@@ -71,19 +71,16 @@ const config = {
 		starNum = Storage.starPrice
         // Storage.openIos = 1
 		// ios上关闭打开
-		if(Storage.sys === 'ios' && Storage.openIos){
+		if(Storage.sys === 'ios'){
             this.setData({
-                iosOpen : true
-            })
-        }else if(Storage.sys === 'ios' && !Storage.openIos){
-            this.setData({
-                iosOpen : false
+                iosOpen : Storage.openIos === 1
             })
         }else{
             this.setData({
-                iosOpen : true
+                openAndriod : Storage.openAndriod === 1
             })
 		}
+		
 		// 缓存对象
 		let self = this
 		// 缓存签详情的来源参数
