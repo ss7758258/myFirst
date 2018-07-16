@@ -1,5 +1,8 @@
 const Promise = require('./Promise')
 const env = require('../config')
+const Storage = require('./storage')
+const bus = require('../event')
+const login = require('../server/login')
 
 function requstGet(url, data) {
 	return requst(url, 'GET', data)
@@ -36,7 +39,8 @@ function requst(url, method, data = {}) {
 			data:
 			{
 				requestHeader: JSON.stringify({
-					token: wx.getStorageSync('token')
+					// token: wx.getStorageSync('token')
+					token : Storage.token
 				}),
 				requestBody: JSON.stringify(data)
 			}
@@ -48,6 +52,20 @@ function requst(url, method, data = {}) {
 
 			method: method.toUpperCase(), // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
 			success: function (res) {
+				if (res.data && ('LOGINERROR' === res.data.status)){
+					console.log('用户token过期或者解析失败，进入---------------静默登录')
+					wx.showToast({
+						title: '小主，登录信息时效，请重新登录',
+						icon: 'none',
+						duration: 2000,
+						mask : true
+					})
+					setTimeout(() => {
+						// 用户token过期
+						bus.emit('no-login-app', res , 'app')
+					}, 2000);
+					return
+				}
 				console.log(url)
 				if (url == 'statisticsConstellation/x610') {
 					console.log(data)
@@ -55,6 +73,8 @@ function requst(url, method, data = {}) {
 				if (res.data && res.data.responseBody &&
 					('SUCCESS' == res.data.responseBody.status)) {
 					if (url == 'selectConstellation/x100' && !data.constellationId) {
+						resove(res.data.responseBody)
+					}else if(url == 'loginConstellation/loginForMore'){
 						resove(res.data.responseBody)
 					} else {
 						resove(res.data.responseBody.data)
@@ -206,6 +226,10 @@ const getBlance = function(data) {
 const getRecharge = function(data) {
 	return requstPost('pay/recharge', data)
 }
+// 购买小星星
+const buyStar = function(data) {
+	return requstPost('pay/buylook', data)
+}
 // 获取乐摇摇的数据信息
 const getLeYaoyao = function(params,data){
 	return new Promise((resolve,reject) => {
@@ -254,5 +278,6 @@ module.exports = {
 	getGoods,
 	getBlance,
 	getRecharge,
-	getLeYaoyao
+	getLeYaoyao,
+	buyStar
 }

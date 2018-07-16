@@ -1,0 +1,18 @@
+
+<view class="app_login_mask" wx:if="{{showLogin}}">
+    <view class="app_login_panel {{iPhoneX ? 'iPhoneX' : ''}}" wx:if="{{showLogin}}">
+        <view class="app_login_title">
+            微信登录
+        </view>
+        <view class="app_login_content">
+            <view class="app_login_content_logo"></view>
+            <view class="app_login_content_text">
+                小哥星座
+            </view>
+            <view class="app_login_bottom">
+                <text>登录后体验完整功能</text>
+                <button open-type="getUserInfo" hover-class="animate" catchgetuserinfo="getUserInfo" class='botton'>微信登录</button>
+            </view>
+        </view>
+    </view>
+</view>

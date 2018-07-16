@@ -5,6 +5,7 @@ const mta = require('../../utils/mta_analysis.js')
 const confing = require('../../conf')
 const conf = confing[require('../../config')] || {}
 const Storage = require('../../utils/storage')
+const bus = require('../../event')
 const {parseIndex} = $vm.utils
 let _GData = $vm.globalData
 
@@ -74,6 +75,7 @@ Page({
 		clockStatus : false,  //小打卡开关
 		isBanner : false, // 广告位开关
 		isIPhoneX : false,
+		isLogin : false, // 是否登录完成
 		noticeBtnStatus : false, // 通知开关
 		showFollow : false, // 关注服务号开关
 		shareCard : {
@@ -86,14 +88,12 @@ Page({
 	},
 	selectSign: function (e) {
 		const _self = this
-		const _SData = this.data
-
 		const selectConstellation = e.detail.target.dataset.item
 		mta.Event.stat('ico_home_select', { 'constellation': selectConstellation.name })
 		_GData.selectConstellation = selectConstellation
 		wx.setStorage({
 			key: 'selectConstellation',
-			data: e.detail.target.dataset.item,
+			data: e.detail.target.dataset.item
 		})
 		_self.setData({
 			myConstellation: selectConstellation,
@@ -112,8 +112,8 @@ Page({
 		const _SData = this.data
 		$vm.api.getSelectx100({
 			constellationId: _GData.selectConstellation.id,
-			nickName: _GData.userInfo.nickName,
-			headImage: _GData.userInfo.avatarUrl,
+			nickName: Storage.userInfo.nickName,
+			headImage: Storage.userInfo.avatarUrl,
 			notShowLoading: true,
 		}).then(res => {
 			// 获取一言图片
@@ -139,96 +139,99 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
+		// 重置登录信息
+		Storage.homeLogin = false
 		getSystemInfo(this);
 		mta.Page.init()
+		Storage.forMore = false
+		let self = this
+		Storage.homeSelf = this
+
+		// 获取乐摇摇推广信息
+		getLeYaoyao(self,options)
 		
-		_GData = $vm.globalData
-		let _self = this
-		let selectConstellation = _GData.selectConstellation
-		let fromwhere = options.from
-		let to = options.to
-
-		// 获取选中星座的数据
-		getContent(this,selectConstellation)
-		// 用于解析用户来源
-		parseForm(this,options)
-
-		let me = this;
-		let login_timer = setInterval(() => {
-			if(!Storage.loginStatus){
-				return false
+		// 注册监听事件
+		bus.on('loadUserConf',() => {
+			if(Storage.forMore){
+				// 加载用户配置
+				getUserConf(self)
 			}
-			// 清除等待
-			clearInterval(login_timer)
-			wx.getUserInfo({
-				success: function (res) {
-					// 获取乐摇摇推广信息
-					getLeYaoyao(_self,options)
-					console.log('获取用户配置成功：',res)
-					if (res.userInfo) {
-						wx.setStorage({
-							key: 'userInfo',
-							data: res.userInfo,
-						})
-						_self.setData({
-							hasAuthorize: true,
-							'navConf.iconPath' : res.userInfo.avatarUrl
-						})
-						_GData.userInfo = res.userInfo
-						// 上报用户加密信息
-						$vm.api.loginForMore({
-							encryptedData: res.encryptedData,
-							iv: res.iv,
-							sessionKey : Storage.sessionKey,
-							nickName: res.userInfo.nickName,
-							headImage: res.userInfo.avatarUrl,
-							notShowLoading: true,
-						}).then(result => {
-							// 确定用户信息已经上报
-							Storage.loginForMore = true
-							// 获取配置信息
-							getConfing(me);
-						}).catch(err => {
-							Storage.loginForMore = false
-							// 上报失败的情况跳转到重新授权登录页面
-							wx.redirectTo({
-								url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to + '&q=' + options.q
-							})
-						})
-						wx.setStorageSync('icon_Path', res.userInfo.avatarUrl)
-					}
-				},
-				fail: function (res) {
-					// 查看是否授权
-					wx.getSetting({
-						success: function (res) {
-							if (!res.authSetting['scope.userInfo']) {
-	
-								_self.setData({
-									hasAuthorize: false
-								})
-								wx.redirectTo({
-									url: '/pages/checklogin/checklogin?from=' + fromwhere + '&to=' + to + '&q=' + options.q
-								})
-							}
-						}
-					})
-				}
+		},'home')
+		
+		// 用于解析用户来源
+		parseForm(self,options)
+
+		let handle = () => {
+
+			$vm = getApp()
+			_GData = $vm.globalData
+			
+			// 登录状态
+			Storage.homeLogin = true
+
+			Storage.homeSelf.setData({
+				isLogin : true
 			})
-		},200)
+
+			// 加载用户配置的依赖
+			Storage.forMore = true
+			// 触发加载用户配置函数
+			bus.emit('loadUserConf',{},'home')
+
+			// 获取选中星座的数据
+			getContent(Storage.homeSelf,_GData.selectConstellation)
+
+			console.log('用户信息======================：',Storage.userInfo)
+			Storage.homeSelf.setData({
+				'navConf.iconPath' : Storage.userInfo.avatarUrl
+			})
+
+			_GData.userInfo = Storage.userInfo
+
+			// 获取配置信息
+			getConfing(Storage.homeSelf);
+
+			// 保存头像信息
+			wx.setStorageSync('icon_Path', Storage.userInfo.avatarUrl)
+		}
+		
+		// 是否是首次注册
+		if(!Storage.firstHome){
+			Storage.firstHome = true
+            // 监听事件
+			bus.on('login-success', handle , 'login-com')
+			bus.on('login-success', handle , 'home')
+		}
+		
+		// 如果已经存在用户信息触发登录标识
+		if(Storage.userInfo){
+            // 已经触发过登录不在触发
+			if(Storage.homeLogin){
+				return
+			}
+			bus.emit('login-success', {}, 'home')
+		}
 	},
 
 	onShow(){
-		let me = this
-		let login_timer = setInterval(() => {
-			if(!Storage.loginForMore){
-				return false
-			}
-			clearInterval(login_timer)
-			getUserConf(me)
-		},200)
+		// console.log('是否已经登录：',Storage.isLogin)
+		// if(!Storage.isLogin){
+		// 	bus.emit('no-login-app', {} , 'app')
+		// 	return
+        // }
+		// 触发加载用户配置函数
+		bus.emit('loadUserConf',{},'home')
 	},
-	
+	/**
+	 * app隐藏时判断
+	 */
+	onHide(){
+		if(!Storage.isLogin){
+			wx.redirectTo({
+				url : '/pages/home/home'
+			})
+		}
+	},
 	/**
 	 * 用户点击右上角分享
 	 */
@@ -239,7 +242,7 @@ Page({
 
 		return {
 			title: '用小哥星座，得最全最准的运势预测！',
-			imageUrl: '/assets/images/share.jpg',
+			imageUrl: '/assets/images/share_home.jpg',
 			success: function (res) {
 				// 转发成功
 			},
@@ -302,10 +305,6 @@ Page({
 			// 记录timer
 			timer = setTimeout(price, 15);
 			
-			// _self.setData({
-			// 	timer: temp
-			// })
-
 		}
 		return price
 	},
@@ -313,7 +312,6 @@ Page({
 	onClickConstellation: function () {
 		// 清除定时
 		clearTimeout(timer ? timer : '');
-		// clearTimeout(this.data.timer ? this.data.timer : '');
 		mta.Event.stat("ico_home_unselect", {})
 		wx.setStorage({
 			key: 'selectConstellation',
@@ -348,7 +346,7 @@ Page({
 		})
 		mta.Event.stat("ico_home_to_shake", {})
 		wx.navigateTo({
-			url: '/pages/lot/shakelot/shake?formid=' + formid,
+			url: '/pages/lot/shake/shake?fromSource=home&formid=' + formid,
 			complete: function (res) {
 				_self.setData({
 					isLoading: false
@@ -489,7 +487,7 @@ function getConfing(me){
  * @param {*} self
  */
 function getSystemInfo(self){
-	let res = wx.getSystemInfoSync();
+	let res = Storage.systemInfo
 	console.log('设备信息：',res);
 	if(res){
 		// 长屏手机适配
@@ -591,13 +589,7 @@ function getContent(self,selectConstellation){
 			showHome: true,
 			'navConf.isIcon' : true
 		})
-		let login_timer_k = setInterval(() => {
-			if(!Storage.loginForMore){
-				return false
-			}
-			clearInterval(login_timer_k)
-			self.onShowingHome()
-		},200)
+		self.onShowingHome()
 	} else {
 		self.setData({
 			showHome: false,

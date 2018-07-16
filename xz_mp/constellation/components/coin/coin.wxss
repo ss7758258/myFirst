@@ -1,0 +1,157 @@
+.footer{
+  width:710rpx;
+  height:400rpx;
+  background:rgba(255,255,255,0.2);
+  box-shadow:0px 6px 12px 0px rgba(127,75,240,0.4);
+  border-radius:6rpx;
+  border:2rpx solid rgba(255,255,255,0.5);
+  box-sizing: border-box;
+  position: fixed;
+  left: 20rpx;
+  bottom: 30rpx; 
+}
+/* 硬币 */
+.coin{
+  width:100rpx;
+  height:100rpx;
+  margin: 40rpx auto 0;
+  background:rgba(255,214,64,1);
+  box-shadow:2rpx 2rpx 0px 0px rgba(255,255,255,0.2),-1rpx -2rpx 0px 0px rgba(255,208,38,1);
+  border-radius: 50%;
+  position: relative;
+  animation: coin 1.5s linear 0s infinite;
+}
+.coin_img{
+  width: 100%;
+  height: 100%;
+}
+/* 星星 */
+.star{
+  width:20rpx;
+  height:20rpx;
+  background:transparent;
+  position: absolute;
+}
+.starup{
+  left: 5rpx;
+  top:5rpx;
+  animation: starup 1s 0s linear infinite
+}
+.stardown{
+  right: 5rpx;
+  bottom: 5rpx;
+  animation: stardown 1s 0s linear infinite
+}
+/* 阴影 */
+.shadow{
+  width:76rpx;
+  height:7rpx;
+  background:rgba(136,91,235,1);
+  margin: 8rpx auto;
+  border-radius: 50%;
+  animation: shadow 1.5s linear 0s infinite;
+}
+.txt{
+  width:290rpx;
+  height:37rpx;
+  font-size:26rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,255,255,1);
+  line-height:37rpx;
+  margin: 0 auto;
+}
+.save_btn{
+  width:480rpx;
+  height:88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background:rgba(255,255,255,1);
+  border-radius:8rpx;
+  font-size:36rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(146,98,251,1);
+  margin: 46rpx auto 0;
+}
+button::after{
+  border: none;
+  padding: 0
+}
+
+/* 头像 */
+.face{
+  margin: 40rpx auto 0;
+  width: 460rpx;
+  height: 100rpx;
+  position: relative
+}
+.face_img{
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  position: absolute;
+  top: 0rpx;
+}
+.face_img0{
+  left: 0
+}
+.face_img1{
+  left: 180rpx;
+}
+.face_img2{
+  left: 360rpx
+}
+
+/* 文字 */
+.friend{
+  width:400rpx;
+  height:37rpx;
+  font-size:26rpx;
+  font-family:PingFangSC-Regular;
+  color:rgba(255,255,255,1);
+  line-height:37rpx;
+  margin: 23rpx auto 0;
+}
+@keyframes coin{
+  0%{
+    transform: translateY(0)
+  }
+  50%{
+    transform: translateY(-10px)
+  }
+  100%{
+    transform: translateY(0)
+  }
+}
+@keyframes starup{
+  0%{
+    transform: scale(0)
+  }
+  50%{
+    transform: scale(2)
+  }
+  100%{
+    transform: scale(0)
+  }
+}
+@keyframes stardown{
+  0%{
+    transform: scale(2)
+  }
+  50%{
+    transform: scale(0)
+  }
+  100%{
+    transform: scale(2)
+  }
+}
+@keyframes shadow{
+  0%{
+    width: 76rpx;
+  }
+  50%{
+    width: 30rpx
+  }
+  100%{
+    width: 76rpx
+  }
+}

@@ -35,30 +35,10 @@
 			"current": -1,
 			"list": [
 				{
-					"id": 1,
-					"name": "brief",
-					"pathName": "pages/home/home",
-					"query": "to=brief&from=share"
-				},
-				{
-					"id": 3,
-					"name": "shake",
-					"pathName": "pages/lot/shakelot/shake",
-					"query": "from=activity",
-					"scene": "1011"
-				},
-				{
-					"id": 5,
-					"name": "activitytoday",
-					"pathName": "pages/home/home",
-					"query": "to=today&from=activity",
-					"scene": "1011"
-				},
-				{
-					"id": 6,
-					"name": "activityshake",
-					"pathName": "pages/lot/shakelot/shake",
-					"query": "from=activity",
+					"id": 0,
+					"name": "签详情",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": "from=share&lotId=565294",
 					"scene": "1011"
 				},
 				{
@@ -68,16 +48,9 @@
 					"query": ""
 				},
 				{
-					"id": 5,
-					"name": "摇签",
-					"pathName": "pages/lot/shakelot/shake",
-					"query": "from=outer&id=123456",
-					"scene": "1011"
-				},
-				{
-					"id": -1,
+					"id": 2,
 					"name": "一签盒",
-					"pathName": "pages/lot/lotlist/lotlist",
+					"pathName": "pages/lot/aSignWall/aSignWall",
 					"query": "",
 					"scene": "1011"
 				},
@@ -103,10 +76,10 @@
 					"scene": "1011"
 				},
 				{
-					"id": 10,
+					"id": 6,
 					"name": "帮好友拆签",
 					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "from=share&lotId=565230",
+					"query": "from=share&lotId=565289",
 					"scene": "1011"
 				},
 				{
@@ -127,6 +100,34 @@
 					"pathName": "pages/home/home",
 					"query": "q=http%3A%2F%2Fxingzuoapi-prod.yetingfm.com%2Fcode%2Fleyaoyao%3Fuid%3D1231231",
 					"scene": "1001"
+				},
+				{
+					"id": 10,
+					"name": "未拆的签",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": "from=share&lotId=565230",
+					"scene": "1011"
+				},
+				{
+					"id": 11,
+					"name": "组件页面",
+					"pathName": "pages/lot/openSign/openSign",
+					"query": "",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "其他人签详情",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": "from=share&lotId=565266",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "其他人签详情(未拆签)",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": "from=share&lotId=565279",
+					"scene": "1011"
 				}
 			]
 		}

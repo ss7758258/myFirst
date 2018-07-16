@@ -5,7 +5,9 @@ page{
 /* 动画主体内容 */
 .panel_body{
     position: relative;
+    width: 100%;
     height: 100%;
+    overflow-x: hidden;
 }
 /* 树 */
 .tree_panel {
@@ -13,6 +15,7 @@ page{
     bottom: 0;
     width: 100%;
     height: 962rpx;
+
 }
 .tree_panel_container{
     position: relative;
@@ -21,17 +24,20 @@ page{
     transform-origin:center 85%;
     transition: all .5s linear;
 }
-.tree_panel_container.animate{
+/* 树的摇动动画 */
+/* .tree_panel_container.animate{
     animation: treeRotate 1.2s infinite linear;
-}
+} */
 .tree{
     position: absolute;
-    left: 0;
-    right: 0;
+    left: -50rpx;
+    /* right: 0; */
     margin: auto;
-    width: 836rpx;
-    height: 962rpx;
-    bottom: 130rpx;
+    /* width: 836rpx; */
+    width: 850rpx;
+    max-width: 850rpx;
+    height: 1000rpx;
+    bottom: 160rpx;
 }
 .people{
     position: absolute;
@@ -46,23 +52,144 @@ page{
     position: absolute;
     width: 48rpx;
     height: 160rpx;
-    top: 200rpx;
+    top: 156rpx;
     left: 166rpx;
     transform-origin:center top;
     transform: rotate(-15deg);
     animation: rotate 4s infinite ease-in-out;
 }
+.envelope{
+    position: fixed;
+    width:561rpx;
+    height:351rpx;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 10;
+    transform: scale(0);
+}
+.envelope_mask{
+    position: fixed;
+    top: calc(2.9962546816479403vh + 6.6vh);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background: rgba(0,0,0,.6);
+    z-index: 10;
+    transform: scale(0);
+    transition: all 0s ease-in-out;
+    transition-delay: .2s;
+}
+.PX .envelope_mask{
+    top: calc(2.9962546816479403vh + 2vh + 6.6vh);
+}
+.envelope_mask.flyAnimate{
+    transform: scale(1);
+}
+.envelope.flyAnimate{
+    animation: flyAn 1s 1 ease-in-out,
+    glint 3s 1s infinite ease-in-out;
+    animation-fill-mode: forwards;
+}
+@keyframes flyAn{
+    0%{
+        opacity: 0;
+        transform: scale(0);
+    }
+    100%{
+        margin: auto;
+        opacity: 1;
+        transform: scale(.98);
+    }
+}
+@keyframes glint {
+    0%,100% {
+        box-shadow: 0 0 10px 5px rgba(255,255,255,.2);
+        transform: scale(.98);
+    }
+    50% {
+        box-shadow: 0 0 20px 10px rgba(255,255,255,.5);
+        transform: scale(1);
+    }
+}
 .lot_2{
     width: 46rpx;
     height: 169rpx;
-    top: 322rpx;
+    top: 288rpx;
     left: 280rpx;
 }
 .lot_3{
     width: 60rpx;
     height: 206rpx;
-    top: 256rpx;
+    top: 217rpx;
     left: 466rpx;
+}
+.shake_panel{
+    position: absolute;
+    width: 93rpx;
+    height: 93rpx;
+    left: 0;
+    right: 0;
+    transform: translateX(-16rpx);
+    margin: auto;
+    bottom: 222rpx;
+    border-radius: 50%;
+    background: #fff;
+    padding: 15rpx;
+    animation: opacity_shake 2s infinite linear;
+}
+.shake_panel.tap_opacity{
+    opacity: 0;
+    animation: none;
+}
+.shake_one{
+    width: 121rpx;
+    height: 121rpx;
+    bottom: 208rpx;
+    background: rgba(255, 255, 255, .6);
+    animation: opacity_shake 4s infinite ease-in-out;
+}
+.shake_two {
+    width: 107rpx;
+    height: 107rpx;
+    bottom: 215rpx;
+    background: rgba(255, 255, 255, .4);
+}
+.shake_img{
+    animation: shake_shake 3s infinite linear;
+}
+.shake_panel.stop_shake {
+    animation: none;
+    background: rgba(0,0,0,0);
+}
+.shake {
+    margin-top: -10rpx;
+    width: 96rpx;
+    height: 107rpx;
+}
+/* 外框只做透明度变化 */
+@keyframes opacity_shake{
+    0%, 100% {
+        opacity: .5;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+/* 摇一摇动画 */
+@keyframes shake_shake {
+    0%, 100% {
+        opacity: 1;
+        transform: translateX(-16rpx) rotate(30deg);
+    }
+    50% {
+        opacity: .5;
+        transform: translateX(-16rpx) rotate(-30deg);
+    }
 }
 /* 树上的签的摇动动画 */
 @keyframes rotate{
@@ -93,6 +220,17 @@ page{
     left: 164rpx;
     opacity: 0;
 }
+.heart_many{
+    width: 519rpx;
+    height: 475rpx;
+    opacity: 1;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    bottom: 260rpx;
+    margin: auto;
+    animation: heart_many 4s infinite linear;
+}
 .heart_left{
     animation: Float_left 4s infinite linear;
 }
@@ -102,7 +240,20 @@ page{
     right: 188rpx;
     animation: Float_right 4s infinite linear;
 }
-
+@keyframes heart_many{
+    0%{
+        opacity: 1;
+        bottom: 260rpx;
+    }
+    50%{
+        opacity: 0;
+        bottom: 0;
+    }
+    100% {
+        opacity: 0;
+        bottom: 260rpx;
+    }
+}
 @keyframes Float_left{
     0%{
         top: 500rpx;
@@ -157,6 +308,7 @@ page{
         opacity: 0;
     }
 }
+/* End心 */
 
 /* 草地 */
 .grass{
@@ -184,6 +336,108 @@ page{
     transform: translateX(20rpx);
 }
 
+/* 广告牌 */
+.ad{
+    position: absolute;
+    width: 126rpx;
+    height: 135rpx;
+    bottom:124rpx;
+    left: 5rpx;
+}
+/* End广告牌 */
+
+/* 一签盒 */
+.lotBox{
+    position: absolute;
+    width: 185rpx;
+    height: 147rpx;
+    bottom:16rpx;
+    right: 5rpx;
+    /* animation: lotBox 5s infinite linear; */
+}
+.lotBox_active{
+    animation: lotBox 2s infinite linear;
+}
+@keyframes lotBox{
+    0%,100%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(1.2);
+    }
+    
+}
+/* End一签盒 */
+
+/* 云 */
+.cloud{
+    position: absolute;
+    z-index: 1;
+    animation: cloud_an 7s infinite ease-in-out;
+}
+.cloud>image{
+    width: 100%;
+    height: 100%;
+}
+.cloud_up{
+    z-index: 0;
+    width: 51rpx;
+    height: 35rpx;
+    left: 161rpx;
+    bottom:1075rpx;
+    animation: cloud_up 18s infinite linear;
+}
+.cloud_left {
+    width: 67rpx;
+    height: 46rpx;
+    left: 60rpx;
+    bottom: 450rpx;
+    animation: cloud_left 12s infinite linear;
+}
+.cloud_right {
+    width: 100rpx;
+    height: 66rpx;
+    right: -5rpx;
+    bottom: 400rpx;
+    animation: cloud_right 15s infinite linear;
+}
+@keyframes cloud_right {
+    0%, 100% {
+        transform:translateX(50rpx);
+    }
+    50% {
+        transform: translateX(-50rpx);
+    }
+}
+@keyframes cloud_left {
+    0%,
+    100% {
+        transform: translateX(50rpx);
+    }
+    50% {
+        transform: translateX(-100rpx);
+    }
+}
+@keyframes cloud_up {
+    0%,
+    100% {
+        transform: translateX(100rpx);
+    }
+    50% {
+        transform: translateX(-150rpx);
+    }
+}
+/* End云 */
+.panel_scene.iPhoneX{
+    height: calc(100% - 2.9962546816479403vh - 6.6vh - 184rpx);
+}
+.iPhoneX .bootom_x{
+    width: 100%;
+    height: 184rpx;
+}
+.iPhoneX .bootom_x>image{
+    width: 100%;
+}
 /* 背景 */
 .panel_scene{
     padding : 0;

@@ -1,5 +1,0 @@
-<!-- 导航 -->
-<nav opts='{{navConf}}'></nav>
-<scroll-view class="listBanner" scroll-y bindscrolltolower="">
-    <banner opts="{{bannerConf}}"></banner>
-</scroll-view>
