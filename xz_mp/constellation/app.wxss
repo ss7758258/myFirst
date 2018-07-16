@@ -1,7 +1,16 @@
+.global_btn{
+	display: block;
+	color: #fff;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	background: rgba(0,0,0,0);
+	text-align: inherit;
+}
 /**app.wxss**/
 .panel_scene {
 	padding: 2vw;
-  height: calc(100% - 4vw - 2.9962546816479403vh - 6.6vh);
+  	height: calc(100% - 4vw - 2.9962546816479403vh - 6.6vh);
 }
 .img_0 {
 	background: url('/assets/images/lot.png');

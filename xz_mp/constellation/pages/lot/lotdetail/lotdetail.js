@@ -51,7 +51,9 @@ const config = {
 			lotNotCompleted: true
 		},
         // 是否是长屏机
-        longScreen : false
+		longScreen : wx.getStorageSync('LongScreen') || false,
+		// 异常机型适配
+		model : wx.getStorageSync('android_model') || ''
 	},
 
 	/**
@@ -139,6 +141,13 @@ const config = {
 			// 	url : '/pages/home/home'
 			// })
 		}
+	},
+	/**
+	 * 获取用户的信息
+	 * @param {*} e
+	 */
+	getInfo(e){
+		console.log(`用户信息：`,e.detail)
 	},
 	/**
 	 * 用户点击右上角分享

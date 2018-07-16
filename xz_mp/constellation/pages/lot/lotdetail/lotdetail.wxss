@@ -628,3 +628,18 @@ canvas {
 	position: fixed;
 	bottom: -120vh;
 }
+.Android .header_panel{
+	margin-top: 0;
+}
+.Android .panel{
+	height: 33.33vh;
+}
+.Android .content_panel{
+	height: 33.33vh;
+}
+.Android .bottom_panel,.Android envelope_panel{
+	height: auto;
+}
+.Android .btn_group>.btn_share,.Android .btn_group>.btn_dis {
+	margin-bottom: 46rpx;
+}
