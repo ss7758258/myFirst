@@ -13,6 +13,12 @@
         "pages/lot/openSign/openSign",
         "pages/myAccount/myAccount"
     ],
+    "subPackages": [
+        {
+          "root": "pages/components/pages/",
+          "pages": []
+        }
+    ],
     "window": {
         "backgroundTextStyle": "light",
         "navigationStyle": "custom",

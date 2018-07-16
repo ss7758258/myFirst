@@ -7,7 +7,7 @@
 <!-- 签详情页 -->
 <form bindsubmit="getFormId" report-submit="true">
 	<view class="panel_scene {{longScreen ? 'iPhoneX' : ''}} {{model}}">
-		<button class="global_btn" form-type="submit" open-type="getUserInfo" bindgetuserinfo="getInfo">
+		<!-- <button class="global_btn" form-type="submit"> -->
 			<!-- 内容主体 -->
 			<view class="panel_body">
 				<!-- 头部 -->
@@ -200,7 +200,7 @@
 				<!-- End底部好友栏 -->
 			</view>
 			<!-- End内容主体 -->
-		</button>
+		<!-- </button> -->
 	</view>
 </form>
 <!-- End签详情页 -->
