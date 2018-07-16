@@ -1,0 +1,135 @@
+{
+	"description": "项目配置文件。",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"libVersion": "1.9.94",
+	"appid": "wxedc8a06ed85ce4df",
+	"projectname": "constellation",
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": 0,
+					"name": "签详情",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": "from=share&lotId=565294",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "个人中心",
+					"pathName": "pages/center/center",
+					"query": ""
+				},
+				{
+					"id": 2,
+					"name": "一签盒",
+					"pathName": "pages/lot/aSignWall/aSignWall",
+					"query": "",
+					"scene": "1011"
+				},
+				{
+					"id": 7,
+					"name": "首页",
+					"pathName": "pages/home/home",
+					"query": "",
+					"scene": "1001"
+				},
+				{
+					"id": -1,
+					"name": "活动摇签",
+					"pathName": "pages/lot/shakelot/shake",
+					"query": "from=spread&id=789456",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "Banner",
+					"pathName": "pages/banner/banner",
+					"query": "",
+					"scene": "1011"
+				},
+				{
+					"id": 6,
+					"name": "帮好友拆签",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": "from=share&lotId=565289",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "新版摇一摇",
+					"pathName": "pages/lot/shake/shake",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "banner组件",
+					"pathName": "pages/index/index",
+					"query": ""
+				},
+				{
+					"id": 13,
+					"name": "首页",
+					"pathName": "pages/home/home",
+					"query": "q=http%3A%2F%2Fxingzuoapi-prod.yetingfm.com%2Fcode%2Fleyaoyao%3Fuid%3D1231231",
+					"scene": "1001"
+				},
+				{
+					"id": 10,
+					"name": "未拆的签",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": "from=share&lotId=565230",
+					"scene": "1011"
+				},
+				{
+					"id": 11,
+					"name": "组件页面",
+					"pathName": "pages/lot/openSign/openSign",
+					"query": "",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "其他人签详情",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": "from=share&lotId=565266",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "其他人签详情(未拆签)",
+					"pathName": "pages/lot/lotdetail/lotdetail",
+					"query": "from=share&lotId=565279",
+					"scene": "1011"
+				}
+			]
+		}
+	}
+}

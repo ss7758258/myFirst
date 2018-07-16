@@ -1,0 +1,139 @@
+<!-- 导航 -->
+<nav opts='{{navConf}}'></nav>
+<!-- 引入小打卡组件 -->
+<xiaodaka opts="{{xiaodaka}}" wx:if="{{showHome && clockStatus}}"></xiaodaka>
+<!-- 引入卡片 -->
+<!-- <shareCard opts="{{shareCard}}"></shareCard> -->
+<!-- 登录态 -->
+<loginApp></loginApp>
+
+<!-- 关注服务号-弹窗 -->
+<view class="contact_follow_mask {{showFollow ? 'show':''}}" catchtap="hideFollow">
+	<view class="contact_follow {{showFollow ? 'show':''}}" catchtap="catchHide">
+		<view class="contact_panel">
+			<view class="contact_head_panel">
+				<view class="contact_head"></view>
+			</view>
+			<view class="contact_head_panel_2">
+				<view class="contact_head">
+					<image class="contact_image" src="/assets/img/p.png" mode="aspectFit" binderror="" bindload=""></image>
+					<text class="contact_head_text">由于平台限制，好运提醒需要关注<text class="st">【小哥星座】</text>公众号才能发送</text>
+				</view>
+			</view>
+			<view class="contact_body_panel">
+				<view class="contact_title">关注步骤</view>
+				<view class="contact_body">
+					<view class="contact_body_title">点击下方按钮，回复数字“1”即可</view>
+					<button class="contact_body_botton" open-type='contact' catchtap="openContact">马上关注</button>
+				</view>
+			</view>
+		</view>
+	</view>
+</view>
+<!-- End关注服务号-弹窗 -->
+
+<view class="UI_page page_home page_bg {{isIPhoneX ? 'iPhoneX' : ''}} {{!showHome ? 'page_home_key' : ''}}">
+	<!-- 选择星座 -->
+	<view class="star_panel" wx:if="{{!showHome}}">
+		<view class="UI_box cbg1">
+			<view class="header">
+				<text>选择星座</text>
+			</view>
+			<view class="signList {{selectStatus.selected? 'isSelect':''}}">
+				<block wx:for="{{signList}}" wx:key="index">
+					<form bindsubmit="selectSign" class="signItem" report-submit='true'>
+						<button class='signItemBox' form-type="submit" type='' data-item='{{item}}' hover-class="itemClick">
+							<view class="signImg">
+								<image src="{{item.img}}" />
+							</view>
+
+							<view class="signTitle">
+								<text class="name">{{item.name}}</text>
+								<text class="time">{{item.time}}</text>
+							</view>
+						</button>
+					</form>
+				</block>
+			</view>
+		</view>
+	</view>
+	<view class="UI_box2" wx:if="{{showHome}}">
+		<button class="mySign {{selectBack ? 'selectItem1 ':''}}" bindtap='onClickConstellation' hover-class="itemClick">
+			<view class="signImg">
+				<image wx:if="{{myConstellation.img}}" src="{{myConstellation.img}}" />
+			</view>
+			<view class="signTitle" wx:if="{{!noticeBtnStatus}}" >
+				<text class="name">{{myConstellation.name}}</text>
+				<text class="time">{{myConstellation.time}}</text>
+			</view>
+		</button>
+		<view class="noticeBtnStatus" wx:if="{{noticeBtnStatus}}" catchtap="openNotice">
+			<view class="light"></view>
+			<view class="light"></view>
+			好运提醒我
+		</view>
+		<view class="myLuck cbg3 {{noticeBtnStatus ? 'notice' : ''}}">
+			<block wx:for="{{myLuck}}" wx:key="index">
+				<view class="item">
+					<view class="title">{{item.name}}</view>
+					<view class="circle" catchtap="show_card" data-index="{{index}}" style="color: {{item.color}}">
+						<text>{{item.count}}%</text>
+						<view class="left">
+							<view class="semicircle" style="-webkit-transform: rotate({{item.count*-3.6+45 < -135 ? -135 : item.count*-3.6+45}}deg)"></view>
+						</view>
+						<view class="right" style="{{(item.id==3||item.id==2)?'left:49%':''}}" wx:if="{{item.count > 50}}">
+							<view class="semicircle" style="-webkit-transform: rotate({{item.count*-3.6+45}}deg)"></view>
+						</view>
+						<view class="bg"></view>
+					</view>
+				</view>
+			</block>
+
+			<view class="more">
+				<image class="icon_clock" src="/assets/images/icon_clock.png" />
+				<text>{{remindToday}}</text>
+				<form bindsubmit="today" report-submit='true'>
+					<button class='button1 text1' form-type="submit" type='' hover-class="none">
+						<text>运势详情</text>
+						<image class="icon_more forward" src="/assets/images/more.png" />
+					</button>
+				</form>
+			</view>
+		</view>
+		<!-- activity -->
+		<view class="card_content">
+
+			<form bindsubmit="onelot" report-submit='true'>
+				<button class='button1' form-type="submit" type='' hover-class="none">
+					<view class="circle"></view>
+					<view class="circle"></view>
+					<view class="circle"></view>
+					<image src="/assets/images/yiqian_bg.png" />
+					<image class="card_icon" src="/assets/images/yiqian_icon.png"></image>
+					<view class="card_label"></view>
+				</button>
+			</form>
+
+			<form bindsubmit="oneword" report-submit='true'>
+				<view class="banner_panel">
+					<button class='button1 {{isBanner ? "banner_show" : ""}}' form-type="submit" type='' hover-class="none">
+						<view class="card_line" wx:if="{{!isBanner}}"></view>
+						<view class="card_line" wx:if="{{!isBanner}}"></view>
+						<view class="card_line" wx:if="{{!isBanner}}"></view>
+						<view class="card_line" wx:if="{{!isBanner}}"></view>
+						<image class="card_xiao" wx:if="{{isBanner}}" src="/assets/images/yiyan_xiao.png" />
+						<image class="card_text card_xiao_text" wx:if="{{isBanner}}" src="/assets/images/yiyan_xiao_text.svg"></image>
+						<image class="card_bg" src="/assets/images/yiyan_bg.png" />
+						<image class="card_text" src="/assets/images/yiyan_text.svg"></image>
+						<view class="card_label" wx:if="{{isBanner}}"></view>
+					</button>
+					<button wx:if="{{isBanner}}" class='button1 {{isBanner ? "banner_show" : ""}}' form-type="submit" data-key="more" type='' hover-class="none">
+						<image class="card_xiao" src="/assets/images/more_xiao.png" />
+						<image class="card_text card_xiao_text" wx:if="{{isBanner}}" src="/assets/images/more_xiao_text.svg"></image>
+					</button>
+				</view>
+			</form>
+
+		</view>
+	</view>
+</view>
