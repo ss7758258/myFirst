@@ -1,0 +1,36 @@
+<!-- 导航 -->
+<nav opts="{{navConf}}"></nav>
+<loginApp></loginApp>
+<view class="pannerl-panel panel_scene">
+	<!-- 账户余额 -->
+	<view class="pannel-wrapper mb60 balance-panel">
+		<view class="balance-info">
+			<!-- <text class="title item">账户余额</text> -->
+			<view class="item">
+				<text class="desc">小星星</text>
+			</view>
+			<text class="balance item">{{balance}}</text>
+		</view>
+	</view>
+
+	<!-- 选择购买币数 -->
+	<view class="pannel-wrapper mb200">
+		<view class="star-title mb30">
+			<text>选择购买数量</text>
+		</view>
+		<view class="star-list">
+			<view wx:for="{{starList}}" wx:key="index" class="item {{currentItem.id === item.id? 'active' :''}}" bindtap="handleSelectOrderClick"
+			 data-id="{{item.id}}" data-price="{{item.price}}">
+				<view class="total">{{item.name}}</view>
+				<view class="price">{{item.price/100}}元</view>
+			</view>
+		</view>
+	</view>
+
+	<!-- 提交按钮 -->
+	<view class="pannel-wrapper ">
+		<button bindtap="handlePayClick" class="pay-btn" hover-class="pay-btn-active">
+			微信支付
+		</button>
+	</view>
+</view>

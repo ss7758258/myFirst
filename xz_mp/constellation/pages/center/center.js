@@ -1,6 +1,8 @@
 const imgs = require('./imgs')
 const $vm = getApp()
 const api = $vm.api
+const Storage = require('../../utils/storage')
+
 Page({
     data : {
 		navConf : {
@@ -17,7 +19,9 @@ Page({
         isFlag : false,  //通知的开关 默认关闭
         clockStatus : false,  //小打卡开关
         iconPath : imgs.icon,
-        nickName : ''
+        nickName : '',
+        showOpen : false,
+        starNum : 0 // 星星数量
     },
     /**
      * 生命周期初始化组件
@@ -26,6 +30,18 @@ Page({
     onLoad (opts){
         let noticeStatus = wx.getStorageSync('noticeStatus');
         let clockStatus = wx.getStorageSync('clockStatus');
+        
+        // 小星星  ios上关闭打开
+        if(Storage.sys === 'ios'){
+            this.setData({
+                showOpen : Storage.openIos === 1
+            })
+        }else{
+            this.setData({
+                showOpen : Storage.openAndriod === 1
+            })
+        }
+
         console.log(noticeStatus === 0 ? false : true)
         // 通知开关状态判断
         if(noticeStatus != null &&  noticeStatus != undefined){
@@ -45,12 +61,18 @@ Page({
             })
         }
         console.log(wx.getStorageSync('userInfo').nickName)
-        let userInfo = wx.getStorageSync('userInfo')
+        let userInfo = Storage.userInfo
         if(userInfo){
             this.setData({
                 nickName: userInfo.nickName ? userInfo.nickName : ''
             })
         }
+        this._getBlance();
+    },
+
+    onShow(){
+        // 激活下刷新金额
+        this._getBlance();
     },
     switchOn (e){
         console.log('触发？：',e)
@@ -111,5 +133,34 @@ Page({
                 // 打开成功
             }
         })
-    }
+    },
+    /**
+     * 前往充值页面
+     */
+    goPay(){
+        wx.navigateTo({
+            url: '/pages/myAccount/myAccount',
+            success: function(res){
+                // success
+            },
+            fail: function() {
+                // fail
+            },
+            complete: function() {
+                // complete
+            }
+        })
+    },
+    
+	/**
+     * 获取用户钱包信息
+     */
+    _getBlance() {
+		api.getBlance().then(res => {
+			console.log('获取钱包信息：',res)
+			this.setData({
+				starNum : res.balance
+			})
+		})
+	}
 })

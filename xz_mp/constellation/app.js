@@ -3,13 +3,25 @@ const aldstat = require("./utils/ald-stat.js")
 const utils = require('./utils/util.js')
 const api = require('./utils/api.js')
 const mta = require('./utils/mta_analysis.js')
+const bus = require('./event')
 const Storage = require('./utils/storage')
+const methods = require('./server/login')
+const updateManager = wx.getUpdateManager()
 App({
 	onLaunch: function (options) {
+		
+		Storage.isLogin = false
+		console.log('开始获取设备信息')
+		// 获取用户的设备信息
+		getSystemInfo()
+		getGlobal()
 		const _self = this
 		const _SData = this.globalData
+		// 检查用户的登录信息
+		methods.checkLogin()
+		// updateHandle();
 		// 处理登录问题
-		loginHandle(this)
+		// loginHandle(this)
 		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || { id: 1, name: "白羊座", time: "3.21-4.19", img: "/assets/images/aries.png", isFirst: true }
 		_SData.userInfo = wx.getStorageSync('userInfo')
 		mta.App.init({
@@ -21,11 +33,17 @@ App({
 			"statReachBottom": true // 使用分析-页面触底次数/人数，必须先开通自定义事件，并配置了合法的eventID
 		})
 	},
-
+	/**
+	 * 分享触发消息
+	 * @param {*} res
+	 */
+	onShow (res){
+		console.log('触发全局实例：',res)
+	},
 	getLogin() {
-		wx.removeStorageSync('token')
+		// wx.removeStorageSync('token')
 		// 初始化状态值
-		Storage.init()
+		// Storage.init()
 		return new utils.Promise((resolve, reject) => {
 			return utils.login().then(res => {
 				console.log('获取到的code信息：',res)
@@ -42,7 +60,7 @@ App({
 	},
    
 	globalData: {
-		selectConstellation: null,
+		selectConstellation: wx.getStorageSync('selectConstellation') || { id: 1, name: "白羊座", time: "3.21-4.19", img: "/assets/images/aries.png", isFirst: true },
 		userInfo: null,
 		lotDetail: {},
 	},
@@ -52,62 +70,105 @@ App({
 })
 
 /**
- * 处理登录功能
- * @param {*} self
+ * 版本更新处理
  */
-function loginHandle(self,len = 0){
-
-	self.getLogin().then(res => {
-		console.log(res)
-		// throw err = new Error( '用户自定义异常信息' )
-		wx.setStorageSync('token', res.token)
-		wx.setStorageSync('openId', res.openId)
-		// 登录状态
-		Storage.loginStatus = true
-		Storage.sessionKey = res.sessionKey
-		getUserInfo(self)
-	}).catch(err => {
-		len++
-		if(len === 3){
-			wx.redirectTo({
-				url: '/pages/checklogin/checklogin'
-			})
-		}else{
-			loginHandle(self,len)
+function updateHandle(){
+	// 检查是否有更新
+	updateManager.onCheckForUpdate(function (res) {
+		// 请求完新版本信息的回调
+		console.log('版本更新：',res.hasUpdate)
+		if(res.hasUpdate){
+			// 触发弹窗提示
+			bus.emit('check_update',{ res },'app')
 		}
+	})
+	// 当小程序下载完成后
+	updateManager.onUpdateReady(function () {
+		// 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+		bus.on('update_ready',(res) => {
+			updateManager.applyUpdate()
+		},'app')
+	})
+	// 当小程序下载失败
+	updateManager.onUpdateFailed(function () {
+		// 新的版本下载失败
+		wx.hideLoading();
+		wx.showToast({
+			title: '升级失败，请重新尝试',
+			icon: 'none',
+			duration: 1500,
+		});
+		setTimeout(function(){
+			bus.emit('update_fail',{},'app')
+		},1500)
 	})
 }
 
 /**
- * 获取用户加密信息并上报获取unionId
+ * 获取系统比例加入比例标识
  */
-function getUserInfo(self){
-	wx.getUserInfo({
-		withCredentials : true,
-		success: function (res) {
-			console.log('获取用户配置成功!!!!!!!!!!!!!!!!!!!!!!：',res)
-			if (res.userInfo) {
-				wx.setStorage({
-					key: 'userInfo',
-					data: res.userInfo,
-				})
-				// 上报用户加密信息
-				api.loginForMore({
-					encryptedData: res.encryptedData,
-					iv: res.iv,
-					sessionKey : Storage.sessionKey,
-					nickName: res.userInfo.nickName,
-					headImage: res.userInfo.avatarUrl,
-					notShowLoading: true,
-				}).then(result => {
-					// 确定用户信息已经上报
-					Storage.loginForMore = true
-				})
-				wx.setStorageSync('icon_Path', res.userInfo.avatarUrl)
-			}
-		},
-		fail: function (res) {
-			
+function getSystemInfo(){
+	let res = wx.getSystemInfoSync();
+	console.log('app实例下的设备信息：',res)
+	if(res){
+		Storage.systemInfo = res
+		wx.setStorage({
+			key: 'systemInfo',
+			data: res
+		});
+		let len = res.screenWidth + res.screenHeight
+		if(res.screenWidth <= 375 && res.screenHeight >= 750){
+			// 是否是长屏机型
+			Storage.LongScreen = true
+			wx.setStorageSync('LongScreen', true);
 		}
+		console.log('屏幕宽度占比：',res.screenWidth / len)
+		console.log('屏幕高度占比：',res.screenHeight / len)
+		// 宽屏机型
+		if(res.screenWidth / len > 0.365 && res.screenWidth / len <= 0.38){
+			wx.setStorageSync('android_model','Android')
+		}
+
+        if(res.model.indexOf('iPhone X') != -1){
+			wx.setStorage({
+				key: 'iPhoneX',
+				data: true
+			});
+			Storage.iPhoneX = true
+        }else{
+			wx.setStorage({
+				key: 'iPhoneX',
+				data: false
+			});
+			Storage.iPhoneX = false
+		}
+		// 确认是不是ios系统
+		if(res.system.toLowerCase().indexOf('ios') != -1){
+			Storage.sys = 'ios'
+		}else{
+			Storage.sys = 'android'
+		}
+	}
+}
+
+/**
+ * 获取全局ios功能 以及星星价格
+ */
+function getGlobal(){
+	api.globalSetting({
+		notShowLoading: true
+	}).then( res => {
+		console.log('加载配置完成---------全局：',res);
+		if(!res){
+			return false;
+		}
+		// 默认开
+		// res.openIos = 1
+		// 星星加个
+		Storage.starPrice = res.price || 0
+		Storage.openIos = res.openIos || 0
+		Storage.openAndriod = res.openAndriod || 0
+	}).catch( err => {
+		console.log('加载失败---------------------------------全局配置')
 	})
 }

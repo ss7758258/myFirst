@@ -1,6 +1,10 @@
 // 用户信息上传次数
 let userInfoLen = 0;
 let $vm = getApp()
+
+// 验证Id是否位6位纯数字
+let reg = /^\d{6}$/;
+
 module.exports = {
     /**
      * 数据分析
@@ -16,7 +20,12 @@ module.exports = {
         self.setData({
             fromPage: pageFrom || 'share'
         })
-
+        if(options.from === 'qrcode'){
+            self.setData({
+                "navConf.root": '/pages/home/home'
+            })
+            mta.Event.stat("ico_in_from_shake_qrcode", {})
+        }
         if (pageFrom == 'share') {
             self.setData({
                 "navConf.root": '/pages/home/home'
@@ -78,6 +87,7 @@ module.exports = {
      */
     setUserInfo (res,id,cb){
         let me = this
+        console.log(res)
         // 保存用户信息
         $vm.api.getSelectx100({
             constellationId: id,

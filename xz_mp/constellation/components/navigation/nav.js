@@ -6,7 +6,8 @@
 // root : '',
 // isTitle : true,
 // centerPath : '/pages/center/center'
-
+const bus = require('../../event')
+const Storage = require('../../utils/storage')
 Component({
     /**
      * 组件的属性列表
@@ -27,6 +28,7 @@ Component({
     },
     ready(){
         getSystemInfo(this)
+        // bus.on('')
     },
     /**
      * 组件的方法列表
@@ -70,7 +72,7 @@ Component({
         },
         goHome (){
             wx.reLaunch({
-                url: this.data.opts.root, 
+                url: this.data.opts.root + '?fromSource=nav', 
                 success: function(res){
                     // success
                 },
@@ -92,13 +94,7 @@ Component({
  * @param {*} self
  */
 function getSystemInfo(self){
-	let res = wx.getSystemInfoSync();
-	if(res){
-        console.log('验证是不是iPhone X的时候到了：',res)
-        if(res.model.indexOf('iPhone X') != -1){
-            self.setData({
-                isIPhoneX : true
-            })
-        }
-	}
+    self.setData({
+        isIPhoneX : Storage.iPhoneX
+    })
 }

@@ -1,17 +1,17 @@
 {
     "pages": [
         "pages/home/home",
-        "pages/index/index",
         "pages/banner/banner",
         "pages/center/center",
         "pages/today/today",
         "pages/onebrief/brief",
-        "pages/lot/lotlist/lotlist",
         "pages/lot/shake/shake",
-        "pages/lot/shakelot/shake",
         "pages/lot/emptylot/emptylot",
         "pages/lot/lotdetail/lotdetail",
-        "pages/checklogin/checklogin"
+        "pages/checklogin/checklogin",
+        "pages/lot/aSignWall/aSignWall",
+        "pages/lot/openSign/openSign",
+        "pages/myAccount/myAccount"
     ],
     "window": {
         "backgroundTextStyle": "light",

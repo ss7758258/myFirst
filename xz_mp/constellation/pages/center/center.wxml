@@ -1,5 +1,6 @@
 <!-- 导航 -->
 <nav opts='{{navConf}}'></nav>
+<loginApp></loginApp>
 <view class="panel">
     <view class="photo">
         <image src="{{iconPath}}"></image>
@@ -27,6 +28,18 @@
             <image class="notice_icon" src="{{imgs.right}}"></image>
         </view>
     </view> -->
+
+    <!-- 小星星 -->
+    <view class="flex card_record" wx:if="{{showOpen}}" bindtap="goPay">
+        <view>
+            <image class="notice_icon" src="{{imgs.star}}"></image>
+        </view>
+        <view>小星星<text class="card_star">{{starNum}}颗</text></view>
+        <view>
+            <image class="notice_icon" src="{{imgs.right}}"></image>
+        </view>
+    </view>
+
     <view class="flex opinion"  bindtap="clickHandle">
         <view>
             <image class="notice_icon" src="{{imgs.opinion}}"></image>
@@ -35,5 +48,5 @@
         <view>
             <image class="notice_icon" src="{{imgs.right}}"></image>
         </view>
-    </view>
+    </view> -->
 </view>
