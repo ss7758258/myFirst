@@ -17,12 +17,16 @@
 	margin-bottom: 30rpx
 }
 
+.mb40 {
+	margin-bottom: 40rpx
+}
+
 .mb60 {
 	margin-bottom: 60rpx
 }
 
-.mb200 {
-	margin-bottom: 200rpx
+.mb160 {
+	margin-bottom: 160rpx
 }
 
 .balance-info {
@@ -134,7 +138,10 @@
 	color: #fff;
 	background:linear-gradient(to left,rgba(174,69,255,1),rgba(146,98,251,1));
 }
-
+button.pay-btn.disabled {
+	color: #fff;
+	background: #cccccc;
+}
 button.pay-btn[disabled] {
 	color: #fff;
 	opacity: 0.65;
