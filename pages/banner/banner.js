@@ -1,79 +1,13 @@
 const API = require('../../utils/api')
 const mta = require('../../utils/mta_analysis.js')
+let Storage = require('../../utils/storage')
+const bus = require('../../components/banner/event')
 const conf = require('../../conf')[require('../../config')] || {}
 console.log('配置信息：',conf)
-// 处理方法存放的对象
-const methods = {
-
-    self : null,
-    /**
-     * 维护一个Page对象
-     * @param {*} self
-     * @returns
-     */
-    setThis(self){
-        this.self = self;
-    },
-    /**
-     * 获取Banner列表
-     * @param {*} self Page对象
-     */
-    getBanner(self){
-        // 拉取Banner列表接口
-        API.getBannerList().then( (res) => {
-            console.log('输出广告列表：',res)
-            if(res && res.constructor === Array){
-                let temp = [];
-                res.forEach(elem => {
-                    if(elem.type === 4){
-                        temp.push(elem)
-                    }
-                });
-                // res = res.concat(res).concat(res).concat(res).concat(res).concat(res)
-                self.setData({
-                    list : res,
-                    'swiper.list' : temp,
-                    'swiper.indicatorDots' : temp.length > 1 ? true : false
-                })
-            }
-        }).catch( (err) => {
-            console.log(err)
-        })
-    },
-    /**
-     * 前往外链
-     * @param {*} e
-     */
-    goOuter (e){
-        let data = e.currentTarget.dataset;
-        let res = data && data.res ? data.res : {};
-        console.log('参数信息：',res)
-        if(res.appId){
-			mta.Event.stat("to_outer_" + res.id, {})
-            wx.navigateToMiniProgram({
-                appId: res.appId,
-                path: res.path,
-                success(res) {
-                    // 打开成功
-                }
-            })
-        }
-    },
-    /**
-     * 获取btn的文字信息
-     */
-    getBtnText (){
-        this.self.setData({
-            text : wx.getStorageSync('adBtnText') || '查看'
-        })
-    }
-}
-
+let timer = null
 // Page对象的配置参数
 const Conf = {
     data : {
-        cdn_base : conf.cdn,
-        list : [],
         navConf : {
 			title : '更多好玩',
 			state : 'root',
@@ -84,28 +18,61 @@ const Conf = {
             isTitle : true
             // root : '/pages/home/home'
         },
-        swiper : {
-            list: [],
-            indicatorDots: false, // 指示点
-            vertical: false, // 竖向
-            autoplay: true, // 自动播放
-            circular: true, // 无缝衔接
-            interval: 2000, // 自动播放时间间隔
-            duration: 500, // 切换动画时长
-            previousMargin: 0, // 前边距
-            nextMargin: 0 // 后边距
-        },
-        text : '查看'
+        bannerConf : {
+            appId : 'wxedc8a06ed85ce4df',
+            pageNum : 1,
+            pageSize : 20
+        }
     },
-    onLoad (){
-        // 将Page对象放入methods中
-        methods.setThis(this);
-        // 获取banner列表
-        methods.getBanner(this);
-        // 获取默认文字信息
-        methods.getBtnText();
-    },
-    goOuter : methods.goOuter
+    /**
+     * 加载内容信息
+     * @param {*} options
+     */
+    onLoad(options) {
+        console.log(Storage)
+        this.setData({
+            'bannerConf.openId' : wx.getStorageSync('openId') || ''
+        })
+        
+        if(Storage.resourceRemoveId){
+            bus.remove(Storage.resourceRemoveId)
+        }
+        if(Storage.resOpenRemoveId){
+            bus.remove(Storage.resOpenRemoveId)
+        }
+        if(Storage.resFailRemoveId){
+            bus.remove(Storage.resFailRemoveId)
+        }
+
+        Storage.resourceRemoveId = bus.on('resource_click',(res) => {
+            console.log('点击了资源：',res)
+            API.setStar({
+                id : res.res.id,
+                balance : res.res.starAmount,
+                notShowLoading : true
+            }).then(data => {
+                console.log('加星星：',data)
+            })
+        }, 'banner-app')
+        Storage.resOpenRemoveId = bus.on('resource_open_success',(res) => {
+
+            wx.showModal({
+                title: '成功',
+                content: '恭喜你成功打开' + res.res.appId,
+                showCancel: false,
+                confirmText: '确认',
+                confirmColor: '#3CC51F',
+                success: res => {
+                    
+                }
+            });
+            console.log('打开成功：',res)
+        }, 'banner-app')
+        Storage.resFailRemoveId = bus.on('resource_open_fail',(res) => {
+            console.log('打开失败：',res)
+        }, 'banner-app')
+    }
+
 }
 
 

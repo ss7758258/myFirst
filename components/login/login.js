@@ -158,6 +158,7 @@ const methods = (function (){
                 wx.setStorageSync('token',res.token)
                 Storage.sessionKey = res.sessionKey
                 Storage.openId = res.openId
+                wx.setStorageSync('openId',res.openId)
 
                 // 获取用户信息进行上报
                 wx.getUserInfo({

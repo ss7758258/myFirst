@@ -248,6 +248,10 @@ const getRecharge = function(data) {
 const buyStar = function(data) {
 	return requstPost('pay/buylook', data)
 }
+// 增加小星星数量
+const setStar = (data) => {
+	return requstPost('pay/topup', data)
+}
 // 获取乐摇摇的数据信息
 const getLeYaoyao = function(params,data){
 	return new Promise((resolve,reject) => {
@@ -297,5 +301,6 @@ module.exports = {
 	getBlance,
 	getRecharge,
 	getLeYaoyao,
-	buyStar
+	buyStar,
+	setStar
 }
