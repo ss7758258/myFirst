@@ -88,14 +88,20 @@ const methods = () => {
                 }
             })
         },
-        silentLogin(){
+        /**
+         * 静默登录
+         * @param {*} cb //登录完成的回调
+         */
+        silentLogin(cb){
             $vm = getApp()
             $vm.getLogin().then(res => {
                 console.log(`登录成功：`,res)
                 // 缓存关键数据
                 Storage.token = res.token
+                wx.setStorageSync('token',res.token)
                 Storage.sessionKey = res.sessionKey
                 Storage.openId = res.openId
+                wx.setStorageSync('openId',res.openId)
 
                 console.log(Storage)
                 // 获取用户信息进行上报
@@ -107,7 +113,7 @@ const methods = () => {
                         Storage.userInfo = data.userInfo
                         let silent = true
                         // 确定触发消息
-                        bus.emit('load-userinfo-success', {data,silent} , 'login-com')
+                        bus.emit('load-userinfo-success', {data,silent,cb} , 'login-com')
                     },
                     fail (err){
                         console.log('静默登录--------------------未加载到用户信息')

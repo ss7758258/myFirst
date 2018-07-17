@@ -96,13 +96,15 @@ const conf = {
             // methods.setUserInfo({ userInfo : Storage.userInfo },_GData.selectConstellation.id)
         }
 
-		// 是否是首次注册
-		if(!Storage.firstShake){
-			Storage.firstShake = true
-            // 监听事件
-            bus.on('login-success', handle , 'login-com')
-            bus.on('login-success', handle , 'shake-app')
+        if(Storage.shakeRemoveId){
+			bus.remove(Storage.shakeRemoveId)
 		}
+		if(Storage.shakeLoginRemoveId){
+			bus.remove(Storage.shakeLoginRemoveId)
+        }
+        Storage.shakeRemoveId = bus.on('login-success', handle , 'login-com')
+        Storage.shakeLoginRemoveId = bus.on('login-success', handle , 'shake-app')
+        
 
 		// 如果已经存在用户信息触发登录标识
 		if(Storage.userInfo){

@@ -15,7 +15,8 @@ function requstPost(url, data) {
 
 const DOMAIN = env === 'dev' ? 'https://xingzuoapi.yetingfm.com/xz_api/' : 'https://xingzuoapi-prod.yetingfm.com/xz_api/'
 // const DOMAIN = 'http://193.112.130.148:8888/xz_api/'
-
+// 登录失败的锁
+Storage.loginLock = false
 // 小程序上线需要https，这里使用服务器端脚本转发请求为https
 function requst(url, method, data = {}) {
 	var notShowLoading = data.notShowLoading
@@ -39,8 +40,8 @@ function requst(url, method, data = {}) {
 			data:
 			{
 				requestHeader: JSON.stringify({
-					// token: wx.getStorageSync('token')
-					token : Storage.token
+					token: wx.getStorageSync('token')
+					// token : Storage.token
 				}),
 				requestBody: JSON.stringify(data)
 			}
@@ -53,25 +54,42 @@ function requst(url, method, data = {}) {
 			method: method.toUpperCase(), // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
 			success: function (res) {
 				if (res.data && ('LOGINERROR' === res.data.status)){
+					console.log('用户token过期或者解析失败，登录锁：',Storage.loginLock)
 					console.log('用户token过期或者解析失败，进入---------------静默登录')
-					wx.showToast({
-						title: '小主，登录信息时效，请重新登录',
-						icon: 'none',
-						duration: 2000,
-						mask : true
+					if(Storage.loginLock){
+						reject()
+						wx.hideLoading()
+						wx.hideToast()
+						return
+					}
+					Storage.loginLock = true
+					console.log('用户token过期或者解析失败，进入---------------静默登录')
+					// wx.removeStorageSync('token')
+					login.silentLogin(function(){
+						Storage.loginLock = false
+						console.log('解除登录锁：',loginLock)
 					})
-					setTimeout(() => {
-						// 用户token过期
-						bus.emit('no-login-app', res , 'app')
-					}, 2000);
+					reject()
+					wx.hideLoading()
+					wx.hideToast()
+					// wx.showToast({
+					// 	title: '小主，登录信息时效，请重新登录',
+					// 	icon: 'none',
+					// 	duration: 2000,
+					// 	mask : true
+					// })
+					// setTimeout(() => {
+					// 	// 用户token过期
+					// 	bus.emit('no-login-app', res , 'app')
+					// }, 2000);
 					return
 				}
 				console.log(url)
 				if (url == 'statisticsConstellation/x610') {
 					console.log(data)
 				}
-				if (res.data && res.data.responseBody &&
-					('SUCCESS' == res.data.responseBody.status)) {
+				if (res.data && res.data.responseBody && ('SUCCESS' == res.data.responseBody.status)) {
+					// loginLock = false
 					if (url == 'selectConstellation/x100' && !data.constellationId) {
 						resove(res.data.responseBody)
 					}else if(url == 'loginConstellation/loginForMore'){
@@ -230,6 +248,10 @@ const getRecharge = function(data) {
 const buyStar = function(data) {
 	return requstPost('pay/buylook', data)
 }
+// 增加小星星数量
+const setStar = (data) => {
+	return requstPost('pay/topup', data)
+}
 // 获取乐摇摇的数据信息
 const getLeYaoyao = function(params,data){
 	return new Promise((resolve,reject) => {
@@ -279,5 +301,6 @@ module.exports = {
 	getBlance,
 	getRecharge,
 	getLeYaoyao,
-	buyStar
+	buyStar,
+	setStar
 }

@@ -150,8 +150,12 @@ Page({
 		// 获取乐摇摇推广信息
 		getLeYaoyao(self,options)
 		
+		if(Storage.loadUserConfRemoveId){
+			bus.remove(Storage.loadUserConfRemoveId)
+		}
+
 		// 注册监听事件
-		bus.on('loadUserConf',() => {
+		Storage.loadUserConfRemoveId = bus.on('loadUserConf',() => {
 			if(Storage.forMore){
 				// 加载用户配置
 				getUserConf(self)
@@ -196,12 +200,18 @@ Page({
 		}
 		
 		// 是否是首次注册
-		if(!Storage.firstHome){
-			Storage.firstHome = true
-            // 监听事件
-			bus.on('login-success', handle , 'login-com')
-			bus.on('login-success', handle , 'home')
+		// if(!Storage.firstHome){
+		// 	Storage.firstHome = true
+		// }
+		// 移除事件
+		if(Storage.homeRemoveId){
+			bus.remove(Storage.homeRemoveId)
 		}
+		if(Storage.homeLoginRemoveId){
+			bus.remove(Storage.homeLoginRemoveId)
+		}
+		Storage.homeLoginRemoveId = bus.on('login-success', handle , 'login-com')
+		Storage.homeRemoveId = bus.on('login-success', handle , 'home')
 		
 		// 如果已经存在用户信息触发登录标识
 		if(Storage.userInfo){
