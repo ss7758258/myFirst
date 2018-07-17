@@ -53,6 +53,8 @@ EventFun.prototype = {
             me.notQueueNames.splice(v,1)
             me.notQueueOpts.splice(v,1)
         })
+        // 返回当前事件在列表中的下标
+        return (this.eventNames.length - 1)
     },
     /**
      * 触发相应自定义事件
@@ -75,6 +77,17 @@ EventFun.prototype = {
             me.notQueue.push(opts)
             me.notQueueNames.push(eventName)
             me.notQueueOpts.push(elem)
+        }
+    },
+    /**
+     * 根据下标移除
+     * @param {*} [ind=-1]
+     */
+    remove(ind = -1){
+        if(ind > -1 && ind < this.eventNames.length){
+            this.events.splice(ind,1)
+            this.eventNames.splice(ind,1)
+            this.eventThis.splice(ind,1)
         }
     },
     /**

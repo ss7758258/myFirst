@@ -106,12 +106,20 @@ const config = {
 		}
 
 		// 是否是首次注册
-		if(!Storage.firstLot){
-			Storage.firstLot = true
-			// 监听事件
-			bus.on('login-success', handle, 'login-com')
-			bus.on('login-success', handle, 'lotdetail-app')
+		// if(!Storage.firstLot){
+		// 	Storage.firstLot = true
+		// }
+
+		if(Storage.lotdetailRemoveId){
+			bus.remove(Storage.lotdetailRemoveId)
 		}
+		// 监听事件
+		Storage.lotdetailRemoveId = bus.on('login-success', handle, 'login-com')
+
+		if(Storage.lotdetailAppRemoveId){
+			bus.remove(Storage.lotdetailAppRemoveId)
+		}
+		Storage.lotdetailAppRemoveId = bus.on('login-success', handle, 'lotdetail-app')
 
 		// 如果已经存在用户信息触发登录标识
 		if(Storage.userInfo){
