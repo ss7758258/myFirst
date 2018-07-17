@@ -8,8 +8,7 @@
 
 			<!-- 日期 -->
 			<view class='date'>
-				<view class='day' wx:if="{{item.day}}">{{item.day}}</view>
-				<!-- <view class='day' wx:else>0{{item.day}}</view> -->
+        <view class='day'></view>
 				<view class='date_detail'>{{item.date}}</view>
 			</view>
 
@@ -18,8 +17,12 @@
 				<view class='open_lot1'>
 					<!-- status=0未拆签 1已拆签   -->
 					<image src='/assets/img/icon_close.png' class='open_lot_img'></image>
-					<text wx:if="{{item.status === 0}}">未拆签</text>
-					<text wx:if="{{item.status === 1}}">已拆签</text>
+                    <view class='openlot_type'>
+                        <text class='openlot_text' wx:if="{{item.status === 0}}">未拆签</text>
+                        <text wx:if="{{item.status === 1}}">已拆签</text>
+                        <image src='/assets/img/cry.png' class='openlot_cry' wx:if="{{item.status === 0}}"></image>
+                        <image src='/assets/img/happy.png' class='openlot_cry' wx:if="{{item.status === 1}}"></image>
+                    </view>
 				</view>
 				<!-- <image src='/assets/img/icon_open.png' class='open_lot2' wx:if="{{item.status === 1}}"></image> -->
 			</view>

@@ -1,0 +1,91 @@
+<nav opts='{{navConf}}'></nav>
+
+<!-- 运势详情 -->
+<scroll-view class='scroll-view' scroll-y bindscrolltolower="reachBottom" lower-threshold="100">
+    <!-- 导航栏 -->
+    <view class='header'>
+        <view class="head_son {{current == index?'select':''}}" wx:for="{{headerlist}}" wx:key="index" data-selected='{{index}}' 
+        bindtap='selected'>{{item}}</view>
+        <view class="head_active today" wx:if="{{current == 0}}"></view>
+        <view class="head_active thisweek" wx:if="{{current == 1}}"></view>
+        <view class="head_active thismonth" wx:if="{{current == 2}}"></view>
+    </view>
+    
+    <!-- 运势指数 -->
+    <view class='index clearfix'>
+        <!-- 有星星 -->
+        <view class='index_left' >
+            <view class='synthesize' wx:for="{{contentlist}}" wx:key='index' wx:if="{{item.count}}">
+                <text>{{item.name}}:</text>
+                <image src='/assets/img_subPackages/star.svg' wx:for="{{item.count}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-item.count}}" wx:key="index" class='star'></image>
+            </view>
+        </view>
+        <!-- 没有星星 -->
+        <view class='index_right'>
+             <image src='/assets/img_subPackages/aries.svg' class='aries'></image> 
+            <!-- <image src='https://xingzuo-1256217146.file.myqcloud.com/aries.svg' class='aries'></image> -->
+            <view class='luckycolor' wx:for="{{contentlist}}" wx:key='index' wx:if="{{item.content && item.content != ''}}">
+                <text class='colon'>{{item.name}}:</text>
+                <text>{{item.content}}</text>
+            </view>
+        </view>
+    </view>
+
+    <!-- 运势简评 -->
+    <view class='luckProfile'>
+        <view class='luckProfile_head'>
+            <image src='/assets/img_subPackages/luckProfile.svg' class='luckProfile_img'></image>
+            <text class='luckProfile_text'>运势简评</text>
+        </view>
+        <view class='luckProfile_content'>强出头吃亏的是自己。</view>
+    </view>
+
+    <!-- 整体运势 -->
+    <view class='luckProfile'>
+        <view class='luckProfile_head'>
+            <image src='/assets/img_subPackages/overview.svg' class='luckProfile_img'></image>
+            <text class='luckProfile_text overview'>整体运势</text>
+        </view>
+        <view class='luckProfile_content'>适合跟恋人翻阅以往的照片，过去的点点滴滴立即浮现在眼前，心中倍感甜蜜；大金额的投资最好同有经验的长辈商量，一味的冲动投资只会得不偿失；从事管理的人员，发现员工的问题应及时指出，否则问题将会蔓延。</view>
+    </view>
+
+    <!-- 爱情运势 -->
+    <view class='luckProfile'>
+        <view class='luckProfile_head'>
+            <image src='/assets/img_subPackages/love.svg' class='luckProfile_img'></image>
+            <text class='luckProfile_text love'>爱情运势</text>
+        </view>
+        <view class='luckProfile_content'>恋爱中人少跟其他异性朋友有接触，否则会引来情人的不满及妒意。</view>
+    </view>
+
+    <!-- 工作运势 -->
+    <view class='luckProfile'>
+        <view class='luckProfile_head'>
+            <image src='/assets/img_subPackages/work.svg' class='luckProfile_img'></image>
+            <text class='luckProfile_text work'>工作运势</text>
+        </view>
+        <view class='luckProfile_content'>思维活跃，表达严谨，很适合参与谈判，但需注意在有利条件下，不宜太咄咄逼人。</view>
+    </view>
+
+    <!-- 财富运势 -->
+    <view class='luckProfile'>
+        <view class='luckProfile_head'>
+            <image src='/assets/img_subPackages/wealth.svg' class='luckProfile_img'></image>
+            <text class='luckProfile_text wealth'>财富运势</text>
+        </view>
+        <view class='luckProfile_content'>财来财去，不知道把钱花哪去了！</view>
+    </view>
+
+    <!-- 健康运势 -->
+    <view class='luckProfile'>
+        <view class='luckProfile_head'>
+            <image src='/assets/img_subPackages/healthy.svg' class='luckProfile_img'></image>
+            <text class='luckProfile_text healthy'>健康运势</text>
+        </view>
+        <view class='luckProfile_content'>适合跟恋人翻阅以往的照片，过去的点点滴滴立即浮现在眼前，心中倍感甜蜜；大金额的投资最好同有经验的长辈商量，一味的冲动投资只会得不偿失；从事管理的人员，发现员工的问题应及时指出，否则问题将会蔓延。</view>
+    </view>
+
+    <view class='footer'></view>
+
+</scroll-view>

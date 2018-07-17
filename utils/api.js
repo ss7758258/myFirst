@@ -19,10 +19,10 @@ const DOMAIN = env === 'dev' ? 'https://xingzuoapi.yetingfm.com/xz_api/' : 'http
 // 小程序上线需要https，这里使用服务器端脚本转发请求为https
 function requst(url, method, data = {}) {
 	var notShowLoading = data.notShowLoading
-	var loadingStr = data.loaingStr
-	if (!loadingStr) {
-		loadingStr = '加载中...'
-	}
+    var loadingStr = data.loaingStr?data.loaingStr:'加载中ing'
+	// if (!loadingStr) {
+	// 	loadingStr = '加载中...'
+	// }
 	delete (data.notShowLoading)
 	delete (data.loaingStr)
 	// wx.showNavigationBarLoading()

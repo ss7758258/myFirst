@@ -50,6 +50,7 @@ Page({
         console.log(res)
 
         var todayList = parseToady(res)
+        console.log('处理后的数据：',todayList)
         _self.setData({
           time: res.createTime.substring(0, 10),
 

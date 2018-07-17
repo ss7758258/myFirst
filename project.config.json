@@ -13,7 +13,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "1.9.94",
 	"appid": "wxedc8a06ed85ce4df",
-	"projectname": "constellation",
+	"projectname": "%E5%B0%8F%E5%93%A5%E6%98%9F%E5%BA%A72.1",
 	"condition": {
 		"search": {
 			"current": -1,
@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 14,
 			"list": [
 				{
 					"id": 0,
@@ -128,6 +128,12 @@
 					"pathName": "pages/lot/lotdetail/lotdetail",
 					"query": "from=share&lotId=565279",
 					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "运势详情",
+					"pathName": "pages/components/pages/luckDetails/luckDetails",
+					"query": ""
 				}
 			]
 		}

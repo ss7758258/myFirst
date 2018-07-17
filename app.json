@@ -15,8 +15,10 @@
     ],
     "subPackages": [
         {
-          "root": "pages/components/pages/",
-          "pages": []
+          "root": "pages/components",
+          "pages": [
+              "pages/luckDetails/luckDetails"
+          ]
         }
     ],
     "window": {

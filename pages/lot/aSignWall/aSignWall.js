@@ -62,14 +62,18 @@ Page({
 			}
 
 			self.data.date_list.forEach((value, key) => {  //对数据进行处理
-				let day = `date_list[${key}].day`;
+				// let day = `date_list[${key}].day`;
 				let date = `date_list[${key}].date`;
 				let status = `date_list[${key}].status`;
-				self.setData({
-					[day]: value.qianDate.substring(8),
-					[date]: value.qianDate.substring(0, 7).split('-').join('.'),
-					[status]: value.status
-				})
+				// self.setData({
+				// 	[day]: value.qianDate.substring(8),
+				// 	[date]: value.qianDate.substring(0, 7).split('-').join('.'),
+				// 	[status]: value.status
+				// })
+        self.setData({
+            [date]: value.qianDate.split('-').join('.'),
+            [status]: value.status
+        })
 			})
 
 		}).catch(err => {

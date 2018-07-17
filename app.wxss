@@ -38,6 +38,14 @@ page {
 	color: white;
 	background-image: linear-gradient(0deg, #8CBAFE 0%, #B672E2 52%, #9262FB 84%, #9262FB 99%);
 }
+.clearfix::after{
+    content: "";
+    clear: both;
+    display: block;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
 
 image {
 	max-width: 100%;
