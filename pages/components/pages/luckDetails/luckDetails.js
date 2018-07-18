@@ -12,6 +12,14 @@ Page({
             isTitle: true,
             centerPath: '/pages/center/center'
         },
+        swiper:{
+            autoplay:false,
+            interval:'5000',
+            current:0,
+            pre:'250rpx',
+            next:'250rpx',
+            num:1
+        },
         headerlist: ['今日运势', '本周运势', '本月运势'], //导航栏数据
         current: 0, //导航栏下标
         contentlist: ['综合指数', '爱情指数', '财富指数', '工作指数'],
@@ -42,7 +50,7 @@ Page({
                 grxz: '处女座',
                 xrxz: '处女座',
                 lucky_num: 9,
-                lucky_day: '周一',
+                lucky_day: '星期一',
                 lucky_direction: 'left',
                 week_notice: 'aaa',
                 general_txt: '我是本周运势',
@@ -100,7 +108,7 @@ Page({
         })
     },
     // 选择运势
-    selected(e){
+    selected(e, swiper){
         // this.getData()
         // console.log(e)
         let current = 0, dta = this.data.dta.day;
@@ -124,9 +132,25 @@ Page({
             list: dta
         })
         
-        // console.log('data:',this.data.list)
+        // console.log('data:',this.data.list) 
+    },
 
+    // 导航
+    swiper(e){
+        console.log(e.detail.current)
+        let current = e.detail.current,dta=this.data.dta
+        if (current == 0){
+            dta=dta.day
+        } else if (current == 1){
+            dta=dta.week
+        }else{
+            dta=dta.month
+        }
         
+        this.setData({
+            current: current,
+            list:dta
+        })
     },
 
     /**

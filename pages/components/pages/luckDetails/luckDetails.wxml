@@ -3,18 +3,23 @@
 <!-- 运势详情 -->
 <scroll-view class='scroll-view' scroll-y bindscrolltolower="reachBottom" lower-threshold="100" wx:if="{{list}}">
     <!-- 导航栏swiper -->
-    <!-- <swiper circular="{{swiper.circlular}}" current="{{swiper.current}}" interval="{{swiper.interval}}" autoplay='{{swiper.autoplay}}' previous-margin="{{swiper.pre}}" next-margin="{{swiper.next}}" display-multiple-items="{{swiper.num}}">
-
-    </swiper> -->
+     <swiper circular current="{{swiper.current}}" interval="{{swiper.interval}}" autoplay='{{swiper.autoplay}}' previous-margin="{{swiper.pre}}" next-margin="{{swiper.next}}" display-multiple-items="{{swiper.num}}" bindchange="swiper" class='swiper_header'>
+    <block wx:for="{{headerlist}}" wx:key="index">
+        <swiper-item class="header">
+            <view class="head_son {{current == index?'select':''}}" data-selected='{{index}}' bindtap='selected'>{{item}}</view>
+            <view class="{{current == index?'head_active':''}}"></view> 
+        </swiper-item>
+    </block>
+    </swiper>  
 
     <!-- 导航栏 -->
-    <view class='header'>
+    <!-- <view class='header'>
         <view class="head_son {{current == index?'select':''}}" wx:for="{{headerlist}}" wx:key="index" data-selected='{{index}}' 
         bindtap='selected'>{{item}}</view>
         <view class="head_active today" wx:if="{{current == 0}}"></view>
         <view class="head_active thisweek" wx:if="{{current == 1}}"></view>
         <view class="head_active thismonth" wx:if="{{current == 2}}"></view>
-    </view>
+    </view> -->
     
      <!-- 运势指数 
     <view class='index clearfix'>
@@ -36,7 +41,9 @@
             </view>
         </view>
     </view> -->
-
+<swiper circular current="{{swiper.current}}" interval="{{swiper.interval}}" autoplay='{{swiper.autoplay}}' display-multiple-items="{{swiper.num}}" bindchange="swiper" class='swiper_content'>
+<block wx:for="{{headerlist}}" wx:key="index">
+    <swiper-item>
     <!-- 运势指数 -->
     <view class='index clearfix'>
         <!-- 有星星 -->
@@ -90,9 +97,7 @@
 
         <!-- 没有星星的本月运势 -->
         <view class='index_right' wx:if="{{current == 2}}">
-            <view class='aries'>
-                <image src='/assets/img_subPackages/aries.svg' class='aries_img'></image>
-            </view> 
+            <image src='/assets/img_subPackages/aries.svg' class='aries'></image> 
             <view class='luckycolor' wx:if="{{list.lucky_color}}">
                 <text class='colon'>幸运颜色:</text>
                 <text>{{list.lucky_color}}</text>
@@ -149,7 +154,9 @@
         </view>
         <view class='luckProfile_content'>{{list.health_txt}}</view>
     </view>
-
+    </swiper-item>
+</block>    
+</swiper>
      <view class='footer'></view> 
 
 </scroll-view>

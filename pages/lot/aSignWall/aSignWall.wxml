@@ -1,7 +1,7 @@
 <!-- 导航 -->
 <nav opts='{{navConf}}'></nav>
 <loginApp></loginApp>
-<view class='emptyview'></view>
+<view class='emptyview' wx:if="{{date_list!=''&& date_list}}"></view>
 <scroll-view scroll-y scroll-with-animation class='scroll-view' bindscrolltolower="reachBottom">
 	<view class='box' wx:if="{{date_list!=''&& date_list}}">
 		
