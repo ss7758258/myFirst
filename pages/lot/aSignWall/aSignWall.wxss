@@ -1,9 +1,6 @@
 page{
   background:rgba(146,98,251,1);
 }
-<<<<<<< HEAD
-/* pages/aSignWall/aSignWall.wxss */
-=======
 .emptyview{  
   width: 2rpx;  
   height: 100%;
@@ -12,7 +9,6 @@ page{
   position: fixed;
   z-index: 1;
 }
->>>>>>> feature/v2.1
 .scroll-view{
   width:750rpx;
   height: calc(100% - 2.9962546816479403vh - 6.6vh);
@@ -22,56 +18,40 @@ page{
 .box{ 
   padding: 0 30rpx;
   box-sizing: border-box;
-  /* overflow: scroll */
 }
-<<<<<<< HEAD
-.emptyview{  
-  height: 40rpx;
-  margin-left: 40rpx;
-  border-left: 2rpx solid #fff;
-}
-=======
 
->>>>>>> feature/v2.1
 
-/* 拆签样式 */
+/* 日期 */
 .date{
-  height: 80rpx;
+  height: 30rpx;
   display: flex;
   flex-direction: row;
+  /* margin-bottom: 20rpx; */
 }
 .day,.date_detail{
-  width: 80rpx;
-  height: 80rpx;
-  line-height: 80rpx;
-  box-sizing: border-box;
+  height:30rpx;
+  font-size:28rpx;
+  color:rgba(255,255,255,1);
+  line-height:30rpx;
 }
 .day{
+  width:30rpx;
+  height:30rpx;
+  background:rgba(255,222,46,1);
   border-radius: 50%;
-<<<<<<< HEAD
-  border: 2rpx solid #fff;
-  text-align: center;
-  font-weight: bold;
-=======
   z-index:10;
->>>>>>> feature/v2.1
 }
 .date_detail{
   margin-left:10rpx; 
 }
+
+/* 每日一签 */
 .content{
-<<<<<<< HEAD
-  margin-left: 40rpx;
-  padding:0 0 20rpx 50rpx;
-  /* padding-left:50rpx; */
-  border-left: 2rpx solid #fff;
-=======
   margin-left: 15rpx;
   padding:20rpx 0 44rpx 50rpx;
->>>>>>> feature/v2.1
 }
 .open_lot1,.open_lot2{
-  width:600rpx;
+  width:640rpx;
   height:120rpx;
 } 
 .open_lot1{
@@ -85,10 +65,27 @@ page{
   justify-content: space-between;
 }
 .open_lot_img{
-  width: 106rpx;
-  height: 66rpx;
+  width: 120rpx;
+  height: 80rpx;
   /* border: 1rpx dashed #ddd; */
 }
+.openlot_type{
+    width: 176rpx;
+    height: 80rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.openlot_text{
+    font-size:32rpx;
+    color:rgba(255,255,255,1);
+    line-height:44rpx;
+}
+.openlot_cry{
+    width: 60rpx;
+    height: 60rpx;
+}
+
 
 /* 没有数据时的样式 */
 .box_empty{
