@@ -71,6 +71,7 @@ Page({
     },
 
     onShow(){
+        console.log('冷启动')
         // 激活下刷新金额
         this._getBlance();
     },

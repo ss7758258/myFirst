@@ -1,3 +1,18 @@
+
+.more_text{
+	position: absolute;
+	width: 126rpx;
+	height: 40rpx;
+	top: 0;
+	right: 0;
+	text-align: center;
+	font-size:24rpx;
+	font-family:'PingFangSC-Regular';
+	color:rgba(255,255,255,1);
+	line-height:40rpx;
+	background:rgba(255,38,38,0.2);
+	border-radius:0 10rpx 0 12rpx;
+}
 /* 服务号弹窗 */
 .contact_follow_mask{
 	position: fixed;
@@ -185,7 +200,11 @@
 	width:200rpx;
 	height:59rpx;
 	transform:translateX(-5vw);
-	
+}
+
+.card_content .button1.banner_show .card_xiao_text.more_xiao_text{
+	height: 86rpx;
+	transform:translateX(-6vw);
 }
 
 .card_content .button1.banner_show{

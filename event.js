@@ -19,6 +19,10 @@ function EventFun (){
     this.notQueueNames = []
     // 尚未定义的事件的参数队列
     this.notQueueOpts = []
+    // 用于触发的集合
+    this.emitEvents = []
+    this.emitEventNames = []
+    this.emitEventThis = []
 }
 
 EventFun.prototype = {
@@ -37,6 +41,9 @@ EventFun.prototype = {
         this.events.push(cb)
         this.eventNames.push(eventName)
         this.eventThis.push(elem)
+        this.emitEvents.push(cb)
+        this.emitEventNames.push(eventName)
+        this.emitEventThis.push(elem)
         // 需要移除的下标数组
         let temps = []
         // 查找队列中是否还有当前事件没有触发的
@@ -54,7 +61,7 @@ EventFun.prototype = {
             me.notQueueOpts.splice(v,1)
         })
         // 返回当前事件在列表中的下标
-        return (this.eventNames.length - 1)
+        return this.eventNames.length
     },
     /**
      * 触发相应自定义事件
@@ -66,10 +73,10 @@ EventFun.prototype = {
     emit (eventName = '' , opts = {}, elem = '',flag = true){
         let me = this
         let isflag = false
-        this.eventNames.forEach( (v,ind) => {
-            if(v === eventName && me.eventThis[ind] === elem){
+        this.emitEventNames.forEach( (v,ind) => {
+            if(v === eventName && me.emitEventThis[ind] === elem){
                 isflag = true
-                me.events[ind](opts,state)
+                me.emitEvents[ind](opts,state)
             }
         });
         if(!isflag && flag){
@@ -84,10 +91,22 @@ EventFun.prototype = {
      * @param {*} [ind=-1]
      */
     remove(ind = -1){
+        ind--
         if(ind > -1 && ind < this.eventNames.length){
-            this.events.splice(ind,1)
-            this.eventNames.splice(ind,1)
-            this.eventThis.splice(ind,1)
+            this.events.splice(ind,1,'')
+            this.eventNames.splice(ind,1,'')
+            this.eventThis.splice(ind,1,'')
+            
+            let self = this
+            this.emitEvents = []
+            this.emitEventThis = []
+            this.emitEventNames = this.eventNames.filter((v,ind) => {
+                if(v !== ''){
+                    self.emitEvents.push(self.events[ind])
+                    self.emitEventThis.push(self.eventThis[ind])
+                }
+                return v !== ''
+            })
         }
     },
     /**

@@ -30,7 +30,13 @@ Page({
 		this._getGoodsList()
 		this._getSystemInfo()
 	},
-
+	/**
+	 * 刷新金额
+	 */
+	onShow(){
+        // 激活下刷新金额
+        this._getBlance();
+	},
 	/**
 	 * 根据系统和后台返回数据判定是否支持内购
 	 */

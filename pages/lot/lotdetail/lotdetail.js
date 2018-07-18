@@ -25,7 +25,8 @@ const config = {
 		// 是否已经拆签完成
 		disLotSuccess: false,
 		// ios的关闭打开问题
-		iosOpen : false,
+		iosOpen : true,
+		openAndriod : true,
 		navConf: {
 			title: '拆签',
 			state: 'root',
@@ -73,15 +74,15 @@ const config = {
 		starNum = Storage.starPrice
         // Storage.openIos = 1
 		// ios上关闭打开
-		if(Storage.sys === 'ios'){
-            this.setData({
-                iosOpen : Storage.openIos === 1
-            })
-        }else{
-            this.setData({
-                openAndriod : Storage.openAndriod === 1
-            })
-		}
+		// if(Storage.sys === 'ios'){
+        //     this.setData({
+        //         iosOpen : Storage.openIos === 1
+        //     })
+        // }else{
+        //     this.setData({
+        //         openAndriod : Storage.openAndriod === 1
+        //     })
+		// }
 		
 		// 缓存对象
 		let self = this

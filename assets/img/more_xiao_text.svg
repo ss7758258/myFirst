@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="86px" height="42px" viewBox="0 0 86 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51 (57462) - http://www.bohemiancoding.com/sketch -->
+    <title>字体</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="代币优化以及第三方入口调整" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="PingFangSC-Regular, PingFang SC" font-weight="normal">
+        <g id="首页" transform="translate(-207.000000, -580.000000)" fill="#FFFFFF">
+            <g id="字体" transform="translate(207.000000, 577.000000)">
+                <text id="免费领取" font-size="21" line-spacing="27" letter-spacing="0.75999999">
+                    <tspan x="0" y="22">免费领</tspan>
+                    <tspan x="65.28" y="22">取</tspan>
+                </text>
+                <text id="小星星" font-size="16" line-spacing="20" letter-spacing="0.7619048">
+                    <tspan x="0" y="44">小星星</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -21,7 +21,7 @@
 <view>
     <view wx:for="{{list}}" wx:key="item.id" wx:if="{{item.appType !== 2}}">
         <!-- type为1是列表形式 -->
-        <view class="banner_list_panel" catchtap="goOuter" data-res="{{item}}" wx:if="{{item.appType === 1}}">
+        <view class="banner_list_panel" catchtap="goOuter" data-res="{{item}}" data-index="{{index}}" wx:if="{{item.appType === 1}}">
             <view class="banner_logo">
                 <view>
                     <image src="{{item.logoUrl}}"></image>

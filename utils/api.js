@@ -72,15 +72,6 @@ function requst(url, method, data = {}) {
 					reject()
 					wx.hideLoading()
 					wx.hideToast()
-					// wx.showToast({
-					// 	title: '小主，登录信息时效，请重新登录',
-					// 	icon: 'none',
-					// 	duration: 2000,
-					// 	mask : true
-					// })
-					// setTimeout(() => {
-					// 	// 用户token过期
-					// 	bus.emit('no-login-app', res , 'app')
 					// }, 2000);
 					return
 				}
@@ -92,7 +83,7 @@ function requst(url, method, data = {}) {
 					// loginLock = false
 					if (url == 'selectConstellation/x100' && !data.constellationId) {
 						resove(res.data.responseBody)
-					}else if(url == 'loginConstellation/loginForMore'){
+					}else if(url === 'loginConstellation/loginForMore' || url === 'pay/topup'){
 						resove(res.data.responseBody)
 					} else {
 						resove(res.data.responseBody.data)
