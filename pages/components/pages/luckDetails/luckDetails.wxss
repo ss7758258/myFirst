@@ -76,7 +76,8 @@
     width: 280rpx;
     height: 120rpx;
     margin-top:20rpx;
-    margin-bottom: -2rpx; 
+    margin-bottom: -2rpx;  
+    display: block;
 }
 
 /* 运势简评 */

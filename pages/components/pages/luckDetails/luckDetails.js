@@ -14,15 +14,65 @@ Page({
         },
         headerlist: ['今日运势', '本周运势', '本月运势'], //导航栏数据
         current: 0, //导航栏下标
-        contentlist: [
-            {name: '综合指数',count: 2},
-            {name: '爱情指数',count: 3},
-            {name: '财富指数',count: 4},
-            {name: '工作指数',count: 5},
-            {name: '幸运颜色',content: '黄色'},
-            {name: '缘分星座',content: '处女座'}
-        ],
-        list:[], //运势详情接口数据
+        contentlist: ['综合指数', '爱情指数', '财富指数', '工作指数'],
+        list:{       //运势详情接口数据
+           day:{
+               summary_star:5, //综合指数
+               love_star:5,     //爱情指数
+               money_star:5,    //财富指数
+               work_star:5,     //工作指数
+               grxz:'处女座',   //贵人星座
+               lucky_num:9,     //幸运数字
+               lucky_time:'2018.07.18',
+               lucky_direction:'left',
+               day_notice:'aaa',
+               general_txt:'fefefef',//运势简评
+               love_txt:'defeuifeufhe',//爱情运势
+               work_txt:'dhwuidwuihdiud',//工作运势
+               money_txt:'hahahahhahah',//财富运势
+               time: '2018.07.18',
+               lucky_color:'red',
+           },
+           week: {
+               summary_star: 5,
+               love_star: 5,
+               money_star: 5,
+               work_star: 5,
+               grxz: '处女座',
+               xrxz:'处女座',
+               lucky_num: 9,
+               lucky_day: '2018.07.18',
+               lucky_direction: 'left',
+               week_notice: 'aaa',
+               general_txt: 'fefefef',
+               love_txt: 'defeuifeufhe',
+               work_txt: 'dhwuidwuihdiud',
+               money_txt: 'hahahahhahah',
+               health_txt:'hdiwhuidwuid',
+               time: '2018.07.18',
+               lucky_color: 'red',
+           },
+           month: {
+               summary_star: 5,
+               love_star: 5,
+               money_star: 5,
+               work_star: 5,
+               grxz: '处女座',
+               xrxz: '处女座',
+               yfxz:'处女座',
+               lucky_direction: 'left',
+               month_advantage:'本月优势',
+               month_weakness:'本月弱势',
+               week_notice: 'aaa',
+               general_txt: 'fefefef',
+               love_txt: 'defeuifeufhe',
+               work_txt: 'dhwuidwuihdiud',
+               money_txt: 'hahahahhahah',
+               health_txt: 'hdiwhuidwuid',
+               time: '2018.07.18',
+               lucky_color: 'red',
+           },
+        }, 
     },
 
     /**
@@ -30,6 +80,7 @@ Page({
      */
     onLoad: function(options) {
         // this.getData()
+        this.selected()
     },
 
     onShow: function () {
@@ -50,23 +101,28 @@ Page({
     },
     // 选择运势
     selected(e){
-        // console.log(e)
-        let index = e.target.dataset.selected
-        let current;
-        if(index == 0){
-            current = 0
-            
-        }else if(index == 1){
-            current = 1
-        }else{
-            current = 2
+        console.log(e)
+        let current = 0, list = this.data.list.day;
+        if(e){
+            let index = e.target.dataset.selected
+            if (index == 0) {
+                current = 0
+                list = this.data.list.day
+            } else if (index == 1) {
+                current = 1
+                list = this.data.list.week
+            } else {
+                current = 2
+                list = this.data.list.month
+            }
         }
-
+        
         this.setData({
-            current:current
+            current:current,
+            list:list
         })
-
-        this.getData()
+        console.log(list)
+        // this.getData()
         
     },
 
