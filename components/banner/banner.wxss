@@ -57,7 +57,7 @@
 .banner_content>.banner_desc{
     margin-top: 17px;
     font-size:3.2vw;
-    line-height: 3.2vw;
+    line-height: 4vw;
     color: #8a8a8a;
 }
 /* 文字按钮 */
@@ -99,7 +99,7 @@
     border:1px solid rgba(255,142,0,1);
 }
 .star{
-    margin-left: 10rpx;
+    margin-left: 5rpx;
     width: 24rpx;
     height: 24rpx;
     max-width: 24rpx;

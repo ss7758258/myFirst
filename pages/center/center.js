@@ -71,6 +71,7 @@ Page({
     },
 
     onShow(){
+        console.log('冷启动')
         // 激活下刷新金额
         this._getBlance();
     },
@@ -156,7 +157,7 @@ Page({
      * 获取用户钱包信息
      */
     _getBlance() {
-		api.getBlance().then(res => {
+		api.getBlance({notShowLoading:true}).then(res => {
 			console.log('获取钱包信息：',res)
 			this.setData({
 				starNum : res.balance

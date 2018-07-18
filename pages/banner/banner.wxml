@@ -2,6 +2,8 @@
 <nav opts='{{navConf}}'></nav>
 <loginApp></loginApp>
 <!-- <ad unit-id="adunit-d71864de7d04387c"></ad> -->
-<scroll-view class="listBanner" scroll-y bindscrolltolower="">
+<view class="el-dialo {{starShow ? 'show' : ''}}">成功捕获{{starNum}}颗小星星</view>
+<scroll-view class="listBanner" scroll-y bindscrolltolower="" style="height:{{height}};">
     <banner opts="{{bannerConf}}"></banner>
 </scroll-view>
+<ad class="ad_banner" unit-id="adunit-d71864de7d04387c"></ad>

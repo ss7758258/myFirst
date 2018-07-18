@@ -80,7 +80,9 @@ Page({
 		showFollow : false, // 关注服务号开关
 		shareCard : {
 			list:[]
-		}
+		},
+		// 待领星星文案
+		more_startext : '0颗待领'
 	},
 
 	goMore (e){
@@ -159,6 +161,7 @@ Page({
 			if(Storage.forMore){
 				// 加载用户配置
 				getUserConf(self)
+				getStarNum(self)
 			}
 		},'home')
 		
@@ -681,5 +684,34 @@ function errorToast(){
 		icon : 'none',
 		mask : true,
 		duration : 3000
+	})
+}
+/**
+ * 获取星星数量
+ * @param {*} self
+ */
+function getStarNum(self){
+	wx.request({
+		url : 'https://micro.yetingfm.com/appwall/front/star/unreceived_num',
+		method: 'GET',
+		data: {
+			openId : Storage.openId,
+			appId : confing.appId
+		},
+		success (res){
+			if(res.statusCode === 200){
+			
+				console.log(`星星数量${res.data.data}`)
+
+				let text =  res.data.data || 0
+				self.setData({
+					more_star_show : text > 0 ,
+					more_startext : text + '颗待领'
+				})
+			}
+		},
+		fail(){
+
+		}
 	})
 }

@@ -27,12 +27,12 @@ const methods = {
                 let temp = [];
                 res.forEach((elem,ind) => {
                     // 调试数据
-                    res[ind].received = 0
-                    res[ind].starAmount = 5
-                    if(ind % 2 === 0){
-                        res[ind].received = 1
-                        res[ind].starAmount = 5
-                    }
+                    // res[ind].received = 0
+                    // res[ind].starAmount = 5
+                    // if(ind % 2 === 0){
+                    //     res[ind].received = 1
+                    //     res[ind].starAmount = 5
+                    // }
 
                     if(elem.appType === 2){
                         temp.push(elem)
@@ -54,8 +54,8 @@ const methods = {
      */
     goOuter (e){
         let self = this
-        let data = e.currentTarget.dataset
-        let res = data && data.res ? data.res : {}
+        let {res = {} , index = 0} = e.currentTarget.dataset
+        
         if(res.appId){
 
             API.upAnalytics({
@@ -73,6 +73,8 @@ const methods = {
             // 事件通知
             bus.emit('resource_click',{
                 res,
+                self,
+                index,
                 opts : self.data.opts
             },'banner-app',false)
 
@@ -94,7 +96,9 @@ const methods = {
                     
                     // 事件通知
                     bus.emit('resource_open_success',{
-                        res,
+                        res : res,
+                        self,
+                        index,
                         opts : self.data.opts
                     },'banner-app',false)
                 },
@@ -103,6 +107,8 @@ const methods = {
                     // 事件通知
                     bus.emit('resource_open_fail',{
                         res,
+                        self,
+                        index,
                         opts : self.data.opts
                     },'banner-app',false)
                 }
