@@ -341,15 +341,16 @@ page{
     position: absolute;
     width: 126rpx;
     height: 135rpx;
-    bottom:124rpx;
-    left: 5rpx;
+    bottom:120rpx;
+    left: 54rpx;
 }
 .ad_hand{
     position: absolute;
     width: 59rpx;
     height: 59rpx;
-    bottom:163rpx;
-    left: 54rpx;
+    bottom:150rpx;
+    left: 106rpx;
+    opacity: 0;
 }
 /* End广告牌 */
 
@@ -363,6 +364,7 @@ page{
     /* animation: lotBox 5s infinite linear; */
 }
 .lotBox_active{
+    opacity: 1;
     animation: lotBox 2s infinite linear;
 }
 @keyframes lotBox{
@@ -370,7 +372,7 @@ page{
         transform: scale(1);
     }
     50%{
-        transform: scale(1.2);
+        transform: scale(1.3);
     }
     
 }

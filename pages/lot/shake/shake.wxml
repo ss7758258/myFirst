@@ -76,7 +76,7 @@
             <!-- 广告牌 -->
             <!-- <image class="ad" src="/assets/img/ad.png"></image> -->
             <image class="ad" src="/assets/img/ad.svg" catchtap="openLotBox"></image>
-            <image class="ad_hand" src="/assets/img/hand.svg" catchtap="openLotBox"></image>
+            <image class="ad_hand {{lotBox}}" src="/assets/img/hand.svg" catchtap="openLotBox"></image>
             <!-- End广告牌 -->
 
             <!-- 一签盒 -->
@@ -84,7 +84,7 @@
             <!-- End一签盒 -->
         </view>
         <view class="bootom_x" wx:if="{{longScreen}}">
-            <image src="/assets/img/grass_bottom.png" ></image>
+            <image src="/assets/img/grass_bottom_1.png" ></image>
         </view>
     </view>
 </form>
