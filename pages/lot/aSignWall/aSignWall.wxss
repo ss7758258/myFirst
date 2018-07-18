@@ -5,7 +5,7 @@ page{
   width: 2rpx;  
   height: 100%;
   margin-left: 44rpx;
-  background: rgba(255,255,255,.8);
+   background: rgba(255,255,255,.8);/*武器等会我去爱的我去 */
   position: fixed;
   z-index: 1;
 }
