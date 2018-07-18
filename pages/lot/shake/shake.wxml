@@ -84,7 +84,7 @@
             <!-- End一签盒 -->
         </view>
         <view class="bootom_x" wx:if="{{longScreen}}">
-            <image src="/assets/img/grass_bottom.png" ></image>
+            <image src="/assets/img/grass_bottom_1.png" ></image>
         </view>
     </view>
 </form>
