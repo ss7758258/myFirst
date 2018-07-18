@@ -130,7 +130,7 @@
 					<button wx:if="{{isBanner}}" class='button1 {{isBanner ? "banner_show" : ""}}' form-type="submit" data-key="more" type='' hover-class="none">
 						<image class="card_xiao" src="/assets/images/more_xiao.png" />
 						<image class="card_text card_xiao_text more_xiao_text" wx:if="{{isBanner}}" src="/assets/img/more_xiao_text.svg"></image>
-						<view class="more_text">{{more_startext}}</view>
+						<view class="more_text" wx:if="{{more_star_show}}">{{more_startext}}</view>
 					</button>
 				</view>
 			</form>

@@ -56,7 +56,7 @@ Page({
 
 	// 获取用户钱包信息
 	_getBlance() {
-		api.getBlance().then(res => {
+		api.getBlance({notShowLoading:true}).then(res => {
 			console.log('获取钱包信息：',res)
 			let balance = res.balance
 			this.setData({

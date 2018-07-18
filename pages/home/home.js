@@ -705,6 +705,7 @@ function getStarNum(self){
 
 				let text =  res.data.data || 0
 				self.setData({
+					more_star_show : text > 0 ,
 					more_startext : text + '颗待领'
 				})
 			}
