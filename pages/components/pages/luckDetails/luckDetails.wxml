@@ -1,7 +1,12 @@
 <nav opts='{{navConf}}'></nav>
 
 <!-- 运势详情 -->
-<scroll-view class='scroll-view' scroll-y bindscrolltolower="reachBottom" lower-threshold="100">
+<scroll-view class='scroll-view' scroll-y bindscrolltolower="reachBottom" lower-threshold="100" wx:if="{{list}}">
+    <!-- 导航栏swiper -->
+    <!-- <swiper circular="{{swiper.circlular}}" current="{{swiper.current}}" interval="{{swiper.interval}}" autoplay='{{swiper.autoplay}}' previous-margin="{{swiper.pre}}" next-margin="{{swiper.next}}" display-multiple-items="{{swiper.num}}">
+
+    </swiper> -->
+
     <!-- 导航栏 -->
     <view class='header'>
         <view class="head_son {{current == index?'select':''}}" wx:for="{{headerlist}}" wx:key="index" data-selected='{{index}}' 
@@ -11,9 +16,9 @@
         <view class="head_active thismonth" wx:if="{{current == 2}}"></view>
     </view>
     
-    <!-- 运势指数 -->
+     <!-- 运势指数 
     <view class='index clearfix'>
-        <!-- 有星星 -->
+         有星星 
         <view class='index_left' >
             <view class='synthesize' wx:for="{{contentlist}}" wx:key='index' wx:if="{{item.count}}">
                 <text>{{item.name}}:</text>
@@ -21,71 +26,130 @@
                 <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-item.count}}" wx:key="index" class='star'></image>
             </view>
         </view>
-        <!-- 没有星星 -->
+        
+         没有星星 
         <view class='index_right'>
-             <image src='/assets/img_subPackages/aries.svg' class='aries'></image> 
-            <!-- <image src='https://xingzuo-1256217146.file.myqcloud.com/aries.svg' class='aries'></image> -->
+            <image src='/assets/img_subPackages/aries.svg' class='aries'></image> 
             <view class='luckycolor' wx:for="{{contentlist}}" wx:key='index' wx:if="{{item.content && item.content != ''}}">
                 <text class='colon'>{{item.name}}:</text>
                 <text>{{item.content}}</text>
             </view>
         </view>
+    </view> -->
+
+    <!-- 运势指数 -->
+    <view class='index clearfix'>
+        <!-- 有星星 -->
+        <view class='index_left' >
+            <view class='synthesize' wx:if="{{list.summary_star}}">
+                <text>综合指数:</text>
+                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.summary_star}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.summary_star}}" wx:key="index" class='star'></image>
+            </view>
+            <view class='synthesize' wx:if="{{list.love_star}}">
+                <text>爱情指数:</text>
+                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.love_star}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.love_star}}" wx:key="index" class='star'></image>
+            </view>
+            <view class='synthesize' wx:if="{{list.money_star}}">
+                <text>财富指数:</text>
+                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.money_star}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.money_star}}" wx:key="index" class='star'></image>
+            </view>
+            <view class='synthesize' wx:if="{{list.work_star}}">
+                <text>工作指数:</text>
+                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.work_star}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.work_star}}" wx:key="index" class='star'></image>
+            </view>
+        </view>、
+
+        <!-- 没有星星的今日运势 -->
+        <view class='index_right' wx:if="{{current == 0}}">
+            <image src='/assets/img_subPackages/aries.svg' class='aries'></image>
+            <view class='luckycolor' wx:if="{{list.lucky_num}}">
+                <text class='colon'>幸运数字:</text>
+                <text>{{list.lucky_num}}</text>
+            </view>
+            <view class='luckycolor' wx:if="{{list.grxz}}">
+                <text class='colon'>贵人星座:</text>
+                <text>{{list.grxz}}</text>
+            </view>
+        </view>
+        <!-- 没有星星的本周运势 -->
+        <view class='index_right' wx:if="{{current == 1}}">
+            <image src='/assets/img_subPackages/aries.svg' class='aries'></image> 
+            <view class='luckycolor' wx:if="{{list.lucky_day}}">
+                <text class='colon'>幸运日期:</text>
+                <text>{{list.lucky_day}}</text>
+            </view>
+            <view class='luckycolor' wx:if="{{list.xrxz}}">
+                <text class='colon'>小人星座:</text>
+                <text>{{list.xrxz}}</text>
+            </view>
+        </view>
+
+        <!-- 没有星星的本月运势 -->
+        <view class='index_right' wx:if="{{current == 2}}">
+            <view class='aries'>
+                <image src='/assets/img_subPackages/aries.svg' class='aries_img'></image>
+            </view> 
+            <view class='luckycolor' wx:if="{{list.lucky_color}}">
+                <text class='colon'>幸运颜色:</text>
+                <text>{{list.lucky_color}}</text>
+            </view>
+            <view class='luckycolor' wx:if="{{list.yfxz}}">
+                <text class='colon'>缘分星座:</text>
+                <text>{{list.yfxz}}</text>
+            </view>
+        </view>
+
     </view>
 
     <!-- 运势简评 -->
-    <view class='luckProfile'>
+    <view class='luckProfile' wx:if="{{list.general_txt}}">
         <view class='luckProfile_head'>
             <image src='/assets/img_subPackages/luckProfile.svg' class='luckProfile_img'></image>
             <text class='luckProfile_text'>运势简评</text>
         </view>
-        <view class='luckProfile_content'>强出头吃亏的是自己。</view>
-    </view>
-
-    <!-- 整体运势 -->
-    <view class='luckProfile'>
-        <view class='luckProfile_head'>
-            <image src='/assets/img_subPackages/overview.svg' class='luckProfile_img'></image>
-            <text class='luckProfile_text overview'>整体运势</text>
-        </view>
-        <view class='luckProfile_content'>适合跟恋人翻阅以往的照片，过去的点点滴滴立即浮现在眼前，心中倍感甜蜜；大金额的投资最好同有经验的长辈商量，一味的冲动投资只会得不偿失；从事管理的人员，发现员工的问题应及时指出，否则问题将会蔓延。</view>
+        <view class='luckProfile_content'>{{list.general_txt}}</view>
     </view>
 
     <!-- 爱情运势 -->
-    <view class='luckProfile'>
+    <view class='luckProfile' wx:if="{{list.love_txt}}">
         <view class='luckProfile_head'>
             <image src='/assets/img_subPackages/love.svg' class='luckProfile_img'></image>
             <text class='luckProfile_text love'>爱情运势</text>
         </view>
-        <view class='luckProfile_content'>恋爱中人少跟其他异性朋友有接触，否则会引来情人的不满及妒意。</view>
+        <view class='luckProfile_content'>{{list.love_txt}}</view>
     </view>
 
     <!-- 工作运势 -->
-    <view class='luckProfile'>
+    <view class='luckProfile' wx:if="{{list.work_txt}}">
         <view class='luckProfile_head'>
             <image src='/assets/img_subPackages/work.svg' class='luckProfile_img'></image>
             <text class='luckProfile_text work'>工作运势</text>
         </view>
-        <view class='luckProfile_content'>思维活跃，表达严谨，很适合参与谈判，但需注意在有利条件下，不宜太咄咄逼人。</view>
+        <view class='luckProfile_content'>{{list.work_txt}}</view>
     </view>
 
     <!-- 财富运势 -->
-    <view class='luckProfile'>
+    <view class='luckProfile' wx:if="{{list.money_txt}}">
         <view class='luckProfile_head'>
             <image src='/assets/img_subPackages/wealth.svg' class='luckProfile_img'></image>
             <text class='luckProfile_text wealth'>财富运势</text>
         </view>
-        <view class='luckProfile_content'>财来财去，不知道把钱花哪去了！</view>
+        <view class='luckProfile_content'>{{list.money_txt}}</view>
     </view>
 
     <!-- 健康运势 -->
-    <view class='luckProfile'>
+    <view class='luckProfile' wx:if="{{list.health_txt}}">
         <view class='luckProfile_head'>
             <image src='/assets/img_subPackages/healthy.svg' class='luckProfile_img'></image>
             <text class='luckProfile_text healthy'>健康运势</text>
         </view>
-        <view class='luckProfile_content'>适合跟恋人翻阅以往的照片，过去的点点滴滴立即浮现在眼前，心中倍感甜蜜；大金额的投资最好同有经验的长辈商量，一味的冲动投资只会得不偿失；从事管理的人员，发现员工的问题应及时指出，否则问题将会蔓延。</view>
+        <view class='luckProfile_content'>{{list.health_txt}}</view>
     </view>
 
-    <view class='footer'></view>
+     <view class='footer'></view> 
 
 </scroll-view>

@@ -14,15 +14,66 @@ Page({
         },
         headerlist: ['今日运势', '本周运势', '本月运势'], //导航栏数据
         current: 0, //导航栏下标
-        contentlist: [
-            {name: '综合指数',count: 2},
-            {name: '爱情指数',count: 3},
-            {name: '财富指数',count: 4},
-            {name: '工作指数',count: 5},
-            {name: '幸运颜色',content: '黄色'},
-            {name: '缘分星座',content: '处女座'}
-        ],
-        list:[], //运势详情接口数据
+        contentlist: ['综合指数', '爱情指数', '财富指数', '工作指数'],
+        list: {},       //页面渲染数据
+        dta:{           //运势接口数据
+            day: {
+                summary_star: 1, //综合指数
+                love_star: 2,     //爱情指数
+                money_star: 3,    //财富指数
+                work_star: 4,     //工作指数
+                grxz: '处女座',   //贵人星座
+                lucky_num: 9,     //幸运数字
+                lucky_time: '2018.07.18',
+                lucky_direction: 'left',
+                day_notice: 'aaa',
+                general_txt: '我是今日运势',//运势简评
+                love_txt: 'defeuifeufe',//爱情运势
+                work_txt: 'dhwuidwuihdiud',//工作运势
+                money_txt: 'hahahahhahah',//财富运势
+                time: '2018.07.18',
+                lucky_color: 'red',
+            },
+            week: {
+                summary_star: 5,
+                love_star: 4,
+                money_star: 3,
+                work_star: 2,
+                grxz: '处女座',
+                xrxz: '处女座',
+                lucky_num: 9,
+                lucky_day: '周一',
+                lucky_direction: 'left',
+                week_notice: 'aaa',
+                general_txt: '我是本周运势',
+                love_txt: 'defeuifeufhe',
+                work_txt: 'dhwuidwuihdiud',
+                money_txt: 'hahahahhahah',
+                health_txt: 'hdiwhuidwuid',
+                time: '2018.07.18',
+                lucky_color: 'red',
+            },
+            month: {
+                summary_star: 2,
+                love_star: 4,
+                money_star: 1,
+                work_star: 5,
+                grxz: '处女座',
+                xrxz: '处女座',
+                yfxz: '处女座',
+                lucky_direction: 'left',
+                month_advantage: '本月优势',
+                month_weakness: '本月弱势',
+                week_notice: 'aaa',
+                general_txt: '我是本月运势',
+                love_txt: 'defeuifeufhe',
+                work_txt: 'dhwuidwuihdiud',
+                money_txt: 'hahahahhahah',
+                health_txt: 'hdiwhuidwuid',
+                time: '2018.07.18',
+                lucky_color: 'red',
+            },
+        }
     },
 
     /**
@@ -30,6 +81,7 @@ Page({
      */
     onLoad: function(options) {
         // this.getData()
+        this.selected()
     },
 
     onShow: function () {
@@ -40,33 +92,40 @@ Page({
             console.log('运势详情数据：', res)
             if(res!=''){
                 this.setData({
-                    list: res
+                    dta: res
                 })
             }
-            
         }).catch(res => {
             console.log('运势详情返回报错数据：', res)
         })
     },
     // 选择运势
     selected(e){
+        // this.getData()
         // console.log(e)
-        let index = e.target.dataset.selected
-        let current;
-        if(index == 0){
-            current = 0
-            
-        }else if(index == 1){
-            current = 1
-        }else{
-            current = 2
+        let current = 0, dta = this.data.dta.day;
+        if(e){
+            let index = e.target.dataset.selected
+            if (index == 0) {
+                current = 0
+                dta = this.data.dta.day
+            } else if (index == 1) {
+                current = 1
+                dta = this.data.dta.week
+                console.log(dta)
+            } else {
+                current = 2
+                dta = this.data.dta.month
+            }
         }
 
         this.setData({
-            current:current
+            current: current,
+            list: dta
         })
+        
+        // console.log('data:',this.data.list)
 
-        this.getData()
         
     },
 
