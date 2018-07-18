@@ -72,11 +72,14 @@ swiper-item{
     margin-top: 20rpx;
     line-height: 45rpx;
 }
+.star_right{
+    margin-right: 5rpx;
+}
 .star{
-    width: 40rpx;
-    height: 40rpx;
+    width: 35rpx;
+    height: 35rpx;
     margin-left: 5rpx;
-    transform: translateY(6rpx)
+    transform: translateY(5rpx)
 }
 .colon{
     display: inline-block;
@@ -89,13 +92,13 @@ swiper-item{
 }
 .luckycolor{
     margin-left: 5rpx;
-    margin-top: 25rpx;
+    margin-top: 17rpx;
 }
 .aries{
     display: block;
     width: 280rpx;  
     height: 120rpx;
-    margin-top:20rpx;
+    margin-top:15rpx;
     /* margin-bottom: 28rpx;     */
     overflow: hidden;
 }

@@ -49,22 +49,22 @@
         <!-- 有星星 -->
         <view class='index_left' >
             <view class='synthesize' wx:if="{{list.summary_star}}">
-                <text>综合指数:</text>
+                <text class='star_right'>综合指数:</text>
                 <image src='/assets/img_subPackages/star.svg' wx:for="{{list.summary_star}}" wx:key="index" class='star'></image>
                 <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.summary_star}}" wx:key="index" class='star'></image>
             </view>
             <view class='synthesize' wx:if="{{list.love_star}}">
-                <text>爱情指数:</text>
+                <text class='star_right'>爱情指数:</text>
                 <image src='/assets/img_subPackages/star.svg' wx:for="{{list.love_star}}" wx:key="index" class='star'></image>
                 <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.love_star}}" wx:key="index" class='star'></image>
             </view>
             <view class='synthesize' wx:if="{{list.money_star}}">
-                <text>财富指数:</text>
+                <text class='star_right'>财富指数:</text>
                 <image src='/assets/img_subPackages/star.svg' wx:for="{{list.money_star}}" wx:key="index" class='star'></image>
                 <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.money_star}}" wx:key="index" class='star'></image>
             </view>
             <view class='synthesize' wx:if="{{list.work_star}}">
-                <text>工作指数:</text>
+                <text class='star_right'>工作指数:</text>
                 <image src='/assets/img_subPackages/star.svg' wx:for="{{list.work_star}}" wx:key="index" class='star'></image>
                 <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.work_star}}" wx:key="index" class='star'></image>
             </view>
