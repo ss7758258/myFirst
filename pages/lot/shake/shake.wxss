@@ -344,6 +344,13 @@ page{
     bottom:124rpx;
     left: 5rpx;
 }
+.ad_hand{
+    position: absolute;
+    width: 59rpx;
+    height: 59rpx;
+    bottom:163rpx;
+    left: 54rpx;
+}
 /* End广告牌 */
 
 /* 一签盒 */
