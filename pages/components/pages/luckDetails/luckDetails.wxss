@@ -2,10 +2,23 @@
     background: #fff;
     height: 100%;
 }
+.swiper_header{
+    width: 750rpx;
+    height: 108rpx;   
+}
+.swiper_content{
+    width: 750rpx;
+    height: 100%;
+}
+swiper-item{
+    width: 250rpx;
+    height: 108rpx;
+      
+}
 /* 导航栏 */
 .header{
     height: 100rpx;
-    border-bottom: 8rpx solid rgba(146,98,251,0.20);
+    border-bottom: 8rpx solid rgba(146,98,251,0.20); 
     position: relative
 }
 .head_son{
@@ -15,7 +28,8 @@
     text-align: center;
     font-size: 36rpx;
     color: #C8B0FD;
-    float: left;
+    float: left; 
+    border-bottom:8rpx solid rgba(146,98,251,0.20);
 }
 .head_active{
     position: absolute;
@@ -23,7 +37,10 @@
     height: 8rpx;
     border-radius: 100rpx;
     background: #9262FB;
-    bottom: -10rpx;
+    /* bottom: -10rpx; */
+     left: 50rpx; 
+     bottom: 0rpx;
+     transition: 2s all 0s linear;
 }
 .select{
     color: #9262FB;
