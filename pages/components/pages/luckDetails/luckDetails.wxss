@@ -23,7 +23,7 @@
     height: 8rpx;
     border-radius: 100rpx;
     background: #9262FB;
-    bottom: -8rpx;
+    bottom: -10rpx;
 }
 .select{
     color: #9262FB;
@@ -53,6 +53,7 @@
     font-size: 32rpx;
     color: #000000;
     margin-top: 20rpx;
+    line-height: 45rpx;
 }
 .star{
     width: 40rpx;
@@ -71,13 +72,15 @@
 }
 .luckycolor{
     margin-left: 5rpx;
+    margin-top: 25rpx;
 }
 .aries{
-    width: 280rpx;
+    display: block;
+    width: 280rpx;  
     height: 120rpx;
     margin-top:20rpx;
-    margin-bottom: -2rpx;  
-    display: block;
+    /* margin-bottom: 28rpx;     */
+    overflow: hidden;
 }
 
 /* 运势简评 */
@@ -108,10 +111,7 @@
     line-height: 50rpx;
 }
 .footer{
-    height: 140rpx;
-}
-.overview{
-    color: #3123AE;
+    height: 142rpx;
 }
 .love{
     color: #FD6A9A;

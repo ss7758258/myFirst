@@ -1,21 +1,38 @@
 page{
   background:rgba(146,98,251,1);
 }
+<<<<<<< HEAD
 /* pages/aSignWall/aSignWall.wxss */
+=======
+.emptyview{  
+  width: 2rpx;  
+  height: 100%;
+  margin-left: 44rpx;
+  background: rgba(255,255,255,.8);
+  position: fixed;
+  z-index: 1;
+}
+>>>>>>> feature/v2.1
 .scroll-view{
   width:750rpx;
   height: calc(100% - 2.9962546816479403vh - 6.6vh);
+  z-index: 10;
+  margin-top: 44rpx;
 }
 .box{ 
   padding: 0 30rpx;
   box-sizing: border-box;
   /* overflow: scroll */
 }
+<<<<<<< HEAD
 .emptyview{  
   height: 40rpx;
   margin-left: 40rpx;
   border-left: 2rpx solid #fff;
 }
+=======
+
+>>>>>>> feature/v2.1
 
 /* 拆签样式 */
 .date{
@@ -31,18 +48,27 @@ page{
 }
 .day{
   border-radius: 50%;
+<<<<<<< HEAD
   border: 2rpx solid #fff;
   text-align: center;
   font-weight: bold;
+=======
+  z-index:10;
+>>>>>>> feature/v2.1
 }
 .date_detail{
   margin-left:10rpx; 
 }
 .content{
+<<<<<<< HEAD
   margin-left: 40rpx;
   padding:0 0 20rpx 50rpx;
   /* padding-left:50rpx; */
   border-left: 2rpx solid #fff;
+=======
+  margin-left: 15rpx;
+  padding:20rpx 0 44rpx 50rpx;
+>>>>>>> feature/v2.1
 }
 .open_lot1,.open_lot2{
   width:600rpx;
