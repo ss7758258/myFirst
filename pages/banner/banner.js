@@ -47,7 +47,7 @@ const Conf = {
         })
         setTimeout(() => {
             getAdInfo(self)
-        },500)
+        },1000)
 
         if(Storage.resourceRemoveId){
             bus.remove(Storage.resourceRemoveId)

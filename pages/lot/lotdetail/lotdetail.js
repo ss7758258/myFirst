@@ -322,7 +322,7 @@ const config = {
 		mta.Event.stat('pay_click', {})
 		wx.showModal({
 			title: '确定快速查看？',
-			content: '快速查看需要花费' + starNum + '颗小星星',
+			content: '快速查看需要消耗' + starNum + '颗小星星',
 			showCancel: true,
 			cancelColor: '#999999',
 			cancelText: '我再想想',
@@ -345,11 +345,11 @@ const config = {
 
 							wx.showModal({
 								title: '余额不足',
-								content: '账号余额不足，请先去买些小星星吧！',
+								content: '请先去获取一些小星星吧',
 								showCancel: true,
 								cancelColor: '#999999',
-								cancelText: '稍后再买',
-								confirmText: '立即购买',
+								cancelText: '我再想想',
+								confirmText: '立即获取',
 								confirmColor: '#9262FB',
 								success: function (res) {
 									if (res.confirm) {
