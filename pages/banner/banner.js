@@ -45,9 +45,8 @@ const Conf = {
         this.setData({
             'bannerConf.openId' : wx.getStorageSync('openId') || ''
         })
-        setTimeout(() => {
-            getAdInfo(self)
-        },1000)
+        // 心跳
+        tick(self)
 
         if(Storage.resourceRemoveId){
             bus.remove(Storage.resourceRemoveId)
@@ -131,8 +130,10 @@ const Conf = {
                 desc: '跳转失败',
             });
         }, 'banner-app')
+    },
+    onUnload(){
+        clearTimeout(timer)
     }
-
 }
 
 /**
@@ -143,11 +144,23 @@ function getAdInfo(self){
     query.select('.ad_banner').boundingClientRect()
     query.exec(function (res) {
         console.log('输出banner——----------ad信息：',res[0])
-        self.setData({
-            height : `calc(100% - 2.9962546816479403vh - 6.6vh - ${res[0].height}px)`
-        })
+        if(res[0]){
+            self.setData({
+                height : `calc(100% - 2.9962546816479403vh - 6.6vh - ${res[0].height}px)`
+            })
+        }
     })
 }
 
+/**
+ * 心跳
+ * @param {*} self
+ */
+function tick(self){
+    timer = setTimeout(() => {
+        getAdInfo(self)
+        tick(self)
+    },2000)
+}
 // 创建Banner页
 Page(Conf)

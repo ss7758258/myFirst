@@ -100,10 +100,10 @@
 }
 .star{
     margin-left: 5rpx;
-    width: 24rpx;
-    height: 24rpx;
-    max-width: 24rpx;
-    max-height: 24rpx;
+    width:30rpx;
+    height:30rpx;
+    max-width:30rpx;
+    max-height:30rpx;
     vertical-align: middle;
 }
 
