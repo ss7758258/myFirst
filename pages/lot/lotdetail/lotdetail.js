@@ -56,7 +56,9 @@ const config = {
 		// 异常机型适配
 		model : wx.getStorageSync('android_model') || ''
 	},
-
+	errorImg(){
+		console.log('图片加载失败')
+	},
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
@@ -126,7 +128,7 @@ const config = {
 		if(Storage.userInfo){
 			this.setData({
 				// 是否是长屏机
-				longScreen : Storage.LongScreen
+				longScreen : wx.getStorageSync('LongScreen') || false
 			})
 			// 已经触发过登录不在触发
 			if(Storage.lotLogin){
@@ -416,74 +418,79 @@ const config = {
 		// 创建选择器
 		let query = wx.createSelectorQuery()
 		query.select('.heart_big').boundingClientRect()
-		query.exec(function (res) {
-			console.log('输出节点信息：', res)
+		query.select('.head_pto_0').boundingClientRect()
+		query.exec(function (resV) {
+			console.log('输出节点信息：', resV)
 			self.setData({
-				flyStyle: `top:${res[0].top}px;left:${res[0].left}px;transform: scale(1);`
+				flyStyle: `top:${resV[0].top}px;left:${resV[0].left}px;transform: scale(1);`
 			})
-			let query = wx.createSelectorQuery()
-			query.select('.head_pto_0').boundingClientRect()
-			query.exec(function (v) {
-				console.log('输出坐标：', v)
-				$vm.api.getX506({ id: self.data.lotDetail.id, notShowLoading: true })
-					.then(res => {
-						console.log('未知数据：', res)
-						// 拆签失败
-						if (!res) {
-							wx.showModal({
-								title: '提示',
-								content: '小主，拆签失败了',
-								confirmText: '重新尝试',
-								showCancel: false,
-								success() { }
-							})
-							self.setData({
-								flyStyle: `transform: scale(0);`
-							})
-							return
-						}
-						self.setData({
-							flyStyle: `top:${v[0].top}px;left:${v[0].left}px;transform: scale(1);`
-						})
-						// 解析一遍数据
-						let lotDetail = parseLot(res)
 
-						// 解锁操作
-						self.data.lock = false
-
-						// 确认是否已经解签
-						if (res.status == 1) {
-							mta.Event.stat("ico_chai_completed", {})
-						}
-
-						setTimeout(() => {
-							self.setData({
-								lotDetail: lotDetail
-							})
-
-							// 如果为购买的签
-							if (lotDetail.isOpen || !lotDetail.lotNotCompleted) {
-								// 拆签动画
-								self.setData({
-									disLotSuccess: true
-								})
-							}
-						}, 100)
-					}).catch(err => {
-						wx.hideLoading()
-						wx.showModal({
-							title: '提示',
-							content: '小主，拆签失败了',
-							confirmText: '重新尝试',
-							showCancel: false,
-							success() { }
-						})
-						self.setData({
-							flyStyle: `transform: scale(0);`
-						})
-						return
+			$vm.api.getX506({ id: self.data.lotDetail.id, notShowLoading: true })
+			.then(res => {
+				console.log('未知数据：', res)
+				// 拆签失败
+				if (!res) {
+					wx.showModal({
+						title: '提示',
+						content: '小主，拆签失败了',
+						confirmText: '重新尝试',
+						showCancel: false,
+						success() { }
 					})
+					self.setData({
+						flyStyle: `transform: scale(0);`
+					})
+					return
+				}
+				console.log('成功数据')
+				self.setData({
+					flyStyle: `top:${resV[1].top}px;left:${resV[1].left}px;transform: scale(1);`
+				})
+				// 解析一遍数据
+				let lotDetail = parseLot(res)
+
+				// 解锁操作
+				self.data.lock = false
+
+				// 确认是否已经解签
+				if (res.status == 1) {
+					mta.Event.stat("ico_chai_completed", {})
+				}
+
+				setTimeout(() => {
+					self.setData({
+						lotDetail: lotDetail
+					})
+
+					// 如果为购买的签
+					if (lotDetail.isOpen || !lotDetail.lotNotCompleted) {
+						// 拆签动画
+						self.setData({
+							disLotSuccess: true
+						})
+					}
+				}, 100)
+			}).catch(err => {
+				console.log('异常数据')
+				wx.hideLoading()
+				wx.showModal({
+					title: '提示',
+					content: '小主，拆签失败了',
+					confirmText: '重新尝试',
+					showCancel: false,
+					success() { }
+				})
+				self.setData({
+					flyStyle: `transform: scale(0);`
+				})
+				return
 			})
+
+			// let query = wx.createSelectorQuery()
+			// query.exec(function (v) {
+			// 	console.log('输出坐标：', v)
+				
+			// })
 
 		})
 

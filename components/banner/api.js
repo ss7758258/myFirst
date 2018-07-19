@@ -1,5 +1,6 @@
+const conf = require('../../config')
 const config = {
-    domain : 'https://micro.yetingfm.com/appwall'
+    domain : conf === 'dev' ? 'https://micro.yetingfm.com/appwall' : 'https://appwallapi.yetingfm.com/appwall-api'
 }
 
 /**

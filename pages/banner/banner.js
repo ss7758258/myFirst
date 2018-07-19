@@ -48,6 +48,10 @@ const Conf = {
         // 心跳
         tick(self)
 
+        // API.getBannerList().then(res => {
+        //     console.log(res)
+        // })
+
         if(Storage.resourceRemoveId){
             bus.remove(Storage.resourceRemoveId)
         }

@@ -81,6 +81,9 @@ const methods = (function (){
                     res = res.data
                     silent = true
                 }
+                
+                wx.setStorageSync('userInfo',res.userInfo)
+
                 console.log('用户信息加载完成并且上报',res)
                 console.log(Storage)
                 // 上报用户加密信息
@@ -174,13 +177,13 @@ const methods = (function (){
                     fail (err){
                         clickLogin = false
                         wx.hideLoading()
-                        wx.showToast({
-                            title : '获取用户信息失败',
-                            icon : 'none',
-                            image : '/assets/img/error.svg',
-                            duration : 3000,
-                            mask : true
-                        })
+                        // wx.showToast({
+                        //     title : '获取用户信息失败',
+                        //     icon : 'none',
+                        //     image : '/assets/img/error.svg',
+                        //     duration : 3000,
+                        //     mask : true
+                        // })
                     }
                 })
 
@@ -235,13 +238,13 @@ Component({
             }else{
                 clickLogin = false
                 wx.hideLoading()
-                wx.showToast({
-                    title : '获取用户信息失败',
-                    icon : 'none',
-                    image : '/assets/img/error.svg',
-                    duration : 3000,
-                    mask : true
-                })
+                // wx.showToast({
+                //     title : '获取用户信息失败',
+                //     icon : 'none',
+                //     image : '/assets/img/error.svg',
+                //     duration : 3000,
+                //     mask : true
+                // })
             }
         }
     }

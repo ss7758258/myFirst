@@ -165,7 +165,7 @@
 					<!-- 头像组 -->
 					<view class="heads" wx:if="{{!lotDetail.isOpen}}">
 						<block wx:for="{{lotDetail.troops}}">
-							<image class="head_pto" src="{{item.photo}}"></image>
+							<image class="head_pto" src="{{item.photo}}" binderror="errorImg"></image>
 						</block>
 						<block wx:for="{{disNum - lotDetail.troops.length}}">
 							<image class="head_pto head_pto_{{index}} default_head" src="/assets/images/haoren.png"></image>
