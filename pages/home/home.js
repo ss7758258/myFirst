@@ -66,7 +66,7 @@ Page({
 			title : '小哥星座',
 			state : 'root',
 			isRoot : true,
-			isIcon : true,
+			isIcon : false,
 			iconPath : '',
 			root : '',
 			isTitle : true,
@@ -112,10 +112,11 @@ Page({
 		Storage.prevPic = null
 		const _self = this
 		const _SData = this.data
+		Storage.userInfo = Storage.userInfo || {}
 		$vm.api.getSelectx100({
 			constellationId: _GData.selectConstellation.id,
-			nickName: Storage.userInfo.nickName,
-			headImage: Storage.userInfo.avatarUrl,
+			nickName: Storage.userInfo.nickName || '',
+			headImage: Storage.userInfo.avatarUrl || '',
 			notShowLoading: true,
 		}).then(res => {
 			// 获取一言图片
@@ -141,6 +142,7 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
+		console.log('是否重新加载------------------------------：')
 		// 重置登录信息
 		Storage.homeLogin = false
 		getSystemInfo(this);
@@ -158,6 +160,7 @@ Page({
 
 		// 注册监听事件
 		Storage.loadUserConfRemoveId = bus.on('loadUserConf',() => {
+			console.log('是否已经上传用户信息：',Storage.forMore)
 			if(Storage.forMore){
 				// 加载用户配置
 				getUserConf(self)
@@ -239,11 +242,11 @@ Page({
 	 * app隐藏时判断
 	 */
 	onHide(){
-		if(!Storage.isLogin){
-			wx.redirectTo({
-				url : '/pages/home/home'
-			})
-		}
+		// if(!Storage.isLogin){
+		// 	wx.redirectTo({
+		// 		url : '/pages/home/home'
+		// 	})
+		// }
 	},
 	/**
 	 * 用户点击右上角分享

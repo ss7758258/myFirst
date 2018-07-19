@@ -47,6 +47,7 @@ const methods = (function (){
                 bus.remove(Storage.loginRemoveId)   
             }
             Storage.loginRemoveId = bus.on('no-login-app',(res) => {
+                console.log('是否成功通知到：',res)
                 wx.hideLoading()
                 wx.hideToast()
                 self.setData({
@@ -216,6 +217,7 @@ Component({
         num : 0
     },
     ready(){
+        console.log('------------------------------------组件实例化了：')
         methods.onEventHandle(this)
     },
     /**

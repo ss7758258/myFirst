@@ -348,7 +348,7 @@ page{
     position: absolute;
     width: 59rpx;
     height: 59rpx;
-    bottom:150rpx;
+    bottom:138rpx;
     left: 106rpx;
     opacity: 0;
 }
