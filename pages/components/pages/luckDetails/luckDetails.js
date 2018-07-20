@@ -1,5 +1,6 @@
 let $vm = getApp()
 const mta = require('../../../../utils/mta_analysis.js')
+const Storage = require('../../../../utils/storage')
 Page({
     data: {
         navConf: {
@@ -38,7 +39,15 @@ Page({
             mask: true,
         })
         mta.Page.init()
-        this.getData()
+        if (!Storage.lucky) {
+            this.getData()
+        }else{
+            this.setData({
+                'dta.day': Storage.lucky
+            })
+            this.selected()
+            wx.hideLoading()
+        }
     },
 
     onShow: function () {
