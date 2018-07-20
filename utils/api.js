@@ -32,7 +32,7 @@ function requst(url, method, data = {}) {
 
 	var rewriteUrl = url
 	return new Promise((resove, reject) => {
-		wx.request({
+		let tickReq = wx.request({
 			url: DOMAIN + rewriteUrl,
 			data:
 			{
@@ -53,6 +53,7 @@ function requst(url, method, data = {}) {
 				if (res.data && ('LOGINERROR' === res.data.status)){
 					console.log('用户token过期或者解析失败，登录锁：',Storage.loginLock)
 					console.log('用户token过期或者解析失败，进入---------------静默登录')
+					tickReq.abort()
 					if(Storage.loginLock){
 						reject()
 						wx.hideLoading()

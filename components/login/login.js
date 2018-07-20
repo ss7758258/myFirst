@@ -64,6 +64,8 @@ const methods = (function (){
                 console.log('-----------------------------登录成功---------------------------------')
                 Storage.isLogin = true
                 clickLogin = false
+                // console.log('-----------------------------解除登录锁--------------------------------')
+                // Storage.loginLock = false
                 wx.hideLoading()
                 self.setData({
                     showLogin : false
