@@ -1,41 +1,19 @@
 <nav opts='{{navConf}}'></nav>
 
 <!-- 导航栏 -->
-<view class='header'>
+<view class='header' wx:if="{{list}}">
     <view class="head_son {{current == index?'select':''}}" wx:for="{{headerlist}}" wx:key="index" data-selected='{{index}}' 
     bindtap='selected'>{{item}}</view>
     <view class="head_active {{current == 0? 'today' : current == 1?'thisweek':'thismonth'}}" ></view>
 </view> 
 
 <!-- 运势详情 -->
-<!-- <scroll-view class='scroll-view' scroll-y  bindscrolltolower="reachBottom" wx:if="{{list}}"> -->
-
-     <!-- 运势指数 
-    <view class='index clearfix'>
-         有星星 
-        <view class='index_left' >
-            <view class='synthesize' wx:for="{{contentlist}}" wx:key='index' wx:if="{{item.count}}">
-                <text>{{item.name}}:</text>
-                <image src='/assets/img_subPackages/star.svg' wx:for="{{item.count}}" wx:key="index" class='star'></image>
-                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-item.count}}" wx:key="index" class='star'></image>
-            </view>
-        </view>
-        
-         没有星星 
-        <view class='index_right'>
-            <image src='/assets/img_subPackages/aries.svg' class='aries'></image> 
-            <view class='luckycolor' wx:for="{{contentlist}}" wx:key='index' wx:if="{{item.content && item.content != ''}}">
-                <text class='colon'>{{item.name}}:</text>
-                <text>{{item.content}}</text>
-            </view>
-        </view>
-    </view> -->
 <swiper circular current="{{swiper.current}}" bindchange="swiper" class='swiper_content'>
 <block wx:for="{{headerlist}}" wx:key="index">
     <swiper-item>
     <scroll-view class='scroll-view' scroll-y wx:if="{{list}}">
     <!-- 运势指数 -->
-    <view class='index clearfix'>
+    <view class='index clearfix' wx:if="{{list != ''}}">
         <!-- 有星星 -->
         <view class='index_left' >
             <view class='synthesize' wx:if="{{list.summaryStar}}">

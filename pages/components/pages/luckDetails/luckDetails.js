@@ -21,7 +21,7 @@ Page({
         headerlist: ['今日运势', '本周运势','本月运势'], //导航栏数据
         current: 0, //导航栏下标
         contentlist: ['综合指数', '爱情指数', '财富指数', '工作指数'],
-        list: {},       //页面渲染数据
+        list: false,       //页面渲染数据
         dta:{           //运势接口数据
             day: {},
             week: {},
@@ -33,6 +33,10 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+        wx.showLoading({
+            title: '加载ing',
+            mask: true,
+        })
         mta.Page.init()
         this.getData()
     },
@@ -49,6 +53,7 @@ Page({
                     'dta.day': res
                 })
                 this.selected()
+                wx.hideLoading()
             }
         }).catch(err => {
             console.log('今日运势详情返回报错数据：', err)

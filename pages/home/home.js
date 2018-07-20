@@ -114,28 +114,67 @@ Page({
 		const _self = this
 		const _SData = this.data
 		Storage.userInfo = Storage.userInfo || {}
-		$vm.api.getSelectx100({
-			constellationId: _GData.selectConstellation.id,
-			nickName: Storage.userInfo.nickName || '',
-			headImage: Storage.userInfo.avatarUrl || '',
-			notShowLoading: true,
-		}).then(res => {
-			// 获取一言图片
-			getDay()
-			console.log('输出百分值：',res)
-			var myLuck = parseIndex(res)
-			this.setData({
-				myLuck: myLuck,
-				'shareCard.list': formatShareCard(res),
-				remindToday: res.remindToday ? res.remindToday : ''
-			})
-			if (!_self.goPage(_SData)) {
-				const myLuckLen = myLuck.length
-				_self.circleDynamic()();
-			}
-		}).catch(err => {
-			console.log(err)
-		})
+
+        
+        $vm.api.choice({ constellationId: _GData.selectConstellation.id}).then(res=>{
+            // 获取一言图片
+            getDay()
+
+            console.log('choice运势数据',res)
+            if(res !=''){
+                let luckyindex = [res.summaryPercentage, res.lovePercentage, res.moneyPercentage, res.workPercentage]
+                let luckyname = ['综合指数', '爱情指数', '财富指数', '工作指数'], mylucky = []
+                let luckycolor = ['#9262FB', '#DA6AE4', '#B3B4FF', '#88BB74']
+                for (let i = 0; i < 4; i++) {
+                    mylucky.push({
+                        name: luckyname[i],
+                        count: luckyindex[i],
+                        color: luckycolor[i]
+                    })
+                }
+                console.log('指数数据===',mylucky)
+                this.setData({
+                    myLuck: mylucky,
+                    remindToday: res.dayNotice ? res.dayNotice : ''
+                })
+
+                if (!_self.goPage(_SData)) {
+                    const myLuckLen = myLuck.length
+                    _self.circleDynamic()();
+                }
+            }
+            
+
+        }).catch(res=>{
+            console.log('choice运势报错返回数据',res)
+        })
+
+
+
+		// $vm.api.getSelectx100({
+		// 	constellationId: _GData.selectConstellation.id,
+		// 	nickName: Storage.userInfo.nickName || '',
+		// 	headImage: Storage.userInfo.avatarUrl || '',
+		// 	notShowLoading: true,
+		// }).then(res => {
+		// 	// 获取一言图片
+		// 	getDay()
+        //     console.log('今日运势未处理的数据：', res)
+        //     var myLuck = parseIndex(res)
+        //     console.log('今日运势处理后的数据', myLuck)
+		// 	this.setData({
+		// 		myLuck: myLuck,
+		// 		'shareCard.list': formatShareCard(res),
+		// 		remindToday: res.remindToday ? res.remindToday : ''
+		// 	})
+
+		// 	if (!_self.goPage(_SData)) {
+		// 		const myLuckLen = myLuck.length
+		// 		_self.circleDynamic()();
+		// 	}
+		// }).catch(err => {
+		// 	console.log(err)
+		// })
 
 	},
 
@@ -407,7 +446,8 @@ Page({
 		
 		let temp = wx.getStorageSync('userInfo') || {nickName : ''}
 		wx.navigateTo({
-			url: '/pages/today/today?formid=' + formid
+			// url: '/pages/today/today?formid=' + formid
+            url:'/pages/components/pages/luckDetails/luckDetails'
 		})
 	},
 	show_card (e){

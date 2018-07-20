@@ -672,11 +672,17 @@
 	width: 52rpx;
 	height: 52rpx;
 }
-
+.more .txt_limit{
+    display: inline-block;
+    max-width: 450rpx;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
 .more .icon_more {
 	width: 72rpx;
 	height: 52rpx;
-	animation: translate 1s infinite linear both;
+	animation: translate .8s infinite linear both;
 }
 
 /* 箭头平移 */

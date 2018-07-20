@@ -10,7 +10,7 @@
 .swiper_content{
     width: 750rpx;
     height: 100%;
-    margin-top: 108rpx;
+    background: #fff;
 }
 .scroll-view{
     background: #fff;
@@ -22,11 +22,8 @@
 .header{
     height: 100rpx;
     border-bottom: 8rpx solid rgba(146,98,251,0.20); 
-    position: fixed;
-    left: 0;
-    top: 128rpx;
     background: rgba(255, 255, 255, 1);
-    z-index: 100;
+    position: relative;
 }
 .head_son{
     width: 250rpx;

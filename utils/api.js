@@ -24,11 +24,11 @@ function requst(url, method, data = {}) {
 	delete (data.notShowLoading)
 	delete (data.loaingStr)
 	// wx.showNavigationBarLoading()
-	if (!notShowLoading) {
-		wx.showLoading({
-			title: loadingStr,
-		})
-	}
+	// if (!notShowLoading) {
+	// 	wx.showLoading({
+	// 		title: loadingStr,
+	// 	})
+	// }
 
 	var rewriteUrl = url
 	return new Promise((resove, reject) => {
@@ -129,6 +129,10 @@ function loginForMore(data) {
 
 function getSelectx100(data) {//选择星座
 	return requstPost('selectConstellation/x100', data)
+}
+
+function choice(data) {//选择星座
+    return requstPost('selectConstellation/choice', data)
 }
 
 // function getSelectx101(data) {//选中星座
@@ -305,5 +309,6 @@ module.exports = {
 	setStar,
     luckyday,
     luckyweek,
-    luckymonth
+    luckymonth,
+    choice,
 }
