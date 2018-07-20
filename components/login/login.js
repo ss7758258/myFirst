@@ -70,6 +70,8 @@ const methods = (function (){
                 self.setData({
                     showLogin : false
                 })
+                
+		        console.log('-----------------------------------------------当前页：',getCurrentPages())
             },'login-com')
 
             if(Storage.loadUserinfoSuccessRemoveId){

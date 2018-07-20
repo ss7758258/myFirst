@@ -149,47 +149,21 @@ Page({
         }).catch(res=>{
             console.log('choice运势报错返回数据',res)
         })
-
-
-
-		// $vm.api.getSelectx100({
-		// 	constellationId: _GData.selectConstellation.id,
-		// 	nickName: Storage.userInfo.nickName || '',
-		// 	headImage: Storage.userInfo.avatarUrl || '',
-		// 	notShowLoading: true,
-		// }).then(res => {
-		// 	// 获取一言图片
-		// 	getDay()
-        //     console.log('今日运势未处理的数据：', res)
-        //     var myLuck = parseIndex(res)
-        //     console.log('今日运势处理后的数据', myLuck)
-		// 	this.setData({
-		// 		myLuck: myLuck,
-		// 		'shareCard.list': formatShareCard(res),
-		// 		remindToday: res.remindToday ? res.remindToday : ''
-		// 	})
-
-		// 	if (!_self.goPage(_SData)) {
-		// 		const myLuckLen = myLuck.length
-		// 		_self.circleDynamic()();
-		// 	}
-		// }).catch(err => {
-		// 	console.log(err)
-		// })
-
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
+		
+		let self = this
+		mta.Page.init()
+		
 		console.log('是否重新加载------------------------------：')
 		// 重置登录信息
 		Storage.homeLogin = false
 		getSystemInfo(this);
-		mta.Page.init()
 		Storage.forMore = false
-		let self = this
 
 		// 获取乐摇摇推广信息
 		getLeYaoyao(self,options)

@@ -98,6 +98,8 @@ const config = {
 		wx.hideShareMenu()
 
 		let handle = () => {
+			// 获取星星
+			starNum = Storage.starPrice
 			console.log('------------------登录标识-----------------------')
 			// 签详情页登录状态
 			Storage.lotLogin = true

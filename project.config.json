@@ -38,7 +38,7 @@
 					"id": 0,
 					"name": "签详情",
 					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "from=share&lotId=1213775",
+					"query": "from=share&lotId=565307",
 					"scene": "1011"
 				},
 				{
