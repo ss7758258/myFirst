@@ -1,5 +1,5 @@
 let $vm = getApp()
-
+const mta = require('../../../../utils/mta_analysis.js')
 Page({
     data: {
         navConf: {
@@ -16,71 +16,16 @@ Page({
             autoplay:false,
             interval:'5000',
             current:0,
-            pre:'250rpx',
-            next:'250rpx',
             num:1
         },
-        headerlist: ['今日运势', '本周运势', '本月运势'], //导航栏数据
+        headerlist: ['今日运势', '本周运势','本月运势'], //导航栏数据
         current: 0, //导航栏下标
         contentlist: ['综合指数', '爱情指数', '财富指数', '工作指数'],
         list: {},       //页面渲染数据
         dta:{           //运势接口数据
-            day: {
-                summary_star: 1, //综合指数
-                love_star: 2,     //爱情指数
-                money_star: 3,    //财富指数
-                work_star: 4,     //工作指数
-                grxz: '处女座',   //贵人星座
-                lucky_num: 9,     //幸运数字
-                lucky_time: '2018.07.18',
-                lucky_direction: 'left',
-                day_notice: 'aaa',
-                general_txt: '我是今日运势',//运势简评
-                love_txt: 'defeuifeufe',//爱情运势
-                work_txt: 'dhwuidwuihdiud',//工作运势
-                money_txt: 'hahahahhahah',//财富运势
-                time: '2018.07.18',
-                lucky_color: 'red',
-            },
-            week: {
-                summary_star: 5,
-                love_star: 4,
-                money_star: 3,
-                work_star: 2,
-                grxz: '处女座',
-                xrxz: '处女座',
-                lucky_num: 9,
-                lucky_day: '星期一',
-                lucky_direction: 'left',
-                week_notice: 'aaa',
-                general_txt: '我是本周运势',
-                love_txt: 'defeuifeufhe',
-                work_txt: 'dhwuidwuihdiud',
-                money_txt: 'hahahahhahah',
-                health_txt: 'hdiwhuidwuid',
-                time: '2018.07.18',
-                lucky_color: 'red',
-            },
-            month: {
-                summary_star: 2,
-                love_star: 4,
-                money_star: 1,
-                work_star: 5,
-                grxz: '处女座',
-                xrxz: '处女座',
-                yfxz: '处女座',
-                lucky_direction: 'left',
-                month_advantage: '本月优势',
-                month_weakness: '本月弱势',
-                week_notice: 'aaa',
-                general_txt: '我是本月运势',
-                love_txt: 'defeuifeufhe',
-                work_txt: 'dhwuidwuihdiud',
-                money_txt: 'hahahahhahah',
-                health_txt: 'hdiwhuidwuid',
-                time: '2018.07.18',
-                lucky_color: 'red',
-            },
+            day: {},
+            week: {},
+            month: {},
         }
     },
 
@@ -88,30 +33,71 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        // this.getData()
-        this.selected()
+        mta.Page.init()
+        this.getData()
     },
 
     onShow: function () {
         
     },
     getData(){
-        $vm.api.getMorex300({ constellationId: $vm.globalData.selectConstellation.id, notShowLoading: true, }).then(res => {
-            console.log('运势详情数据：', res)
+        // 今日运势
+        $vm.api.luckyday().then(res => {
+            // console.log('今日运势详情数据：', res)
             if(res!=''){
                 this.setData({
-                    dta: res
+                    'dta.day': res
+                })
+                this.selected()
+            }
+        }).catch(err => {
+            console.log('今日运势详情返回报错数据：', err)
+            wx.showToast({
+                title: '抱歉，您的网络有点问题，请稍后再试',
+                icon: 'none',
+            })
+        })
+
+        // 本周运势
+        $vm.api.luckyweek().then(res => {
+            // console.log('运势详情数据：', res)
+            if (res != '') {
+                this.setData({
+                    'dta.week': res
+                })
+                console.log('本周运势数据bbbb:', this.data.dta.week)
+            }
+        }).catch(err => {
+            console.log('本周运势详情返回报错数据：', err)
+            wx.showToast({
+                title: '抱歉您的网络有点问题，请稍后再试',
+                icon: 'none',
+            })
+        })
+
+        // 本月运势
+        $vm.api.luckymonth().then(res => {
+            // console.log('本月运势详情数据：', res)
+            if (res != '') {
+                this.setData({
+                    'dta.month': res
                 })
             }
-        }).catch(res => {
-            console.log('运势详情返回报错数据：', res)
+        }).catch(err => {
+            console.log('本月运势详情返回报错数据：', err)
+            wx.showToast({
+                title: '抱歉您的网络有点问题，请稍后再试',
+                icon: 'none',
+            })
         })
+
+        
     },
     // 选择运势
     selected(e, swiper){
-        // this.getData()
-        // console.log(e)
+        mta.Event.stat("luckDetails_selected", {})
         let current = 0, dta = this.data.dta.day;
+        console.log('dtadtadtadtadta:',dta)
         if(e){
             let index = e.target.dataset.selected
             if (index == 0) {
@@ -129,16 +115,18 @@ Page({
         
         this.setData({
             current: current,
+            'swiper.current':current,
             list: dta
         })
-        
-        // console.log('data:',this.data.list) 
+        // console.log('list页面渲染eeeeee:',this.data.list) 
     },
 
-    // 导航
+    // 运势详情
     swiper(e){
-        console.log(e.detail.current)
-        let current = e.detail.current,dta=this.data.dta
+        mta.Event.stat("luckDetails_swiper", {})
+        let current = e.detail.current, dta = this.data.dta
+        // console.log('eeeeeeeeeeeeeeeeeee',e)
+        
         if (current == 0){
             dta=dta.day
         } else if (current == 1){

@@ -1,26 +1,15 @@
 <nav opts='{{navConf}}'></nav>
 
-<!-- 运势详情 -->
-<scroll-view class='scroll-view' scroll-y bindscrolltolower="reachBottom" lower-threshold="100" wx:if="{{list}}">
-    <!-- 导航栏swiper -->
-     <swiper circular current="{{swiper.current}}" interval="{{swiper.interval}}" autoplay='{{swiper.autoplay}}' previous-margin="{{swiper.pre}}" next-margin="{{swiper.next}}" display-multiple-items="{{swiper.num}}" bindchange="swiper" class='swiper_header'>
-    <block wx:for="{{headerlist}}" wx:key="index">
-        <swiper-item class="header">
-            <view class="head_son {{current == index?'select':''}}" data-selected='{{index}}' bindtap='selected'>{{item}}</view>
-            <view class="{{current == index?'head_active':''}}"></view> 
-        </swiper-item>
-    </block>
-    </swiper>  
+<!-- 导航栏 -->
+<view class='header'>
+    <view class="head_son {{current == index?'select':''}}" wx:for="{{headerlist}}" wx:key="index" data-selected='{{index}}' 
+    bindtap='selected'>{{item}}</view>
+    <view class="head_active {{current == 0? 'today' : current == 1?'thisweek':'thismonth'}}" ></view>
+</view> 
 
-    <!-- 导航栏 -->
-    <!-- <view class='header'>
-        <view class="head_son {{current == index?'select':''}}" wx:for="{{headerlist}}" wx:key="index" data-selected='{{index}}' 
-        bindtap='selected'>{{item}}</view>
-        <view class="head_active today" wx:if="{{current == 0}}"></view>
-        <view class="head_active thisweek" wx:if="{{current == 1}}"></view>
-        <view class="head_active thismonth" wx:if="{{current == 2}}"></view>
-    </view> -->
-    
+<!-- 运势详情 -->
+<!-- <scroll-view class='scroll-view' scroll-y  bindscrolltolower="reachBottom" wx:if="{{list}}"> -->
+
      <!-- 运势指数 
     <view class='index clearfix'>
          有星星 
@@ -41,41 +30,43 @@
             </view>
         </view>
     </view> -->
-<swiper circular current="{{swiper.current}}" interval="{{swiper.interval}}" autoplay='{{swiper.autoplay}}' display-multiple-items="{{swiper.num}}" bindchange="swiper" class='swiper_content'>
+<swiper circular current="{{swiper.current}}" bindchange="swiper" class='swiper_content'>
 <block wx:for="{{headerlist}}" wx:key="index">
     <swiper-item>
+    <scroll-view class='scroll-view' scroll-y wx:if="{{list}}">
     <!-- 运势指数 -->
     <view class='index clearfix'>
         <!-- 有星星 -->
         <view class='index_left' >
-            <view class='synthesize' wx:if="{{list.summary_star}}">
+            <view class='synthesize' wx:if="{{list.summaryStar}}">
                 <text class='star_right'>综合指数:</text>
-                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.summary_star}}" wx:key="index" class='star'></image>
-                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.summary_star}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.summaryStar}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.summaryStar}}" wx:key="index" class='star'></image>
             </view>
-            <view class='synthesize' wx:if="{{list.love_star}}">
+            <view class='synthesize' wx:if="{{list.loveStar}}">
                 <text class='star_right'>爱情指数:</text>
-                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.love_star}}" wx:key="index" class='star'></image>
-                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.love_star}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.loveStar}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.loveStar}}" wx:key="index" class='star'></image>
             </view>
-            <view class='synthesize' wx:if="{{list.money_star}}">
+            <view class='synthesize' wx:if="{{list.moneyStar}}">
                 <text class='star_right'>财富指数:</text>
-                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.money_star}}" wx:key="index" class='star'></image>
-                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.money_star}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.moneyStar}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.moneyStar}}" wx:key="index" class='star'></image>
             </view>
-            <view class='synthesize' wx:if="{{list.work_star}}">
+            <view class='synthesize' wx:if="{{list.workStar}}">
                 <text class='star_right'>工作指数:</text>
-                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.work_star}}" wx:key="index" class='star'></image>
-                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.work_star}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.workStar}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.workStar}}" wx:key="index" class='star'></image>
             </view>
         </view>、
 
         <!-- 没有星星的今日运势 -->
         <view class='index_right' wx:if="{{current == 0}}">
-            <image src='/assets/img_subPackages/aries.svg' class='aries'></image>
-            <view class='luckycolor' wx:if="{{list.lucky_num}}">
+            <image src='https://xingzuo-1256217146.cos.ap-guangzhou.myqcloud.com/constellation/{{list.constellationId}}.png' class='aries' wx:if="{{list.constellationId}}"></image>
+            <!-- <image src='/assets/img_subPackages/aries.svg' class='aries'></image> -->
+            <view class='luckycolor' wx:if="{{list.luckyNum}}">
                 <text class='colon'>幸运数字:</text>
-                <text>{{list.lucky_num}}</text>
+                <text>{{list.luckyNum}}</text>
             </view>
             <view class='luckycolor' wx:if="{{list.grxz}}">
                 <text class='colon'>贵人星座:</text>
@@ -84,10 +75,11 @@
         </view>
         <!-- 没有星星的本周运势 -->
         <view class='index_right' wx:if="{{current == 1}}">
-            <image src='/assets/img_subPackages/aries.svg' class='aries'></image> 
-            <view class='luckycolor' wx:if="{{list.lucky_day}}">
+            <image src='https://xingzuo-1256217146.cos.ap-guangzhou.myqcloud.com/constellation/{{list.constellationId}}.png' class='aries' wx:if="{{list.constellationId}}"></image>
+
+            <view class='luckycolor' wx:if="{{list.luckyDay}}">
                 <text class='colon'>幸运日期:</text>
-                <text>{{list.lucky_day}}</text>
+                <text>{{list.luckyDay}}</text>
             </view>
             <view class='luckycolor' wx:if="{{list.xrxz}}">
                 <text class='colon'>小人星座:</text>
@@ -97,10 +89,10 @@
 
         <!-- 没有星星的本月运势 -->
         <view class='index_right' wx:if="{{current == 2}}">
-            <image src='/assets/img_subPackages/aries.svg' class='aries'></image> 
-            <view class='luckycolor' wx:if="{{list.lucky_color}}">
-                <text class='colon'>幸运颜色:</text>
-                <text>{{list.lucky_color}}</text>
+            <image src='https://xingzuo-1256217146.cos.ap-guangzhou.myqcloud.com/constellation/{{list.constellationId}}.png' class='aries' wx:if="{{list.constellationId}}"></image>
+            <view class='luckycolor' wx:if="{{list.luckyDirection}}">
+                <text class='colon'>吉利方位:</text>
+                <text>{{list.luckyDirection}}</text>
             </view>
             <view class='luckycolor' wx:if="{{list.yfxz}}">
                 <text class='colon'>缘分星座:</text>
@@ -111,39 +103,39 @@
     </view>
 
     <!-- 运势简评 -->
-    <view class='luckProfile' wx:if="{{list.general_txt}}">
+    <view class='luckProfile' wx:if="{{list.generalTxt}}">
         <view class='luckProfile_head'>
             <image src='/assets/img_subPackages/luckProfile.svg' class='luckProfile_img'></image>
             <text class='luckProfile_text'>运势简评</text>
         </view>
-        <view class='luckProfile_content'>{{list.general_txt}}</view>
+        <view class='luckProfile_content'>{{list.generalTxt}}</view>
     </view>
 
     <!-- 爱情运势 -->
-    <view class='luckProfile' wx:if="{{list.love_txt}}">
+    <view class='luckProfile' wx:if="{{list.loveTxt}}">
         <view class='luckProfile_head'>
             <image src='/assets/img_subPackages/love.svg' class='luckProfile_img'></image>
             <text class='luckProfile_text love'>爱情运势</text>
         </view>
-        <view class='luckProfile_content'>{{list.love_txt}}</view>
+        <view class='luckProfile_content'>{{list.loveTxt}}</view>
     </view>
 
     <!-- 工作运势 -->
-    <view class='luckProfile' wx:if="{{list.work_txt}}">
+    <view class='luckProfile' wx:if="{{list.workTxt}}">
         <view class='luckProfile_head'>
             <image src='/assets/img_subPackages/work.svg' class='luckProfile_img'></image>
             <text class='luckProfile_text work'>工作运势</text>
         </view>
-        <view class='luckProfile_content'>{{list.work_txt}}</view>
+        <view class='luckProfile_content'>{{list.workTxt}}</view>
     </view>
 
     <!-- 财富运势 -->
-    <view class='luckProfile' wx:if="{{list.money_txt}}">
+    <view class='luckProfile' wx:if="{{list.moneyTxt}}">
         <view class='luckProfile_head'>
             <image src='/assets/img_subPackages/wealth.svg' class='luckProfile_img'></image>
             <text class='luckProfile_text wealth'>财富运势</text>
         </view>
-        <view class='luckProfile_content'>{{list.money_txt}}</view>
+        <view class='luckProfile_content'>{{list.moneyTxt}}</view>
     </view>
 
     <!-- 健康运势 -->
@@ -154,9 +146,12 @@
         </view>
         <view class='luckProfile_content'>{{list.health_txt}}</view>
     </view>
+
+    <view class='footer'></view>
+    </scroll-view>
     </swiper-item>
 </block>    
 </swiper>
-     <view class='footer'></view> 
+      
 
-</scroll-view>
+<!-- </scroll-view> -->

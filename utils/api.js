@@ -240,6 +240,18 @@ const buyStar = function(data) {
 const setStar = (data) => {
 	return requstPost('pay/topup', data)
 }
+
+const luckyday = (data) => { //运势详情今日运势
+    return requstPost('moreConstellation/luckyday', data)
+}
+
+const luckyweek = (data) => { //运势详情今日运势
+    return requstPost('moreConstellation/luckyweek', data)
+}
+
+const luckymonth = (data) => { //运势详情今日运势
+    return requstPost('moreConstellation/luckymonth', data)
+}
 // 获取乐摇摇的数据信息
 const getLeYaoyao = function(params,data){
 	return new Promise((resolve,reject) => {
@@ -290,5 +302,8 @@ module.exports = {
 	getRecharge,
 	getLeYaoyao,
 	buyStar,
-	setStar
+	setStar,
+    luckyday,
+    luckyweek,
+    luckymonth
 }
