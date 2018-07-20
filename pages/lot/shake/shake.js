@@ -238,7 +238,7 @@ const conf = {
                         return
                     }
                 }).catch(res => {
-                    console.log('错误信息的味道无多无多无多无', res)
+                    console.log('错误信息:', res)
                 })
             }
         })
@@ -299,6 +299,10 @@ const conf = {
         wx.onAccelerometerChange(function (res) { //小程序api 加速度计
             
             console.log('---------------------------------加速度：',res)
+            if(!Storage.isLogin){
+                return
+            }
+
             if (numX < res.x && numY < res.y) { //个人看法，一次正数算摇一次，还有更复杂的
                 positivenum++
                 setTimeout(() => { positivenum = 0 }, 2000) //计时两秒内没有摇到指定次数，重新计算
@@ -444,6 +448,9 @@ function lotBeat(self,num = 0){
             
             // 重置签的状态
             resetLot(self)
+            if(!Storage.isLogin){
+                return
+            }
             wx.showModal({
                 title: '网络开小差了',
                 content: '小主，请您检查网络后再试',

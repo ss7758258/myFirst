@@ -28,7 +28,8 @@ const methods = {
                 res.forEach((elem,ind) => {
                     // 调试数据
                     // res[ind].received = 0
-                    // res[ind].starAmount = 5
+                    // res[ind].starAmount = 10
+                    // res[ind].appId = '123'
                     // if(ind % 2 === 0){
                     //     res[ind].received = 1
                     //     res[ind].starAmount = 5
@@ -103,6 +104,12 @@ const methods = {
                     },'banner-app',false)
                 },
                 fail: function() {
+                    
+                    // 所有打开失败的资源统计
+                    mta.Event.stat("open_fail_all", {})
+                    // 打开失败的资源统计，依赖资源ID
+                    mta.Event.stat("open_fail_" + res.id, {})
+
                     console.log('打开失败')
                     // 事件通知
                     bus.emit('resource_open_fail',{

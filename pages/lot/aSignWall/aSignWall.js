@@ -77,6 +77,9 @@ Page({
 			})
 
 		}).catch(err => {
+			if(!Storage.isLogin){
+				return
+			}
 			wx.showToast({
 				title: '抱歉您的网络出了点问题呢',
 				icon: 'none',

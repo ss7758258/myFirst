@@ -170,10 +170,13 @@ function getGlobal(){
 		// 默认开
 		// res.openIos = 1
 		// 星星加个
-		Storage.starPrice = res.price || 0
+		Storage.starPrice = res.price || 9
 		Storage.openIos = res.openIos || 0
 		Storage.openAndriod = res.openAndriod || 0
 	}).catch( err => {
+		Storage.starPrice = 9
+		Storage.openIos = 0
+		Storage.openAndriod = 0
 		console.log('加载失败---------------------------------全局配置')
 	})
 }
@@ -183,16 +186,13 @@ function getGlobal(){
  */
 function tick(){
 	setTimeout(() => {
-		wx.getSetting({
+		wx.getUserInfo({
 			success (res) {
-				console.log(res)
-				console.log('心跳检测用户授权信息：',!res.authSetting['scope.userInfo'])
-				if(!res.authSetting['scope.userInfo']){
-					// 用户未授权
-					bus.emit('no-login-app', res , 'app')
-				}else{
-
-				}
+				
+			},
+			fail(){
+				console.log(`---------------------------------心跳检测到用户未授权------------------------------------------`)
+				bus.emit('no-login-app', {} , 'app')
 			}
 		})
 		tick()

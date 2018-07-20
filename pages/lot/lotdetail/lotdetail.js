@@ -344,7 +344,11 @@ const config = {
 						if (data.balance < starNum) {
 							
 							mta.Event.stat('pay_fail', {})
-
+							
+							if(!Storage.isLogin){
+								return
+							}
+							
 							wx.showModal({
 								title: '余额不足',
 								content: '请先去获取一些小星星吧',
@@ -381,6 +385,9 @@ const config = {
 								}
 								wx.hideLoading()
 							}).catch(err => {
+								if(!Storage.isLogin){
+									return
+								}
 								setTimeout(() => {
 									wx.hideLoading()
 									wx.showToast({
@@ -430,15 +437,18 @@ const config = {
 				console.log('未知数据：', res)
 				// 拆签失败
 				if (!res) {
+					self.setData({
+						flyStyle: `transform: scale(0);`
+					})
+					if(!Storage.isLogin){
+						return
+					}
 					wx.showModal({
 						title: '提示',
 						content: '小主，拆签失败了',
 						confirmText: '重新尝试',
 						showCancel: false,
 						success() { }
-					})
-					self.setData({
-						flyStyle: `transform: scale(0);`
 					})
 					return
 				}
@@ -472,6 +482,12 @@ const config = {
 				}, 100)
 			}).catch(err => {
 				console.log('异常数据')
+				self.setData({
+					flyStyle: `transform: scale(0);`
+				})
+				if(!Storage.isLogin){
+					return
+				}
 				wx.hideLoading()
 				wx.showModal({
 					title: '提示',
@@ -479,9 +495,6 @@ const config = {
 					confirmText: '重新尝试',
 					showCancel: false,
 					success() { }
-				})
-				self.setData({
-					flyStyle: `transform: scale(0);`
 				})
 				return
 			})
@@ -529,6 +542,9 @@ function getQian(qId, self, GData) {
 
 
 	}).catch(err => {
+		if(!Storage.isLogin){
+			return
+		}
 		wx.hideLoading()
 		wx.showModal({
 			title: '网络错误',

@@ -47,9 +47,10 @@ const methods = (function (){
                 bus.remove(Storage.loginRemoveId)   
             }
             Storage.loginRemoveId = bus.on('no-login-app',(res) => {
-                console.log('是否成功通知到：',res)
+                console.log('-----------------------------通知进行登录---------------------------------')
                 wx.hideLoading()
                 wx.hideToast()
+                Storage.isLogin = false
                 self.setData({
                     showLogin : true
                 })
