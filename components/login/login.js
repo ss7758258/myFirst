@@ -47,6 +47,7 @@ const methods = (function (){
                 bus.remove(Storage.loginRemoveId)   
             }
             Storage.loginRemoveId = bus.on('no-login-app',(res) => {
+                console.log('是否成功通知到：',res)
                 wx.hideLoading()
                 wx.hideToast()
                 self.setData({
@@ -80,6 +81,9 @@ const methods = (function (){
                     res = res.data
                     silent = true
                 }
+                
+                wx.setStorageSync('userInfo',res.userInfo)
+
                 console.log('用户信息加载完成并且上报',res)
                 console.log(Storage)
                 // 上报用户加密信息
@@ -173,13 +177,13 @@ const methods = (function (){
                     fail (err){
                         clickLogin = false
                         wx.hideLoading()
-                        wx.showToast({
-                            title : '获取用户信息失败',
-                            icon : 'none',
-                            image : '/assets/img/error.svg',
-                            duration : 3000,
-                            mask : true
-                        })
+                        // wx.showToast({
+                        //     title : '获取用户信息失败',
+                        //     icon : 'none',
+                        //     image : '/assets/img/error.svg',
+                        //     duration : 3000,
+                        //     mask : true
+                        // })
                     }
                 })
 
@@ -216,6 +220,7 @@ Component({
         num : 0
     },
     ready(){
+        console.log('------------------------------------组件实例化了：')
         methods.onEventHandle(this)
     },
     /**
@@ -233,13 +238,13 @@ Component({
             }else{
                 clickLogin = false
                 wx.hideLoading()
-                wx.showToast({
-                    title : '获取用户信息失败',
-                    icon : 'none',
-                    image : '/assets/img/error.svg',
-                    duration : 3000,
-                    mask : true
-                })
+                // wx.showToast({
+                //     title : '获取用户信息失败',
+                //     icon : 'none',
+                //     image : '/assets/img/error.svg',
+                //     duration : 3000,
+                //     mask : true
+                // })
             }
         }
     }

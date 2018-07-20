@@ -6,10 +6,11 @@ const mta = require('./utils/mta_analysis.js')
 const bus = require('./event')
 const Storage = require('./utils/storage')
 const methods = require('./server/login')
-const updateManager = wx.getUpdateManager()
+// const updateManager = wx.getUpdateManager()
+
 App({
 	onLaunch: function (options) {
-		
+		tick()
 		Storage.isLogin = false
 		console.log('开始获取设备信息')
 		// 获取用户的设备信息
@@ -19,10 +20,9 @@ App({
 		const _SData = this.globalData
 		// 检查用户的登录信息
 		methods.checkLogin()
-		// updateHandle();
-		// 处理登录问题
-		// loginHandle(this)
+		
 		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || { id: 1, name: "白羊座", time: "3.21-4.19", img: "/assets/images/aries.png", isFirst: true }
+		let userC = wx.getStorageSync('userConfig') || {}
 		_SData.userInfo = wx.getStorageSync('userInfo')
 		mta.App.init({
 			"appID": "500613478",
@@ -39,6 +39,10 @@ App({
 	 */
 	onShow (res){
 		console.log('触发全局实例：',res)
+	},
+
+	onError(){
+		console.log(123)
 	},
 	getLogin() {
 		// wx.removeStorageSync('token')
@@ -110,6 +114,7 @@ function updateHandle(){
 function getSystemInfo(){
 	let res = wx.getSystemInfoSync();
 	console.log('app实例下的设备信息：',res)
+	res = res || {screenWidth : 750 , screenHeight : 1334,model : 'iPhone',system : 'ios'}
 	if(res){
 		Storage.systemInfo = res
 		wx.setStorage({
@@ -171,4 +176,25 @@ function getGlobal(){
 	}).catch( err => {
 		console.log('加载失败---------------------------------全局配置')
 	})
+}
+
+/**
+ * 登录检测心跳
+ */
+function tick(){
+	setTimeout(() => {
+		wx.getSetting({
+			success (res) {
+				console.log(res)
+				console.log('心跳检测用户授权信息：',!res.authSetting['scope.userInfo'])
+				if(!res.authSetting['scope.userInfo']){
+					// 用户未授权
+					bus.emit('no-login-app', res , 'app')
+				}else{
+
+				}
+			}
+		})
+		tick()
+	},5000)
 }

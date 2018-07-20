@@ -21,8 +21,10 @@ const methods = () => {
                             withCredentials: true,
                             success(res){
                                 console.log('检查登录中的用户信息：',res)
+                                wx.setStorageSync('userInfo',res.userInfo)
                                 let userConf = wx.getStorageSync('userConfig')
-                                if(res && res.constructor === Object && res.userInfo){
+                                
+                                if(res && res.userInfo){
                                     if(userConf && userConf !== ''){
                                         let keyNames = Object.keys(userConf.userInfo)
                                         let flag = false
@@ -56,19 +58,6 @@ const methods = () => {
                                     // 用户未授权
                                     bus.emit('no-login-app', res , 'app')
                                 }
-                                
-                                // // token创建时间
-                                // let tokenStart = wx.getStorageSync('token-create')
-                                // let t = 1296000000,dt = new Date();//86400000 2592000000 1296000000
-        
-                                // // 如果token大于30天则重新登录
-                                // if(loginData && tokenStart && (dt.getTime() - tokenStart) < t){
-                                //     // 将用户信息放入缓存
-                                //     Storage.userInfo = res.userInfo
-                                //     // 拿取token
-                                //     Storage.token = loginData.token
-                                //     bus.emit('login-success', res , 'login')
-                                // }
                             },
                             fail(err){
                                 console.log('用户未点击授权')
@@ -109,7 +98,12 @@ const methods = () => {
                     withCredentials: true,
                     success(data){
                         console.log('静默登录--------------------输出用户信息：',data)
-                        Storage.userC = data
+                        Storage.userC = {
+                            token : res.token,
+                            openId : res.openId,
+                            userInfo : data.userInfo
+                        }
+                        wx.setStorageSync('userInfo',data.userInfo)
                         Storage.userInfo = data.userInfo
                         let silent = true
                         // 确定触发消息

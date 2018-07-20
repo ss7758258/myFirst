@@ -3,7 +3,8 @@ let $vm = getApp()
 const api = $vm.api
 const mta = require('../../utils/mta_analysis.js')
 const confing = require('../../conf')
-const conf = confing[require('../../config')] || {}
+const c = require('../../config')
+const conf = confing[c] || {}
 const Storage = require('../../utils/storage')
 const bus = require('../../event')
 const {parseIndex} = $vm.utils
@@ -66,7 +67,7 @@ Page({
 			title : '小哥星座',
 			state : 'root',
 			isRoot : true,
-			isIcon : true,
+			isIcon : false,
 			iconPath : '',
 			root : '',
 			isTitle : true,
@@ -112,10 +113,11 @@ Page({
 		Storage.prevPic = null
 		const _self = this
 		const _SData = this.data
+		Storage.userInfo = Storage.userInfo || {}
 		$vm.api.getSelectx100({
 			constellationId: _GData.selectConstellation.id,
-			nickName: Storage.userInfo.nickName,
-			headImage: Storage.userInfo.avatarUrl,
+			nickName: Storage.userInfo.nickName || '',
+			headImage: Storage.userInfo.avatarUrl || '',
 			notShowLoading: true,
 		}).then(res => {
 			// 获取一言图片
@@ -141,13 +143,13 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
+		console.log('是否重新加载------------------------------：')
 		// 重置登录信息
 		Storage.homeLogin = false
 		getSystemInfo(this);
 		mta.Page.init()
 		Storage.forMore = false
 		let self = this
-		Storage.homeSelf = this
 
 		// 获取乐摇摇推广信息
 		getLeYaoyao(self,options)
@@ -158,6 +160,7 @@ Page({
 
 		// 注册监听事件
 		Storage.loadUserConfRemoveId = bus.on('loadUserConf',() => {
+			console.log('是否已经上传用户信息：',Storage.forMore)
 			if(Storage.forMore){
 				// 加载用户配置
 				getUserConf(self)
@@ -176,27 +179,29 @@ Page({
 			// 登录状态
 			Storage.homeLogin = true
 
-			Storage.homeSelf.setData({
-				isLogin : true
-			})
-
 			// 加载用户配置的依赖
 			Storage.forMore = true
 			// 触发加载用户配置函数
 			bus.emit('loadUserConf',{},'home')
 
+			_GData.userInfo = wx.getStorageSync('userInfo') || {}
+
 			// 获取选中星座的数据
-			getContent(Storage.homeSelf,_GData.selectConstellation)
+			getContent(self,_GData.selectConstellation)
 
 			console.log('用户信息======================：',Storage.userInfo)
-			Storage.homeSelf.setData({
+			self.setData({
 				'navConf.iconPath' : Storage.userInfo.avatarUrl
 			})
-
-			_GData.userInfo = Storage.userInfo
+			
+			setTimeout(() => {
+				self.setData({
+					isLogin : true
+				})
+			},1000)
 
 			// 获取配置信息
-			getConfing(Storage.homeSelf);
+			getConfing(self);
 
 			// 保存头像信息
 			wx.setStorageSync('icon_Path', Storage.userInfo.avatarUrl)
@@ -239,11 +244,11 @@ Page({
 	 * app隐藏时判断
 	 */
 	onHide(){
-		if(!Storage.isLogin){
-			wx.redirectTo({
-				url : '/pages/home/home'
-			})
-		}
+		// if(!Storage.isLogin){
+		// 	wx.redirectTo({
+		// 		url : '/pages/home/home'
+		// 	})
+		// }
 	},
 	/**
 	 * 用户点击右上角分享
@@ -415,6 +420,13 @@ Page({
 	},
 	catchHide(){
 
+	},
+	/**
+	 * 重置用户登录锁
+	 */
+	_resetToken(){
+		// 重置登录锁
+		Storage.loginLock = false
 	},
 	/**
 	 * 关闭弹窗
@@ -692,7 +704,7 @@ function errorToast(){
  */
 function getStarNum(self){
 	wx.request({
-		url : 'https://micro.yetingfm.com/appwall/front/star/unreceived_num',
+		url : c === 'dev' ? 'https://micro.yetingfm.com/appwall/front/star/unreceived_num' : 'https://appwallapi.yetingfm.com/appwall-api/front/star/unreceived_num',
 		method: 'GET',
 		data: {
 			openId : Storage.openId,
