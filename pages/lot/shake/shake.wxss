@@ -72,7 +72,7 @@ page{
 }
 .envelope_mask{
     position: fixed;
-    top: calc(2.9962546816479403vh + 6.6vh);
+    top: 64px;
     bottom: 0;
     left: 0;
     right: 0;
@@ -84,7 +84,7 @@ page{
     transition-delay: .2s;
 }
 .PX .envelope_mask{
-    top: calc(2.9962546816479403vh + 2vh + 6.6vh);
+    top: 89px;
 }
 .envelope_mask.flyAnimate{
     transform: scale(1);
