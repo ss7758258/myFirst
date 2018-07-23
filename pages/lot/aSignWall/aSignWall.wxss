@@ -50,6 +50,9 @@ page{
   margin-left: 15rpx;
   padding:20rpx 0 44rpx 50rpx;
 }
+.content:last-child{
+  padding:20rpx 0 64rpx 50rpx;
+}
 .open_lot1,.open_lot2{
   width:640rpx;
   height:120rpx;
