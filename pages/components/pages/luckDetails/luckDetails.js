@@ -60,9 +60,9 @@ Page({
      * 
      */
     _getData(){
-
+        let constellationId = $vm.globalData.selectConstellation.id //选择星座id
         // 本周运势
-        $vm.api.luckyweek().then(res => {
+        $vm.api.luckyweek({ constellationId: constellationId }).then(res => {
             // console.log('运势详情数据：', res)
             if (res != '') {
                 this.setData({
@@ -79,7 +79,7 @@ Page({
         })
 
         // 本月运势
-        $vm.api.luckymonth().then(res => {
+        $vm.api.luckymonth({ constellationId: constellationId }).then(res => {
             // console.log('本月运势详情数据：', res)
             if (res != '') {
                 this.setData({
@@ -100,7 +100,8 @@ Page({
      */
     _getDayResult (){
         // 今日运势
-        $vm.api.luckyday().then(res => {
+        let constellationId = $vm.globalData.selectConstellation.id
+        $vm.api.luckyday({ constellationId: constellationId}).then(res => {
             // console.log('今日运势详情数据：', res)
             if(res!=''){
                 this.setData({
