@@ -1,3 +1,6 @@
+page{
+    font-family: 'PingFangSC';
+}
 .swiper_header{
     width: 750rpx;
     height: 108rpx; 
@@ -5,7 +8,8 @@
     left: 0;
     top: 128rpx; 
     z-index: 100;
-    background: rgba(255, 255, 255, 1)
+    background: rgba(255, 255, 255, 1);
+    font-weight:100;
 }
 .swiper_content{
     width: 750rpx;
@@ -131,6 +135,8 @@
     font-size: 32rpx;
     color: #000000;
     line-height: 50rpx;
+    font-weight: 400;
+    transform: scale(.96);
 }
 .footer{
     height: 300rpx;
