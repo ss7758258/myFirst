@@ -4,6 +4,8 @@ let Storage = require('../../utils/storage')
 const bus = require('../../components/banner/event')
 const conf = require('../../conf')[require('../../config')] || {}
 console.log('配置信息：',conf)
+
+let openIdTimer = null
 let timer = null
 // 弹窗消失时间
 let startime = 2000
@@ -40,101 +42,16 @@ const Conf = {
      * @param {*} options
      */
     onLoad(options) {
-        console.log(Storage)
-        let self = this
-        this.setData({
-            'bannerConf.openId' : wx.getStorageSync('openId') || ''
-        })
+        // openId处理
+        openIdHandle(this)
         // 心跳
-        tick(self)
-
-        // API.getBannerList().then(res => {
-        //     console.log(res)
-        // })
-
-        if(Storage.resourceRemoveId){
-            bus.remove(Storage.resourceRemoveId)
-        }
-        if(Storage.resOpenRemoveId){
-            bus.remove(Storage.resOpenRemoveId)
-        }
-        if(Storage.resFailRemoveId){
-            bus.remove(Storage.resFailRemoveId)
-        }
-
-        Storage.resourceRemoveId = bus.on('resource_click',(res) => {
-            console.log('点击了资源：',res)
-            wx.reportAnalytics('banner_click', {
-                resource_id: res.res.id,
-                appid: res.res.appId,
-                resource_name: res.res.appName,
-                openid: res.opts.openId,
-                desc: '点击跳转外链',
-            });
-            if(res.res.received){
-                return
-            }
-            API.setStar({
-                id : res.res.id,
-                balance : res.res.starAmount,
-                notShowLoading : true
-            }).then(data => {
-                let temp = {}
-                console.log('加星星：',data)
-                if(data && data.status === 'SUCCESS'){
-                    console.log('加星星成功',res.res)
-                    // 已经领取
-                    res.res.received = 1
-                    temp['list[' + res.index + ']'] = res.res
-                    res.self.setData(temp)
-                    self.setData({
-                        starNum : res.res.starAmount,
-                        starShow : true
-                    })
-                    wx.reportAnalytics('star_receive', {
-                        resource_id: res.res.id,
-                        appid: res.res.appId,
-                        resource_name: res.res.appName,
-                        openid: res.opts.openId,
-                        star_num : res.res.starAmount,
-                        desc: '领取小星星',
-                    });
-                    clearTimeout(starTimer)
-                    starTimer = setTimeout(() => {
-                        self.setData({
-                            starShow : false
-                        })
-                    },startime)
-                }else{
-                    console.log('加星星失败')
-                }
-            }).catch(err => {
-                console.log('领取失败')
-            })
-        }, 'banner-app')
-
-        Storage.resOpenRemoveId = bus.on('resource_open_success',(res) => {
-            console.log('打开成功：',res)
-            wx.reportAnalytics('resource_open_success', {
-                resource_id: res.res.id,
-                appid: res.res.appId,
-                resource_name: res.res.appName,
-                openid: res.opts.openId,
-                desc: '跳转成功',
-            });
-        }, 'banner-app')
-
-        Storage.resFailRemoveId = bus.on('resource_open_fail',(res) => {
-            console.log('打开失败：',res)
-            wx.reportAnalytics('banner_open_fail', {
-                resource_id: res.res.id,
-                appid: res.res.appId,
-                resource_name: res.res.appName,
-                openid: res.opts.openId,
-                desc: '跳转失败',
-            });
-        }, 'banner-app')
+        tick(this)
+        // 事件处理
+        eventHandle(this)
     },
+    /**
+     * 卸载
+     */
     onUnload(){
         clearTimeout(timer)
     }
@@ -166,5 +83,119 @@ function tick(self){
         tick(self)
     },2000)
 }
+
+/**
+ * 事件处理
+ * @param {*} self
+ */
+function eventHandle(self){
+    if(Storage.resourceRemoveId){
+        bus.remove(Storage.resourceRemoveId)
+    }
+    if(Storage.resOpenRemoveId){
+        bus.remove(Storage.resOpenRemoveId)
+    }
+    if(Storage.resFailRemoveId){
+        bus.remove(Storage.resFailRemoveId)
+    }
+
+    Storage.resourceRemoveId = bus.on('resource_click',(res) => {
+        console.log('点击了资源：',res)
+        wx.reportAnalytics('banner_click', {
+            resource_id: res.res.id,
+            appid: res.res.appId,
+            resource_name: res.res.appName,
+            openid: res.opts.openId,
+            desc: '点击跳转外链',
+        });
+        if(res.res.received){
+            return
+        }
+        API.setStar({
+            id : res.res.id,
+            balance : res.res.starAmount,
+            notShowLoading : true
+        }).then(data => {
+            let temp = {}
+            console.log('加星星：',data)
+            if(data && data.status === 'SUCCESS'){
+                console.log('加星星成功',res.res)
+                // 已经领取
+                res.res.received = 1
+                temp['list[' + res.index + ']'] = res.res
+                res.self.setData(temp)
+                self.setData({
+                    starNum : res.res.starAmount,
+                    starShow : true
+                })
+                wx.reportAnalytics('star_receive', {
+                    resource_id: res.res.id,
+                    appid: res.res.appId,
+                    resource_name: res.res.appName,
+                    openid: res.opts.openId,
+                    star_num : res.res.starAmount,
+                    desc: '领取小星星',
+                });
+                clearTimeout(starTimer)
+                starTimer = setTimeout(() => {
+                    self.setData({
+                        starShow : false
+                    })
+                },startime)
+            }else{
+                console.log('加星星失败')
+            }
+        }).catch(err => {
+            console.log('领取失败')
+        })
+    }, 'banner-app')
+
+    Storage.resOpenRemoveId = bus.on('resource_open_success',(res) => {
+        console.log('打开成功：',res)
+        wx.reportAnalytics('resource_open_success', {
+            resource_id: res.res.id,
+            appid: res.res.appId,
+            resource_name: res.res.appName,
+            openid: res.opts.openId,
+            desc: '跳转成功',
+        });
+    }, 'banner-app')
+
+    Storage.resFailRemoveId = bus.on('resource_open_fail',(res) => {
+        console.log('打开失败：',res)
+        wx.reportAnalytics('banner_open_fail', {
+            resource_id: res.res.id,
+            appid: res.res.appId,
+            resource_name: res.res.appName,
+            openid: res.opts.openId,
+            desc: '跳转失败',
+        });
+    }, 'banner-app')
+}
+
+/**
+ * 用于获取openId的信息
+ * @param {*} self
+ */
+function openIdHandle(self){
+    let openId = wx.getStorageSync('openId')
+
+    if(!openId){
+        openIdTimer = setInterval(() => {
+            let openId = wx.getStorageSync('openId')
+            if(openId){
+                clearInterval(openIdTimer)
+                self.setData({
+                    'bannerConf.openId' : openId
+                })
+            }
+        },1000)
+    }else{
+        self.setData({
+            'bannerConf.openId' : openId
+        })
+    }
+}
+
 // 创建Banner页
 Page(Conf)
