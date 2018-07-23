@@ -114,82 +114,77 @@ Page({
 		const _self = this
 		const _SData = this.data
 		Storage.userInfo = Storage.userInfo || {}
-
+		$vm.api.getSelectx100({
+			constellationId: _GData.selectConstellation.id,
+			nickName: Storage.userInfo.nickName || '',
+			headImage: Storage.userInfo.avatarUrl || '',
+			notShowLoading: true,
+		}).then(res => {
+			// 获取一言图片
+			getDay()
+			console.log('输出百分值：',res)
+			var myLuck = parseIndex(res)
+			this.setData({
+				myLuck: myLuck,
+				'shareCard.list': formatShareCard(res),
+				remindToday: res.remindToday ? res.remindToday : ''
+			})
+			if (!_self.goPage(_SData)) {
+				const myLuckLen = myLuck.length
+				_self.circleDynamic()();
+			}
+		}).catch(err => {
+			console.log(err)
+		})
         
-        $vm.api.choice({ constellationId: _GData.selectConstellation.id}).then(res=>{
-            // 获取一言图片
-            getDay()
+        // $vm.api.choice({ constellationId: _GData.selectConstellation.id}).then(res=>{
+        //     // 获取一言图片
+        //     getDay()
 
-            console.log('choice运势数据',res)
-            if(res !=''){
-                Storage.lucky = res
-                let luckyindex = [res.summaryPercentage || 1, res.lovePercentage || 2, res.moneyPercentage || 3, res.workPercentage || 4]
-                let luckyname = ['综合指数', '爱情指数', '财富指数', '工作指数'], mylucky = []
-                let luckycolor = ['#9262FB', '#DA6AE4', '#B3B4FF', '#88BB74']
-                for (let i = 0; i < 4; i++) {
-                    mylucky.push({
-                        name: luckyname[i],
-                        count: luckyindex[i],
-                        color: luckycolor[i]
-                    })
-                }
-                console.log('指数数据===',mylucky)
-                this.setData({
-                    myLuck: mylucky,
-                    remindToday: res.dayNotice ? res.dayNotice : ''
-                })
+        //     console.log('choice运势数据',res)
+        //     if(res !=''){
+        //         Storage.lucky = res
+        //         let luckyindex = [res.summaryPercentage || 1, res.lovePercentage || 2, res.moneyPercentage || 3, res.workPercentage || 4]
+        //         let luckyname = ['综合指数', '爱情指数', '财富指数', '工作指数'], mylucky = []
+        //         let luckycolor = ['#9262FB', '#DA6AE4', '#B3B4FF', '#88BB74']
+        //         for (let i = 0; i < 4; i++) {
+        //             mylucky.push({
+        //                 name: luckyname[i],
+        //                 count: luckyindex[i],
+        //                 color: luckycolor[i]
+        //             })
+        //         }
+        //         console.log('指数数据===',mylucky)
+        //         this.setData({
+        //             myLuck: mylucky,
+        //             remindToday: res.dayNotice ? res.dayNotice : ''
+        //         })
 
-                if (!_self.goPage(_SData)) {
-                    // const myLuckLen = myLuck.length
-                    _self.circleDynamic()();
-                }
-            }
+        //         if (!_self.goPage(_SData)) {
+        //             // const myLuckLen = myLuck.length
+        //             _self.circleDynamic()();
+        //         }
+        //     }
             
 
-        }).catch(res=>{
-            console.log('choice运势报错返回数据',res)
-        })
-
-
-
-		// $vm.api.getSelectx100({
-		// 	constellationId: _GData.selectConstellation.id,
-		// 	nickName: Storage.userInfo.nickName || '',
-		// 	headImage: Storage.userInfo.avatarUrl || '',
-		// 	notShowLoading: true,
-		// }).then(res => {
-		// 	// 获取一言图片
-		// 	getDay()
-        //     console.log('今日运势未处理的数据：', res)
-        //     var myLuck = parseIndex(res)
-        //     console.log('今日运势处理后的数据', myLuck)
-		// 	this.setData({
-		// 		myLuck: myLuck,
-		// 		'shareCard.list': formatShareCard(res),
-		// 		remindToday: res.remindToday ? res.remindToday : ''
-		// 	})
-
-		// 	if (!_self.goPage(_SData)) {
-		// 		const myLuckLen = myLuck.length
-		// 		_self.circleDynamic()();
-		// 	}
-		// }).catch(err => {
-		// 	console.log(err)
-		// })
-
+        // }).catch(res=>{
+        //     console.log('choice运势报错返回数据',res)
+        // })
 	},
 
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
+		
+		let self = this
+		mta.Page.init()
+		
 		console.log('是否重新加载------------------------------：')
 		// 重置登录信息
 		Storage.homeLogin = false
 		getSystemInfo(this);
-		mta.Page.init()
 		Storage.forMore = false
-		let self = this
 
 		// 获取乐摇摇推广信息
 		getLeYaoyao(self,options)
@@ -447,8 +442,8 @@ Page({
 		
 		let temp = wx.getStorageSync('userInfo') || {nickName : ''}
 		wx.navigateTo({
-			// url: '/pages/today/today?formid=' + formid
-            url:'/pages/components/pages/luckDetails/luckDetails'
+			url: '/pages/today/today?formid=' + formid
+            // url:'/pages/components/pages/luckDetails/luckDetails'
 		})
 	},
 	show_card (e){

@@ -40,11 +40,13 @@ Page({
         })
         mta.Page.init()
         if (!Storage.lucky) {
-            this.getData()
+            this._getDayResult()
+            this._getData()
         }else{
             this.setData({
                 'dta.day': Storage.lucky
             })
+            this._getData()
             this.selected()
             wx.hideLoading()
         }
@@ -53,24 +55,11 @@ Page({
     onShow: function () {
         
     },
-    getData(){
-        // 今日运势
-        $vm.api.luckyday().then(res => {
-            // console.log('今日运势详情数据：', res)
-            if(res!=''){
-                this.setData({
-                    'dta.day': res
-                })
-                this.selected()
-                wx.hideLoading()
-            }
-        }).catch(err => {
-            console.log('今日运势详情返回报错数据：', err)
-            wx.showToast({
-                title: '抱歉，您的网络有点问题，请稍后再试',
-                icon: 'none',
-            })
-        })
+    /**
+     * 获取本周运势 and 本月运势
+     * 
+     */
+    _getData(){
 
         // 本周运势
         $vm.api.luckyweek().then(res => {
@@ -104,8 +93,29 @@ Page({
                 icon: 'none',
             })
         })
-
         
+    },
+    /**
+     * 获取今天的运势
+     */
+    _getDayResult (){
+        // 今日运势
+        $vm.api.luckyday().then(res => {
+            // console.log('今日运势详情数据：', res)
+            if(res!=''){
+                this.setData({
+                    'dta.day': res
+                })
+                this.selected()
+                wx.hideLoading()
+            }
+        }).catch(err => {
+            console.log('今日运势详情返回报错数据：', err)
+            wx.showToast({
+                title: '抱歉，您的网络有点问题，请稍后再试',
+                icon: 'none',
+            })
+        })
     },
     // 选择运势
     selected(e, swiper){
@@ -153,50 +163,6 @@ Page({
             current: current,
             list:dta
         })
-    },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function() {
-
-    },
-
-
-    
-
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide: function() {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload: function() {
-
-    },
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh: function() {
-
-    },
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom: function() {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function() {
-
     }
+
 })
