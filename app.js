@@ -10,7 +10,6 @@ const methods = require('./server/login')
 
 App({
 	onLaunch: function (options) {
-		tick()
 		Storage.isLogin = false
 		console.log('开始获取设备信息')
 		// 获取用户的设备信息
@@ -19,7 +18,10 @@ App({
 		const _self = this
 		const _SData = this.globalData
 		// 检查用户的登录信息
-		methods.checkLogin()
+		// methods.checkLogin()
+		methods.openIdLogin(() => {
+			tick()
+		})
 		
 		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || { id: 1, name: "白羊座", time: "3.21-4.19", img: "/assets/images/aries.png", isFirst: true }
 		let userC = wx.getStorageSync('userConfig') || {}
@@ -186,6 +188,12 @@ function getGlobal(){
  */
 function tick(){
 	setTimeout(() => {
+		if(!wx.getStorageSync('openId')){
+			console.log('-----------------------------------未检测到用户openId：新用户-------------------------------------------')
+			bus.emit('no-login-app', {} , 'app')
+			return
+		}
+		console.log('--------------------------------心跳检测---------------------------------------------')
 		wx.getUserInfo({
 			success (res) {
 				

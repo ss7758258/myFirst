@@ -5,6 +5,44 @@ let $vm = null
 const methods = () => {
     let conf = {
         /**
+         * 检查用户openId以确认是否登录
+         * @param {*} cb
+         */
+        openIdLogin(cb){
+            let self = this
+            console.log('用户openId信息-------------------------------------------------',wx.getStorageSync('openId'))
+            if(wx.getStorageSync('openId')){
+                let userConf = wx.getStorageSync('userConfig')
+                Storage.token = userConf.token
+                Storage.openId = userConf.openId
+                Storage.userInfo = userConf.userInfo
+                bus.emit('login-success', {} , 'login-com')
+                cb && cb.constructor === Function ? cb() : ''
+            }else{
+                console.log('------------------------------用户不存在openId-------------------------------------------')
+                wx.getSetting({
+                    success (res) {
+                        console.log('用户授权信息：',!res.authSetting['scope.userInfo'])
+                        if(!res.authSetting['scope.userInfo']){
+                            console.log('用户尚未授权')
+                            // 用户未授权
+                            bus.emit('no-login-app', {} , 'app')
+                            cb && cb.constructor === Function ? cb() : ''
+                        }else{
+                            self.silentLogin(() => {
+                                cb && cb.constructor === Function ? cb() : ''
+                            })
+                        }
+                    },
+                    fail(err){
+                        console.log('-------------------------------------------获取用户设置失败-------------------------------------')
+                        bus.emit('no-login-app', res , 'app')
+                        cb && cb.constructor === Function ? cb() : ''
+                    }
+                })
+            }
+        },
+        /**
          * 检测是否登录
          */
         checkLogin(num = 0){
@@ -85,12 +123,12 @@ const methods = () => {
             $vm = getApp()
             $vm.getLogin().then(res => {
                 console.log(`登录成功：`,res)
+                wx.setStorageSync('token',res.token)
+                wx.setStorageSync('openId',res.openId)
                 // 缓存关键数据
                 Storage.token = res.token
-                wx.setStorageSync('token',res.token)
-                Storage.sessionKey = res.sessionKey
                 Storage.openId = res.openId
-                wx.setStorageSync('openId',res.openId)
+                Storage.sessionKey = res.sessionKey
 
                 console.log(Storage)
                 // 获取用户信息进行上报
@@ -98,12 +136,12 @@ const methods = () => {
                     withCredentials: true,
                     success(data){
                         console.log('静默登录--------------------输出用户信息：',data)
+                        wx.setStorageSync('userInfo',data.userInfo)
                         Storage.userC = {
                             token : res.token,
                             openId : res.openId,
                             userInfo : data.userInfo
                         }
-                        wx.setStorageSync('userInfo',data.userInfo)
                         Storage.userInfo = data.userInfo
                         let silent = true
                         // 确定触发消息
@@ -119,7 +157,7 @@ const methods = () => {
             }).catch(err => {
                 console.log('静默登录--------------------登录失败')
                 // 用户未授权
-                bus.emit('no-login-app', res , 'app')
+                bus.emit('no-login-app', {} , 'app')
             })
         }
     }

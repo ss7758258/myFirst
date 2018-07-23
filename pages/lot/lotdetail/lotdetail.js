@@ -8,6 +8,7 @@ const bus = require('../../../event')
 const Storage = require('../../../utils/storage')
 // 星星数量
 let starNum = Storage.starPrice
+let timer = null
 
 const config = {
 	data: {
@@ -154,6 +155,12 @@ const config = {
 			// 	url : '/pages/home/home'
 			// })
 		}
+	},
+	/**
+	 * 卸载
+	 */
+	onUnload(){
+		clearTimeout(timer)
 	},
 	/**
 	 * 获取用户的信息
@@ -578,11 +585,11 @@ function getTokenQian(pageFrom, self, qId, _GData) {
 				"navConf.root": '/pages/home/home'
 			})
 		}
-		setTimeout( () => {
+		timer = setTimeout( () => {
 			getQian(qId, self)
-		},100)
+		},300)
 	} else if (Storage.lotOpts.fromSource && Storage.lotOpts.fromSource !== '') {
-		setTimeout(() => {
+		timer = setTimeout(() => {
 			self.setData({
 				lotDetail: Storage.lotDetail
 			})
@@ -596,6 +603,6 @@ function getTokenQian(pageFrom, self, qId, _GData) {
 			}
 			wx.hideLoading()
 
-		}, 100)
+		}, 300)
 	}
 }
