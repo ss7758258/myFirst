@@ -114,62 +114,61 @@ Page({
 		const _self = this
 		const _SData = this.data
 		Storage.userInfo = Storage.userInfo || {}
-		$vm.api.getSelectx100({
-			constellationId: _GData.selectConstellation.id,
-			nickName: Storage.userInfo.nickName || '',
-			headImage: Storage.userInfo.avatarUrl || '',
-			notShowLoading: true,
-		}).then(res => {
-			// 获取一言图片
-			getDay()
-			console.log('输出百分值：',res)
-			var myLuck = parseIndex(res)
-			this.setData({
-				myLuck: myLuck,
-				'shareCard.list': formatShareCard(res),
-				remindToday: res.remindToday ? res.remindToday : ''
-			})
-			if (!_self.goPage(_SData)) {
-				const myLuckLen = myLuck.length
-				_self.circleDynamic()();
-			}
-		}).catch(err => {
-			console.log(err)
-		})
+		// $vm.api.getSelectx100({
+		// 	constellationId: _GData.selectConstellation.id,
+		// 	nickName: Storage.userInfo.nickName || '',
+		// 	headImage: Storage.userInfo.avatarUrl || '',
+		// 	notShowLoading: true,
+		// }).then(res => {
+		// 	// 获取一言图片
+		// 	getDay()
+		// 	console.log('输出百分值：',res)
+		// 	var myLuck = parseIndex(res)
+		// 	this.setData({
+		// 		myLuck: myLuck,
+		// 		'shareCard.list': formatShareCard(res),
+		// 		remindToday: res.remindToday ? res.remindToday : ''
+		// 	})
+		// 	if (!_self.goPage(_SData)) {
+		// 		const myLuckLen = myLuck.length
+		// 		_self.circleDynamic()();
+		// 	}
+		// }).catch(err => {
+		// 	console.log(err)
+		// })
         
-        // $vm.api.choice({ constellationId: _GData.selectConstellation.id}).then(res=>{
-        //     // 获取一言图片
-        //     getDay()
+        $vm.api.choice({ notShowLoading : true, constellationId: _GData.selectConstellation.id}).then(res=>{
+            // 获取一言图片
+            getDay()
+            console.log('choice运势数据',res)
+            if(res !=''){
+                Storage.lucky = res
+                let luckyindex = [res.summaryPercentage || 1, res.lovePercentage || 2, res.moneyPercentage || 3, res.workPercentage || 4]
+                let luckyname = ['综合指数', '爱情指数', '财富指数', '工作指数'], mylucky = []
+                let luckycolor = ['#9262FB', '#DA6AE4', '#B3B4FF', '#88BB74']
+                for (let i = 0; i < 4; i++) {
+                    mylucky.push({
+                        name: luckyname[i],
+                        count: luckyindex[i],
+                        color: luckycolor[i]
+                    })
+                }
+                console.log('指数数据===',mylucky)
+                this.setData({
+                    myLuck: mylucky,
+                    remindToday: res.dayNotice ? res.dayNotice : ''
+                })
 
-        //     console.log('choice运势数据',res)
-        //     if(res !=''){
-        //         Storage.lucky = res
-        //         let luckyindex = [res.summaryPercentage || 1, res.lovePercentage || 2, res.moneyPercentage || 3, res.workPercentage || 4]
-        //         let luckyname = ['综合指数', '爱情指数', '财富指数', '工作指数'], mylucky = []
-        //         let luckycolor = ['#9262FB', '#DA6AE4', '#B3B4FF', '#88BB74']
-        //         for (let i = 0; i < 4; i++) {
-        //             mylucky.push({
-        //                 name: luckyname[i],
-        //                 count: luckyindex[i],
-        //                 color: luckycolor[i]
-        //             })
-        //         }
-        //         console.log('指数数据===',mylucky)
-        //         this.setData({
-        //             myLuck: mylucky,
-        //             remindToday: res.dayNotice ? res.dayNotice : ''
-        //         })
-
-        //         if (!_self.goPage(_SData)) {
-        //             // const myLuckLen = myLuck.length
-        //             _self.circleDynamic()();
-        //         }
-        //     }
+                if (!_self.goPage(_SData)) {
+                    // const myLuckLen = myLuck.length
+                    _self.circleDynamic()();
+                }
+            }
             
 
-        // }).catch(res=>{
-        //     console.log('choice运势报错返回数据',res)
-        // })
+        }).catch(res=>{
+            console.log('choice运势报错返回数据',res)
+        })
 	},
 
 	/**
@@ -205,6 +204,15 @@ Page({
 		
 		// 用于解析用户来源
 		parseForm(self,options)
+
+		setTimeout(() => {
+			if(!self.data.isLogin){
+				bus.emit('no-login-app', {} , 'app')
+				self.setData({
+					isLogin : true
+				})
+			}
+		},5000)
 
 		let handle = () => {
 
@@ -267,23 +275,14 @@ Page({
 	},
 
 	onShow(){
-		// console.log('是否已经登录：',Storage.isLogin)
-		// if(!Storage.isLogin){
-		// 	bus.emit('no-login-app', {} , 'app')
-		// 	return
-        // }
 		// 触发加载用户配置函数
 		bus.emit('loadUserConf',{},'home')
-	},
-	/**
-	 * app隐藏时判断
-	 */
-	onHide(){
-		// if(!Storage.isLogin){
-		// 	wx.redirectTo({
-		// 		url : '/pages/home/home'
-		// 	})
-		// }
+		if(Storage.userInfo){
+			this.setData({
+				'navConf.iconPath' : Storage.userInfo.avatarUrl || ''
+			})
+		}
+		
 	},
 	/**
 	 * 用户点击右上角分享
@@ -442,8 +441,8 @@ Page({
 		
 		let temp = wx.getStorageSync('userInfo') || {nickName : ''}
 		wx.navigateTo({
-			url: '/pages/today/today?formid=' + formid
-            // url:'/pages/components/pages/luckDetails/luckDetails'
+			// url: '/pages/today/today?formid=' + formid
+            url:'/pages/components/pages/luckDetails/luckDetails'
 		})
 	},
 	show_card (e){

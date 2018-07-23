@@ -17,18 +17,21 @@ const DOMAIN = env === 'dev' ? 'https://xingzuoapi.yetingfm.com/xz_api/' : 'http
 // const DOMAIN = 'http://193.112.130.148:8888/xz_api/'
 // 登录失败的锁
 Storage.loginLock = false
+// 请求数
+let Reqs= []
 // 小程序上线需要https，这里使用服务器端脚本转发请求为https
 function requst(url, method, data = {}) {
 	var notShowLoading = data.notShowLoading
-    var loadingStr = data.loaingStr?data.loaingStr:'加载中...'
+    var loadingStr = data.loaingStr ? data.loaingStr : '加载中...'
+	// wx.showNavigationBarLoading()
+	if (!notShowLoading) {
+		wx.showLoading({
+			title: loadingStr,
+		})
+	}
+	
 	delete (data.notShowLoading)
 	delete (data.loaingStr)
-	// wx.showNavigationBarLoading()
-	// if (!notShowLoading) {
-	// 	wx.showLoading({
-	// 		title: loadingStr,
-	// 	})
-	// }
 
 	var rewriteUrl = url
 	return new Promise((resove, reject) => {
@@ -50,10 +53,18 @@ function requst(url, method, data = {}) {
 
 			method: method.toUpperCase(), // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
 			success: function (res) {
+				// 删除当前已经结束的请求的对象
+				Reqs.splice(Reqs.indexOf(tickReq),1)
 				if (res.data && ('LOGINERROR' === res.data.status)){
 					console.log('用户token过期或者解析失败，登录锁：',Storage.loginLock)
 					console.log('用户token过期或者解析失败，进入---------------静默登录')
 					tickReq.abort()
+					for(let ind = Reqs.length - 1; ind >= 0 ; ind --){
+						let t = Reqs[ind] || {abort(){}}
+						t.abort()
+						Reqs.splice(ind,1)
+					}
+					console.log('用户token过期或者解析失败，进入---------------终止请求')
 					if(Storage.loginLock){
 						reject()
 						wx.hideLoading()
@@ -61,7 +72,6 @@ function requst(url, method, data = {}) {
 						return
 					}
 					Storage.loginLock = true
-					console.log('用户token过期或者解析失败，进入---------------静默登录')
 					// wx.removeStorageSync('token')
 					login.silentLogin(function(){
 						Storage.loginLock = false
@@ -116,6 +126,9 @@ function requst(url, method, data = {}) {
 			}
 
 		})
+
+		Reqs.push(tickReq)
+		
 	})
 }
 
@@ -135,14 +148,6 @@ function getSelectx100(data) {//选择星座
 function choice(data) {//选择星座
     return requstPost('selectConstellation/choice', data)
 }
-
-// function getSelectx101(data) {//选中星座
-//   return requstPost('selectConstellation/x101', data)
-// }
-
-// function getSelectx102(data) {
-//   return requstPost('selectConstellation/x102', data)
-// }
 
 function getIndexx200(data) {
 	return requstPost('indexConstellation/x200', data)
