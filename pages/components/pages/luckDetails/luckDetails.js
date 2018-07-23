@@ -46,8 +46,8 @@ Page({
             this.setData({
                 'dta.day': Storage.lucky
             })
-            this._getData()
             this.selected()
+            this._getData()
             wx.hideLoading()
         }
     },

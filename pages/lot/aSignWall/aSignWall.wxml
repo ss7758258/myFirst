@@ -17,7 +17,7 @@
 			<view class='content' catchtap="openDetail" data-id="{{item.id}}" data-item="{{item}}">
 				<view class='open_lot1'>
 					<!-- status=0未拆签 1已拆签   -->
-					<image src='/assets/img/icon_close.png' class='open_lot_img'></image>
+					<image src='/assets/img/icon_close.svg' class='open_lot_img'></image>
                     <view class='openlot_type'>
                         <text class='openlot_text' wx:if="{{item.status === 0}}">未拆签</text>
                         <text wx:if="{{item.status === 1}}">已拆签</text>
