@@ -87,7 +87,7 @@ const methods = (function (){
                     silent = true
                 }
                 
-                wx.setStorageSync('userInfo',res.userInfo)
+                // wx.setStorageSync('userInfo',res.userInfo)
 
                 console.log('用户信息加载完成并且上报',res)
                 console.log(Storage)
@@ -161,38 +161,45 @@ const methods = (function (){
             })
             console.log('加载登录')
             $vm.getLogin().then(res => {
-                console.log(`登录成功：`,res)
+                console.log(`登录成功------------------login组件：`,res)
+                wx.setStorageSync('token',res.token)
+                wx.setStorageSync('openId',res.openId)
                 // 缓存关键数据
                 Storage.token = res.token
-                wx.setStorageSync('token',res.token)
-                Storage.sessionKey = res.sessionKey
                 Storage.openId = res.openId
-                wx.setStorageSync('openId',res.openId)
+                Storage.sessionKey = res.sessionKey
 
                 // 获取用户信息进行上报
                 wx.getUserInfo({
                     withCredentials: true,
                     success(data){
-                        console.log('输出永华信息：',data)
+                        wx.setStorageSync('userInfo',data.userInfo)
+                        console.log('输出用户信息：',data)
+                        Storage.userC = {
+                            token : res.token,
+                            openId : res.openId,
+                            userInfo : data.userInfo
+                        }
                         Storage.userInfo = data.userInfo
-                        Storage.userC = data
                         // 确定触发消息
                         bus.emit('load-userinfo-success', data , 'login-com')
                     },
                     fail (err){
+                        console.log('------------------------------------------获取用户信息失败')
                         clickLogin = false
                         wx.hideLoading()
-                        // wx.showToast({
-                        //     title : '获取用户信息失败',
-                        //     icon : 'none',
-                        //     image : '/assets/img/error.svg',
-                        //     duration : 3000,
-                        //     mask : true
-                        // })
+                        wx.showToast({
+                            title : '登录失败',
+                            icon : 'none',
+                            image : '/assets/img/error.svg',
+                            duration : 3000,
+                            mask : true
+                        })
                     }
                 })
 
             }).catch(err => {
+                console.log('------------------------------------------登录失败')
                 clickLogin = false
                 wx.hideLoading()
                 wx.showToast({
