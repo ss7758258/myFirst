@@ -16,6 +16,7 @@ const methods = () => {
                 Storage.token = userConf.token
                 Storage.openId = userConf.openId
                 Storage.userInfo = userConf.userInfo
+                Storage.isLogin = true
                 bus.emit('login-success', {} , 'login-com')
                 cb && cb.constructor === Function ? cb() : ''
             }else{
@@ -143,6 +144,7 @@ const methods = () => {
                             userInfo : data.userInfo
                         }
                         Storage.userInfo = data.userInfo
+                        Storage.isLogin = true
                         let silent = true
                         // 确定触发消息
                         bus.emit('load-userinfo-success', {data,silent,cb} , 'login-com')

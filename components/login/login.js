@@ -105,6 +105,7 @@ const methods = (function (){
                         if(res.silent){
                             res.cb()
                         }
+                        Storage.isLogin = true
                         Storage.loginLock = false
                         // 缓存用户的配置信息
                         wx.setStorageSync('userConfig',{
