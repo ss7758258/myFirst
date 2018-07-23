@@ -1,21 +1,21 @@
 .navigtion_panel{
-    padding-top:2.9962546816479403vh;
+    padding-top: 20px;
 }
 .iPhoneX.navigtion_panel{
-    padding-top:calc(2.9962546816479403vh + 2vh);
+    padding-top: 45px;
 }
 .navigtion_nav{
-    height: 6.6vh;
+    height: 44px;
     text-align: center;
     position: relative;
 }
 .nav_title{
     display: inline-block;
-    line-height: 6.4vh;
+    line-height: 43px;
     font-family: 'PingFangSC';
     font-size: 4.533333333333333vw;
     letter-spacing: -0.10933333333333332vw;
-    height: 6.6vh;
+    height: 44px;
     width: 70vw;
     /* font-weight: 600; */
 }
@@ -24,7 +24,7 @@
     width: 8vw;
     height: 8vw;
     border-radius: 50%;
-    line-height:6.6vh;
+    line-height:44px;
     top:0;
     bottom: 0;
     margin: auto;

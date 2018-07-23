@@ -5,7 +5,7 @@ page{
 /* 空签 */
 .panel_scene{
 	padding: 0;
-	height: 80vh;
+	height: calc(100% - 64px);
 }
 .UI_pgae {
 	display: flex;
