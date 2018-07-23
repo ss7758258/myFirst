@@ -222,7 +222,8 @@ Component({
     data: {
         showLogin : false,
         iPhoneX : Storage.iPhoneX,
-        num : 0
+        num : 0,
+		canIUse: wx.canIUse('button.open-type.getUserInfo')
     },
     ready(){
         console.log('------------------------------------组件实例化了：')
@@ -243,14 +244,35 @@ Component({
             }else{
                 clickLogin = false
                 wx.hideLoading()
-                // wx.showToast({
-                //     title : '获取用户信息失败',
-                //     icon : 'none',
-                //     image : '/assets/img/error.svg',
-                //     duration : 3000,
-                //     mask : true
-                // })
             }
+        },
+        /**
+         * 低版本授权
+         */
+        getUserI(){
+            clickLogin = true
+            wx.getUserInfo({
+                success(res){
+                    if(res){
+                        // 用户授权后进行登录
+                        methods.login(this)
+                    }else{
+                        clickLogin = false
+                        wx.hideLoading()
+                    }
+                },
+                fail(){
+                    clickLogin = false
+                    wx.hideLoading()
+                }
+            })
+        },
+        /**
+         * 上报formId
+         */
+        reportFormId(e){
+            let formid = e.detail.formId
+            API.getX610({ notShowLoading: true, formid: formid })
         }
     }
 })
