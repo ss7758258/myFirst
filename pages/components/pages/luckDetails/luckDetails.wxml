@@ -11,58 +11,40 @@
 <swiper circular current="{{swiper.current}}" bindchange="swiper" class='swiper_content'>
 <block wx:for="{{headerlist}}" wx:key="index">
     <swiper-item>
-    <scroll-view class='scroll-view' scroll-y >
+    <scroll-view class='scroll-view' scroll-y  wx:if="{{list}}">
     <!-- 运势指数 -->
     <view class='index clearfix'>
         <!-- 有星星 -->
         <view class='index_left' >
             <view class='synthesize'>
                 <text class='star_right'>综合指数:</text>
-        <!-- <image src='/assets/img_subPackages/star.svg' wx:for="{{list.summaryStar}}" wx:key="index" class='star'></image> -->
-        <!-- <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.summaryStar}}" wx:key="index" class='star'></image> -->
-                <view class='view_star'>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/star.svg' wx:for="{{list.summaryStar}}" wx:key="index" style="position:absolute;left: calc({{index}} * 40rpx);" class='star'></image>
-                </view>
+                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.summaryStar}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.summaryStar}}" wx:key="index" class='star'></image>
             </view>
             <view class='synthesize'>
                 <text class='star_right'>爱情指数:</text>
-                <view class='view_star'>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/star.svg' wx:for="{{list.loveStar}}" wx:key="index" style="position:absolute;left: calc({{index}} * 40rpx);" class='star'></image>
-                </view>
+                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.loveStar}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.loveStar}}" wx:key="index" class='star'></image>
             </view>
             <view class='synthesize'>
                 <text class='star_right'>财富指数:</text>
-                <view class='view_star'>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/star.svg' wx:for="{{list.moneyStar}}" wx:key="index" style="position:absolute;left: calc({{index}} * 40rpx);" class='star'></image>
-                </view>
+                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.moneyStar}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.moneyStar}}" wx:key="index" class='star'></image>
             </view>
             <view class='synthesize'>
                 <text class='star_right'>工作指数:</text>
-                <view class='view_star'>
+                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.workStar}}" wx:key="index" class='star'></image>
+                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.workStar}}" wx:key="index" class='star'></image>
+                <!-- <view class='view_star'>
                     <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
                     <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
                     <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
                     <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
                     <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/star.svg' wx:for="{{list.workStar}}" wx:key="index" style="position:absolute;left: calc({{index}} * 40rpx);" class='star'></image>
-                </view>
+                    <image src='/assets/img_subPackages/star.svg' wx:for="{{list.workStar}}" wx:key="index" style="position:absolute;left: {{index>0?index*35+2.5*(index+2):5}}rpx;" class='star_position'></image>
+                </view> -->
             </view>
-        </view>、
+        </view>
 
         <!-- 没有星星 -->
         <view class='index_right'>
@@ -99,33 +81,6 @@
             </view>
 
         </view>
-        <!-- 没有星星的本周运势 -->
-        <!-- <view class='index_right' wx:if="{{current == 1}}">
-            <image src='https://xingzuo-1256217146.cos.ap-guangzhou.myqcloud.com/constellation/{{list.constellationId}}.png' class='aries' wx:if="{{list.constellationId}}"></image>
-
-            <view class='luckycolor' wx:if="{{list.luckyDay}}">
-                <text class='colon'>幸运日期:</text>
-                <text>{{list.luckyDay}}</text>
-            </view>
-            <view class='luckycolor' wx:if="{{list.xrxz}}">
-                <text class='colon'>小人星座:</text>
-                <text>{{list.xrxz}}</text>
-            </view>
-        </view> -->
-
-        <!-- 没有星星的本月运势 -->
-        <!-- <view class='index_right' wx:if="{{current == 2}}">
-            <image src='https://xingzuo-1256217146.cos.ap-guangzhou.myqcloud.com/constellation/{{list.constellationId}}.png' class='aries' wx:if="{{list.constellationId}}"></image>
-            <view class='luckycolor' wx:if="{{list.luckyDirection}}">
-                <text class='colon'>吉利方位:</text>
-                <text>{{list.luckyDirection}}</text>
-            </view>
-            <view class='luckycolor' wx:if="{{list.yfxz}}">
-                <text class='colon'>缘分星座:</text>
-                <text>{{list.yfxz}}</text>
-            </view>
-        </view> -->
-
     </view>
 
     <!-- 运势简评 -->
