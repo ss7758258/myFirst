@@ -1,0 +1,10 @@
+<nav opts='{{navConf}}'></nav>
+<view class='content'>
+    <image src='../../img_subPackages/qrcode.png' class='qrcode_img'></image>
+    <view class='attention'>关注即领取9颗小星星，仅限新用户领取</view>
+    <form report-submit bindsubmit="reported">
+        <button form-type='submit' open-type='getUserInfo' class='save'>保存图片</button>
+    </form>
+    <image src='../../img_subPackages/attention.png' class='attention_img'></image>
+</view>
+
