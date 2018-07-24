@@ -92,6 +92,11 @@ page{
     margin-left: 5rpx;
     transform: translateY(5rpx);
 }
+.star_position{
+    width: 35rpx;
+    height: 35rpx;
+    transform: translateY(5rpx);
+}
 .colon{
     display: inline-block;
     margin-right: 10rpx;
