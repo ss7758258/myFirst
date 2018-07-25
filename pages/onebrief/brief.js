@@ -10,8 +10,8 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
-		picUserName: '',
-		isFromShare: false,
+		picUserName: '',//用户昵称
+		isFromShare: false, //未调用
 		prevPic: "",
 		isShow: false,
 		navConf: {
@@ -23,7 +23,28 @@ Page({
 			root: '',
 			isTitle: true
 		},
-		isIPhoneX : false
+		isIPhoneX : false,
+        current:0,//当前滑块
+        isFirst:false, //是否是第一次进来
+        list:[{
+            currentDate:"2018-05-25 00:00:00",
+            id:163,
+            nickName:"小白是鱼骨头啊丶",
+            prevPic:"/b72717e5f12f4d159af46069e9b5a6ef_1b999b691e134c698cd444ca6efd3160.jpg"
+        },
+            {
+                currentDate: "2018-05-25 00:00:00",
+                id: 163,
+                nickName: "小白是鱼骨头啊丶",
+                prevPic: "/b72717e5f12f4d159af46069e9b5a6ef_1b999b691e134c698cd444ca6efd3160.jpg"
+            },
+            {
+                currentDate: "2018-05-25 00:00:00",
+                id: 163,
+                nickName: "小白是鱼骨头啊丶",
+                prevPic: "/b72717e5f12f4d159af46069e9b5a6ef_1b999b691e134c698cd444ca6efd3160.jpg"
+            }
+        ],//页面渲染数据
 	},
 
 	/**
@@ -82,6 +103,14 @@ Page({
 		
 	},
 
+    onshow(){
+        let isFirst = wx.getStorageInfoSync().isFirst; //判断是否是第一次进来
+        if(!isFirst){
+            this.setData({
+                isFirst:true
+            })
+        }
+    },
 	/**
 	 * 用户点击右上角分享
 	 */
@@ -244,6 +273,27 @@ Page({
 			url: '/pages/home/home',
 		})
 	},
+    // 上报formid
+    formid(e){
+        let isFirst = wx.getStorageInfoSync().isFirst
+        if (!isFirst){
+            wx.setStorage({
+                key: 'isFirst',
+                data: 'false',
+            })
+        }
+        
+        this.setData({
+            isFirst:false
+        })
+        console.log(e)
+        let formid = e.detail.formId
+        $vm.api.getX610({ formid: formid})
+    },
+    // 昨天今天明天
+    // day(){
+
+    // }
 })
 
 /**

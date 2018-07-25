@@ -1,22 +1,20 @@
-<view class="box clearfix">
-    <block  wx:if="{{notice.type == 1}}">
-        <view class='notice notice{{index}}' wx:for="{{notice.content}}" wx:key="index" style="color:{{notice.color}};background:{{notice.background}};left:{{left}}px;">
-            <text>{{item}}</text>
-            <text wx:if="{{marquee2copy_status}}" style="margin-left:{{margin}}px;">{{text}}</text>
-        </view>
-    </block>
+<!-- 水平 -->
+<view class="box" style="color:{{notice.color}};background:{{notice.background}};" wx:if="{{notice.type == 1}}">
+    <view class='notice' style="left:{{left}}px;">
+        <text>{{notice.content}}</text>
+    </view> 
+</view>
 
+<!-- 垂直 -->
+<view class='vertical' wx:if="{{notice.type == 2}}">
+    <view class='notice'>{{notice.content}}</view>
+</view>
 
-
-
-    <block>
-        <view class='notice' wx:if="{{notice.type == 2}}" style='color:{{notice.color}};background:{{notice.background}}'>
-            {{notice.content}}
-        </view>
-    </block>
-    <block>
-        <view class='notice' wx:if="{{notice.type == 3}}" style='color:{{notice.color}};background:{{notice.background}}'>
-            {{notice.content}}
-        </view>
-    </block>
+<!-- 小程序跳转 -->
+<view class="box" style="color:{{notice.color}};background:{{notice.background}};" wx:if="{{notice.type == 3}}">
+    <navigator target="miniProgram" open-type="navigate" appId="{{appid}}" bindtap='compatibility'>
+    <view class='notice' style="left:{{left}}px;">
+        <text>{{notice.content}}</text>
+    </view>
+    </navigator>
 </view>

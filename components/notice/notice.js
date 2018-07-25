@@ -1,65 +1,83 @@
+const $vm=new getApp()
 Component({
 
     behaviors: [],
 
     properties: {},
     data: {
-        notice:{
-            type:1, //组件类型
-            background:'rgba(0,0,0,0.60)',//背景样式
-            color:'#FFFFFF', //字体颜色
-            time:3000, //轮播时间
-            side:"top",
-            content:['这是一个公才叫我的鸡尾dwdwdwdwdwdwdw酒第五期单位还绝望还件'],//内容
-            src:'',//跳转路径
+        notice: {
+            id:1,
+            type: 2, //组件类型 1水平,2垂直,3小程序跳转
+            background: 'rgba(0,0,0,0.60)',//背景样式
+            color: '#FFFFFF',            //字体颜色
+            side: "top",
+            content: '这是一个公告组件',  //内容
+            url: '',                    //跳转路径
+            time: 20,                   //轮播时间
         },
-        margin:60,
-        empty:false,
-        left:0,//默认滚动距离
-
-    }, // 私有数据，可用于模版渲染
-
-    // 生命周期函数，可以为函数，或一个在methods段中定义的方法名
-    attached: function () { },
-    moved: function () { },
-    detached: function () { },
+        left: 0,                        //默认滚动距离
+        txt_length:false,               //文本长度
+        appid:'xxxxxxxxx',              //跳转小程序appid
+    }, 
 
     methods: {
-        
-        run(){
-            let self = this,dta=this.data
-            var timer=setInterval(function(){
-                if(-data.margin<data.txt_length){
+        // 跑马灯
+        run() {
+            let self = this, dta = this.data
+            var timer = setInterval(function () {
+                if (-dta.left < dta.txt_length) {
                     self.setData({
-
+                        left:--dta.left,
                     })
+                    clearInterval(timer);
+                    self.run();
+                }else{
+                    clearInterval(timer);
+                    self.setData({
+                        left: dta.screenwidth
+                    });
+                    self.run();
                 }
-            },20)
+            }, dta.notice.time)
+        },
+
+        getnotice(){
+            $vm.api.notice({page:1}).then(res=>{
+                console.log(res)
+                
+            }).catch(res=>{
+                console.log('报错信息',res)
+            })
+        },
+
+        compatibility(){ //兼容
+            if (wx.canIUse('navigateToMiniProgram')){
+                wx.navigateToMiniProgram({
+                    appId: 'xxxx',
+                })
+            }else{
+                return
+            }
         }
     },
+
     ready() {
         let screenwidth = wx.getSystemInfoSync().screenWidth //屏幕宽度
-        let self = this 
-        let content = this.data.notice.content, empty = []  // content文本内容 
+        let content = this.data.notice.content, empty = [] // content文本内容 
         let query = wx.createSelectorQuery().in(this)
-        query.selectAll('.notice').boundingClientRect(res=>{ // 获取文本文字宽度
-            // console.log(res)
-            res.forEach(function(value){
-                self.setData({
-                    screenwidth: screenwidth,
-                    margin:value.width < screenwidth ? screenwidth - value.width : self.data.margin,
-                    txt_length:value.width
-                })
-                
-                this.run()
-            })  
-            // console.log(empty)
-            // self.setData({
-            //     empty:empty
-            // })
+        query.select('.notice').boundingClientRect(res => { // 获取文本文字宽度
+            console.log(res)
+            let txt_length=res.width
+            this.setData({
+                screenwidth: screenwidth,
+                txt_length: txt_length
+            })
+            this.run()
+
             
         }).exec()
-        
+        // this.getnotice()
+        this.compatibility()
     }
 
 })
