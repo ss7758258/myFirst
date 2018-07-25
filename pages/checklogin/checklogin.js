@@ -114,15 +114,15 @@ Page({
 					Storage.loginForMore = true
 					if (_SData.pageFrom == 'shake') {
 						wx.redirectTo({
-							url: '/pages/lot/shakelot/shake?from=detail',
+							url: '/pages/lot/shake/shake?from=detail',
 						})
 					} else if (_SData.pageFrom == 'activity' && _SData.and == 'shake') {
 						wx.redirectTo({
-							url: '/pages/lot/shakelot/shake?from=activity',
+							url: '/pages/lot/shake/shake?from=activity',
 						})
 					} else if (_SData.pageFrom == 'share' && _SData.and == 'shake') {
 						wx.redirectTo({
-							url: '/pages/lot/shakelot/shake?from=share',
+							url: '/pages/lot/shake/shake?from=share',
 						})
 					} else if (_SData.pageFrom == 'share' && _SData.qId) {
 						wx.redirectTo({
@@ -146,15 +146,15 @@ Page({
 						Storage.loginForMore = true
 						if (_SData.pageFrom == 'shake') {
 							wx.redirectTo({
-								url: '/pages/lot/shakelot/shake?from=detail',
+								url: '/pages/lot/shake/shake?from=detail',
 							})
 						} else if (_SData.pageFrom == 'activity' && _SData.and == 'shake') {
 							wx.redirectTo({
-								url: '/pages/lot/shakelot/shake?from=activity',
+								url: '/pages/lot/shake/shake?from=activity',
 							})
 						} else if (_SData.pageFrom == 'share' && _SData.and == 'shake') {
 							wx.redirectTo({
-								url: '/pages/lot/shakelot/shake?from=share',
+								url: '/pages/lot/shake/shake?from=share',
 							})
 						} else if (_SData.pageFrom == 'share' && _SData.qId) {
 							wx.redirectTo({

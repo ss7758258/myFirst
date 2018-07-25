@@ -186,12 +186,14 @@ function openIdHandle(self){
             if(openId){
                 clearInterval(openIdTimer)
                 self.setData({
+                    'bannerConf.miniPro' : Storage.miniPro,
                     'bannerConf.openId' : openId
                 })
             }
         },1000)
     }else{
         self.setData({
+            'bannerConf.miniPro' : Storage.miniPro,
             'bannerConf.openId' : openId
         })
     }

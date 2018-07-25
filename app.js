@@ -116,8 +116,16 @@ function updateHandle(){
 function getSystemInfo(){
 	let res = wx.getSystemInfoSync();
 	console.log('app实例下的设备信息：',res)
-	res = res || {screenWidth : 750 , screenHeight : 1334,model : 'iPhone',system : 'ios'}
+	res = res || {screenWidth : 750 , screenHeight : 1334,model : 'iPhone',system : 'ios',SDKVersion : '1.9.0'}
 	if(res){
+		let version = res.SDKVersion.replace(/\./ig,'')
+		version = version.toString().length <= 3 ? version + '0' : version
+		console.log('获取小程序版本库信息：',version)
+		Storage.miniPro = false
+		if((+ version) >= 2070){
+			Storage.miniPro = true
+		}
+		console.log('miniPro的参数值：=====================',Storage.miniPro)
 		Storage.systemInfo = res
 		wx.setStorage({
 			key: 'systemInfo',
