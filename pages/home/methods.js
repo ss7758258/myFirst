@@ -1,4 +1,39 @@
 const bus = require('../../event')
+let $vm = null
+let _GData = null
+
+const me = {
+    /**
+     * 初始化
+     */
+    init(){
+        $vm = getApp()
+        _GData = $vm.globalData
+        console.log(this)
+        me._getContent.call(this)
+    },
+
+    _getContent(){
+        let selectConstellation = _GData.selectConstellation
+        console.log(selectConstellation)
+
+        let self = this
+        if (selectConstellation && !selectConstellation.isFirst) {
+            self.setData({
+                myConstellation: selectConstellation,
+                selectBack: false,
+                showHome: true,
+                'navConf.isIcon' : true
+            })
+            self.onShowingHome()
+        } else {
+            self.setData({
+                showHome: false,
+                'navConf.isIcon' : false
+            })
+        }
+    }
+}
 
 const methods = function(){
     return {
@@ -19,6 +54,8 @@ const methods = function(){
          * @param {*} options
          */
         onLoad(options){
+            console.log('初始化的参数信息：',options)
+            me.init.call(this)
             console.log('-------------------------------------',this)
         }
     }

@@ -21,6 +21,23 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
+		star : {
+			1 : '白羊座',
+			2 : '金牛座',
+			3 : '双子座',
+			4 : '巨蟹座',
+			5 : '狮子座',
+			6 : '处女座',
+			7 : '天秤座',
+			8 : '天蝎座',
+			9 : '射手座',
+			10 : '摩羯座',
+			11 : '水瓶座',
+			12 : '双鱼座'
+		},
+		xz : {
+			
+		},
 		isLoading: false,
 		selectBack: false,
 		showHome: false,
@@ -32,7 +49,7 @@ Page({
 		},
 		pageFrom: null,
 		myConstellation: {},
-		remindToday: '',
+		dayNotice: '',
 		myLuck: [
 			{
 				name : '爱情运',
@@ -115,28 +132,6 @@ Page({
 		const _self = this
 		const _SData = this.data
 		Storage.userInfo = Storage.userInfo || {}
-		// $vm.api.getSelectx100({
-		// 	constellationId: _GData.selectConstellation.id,
-		// 	nickName: Storage.userInfo.nickName || '',
-		// 	headImage: Storage.userInfo.avatarUrl || '',
-		// 	notShowLoading: true,
-		// }).then(res => {
-		// 	// 获取一言图片
-		// 	getDay()
-		// 	console.log('输出百分值：',res)
-		// 	var myLuck = parseIndex(res)
-		// 	this.setData({
-		// 		myLuck: myLuck,
-		// 		'shareCard.list': formatShareCard(res),
-		// 		remindToday: res.remindToday ? res.remindToday : ''
-		// 	})
-		// 	if (!_self.goPage(_SData)) {
-		// 		const myLuckLen = myLuck.length
-		// 		_self.circleDynamic()();
-		// 	}
-		// }).catch(err => {
-		// 	console.log(err)
-		// })
         
         $vm.api.choice({ notShowLoading : true, constellationId: _GData.selectConstellation.id}).then(res=>{
             // 获取一言图片
@@ -153,11 +148,18 @@ Page({
                         count: luckyindex[i],
                         color: luckycolor[i]
                     })
-                }
+				}
+				res.healthy = res.summaryPercentage + 30
+				// res.healthy = 120
+				if(res.healthy > 100){
+					let tim = new Date()
+					res.healthy = 96
+				}
                 console.log('指数数据===',mylucky)
                 this.setData({
+					xz : res,
                     myLuck: mylucky,
-                    remindToday: res.dayNotice ? res.dayNotice : ''
+                    dayNotice: res.dayNotice ? res.dayNotice : ''
                 })
 
                 if (!_self.goPage(_SData)) {

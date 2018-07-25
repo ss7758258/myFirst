@@ -46,7 +46,30 @@
 	<view class="panel pt120">
 		<view class="star-mask"></view>
 		<view class="star-panel">
-
+			<view class="star-info">
+				<view>
+					<view>贵人星族</view>
+					<view class="star-text" >{{star[xz.constellationId]}}</view>
+				</view>
+				<view>
+					<view>健康指数</view>
+					<view class="star-text" >{{xz.healthy}}%</view>
+				</view>
+				<view>
+					<view>幸福颜色</view>
+					<view class="star-text star-color" >{{xz.luckyColor}}</view>
+				</view>
+				<view>
+					<view>幸运数字</view>
+					<view class="star-text" >{{xz.luckyNum}}</view>
+				</view>
+			</view>
+			<view class="star-tip">
+				<image class="star-warn" src="/assets/img/warn.svg"></image>
+				<view class="star-tip-text">{{dayNotice}}</view>
+				<view class="star-tip-notice">好运提醒</view>
+			</view>
+			<view class="panel"></view>
 		</view>
 	</view>
 	<view class="panel"></view>
