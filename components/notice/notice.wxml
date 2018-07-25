@@ -1,1 +1,22 @@
-<view>这是一个公告组件</view>
+<view class="box clearfix">
+    <block  wx:if="{{notice.type == 1}}">
+        <view class='notice notice{{index}}' wx:for="{{notice.content}}" wx:key="index" style="color:{{notice.color}};background:{{notice.background}};left:{{left}}px;">
+            <text>{{item}}</text>
+            <text wx:if="{{marquee2copy_status}}" style="margin-left:{{margin}}px;">{{text}}</text>
+        </view>
+    </block>
+
+
+
+
+    <block>
+        <view class='notice' wx:if="{{notice.type == 2}}" style='color:{{notice.color}};background:{{notice.background}}'>
+            {{notice.content}}
+        </view>
+    </block>
+    <block>
+        <view class='notice' wx:if="{{notice.type == 3}}" style='color:{{notice.color}};background:{{notice.background}}'>
+            {{notice.content}}
+        </view>
+    </block>
+</view>
