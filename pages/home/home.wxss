@@ -1,10 +1,26 @@
 
+page button {
+	margin: 0;
+	padding: 0;
+	box-sizing: initial;
+	overflow: auto;
+	background: inherit;
+	line-height : normal;
+	border-radius: inherit;
+	font-size: inherit;
+}
+botton::after{
+	content: '';
+	box-shadow: inherit;
+	border: none;
+}
 .pt120{
 	padding-top: 120rpx;
 }
 .monitor-panel{
 	width: 100%;
-	min-height: 100%;
+	min-height: calc(100% - 64px);
+	height: calc(100% - 64px);
 	background: #fff;
 }
 .star-panel{
@@ -24,12 +40,34 @@
 	margin: 0 auto;
 	background-image: linear-gradient(-27deg, #C86DD7 0%, #3023AE 100%);
 }
+.star-position{
+	position: relative;
+	width: 100%;
+	height: 260rpx;
+}
+.star-xz{
+	position: absolute;
+	left : 16.5rpx;
+	top: -70rpx;
+	width: 269rpx;
+	height: 290rpx;
+}
+.star-xz-brand{
+	position: absolute;
+	right : 27.75rpx;
+	top: -95rpx;
+	width: 368rpx;
+	height: 227rpx;
+}
+.star-xz-img,.star-xz-brand-img{
+	width: 100%;
+	height: 100%;
+}
 /* 星座指标信息 */
 .star-info{
 	display: flex;
 	width: 650rpx;
 	margin: 0 auto;
-	padding-top: 270rpx;
 	padding-bottom: 40rpx;
 	font-family: PingFangSC-Regular;
 	font-size: 26rpx;
@@ -82,6 +120,10 @@
 .star-tip-notice{
 	width: 200rpx;
 	height: 62rpx;
+	font-family: PingFangSC-Medium;
+	font-size: 29rpx;
+	color: #FFFFFF;
+	letter-spacing: 0;
 	vertical-align: middle;
 	text-align: center;
 	line-height: 62rpx;
@@ -89,6 +131,50 @@
 	box-shadow: 0 2px 4px 0 rgba(96,65,205,.5);
 	border-radius: 10rpx;
 }
+/* End星座提醒 */
+
+/* 更多运势 */
+.star-more{
+	width: 650rpx;
+	margin: 0 auto;
+	padding: 28rpx 0;
+	display: flex;
+	justify-content: space-between;
+	color: #6041CD;
+}
+.star-more-text{
+	display: flex;
+	align-items:center;
+	font-family: PingFangSC-Medium;
+	font-size: 29rpx;
+	letter-spacing: 0;
+	text-align: justify;
+	color: #6041CD;
+}
+.star-trigon{
+	display: block;
+	width: 0;
+	height: 0;
+	margin: 0 20rpx 0 10rpx;
+    border-width:14rpx 0 14rpx 14rpx;
+    border-style:solid;
+    border-color:rgba(0,0,0,0) rgba(0,0,0,0) rgba(0,0,0,0) #6041CD;
+}
+/* End更多运势 */
+
+/* 配对 */
+.star-pair-img,.star-banner-img{
+	width: 710rpx;
+	height: 280rpx;
+	margin: 30rpx auto 0;
+	background-image: linear-gradient(-270deg, #FF93BA 0%, #FFDFE9 100%);
+	border-radius: 10rpx;
+}
+/* End配对 */
+.panel:last-child{
+	margin-bottom: 20rpx;
+}
+
 /* 加载动画 */
 .loader_panel{
 	position: fixed;

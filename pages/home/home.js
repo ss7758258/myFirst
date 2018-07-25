@@ -36,7 +36,10 @@ Page({
 			12 : '双鱼座'
 		},
 		xz : {
-			
+			constellationId : 1,
+			healthy : 55,
+			luckyColor : '紫',
+			luckyNum : 9
 		},
 		isLoading: false,
 		selectBack: false,
@@ -150,9 +153,7 @@ Page({
                     })
 				}
 				res.healthy = res.summaryPercentage + 30
-				// res.healthy = 120
 				if(res.healthy > 100){
-					let tim = new Date()
 					res.healthy = 96
 				}
                 console.log('指数数据===',mylucky)
@@ -173,7 +174,12 @@ Page({
             console.log('choice运势报错返回数据',res)
         })
 	},
+	// 初始化
 	onLoad : methods.onLoad,
+	// 收集formId
+	setFormId : methods.reportFormId,
+	// 前往更多运势
+	goLuck : methods.goLuck,
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
@@ -277,7 +283,7 @@ Page({
 		}
 	},
 
-	onShow(){
+	onShow(opts){
 		// 触发加载用户配置函数
 		bus.emit('loadUserConf',{},'home')
 		if(Storage.userInfo){

@@ -1,4 +1,5 @@
 const bus = require('../../event')
+const API = require('../../utils/api')
 let $vm = null
 let _GData = null
 
@@ -54,9 +55,23 @@ const methods = function(){
          * @param {*} options
          */
         onLoad(options){
-            console.log('初始化的参数信息：',options)
+		    console.log('onLoad-------------------------------参数：',options)
             me.init.call(this)
             console.log('-------------------------------------',this)
+        },
+        /**
+         * 上报formId
+         * @param {*} e
+         */
+        reportFormId(e){
+            let formid = e.detail.formId
+            API.getX610({ notShowLoading: true, formid: formid })
+        },
+        /**
+         * 前往更多运势
+         */
+        goLuck(){
+            
         }
     }
 }
