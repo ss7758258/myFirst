@@ -14,11 +14,10 @@
     ],
     "subPackages": [
         {
-          "root": "pages/components",
-          "pages": [
-              "pages/luckDetails/luckDetails",
-              "pages/attention/attention"
-          ]
+            "root": "pages/components",
+            "pages": [
+                "pages/luckDetails/luckDetails"
+            ]
         }
     ],
     "window": {
@@ -28,6 +27,31 @@
         "navigationBarTitleText": "小哥星座",
         "navigationBarTextStyle": "white",
         "enablePullDownRefresh": false
+    },
+    "tabBar": {
+        "color" : "#464646",
+        "selectedColor" : "#9262FB",
+        "backgroundColor" : "#FFFFFF",
+        "list": [
+            {
+                "pagePath": "pages/home/home",
+                "iconPath" : "/assets/menu/home.png",
+                "selectedIconPath" : "/assets/menu/home-selected.png",
+                "text": "首页"
+            },
+            {
+                "pagePath": "pages/lot/shake/shake",
+                "iconPath" : "/assets/menu/shake.png",
+                "selectedIconPath" : "/assets/menu/shake-selected.png",
+                "text": "摇摇"
+            },
+            {
+                "pagePath": "pages/onebrief/brief",
+                "iconPath" : "/assets/menu/yan.png",
+                "selectedIconPath" : "/assets/menu/yan-selected.png",
+                "text": "一言"
+            }
+        ]
     },
     "networkTimeout": {
         "request": 10000

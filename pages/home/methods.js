@@ -13,6 +13,13 @@ const methods = function(){
                 // 获取选中星座的数据
                 getContent(self,selectConstellation)
             },'app')
+        },
+        /**
+         * 初始化页面
+         * @param {*} options
+         */
+        onLoad(options){
+            console.log('-------------------------------------',this)
         }
     }
 }

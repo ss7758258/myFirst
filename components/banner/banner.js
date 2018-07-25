@@ -67,7 +67,10 @@ Component({
      * 组件的方法列表
      */
     methods: {
-        goOuter : methods.goOuter
+        goOuter : methods.goOuter,
+        navOuter : methods.navOuter,
+        navSuccess : methods.navSuccess,
+        navFail : methods.navFail
     },
     ready(){
 		mta.Page.init()

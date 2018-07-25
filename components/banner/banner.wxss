@@ -1,6 +1,9 @@
 .banner{
     height: 150px;
 }
+.nav-banner{
+    height: 100%;
+}
 .banner_list_panel,.banner_img_panel{
     display: flex;
     width: 92vw;

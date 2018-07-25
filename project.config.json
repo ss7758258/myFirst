@@ -63,13 +63,6 @@
 				},
 				{
 					"id": -1,
-					"name": "活动摇签",
-					"pathName": "pages/lot/shakelot/shake",
-					"query": "from=spread&id=789456",
-					"scene": "1011"
-				},
-				{
-					"id": -1,
 					"name": "Banner",
 					"pathName": "pages/banner/banner",
 					"query": "",
@@ -86,12 +79,6 @@
 					"id": -1,
 					"name": "新版摇一摇",
 					"pathName": "pages/lot/shake/shake",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "banner组件",
-					"pathName": "pages/index/index",
 					"query": ""
 				},
 				{
