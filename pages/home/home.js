@@ -7,6 +7,7 @@ const c = require('../../config')
 const conf = confing[c] || {}
 const Storage = require('../../utils/storage')
 const bus = require('../../event')
+const methods = require('./methods')
 const {parseIndex} = $vm.utils
 let _GData = $vm.globalData
 
@@ -170,11 +171,11 @@ Page({
             console.log('choice运势报错返回数据',res)
         })
 	},
-
+	onLoad : methods.onLoad,
 	/**
 	 * 生命周期函数--监听页面加载
 	 */
-	onLoad: function (options) {
+	OldonLoad: function (options) {
 		
 		let self = this
 		mta.Page.init()
