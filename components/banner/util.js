@@ -160,7 +160,7 @@ const methods = {
 
             wx.navigateToMiniProgram({
                 appId: res.appId,
-                path: res.path,
+                path: res.targetUrl,
                 success(data) {
                     console.log('JS---------打开成功')
                     // 打开成功
