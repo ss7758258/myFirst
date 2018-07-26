@@ -1,5 +1,7 @@
 <template name="choice">
     <view class="choice {{showChoice ? 'current' : ''}}">
-        
+        <view class="choice-star-monitor">
+            
+        </view>
     </view>
 </template>
