@@ -1,3 +1,7 @@
+
+<!-- 导入模板 -->
+<import src="/template/choice/choice.wxml" />
+
 <!-- 导航 -->
 <nav opts='{{navConf}}'></nav>
 <!-- 登录态 -->
@@ -42,13 +46,68 @@
 </view>
 <!-- End关注服务号-弹窗 -->
 
-<view class="monitor-panel">
-	<view class="panel pt120">
-		<view class="star-mask"></view>
-		<view class="star-panel">
-
+<form bindsubmit="setFormId">
+	<template is="choice" data="{{showChoice}}"></template>
+	<scroll-view class="monitor-panel" scroll-x="false" scroll-y="true">
+	<!-- <view class="monitor-panel"> -->
+		<view class="panel pt120">
+			<view class="star-mask"></view>
+			<view class="star-panel">
+				<view class="star-position">
+					<view class="star-xz">
+						<image class="star-xz-img" src="/assets/img/{{xz.constellationId}}.svg"></image>
+					</view>
+					<view class="star-xz-brand">
+						<image class="star-xz-brand-img" src="/assets/img/xz-bg.png"></image>
+					</view>
+				</view>
+				<view class="star-info">
+					<view>
+						<view>贵人星族</view>
+						<view class="star-text" >{{star[xz.constellationId].name}}</view>
+					</view>
+					<view>
+						<view>健康指数</view>
+						<view class="star-text" >{{xz.healthy}}%</view>
+					</view>
+					<view>
+						<view>幸福颜色</view>
+						<view class="star-text star-color" >{{xz.luckyColor}}</view>
+					</view>
+					<view>
+						<view>幸运数字</view>
+						<view class="star-text" >{{xz.luckyNum}}</view>
+					</view>
+				</view>
+				<view class="star-tip">
+					<image class="star-warn" src="/assets/img/warn.svg"></image>
+					<view class="star-tip-text">{{dayNotice}}</view>
+					<view class="star-tip-notice" catchtap="">
+						<button class="star-tip-notice" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" >
+							好运提醒
+						</button>
+					</view>
+				</view>
+				<view class="star-more">
+					<view></view>
+					<view>
+						<button class="star-more-text" catchtap="goLuck" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" >
+							查看更多运势<view class="star-trigon"></view>
+						</button>
+					</view>
+				</view>
+			</view>
 		</view>
-	</view>
-	<view class="panel"></view>
-	<view class="panel"></view>
-</view>
+		<view class="panel">
+			<button class="star-pair" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" >
+				<image class="star-pair-img" src="/assets/img/envelope.png" ></image>
+			</button>
+		</view>
+		<view class="panel">
+			<button class="star-banner" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" >
+				<image class="star-banner-img" src="/assets/img/envelope.png" ></image>
+			</button>
+		</view>
+	<!-- </view> -->
+	</scroll-view>
+</form>
