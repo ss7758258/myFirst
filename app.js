@@ -11,7 +11,6 @@ const methods = require('./server/login')
 App({
 	onLaunch: function (options) {
 		Storage.isLogin = false
-		console.log('开始获取设备信息')
 		// 获取用户的设备信息
 		getSystemInfo()
 		getGlobal()
@@ -40,11 +39,11 @@ App({
 	 * @param {*} res
 	 */
 	onShow (res){
-		console.log('触发全局实例：',res)
+		// console.log('触发全局实例：',res)
 	},
 
 	onError(){
-		console.log(123)
+		console.log('小程序异常')
 	},
 	getLogin() {
 		// wx.removeStorageSync('token')
@@ -52,7 +51,7 @@ App({
 		// Storage.init()
 		return new utils.Promise((resolve, reject) => {
 			return utils.login().then(res => {
-				console.log('获取到的code信息：',res)
+				// console.log('获取到的code信息：',res)
 				api.getLogin({
 					notShowLoading: true,
 					code: res.code
@@ -125,7 +124,7 @@ function getSystemInfo(){
 		if((+ version) >= 2070){
 			Storage.miniPro = true
 		}
-		console.log('miniPro的参数值：=====================',Storage.miniPro)
+		// console.log('miniPro的参数值：=====================',Storage.miniPro)
 		Storage.systemInfo = res
 		wx.setStorage({
 			key: 'systemInfo',
@@ -137,8 +136,8 @@ function getSystemInfo(){
 			Storage.LongScreen = true
 			wx.setStorageSync('LongScreen', true);
 		}
-		console.log('屏幕宽度占比：',res.screenWidth / len)
-		console.log('屏幕高度占比：',res.screenHeight / len)
+		// console.log('屏幕宽度占比：',res.screenWidth / len)
+		// console.log('屏幕高度占比：',res.screenHeight / len)
 		// 宽屏机型
 		if(res.screenWidth / len > 0.365 && res.screenWidth / len <= 0.38){
 			wx.setStorageSync('android_model','Android')
@@ -211,6 +210,6 @@ function tick(){
 				bus.emit('no-login-app', {} , 'app')
 			}
 		})
-		tick()
+		// tick()
 	},5000)
 }

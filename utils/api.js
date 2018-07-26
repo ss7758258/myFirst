@@ -83,7 +83,7 @@ function requst(url, method, data = {}) {
 					// }, 2000);
 					return
 				}
-				console.log(url)
+				// console.log(url)
 				if (url == 'statisticsConstellation/x610') {
 					console.log(data)
 				}

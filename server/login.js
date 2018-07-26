@@ -10,7 +10,7 @@ const methods = () => {
          */
         openIdLogin(cb){
             let self = this
-            console.log('用户openId信息-------------------------------------------------',wx.getStorageSync('openId'))
+            // console.log('用户openId信息-------------------------------------------------',wx.getStorageSync('openId'))
             if(wx.getStorageSync('openId')){
                 let userConf = wx.getStorageSync('userConfig')
                 Storage.token = userConf.token
