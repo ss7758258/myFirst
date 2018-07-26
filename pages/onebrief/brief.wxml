@@ -2,6 +2,28 @@
 <nav opts='{{navConf}}'></nav>
 <loginApp></loginApp>
 
+<!-- 新手操作推荐 -->
+<view class='shade' wx:if="{{isFirst}}">
+    <view class='first'>
+        <view class='first_left'>
+            <image src='../../assets/img/left.png' class='fl_img'></image>
+            <text>左滑向往明天</text>
+        </view>
+        <view class='first_left'>
+            <image src='../../assets/img/right.png' class='fl_img'></image>
+            <text>右滑回忆过去</text>
+        </view>
+    </view>
+    <form report-submit bindsubmit='formid'>
+        <button class='first_btn' form-type='submit'>我知道了</button>
+    </form>
+</view>
+
+<!-- 昨天今天明天 -->
+<swiper current="{{current}}" circular class='swiper' bindchange="day">
+<!-- <block wx:for="{{list}}" wx:key="index"> -->
+<swiper-item>
+<!-- 保存图片 -->
 <view class="UI_page page_brief page_onelot {{networkError?'noNetBg': ''}} {{isIPhoneX ? 'iPhoneX' : ''}}">
 	<view>
 		<view class="UI_box " style='transform: scale({{isShow ? 1 : 0}});'>
@@ -33,3 +55,6 @@
 <view wx:if="{{showCanvas}}">
 	<canvas canvas-id="shareCanvas" style="width:375px;height:667px;z-index=-1"></canvas>
 </view>
+</swiper-item>
+<!-- </block> -->
+</swiper>

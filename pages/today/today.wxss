@@ -1,5 +1,4 @@
 /* pages/today/today.wxss */
-
 .page_today {
   box-sizing: border-box;
   padding: 4vw;

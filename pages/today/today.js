@@ -1,5 +1,4 @@
 // pages/today/today.js
-
 const $vm = getApp()
 const _GData = $vm.globalData
 const { parseToady, canvasTextAutoLine } = $vm.utils

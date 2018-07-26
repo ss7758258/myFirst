@@ -16,7 +16,8 @@
         {
             "root": "pages/components",
             "pages": [
-                "pages/luckDetails/luckDetails"
+                "pages/luckDetails/luckDetails",
+                "pages/attention/attention"
             ]
         }
     ],

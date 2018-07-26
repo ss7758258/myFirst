@@ -1,1 +1,20 @@
-<view>这是一个公告组件</view>
+<!-- 水平 -->
+<view class="box" style="color:{{notice.color}};background:{{notice.background}};" wx:if="{{notice.type == 1}}">
+    <view class='notice' style="left:{{left}}px;">
+        <text>{{notice.content}}</text>
+    </view> 
+</view>
+
+<!-- 垂直 -->
+<view class='vertical' wx:if="{{notice.type == 2}}">
+    <view class='notice'>{{notice.content}}</view>
+</view>
+
+<!-- 小程序跳转 -->
+<view class="box" style="color:{{notice.color}};background:{{notice.background}};" wx:if="{{notice.type == 3}}">
+    <navigator target="miniProgram" open-type="navigate" appId="{{appid}}" bindtap='compatibility'>
+    <view class='notice' style="left:{{left}}px;">
+        <text>{{notice.content}}</text>
+    </view>
+    </navigator>
+</view>
