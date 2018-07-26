@@ -59,7 +59,7 @@
 				<view class="star-info">
 					<view>
 						<view>贵人星族</view>
-						<view class="star-text" >{{star[xz.constellationId]}}</view>
+						<view class="star-text" >{{star[xz.constellationId].name}}</view>
 					</view>
 					<view>
 						<view>健康指数</view>

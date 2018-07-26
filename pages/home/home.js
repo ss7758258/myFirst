@@ -3,6 +3,7 @@ let $vm = getApp()
 const api = $vm.api
 const mta = require('../../utils/mta_analysis.js')
 const confing = require('../../conf')
+const star = require('./star')
 const c = require('../../config')
 const conf = confing[c] || {}
 const Storage = require('../../utils/storage')
@@ -21,20 +22,7 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
-		star : {
-			1 : '白羊座',
-			2 : '金牛座',
-			3 : '双子座',
-			4 : '巨蟹座',
-			5 : '狮子座',
-			6 : '处女座',
-			7 : '天秤座',
-			8 : '天蝎座',
-			9 : '射手座',
-			10 : '摩羯座',
-			11 : '水瓶座',
-			12 : '双鱼座'
-		},
+		star : star,
 		xz : {
 			constellationId : 1,
 			healthy : 55,
@@ -548,25 +536,6 @@ function getConfing(me){
 	}).catch( err => {
 		console.log('加载失败---------------------------------全局配置')
 	})
-}
-
-
-/**
- * 获取系统比例加入比例标识
- * @param {*} self
- */
-function getSystemInfo(self){
-	let res = Storage.systemInfo
-	console.log('设备信息：',res);
-	if(res){
-		// 长屏手机适配
-		if(res.screenWidth <= 375 && res.screenHeight >= 750){
-			wx.setStorageSync('IPhoneX', true);
-			self.setData({
-				isIPhoneX : true
-			})
-		}
-	}
 }
 
 /**
