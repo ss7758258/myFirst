@@ -1,0 +1,5 @@
+<template name="choice">
+    <view class="choice {{showChoice ? 'current' : ''}}">
+        
+    </view>
+</template>

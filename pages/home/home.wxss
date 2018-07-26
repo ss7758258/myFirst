@@ -1,4 +1,6 @@
 
+
+@import "/template/choice/choice.wxss";
 page button {
 	margin: 0;
 	padding: 0;

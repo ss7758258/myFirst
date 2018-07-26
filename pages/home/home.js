@@ -2,10 +2,7 @@
 let $vm = getApp()
 const api = $vm.api
 const mta = require('../../utils/mta_analysis.js')
-const confing = require('../../conf')
 const star = require('./star')
-const c = require('../../config')
-const conf = confing[c] || {}
 const Storage = require('../../utils/storage')
 const bus = require('../../event')
 const methods = require('./methods')
@@ -22,6 +19,9 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
+		// 选择星座
+		showChoice : true,
+		// 星座信息
 		star : star,
 		xz : {
 			constellationId : 1,
@@ -120,13 +120,13 @@ Page({
 
 	onShowingHome: function () {
 		Storage.prevPic = null
-		const _self = this
+		const self = this
 		const _SData = this.data
 		Storage.userInfo = Storage.userInfo || {}
         
         $vm.api.choice({ notShowLoading : true, constellationId: _GData.selectConstellation.id}).then(res=>{
             // 获取一言图片
-            getDay()
+            // getDay()
             console.log('choice运势数据',res)
             if(res !=''){
                 Storage.lucky = res
@@ -145,15 +145,15 @@ Page({
 					res.healthy = 96
 				}
                 console.log('指数数据===',mylucky)
-                this.setData({
+                self.setData({
 					xz : res,
                     myLuck: mylucky,
                     dayNotice: res.dayNotice ? res.dayNotice : ''
                 })
 
-                if (!_self.goPage(_SData)) {
+                if (!self.goPage(_SData)) {
                     // const myLuckLen = myLuck.length
-                    _self.circleDynamic()();
+                    self.circleDynamic()();
                 }
             }
             
@@ -168,119 +168,9 @@ Page({
 	setFormId : methods.reportFormId,
 	// 前往更多运势
 	goLuck : methods.goLuck,
-	/**
-	 * 生命周期函数--监听页面加载
-	 */
-	OldonLoad: function (options) {
-		
-		let self = this
-		mta.Page.init()
-		
-		console.log('是否重新加载------------------------------：')
-		// 重置登录信息
-		Storage.homeLogin = false
-		getSystemInfo(this);
-		Storage.forMore = false
+	// 显示
+	onShow : methods.onLoad,
 
-		// 获取乐摇摇推广信息
-		getLeYaoyao(self,options)
-		
-		if(Storage.loadUserConfRemoveId){
-			bus.remove(Storage.loadUserConfRemoveId)
-		}
-
-		// 注册监听事件
-		Storage.loadUserConfRemoveId = bus.on('loadUserConf',() => {
-			console.log('是否已经上传用户信息：',Storage.forMore)
-			if(Storage.forMore){
-				// 加载用户配置
-				getUserConf(self)
-				getStarNum(self)
-			}
-		},'home')
-		
-		// 用于解析用户来源
-		parseForm(self,options)
-
-		setTimeout(() => {
-			if(!self.data.isLogin){
-				bus.emit('no-login-app', {} , 'app')
-				self.setData({
-					isLogin : true
-				})
-			}
-		},5000)
-
-		let handle = () => {
-
-			$vm = getApp()
-			_GData = $vm.globalData
-			
-			// 登录状态
-			Storage.homeLogin = true
-
-			// 加载用户配置的依赖
-			Storage.forMore = true
-			// 触发加载用户配置函数
-			bus.emit('loadUserConf',{},'home')
-
-			_GData.userInfo = wx.getStorageSync('userInfo') || {}
-
-			// 获取选中星座的数据
-			getContent(self,_GData.selectConstellation)
-
-			console.log('用户信息======================：',Storage.userInfo)
-			self.setData({
-				'navConf.iconPath' : Storage.userInfo.avatarUrl
-			})
-			
-			setTimeout(() => {
-				self.setData({
-					isLogin : true
-				})
-			},1000)
-
-			// 获取配置信息
-			getConfing(self);
-
-			// 保存头像信息
-			wx.setStorageSync('icon_Path', Storage.userInfo.avatarUrl)
-		}
-		
-		// 是否是首次注册
-		// if(!Storage.firstHome){
-		// 	Storage.firstHome = true
-		// }
-		// 移除事件
-		if(Storage.homeRemoveId){
-			bus.remove(Storage.homeRemoveId)
-		}
-		if(Storage.homeLoginRemoveId){
-			bus.remove(Storage.homeLoginRemoveId)
-		}
-		Storage.homeLoginRemoveId = bus.on('login-success', handle , 'login-com')
-		Storage.homeRemoveId = bus.on('login-success', handle , 'home')
-		
-		// 如果已经存在用户信息触发登录标识
-		if(Storage.userInfo){
-            // 已经触发过登录不在触发
-			if(Storage.homeLogin){
-				return
-			}
-			bus.emit('login-success', {}, 'home')
-		}
-	},
-
-	onShow(opts){
-		// 触发加载用户配置函数
-		bus.emit('loadUserConf',{},'home')
-		if(Storage.userInfo){
-			this.setData({
-				'navConf.iconPath' : Storage.userInfo.avatarUrl || ''
-			})
-		}
-		
-	},
 	/**
 	 * 用户点击右上角分享
 	 */
@@ -480,63 +370,9 @@ Page({
 		return false
 	}
 })
-/**
- * 获取需要token的用户配置
- * @param {*} me
- */
-function getUserConf(me){
-	
-	api.getUserSetting({
-		notShowLoading: true
-	}).then( res => {
-		console.log('加载配置完成---------用户:',res);
-		if(!res){
-			console.log('----------------输出错误信息----------用户配置错误')
-			return false;
-		}
-		// res.noticeStatus = 0
-		// 确认小打卡配置信息
-		me.setData({
-			noticeBtnStatus :  res.noticeStatus === 0,
-			clockStatus : res.clockStatus === 1
-		})
-		
-		// 默认小打卡是关闭状态
-		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
-		
-	}).catch( err => {
-		console.log('加载用户配置失败---------------------------------用户配置错误')
-	})
-}
 
-/**
- * 获取配置信息
- * @param {*} me
- */
-function getConfing(me){
 
-	api.globalSetting({
-		notShowLoading: true
-	}).then( res => {
-		console.log('加载配置完成---------全局：',res);
-		if(!res){
-			return false;
-		}
 
-		// 变更状态
-		me.setData({
-			isBanner : res.bannerStatus === 1,
-			clockStatus : res.clockStatus === 1
-		})
-
-		// res.adBtnText = '开始'
-		wx.setStorageSync('adBtnText', res.adBtnText ? res.adBtnText : '查看');
-		// 默认小打卡是关闭状态
-		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
-	}).catch( err => {
-		console.log('加载失败---------------------------------全局配置')
-	})
-}
 
 /**
  * 将对象解析成所需要的数组
@@ -564,55 +400,6 @@ function parseHandle(res){
     return Math.ceil(temp / 10)
 }
 
-/**
- * 解析来源
- * @param {*} self
- */
-function parseForm(self,options){
-	let fromwhere = options.from
-	let to = options.to
-	if (fromwhere == 'share' || fromwhere == 'activity') {
-		self.setData({
-			toPage: to,
-			pageFrom: fromwhere
-		})
-		if (to == 'brief') {
-			if (options.hotapp == 1) {
-				mta.Event.stat("ico_in_from_brief_qrcode", {})
-			} else {
-				mta.Event.stat("ico_in_from_brief", {})
-			}
-
-		} else if (to == 'today') {
-			if (options.hotapp == 1) {
-				mta.Event.stat("ico_in_from_today_qrcode", {})
-			} else if (fromwhere == 'activity') {
-				console.log('ico_in_from_brief_activity')
-				mta.Event.stat("ico_in_from_brief_activity", {})
-			} else {
-				mta.Event.stat("ico_in_from_today", {})
-			}
-
-		}
-	}else if(fromwhere === 'spread'){ // 活动推广统计
-		console.log('输出活动来源',options.id)
-		if (reg.test(options.id)) {
-			mta.Event.stat('spread_' + options.id, {})
-		} else {
-			mta.Event.stat('spread_unknown', {})
-		}
-	}
-	
-	// 统计特殊来源
-	if(options.source && options.source.constructor === String && options.source !== ''){
-		console.log('输出活动来源',options.id)
-		if (reg.test(options.id)) {
-			mta.Event.stat(options.source + '_' + options.id, {})
-		} else {
-			mta.Event.stat(options.source + '_unknown', {})
-		}
-	}
-}
 
 /**
  * 获取每日的幸运值
@@ -654,89 +441,3 @@ function getDay(){
 	})
 }
 
-/**
- * 乐摇摇外链数据获取
- * @param {*} self
- * @param {*} options
- */
-function getLeYaoyao(self,options){
-	console.log(options)
-	if(!options.q) return
-	console.log('输出用户来源参数：',decodeURIComponent(options.q))
-	mta.Event.stat('spread_123435', {})
-	let url = decodeURIComponent(options.q)
-	console.log('链接地址：',url)
-	if (String(url).indexOf('leyaoyao?') > 0 ) {
-		let temps = []
-		temps.push(url.split('leyaoyao?')[1])
-		temps.push(`&appid=${confing.appId}`)
-		// 拉取乐摇摇数据信息
-		api.getLeYaoyao(temps.join('')).then(res => {
-			console.log('乐摇摇返回信息：',res)
-			if(res && res.data && res.data.constructor === Object){
-				// res.data.result = 0
-				switch (res.data.result) {
-					case 0:
-						wx.showModal({
-							title: '游戏币已到账',
-							content: '更多好玩，尽在小哥星座',
-							showCancel: false,
-							confirmText: '马上体验',
-							confirmColor: '#3CC51F',
-							success: res => {
-								
-							}
-						});
-						break;
-					default:
-						errorToast()
-					break;
-				}
-			}
-		}).catch(err => {
-			errorToast()
-			console.log('乐摇摇返回异常=========：',err)
-		})
-	}
-}
-
-/**
- * 乐摇摇错误提示
- */
-function errorToast(){
-	wx.showToast({
-		title:'领取失败',
-		icon : 'none',
-		mask : true,
-		duration : 3000
-	})
-}
-/**
- * 获取星星数量
- * @param {*} self
- */
-function getStarNum(self){
-	wx.request({
-		url : c === 'dev' ? 'https://micro.yetingfm.com/appwall/front/star/unreceived_num' : 'https://appwallapi.yetingfm.com/appwall-api/front/star/unreceived_num',
-		method: 'GET',
-		data: {
-			openId : Storage.openId,
-			appId : confing.appId
-		},
-		success (res){
-			if(res.statusCode === 200){
-			
-				console.log(`星星数量${res.data.data}`)
-
-				let text =  res.data.data || 0
-				self.setData({
-					more_star_show : text > 0 ,
-					more_startext : text + '颗待领'
-				})
-			}
-		},
-		fail(){
-
-		}
-	})
-}

@@ -56,6 +56,9 @@
 	text-align: center;
 }
 .app_login_bottom>button{
+	padding-left:14px;
+	padding-right:14px;
+	margin : 0 auto;
 	margin-top: 0.7vh;
 	width: 500rpx;
 	height: 100rpx;

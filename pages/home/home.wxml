@@ -1,3 +1,7 @@
+
+<!-- 导入模板 -->
+<import src="/template/choice/choice.wxml" />
+
 <!-- 导航 -->
 <nav opts='{{navConf}}'></nav>
 <!-- 登录态 -->
@@ -43,6 +47,7 @@
 <!-- End关注服务号-弹窗 -->
 
 <form bindsubmit="setFormId">
+	<template is="choice" data="{{showChoice}}"></template>
 	<scroll-view class="monitor-panel" scroll-x="false" scroll-y="true">
 	<!-- <view class="monitor-panel"> -->
 		<view class="panel pt120">

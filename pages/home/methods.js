@@ -2,8 +2,219 @@ const bus = require('../../event')
 const API = require('../../utils/api')
 const mta = require('../../utils/mta_analysis')
 const Storage = require('../../utils/storage')
+const c = require('../../config')
+const confing = require('../../conf')
+const conf = confing[c] || {}
 let $vm = null
 let _GData = null
+
+/**
+ * 获取系统比例加入比例标识
+ * @param {*} self
+ */
+function getSystemInfo(self){
+	let res = Storage.systemInfo
+	if(res){
+		// 长屏手机适配
+		if(res.screenWidth <= 375 && res.screenHeight >= 750){
+			wx.setStorageSync('IPhoneX', true);
+			self.setData({
+				isIPhoneX : true
+			})
+		}
+	}
+}
+
+/**
+ * 乐摇摇外链数据获取
+ * @param {*} self
+ * @param {*} options
+ */
+function getLeYaoyao(self,options){
+	console.log(options)
+	if(!options.q) return
+	console.log('输出用户来源参数：',decodeURIComponent(options.q))
+	mta.Event.stat('spread_123435', {})
+	let url = decodeURIComponent(options.q)
+	console.log('链接地址：',url)
+	if (String(url).indexOf('leyaoyao?') > 0 ) {
+		let temps = []
+		temps.push(url.split('leyaoyao?')[1])
+		temps.push(`&appid=${confing.appId}`)
+		// 拉取乐摇摇数据信息
+		API.getLeYaoyao(temps.join('')).then(res => {
+			console.log('乐摇摇返回信息：',res)
+			if(res && res.data && res.data.constructor === Object){
+				// res.data.result = 0
+				switch (res.data.result) {
+					case 0:
+						wx.showModal({
+							title: '游戏币已到账',
+							content: '更多好玩，尽在小哥星座',
+							showCancel: false,
+							confirmText: '马上体验',
+							confirmColor: '#3CC51F',
+							success: res => {
+								
+							}
+						});
+						break;
+					default:
+						errorToast()
+					break;
+				}
+			}
+		}).catch(err => {
+			errorToast()
+			console.log('乐摇摇返回异常=========：',err)
+		})
+	}
+}
+
+/**
+ * 乐摇摇错误提示
+ */
+function errorToast(){
+	wx.showToast({
+		title:'领取失败',
+		icon : 'none',
+		mask : true,
+		duration : 3000
+	})
+}
+/**
+ * 获取星星数量
+ * @param {*} self
+ */
+function getStarNum(self){
+	wx.request({
+		url : c === 'dev' ? 'https://micro.yetingfm.com/appwall/front/star/unreceived_num' : 'https://appwallapi.yetingfm.com/appwall-api/front/star/unreceived_num',
+		method: 'GET',
+		data: {
+			openId : Storage.openId,
+			appId : confing.appId
+		},
+		success (res){
+			if(res.statusCode === 200){
+			
+				console.log(`星星数量${res.data.data}`)
+
+				let text =  res.data.data || 0
+				self.setData({
+					more_star_show : text > 0 ,
+					more_startext : text + '颗待领'
+				})
+			}
+		},
+		fail(){
+
+		}
+	})
+}
+
+/**
+ * 解析来源
+ * @param {*} self
+ */
+function parseForm(self,options){
+	let fromwhere = options.from
+	let to = options.to
+	if (fromwhere == 'share' || fromwhere == 'activity') {
+		self.setData({
+			toPage: to,
+			pageFrom: fromwhere
+		})
+		if (to == 'brief') {
+			if (options.hotapp == 1) {
+				mta.Event.stat("ico_in_from_brief_qrcode", {})
+			} else {
+				mta.Event.stat("ico_in_from_brief", {})
+			}
+
+		} else if (to == 'today') {
+			if (options.hotapp == 1) {
+				mta.Event.stat("ico_in_from_today_qrcode", {})
+			} else if (fromwhere == 'activity') {
+				console.log('ico_in_from_brief_activity')
+				mta.Event.stat("ico_in_from_brief_activity", {})
+			} else {
+				mta.Event.stat("ico_in_from_today", {})
+			}
+
+		}
+	}else if(fromwhere === 'spread'){ // 活动推广统计
+		console.log('输出活动来源',options.id)
+		if (reg.test(options.id)) {
+			mta.Event.stat('spread_' + options.id, {})
+		} else {
+			mta.Event.stat('spread_unknown', {})
+		}
+	}
+	
+	// 统计特殊来源
+	if(options.source && options.source.constructor === String && options.source !== ''){
+		console.log('输出活动来源',options.id)
+		if (reg.test(options.id)) {
+			mta.Event.stat(options.source + '_' + options.id, {})
+		} else {
+			mta.Event.stat(options.source + '_unknown', {})
+		}
+	}
+}
+
+/**
+ * 获取配置信息
+ * @param {*} me
+ */
+function getConfing(me){
+
+	API.globalSetting({
+		notShowLoading: true
+	}).then( res => {
+		console.log('加载配置完成---------全局：',res);
+		if(!res){
+			return false;
+		}
+
+		// 变更状态
+		me.setData({
+			isBanner : res.bannerStatus === 1,
+			// clockStatus : res.clockStatus === 1
+		})
+		// 默认小打卡是关闭状态
+		// wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
+	}).catch( err => {
+		console.log('加载失败---------------------------------全局配置')
+	})
+}
+/**
+ * 获取需要token的用户配置
+ * @param {*} me
+ */
+function getUserConf(me){
+	
+	API.getUserSetting({
+		notShowLoading: true
+	}).then( res => {
+		console.log('加载配置完成---------用户:',res);
+		if(!res){
+			console.log('----------------输出错误信息----------用户配置错误')
+			return false;
+		}
+		// res.noticeStatus = 0
+		// 确认小打卡配置信息
+		me.setData({
+			noticeBtnStatus :  res.noticeStatus === 0,
+			// clockStatus : res.clockStatus === 1
+		})
+		
+		// 默认小打卡是关闭状态
+		// wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
+		
+	}).catch( err => {
+		console.log('加载用户配置失败---------------------------------用户配置错误')
+	})
+}
 
 const me = {
     /**
@@ -12,8 +223,10 @@ const me = {
     init(){
         $vm = getApp()
         _GData = $vm.globalData
-        console.log(this)
+
+        console.log('托管对象：--------------',this)
         me._getContent.call(this)
+        me._eventHandle.call(this)
     },
     
     /**
@@ -28,14 +241,14 @@ const me = {
             self.setData({
                 myConstellation: selectConstellation,
                 selectBack: false,
-                showHome: true,
+                showChoice: false,
                 'navConf.isIcon' : true
             })
             self.onShowingHome()
         } else {
             self.setData({
-                showHome: false,
-                'navConf.isIcon' : false
+                showChoice: true,
+                'navConf.isIcon' : true
             })
         }
     },
@@ -45,14 +258,16 @@ const me = {
      */
     _eventHandle(){
         let self = this
+        let options = this.options
 		mta.Page.init()
 		
 		console.log('是否重新加载------------------------------：')
 		// 重置登录信息
-		Storage.homeLogin = false
+        Storage.homeLogin = false
+        // 上报状态
+        Storage.forMore = false
+        // 设置系统信息
 		getSystemInfo(this);
-		Storage.forMore = false
-
 		// 获取乐摇摇推广信息
 		getLeYaoyao(self,options)
 		
@@ -66,7 +281,6 @@ const me = {
 			if(Storage.forMore){
 				// 加载用户配置
 				getUserConf(self)
-				getStarNum(self)
 			}
 		},'home')
 		
@@ -83,9 +297,6 @@ const me = {
 		},5000)
 
 		let handle = () => {
-
-			$vm = getApp()
-			_GData = $vm.globalData
 			
 			// 登录状态
 			Storage.homeLogin = true
@@ -98,7 +309,7 @@ const me = {
 			_GData.userInfo = wx.getStorageSync('userInfo') || {}
 
 			// 获取选中星座的数据
-			getContent(self,_GData.selectConstellation)
+			// getContent(self,_GData.selectConstellation)
 
 			console.log('用户信息======================：',Storage.userInfo)
 			self.setData({
@@ -143,23 +354,6 @@ const me = {
     }
 }
 
-/**
- * 获取系统比例加入比例标识
- * @param {*} self
- */
-function getSystemInfo(self){
-	let res = Storage.systemInfo
-	if(res){
-		// 长屏手机适配
-		if(res.screenWidth <= 375 && res.screenHeight >= 750){
-			wx.setStorageSync('IPhoneX', true);
-			self.setData({
-				isIPhoneX : true
-			})
-		}
-	}
-}
-
 const methods = function(){
     return {
         /**
@@ -182,6 +376,19 @@ const methods = function(){
 		    console.log('onLoad-------------------------------参数：',options)
             me.init.call(this)
             console.log('-------------------------------------',this)
+        },
+        /**
+         * 显示方案
+         */
+        onShow(opts){
+            // 触发加载用户配置函数
+            bus.emit('loadUserConf',{},'home')
+            getStarNum(this)
+            if(Storage.userInfo){
+                this.setData({
+                    'navConf.iconPath' : Storage.userInfo.avatarUrl || ''
+                })
+            }
         },
         /**
          * 上报formId
