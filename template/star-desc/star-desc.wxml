@@ -1,0 +1,21 @@
+<template name="star-desc">
+    <view class="star-desc-panel {{showStarDesc ? 'current' : ''}}">
+        <view class="desc-panel">
+            <view class="desc-top">
+                <!-- 溢出星座 -->
+                <view class="desc-xz">
+                    <image src="/assets/img/7.svg" ></image>
+                </view>
+                <view class="desc-xz-close">
+                    <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="closeDesc" >
+                        <image src="/assets/img/close.svg" ></image>
+                    </button>
+                </view>
+                <!-- 星座名称 -->
+                <view class="desc-xz-right">
+                    <image src="https://xingzuo-1256217146.cos.ap-guangzhou.myqcloud.com/constellation/{{xz.constellationId}}.png" ></image>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>

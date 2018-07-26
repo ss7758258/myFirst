@@ -1,6 +1,8 @@
 
 
 @import "/template/choice/choice.wxss";
+@import "/template/star-desc/star-desc.wxss";
+
 page button {
 	width: 100%;
 	height: 100%;
@@ -89,13 +91,15 @@ botton::after{
 	letter-spacing: 3.67rpx;
 }
 .star-btn-panel>text{
+	margin-top:-9rpx;
 	display: block;
 }
-.star-btn-time{
+.star-btn-panel>.star-btn-time{
 	font-family: 'PingFangSC-Medium';
 	font-size: 24rpx;
 	color: #FFFFFF;
 	letter-spacing: 0;
+	margin-top:9rpx;
 }
 .star-xz-img,.star-xz-brand-img{
 	width: 100%;

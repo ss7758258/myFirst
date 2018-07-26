@@ -19,6 +19,8 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
+		// 默认不打开星座展示
+		showStarDesc : false,
 		// 选择星座
 		showChoice : true,
 		// 星座信息
@@ -95,6 +97,17 @@ Page({
 			title: '用小哥星座，得最全最准的运势预测！',
 			imageUrl: '/assets/images/share_home.jpg'
 		}
+	},
+	openDesc(){
+		this.setData({
+			showStarDesc : true
+		})
+	},
+	// 关闭信息描述
+	closeDesc(){
+		this.setData({
+			showStarDesc : false
+		})
 	},
 	/**
 	 * 前往一言
