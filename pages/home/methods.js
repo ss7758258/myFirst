@@ -31,12 +31,11 @@ function getSystemInfo(self){
  * @param {*} options
  */
 function getLeYaoyao(self,options){
-	console.log(options)
 	if(!options.q) return
 	console.log('输出用户来源参数：',decodeURIComponent(options.q))
 	mta.Event.stat('spread_123435', {})
 	let url = decodeURIComponent(options.q)
-	console.log('链接地址：',url)
+	
 	if (String(url).indexOf('leyaoyao?') > 0 ) {
 		let temps = []
 		temps.push(url.split('leyaoyao?')[1])
@@ -222,28 +221,42 @@ const me = {
      */
     init(){
         $vm = getApp()
-        _GData = $vm.globalData
-
-        console.log('托管对象：--------------',this)
-        me._getContent.call(this)
+		_GData = $vm.globalData
+		
+		me._getStar.call(this)
         me._eventHandle.call(this)
     },
-    
+    _getStar(){
+        let self = this
+		let selectConstellation = _GData.selectConstellation
+        if (selectConstellation && !selectConstellation.isFirst) {
+			self.setData({
+				myConstellation: selectConstellation,
+				selectBack: false,
+				showChoice: false,
+				'navConf.isIcon' : true
+			})
+		}else{
+            self.setData({
+                showChoice: true,
+                'navConf.isIcon' : true
+            })
+		}
+	},
     /**
      * 获取星座数据
      */
     _getContent(){
-        let selectConstellation = _GData.selectConstellation
-        console.log(selectConstellation)
-
         let self = this
+		let selectConstellation = _GData.selectConstellation
+		
         if (selectConstellation && !selectConstellation.isFirst) {
-            self.setData({
-                myConstellation: selectConstellation,
-                selectBack: false,
-                showChoice: false,
-                'navConf.isIcon' : true
-            })
+			self.setData({
+				myConstellation: selectConstellation,
+				selectBack: false,
+				showChoice: false,
+				'navConf.isIcon' : true
+			})
             self.onShowingHome()
         } else {
             self.setData({
@@ -261,7 +274,6 @@ const me = {
         let options = this.options
 		mta.Page.init()
 		
-		console.log('是否重新加载------------------------------：')
 		// 重置登录信息
         Storage.homeLogin = false
         // 上报状态
@@ -277,7 +289,7 @@ const me = {
 
 		// 注册监听事件
 		Storage.loadUserConfRemoveId = bus.on('loadUserConf',() => {
-			console.log('是否已经上传用户信息：',Storage.forMore)
+			console.log('用户信息上报完成')
 			if(Storage.forMore){
 				// 加载用户配置
 				getUserConf(self)
@@ -297,7 +309,7 @@ const me = {
 		},5000)
 
 		let handle = () => {
-			
+			console.log('--------------------------登录触发')
 			// 登录状态
 			Storage.homeLogin = true
 
@@ -309,7 +321,7 @@ const me = {
 			_GData.userInfo = wx.getStorageSync('userInfo') || {}
 
 			// 获取选中星座的数据
-			// getContent(self,_GData.selectConstellation)
+			me._getContent.call(this)
 
 			console.log('用户信息======================：',Storage.userInfo)
 			self.setData({
@@ -329,10 +341,6 @@ const me = {
 			wx.setStorageSync('icon_Path', Storage.userInfo.avatarUrl)
 		}
 		
-		// 是否是首次注册
-		// if(!Storage.firstHome){
-		// 	Storage.firstHome = true
-		// }
 		// 移除事件
 		if(Storage.homeRemoveId){
 			bus.remove(Storage.homeRemoveId)
@@ -342,7 +350,7 @@ const me = {
 		}
 		Storage.homeLoginRemoveId = bus.on('login-success', handle , 'login-com')
 		Storage.homeRemoveId = bus.on('login-success', handle , 'home')
-		
+
 		// 如果已经存在用户信息触发登录标识
 		if(Storage.userInfo){
             // 已经触发过登录不在触发
@@ -375,7 +383,6 @@ const methods = function(){
         onLoad(options){
 		    console.log('onLoad-------------------------------参数：',options)
             me.init.call(this)
-            console.log('-------------------------------------',this)
         },
         /**
          * 显示方案
@@ -389,12 +396,85 @@ const methods = function(){
                     'navConf.iconPath' : Storage.userInfo.avatarUrl || ''
                 })
             }
-        },
+		},
+		/**
+		 * 选择星座
+		 * @param {*} e
+		 */
+		choiceStar(e){
+			const self = this
+			const {item :selectConstellation} = e.currentTarget.dataset
+			console.log(selectConstellation)
+			mta.Event.stat('ico_home_select', { 'constellation': selectConstellation.name })
+			_GData.selectConstellation = selectConstellation
+			wx.setStorage({
+				key: 'selectConstellation',
+				data: selectConstellation
+			})
+			self.setData({
+				myConstellation: selectConstellation,
+				// selectBack: false,
+				showChoice: false,
+				'navConf.isIcon' : true,
+				'selectStatus.current': selectConstellation.id - 1,
+				'selectStatus.selected': true
+			})
+			self.onShowingHome()
+		},
+		/**
+		 * 选择星座获取参数进行格式化
+		 */
+		onShowingHome: function () {
+			const self = this
+			
+			$vm.api.choice({ notShowLoading : true, constellationId: _GData.selectConstellation.id}).then(res=>{
+				console.log('choice运势数据',res)
+				if(res !=''){
+					Storage.lucky = res
+					res.healthy = res.summaryPercentage + 30
+					if(res.healthy > 100){
+						res.healthy = 96
+					}
+					
+					self.setData({
+						xz : res,
+						dayNotice: res.dayNotice ? res.dayNotice : ''
+					})
+				}
+			}).catch(res=>{
+				console.log('choice运势报错返回数据',res)
+			})
+		},
+		/**
+		 * 前往选择星座页面
+		 */
+		goChoiceStar(){
+			mta.Event.stat("ico_home_unselect", {})
+			wx.setStorage({
+				key: 'selectConstellation',
+				data: null,
+			})
+			_GData.selectConstellation = null
+			this.setData({
+				selectBack: true,
+				showChoice: true,
+				'navConf.isIcon' : false,
+				'selectStatus.current': -1,
+				'selectStatus.selected': false
+			})
+		},
+		goBanner(){
+			mta.Event.stat("ico_home_to_banner", {})
+			wx.navigateTo({
+				url: '/pages/banner/banner'
+			})
+		},
         /**
          * 上报formId
          * @param {*} e
          */
         reportFormId(e){
+			console.log(e.detail)
             let formid = e.detail.formId
             API.getX610({ notShowLoading: true, formid: formid })
         },
