@@ -13,7 +13,12 @@
     justify-content: space-around;
     background: rgba(0,0,0,.7);
 }
-
+.mt30{
+    margin-top: 30rpx !important;
+}
+.mb30{
+    margin-bottom: 30rpx !important;
+}
 .star-desc-panel image{
     width: 100%;
     height: 100%;
@@ -47,9 +52,9 @@
 }
 .desc-xz{
     position: absolute;
-    width: 263rpx;
-    height: 263rpx;
-    top: -90rpx;
+    width:280rpx;
+    height:280rpx;
+    top:-100rpx;
 }
 .desc-xz-right{
     display: inline-block;
@@ -76,4 +81,85 @@
     height: 24rpx;
 }
 
+.desc-bottom{
+    height: calc(100% - 184rpx);
+}
+/* 星座属性 */
+.desc-bottom-attr,.desc-bottom-yq{
+    width: 84vw;
+    margin: 0 auto;
+    height: 260rpx;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: left;
+    font-size:28rpx;
+    font-family:'PingFangSC-Regular';
+    background:rgba(250,248,255,1);
+    border-radius:8rpx;
+    text-indent: 20rpx;
+}
 
+.desc-attr-row{
+    flex: 50%;
+}
+.desc-attr-row>label{
+    color:#666666;
+}
+.desc-attr-row>text{
+    color:#333333;
+}
+
+
+/* 星座性格 */
+.desc-bottom-yq{
+    background:initial;
+    color:rgba(51,51,51,1);
+    line-height:40rpx;
+    height: 210rpx;
+    text-indent: 0;
+    padding-bottom: 30rpx;
+    border-bottom: 1rpx dashed rgba(232,221,255,1);
+}
+.yq-panel{
+    flex: 100%;
+    text-align: left;
+}
+.yq-panel>label{
+    display: inline-block;
+    width:100rpx;
+    height:52rpx;
+    color:#FF4D4D;
+    text-align: center;
+    line-height: 52rpx;
+    background:rgba(255,77,77,.2);
+    border-radius:8rpx;
+    margin-right: 20rpx;
+}
+.yq-panel:first-child>label{
+    color:#50AAFD;
+    background:rgba(80,170,253,.2);
+}
+.yq-panel:last-child>label{
+    color:#FEB00E;
+    background:rgba(254,176,14,.2);
+}
+
+/* 星座简介 */
+.desc-bottom-info{
+    width: 84vw;
+    margin: 0 auto;
+    font-size:28rpx;
+    font-family:'PingFangSC-Regular';
+    color:rgba(102,102,102,1);
+    line-height:44rpx;
+    text-align: left;
+}
+.desc-info-panel>view{
+    font-size:32rpx;
+    font-family:'PingFangSC-Medium';
+    color:rgba(146,98,251,1);
+    line-height:44rpx;
+    margin-bottom: 10rpx;
+}

@@ -1,17 +1,11 @@
 // pages/home/home.js
 let $vm = getApp()
-const api = $vm.api
 const mta = require('../../utils/mta_analysis.js')
 const star = require('./star')
 const Storage = require('../../utils/storage')
-const bus = require('../../event')
 const methods = require('./methods')
-const {parseIndex} = $vm.utils
-let _GData = $vm.globalData
+const desc = require('./desc')
 
-// 验证Id是否位6位纯数字
-let reg = /^\d{6}$/;
-let timer = null
 
 Page({
 
@@ -20,7 +14,9 @@ Page({
 	 */
 	data: {
 		// 默认不打开星座展示
-		showStarDesc : false,
+		showStarDesc : true,
+		// 星座信息数据
+		desc : desc,
 		// 选择星座
 		showChoice : true,
 		// 星座信息

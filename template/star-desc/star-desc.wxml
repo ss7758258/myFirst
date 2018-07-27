@@ -1,10 +1,11 @@
 <template name="star-desc">
     <view class="star-desc-panel {{showStarDesc ? 'current' : ''}}">
         <view class="desc-panel">
+            <!-- 头部 -->
             <view class="desc-top">
                 <!-- 溢出星座 -->
                 <view class="desc-xz">
-                    <image src="/assets/img/7.svg" ></image>
+                    <image src="/assets/img/{{xz.constellationId}}.svg" ></image>
                 </view>
                 <view class="desc-xz-close">
                     <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="closeDesc" >
@@ -16,6 +17,80 @@
                     <image src="https://xingzuo-1256217146.cos.ap-guangzhou.myqcloud.com/constellation/{{xz.constellationId}}.png" ></image>
                 </view>
             </view>
+
+            <!-- 底部滚动 -->
+            <scroll-view class="desc-bottom" scroll-x="false" scroll-y="true">
+                <!-- 星座属性 -->
+                <view class="desc-bottom-attr">
+                    <view class="desc-attr-row">
+                        <label for="">星座特点：</label>
+                        <text>{{desc[xz.constellationId].xztd}}</text>
+                    </view>
+                    <view class="desc-attr-row">
+                        <label for="">掌管宫位：</label>
+                        <text>{{desc[xz.constellationId].zggw}}</text>
+                    </view>
+                    <view class="desc-attr-row">
+                        <label for="">最大特征：</label>
+                        <text>{{desc[xz.constellationId].zdtz}}</text>
+                    </view>
+                    <view class="desc-attr-row">
+                        <label for="">四象属性：</label>
+                        <text>{{desc[xz.constellationId].sxsx}}</text>
+                    </view>
+                    <view class="desc-attr-row">
+                        <label for="">主管行星：</label>
+                        <text>{{desc[xz.constellationId].zgxx}}</text>
+                    </view>
+                    <view class="desc-attr-row">
+                        <label for="">幸运颜色：</label>
+                        <text>{{desc[xz.constellationId].luckyColor}}</text>
+                    </view>
+                    <view class="desc-attr-row">
+                        <label for="">幸运号码：</label>
+                        <text>{{desc[xz.constellationId].luckyNum}}</text>
+                    </view>
+                    <view class="desc-attr-row">
+                        <label for="">开运金属：</label>
+                        <text>{{desc[xz.constellationId].kyjs}}</text>
+                    </view>
+                </view>
+                <!-- 星座优缺点 -->
+                <view class="desc-bottom-yq mt30">
+                    <view class="yq-panel">
+                        <label>优点</label>
+                        <text>{{desc[xz.constellationId].advantage}}</text>
+                    </view>
+                    <view class="yq-panel">
+                        <label>缺点</label>
+                        <text>{{desc[xz.constellationId].shortcoming}}</text>
+                    </view>
+                    <view class="yq-panel">
+                        <label>性格</label>
+                        <text>{{desc[xz.constellationId].character}}</text>
+                    </view>
+                </view>
+
+                <!-- 星座简介 -->
+                <view class="desc-bottom-info mt30">
+                    <view class="desc-info-panel">
+                        <view>基本特质：</view>
+                        <text>{{desc[xz.constellationId].jbtz}}</text>
+                    </view>
+                    <view class="desc-info-panel mt30">
+                        <view>个性特点：</view>
+                        <text>{{desc[xz.constellationId].gxtd}}</text>
+                    </view>
+                    <view class="desc-info-panel mt30">
+                        <view>爱情特点：</view>
+                        <text>{{desc[xz.constellationId].aqtz}}</text>
+                    </view>
+                    <view class="desc-info-panel mt30 mb30">
+                        <view>总结：</view>
+                        <text>{{desc[xz.constellationId].summary}}</text>
+                    </view>
+                </view>
+            </scroll-view>
         </view>
     </view>
 </template>

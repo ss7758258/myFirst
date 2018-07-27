@@ -7,6 +7,9 @@ const confing = require('../../conf')
 const conf = confing[c] || {}
 let $vm = null
 let _GData = null
+// 验证Id是否位6位纯数字
+let reg = /^\d{6}$/;
+let timer = null
 
 /**
  * 获取系统比例加入比例标识
