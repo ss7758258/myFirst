@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34px" height="34px" viewBox="0 0 34 34" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51 (57462) - http://www.bohemiancoding.com/sketch -->
+    <title>星座配对/切换</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="13" cy="13" r="13"></circle>
+        <filter x="-28.8%" y="-17.3%" width="157.7%" height="157.7%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="3" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.57254902   0 0 0 0 0.384313725   0 0 0 0 0.984313725  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="-2.48949813e-15%" x2="50%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#AD62FB" offset="0%"></stop>
+            <stop stop-color="#7F39D7" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="星座配对" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-275.000000, -350.000000)">
+            <rect fill="none" x="0" y="0" width="375" height="667"></rect>
+            <g id="星座配对/切换" transform="translate(279.000000, 351.000000)" fill-rule="nonzero">
+                <g id="Oval-3">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" xlink:href="#path-1"></use>
+                </g>
+                <g id="切换" transform="translate(3.000000, 3.000000)" fill="url(#linearGradient-3)">
+                    <path d="M10,0 C4.4771525,-3.38176876e-16 6.76353751e-16,4.4771525 0,10 C-6.76353751e-16,15.5228475 4.4771525,20 10,20 C15.5228475,20 20,15.5228475 20,10 C20,4.4771525 15.5228475,2.55862292e-15 10,0 Z M10,18.75 C5.16750844,18.75 1.25,14.8324916 1.25,10 C1.25,5.16750844 5.16750844,1.25 10,1.25 C14.8324916,1.25 18.75,5.16750844 18.75,10 C18.75,14.8324916 14.8324916,18.75 10,18.75 Z" id="Shape"></path>
+                    <path d="M15.4625,10.7875 L4.475,10.7875 C4.12050648,10.8205569 3.85857501,11.1326454 3.8875,11.4875 C3.92525649,11.8191015 4.20378176,12.0708455 4.5375,12.075 L13.55,12.075 L11.25,13.75 C11.101796,13.8641667 11.0099681,14.0366538 10.9980005,14.2233494 C10.9860328,14.410045 11.0550859,14.592845 11.1875,14.725 C11.3067354,14.8446497 11.468583,14.9120862 11.6375,14.9125 C11.7779806,14.9089239 11.9136852,14.8607706 12.025,14.775 L15.775,11.9 C16.03042,11.7004068 16.0997419,11.343132 15.9375,11.0625 C15.82637,10.9064724 15.6531446,10.8061841 15.4625,10.7875 Z M4.5375,9.2125 L15.525,9.2125 C15.8794935,9.17944312 16.141425,8.86735456 16.1125,8.5125 C16.0747435,8.18089847 15.7962182,7.92915448 15.4625,7.925 L6.45,7.925 L8.75,6.25 C8.90789175,6.1268276 9.00019536,5.93775295 9.00019536,5.7375 C9.00019536,5.53724705 8.90789175,5.3481724 8.75,5.225 C8.63718998,5.09147856 8.47450317,5.01013515 8.3,5 C8.15951944,5.00357612 8.02381477,5.05172939 7.9125,5.1375 L4.1625,8.0125 C3.90708004,8.21209317 3.83775806,8.56936795 4,8.85 C4.10376641,9.05623293 4.30741024,9.19357411 4.5375,9.2125 Z" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
