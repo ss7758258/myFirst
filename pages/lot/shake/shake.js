@@ -35,7 +35,8 @@ const conf = {
             isIcon: true,
             iconPath: '',
             root: '',
-            isTitle: true
+            isTitle: true,
+            isIcon : false
         },
         bannerConf : {
             openId : '',
@@ -252,7 +253,10 @@ const conf = {
 	 */
     openEnvelope(){
         // 前往签详情页
-        wx.redirectTo({
+        // wx.redirectTo({
+        //     url: '/pages/lot/lotdetail/lotdetail?fromSource=shake&lotId=' + Storage.lotId,
+        // })
+        wx.navigateTo({
             url: '/pages/lot/lotdetail/lotdetail?fromSource=shake&lotId=' + Storage.lotId,
         })
     },

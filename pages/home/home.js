@@ -14,7 +14,7 @@ Page({
 	 */
 	data: {
 		// 默认不打开星座展示
-		showStarDesc : true,
+		showStarDesc : false,
 		// 星座信息数据
 		desc : desc,
 		// 选择星座
@@ -28,7 +28,6 @@ Page({
 			luckyNum : 9
 		},
 		isLoading: false,
-		selectBack: false,
 		selectStatus: {
 			selected: false,
 			current: -1
@@ -94,6 +93,12 @@ Page({
 			imageUrl: '/assets/images/share_home.jpg'
 		}
 	},
+	goPair(){
+		wx.navigateTo({
+			url:'/pages/components/pages/pair/pair'
+		})
+	},
+	// 打开星座描述
 	openDesc(){
 		this.setData({
 			showStarDesc : true

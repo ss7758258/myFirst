@@ -17,6 +17,20 @@ const methods = () => {
                 Storage.openId = userConf.openId
                 Storage.userInfo = userConf.userInfo
                 Storage.isLogin = true
+                
+                if(!Storage.userInfo){
+                    Storage.userInfo = {}
+                }
+                
+                switch (Storage.userInfo.gender) {
+                    case 1:
+                        Storage.AccountSex =  'man'
+                        break;
+                    default:
+                        Storage.AccountSex =  'woman'
+                        break;
+                }
+                wx.hideLoading()
                 bus.emit('login-success', {} , 'login-com')
                 cb && cb.constructor === Function ? cb() : ''
             }else{

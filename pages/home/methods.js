@@ -207,11 +207,11 @@ function getUserConf(me){
 		// 确认小打卡配置信息
 		me.setData({
 			noticeBtnStatus :  res.noticeStatus === 0,
-			// clockStatus : res.clockStatus === 1
+			clockStatus : res.clockStatus === 1
 		})
-		
+		Storage.clockStatus = res.clockStatus
 		// 默认小打卡是关闭状态
-		// wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
+		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
 		
 	}).catch( err => {
 		console.log('加载用户配置失败---------------------------------用户配置错误')
@@ -252,6 +252,8 @@ const me = {
      */
     _getContent(){
         let self = this
+        $vm = getApp()
+		_GData = $vm.globalData
 		let selectConstellation = _GData.selectConstellation
 		
         if (selectConstellation && !selectConstellation.isFirst) {
@@ -313,6 +315,8 @@ const me = {
 		},5000)
 
 		let handle = () => {
+			$vm = getApp()
+			_GData = $vm.globalData
 			console.log('--------------------------登录触发')
 			// 登录状态
 			Storage.homeLogin = true
@@ -411,13 +415,14 @@ const methods = function(){
 			console.log(selectConstellation)
 			mta.Event.stat('ico_home_select', { 'constellation': selectConstellation.name })
 			_GData.selectConstellation = selectConstellation
+			// 星座信息
+			Storage.starXz = selectConstellation
 			wx.setStorage({
 				key: 'selectConstellation',
 				data: selectConstellation
 			})
 			self.setData({
 				myConstellation: selectConstellation,
-				// selectBack: false,
 				showChoice: false,
 				'navConf.isIcon' : true,
 				'selectStatus.current': selectConstellation.id - 1,
@@ -430,7 +435,10 @@ const methods = function(){
 		 */
 		onShowingHome: function () {
 			const self = this
-			
+			$vm = getApp()
+			_GData = $vm.globalData
+			// 星座信息
+			Storage.starXz = _GData.selectConstellation
 			$vm.api.choice({ notShowLoading : true, constellationId: _GData.selectConstellation.id}).then(res=>{
 				console.log('choice运势数据',res)
 				if(res !=''){
@@ -458,6 +466,7 @@ const methods = function(){
 				key: 'selectConstellation',
 				data: null,
 			})
+			Storage.starXz = undefined
 			_GData.selectConstellation = null
 			this.setData({
 				selectBack: true,

@@ -250,6 +250,10 @@ const buyStar = function(data) {
 const setStar = (data) => {
 	return requstPost('pay/topup', data)
 }
+// 获取最佳匹配星座
+const getPair = (data) => {
+	return requstPost('selectConstellation/best', data)
+}
 
 const luckyday = (data) => { //运势详情今日运势
     return requstPost('moreConstellation/luckyday', data)
@@ -327,5 +331,6 @@ module.exports = {
     luckymonth,
     choice,
     notice,
-    wordlist
+	wordlist,
+	getPair
 }
