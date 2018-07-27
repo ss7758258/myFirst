@@ -82,41 +82,6 @@
 					"query": ""
 				},
 				{
-					"id": 13,
-					"name": "首页",
-					"pathName": "pages/home/home",
-					"query": "q=http%3A%2F%2Fxingzuoapi-prod.yetingfm.com%2Fcode%2Fleyaoyao%3Fuid%3D1231231",
-					"scene": "1001"
-				},
-				{
-					"id": 10,
-					"name": "未拆的签",
-					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "from=share&lotId=565230",
-					"scene": "1011"
-				},
-				{
-					"id": 11,
-					"name": "组件页面",
-					"pathName": "pages/lot/openSign/openSign",
-					"query": "",
-					"scene": "1011"
-				},
-				{
-					"id": -1,
-					"name": "其他人签详情",
-					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "from=share&lotId=565266",
-					"scene": "1011"
-				},
-				{
-					"id": -1,
-					"name": "其他人签详情(未拆签)",
-					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "from=share&lotId=565279",
-					"scene": "1011"
-				},
-				{
 					"id": -1,
 					"name": "运势详情",
 					"pathName": "pages/components/pages/luckDetails/luckDetails",
@@ -136,10 +101,17 @@
 					"query": ""
 				},
 				{
+					"id": 15,
+					"name": "配对结果",
+					"pathName": "pages/components/pages/result/result",
+					"query": "maleConstellationId=1&femaleConstellationId=12",
+					"scene": "1011"
+				},
+				{
 					"id": -1,
-					"name": "配对",
-					"pathName": "pages/components/pages/pair/pair",
-					"query": "",
+					"name": "幸福大门",
+					"pathName": "pages/components/pages/happyDoor/happyDoor",
+					"query": "maleConstellationId=1&femaleConstellationId=12",
 					"scene": "1011"
 				}
 			]

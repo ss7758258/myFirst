@@ -20,7 +20,7 @@
 </view>
 
 <!-- 昨天今天明天 -->
-<swiper current="{{current}}"  class='swiper' bindchange="day">
+<swiper  current="{{current}}"  class='swiper' bindchange="day">
 <block wx:for="{{list}}" wx:key="index">
 <swiper-item>
     <!-- 保存图片 -->
@@ -57,7 +57,7 @@
     </block>
 
     <!-- 明天 -->
-    <block wx:else="{{item.prevPic}}">
+    <view class='tomorrwo_box' wx:else="{{item.prevPic}}">
     <view class='tomorrow'>
         <view class='timer'>
             <text class='day'>{{tomorrow.day}}</text>
@@ -79,7 +79,7 @@
             <button form-type='submit' class='banner'>查看更多好玩</button>
         </form>
     </view>
-    </block>
+    </view>
 </swiper-item>
 </block>
 </swiper>
