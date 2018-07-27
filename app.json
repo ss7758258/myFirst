@@ -17,7 +17,9 @@
             "root": "pages/components",
             "pages": [
                 "pages/luckDetails/luckDetails",
-                "pages/attention/attention"
+                "pages/attention/attention",
+                "pages/happyDoor/happyDoor",
+                "pages/result/result"
             ]
         }
     ],
@@ -33,6 +35,7 @@
         "color" : "#464646",
         "selectedColor" : "#9262FB",
         "backgroundColor" : "#FFFFFF",
+        "borderStyle":"white",
         "list": [
             {
                 "pagePath": "pages/home/home",

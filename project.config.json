@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 16,
 			"list": [
 				{
 					"id": 0,
@@ -134,6 +134,20 @@
 					"name": "一言",
 					"pathName": "pages/onebrief/brief",
 					"query": ""
+				},
+				{
+					"id": 15,
+					"name": "配对结果",
+					"pathName": "pages/components/pages/result/result",
+					"query": "maleConstellationId=1&femaleConstellationId=12",
+					"scene": "1011"
+				},
+				{
+					"id": -1,
+					"name": "幸福大门",
+					"pathName": "pages/components/pages/happyDoor/happyDoor",
+					"query": "maleConstellationId=1&femaleConstellationId=12",
+					"scene": "1011"
 				}
 			]
 		}
