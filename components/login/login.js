@@ -63,6 +63,19 @@ const methods = (function (){
             Storage.loginSuccessRemoveId = bus.on('login-success',(res) => {
                 console.log('-----------------------------登录成功---------------------------------')
                 Storage.isLogin = true
+                
+                if(!Storage.userInfo){
+                    Storage.userInfo = {}
+                }
+                switch (Storage.userInfo.gender) {
+                    case 1:
+                        Storage.AccountSex =  'man'
+                        break;
+                    default:
+                        Storage.AccountSex =  'woman'
+                        break;
+                }
+               
                 clickLogin = false
                 // console.log('-----------------------------解除登录锁--------------------------------')
                 // Storage.loginLock = false

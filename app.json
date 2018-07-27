@@ -17,7 +17,8 @@
             "root": "pages/components",
             "pages": [
                 "pages/luckDetails/luckDetails",
-                "pages/attention/attention"
+                "pages/attention/attention",
+                "pages/pair/pair"
             ]
         }
     ],
