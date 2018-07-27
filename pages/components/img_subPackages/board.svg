@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="373px" height="245px" viewBox="0 0 373 245" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51 (57462) - http://www.bohemiancoding.com/sketch -->
+    <title>配对结果/木牌</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="15" y="70" width="345" height="150" rx="8"></rect>
+        <filter x="-0.3%" y="-0.7%" width="100.6%" height="101.3%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="2" dy="2" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1" result="shadowMatrixInner1"></feColorMatrix>
+            <feOffset dx="-2" dy="-2" in="SourceAlpha" result="shadowOffsetInner2"></feOffset>
+            <feComposite in="shadowOffsetInner2" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner2"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.941176471   0 0 0 0 0.77254902   0 0 0 0 0.415686275  0 0 0 1 0" type="matrix" in="shadowInnerInner2" result="shadowMatrixInner2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixInner1"></feMergeNode>
+                <feMergeNode in="shadowMatrixInner2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-3" x="25" y="81" width="325" height="130" rx="4"></rect>
+        <filter x="-0.2%" y="-0.4%" width="100.3%" height="100.8%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="1" dy="1" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.866709184   0 0 0 0 0.683697075   0 0 0 0 0.296392381  0 0 0 1 0" type="matrix" in="shadowInnerInner1" result="shadowMatrixInner1"></feColorMatrix>
+            <feOffset dx="-1" dy="-1" in="SourceAlpha" result="shadowOffsetInner2"></feOffset>
+            <feComposite in="shadowOffsetInner2" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner2"></feComposite>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 0.886817982   0 0 0 0 0.647293245  0 0 0 1 0" type="matrix" in="shadowInnerInner2" result="shadowMatrixInner2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixInner1"></feMergeNode>
+                <feMergeNode in="shadowMatrixInner2"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect id="path-5" x="70" y="17" width="235" height="44" rx="8"></rect>
+        <filter x="-0.4%" y="-2.3%" width="100.9%" height="104.5%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="2" dy="2" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 0.937254902   0 0 0 0 0.756862745  0 0 0 1 0" type="matrix" in="shadowInnerInner1" result="shadowMatrixInner1"></feColorMatrix>
+            <feOffset dx="-2" dy="-2" in="SourceAlpha" result="shadowOffsetInner2"></feOffset>
+            <feComposite in="shadowOffsetInner2" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner2"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.941176471   0 0 0 0 0.77254902   0 0 0 0 0.415686275  0 0 0 1 0" type="matrix" in="shadowInnerInner2" result="shadowMatrixInner2"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixInner1"></feMergeNode>
+                <feMergeNode in="shadowMatrixInner2"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="星座配对" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="配对结果" transform="translate(0.000000, -359.000000)">
+            <rect fill="#FFFFFF" x="0" y="0" width="375" height="935"></rect>
+            <g id="配对结果/木牌" transform="translate(0.000000, 359.000000)" fill-rule="nonzero">
+                <g id="木板">
+                    <use fill="#FFE084" xlink:href="#path-1"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                </g>
+                <g id="木板">
+                    <use fill="#FFD65F" xlink:href="#path-3"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                </g>
+                <g id="支柱" transform="translate(120.000000, 61.000000)">
+                    <rect id="Rectangle-4" fill="#FFEFC1" x="0" y="0" width="8" height="10"></rect>
+                    <rect id="Rectangle-4-Copy" fill="#F0C56A" x="4" y="0" width="4" height="10"></rect>
+                </g>
+                <g id="支柱" transform="translate(247.000000, 61.000000)">
+                    <rect id="Rectangle-4-Copy-2" fill="#FFEFC1" x="0" y="0" width="8" height="10"></rect>
+                    <rect id="Rectangle-4-Copy-3" fill="#F0C56A" x="4" y="0" width="4" height="10"></rect>
+                </g>
+                <g id="上木牌">
+                    <use fill="#FFD65F" xlink:href="#path-5"></use>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                </g>
+                <path d="M316,6 L316,71" id="Path-4" stroke="#FDCD41" stroke-width="2" opacity="0.5" stroke-linecap="round" stroke-dasharray="3,3"></path>
+                <path d="M60.25,6 L60.25,71" id="Path-4-Copy" stroke="#FDCD41" stroke-width="2" opacity="0.5" stroke-linecap="round" stroke-dasharray="3,3"></path>
+                <path d="M0,1 L375,1" id="Path-5" stroke="#FDCD41" stroke-width="2" opacity="0.5" stroke-linecap="round" stroke-dasharray="4,4"></path>
+                <ellipse id="Oval-5" fill="#F0C56A" opacity="0.200000003" cx="187.5" cy="242.5" rx="172.5" ry="2.5"></ellipse>
+            </g>
+        </g>
+    </g>
+</svg>

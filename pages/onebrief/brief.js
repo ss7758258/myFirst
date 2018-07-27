@@ -5,6 +5,7 @@ const getImageInfo = $vm.utils.wxPromisify(wx.getImageInfo)
 var mta = require('../../utils/mta_analysis.js')
 const Storage = require('../../utils/storage')
 const dev=require('../../config.js')
+let timer=false
 Page({
 
 	/**
@@ -33,7 +34,7 @@ Page({
             month:false,
             day:false,
             hour:false,
-            minute:false,
+            minute:false,  
             sec:false,
             timer:true,
         }
@@ -43,10 +44,13 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
+        
 		getSystemInfo(this)
 		wx.showLoading({
 			title: '加载中...',
 		})
+        this.getwordlist() //获取一言数据
+        
 		mta.Page.init()
 		wx.hideShareMenu({
 			success: function (res) { },
@@ -95,7 +99,8 @@ Page({
 		
 	},
 
-    onShow(){
+    onShow:function(){
+        this.gettomorrow() //获取日期时间，及倒计时时间
         let isFirst = wx.getStorageInfoSync('isFirst'); //判断是否是第一次进来
         console.log('onshow',isFirst)
         if (!isFirst) {
@@ -104,9 +109,12 @@ Page({
             })
         }
 
-        this.getwordlist()
-        this.gettomorrow()
-        this.countdown()
+         console.log(111)
+        this.countdown()    //倒计时
+    },
+
+    onHide:function(){
+        clearInterval(timer)
     },
 	/**
 	 * 用户点击右上角分享
@@ -337,7 +345,9 @@ Page({
         let hour = tomorrow_timer.getHours() 
         let minute = tomorrow_timer.getMinutes()
         let sec = tomorrow_timer.getSeconds()
+
         console.log(`日期：${b},年：${year},月：${month},日：${day},倒计时：${hour}:${minute}:${sec}`)
+
         this.setData({
             'tomorrow.year':year,
             'tomorrow.month':month,
@@ -346,6 +356,7 @@ Page({
             'tomorrow.minute':minute,
             'tomorrow.sec':sec
         })  
+
     },
 
     // 明日倒计时
@@ -354,24 +365,25 @@ Page({
         let hour=this.data.tomorrow.hour
         let minute=this.data.tomorrow.minute
         let sec=this.data.tomorrow.sec
-        let timer=setInterval(function(){
-            // clearInterval(timer)
-            self.setData({
-                'tomorrow.sec': sec--
-            })
+        timer=setInterval(function(){
+            sec--
             console.log(sec)
-            if(sec < -1){
+            if(sec >= 0){
+                self.setData({
+                    'tomorrow.sec': sec
+                })
+            }else if(sec < 0 && minute > 0 ){
                 self.setData({
                     'tomorrow.minute': minute-1,
                     'tomorrow.sec': 59
                 })
-                sec=58,minute-=1
-            }else if(minute < 0){
+                sec=59,minute-=1
+            }else if(sec < 0 && minute ==  0){
                 self.setData({
                     'tomorrow.hour':hour-1,
                     'tomorrow.minute': 59,
                 })
-                minute=58,hour-=1
+                sec=59,minute=59,hour-=1
             }else if(hour == 0 && minute == 0  && sec == 0){
                 clearInterval(timer)
                 self.setData({

@@ -1,0 +1,37 @@
+<nav opts='{{navConf}}'></nav>
+<scroll-view scroll-y>
+<view>
+    <image src='/pages/components/img_subPackages/top_bac.svg' class='top_bac'></image>
+    <view class='sign'>
+        <image src='https://xingzuo-1256217146.file.myqcloud.com/man-{{manid}}.svg' class='sign_img'></image>
+        <image src='/pages/components/img_subPackages/love.svg' class='love'></image>
+        <image src='https://xingzuo-1256217146.file.myqcloud.com/woman-{{womanid}}.svg' class='sign_img'></image>
+    </view>
+    <view class='board'>
+        <image src='../../img_subPackages/board.svg' class='board_img'></image>
+        <view class='board_head'>最新非常搭配的一对洒</view>
+        <view class='board_content clearfix'>
+            <view class='board_txt'>配对评分：{{paidList.pairScore? paidList.pairScore:70}}</view>
+            <view class='board_txt'>两情相悦指数：{{paidList.lqxyScore?paidList.lqxyScore:4}}</view>
+            <view class='board_txt'>配对比重：{{paidList.pairProportion?paidList.pairProportion:'46:54'}}</view>
+            <view class='board_txt'>天长地久指数：{{paidList.tcdjScore?paidList.tcdjScore:3}}</view>
+        </view>
+    </view>
+    <view class='love_advice'>
+        <view class='la_header'>恋爱建议</view>
+        <view class='la_content'>
+            {{paidList.loveSuggestion?paidList.loveSuggestion:'抛出原则性问题,不管对错,不要长时间的去生自己女朋友的气、和她发生冷战,长时间的冷战对双方都不好,很多时候、女孩子都是一时的嘴快、一时的情绪化,作为一名男生,应该主动点去和好。'}}
+        </view>
+    </view>
+    <view class='love_advice'>
+        <view class='la_header important'>注意事项</view>
+        <view class='la_content'>
+            {{paidList.notice?paidList.notice:'抛出原则性问题,不管对错,不要长时间的去生自己女朋友的气、和她发生冷战,长时间的冷战对双方都不好,很多时候、女孩子都是一时的嘴快、一时的情绪化,作为一名男生,应该主动点去和好。'}}
+        </view>
+    </view>
+    <form report-submit bindsubmit='formid'>
+        <button form-type='submit' class='find'>寻找这样的TA</button>
+    </form>
+</view>
+<view class='footer'></view>
+</scroll-view>
