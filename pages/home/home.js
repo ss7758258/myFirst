@@ -1,7 +1,7 @@
 // pages/home/home.js
 let $vm = getApp()
 const mta = require('../../utils/mta_analysis.js')
-const star = require('./star')
+const star = require('../../utils/star')
 const Storage = require('../../utils/storage')
 const methods = require('./methods')
 const desc = require('./desc')

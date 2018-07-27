@@ -1,9 +1,18 @@
+
+<!-- 导入模板 -->
+<!-- 选择星座 -->
+<import src="/template/switch-pair/pair.wxml" />
+<!-- End导入模板 -->
+
 <!-- 导航 -->
 <nav opts='{{navConf}}'></nav>
 <!-- 登录态 -->
 <loginApp></loginApp>
 
 <form report-submit="true" bindsubmit="_reportFormId">
+	<!-- 选择星座 -->
+    <template is="pair-xz" data="{{showPair,star,select}}"></template>
+    
     <view class="container">
         <image class="pair-top-bg" src="../../img_subPackages/top-bg.png" ></image>
         <view class="pair-panel-top">
@@ -18,10 +27,10 @@
                     <image src="../../img_subPackages/x.svg" ></image>
                 </view>
                 <view class="pair-card-me">
-                    <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_switchStar">
+                    <button form-type="submit" hover-class="none" open-type="getUserInfo" catchtap="_openSwitch">
                         <image src="{{cdn}}/{{sex === 'man' ? 'woman' : 'man'}}-{{pair.constellationId}}.svg" ></image>
                         <image class="pair-switch" src="../../img_subPackages/switch.svg" ></image>
-                        <text wx:if="{{pair.constellationId === select.constellationId}}">你的最配星座</text>
+                        <text wx:if="{{defaultId === select.constellationId}}">你的最配星座</text>
                     </button>
                 </view>
             </view>

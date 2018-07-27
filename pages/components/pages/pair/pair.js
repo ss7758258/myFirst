@@ -3,7 +3,7 @@ const bus = require('../../../../event')
 const mta = require('../../../../utils/mta_analysis')
 const Storage = require('../../../../utils/storage')
 const API = require('../../../../utils/api')
-console.log(Storage.starXz)
+const star = require('../../../../utils/star')
 const env = 'local'
 
 const conf = {
@@ -25,13 +25,19 @@ const conf = {
 			extra: '',
 			txt: '打卡',
 			version: 'release'
-		},
+        },
+        // 星座信息
+        star : star,
+        // 选择星座
+        showPair : false,
         starXZ : {
             id : 1
         },
+        // 最佳匹配星座
+        defaultId : 12,
         // 用户性别
         sex : 'woman',
-        // 最佳匹配
+        // 选中的最佳匹配
         pair : {
             constellationId : 12
         },
@@ -81,6 +87,7 @@ const conf = {
                 console.log('最佳匹配星座：',res)
                 if(res){
                     self.setData({
+                        defaultId : res,
                         'pair.constellationId' : res,
                         'select.constellationId' : res
                     })
@@ -98,6 +105,7 @@ const conf = {
                     wx.hideLoading()
                 },500)
             }).catch(err => {
+                wx.hideLoading()
                 wx.showToast({
                     icon: 'none',
                     title : '获取最配星座失败',
@@ -106,6 +114,35 @@ const conf = {
                 })
             })
         }
+    },
+    // 确定星座
+    _confirm(){
+        this.setData({
+            'pair.constellationId' : this.data.select.constellationId,
+            showPair : false // 关闭选择星座
+        })
+    },
+    // 打开星座选择
+    _openSwitch(){
+        this.setData({
+            showPair : true
+        })
+    },
+    // 关闭选择星座
+    closeSwitch(){
+        this.setData({
+            'select.constellationId' : this.data.pair.constellationId,
+            showPair : false
+        })
+    },
+    // 切换星座
+    _switchStar (e){
+        const self = this
+        const {item :selectConstellation} = e.currentTarget.dataset
+        console.log(selectConstellation)
+        self.setData({
+            'select.constellationId' : selectConstellation.id 
+        })
     },
     // 前往寻找
     _seekPair(){
