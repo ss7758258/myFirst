@@ -1,5 +1,5 @@
 
-<form bindsubmit="reportFormId">
+<form bindsubmit="reportFormId" report-submit='true' >
     <view class="app_login_mask" wx:if="{{showLogin}}">
         <view class="app_login_panel {{iPhoneX ? 'iPhoneX' : ''}}" wx:if="{{showLogin}}">
             <view class="app_login_title">

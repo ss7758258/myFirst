@@ -7,6 +7,7 @@ const time = 3000
 const tm = 500
 let timer = null
 let clickLogin = false
+let temp = []
 
 const methods = (function (){
     return {
@@ -80,8 +81,10 @@ const methods = (function (){
                 // console.log('-----------------------------解除登录锁--------------------------------')
                 // Storage.loginLock = false
                 wx.hideLoading()
-                self.setData({
-                    showLogin : false
+                temp.forEach((v) => {
+                    v.setData({
+                        showLogin : false
+                    })
                 })
                 
 		        console.log('-----------------------------------------------当前页：',getCurrentPages())
@@ -247,6 +250,8 @@ Component({
 		canIUse: wx.canIUse('button.open-type.getUserInfo')
     },
     ready(){
+        console.log(this)
+        temp.push(this)
         console.log('------------------------------------组件实例化了：')
         methods.onEventHandle(this)
     },
