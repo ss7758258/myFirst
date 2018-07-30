@@ -162,3 +162,6 @@ page{
 .healthy{
     color: #85B3FF;
 }
+.daynotice{
+    color: #6041CD;
+}

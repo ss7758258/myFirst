@@ -18,23 +18,23 @@
         <view class='index_left' >
             <view class='synthesize'>
                 <text class='star_right'>综合指数:</text>
-                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.summaryStar}}" wx:key="index" class='star'></image>
-                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.summaryStar}}" wx:key="index" class='star'></image>
+                <image src='../../img_subPackages/star.svg' wx:for="{{list.summaryStar}}" wx:key="index" class='star'></image>
+                <image src='../../img_subPackages/emptystar.svg' wx:for="{{5-list.summaryStar}}" wx:key="index" class='star'></image>
             </view>
             <view class='synthesize'>
                 <text class='star_right'>爱情指数:</text>
-                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.loveStar}}" wx:key="index" class='star'></image>
-                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.loveStar}}" wx:key="index" class='star'></image>
+                <image src='../../img_subPackages/star.svg' wx:for="{{list.loveStar}}" wx:key="index" class='star'></image>
+                <image src='../../img_subPackages/emptystar.svg' wx:for="{{5-list.loveStar}}" wx:key="index" class='star'></image>
             </view>
             <view class='synthesize'>
                 <text class='star_right'>财富指数:</text>
-                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.moneyStar}}" wx:key="index" class='star'></image>
-                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.moneyStar}}" wx:key="index" class='star'></image>
+                <image src='../../img_subPackages/star.svg' wx:for="{{list.moneyStar}}" wx:key="index" class='star'></image>
+                <image src='../../img_subPackages/emptystar.svg' wx:for="{{5-list.moneyStar}}" wx:key="index" class='star'></image>
             </view>
             <view class='synthesize'>
                 <text class='star_right'>工作指数:</text>
-                <image src='/assets/img_subPackages/star.svg' wx:for="{{list.workStar}}" wx:key="index" class='star'></image>
-                <image src='/assets/img_subPackages/emptystar.svg' wx:for="{{5-list.workStar}}" wx:key="index" class='star'></image>
+                <image src='../../img_subPackages/star.svg' wx:for="{{list.workStar}}" wx:key="index" class='star'></image>
+                <image src='../../img_subPackages/emptystar.svg' wx:for="{{5-list.workStar}}" wx:key="index" class='star'></image>
                 <!-- <view class='view_star'>
                     <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
                     <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
@@ -83,10 +83,19 @@
         </view>
     </view>
 
+    <!-- 今日提醒 -->
+    <view class='luckProfile' wx:if="{{list.dayNotice}}">
+        <view class='luckProfile_head'>
+            <image src='/assets/img/warn.svg' class='luckProfile_img'></image>
+            <text class='luckProfile_text daynotice'>今日提醒</text>
+        </view>
+        <view class='luckProfile_content'>{{list.dayNotice}}</view>
+    </view>
+
     <!-- 运势简评 -->
     <view class='luckProfile' wx:if="{{list.generalTxt}}">
         <view class='luckProfile_head'>
-            <image src='/assets/img_subPackages/luckProfile.svg' class='luckProfile_img'></image>
+            <image src='../../img_subPackages/luckProfile.svg' class='luckProfile_img'></image>
             <text class='luckProfile_text'>运势简评</text>
         </view>
         <view class='luckProfile_content'>{{list.generalTxt}}</view>
@@ -95,7 +104,7 @@
     <!-- 爱情运势 -->
     <view class='luckProfile' wx:if="{{list.loveTxt}}">
         <view class='luckProfile_head'>
-            <image src='/assets/img_subPackages/love.svg' class='luckProfile_img'></image>
+            <image src='../../img_subPackages/love_lucky.svg' class='luckProfile_img'></image>
             <text class='luckProfile_text love'>爱情运势</text>
         </view>
         <view class='luckProfile_content'>{{list.loveTxt}}</view>
@@ -104,7 +113,7 @@
     <!-- 工作运势 -->
     <view class='luckProfile' wx:if="{{list.workTxt}}">
         <view class='luckProfile_head'>
-            <image src='/assets/img_subPackages/work.svg' class='luckProfile_img'></image>
+            <image src='../../img_subPackages/work.svg' class='luckProfile_img'></image>
             <text class='luckProfile_text work'>工作运势</text>
         </view>
         <view class='luckProfile_content'>{{list.workTxt}}</view>
@@ -113,7 +122,7 @@
     <!-- 财富运势 -->
     <view class='luckProfile' wx:if="{{list.moneyTxt}}">
         <view class='luckProfile_head'>
-            <image src='/assets/img_subPackages/wealth.svg' class='luckProfile_img'></image>
+            <image src='../../img_subPackages/wealth.svg' class='luckProfile_img'></image>
             <text class='luckProfile_text wealth'>财富运势</text>
         </view>
         <view class='luckProfile_content'>{{list.moneyTxt}}</view>
@@ -122,7 +131,7 @@
     <!-- 健康运势 -->
     <view class='luckProfile' wx:if="{{list.health_txt}}">
         <view class='luckProfile_head'>
-            <image src='/assets/img_subPackages/healthy.svg' class='luckProfile_img'></image>
+            <image src='../../img_subPackages/healthy.svg' class='luckProfile_img'></image>
             <text class='luckProfile_text healthy'>健康运势</text>
         </view>
         <view class='luckProfile_content'>{{list.health_txt}}</view>

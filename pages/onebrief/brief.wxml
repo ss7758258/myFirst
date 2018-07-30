@@ -57,7 +57,7 @@
     </block>
 
     <!-- 明天 -->
-    <view class='tomorrwo_box' wx:else="{{item.prevPic}}">
+    <view class="tomorrwo_box {{isIPhoneX ? 'iPhoneX' : ''}}" wx:else="{{item.prevPic}}">
     <view class='tomorrow'>
         <view class='timer'>
             <text class='day'>{{tomorrow.day}}</text>

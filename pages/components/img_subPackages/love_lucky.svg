@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49 (51002) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/爱情运势</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="-2.48949813e-15%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FF9ABE" offset="0%"></stop>
+            <stop stop-color="#E82F6B" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="icon/爱情运势" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon-copy">
+            <rect id="Rectangle" fill="url(#linearGradient-1)" x="0" y="0" width="50" height="50" rx="10.9090909"></rect>
+            <g id="Group-2" transform="translate(7.000000, 10.000000)" fill="#FFFFFF">
+                <path d="M16.2667242,8.27476402 C8.10187266,1.98181772 2.83393551,1.14021919 0.462912784,5.74996845 C-3.0936213,12.6645923 14.9089899,34.5656262 18.1199547,33.4660214 C21.3309195,32.3664167 41.8910513,12.6642951 35.694936,3.60230293 C31.5641924,-2.43902519 25.0881218,-0.88153816 16.2667242,8.27476402 Z" id="Path-2"></path>
+            </g>
+        </g>
+    </g>
+</svg>

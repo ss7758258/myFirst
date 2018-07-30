@@ -4,7 +4,9 @@ const _GData = $vm.globalData
 const getImageInfo = $vm.utils.wxPromisify(wx.getImageInfo)
 var mta = require('../../utils/mta_analysis.js')
 const Storage = require('../../utils/storage')
+const bus = require('../../event')
 const dev=require('../../config.js')
+
 let timer=false
 Page({
 
@@ -20,7 +22,7 @@ Page({
 			title: '一言',
 			state: 'root',
 			isRoot: false,
-			isIcon: true,
+			isIcon: false,
 			iconPath: '',
 			root: '',
 			isTitle: true
@@ -44,19 +46,41 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
-        
-		getSystemInfo(this)
-		wx.showLoading({
-			title: '加载中...',
-		})
-        this.getwordlist() //获取一言数据
+        let self=this
+        let handle = () => {
+            console.log('登录标识')
+            // self.shakeLotBox()
+            Storage.briefLogin = true
+            self.setData({
+                userInfo: Storage.userInfo,
+                picUserName: Storage.userInfo.nickName
+            })
+            console.log(self.data.userInfo)
+            getSystemInfo(this)
+            this.getwordlist() //获取一言数据
+
+        }
+
+        if (Storage.briefRemoveId) {
+            bus.remove(Storage.briefRemoveId)
+        }
+        if (Storage.briefLoginRemoveId) {
+            bus.remove(Storage.briefLoginRemoveId)
+        }
+        Storage.briefRemoveId = bus.on('login-success', handle, 'login-com')
+        Storage.briefLoginRemoveId = bus.on('login-success', handle, 'brief-app')
+
+        // 如果已经存在用户信息触发登录标识
+        if (Storage.userInfo) {
+            // 已经触发过登录不在触发
+            if (Storage.briefLogin) {
+                return
+            }
+            bus.emit('login-success', {}, 'brief-app')
+        }
         
 		mta.Page.init()
-		wx.hideShareMenu({
-			success: function (res) { },
-			fail: function (res) { },
-			complete: function (res) { },
-		})
+		wx.hideShareMenu({})
 		var fromwhere = options.from
 		// console.log(options)
 		if (fromwhere == 'share') {
@@ -101,16 +125,14 @@ Page({
 
     onShow:function(){
         this.gettomorrow() //获取日期时间，及倒计时时间
-        let isFirst = wx.getStorageInfoSync('isFirst'); //判断是否是第一次进来
-        console.log('onshow',isFirst)
-        if (!isFirst) {
+        let isFirst=wx.getStorageInfoSync().keys
+        if (isFirst.indexOf('isFirst') == -1) {
             this.setData({
                 isFirst: true
             })
         }
 
-         console.log(111)
-        this.countdown()    //倒计时
+        // this.countdown()    //倒计时
     },
 
     onHide:function(){
@@ -236,7 +258,7 @@ Page({
 		const _self = this
 		if (e.detail.height && e.detail.width) {
 			_self.setData({
-				picUserName: _GData.userInfo.nickName,
+				// picUserName: _GData.userInfo.nickName,
 				// 开启图片展示
 				isShow: true,
 			})
@@ -283,114 +305,120 @@ Page({
 	},
     // 上报formid
     formid(e){
-        let isFirst = wx.getStorageInfoSync('key')
-        console.log(isFirst)
-        if (!isFirst){
-            wx.setStorageSync('isFirst',false)
+        let isFirst = wx.getStorageInfoSync().keys
+        if (isFirst.indexOf('isFirst') == -1) {
+            wx.setStorageSync('isFirst', '1')
             this.setData({
                 isFirst: false
             })
         }
         
-        $vm.api.getX610({ formid: e.detail.formId})
+        $vm.api.getX610({ formid: e.detail.formId, notShowLoading: true})
     },
     
     // 获取一言列表数据
     getwordlist(){
         let self=this
-        $vm.api.wordlist({ constellationId: _GData.selectConstellation.id, startpage:1}).then(res=>{
-            
-            let url = 'https://xingzuo-1256217146.file.myqcloud.com' + (dev === 'dev' ? '' : '/prod')
-            res.wordlist.forEach(function(value){
-                value.prevPic = url + value.prevPic
-            })
-            
-            res.wordlist.push({  //添加明日展示
-                prevPic:false
-            })
-            
-            console.log('获取一言数据:', res)
-            this.setData({
-                list:res.wordlist,
-                current:res.wordlist.length-2
-            })
-            
+        $vm.api.wordlist({ constellationId: _GData.selectConstellation.id, startpage: 1, notShowLoading: true}).then(res=>{
+            if(res){
+                let url = 'https://xingzuo-1256217146.file.myqcloud.com' + (dev === 'dev' ? '' : '/prod')
+                res.wordlist.forEach(function (value) {
+                    value.prevPic = url + value.prevPic
+                })
 
+                res.wordlist.push({  //添加明日展示
+                    prevPic: false
+                })
+
+                console.log('获取一言数据:', res)
+                this.setData({
+                    list: res.wordlist,
+                    current: res.wordlist.length - 2
+                })
+                wx.hideLoading()
+                
+                console.log('getwordlist打印数据',this.data.list)
+            }else{
+                console.log('未加载数据：',res)
+                wx.showToast({
+                    title: '抱歉,您的网络有点问题请稍后再试',
+                    icon: 'none',
+                })
+            }
+            
         }).catch(res=>{
             console.log('获取一言错误信息',res)
             wx.showToast({
-                title: '抱歉,您的网络有点问题请稍后重启',
-                icon: '',
-                image: '',
-                duration: 0,
-                mask: true,
-                success: function(res) {},
-                fail: function(res) {},
-                complete: function(res) {},
+                title: '抱歉,您的网络有点问题请稍后再试',
+                icon: 'none',
             })
         })
     },
 
     // 获取明日数据
     gettomorrow(){
-        let monthE = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November','December']
+        console.log('gettomorrow打印数据',this.data.list)
+
+        let monthE = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         let b = new Date(new Date().getTime() + 60 * 60 * 24 * 1000)
         let year = b.getFullYear()
         let month = monthE[b.getMonth()]
-        let day = b.getDate()>9?b.getDate():'0'+b.getDate()
+        let day = b.getDate() > 9 ? b.getDate() : '0' + b.getDate()
 
         let c = new Date(new Date().toLocaleDateString()).getTime() + 60 * 60 * 24 * 1000 //下一天0点时刻时间戳
-        let tomorrow=c-new Date().getTime()
-        let tomorrow_timer = new Date(tomorrow-8*60*60*1000)
-        let hour = tomorrow_timer.getHours() 
+        let tomorrow = c - new Date().getTime()
+        let tomorrow_timer = new Date(tomorrow - 8 * 60 * 60 * 1000)
+        let hour = tomorrow_timer.getHours()
         let minute = tomorrow_timer.getMinutes()
         let sec = tomorrow_timer.getSeconds()
 
         console.log(`日期：${b},年：${year},月：${month},日：${day},倒计时：${hour}:${minute}:${sec}`)
 
         this.setData({
-            'tomorrow.year':year,
-            'tomorrow.month':month,
-            'tomorrow.day':day,
-            'tomorrow.hour':hour,
-            'tomorrow.minute':minute,
-            'tomorrow.sec':sec
+            'tomorrow.year': year,
+            'tomorrow.month': month,
+            'tomorrow.day': day,
+            'tomorrow.hour': hour,
+            'tomorrow.minute': minute,
+            'tomorrow.sec': sec
         })  
+        this.countdown(hour, minute, sec)    //倒计时
 
     },
 
     // 明日倒计时
-    countdown(){
+    countdown(hour,minute,sec){
         let self=this
-        let hour=this.data.tomorrow.hour
-        let minute=this.data.tomorrow.minute
-        let sec=this.data.tomorrow.sec
-        timer=setInterval(function(){
-            sec--
-            console.log(sec)
-            if(sec >= 0){
-                self.setData({
-                    'tomorrow.sec': sec
-                })
-            }else if(sec < 0 && minute > 0 ){
-                self.setData({
-                    'tomorrow.minute': minute-1,
-                    'tomorrow.sec': 59
-                })
-                sec=59,minute-=1
-            }else if(sec < 0 && minute ==  0){
-                self.setData({
-                    'tomorrow.hour':hour-1,
-                    'tomorrow.minute': 59,
-                })
-                sec=59,minute=59,hour-=1
-            }else if(hour == 0 && minute == 0  && sec == 0){
-                clearInterval(timer)
-                self.setData({
-                    'tomorrow.timer':false
-                })
-            }
-        },1000)
+        console.log(`倒计时：${hour}:${minute}:${sec}`)
+        if(hour && minute && sec){
+            timer = setInterval(function () {
+                sec--
+                console.log(sec)
+                if (sec >= 0) {
+                    self.setData({
+                        'tomorrow.sec': sec
+                    })
+                } else if (sec < 0 && minute > 0) {
+                    self.setData({
+                        'tomorrow.minute': minute - 1,
+                        'tomorrow.sec': 59
+                    })
+                    sec = 59, minute -= 1
+                } else if (sec < 0 && minute == 0 && hour > 0) {
+                    self.setData({
+                        'tomorrow.hour': hour - 1,
+                        'tomorrow.minute': 59,
+                    })
+                    sec = 59, minute = 59, hour -= 1
+                } else if (hour == 0 && minute == 0 && sec == 0) {
+                    clearInterval(timer)
+                    self.setData({
+                        'tomorrow.timer': false
+                    })
+                }
+            }, 1000)
+        }
+        
     },
 
     // 更多好玩

@@ -1,4 +1,3 @@
-
 const mta = require('../../../utils/mta_analysis.js')
 let $vm = getApp()
 let _GData = $vm.globalData;
