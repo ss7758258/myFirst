@@ -127,6 +127,10 @@
 		<view class="panel">
 			<button class="star-pair" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="goPair">
 				<image class="star-pair-img" src="/assets/img/pair.png" ></image>
+				<view class="star-text-panel">
+					<text>星座配对</text>
+					<text>想知道你和谁最配吗？</text>
+				</view>
 			</button>
 		</view>
 
@@ -134,6 +138,17 @@
 		<view class="panel">
 			<button class="star-banner" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="goBanner">
 				<image class="star-banner-img" src="/assets/img/banner.png" ></image>
+				
+				<view class="star-text-panel">
+					<text>小哥推荐</text>
+					<text>免费领取小星星</text>
+					<view class="star-unclaimed" wx:if="{{more_startext !== '0颗待领'}}">
+						<view>
+							<image src="/assets/img/star-panel.png"></image>
+							<text>{{more_startext}}</text>
+						</view>
+					</view>
+				</view>
 			</button>
 		</view>
 	<!-- </view> -->

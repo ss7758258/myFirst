@@ -13,7 +13,7 @@ page button {
 	background: inherit;
 	line-height : normal;
 	border-radius: inherit;
-	font-size: inherit;
+	font-size: 0;
 }
 botton::after{
 	content: '';
@@ -211,6 +211,62 @@ botton::after{
 	margin: 30rpx auto 0;
 	background-image: linear-gradient(-270deg, #FF93BA 0%, #FFDFE9 100%);
 	border-radius: 10rpx;
+}
+.star-text-panel{
+	position: absolute;
+	width: 710rpx;
+	height: 280rpx;
+	top: 30rpx;
+	left: 0;
+	right: 0;
+	margin: auto;
+	text-align: left;
+}
+.star-text-panel>text:nth-child(1){
+	display: block;
+	font-size:72rpx;
+	margin-top: 64rpx;
+	text-indent: 40rpx;
+	font-weight: 500;
+	font-family:PingFangSC-Medium;
+	color:rgba(255,255,255,1);
+	line-height:100rpx;
+}
+.star-text-panel>text:nth-child(2){
+	display: block;
+	font-size:36rpx;
+	text-indent: 40rpx;
+	font-family:PingFangSC-Regular;
+	color:rgba(255,255,255,1);
+	line-height:50rpx;
+}
+.star-unclaimed{
+	position: absolute;
+	top: 0;
+	left: 40rpx;
+	width: 128rpx;
+	height: 60rpx;
+	font-size:28rpx;
+	font-family:PingFangSC-Regular;
+	color:rgba(255,255,255,1);
+	line-height:40rpx;
+	text-align: center;
+}
+.star-unclaimed image,.star-unclaimed>view{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.star-unclaimed text{
+	position: absolute;
+	width: 100%;
+	height: 40rpx;
+	line-height: 35rpx;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 /* End配对 */
 .panel:last-child{

@@ -10,7 +10,7 @@ page button {
 	background: inherit;
 	line-height : normal;
 	border-radius: inherit;
-	font-size: inherit;
+	font-size: 0;
 }
 .container image{
     width: 100%;

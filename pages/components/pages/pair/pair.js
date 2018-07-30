@@ -93,7 +93,7 @@ const conf = {
                     })
                     
                     Storage.pairList = [{
-                        id : self.data.starXZ.constellationId,
+                        id : self.data.starXZ.id,
                         sex : self.data.sex
                     },
                     {
@@ -109,7 +109,7 @@ const conf = {
                 wx.showToast({
                     icon: 'none',
                     title : '获取最配星座失败',
-                    duration : 1000,
+                    duration : 2000,
                     mask : true
                 })
             })

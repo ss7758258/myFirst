@@ -79,6 +79,7 @@
     display: inline-block;
     width: 24rpx;
     height: 24rpx;
+    margin-top: 12rpx;
 }
 
 .desc-bottom{
