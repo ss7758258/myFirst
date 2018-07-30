@@ -74,7 +74,7 @@ Page({
 	// 前往更多运势
 	goLuck : methods.goLuck,
 	// 显示
-	onShow : methods.onLoad,
+	onShow : methods.onShow,
 	// 选择星座
 	choiceStar : methods.choiceStar,
 	// 获取星座数据信息

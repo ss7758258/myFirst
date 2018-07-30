@@ -75,17 +75,6 @@ const config = {
 		Storage.lotLogin = false
 		// 获取星星
 		starNum = Storage.starPrice
-        // Storage.openIos = 1
-		// ios上关闭打开
-		// if(Storage.sys === 'ios'){
-        //     this.setData({
-        //         iosOpen : Storage.openIos === 1
-        //     })
-        // }else{
-        //     this.setData({
-        //         openAndriod : Storage.openAndriod === 1
-        //     })
-		// }
 		
 		// 缓存对象
 		let self = this
@@ -110,11 +99,6 @@ const config = {
 			// 获取签的数据
 			getTokenQian(Storage.lotOpts.from, Storage.self, Storage.lotOpts.lotId, _GData)
 		}
-
-		// 是否是首次注册
-		// if(!Storage.firstLot){
-		// 	Storage.firstLot = true
-		// }
 
 		if(Storage.lotdetailRemoveId){
 			bus.remove(Storage.lotdetailRemoveId)
@@ -141,33 +125,10 @@ const config = {
 		}
 	},
 	/**
-	 * 检查登录
-	 */
-	onShow(){
-		
-	},
-	/**
-	 * app隐藏时判断
-	 */
-	onHide(){
-		if(!Storage.isLogin){
-			// wx.redirectTo({
-			// 	url : '/pages/home/home'
-			// })
-		}
-	},
-	/**
 	 * 卸载
 	 */
 	onUnload(){
 		clearTimeout(timer)
-	},
-	/**
-	 * 获取用户的信息
-	 * @param {*} e
-	 */
-	getInfo(e){
-		console.log(`用户信息：`,e.detail)
 	},
 	/**
 	 * 用户点击右上角分享
@@ -370,7 +331,7 @@ const config = {
 									if (res.confirm) {
 										// 跳转到小星星页面
 										wx.navigateTo({
-											url: '/pages/myAccount/myAccount'
+											url: '/pages/banner/banner'
 										})
 									}
 								}
@@ -427,9 +388,6 @@ const config = {
 		}
 		// 加载中上锁
 		this.data.lock = true
-
-		// 确定动画类型
-		let animatype = this.data.disNum - this.data.lotDetail.troops.length
 		let self = this
 		// 创建选择器
 		let query = wx.createSelectorQuery()
@@ -507,12 +465,6 @@ const config = {
 				})
 				return
 			})
-
-			// let query = wx.createSelectorQuery()
-			// query.exec(function (v) {
-			// 	console.log('输出坐标：', v)
-				
-			// })
 
 		})
 

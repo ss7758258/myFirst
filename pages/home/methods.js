@@ -397,6 +397,7 @@ const methods = function(){
          * 显示方案
          */
         onShow(opts){
+			console.log('------------------------------onShow()')
             // 触发加载用户配置函数
             bus.emit('loadUserConf',{},'home')
             getStarNum(this)
