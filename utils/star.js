@@ -6,6 +6,7 @@ module.exports = {
         startTime: '3月21日',
         endTime: '4月19日',
         bgcolor:'#FFF1D8',
+        bgc:'rgba(255,192,64,0.1)',
         color: '#F08000',
         img: '/assets/img/1.svg'
     },
@@ -16,6 +17,7 @@ module.exports = {
         startTime: '4月20日',
         endTime: '5月20日',
         bgcolor:'#FFF2CA',
+        bgc:'rgba(255,207,48,0.1)',
         color: '#FFC400',
         img: '/assets/img/2.svg'
     },
@@ -26,6 +28,7 @@ module.exports = {
         startTime: '5月21日',
         endTime: '6月21日',
         bgcolor:'#FFE8F3',
+        bgc:'rgba(239,110,110,0.1)',
         color: '#FF678E',
         img: '/assets/img/3.svg'
     },
@@ -36,6 +39,7 @@ module.exports = {
         startTime: '6月22日',
         endTime: '7月22日',
         bgcolor:'#FFEBEB',
+        bgc:'rgba(232,81,81,0.1)',
         color: '#FF6D6D',
         img: '/assets/img/4.svg'
     },
@@ -46,6 +50,7 @@ module.exports = {
         startTime: '7月23日',
         endTime: '8月22日',
         bgcolor:'#FFEDDD',
+        bgc:'rgba(255,177,41,0.1)',
         color: '#FFA200',
         img: '/assets/img/5.svg'
     },
@@ -56,6 +61,7 @@ module.exports = {
         startTime: '8月23日',
         endTime: '9月22日',
         bgcolor:'#FFE9E9',
+        bgc:'rgba(255,209,207,0.1)',
         color: '#FF9A95',
         img: '/assets/img/6.svg'
     },
@@ -66,6 +72,7 @@ module.exports = {
         startTime: '9月23日',
         endTime: '10月23日',
         bgcolor:'#E5F5FF',
+        bgc:'rgba(0,160,255,0.1)',
         color: '#5DB5FF',
         img: '/assets/img/7.svg'
     },
@@ -76,6 +83,7 @@ module.exports = {
         startTime: '10月24日',
         endTime: '11月22日',
         bgcolor:'#FFEDE2',
+        bgc:'rgba(215,145,100,0.2)',
         color: '#9E420F',
         img: '/assets/img/8.svg'
     },
@@ -86,6 +94,7 @@ module.exports = {
         startTime: '11月23日',
         endTime: '12月21日',
         bgcolor:'#FFE8E8',
+        bgc:'rgba(235,98,98,0.1)',
         color: '#FF7070',
         img: '/assets/img/9.svg'
     },
@@ -96,6 +105,7 @@ module.exports = {
         startTime: '12月22日',
         endTime: '1月19日',
         bgcolor:'#FFECE7',
+        bgc:'rgba(255,195,173,0.1)',
         color: '#FF7F52',
         img: '/assets/img/10.svg'
     },
@@ -106,6 +116,7 @@ module.exports = {
         startTime: '1月20日',
         endTime: '2月18日',
         bgcolor:'#EDEAFF',
+        bgc:'rgba(141,118,255,0.1)',
         color: '#836AFF',
         img: '/assets/img/11.svg'
     },
@@ -116,6 +127,7 @@ module.exports = {
         startTime: '2月19日',
         endTime: '3月20日',
         bgcolor:'#E6F0FF',
+        bgc:'rgba(106,167,255,0.1)',
         color: '#62A2FF',
         img: '/assets/img/12.svg'
     }

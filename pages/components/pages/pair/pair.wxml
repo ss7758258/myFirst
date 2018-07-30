@@ -20,7 +20,13 @@
             <!-- 星座卡片 -->
             <view class="pair-card-panel mt20">
                 <view class="pair-card-me">
-                    <image src="{{cdn}}/{{sex}}-{{starXZ.id}}.svg" ></image>
+                    <view class="card-panel">
+                        <view class="card-dom" style="color:{{star[starXZ.id].color}};background:{{star[starXZ.id].bgc}};">
+                            <view class="card-name">{{star[starXZ.id].name}}</view>
+                            <view class="card-icon iconfont icon-{{sex === 'man' ? 'nan' : 'nv'}}"></view>
+                        </view>
+                        <image class="card-xz" src="{{star[starXZ.id].img}}" ></image>
+                    </view>
                     <text>{{userInfo.nickName}}</text>
                 </view>
                 <view class="pair-card-x">
@@ -28,8 +34,14 @@
                 </view>
                 <view class="pair-card-me">
                     <button form-type="submit" hover-class="none" open-type="getUserInfo" catchtap="_openSwitch">
-                        <image src="{{cdn}}/{{sex === 'man' ? 'woman' : 'man'}}-{{pair.constellationId}}.svg" ></image>
-                        <image class="pair-switch" src="../../img_subPackages/switch.svg" ></image>
+                        <view class="card-panel">
+                            <view class="card-dom" style="color:{{star[pair.constellationId].color}};background:{{star[pair.constellationId].bgc}};">
+                                <view class="card-name">{{star[pair.constellationId].name}}</view>
+                                <view class="card-icon iconfont icon-{{sex === 'man' ? 'nv' : 'nan'}}"></view>
+                            </view>
+                            <image class="card-xz" src="{{star[pair.constellationId].img}}" ></image>
+                            <image class="pair-switch" src="../../img_subPackages/switch.svg" ></image>
+                        </view>
                         <text wx:if="{{defaultId === select.constellationId}}">你的最配星座</text>
                     </button>
                 </view>

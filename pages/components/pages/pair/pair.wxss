@@ -54,14 +54,60 @@ page button {
 .pair-panel-top .pair-card-panel{
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    /* align-items: center; */
     text-align: center;
     z-index: 99;
 }
 .pair-card-me{
     position: relative;
-    width: 304rpx;
-    height: 424rpx;
+    /* width: 304rpx;
+    height: 424rpx; */
+}
+/* 卡片布局 */
+.card-panel{
+    width: 280rpx;
+    height:400rpx;
+    position: relative;
+    background: #fff;
+    border-radius:8rpx;
+}
+.card-dom{
+    width: 260rpx;
+    height: 380rpx;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border-radius:8rpx;
+    border:2rpx solid currentColor;
+}
+.card-name{
+    position: absolute;
+    top: 10rpx;
+    left: 10rpx;
+    width:28rpx;
+    height:84rpx;
+    font-size:24rpx;
+    font-family:PingFangSC-Medium;
+    line-height:28rpx;
+}
+.card-icon{
+    position: absolute;
+    bottom: 10rpx;
+    right: 10rpx;
+    height:34rpx;
+}
+.card-xz{
+    position: absolute;
+    width: 210rpx;
+    height: 262rpx;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 .pair-card-me text{
     display: inline-block;
@@ -77,24 +123,25 @@ page button {
     font-family:'PingFangSC-Medium';
     color:rgba(146,98,251,1);
     line-height:49rpx;
-    margin-top: 10rpx;
+    margin-top: 40rpx;
 }
 .pair-card-me .pair-switch{
     display: block;
-    width: 52rpx;
-    height: 52rpx;
+    width: 60rpx;
+    height: 60rpx;
     left: 0;
     right: 0;
     bottom: 0rpx;
-    transform: translateY(10rpx);
+    transform: translateY(50%);
     margin: auto;
     position: absolute;
 }
 .pair-panel-top .pair-card-x{
     display: block;
-    margin: 0;
+    margin: auto 0;
     width: 60rpx;
     height: 60rpx;
+    transform: translateY(-40rpx);
 }
 
 /* 中间 */
