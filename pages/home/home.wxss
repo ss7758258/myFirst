@@ -29,6 +29,11 @@ botton::after{
 	height: calc(100% - 64px);
 	background: #fff;
 }
+/* iPhoneX的适配 */
+.iPX .monitor-panel{
+	min-height: calc(100% - 89px);
+	height: calc(100% - 89px);
+}
 .star-panel{
 	position: relative;
 	width: 710rpx;
@@ -233,20 +238,20 @@ botton::after{
 	margin: auto;
 	text-align: left;
 }
-.star-text-panel>text:nth-child(1){
+.star-text-panel>text{
 	display: block;
+	text-indent: 40rpx;
+}
+.star-text-panel>text:nth-child(1){
 	font-size:72rpx;
 	margin-top: 64rpx;
-	text-indent: 40rpx;
 	font-weight: 500;
 	font-family:PingFangSC-Medium;
 	color:rgba(255,255,255,1);
 	line-height:100rpx;
 }
 .star-text-panel>text:nth-child(2){
-	display: block;
 	font-size:36rpx;
-	text-indent: 40rpx;
 	font-family:PingFangSC-Regular;
 	color:rgba(255,255,255,1);
 	line-height:50rpx;

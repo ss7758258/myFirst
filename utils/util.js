@@ -237,10 +237,6 @@ function parseLot(res) {
 	return myLot
 }
 
-
-
-
-
 module.exports = {
 	constellation,
 	Promise,

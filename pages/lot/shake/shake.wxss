@@ -31,13 +31,11 @@ page{
 .tree{
     position: absolute;
     left: -50rpx;
-    /* right: 0; */
     margin: auto;
-    /* width: 836rpx; */
     width: 850rpx;
     max-width: 850rpx;
     height: 1000rpx;
-    bottom: 160rpx;
+    bottom: 80rpx;
 }
 .people{
     position: absolute;
@@ -45,14 +43,14 @@ page{
     right: 190rpx;
     width: 78rpx;
     height: 205rpx;
-    bottom: 210rpx;
+    bottom: 130rpx;
 }
 
 .lot{
     position: absolute;
     width: 48rpx;
     height: 160rpx;
-    top: 156rpx;
+    top: 229rpx;
     left: 166rpx;
     transform-origin:center top;
     transform: rotate(-15deg);
@@ -118,13 +116,13 @@ page{
 .lot_2{
     width: 46rpx;
     height: 169rpx;
-    top: 288rpx;
+    top: 362rpx;
     left: 280rpx;
 }
 .lot_3{
     width: 60rpx;
     height: 206rpx;
-    top: 217rpx;
+    top: 290rpx;
     left: 466rpx;
 }
 .shake_panel{
@@ -135,7 +133,7 @@ page{
     right: 0;
     transform: translateX(-16rpx);
     margin: auto;
-    bottom: 222rpx;
+    bottom: 142rpx;
     border-radius: 50%;
     background: #fff;
     padding: 15rpx;
@@ -148,14 +146,14 @@ page{
 .shake_one{
     width: 121rpx;
     height: 121rpx;
-    bottom: 208rpx;
+    bottom: 128rpx;
     background: rgba(255, 255, 255, .6);
     animation: opacity_shake 4s infinite ease-in-out;
 }
 .shake_two {
     width: 107rpx;
     height: 107rpx;
-    bottom: 215rpx;
+    bottom: 135rpx;
     background: rgba(255, 255, 255, .4);
 }
 .shake_img{
@@ -321,18 +319,18 @@ page{
     bottom: 0;
 }
 .grass_2{
-    height: 318rpx;
+    height: 238rpx;
     bottom: 0;
 }
 .grass_3{
     width: 632rpx;
     height: 64rpx;
-    bottom: 146rpx;
+    bottom: 66rpx;
 }
 .grass_4{
     width: 458rpx;
     height: 60rpx;
-    bottom: 180rpx;
+    bottom: 100rpx;
     transform: translateX(20rpx);
 }
 
@@ -341,14 +339,14 @@ page{
     position: absolute;
     width: 126rpx;
     height: 135rpx;
-    bottom:120rpx;
+    bottom:80rpx;
     left: 54rpx;
 }
 .ad_hand{
     position: absolute;
     width: 59rpx;
     height: 59rpx;
-    bottom:138rpx;
+    bottom:98rpx;
     left: 106rpx;
     opacity: 0;
 }
@@ -393,21 +391,21 @@ page{
     width: 51rpx;
     height: 35rpx;
     left: 161rpx;
-    bottom:1075rpx;
+    bottom:995rpx;
     animation: cloud_up 18s infinite linear;
 }
 .cloud_left {
     width: 67rpx;
     height: 46rpx;
     left: 60rpx;
-    bottom: 450rpx;
+    bottom: 370rpx;
     animation: cloud_left 12s infinite linear;
 }
 .cloud_right {
     width: 100rpx;
     height: 66rpx;
     right: -5rpx;
-    bottom: 400rpx;
+    bottom: 320rpx;
     animation: cloud_right 15s infinite linear;
 }
 @keyframes cloud_right {

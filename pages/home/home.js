@@ -59,15 +59,12 @@ Page({
 		clockStatus : false,  //小打卡开关
 		isBanner : false, // 广告位开关
 		isIPhoneX : false,
+		PX : false, // iPhone X的适配
 		isLogin : false, // 是否登录完成
 		noticeBtnStatus : false, // 通知开关
 		showFollow : false, // 关注服务号开关
 		// 待领星星文案
 		more_startext : '0颗待领'
-	},
-
-	goMore (e){
-		console.log('触犯了更多事件')
 	},
 	
 	// 初始化
@@ -93,6 +90,7 @@ Page({
 			imageUrl: '/assets/images/share_home.jpg'
 		}
 	},
+	// 前往星座配对
 	goPair(){
 		wx.navigateTo({
 			url:'/pages/components/pages/pair/pair'
@@ -110,29 +108,7 @@ Page({
 			showStarDesc : false
 		})
 	},
-	/**
-	 * 前往一言
-	 * @param {*} Data
-	 * @returns
-	 */
-	goPage (Data) {
-		console.log('===============')
-		var shouldGo = false
-		if (Data.pageFrom == 'share') {
-			if (Data.toPage == 'brief') {
-				wx.switchTab({
-					url: '/pages/onebrief/brief?from=share'
-				})
-			}
-			shouldGo = true
-		}
-		return shouldGo
-	},
-	
-	/**
-	 * 运势
-	 * @param {*} e
-	 */
+	// 前往运势详情页
 	toDay(e) {
 		mta.Event.stat("ico_home_to_today", {})
 		wx.navigateTo({
@@ -140,27 +116,18 @@ Page({
             url:'/pages/components/pages/luckDetails/luckDetails'
 		})
 	},
-	show_card (e){
-		console.log('展示卡片数据：',e)
-	},
+	// 代开客服
 	openContact(){
 		this.hideFollow()
 		// console.log('打开了客服',arguments)
 		mta.Event.stat("spread_123437", {})
 	},
-	catchHide(){
-
-	},
-	/**
-	 * 重置用户登录锁
-	 */
+	//  重置用户登录锁
 	_resetToken(){
 		// 重置登录锁
 		Storage.loginLock = false
 	},
-	/**
-	 * 关闭弹窗
-	 */
+	// 关闭弹窗
 	hideFollow(){
 		console.log('触发关闭')
 		this.setData({
@@ -179,22 +146,4 @@ Page({
 	}
 })
 
-
-/**
- * 获取一言图片信息
- */
-function getDay(){
-	$vm.api.getDayx400({ notShowLoading: true })
-	.then((res) => {
-		console.log(res)
-		if (res) {
-			let env = 'dev';
-			Storage.prevPic = res.prevPic ? "https://xingzuo-1256217146.file.myqcloud.com" + (env === 'dev' ? '' : '/prod') + res.prevPic :
-			"";
-		}
-		
-	}).catch((err) => {
-		Storage.prevPic = null
-	})
-}
 

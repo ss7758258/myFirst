@@ -225,6 +225,9 @@ const me = {
     init(){
         $vm = getApp()
 		_GData = $vm.globalData
+		this.setData({
+			PX : Storage.iPhoneX
+		})
 		// 提前选择星座但不加载数据
 		me._getStar.call(this)
         me._eventHandle.call(this)
@@ -234,8 +237,6 @@ const me = {
 		let selectConstellation = _GData.selectConstellation
         if (selectConstellation && !selectConstellation.isFirst) {
 			self.setData({
-				// myConstellation: selectConstellation,
-				// selectBack: false,
 				showChoice: false,
 				'xz.constellationId': selectConstellation.id,
 				'navConf.isIcon' : true

@@ -10,8 +10,8 @@
 <nav opts='{{navConf}}'></nav>
 <!-- 登录态 -->
 <loginApp></loginApp>
-
-<!-- <view class="loader_mask" wx:if="{{!isLogin}}">
+<!-- 
+<view class="loader_mask" wx:if="{{!isLogin}}">
 	<view class="loader_panel" wx:if="{{!isLogin}}">
 		<view id="caseBlanche">
 			<view id="rond">
@@ -50,7 +50,7 @@
 </view>
 <!-- End关注服务号-弹窗 -->
 
-<form bindsubmit="setFormId" report-submit='true'>
+<form bindsubmit="setFormId" report-submit='true' class="{{PX ? 'iPX' : ''}}">
 	<!-- 选择星座 -->
 	<template is="choice" data="{{showChoice,star}}"></template>
 	<!-- 星座描述信息 -->
