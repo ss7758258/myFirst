@@ -3,6 +3,7 @@ let $vm = getApp()
 let _GData = $vm.globalData;
 const { parseLot } = $vm.utils
 let getUserInfo = $vm.utils.wxPromisify(wx.getUserInfo)
+const q = require('../../../utils/source')
 const bus = require('../../../event')
 const Storage = require('../../../utils/storage')
 const methods = require('./util')
@@ -61,6 +62,8 @@ const conf = {
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        // 数据来源分析
+        q.sourceHandle(options)
         let self = this
         gloThis = this
         // 重置登录状态

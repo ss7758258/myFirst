@@ -3,6 +3,7 @@ const mta = require('../../utils/mta_analysis.js')
 let Storage = require('../../utils/storage')
 const bus = require('../../components/banner/event')
 const conf = require('../../conf')[require('../../config')] || {}
+const q = require('../../utils/source')
 console.log('配置信息：',conf)
 
 let openIdTimer = null
@@ -42,6 +43,14 @@ const Conf = {
      * @param {*} options
      */
     onLoad(options) {
+        // 数据来源分析
+        q.sourceHandle(options)
+        console.log('-------------------------',options.shareform)
+        if(options.shareform){
+            this.setData({
+                'navConf.root' : '/pages/home/home'
+            })
+        }
         // openId处理
         openIdHandle(this)
         // 心跳
@@ -58,7 +67,8 @@ const Conf = {
         mta.Event.stat('banner_share',{})
         return {
             title : '真好玩，根本停不下来!',
-            path : '/pages/banner/banner?source=share&id=999999&tid=123456&m=0'
+            path : '/pages/banner/banner?source=share&id=999999&tid=123456&shareform=banner&m=0',
+            imageUrl : '/assets/images/share-banner.png'
         }
     }
 }

@@ -190,10 +190,26 @@ botton::after{
 .star-more{
 	width: 650rpx;
 	margin: 0 auto;
-	padding: 28rpx 0;
+	height: 40rpx;
+	padding: 34rpx 0;
 	display: flex;
 	justify-content: space-between;
 	color: #6041CD;
+}
+
+.star-more>view:first-child{
+	position: relative;
+	width: 132rpx;
+	height: 138rpx;
+}
+/* 关注页面样式 */
+.gz{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 132rpx;
+	height: 138rpx;
+	transform: translateY(-50rpx);
 }
 .star-more-text{
 	display: flex;

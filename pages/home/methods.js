@@ -5,6 +5,7 @@ const Storage = require('../../utils/storage')
 const c = require('../../config')
 const confing = require('../../conf')
 const conf = confing[c] || {}
+const q = require('../../utils/source')
 let $vm = null
 let _GData = null
 // 验证Id是否位6位纯数字
@@ -391,6 +392,8 @@ const methods = function(){
          */
         onLoad(options){
 		    console.log('onLoad-------------------------------参数：',options)
+			// 数据来源分析
+			q.sourceHandle(options)
             me.init.call(this)
         },
         /**

@@ -6,6 +6,7 @@ const { canvasTextAutoLine, parseLot } = $vm.utils
 const mta = require('../../../utils/mta_analysis.js');
 const bus = require('../../../event')
 const Storage = require('../../../utils/storage')
+const q = require('../../../utils/source')
 // 星星数量
 let starNum = Storage.starPrice
 let timer = null
@@ -64,6 +65,8 @@ const config = {
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad(options) {
+		// 数据来源分析
+		q.sourceHandle(options)
 
 		if (options.lotId) {
 			wx.showLoading({

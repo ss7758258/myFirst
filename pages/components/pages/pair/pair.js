@@ -4,6 +4,7 @@ const mta = require('../../../../utils/mta_analysis')
 const Storage = require('../../../../utils/storage')
 const API = require('../../../../utils/api')
 const star = require('../../../../utils/star')
+const q = require('../../../../utils/source')
 const env = 'local'
 
 const conf = {
@@ -52,7 +53,8 @@ const conf = {
         userInfo : Storage.userInfo || { nickName : ''}
     },
     onLoad(options){
-        console.log(this.data.starXZ)
+        // 数据来源分析
+        q.sourceHandle(options)
         mta.Page.init()
         this.methods.init.call(this)
     },
@@ -61,7 +63,8 @@ const conf = {
         mta.Event.stat('pair_share',{})
         return {
             title : '想知道和你最配的人是谁吗',
-            path : '/pages/home/home?source=share&id=999998&tid=123455&stareform=pair&m=0'
+            path : '/pages/home/home?source=share&id=999998&tid=123455&shareform=pair&m=0',
+            imageUrl : '/assets/images/share-pair.png'
         }
     },
     methods: {
@@ -87,6 +90,11 @@ const conf = {
             // 确认男女性别
             this.data.sex === 'man' ? params.maleConstellationId = this.data.starXZ.id : params.femaleConstellationId = this.data.starXZ.id
             
+            Storage.pairList = [{
+                id : self.data.starXZ.id,
+                sex : self.data.sex
+            }]
+            
             API.getPair(params).then(res => {
                 console.log('最佳匹配星座：',res)
                 if(res){
@@ -95,15 +103,10 @@ const conf = {
                         'pair.constellationId' : res,
                         'select.constellationId' : res
                     })
-                    
-                    Storage.pairList = [{
-                        id : self.data.starXZ.id,
-                        sex : self.data.sex
-                    },
-                    {
+                    Storage.pairList.push({
                         id : self.data.select.constellationId,
                         sex : self.data.sex === 'man' ? 'woman' : 'man'
-                    }]
+                    })
                 }
                 setTimeout(() => {
                     wx.hideLoading()
@@ -125,6 +128,10 @@ const conf = {
             'pair.constellationId' : this.data.select.constellationId,
             showPair : false // 关闭选择星座
         })
+        Storage.pairList[1] = {
+            id : this.data.select.constellationId,
+            sex : this.data.sex === 'man' ? 'woman' : 'man'
+        }
     },
     // 打开星座选择
     _openSwitch(){
