@@ -82,6 +82,7 @@
 								<text>{{star[xz.constellationId].name}}</text>
 								<text class="star-btn-time" >{{star[xz.constellationId].startTime}}—{{star[xz.constellationId].endTime}}</text>
 							</view>
+							<image class="star-btn-tip" src="/assets/img/btn-tip.png"></image>
 						</button>
 					</view>
 				</view>

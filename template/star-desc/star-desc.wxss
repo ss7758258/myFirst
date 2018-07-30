@@ -4,7 +4,7 @@
     width: 100%;
     min-height: calc(100% - 64px);
     height: calc(100% - 64px);
-    transition: all .3s ease-in-out;
+    transition: all .0s ease-in-out;
     z-index: 1;
     display: flex;
     flex-wrap: wrap;
@@ -40,7 +40,7 @@
     transform: translateY(66rpx);
     bottom: 0;
     left: 0;
-    right: -250%;
+    right: -200%;
     margin: auto;
 }
 /* 头部 */

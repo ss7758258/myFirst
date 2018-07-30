@@ -99,7 +99,7 @@ page button {
     right: 10rpx;
     height:34rpx;
 }
-.card-xz{
+.container .card-xz{
     position: absolute;
     width: 210rpx;
     height: 262rpx;
