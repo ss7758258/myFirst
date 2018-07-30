@@ -6,21 +6,24 @@
 <view class='shade' wx:if="{{isFirst}}">
     <view class='first'>
         <view class='first_left'>
-            <image src='../../assets/img/left.png' class='fl_img'></image>
-            <text>左滑向往明天</text>
+            <image src='../../assets/img/top.png' class='fl_img'></image>
+            <text>上滑向往明天</text>
         </view>
+
+        <form report-submit bindsubmit='formid'>
+            <button class='first_btn' form-type='submit'>我知道了</button>
+        </form>
+        
         <view class='first_left'>
-            <image src='../../assets/img/right.png' class='fl_img'></image>
-            <text>右滑回忆过去</text>
+            <image src='../../assets/img/down.png' class='fl_img'></image>
+            <text>下滑回忆过去</text>
         </view>
     </view>
-    <form report-submit bindsubmit='formid'>
-        <button class='first_btn' form-type='submit'>我知道了</button>
-    </form>
+    
 </view>
 
 <!-- 昨天今天明天 -->
-<swiper  current="{{current}}"  class='swiper' bindchange="day">
+<swiper vertical current="{{current}}"  class='swiper' bindchange="day">
 <block wx:for="{{list}}" wx:key="index">
 <swiper-item>
     <!-- 保存图片 -->

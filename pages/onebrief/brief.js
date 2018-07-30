@@ -60,7 +60,7 @@ Page({
             this.getwordlist() //获取一言数据
 
         }
-        // 移除事件
+
         if (Storage.briefRemoveId) {
             bus.remove(Storage.briefRemoveId)
         }
@@ -80,12 +80,12 @@ Page({
         }
         
 		mta.Page.init()
-		wx.hideShareMenu({})
+		// wx.hideShareMenu({})
 		var fromwhere = options.from
 		// console.log(options)
 		if (fromwhere == 'share') {
 			this.setData({
-			  	// isFromShare: true,
+			  	isFromShare: true,
 				"navConf.root": '/pages/home/home'
 			})
 		}
@@ -125,8 +125,8 @@ Page({
 
     onShow:function(){
         this.gettomorrow() //获取日期时间，及倒计时时间
-        let isFirst=wx.getStorageInfoSync().keys 
-        if (isFirst.indexOf('isFirst') == -1) { //判断是否是第一次进入一言界面
+        let isFirst=wx.getStorageInfoSync().keys
+        if (isFirst.indexOf('isFirst') == -1) {
             this.setData({
                 isFirst: true
             })
@@ -423,7 +423,6 @@ Page({
 
     // 更多好玩
     moregame(e){
-        mta.Event.stat("brief_to_banner", {})
         $vm.api.getX610({ formid: e.detail.formId })
         wx.navigateTo({
             url: '/pages/banner/banner'

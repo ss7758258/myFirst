@@ -21,7 +21,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        
+        mta.Page.init()
         if(store.pairList){
             this.setData({
                 manid: store.pairList[0].id,
@@ -67,7 +67,8 @@ Page({
     },
 
     // 上报formid
-    formid(e) {
+    formid(e) { 
+        mta.Event.stat("result_find", {})
         // console.log(e)
         $vm.api.getX610({ formid: e.detail.formId })
         mta.Event.stat("find_btn", {})
