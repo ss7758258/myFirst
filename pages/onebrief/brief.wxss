@@ -117,13 +117,13 @@
   bottom: -160rpx;
 }
 .iPhoneX .save{
-  background: #fff;
-  color: #9262FB;
+  background: #9262FB;
+  color: #fff;
 }
 
 
 /* 新手操作 */
-.shade{
+.shade,.isloading{
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, .8);
@@ -131,6 +131,12 @@
     left: 0;
     top: 0;
     z-index: 999;
+}
+.isloading{
+    color: #fff;
+    font-size: 36rpx;
+    text-align: center;
+    vertical-align: middle;
 }
 .first{
     margin-top: 360rpx;
@@ -173,12 +179,17 @@
 .tomorrwo_box{
     height:85vh;
     margin: 20rpx 20rpx 0;
-    border:2rpx solid #eee;
-    box-shadow:0rpx 0rpx 20rpx #ccc;
+    
 }
 .tomorrow{
     width: 100%;
     height: 100%;
+    border:2rpx solid #eee;
+    box-shadow:0rpx 0rpx 20rpx #ccc;
+    position: relative;
+}
+.iPhoneX .tomorrow{
+    height:69.9vh;
 }
 .timer{
     margin: 5rpx 0 0 30rpx;
@@ -194,8 +205,8 @@
 }
 .torommow_img{
     display: block;
-    width: 375rpx;
-    height: 282rpx;
+    width: 430rpx;
+    height: 300rpx;
     margin: 90rpx auto 106rpx;
 }
 .torommow_txt,.torommow_timer{
@@ -217,7 +228,14 @@
     background: #9262FB;
     border-radius: 8rpx;
     color: #fff;
-    margin: 190rpx auto 0;    
+    position: absolute;
+    bottom: 70rpx;
+    left: 0;
+    right: 0;
+    margin:auto;   
+}
+.iPhoneX .banner{
+    bottom: -160rpx;
 }
 
 

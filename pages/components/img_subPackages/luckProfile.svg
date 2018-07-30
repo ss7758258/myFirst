@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49 (51002) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/运势简评</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#C49BFD" offset="0%"></stop>
+            <stop stop-color="#9262FB" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="icon/运势简评" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon">
+            <rect id="Rectangle" fill="url(#linearGradient-1)" x="0" y="0" width="50" height="50" rx="10.9090909"></rect>
+            <polygon id="Star" fill="#FFFFFF" points="25 40.0345161 13.8753882 43 13.1199995 30.9590033 7 20.7507764 17.6577559 16.2745151 25 7 32.3422441 16.2745151 43 20.7507764 36.8800005 30.9590033 36.1246118 43"></polygon>
+            <polygon id="Star-2" fill="#FFFFFF" points="12.5 14.5500001 11.6183221 14.7135255 11.5013906 13.8244679 11.0734152 13.0364745 11.8828254 12.6505321 12.5 12 13.1171746 12.6505321 13.9265848 13.0364745 13.4986094 13.8244679 13.3816779 14.7135255"></polygon>
+            <polygon id="Star-2-Copy" fill="#FFFFFF" transform="translate(41.377641, 10.261271) rotate(16.000000) translate(-41.377641, -10.261271) " points="41.3776413 12.2500001 39.9081782 12.5225425 39.7132923 11.0407798 39 9.72745751 40.349017 9.08422016 41.3776413 8 42.4062656 9.08422016 43.7552826 9.72745751 43.0419903 11.0407798 42.8471044 12.5225425"></polygon>
+            <polygon id="Star-2-Copy-2" fill="#FFFFFF" points="37 14.7874858 36.381966 14.902113 36.3 14.278906 36 13.7265425 36.5673762 13.4560066 37 13 37.4326238 13.4560066 38 13.7265425 37.7 14.278906 37.618034 14.902113"></polygon>
+        </g>
+    </g>
+</svg>

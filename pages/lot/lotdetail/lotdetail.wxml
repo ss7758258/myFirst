@@ -5,6 +5,7 @@
 
 
 <!-- 签详情页 -->
+<scroll-view scroll-y="true">
 <form bindsubmit="getFormId" report-submit="true">
 	<view class="panel_scene {{longScreen ? 'iPhoneX' : ''}} {{model}}">
 		<!-- <button class="global_btn" form-type="submit"> -->
@@ -203,6 +204,7 @@
 		<!-- </button> -->
 	</view>
 </form>
+</scroll-view>
 <!-- End签详情页 -->
 
 
