@@ -56,15 +56,19 @@ const conf = {
         mta.Page.init()
         this.methods.init.call(this)
     },
-    
-    onShareAppMessage(){
-
+    // 分享
+    onShareAppMessage: function() {
+        mta.Event.stat('pair_share',{})
+        return {
+            title : '想知道和你最配的人是谁吗',
+            path : '/pages/home/home?source=share&id=999998&tid=123455&stareform=pair&m=0'
+        }
     },
     methods: {
         init () {
             
             let self = this
-            console.log(Storage.AccountSex)
+            
             self.setData({
                 starXZ : Storage.starXz || {
                     id : 1
@@ -124,12 +128,14 @@ const conf = {
     },
     // 打开星座选择
     _openSwitch(){
+        mta.Event.stat('pair_switch_open',{})
         this.setData({
             showPair : true
         })
     },
     // 关闭选择星座
     closeSwitch(){
+        mta.Event.stat('pair_switch_close',{})
         this.setData({
             'select.constellationId' : this.data.pair.constellationId,
             showPair : false
@@ -137,6 +143,7 @@ const conf = {
     },
     // 切换星座
     _switchStar (e){
+        mta.Event.stat('pair_switch_star',{})
         const self = this
         const {item :selectConstellation} = e.currentTarget.dataset
         console.log(selectConstellation)
@@ -146,6 +153,7 @@ const conf = {
     },
     // 前往寻找
     _seekPair(){
+        mta.Event.stat('pair_go_pair',{})
         wx.navigateTo({
             url : '/pages/components/pages/result/result'
         })

@@ -49,11 +49,17 @@ const Conf = {
         // 事件处理
         eventHandle(this)
     },
-    /**
-     * 卸载
-     */
+    // 卸载
     onUnload(){
         clearTimeout(timer)
+    },
+    // 分享
+    onShareAppMessage: function() {
+        mta.Event.stat('banner_share',{})
+        return {
+            title : '真好玩，根本停不下来!',
+            path : '/pages/banner/banner?source=share&id=999999&tid=123456&m=0'
+        }
     }
 }
 
