@@ -23,7 +23,7 @@ App({
 		})
 		
 		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || { id: 1, name: "白羊座", time: "3.21-4.19", img: "/assets/images/aries.png", isFirst: true }
-		let userC = wx.getStorageSync('userConfig') || {}
+		// let userC = wx.getStorageSync('userConfig') || {}
 		_SData.userInfo = wx.getStorageSync('userInfo')
 		mta.App.init({
 			"appID": "500613478",
@@ -210,6 +210,6 @@ function tick(){
 				bus.emit('no-login-app', {} , 'app')
 			}
 		})
-		// tick()
+		tick()
 	},5000)
 }
