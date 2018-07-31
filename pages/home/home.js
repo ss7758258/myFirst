@@ -17,7 +17,7 @@ Page({
 		showStarDesc : false,
 		// 星座信息数据
 		desc : desc,
-		// 选择星座
+		// 是否显示选择星座
 		showChoice : false,
 		// 星座信息
 		star : star,

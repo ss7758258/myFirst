@@ -17,7 +17,7 @@ page button {
 }
 botton::after{
 	content: '';
-	box-shadow: inherit;
+	box-shadow: initial;
 	border: none;
 }
 .pt65{
@@ -252,6 +252,7 @@ botton::after{
 	right: 0;
 	margin: auto;
 	text-align: left;
+	border-radius:10rpx;
 }
 .star-text-panel>text{
 	display: block;
