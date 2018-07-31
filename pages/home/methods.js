@@ -204,7 +204,7 @@ function getUserConf(me){
 			console.log('----------------输出错误信息----------用户配置错误')
 			return false;
 		}
-		res.noticeStatus = 0
+		// res.noticeStatus = 0
 		// 确认小打卡配置信息
 		me.setData({
 			noticeBtnStatus :  res.noticeStatus === 0,
