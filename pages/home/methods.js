@@ -204,12 +204,13 @@ function getUserConf(me){
 			console.log('----------------输出错误信息----------用户配置错误')
 			return false;
 		}
-		// res.noticeStatus = 0
+		res.noticeStatus = 0
 		// 确认小打卡配置信息
 		me.setData({
 			noticeBtnStatus :  res.noticeStatus === 0,
 			clockStatus : res.clockStatus === 1
 		})
+		
 		Storage.clockStatus = res.clockStatus
 		// 默认小打卡是关闭状态
 		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
@@ -495,12 +496,6 @@ const methods = function(){
 			console.log(e.detail)
             let formid = e.detail.formId
             API.getX610({ notShowLoading: true, formid: formid })
-        },
-        /**
-         * 前往更多运势
-         */
-        goLuck(){
-            
         }
     }
 }
