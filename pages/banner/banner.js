@@ -17,7 +17,7 @@ let starTimer = null
 const Conf = {
     data : {
         navConf : {
-			title : '更多好玩',
+			title : '小哥推荐',
 			state : 'root',
 			isRoot : false,
 			isIcon : true,

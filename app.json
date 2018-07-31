@@ -42,13 +42,13 @@
                 "pagePath": "pages/home/home",
                 "iconPath" : "/assets/menu/home.png",
                 "selectedIconPath" : "/assets/menu/home-selected.png",
-                "text": "首页"
+                "text": "星座"
             },
             {
                 "pagePath": "pages/lot/shake/shake",
                 "iconPath" : "/assets/menu/shake.png",
                 "selectedIconPath" : "/assets/menu/shake-selected.png",
-                "text": "摇摇"
+                "text": "必玩"
             },
             {
                 "pagePath": "pages/onebrief/brief",
