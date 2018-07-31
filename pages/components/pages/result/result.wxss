@@ -26,7 +26,7 @@ scroll-view{
 .board{
     width: 100%;
     height: 500rpx; 
-    margin-top: 70rpx;
+    margin-top: 15rpx;
     position: relative;
 }
 .board_img{
@@ -48,6 +48,9 @@ scroll-view{
     position: absolute;
     top: 40rpx;
     z-index: 10;
+    text-overflow:ellipsis;
+    overflow: hidden;
+    white-space:nowrap;
 }
 .board_content{
     width: 650rpx;
@@ -70,7 +73,7 @@ scroll-view{
     float: left;
 }
 .love_advice{
-    margin-top: 40rpx;
+    margin-top: 20rpx;
     padding: 0 30rpx;
 }
 .la_header{
@@ -109,4 +112,135 @@ scroll-view{
 }
 .footer{
     height: 300rpx;
+}
+
+
+
+/* 星座卡片 */
+.pair-card-panel{
+    display: flex;
+    justify-content: space-around;
+    /* align-items: center; */
+    text-align: center;
+    z-index: 99;
+}
+.pair-card-me{
+    position: relative;
+    /* width: 304rpx;
+    height: 424rpx; */
+}
+/* 卡片布局 */
+.card-panel{
+    width: 280rpx;
+    height:400rpx;
+    position: relative;
+    background: #fff;
+    border-radius:8rpx;
+}
+.card-dom{
+    width: 260rpx;
+    height: 380rpx;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border-radius:8rpx;
+    border:2rpx solid currentColor;
+}
+.card-name{
+    position: absolute;
+    top: 10rpx;
+    left: 10rpx;
+    width:28rpx;
+    height:84rpx;
+    font-size:24rpx;
+    font-family:PingFangSC-Medium;
+    line-height:28rpx;
+}
+.card-icon{
+    position: absolute;
+    bottom: 10rpx;
+    right: 10rpx;
+    height:34rpx;
+}
+.card-xz{
+    position: absolute;
+    width: 210rpx;
+    height: 262rpx;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+.pair-card-me text{
+    display: inline-block;
+    width: 210rpx;
+    padding: 0 15rpx;
+    height: 48rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background:rgba(146,98,251,.2);
+    border-radius:24rpx;
+    font-size:28rpx;
+    font-family:'PingFangSC-Medium';
+    color:rgba(146,98,251,1);
+    line-height:49rpx;
+    margin-top: 40rpx;
+}
+.pair-switch{
+    display: block;
+    width: 60rpx;
+    height: 60rpx;
+    left: 0;
+    right: 0;
+    bottom: 0rpx;
+    transform: translateY(50%);
+    margin: auto;
+    position: absolute;
+}
+.pair-card-x{
+    display: block;
+    margin: auto 0;
+    width: 60rpx;
+    height: 60rpx;
+    transform: translateY(-40rpx);
+}
+
+/* 中间 */
+.pair-panel-center{
+    flex: 1;
+    position: relative;
+}
+.pair-card-btn{
+    position: absolute;
+    width: 340rpx;
+    height: 92rpx;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+
+.pair-panel-bottom{
+    position: relative;
+    width: 100%;
+    height: 180rpx;
+}
+.pair-panel-bottom .pair-xz-q{
+    position: absolute;
+    right: 30rpx;
+    top: 0;
+    width: 108rpx;
+    height: 122rpx;
+    transform: translateY(-50%);
+}
+.pair-panel-bottom navigator{
+    width: 100%;
+    height: 100%;
 }

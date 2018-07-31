@@ -1,6 +1,7 @@
 let $vm = getApp()
 const mta = require('../../../../utils/mta_analysis.js')
 const store = require('../../../../utils/storage.js')
+const star = require('../../../../utils/star')
 Page({
     data: {
         navConf: {
@@ -12,9 +13,10 @@ Page({
             isTitle: true,
         },
         paidList:[],
-        manid:1,
-        womanid:12,
+        man:false,
+        woman:false,
         flag:false, //开关
+        star:star, //星座信息
     },
 
     /**
@@ -23,16 +25,17 @@ Page({
     onLoad: function(options) {
         mta.Page.init()
         if(store.pairList){
+            console.log('aaaaaaaaaaaaaaaaa',store.pairList)
             this.setData({
-                manid: store.pairList[0].id,
-                womanid: store.pairList[1].id
+                man: store.pairList[0],
+                woman: store.pairList[1]
             })
             this.getpair()
         }else{
-
+            console.log(11111111111111111,options)
             this.setData({
-                manid: options.maleConstellationId,
-                womanid: options.femaleConstellationId
+                man: options.maleConstellationId,
+                woman: options.femaleConstellationId
             })
             this.getpair()
         }
@@ -45,7 +48,7 @@ Page({
 
     // 获取星座配对数据
     getpair(){
-        $vm.api.pair({ maleConstellationId: this.data.manid, femaleConstellationId: this.data.womanid}).then(res=>{
+        $vm.api.pair({ maleConstellationId: this.data.man.id, femaleConstellationId: this.data.woman.id}).then(res=>{
             console.log(res)
             if(res){
                 this.setData({
@@ -76,7 +79,9 @@ Page({
         if(clockStatus == 0){
             wx.showToast({
                 title: '即将开启，敬请期待',
-                icon: 'none'
+                icon: 'none',
+                duration: 1750,
+                mask: true
             })
             console.log(0)
         } else if (clockStatus == 1){
@@ -90,7 +95,9 @@ Page({
             }else{
                 wx.showToast({
                     title: '每天19：00-21：00开放',
-                    icon: 'none'
+                    icon: 'none',
+                    duration: 1750,
+                    mask: true
                 })
             }
         }else{
