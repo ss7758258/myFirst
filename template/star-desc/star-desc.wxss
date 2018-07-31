@@ -32,12 +32,12 @@
 .desc-panel{
     position: fixed;
     width: 89.33333333333333vw;
-    height: 71.2143928035982vh;
+    height: 78vh;
     background:rgba(255,255,255,1);
     transition: all .3s ease-in-out;
     border-radius:8rpx;
     top: 0;
-    transform: translateY(66rpx);
+    transform: translateY(90rpx);
     bottom: 0;
     left: 0;
     right: -200%;
@@ -100,6 +100,9 @@
     background:rgba(250,248,255,1);
     border-radius:8rpx;
     text-indent: 20rpx;
+}
+.desc-bottom-attr{
+    height: 200rpx;
 }
 
 .desc-attr-row{

@@ -237,14 +237,12 @@ const me = {
         let self = this
 		let selectConstellation = _GData.selectConstellation
         if (selectConstellation && !selectConstellation.isFirst) {
-			wx.showTabBar({})
 			self.setData({
 				showChoice: false,
 				'xz.constellationId': selectConstellation.id,
 				'navConf.isIcon' : true
 			})
 		}else{
-			wx.hideTabBar({})
             self.setData({
                 showChoice: true,
                 'navConf.isIcon' : true
@@ -428,7 +426,6 @@ const methods = function(){
 				key: 'selectConstellation',
 				data: selectConstellation
 			})
-			wx.showTabBar({animation : true})
 			self.setData({
 				myConstellation: selectConstellation,
 				showChoice: false,
@@ -476,9 +473,6 @@ const methods = function(){
 			})
 			Storage.starXz = undefined
 			_GData.selectConstellation = null
-			wx.hideTabBar({
-				animation : true
-			})
 			this.setData({
 				selectBack: true,
 				showChoice: true,
