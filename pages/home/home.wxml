@@ -115,7 +115,7 @@
 				</view>
 				<view class="star-more">
 					<view>
-						<navigator url="/pages/components/pages/attention/attention" hover-class="none" open-type="navigate">
+						<navigator wx:if="{{noticeBtnStatus}}" url="/pages/components/pages/attention/attention" hover-class="none" open-type="navigate">
 							<image class="gz" src="/assets/images/gz.png" ></image>
 						</navigator>
 					</view>
