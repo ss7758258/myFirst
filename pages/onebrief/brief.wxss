@@ -166,12 +166,12 @@
     /* margin: 120rpx auto; */
     width: 300rpx;
     height: 88rpx;
-    /* line-height: 88rpx;
     background: transparent;
+    line-height: 88rpx;
     color: #fff;
     border: 1px solid #fff; 
     border-radius: 10px;
-    padding: 0; */
+    padding: 0;
 }
 
 /* swiper组件 */
