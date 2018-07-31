@@ -107,18 +107,27 @@
 				<view class="star-tip">
 					<image class="star-warn" src="/assets/img/warn.svg"></image>
 					<view class="star-tip-text">{{dayNotice}}</view>
-					<view class="star-tip-notice" wx:if="{{noticeBtnStatus}}">
+					<!-- <view class="star-tip-notice" wx:if="{{noticeBtnStatus}}">
 						<button class="star-tip-notice" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="openNotice">
 							好运提醒
 						</button>
+					</view> -->
+					<view class="star-tip-notice-nav" wx:if="{{noticeBtnStatus}}"></view>
+					<view class="star-tip-nav">
+						<navigator wx:if="{{noticeBtnStatus}}" url="/pages/components/pages/attention/attention" hover-class="none" open-type="navigate">
+							<image class="star-tip-gz" src="/assets/images/gz.png" ></image>
+						</navigator>
 					</view>
 				</view>
 				<view class="star-more">
-					<view>
-						<navigator url="/pages/components/pages/attention/attention" hover-class="none" open-type="navigate">
+					<button class="star-tip-notice" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="openNotice">
+						好运提醒
+					</button>
+					<!-- <view>
+						<navigator wx:if="{{noticeBtnStatus}}" url="/pages/components/pages/attention/attention" hover-class="none" open-type="navigate">
 							<image class="gz" src="/assets/images/gz.png" ></image>
 						</navigator>
-					</view>
+					</view> -->
 					<view>
 						<button class="star-more-text" catchtap="goLuck" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="toDay" >
 							查看更多运势<view class="star-trigon"></view>

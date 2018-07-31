@@ -42,14 +42,14 @@
                         <label for="">主管行星：</label>
                         <text>{{desc[xz.constellationId].zgxx}}</text>
                     </view>
-                    <view class="desc-attr-row">
+                    <!-- <view class="desc-attr-row">
                         <label for="">幸运颜色：</label>
                         <text>{{desc[xz.constellationId].luckyColor}}</text>
-                    </view>
-                    <view class="desc-attr-row">
+                    </view> -->
+                    <!-- <view class="desc-attr-row">
                         <label for="">幸运号码：</label>
                         <text>{{desc[xz.constellationId].luckyNum}}</text>
-                    </view>
+                    </view> -->
                     <view class="desc-attr-row">
                         <label for="">开运金属：</label>
                         <text>{{desc[xz.constellationId].kyjs}}</text>

@@ -17,7 +17,7 @@ page button {
 }
 botton::after{
 	content: '';
-	box-shadow: inherit;
+	box-shadow: initial;
 	border: none;
 }
 .pt65{
@@ -41,7 +41,7 @@ botton::after{
 	background: #FFFFFF;
 	border-radius: 12rpx;
 	margin: -10rpx auto 0 auto;
-	box-shadow:0px 8rpx 16rpx 0px rgba(0,0,0,0.2);
+	box-shadow:0px 8rpx 16rpx 0px rgba(0,0,0,0.1);
 }
 .star-mask{
 	width: 710rpx;
@@ -147,12 +147,37 @@ botton::after{
 /* 星座提醒 */
 .star-tip{
 	display: flex;
+	position: relative;
 	align-items: center;
 	justify-content: space-between;
 	width: 650rpx;
 	margin: 0 auto;
 	padding: 40rpx 0;
 	border-bottom: 1rpx #6041CD dashed;
+}
+
+.star-tip-nav{
+	position: absolute;
+	width: 132rpx;
+	height: 138rpx;
+	right: 0;
+	animation: rotateNav 1s 0s linear infinite;
+}
+@keyframes rotateNav{
+	0%,100%{
+		transform: rotate(5deg);
+	}
+	50%{
+		transform: rotate(-5deg);
+	}
+}
+.star-tip-nav>navigator{
+	width: 100%;
+	height: 100%;
+}
+.star-tip-gz{
+	width: 100%;
+	height: 100%;
 }
 .star-warn{
 	width: 44rpx;
@@ -184,14 +209,17 @@ botton::after{
 	box-shadow: 0 2px 4px 0 rgba(96,65,205,.5);
 	border-radius: 10rpx;
 }
+.star-tip-notice-nav{
+	width: 132rpx;
+}
 /* End星座提醒 */
 
 /* 更多运势 */
 .star-more{
 	width: 650rpx;
 	margin: 0 auto;
-	height: 40rpx;
-	padding: 34rpx 0;
+	/* height: 40rpx; */
+	padding: 30rpx 0;
 	display: flex;
 	justify-content: space-between;
 	color: #6041CD;
@@ -252,6 +280,7 @@ botton::after{
 	right: 0;
 	margin: auto;
 	text-align: left;
+	border-radius:10rpx;
 }
 .star-text-panel>text{
 	display: block;
@@ -421,6 +450,7 @@ botton::after{
 	margin: auto;
 	width: 88vw;
 	height: 93.33333333333333vw;
+	transform: translateY(54px);
 	background: #fff;
 	transition: all .15s ease-in-out;
 	z-index: 100;
