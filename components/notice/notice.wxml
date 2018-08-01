@@ -1,0 +1,26 @@
+<block wx:if="{{notice}}">
+<swiper autoplay interval="1000" circular class='swiper' vertical="{{notice.top[0].type == 1 ? false : true}}">
+<block wx:for="{{notice.top}}" >
+    <swiper-item>
+        <view class='notice_txt'  wx:if="{{item.type == 1}}">{{item.content}}</view>
+            
+        <navigator target="miniProgram" open-type="navigate" appId="{{item.appid}}" bindtap='compatibility' wx:if="{{item.type == 3}}">
+            <text>{{notice.content}}</text>
+        </navigator>
+    </swiper-item>
+</block>
+</swiper>
+
+<!-- 垂直 -->
+<swiper class='swiper' vertical="{{notice.top[0].type == 1 ? true : false}}">
+<block wx:for="{{notice.top}}" >
+    <swiper-item>
+        <view class='notice_txt'  wx:if="{{item.type == 1}}">{{item.content}}</view>
+            
+        <navigator target="miniProgram" open-type="navigate" appId="{{item.appid}}" bindtap='compatibility' wx:if="{{item.type == 3}}">
+            <text>{{notice.content}}</text>
+        </navigator>
+    </swiper-item>
+</block>
+</swiper>
+</block>

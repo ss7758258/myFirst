@@ -97,7 +97,7 @@ Page({
 
         this.gettomorrow() //获取日期时间，及倒计时时间
         let isFirst=wx.getStorageInfoSync().keys
-        if (isFirst.indexOf('isFirst') == -1 && this.data.list) {
+        if (isFirst.indexOf('isFirst') == -1 || !Storage.starXz.id) {
             this.setData({
                 isFirst: true
             })
