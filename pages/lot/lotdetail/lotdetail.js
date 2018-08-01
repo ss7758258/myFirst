@@ -143,7 +143,7 @@ const config = {
 		
 		const SData = this.data
 		var shareImg = '/assets/images/share_lot.jpg'
-		var shareMsg = '从未想过，世上竟有如此神奇的操作'
+		var shareMsg = '送你一份来自小哥的神秘惊喜'
 		var sharepath = '/pages/lot/lotdetail/lotdetail?from=share&lotId=' + SData.lotDetail.id
 
 		console.log("onShareAppMessage-qId===" + SData.lotDetail.id)

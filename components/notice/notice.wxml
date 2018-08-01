@@ -1,5 +1,5 @@
 <block wx:if="{{notice.isShow}}">
-<swiper autoplay interval="4000" duration="4000" circular class='swiper' vertical="{{notice.top[0].type == 1 ? false : true}}">
+<swiper autoplay interval="{{notice.top[0].time}}" duration="{{notice.top[0].time}}" circular class='swiper' vertical="{{notice.top[0].type == 1 ? false : true}}" wx:if="{{notice.top && notice.top != ''}}">
 <block wx:for="{{notice.top}}" >
     <swiper-item wx:if="{{item.type != 2}}">
         <view class='notice_txt' style="color:{{item.color}};background:{{bgColor}};"  wx:if="{{item.type == 1}}">{{item.content}}</view>
@@ -12,7 +12,7 @@
 </swiper>
 
 <!-- 垂直 -->
-<swiper autoplay interval="2000" duration="2000" circular class='swiper' vertical="{{notice.bottom[0].type == 1 ? true : false}}" wx:if="{{notice.bottom && notice.bottom != ''}}">
+<swiper autoplay interval="2000" duration="2000" circular class='swiper' vertical="{{notice.bottom[0].type == 2 ? true : false}}" wx:if="{{notice.bottom && notice.bottom != ''}}">
 <block wx:for="{{notice.bottom}}" wx:key>
     <swiper-item wx:if="{{item.type != 1}}">
         <view class='notice_txt' style="color:{{item.color}};background:{{bgColor}};"  wx:if="{{item.type == 2}}">{{item.content}}</view>
