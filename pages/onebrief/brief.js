@@ -114,20 +114,9 @@ Page({
 	 */
 	onShareAppMessage: function () {
 		return {
-<<<<<<< HEAD
-			path: '/pages/onebrief/brief?from=share&to=brief',
-            imageUrl:'',
-			success: function (res) {
-				// 转发成功
-			},
-			fail: function (res) {
-				// 转发失败
-			},
-=======
 			title : '想知道和你最配的人是谁吗',
 			imageUrl : '/assets/images/share-pair.png',
 			path : '/pages/home/home?to=brief&from=share&source=share&id=999998&tid=123455&shareform=brief&m=0',
->>>>>>> develop
 		}
 	},
 
