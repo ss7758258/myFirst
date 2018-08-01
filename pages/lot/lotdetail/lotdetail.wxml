@@ -12,7 +12,7 @@
 			<!-- 内容主体 -->
 			<view class="panel_body">
 				<!-- 头部 -->
-				<view class="header_panel {{disLotSuccess ? 'dis_open' : ''}}">
+				<view class="dis_width_sty header_panel {{disLotSuccess ? 'dis_open' : ''}}">
 
 					<!-- 签头像显示 -->
 					<image src="{{lotDetail.ownerHeadImage}}"></image>
@@ -31,7 +31,7 @@
 				<!-- End头部 -->
 
 				<!-- 签详情 -->
-				<view class="panel">
+				<view class="panel dis_width_sty">
 					<view class="content_panel {{lotDetail.isOpen || !lotDetail.lotNotCompleted ? 'open' : 'not_dis'}}">
 
 						<!-- 信封背景 -->
@@ -162,7 +162,7 @@
 				<!-- End签详情 -->
 				
 				<!-- 底部好友栏 -->
-				<view class="bottom_panel">
+				<view class="bottom_panel dis_width_sty">
 					<!-- 头像组 -->
 					<view class="heads" wx:if="{{!lotDetail.isOpen}}">
 						<block wx:for="{{lotDetail.troops}}" wx:key="index">
