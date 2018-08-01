@@ -6,6 +6,7 @@ var mta = require('../../utils/mta_analysis.js')
 const Storage = require('../../utils/storage')
 const bus = require('../../event')
 const dev=require('../../config.js')
+const q = require('../../utils/source')
 
 let timer=false
 Page({
@@ -47,7 +48,10 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
-        let self=this
+		let self=this
+
+		q.sourceHandle(options)
+		
         let handle = () => {
             console.log('登录标识')
             // self.shakeLotBox()
@@ -82,45 +86,6 @@ Page({
         
 		mta.Page.init()
 		// wx.hideShareMenu({})
-		var fromwhere = options.from
-		// console.log(options)
-		if (fromwhere == 'share') {
-			this.setData({
-			  	isFromShare: true,
-				"navConf.root": '/pages/home/home'
-			})
-		}
-		// let env = 'dev';
-		// const _self = this
-		// if(!Storage.prevPic){
-		// 	$vm.api.getDayx400({ notShowLoading: true })
-		// 	.then((res) => {
-		// 		console.log(res)
-		// 		if (res) {
-		// 			_self.setData({
-		// 				prevPic:
-		// 					res.prevPic ? "https://xingzuo-1256217146.file.myqcloud.com" + (env === 'dev' ? '' : '/prod') + res.prevPic :
-		// 						"",
-		// 			})
-		// 		} else {
-		// 			_self.setData({
-		// 				networkError: true,
-		// 				prevPic: "/assets/images/loading.png",
-		// 			})
-		// 		}
-		// 		wx.hideLoading()
-		// 	}).catch((err) => {
-		// 		wx.hideLoading()
-		// 		wx.showToast({
-		// 			icon: 'none',
-		// 			title: '加载失败了，请小主稍后再试',
-		// 		})
-		// 	})
-		// }else{
-		// 	_self.setData({
-		// 		prevPic:Storage.prevPic
-		// 	})
-		// }
 		
 	},
 
@@ -149,6 +114,7 @@ Page({
 	 */
 	onShareAppMessage: function () {
 		return {
+<<<<<<< HEAD
 			path: '/pages/onebrief/brief?from=share&to=brief',
             imageUrl:'',
 			success: function (res) {
@@ -157,6 +123,11 @@ Page({
 			fail: function (res) {
 				// 转发失败
 			},
+=======
+			title : '想知道和你最配的人是谁吗',
+			imageUrl : '/assets/images/share-pair.png',
+			path : '/pages/home/home?to=brief&from=share&source=share&id=999998&tid=123455&shareform=brief&m=0',
+>>>>>>> develop
 		}
 	},
 

@@ -17,6 +17,10 @@ page .choice button {
     transition: all .2s ease-in-out;
     z-index: 1;
 }
+.iPX .choice{
+    min-height: calc(100% - 89px);
+    height: calc(100% - 89px);
+}
 .choice.current{
     left : 0;
 }

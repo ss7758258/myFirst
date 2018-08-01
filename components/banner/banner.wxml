@@ -31,7 +31,7 @@
 <view>
     <view wx:for="{{list}}" wx:key="item.id" wx:if="{{item.appType !== 2}}">
         <!-- type为1是列表形式 -->
-        <navigator wx:if="{{opts.miniPro && item.appType === 1}}" target="miniProgram" catchtap="navOuter" catchsuccess="navSuccess" catchfail="navFail" hover-class="none" open-type="navigate" app-id="{{item.appId}}" path="{{item.targetUrl}}" data-res="{{item}}">
+        <navigator wx:if="{{opts.miniPro && item.appType === 1}}" target="miniProgram" catchtap="navOuter" catchsuccess="navSuccess" catchfail="navFail" hover-class="none" open-type="navigate" app-id="{{item.appId}}" path="{{item.targetUrl}}" data-res="{{item}}" data-index="{{index}}">
             <view class="banner_list_panel" data-res="{{item}}" data-index="{{index}}" wx:if="{{item.appType === 1}}">
                 <view class="banner_logo">
                     <view>
