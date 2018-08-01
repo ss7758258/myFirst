@@ -180,10 +180,9 @@
     height: 100%;
     background: #fff;
 }
-.tomorrwo_box{
+.tomorrow_box{
     height:85vh;
-    margin: 20rpx 20rpx 0;
-    
+    padding: 20rpx 20rpx 0;
 }
 .tomorrow{
     width: 100%;
@@ -240,6 +239,19 @@
 }
 .iPhoneX .banner{
     bottom: -160rpx;
+}
+.emptybrief_img{
+    display: block;
+    width: 400rpx;
+    height: 287rpx;
+    margin: 90rpx auto 106rpx;
+}
+.canvas{
+    position: fixed;
+    left: -800rpx;
+    top: 0;
+    opacity: 0;
+    visibility:hidden;
 }
 
 

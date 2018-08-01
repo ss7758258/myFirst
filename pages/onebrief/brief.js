@@ -30,7 +30,8 @@ Page({
 		isIPhoneX : false,
         current:0,//当前滑块
         isFirst:false, //是否是第一次进来
-        list:false,//页面渲染数据
+        list:true,//页面渲染数据
+        emptylist:false,//页面数据为空所加载
         tomorrow:{
             year:false,
             month:false,
@@ -56,9 +57,9 @@ Page({
                 picUserName: Storage.userInfo.nickName
             })
             console.log(self.data.userInfo)
-            getSystemInfo(this)
             this.getwordlist() //获取一言数据
-
+            getSystemInfo(this)
+            
         }
 
         if (Storage.briefRemoveId) {
@@ -124,9 +125,14 @@ Page({
 	},
 
     onShow:function(){
+        console.log(Storage.starXz.id, wx.getStorageSync('constellationId'))
+        if (Storage.starXz.id != wx.getStorageSync('constellationId')){ //判断星座id是否有变动
+            this.getwordlist() //获取一言数据
+        }
+
         this.gettomorrow() //获取日期时间，及倒计时时间
         let isFirst=wx.getStorageInfoSync().keys
-        if (isFirst.indexOf('isFirst') == -1) {
+        if (isFirst.indexOf('isFirst') == -1 && this.data.list) {
             this.setData({
                 isFirst: true
             })
@@ -320,7 +326,9 @@ Page({
     getwordlist(){
         let self=this
         $vm.api.wordlist({ constellationId: _GData.selectConstellation.id, startpage: 1, notShowLoading: true}).then(res=>{
-            if(res){
+            wx.setStorageSync('constellationId', _GData.selectConstellation.id)  // 设置星座id缓存
+            console.log('获取一言数据:', res)
+            if(res.wordlist.length > 0){
                 let url = 'https://xingzuo-1256217146.file.myqcloud.com' + (dev === 'dev' ? '' : '/prod')
                 res.wordlist.forEach(function (value) {
                     value.prevPic = url + value.prevPic
@@ -330,7 +338,7 @@ Page({
                     prevPic: false
                 })
 
-                console.log('获取一言数据:', res)
+                
                 this.setData({
                     list: res.wordlist,
                     current: res.wordlist.length - 2
@@ -339,51 +347,57 @@ Page({
                 
                 console.log('getwordlist打印数据',this.data.list)
             }else{
-                console.log('未加载数据：',res)
-                wx.showToast({
-                    title: '抱歉,您的网络有点问题请稍后再试',
-                    icon: 'none',
+                this.setData({
+                    list:false
                 })
             }
             
         }).catch(res=>{
-            console.log('获取一言错误信息',res)
-            wx.showToast({
-                title: '抱歉,您的网络有点问题请稍后再试',
-                icon: 'none',
+            this.setData({
+                list:false
             })
         })
     },
 
     // 获取明日数据
     gettomorrow(){
-        console.log('gettomorrow打印数据',this.data.list)
-
         let monthE = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        let b = new Date(new Date().getTime() + 60 * 60 * 24 * 1000)
-        let year = b.getFullYear()
-        let month = monthE[b.getMonth()]
-        let day = b.getDate() > 9 ? b.getDate() : '0' + b.getDate()
+        if(this.data.tomorrow.timer){
+            let b = new Date(new Date().getTime() + 60 * 60 * 24 * 1000)
+            let year = b.getFullYear()
+            let month = monthE[b.getMonth()]
+            let day = b.getDate() > 9 ? b.getDate() : '0' + b.getDate()
 
-        let c = new Date(new Date().toLocaleDateString()).getTime() + 60 * 60 * 24 * 1000 //下一天0点时刻时间戳
-        let tomorrow = c - new Date().getTime()
-        let tomorrow_timer = new Date(tomorrow - 8 * 60 * 60 * 1000)
-        let hour = tomorrow_timer.getHours()
-        let minute = tomorrow_timer.getMinutes()
-        let sec = tomorrow_timer.getSeconds()
+            let c = new Date(new Date().toLocaleDateString()).getTime() + 60 * 60 * 24 * 1000 //下一天0点时刻时间戳
+            let tomorrow = c - new Date().getTime()
+            let tomorrow_timer = new Date(tomorrow - 8 * 60 * 60 * 1000)
+            let hour = tomorrow_timer.getHours()
+            let minute = tomorrow_timer.getMinutes()
+            let sec = tomorrow_timer.getSeconds()
 
-        console.log(`日期：${b},年：${year},月：${month},日：${day},倒计时：${hour}:${minute}:${sec}`)
+            console.log(`日期：${b},年：${year},月：${month},日：${day},倒计时：${hour}:${minute}:${sec}`)
 
-        this.setData({
-            'tomorrow.year': year,
-            'tomorrow.month': month,
-            'tomorrow.day': day,
-            'tomorrow.hour': hour,
-            'tomorrow.minute': minute,
-            'tomorrow.sec': sec
-        })  
-        this.countdown(hour, minute, sec)    //倒计时
-
+            this.setData({
+                'tomorrow.year': year,
+                'tomorrow.month': month,
+                'tomorrow.day': day,
+                'tomorrow.hour': hour,
+                'tomorrow.minute': minute,
+                'tomorrow.sec': sec
+            })
+            this.countdown(hour, minute, sec)    //倒计时
+        }else{   //空页面
+            let date=new Date()
+            let year = date.getFullYear()
+            let month = monthE[date.getMonth()]
+            let day = date.getDate() > 9 ? date.getDate() : '0' + date.getDate()
+            this.setData({
+                'tomorrow.year': year,
+                'tomorrow.month': month,
+                'tomorrow.day': day
+            })
+        }
+        
     },
 
     // 明日倒计时
@@ -412,6 +426,8 @@ Page({
                     sec = 59, minute = 59, hour -= 1
                 } else if (hour == 0 && minute == 0 && sec == 0) {
                     clearInterval(timer)
+                    self.getwordlist()
+                    
                     self.setData({
                         'tomorrow.timer': false
                     })
@@ -426,6 +442,14 @@ Page({
         $vm.api.getX610({ formid: e.detail.formId })
         wx.navigateTo({
             url: '/pages/banner/banner'
+        })
+    },
+
+    // 再试一次
+    tryagain(e){
+        $vm.api.getX610({ formid: e.detail.formId })
+        wx.reLaunch({
+            url: '/pages/home/home'
         })
     }
 })

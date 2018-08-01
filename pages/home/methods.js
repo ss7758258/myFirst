@@ -396,6 +396,7 @@ const methods = function(){
 			// 数据来源分析
 			q.sourceHandle(options)
             me.init.call(this)
+            this.getNotice()
         },
         /**
          * 显示方案

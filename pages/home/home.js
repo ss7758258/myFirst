@@ -64,7 +64,11 @@ Page({
 		noticeBtnStatus : false, // 通知开关
 		showFollow : false, // 关注服务号开关
 		// 待领星星文案
-		more_startext : '0颗待领'
+		more_startext : '0颗待领',
+        notice:{
+            content:'aaaaa',
+            type:1
+        },  //公告组件
 	},
 	
 	// 初始化
@@ -143,7 +147,21 @@ Page({
 		mta.Event.stat("spread_123438", {})
 		console.log('弹窗')
 		return false
-	}
+	},
+    
+    // 获取公告数据
+    getNotice(){
+        $vm.api.notice({page:1}).then(res=>{
+            console.log('11111111111111111111',res)
+            // if(res){
+            //     this.setData({
+            //         notice:res[0]
+            //     })
+            // }
+        }).catch(err=>{
+            console.log(err)
+        })
+    }
 })
 
 
