@@ -63,7 +63,7 @@ const conf = {
         mta.Event.stat('pair_share',{})
         return {
             title : '想知道和你最配的人是谁吗',
-            path : '/pages/home/home?source=share&id=999998&tid=123455&shareform=pair&m=0',
+            path : '/pages/home/home?to=pair&from=share&source=share&id=999998&tid=123455&shareform=pair&m=0',
             imageUrl : '/assets/images/share-pair.png'
         }
     },

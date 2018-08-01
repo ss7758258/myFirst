@@ -436,11 +436,11 @@ page{
 }
 /* End云 */
 .panel_scene.iPhoneX{
-    height: calc(100% - 64px - 184rpx);
+    height: calc(100% - 64px - 92rpx);
 }
 .iPhoneX .bootom_x{
     width: 100%;
-    height: 184rpx;
+    height: 100rpx;
 }
 .iPhoneX .bootom_x>image{
     width: 100%;

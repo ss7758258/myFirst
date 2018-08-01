@@ -67,7 +67,7 @@ const Conf = {
         mta.Event.stat('banner_share',{})
         return {
             title : '真好玩，根本停不下来!',
-            path : '/pages/banner/banner?source=share&id=999999&tid=123456&shareform=banner&m=0',
+            path : '/pages/banner/banner?to=banner&from=share&source=share&id=999999&tid=123456&shareform=banner&m=0',
             imageUrl : '/assets/images/share-banner.png'
         }
     }
@@ -138,8 +138,10 @@ function eventHandle(self){
                 console.log('加星星成功',res.res)
                 // 已经领取
                 res.res.received = 1
-                temp['list[' + res.index + ']'] = res.res
-                res.self.setData(temp)
+                if(res.index != -1){
+                    temp['list[' + res.index + ']'] = res.res
+                    res.self.setData(temp)
+                }
                 self.setData({
                     starNum : res.res.starAmount,
                     starShow : true

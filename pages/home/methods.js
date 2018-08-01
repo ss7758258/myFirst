@@ -5,6 +5,7 @@ const Storage = require('../../utils/storage')
 const c = require('../../config')
 const confing = require('../../conf')
 const conf = confing[c] || {}
+const params = require('../../utils/share')
 const q = require('../../utils/source')
 let $vm = null
 let _GData = null
@@ -122,6 +123,19 @@ function getStarNum(self){
 function parseForm(self,options){
 	let fromwhere = options.from
 	let to = options.to
+	if(to == 'yan') {
+		// selectConstellation
+		if(!wx.getStorageSync('selectConstellation')){
+			mta.Event.stat('choice_qrcode_brief',{})
+			// 显示选择星座
+			self.setData({
+				showChoice : true
+			})
+		}else{
+			mta.Event.stat('to_qrcode_brief',{})
+		}
+		return
+	}
 	if (fromwhere == 'share' || fromwhere == 'activity') {
 		self.setData({
 			toPage: to,
@@ -132,16 +146,6 @@ function parseForm(self,options){
 				mta.Event.stat("ico_in_from_brief_qrcode", {})
 			} else {
 				mta.Event.stat("ico_in_from_brief", {})
-			}
-
-		} else if (to == 'today') {
-			if (options.hotapp == 1) {
-				mta.Event.stat("ico_in_from_today_qrcode", {})
-			} else if (fromwhere == 'activity') {
-				console.log('ico_in_from_brief_activity')
-				mta.Event.stat("ico_in_from_brief_activity", {})
-			} else {
-				mta.Event.stat("ico_in_from_today", {})
 			}
 
 		}
@@ -233,7 +237,8 @@ const me = {
 		// 提前选择星座但不加载数据
 		me._getStar.call(this)
         me._eventHandle.call(this)
-    },
+	},
+	// 选择星座
     _getStar(){
         let self = this
 		let selectConstellation = _GData.selectConstellation
@@ -273,8 +278,29 @@ const me = {
                 'navConf.isIcon' : true
             })
         }
-    },
-
+	},
+	// 前往参数中的地址
+	_goParam(){
+		console.log('----------------------------------------------------------分享前往页面')
+		let to = this.options.to
+		let from = this.options.to || 'unknown'
+		if(!to){
+			return
+		}
+		let temp = params[to]
+		if(temp && temp.constructor === Object){
+			mta.Event.stat(`${from}_${to}`,{})
+			if(temp.type === 'tab'){
+				wx.switchTab({
+					url : temp.path
+				})
+			}else{
+				wx.navigateTo({
+					url : temp.path
+				})
+			}
+		}
+	},
     /**
      * 处理登录加载的事件
      */
@@ -417,6 +443,8 @@ const methods = function(){
 		 */
 		choiceStar(e){
 			const self = this
+			$vm = getApp()
+			_GData = $vm.globalData
 			const {item :selectConstellation} = e.currentTarget.dataset
 			console.log(selectConstellation)
 			mta.Event.stat('ico_home_select', { 'constellation': selectConstellation.name })
@@ -445,6 +473,9 @@ const methods = function(){
 			_GData = $vm.globalData
 			// 星座信息
 			Storage.starXz = _GData.selectConstellation
+			
+			me._goParam.call(this)
+			console.log(self.options)
 			$vm.api.choice({ notShowLoading : true, constellationId: _GData.selectConstellation.id}).then(res=>{
 				console.log('choice运势数据',res)
 				if(res !=''){
@@ -467,6 +498,8 @@ const methods = function(){
 		 * 前往选择星座页面
 		 */
 		goChoiceStar(){
+			$vm = getApp()
+			_GData = $vm.globalData
 			mta.Event.stat("ico_home_unselect", {})
 			wx.setStorage({
 				key: 'selectConstellation',
