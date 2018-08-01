@@ -51,6 +51,7 @@ Page({
 			isRoot : true,
 			isIcon : false,
 			iconPath : '',
+			bg : '#9262FB',
 			root : '',
 			isTitle : true,
 			centerPath : '/pages/center/center'
