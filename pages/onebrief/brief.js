@@ -31,7 +31,7 @@ Page({
 		isIPhoneX : false,
         current:0,//当前滑块
         isFirst:false, //是否是第一次进来
-        list:true,//页面渲染数据
+        list:false,//页面渲染数据
         emptylist:false,//页面数据为空所加载
         tomorrow:{
             year:false,
@@ -332,7 +332,7 @@ Page({
     // 获取明日数据
     gettomorrow(){
         let monthE = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        console.log('this.data.tomorrow.timer')
+        console.log(this.data.tomorrow.timer,this.data.list)
         if(this.data.tomorrow.timer){
             let b = new Date(new Date().getTime() + 60 * 60 * 24 * 1000)
             let year = b.getFullYear()
