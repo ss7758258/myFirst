@@ -296,6 +296,7 @@ const me = {
 		let temp = params[to]
 		if(temp && temp.constructor === Object){
 			mta.Event.stat(`${from}_${to}`,{})
+			this.options = {}
 			if(temp.type === 'tab'){
 				wx.switchTab({
 					url : temp.path
