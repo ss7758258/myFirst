@@ -112,6 +112,10 @@ const conf = {
                     wx.hideLoading()
                 },500)
             }).catch(err => {
+                Storage.pairList.push({
+                    id : self.data.select.constellationId,
+                    sex : self.data.sex === 'man' ? 'woman' : 'man'
+                })
                 wx.hideLoading()
                 wx.showToast({
                     icon: 'none',
