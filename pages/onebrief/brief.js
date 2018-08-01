@@ -90,14 +90,16 @@ Page({
 	},
 
     onShow:function(){
-        console.log(Storage.starXz.id, wx.getStorageSync('constellationId'))
-        if (Storage.starXz.id != wx.getStorageSync('constellationId')){ //判断星座id是否有变动
+        console.log(Storage, wx.getStorageSync('constellationId'))
+        this.gettomorrow() //获取日期时间，及倒计时时间
+        if (Storage.starXz.id && Storage.starXz.id != wx.getStorageSync('constellationId')){ //判断星座id是否有变动
             this.getwordlist() //获取一言数据
         }
 
-        this.gettomorrow() //获取日期时间，及倒计时时间
+        
         let isFirst=wx.getStorageInfoSync().keys
-        if (isFirst.indexOf('isFirst') == -1 || !Storage.starXz.id) {
+        if (isFirst.indexOf('isFirst') == -1 || Storage.indexOf('starXz') == -1) {
+            
             this.setData({
                 isFirst: true
             })
@@ -114,8 +116,8 @@ Page({
 	 */
 	onShareAppMessage: function () {
 		return {
-			title : '想知道和你最配的人是谁吗',
-			imageUrl : '/assets/images/share-pair.png',
+			title : '这不是简单的句子，全是你内心的独白',
+            imageUrl: '/assets/images/share-brief.jpg',
 			path : '/pages/home/home?to=brief&from=share&source=share&id=999998&tid=123455&shareform=brief&m=0',
 		}
 	},
@@ -329,6 +331,7 @@ Page({
     // 获取明日数据
     gettomorrow(){
         let monthE = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        console.log('this.data.tomorrow.timer')
         if(this.data.tomorrow.timer){
             let b = new Date(new Date().getTime() + 60 * 60 * 24 * 1000)
             let year = b.getFullYear()
@@ -375,6 +378,15 @@ Page({
             timer = setInterval(function () {
                 sec--
                 console.log(sec)
+
+                if (hour == 0 && minute == 0 && sec == 0) {
+                    clearInterval(timer)
+                    self.getwordlist()
+                    self.setData({
+                        'tomorrow.timer': false
+                    })
+                }
+
                 if (sec >= 0) {
                     self.setData({
                         'tomorrow.sec': sec
@@ -391,13 +403,6 @@ Page({
                         'tomorrow.minute': 59,
                     })
                     sec = 59, minute = 59, hour -= 1
-                } else if (hour == 0 && minute == 0 && sec == 0) {
-                    clearInterval(timer)
-                    self.getwordlist()
-                    
-                    self.setData({
-                        'tomorrow.timer': false
-                    })
                 }
             }, 1000)
         }

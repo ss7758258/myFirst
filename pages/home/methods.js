@@ -129,7 +129,8 @@ function parseForm(self,options){
 			mta.Event.stat('choice_qrcode_brief',{})
 			// 显示选择星座
 			self.setData({
-				showChoice : true
+				showChoice : true,
+                'notice.isShow': false
 			})
 		}else{
 			mta.Event.stat('to_qrcode_brief',{})
@@ -245,12 +246,14 @@ const me = {
         if (selectConstellation && !selectConstellation.isFirst) {
 			self.setData({
 				showChoice: false,
+                'notice.isShow': true,
 				'xz.constellationId': selectConstellation.id,
 				'navConf.isIcon' : true
 			})
 		}else{
             self.setData({
                 showChoice: true,
+                'notice.isShow': false,
                 'navConf.isIcon' : true
             })
 		}
@@ -269,12 +272,14 @@ const me = {
 				myConstellation: selectConstellation,
 				selectBack: false,
 				showChoice: false,
+                'notice.isShow': true,
 				'navConf.isIcon' : true
 			})
             self.onShowingHome()
         } else {
             self.setData({
                 showChoice: true,
+                'notice.isShow': false,
                 'navConf.isIcon' : true
             })
         }
@@ -464,6 +469,7 @@ const methods = function(){
 			self.setData({
 				myConstellation: selectConstellation,
 				showChoice: false,
+                'notice.isShow': true,
 				'navConf.isIcon' : true,
 				'selectStatus.current': selectConstellation.id - 1,
 				'selectStatus.selected': true
@@ -516,6 +522,7 @@ const methods = function(){
 			this.setData({
 				selectBack: true,
 				showChoice: true,
+                'notice.isShow': false,
 				'navConf.isIcon' : false,
 				'selectStatus.current': -1,
 				'selectStatus.selected': false
