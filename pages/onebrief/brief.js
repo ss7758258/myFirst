@@ -63,7 +63,7 @@ Page({
             console.log(self.data.userInfo)
             this.getwordlist() //获取一言数据
             getSystemInfo(this)
-            
+            wx.hideShareMenu({})
         }
 
         if (Storage.briefRemoveId) {
@@ -85,7 +85,7 @@ Page({
         }
         
 		mta.Page.init()
-		// wx.hideShareMenu({})
+		
 		
 	},
 
@@ -332,7 +332,7 @@ Page({
     // 获取明日数据
     gettomorrow(){
         let monthE = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        console.log('this.data.tomorrow.timer')
+        console.log(this.data.tomorrow.timer)
         if(this.data.tomorrow.timer){
             let b = new Date(new Date().getTime() + 60 * 60 * 24 * 1000)
             let year = b.getFullYear()
