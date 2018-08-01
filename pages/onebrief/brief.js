@@ -31,7 +31,7 @@ Page({
 		isIPhoneX : false,
         current:0,//当前滑块
         isFirst:false, //是否是第一次进来
-        list:false,//页面渲染数据
+        list:true,//页面渲染数据
         emptylist:false,//页面数据为空所加载
         tomorrow:{
             year:false,
@@ -90,10 +90,11 @@ Page({
 	},
 
     onShow:function(){
-        let starXz = Storage.starXz.id || -1
-        console.log(Storage.starXz.id, wx.getStorageSync('constellationId'))
+
+        let starXz = Storage.starXz || {}
+        console.log(starXz, wx.getStorageSync('constellationId'))
         this.gettomorrow() //获取日期时间，及倒计时时间
-        if (starXz != -1 && starXz != wx.getStorageSync('constellationId')){ //判断星座id是否有变动
+        if (starXz && starXz != wx.getStorageSync('constellationId')){ //判断星座id是否有变动
             this.getwordlist() //获取一言数据
         }
 
