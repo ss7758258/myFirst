@@ -6,6 +6,7 @@
 // root : '',
 // isTitle : true,
 // centerPath : '/pages/center/center'
+// bg : 
 const bus = require('../../event')
 const Storage = require('../../utils/storage')
 Component({

@@ -278,6 +278,10 @@ const wordlist = (data) => { //一言列表
 const pair = (data) => { //星座配对
     return requstPost('selectConstellation/pair', data)
 }
+// 验证秘钥
+const verSecret = (data) => { 
+    return requstPost('selectConstellation/checkSecret', data)
+}
 
 // 获取乐摇摇的数据信息
 const getLeYaoyao = function(params,data){
@@ -337,5 +341,6 @@ module.exports = {
     notice,
 	wordlist,
 	getPair,
-    pair
+	pair,
+	verSecret
 }

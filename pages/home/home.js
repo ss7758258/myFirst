@@ -190,8 +190,8 @@ Page({
 
                 console.log('top:',top,'bottom:',bottom)
                 this.setData({
-                    'notice.top': top,
-                    'notice.bottom': bottom
+                    'notice.top': top || 0,
+                    'notice.bottom': bottom || 0
                 })
 
                 console.log(this.data.notice)
