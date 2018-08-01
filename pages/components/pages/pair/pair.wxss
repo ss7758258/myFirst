@@ -127,8 +127,8 @@ page button {
 }
 .pair-card-me .pair-switch{
     display: block;
-    width: 60rpx;
-    height: 60rpx;
+    width: 80rpx;
+    height: 80rpx;
     left: 0;
     right: 0;
     bottom: 0rpx;

@@ -51,7 +51,9 @@ const methods = (function (){
                 console.log('-----------------------------通知进行登录---------------------------------')
                 wx.hideLoading()
                 wx.hideToast()
+                Storage.noLoginStatus = true
                 Storage.isLogin = false
+                wx.hideTabBar({})
                 self.setData({
                     showLogin : true
                 })
@@ -64,7 +66,8 @@ const methods = (function (){
             Storage.loginSuccessRemoveId = bus.on('login-success',(res) => {
                 console.log('-----------------------------登录成功---------------------------------')
                 Storage.isLogin = true
-                
+                Storage.noLoginStatus = false
+
                 if(!Storage.userInfo){
                     Storage.userInfo = {}
                 }
@@ -86,6 +89,7 @@ const methods = (function (){
                         showLogin : false
                     })
                 })
+                wx.showTabBar({})
                 
 		        console.log('-----------------------------------------------当前页：',getCurrentPages())
             },'login-com')
@@ -250,6 +254,7 @@ Component({
 		canIUse: wx.canIUse('button.open-type.getUserInfo')
     },
     ready(){
+        console.log('登录组件内容信息：',temp)
         console.log(this)
         temp.push(this)
         console.log('------------------------------------组件实例化了：')

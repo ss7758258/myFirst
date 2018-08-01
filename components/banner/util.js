@@ -54,7 +54,7 @@ const methods = {
      */
     navOuter(e){
         let self = this
-        let {res = {} , index = 0} = e.currentTarget.dataset
+        let {res = {} , index = -1} = e.currentTarget.dataset
         if(res.appId){
 
             API.upAnalytics({
