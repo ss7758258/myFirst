@@ -121,10 +121,11 @@
 						</navigator>
 					</view>
 				</view>
-				<view class="star-more">
-					<button class="star-tip-notice" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="openNotice">
+				<view class="star-more" style="padding:{{!noticeBtnStatus ? '40rpx' : '30rpx'}} 0;">
+					<button wx:if="{{noticeBtnStatus}}" class="star-tip-notice" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="openNotice">
 						好运提醒
 					</button>
+					<text wx:if="{{!noticeBtnStatus}}" ></text>
 					<!-- <view>
 						<navigator wx:if="{{noticeBtnStatus}}" url="/pages/components/pages/attention/attention" hover-class="none" open-type="navigate">
 							<image class="gz" src="/assets/images/gz.png" ></image>
