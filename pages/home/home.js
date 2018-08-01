@@ -5,7 +5,6 @@ const star = require('../../utils/star')
 const Storage = require('../../utils/storage')
 const methods = require('./methods')
 const desc = require('./desc')
-let timer=false
 
 Page({
 
@@ -13,7 +12,7 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
-		// 默认不打开星座展示
+		// 默认不打开星座描述
 		showStarDesc : false,
 		// 星座信息数据
 		desc : desc,
@@ -70,12 +69,9 @@ Page({
                 content:'dwdwdwqd',
                 type:1
             },
-            bottom: {
-                content: 'dcwdwdwdw',
-                type: 1
-            },
+            isShow: true
         },  //公告组件
-
+        
 	},
 	
 	// 初始化
@@ -160,11 +156,20 @@ Page({
     
     // 获取公告数据
     getNotice() {
-        let self=this
-        $vm.api.notice({ page: 1 }).then(res => {
+        if (this.data.showChoice){
+            this.setData({
+                'notice.isShow':false
+            })
+        }else{
+            this.setData({
+                'notice.isShow': true
+            })
+        }
+
+        $vm.api.notice({ page: 1, notShowLoading: true }).then(res => {
             console.log('11111111111111111111', res)
             if (res) {
-                let top = [], bottom = []
+                let top = [], bottom
                 res.forEach(value => {
                     if (value.side == 1) {
                         top.push(value)
@@ -178,54 +183,13 @@ Page({
                 })
                 console.log(this.data.notice)
 
-                // let screenwidth = wx.getStorageSync('systemInfo').screenWidth   //屏幕宽度
-                // // console.log(wx.getStorageSync('systemInfo'))
-                // let query = wx.createSelectorQuery().in(this)
-                // query.select('.notice').boundingClientRect(res => { // 获取文本文字宽度
-                //     console.log(res)
-                //     if (res) {
-                //         let txt_length = res.width
-                //         this.setData({
-                //             screenwidth: screenwidth,
-                //             txt_length: txt_length
-                //         })
-                //         this.run()
-  
-                //     }
 
-                // }).exec()
             }
         }).catch(err => {
             console.log(err)
         })
     },
 
-    // 公告
-    // run() {
-    //     let self = this, dta = this.data
-    //     timer = setTimeout(function () {
-    //         if (- dta.left < dta.txt_length) {
-    //             self.setData({
-    //                 left: --dta.left,
-    //             })
-    //             clearTimeout(timer);
-    //             self.run();
-    //         } else {
-    //             clearTimeout(timer);
-    //             self.setData({
-    //                 left: dta.screenwidth
-    //             });
-    //             self.run();
-    //         }
-    //     }, 20)
-    // },
-
-    //页面卸载
-    onHide: function () {
-        clearInterval(timer)
-        timer = false
-        console.log('定时器关闭')
-    },
 
 })
 

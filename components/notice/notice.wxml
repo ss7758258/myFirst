@@ -1,24 +1,24 @@
-<block wx:if="{{notice}}">
-<swiper autoplay interval="1000" circular class='swiper' vertical="{{notice.top[0].type == 1 ? false : true}}">
+<block wx:if="{{notice.isShow}}">
+<swiper autoplay interval="4000" duration="4000" circular class='swiper' vertical="{{notice.top[0].type == 1 ? false : true}}">
 <block wx:for="{{notice.top}}" >
-    <swiper-item>
-        <view class='notice_txt'  wx:if="{{item.type == 1}}">{{item.content}}</view>
+    <swiper-item wx:if="{{item.type != 2}}">
+        <view class='notice_txt' style="color:{{item.color}};background:{{bgColor}};"  wx:if="{{item.type == 1}}">{{item.content}}</view>
             
         <navigator target="miniProgram" open-type="navigate" appId="{{item.appid}}" bindtap='compatibility' wx:if="{{item.type == 3}}">
-            <text>{{notice.content}}</text>
+        <view class='notice_txt' style="color:{{item.color}};background:{{bgColor}};">{{item.content}}</view>
         </navigator>
     </swiper-item>
 </block>
 </swiper>
 
 <!-- 垂直 -->
-<swiper class='swiper' vertical="{{notice.top[0].type == 1 ? true : false}}">
-<block wx:for="{{notice.top}}" >
-    <swiper-item>
-        <view class='notice_txt'  wx:if="{{item.type == 1}}">{{item.content}}</view>
+<swiper autoplay interval="2000" duration="2000" circular class='swiper' vertical="{{notice.bottom[0].type == 1 ? true : false}}" wx:if="{{notice.bottom && notice.bottom != ''}}">
+<block wx:for="{{notice.bottom}}" wx:key>
+    <swiper-item wx:if="{{item.type != 1}}">
+        <view class='notice_txt' style="color:{{item.color}};background:{{bgColor}};"  wx:if="{{item.type == 2}}">{{item.content}}</view>
             
         <navigator target="miniProgram" open-type="navigate" appId="{{item.appid}}" bindtap='compatibility' wx:if="{{item.type == 3}}">
-            <text>{{notice.content}}</text>
+        <view class='notice_txt' style="color:{{item.color}};background:{{bgColor}};">{{item.content}}</view>
         </navigator>
     </swiper-item>
 </block>

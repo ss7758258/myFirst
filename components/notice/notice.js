@@ -2,7 +2,11 @@ const $vm=new getApp()
 Component({
 
     properties: {
-        notice: Object
+        notice: Object,
+        isShowNotice:{
+            type: Boolean,
+            value:true,
+        }
     },
     data: {
         // notice: {

@@ -92,7 +92,7 @@ Page({
             let time19=c+1000*60*60*19,timer21=c+1000*60*60*21
             if(now > time19 && now < time21){
                 wx.navigateTo({
-                    url: '####'   //跳转链接
+                    url: '../happyDoor/happyDoor'   //跳转链接
                 })
             }else{
                 wx.showToast({
