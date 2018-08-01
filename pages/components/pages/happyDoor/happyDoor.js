@@ -26,7 +26,11 @@ Page({
         text : '',
         isOpen : false // 门是否打开
     },
-
+    onUnload(){
+        this.setData({
+            'navConf.bg': ''
+        })
+    },
     /**
      * 生命周期函数--监听页面加载
      */
