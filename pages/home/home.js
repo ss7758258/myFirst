@@ -64,13 +64,7 @@ Page({
 		showFollow : false, // 关注服务号开关
 		// 待领星星文案
 		more_startext : '0颗待领',
-        notice:{
-            top:{
-                content:'dwdwdwqd',
-                type:1
-            },
-            isShow: true
-        },  //公告组件
+        notice: {isShow: true},  //公告组件
         
 	},
 	
@@ -95,7 +89,7 @@ Page({
 	// 用户点击右上角分享
 	onShareAppMessage: function (res) {
 		return {
-			title: '用小哥星座，得最全最准的运势预测！',
+			title: '星座运势,唯我独准',
 			imageUrl: '/assets/images/share_home.jpg'
 		}
 	},
@@ -169,19 +163,41 @@ Page({
         $vm.api.notice({ page: 1, notShowLoading: true }).then(res => {
             console.log('11111111111111111111', res)
             if (res) {
-                let top = [], bottom
+                let top = [] || 0, bottom=[] || 0
                 res.forEach(value => {
-                    if (value.side == 1) {
+                    if (value.type == 1) {
                         top.push(value)
-                    } else if (side == 2) {
+
+                        
+                    } else if (value.type == 2) {
                         bottom.push(value)
                     }
                 })
+
+                console.log('top:', top, 'bottom:', bottom)
+                if(top==0 && bottom==0){
+                    this.setData({
+                        'notice.isShow': false
+                    })
+                }
+                
+                if(top.length == 1){
+                    top.push(top[0])
+                }
+                if(bottom.length == 1){
+                    bottom.push(bottom[0])
+                }
+
+                console.log('top:',top,'bottom:',bottom)
                 this.setData({
                     'notice.top': top,
                     'notice.bottom': bottom
                 })
+
                 console.log(this.data.notice)
+                
+                
+                
 
 
             }

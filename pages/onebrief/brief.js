@@ -90,15 +90,16 @@ Page({
 	},
 
     onShow:function(){
-        console.log(Storage, wx.getStorageSync('constellationId'))
+        let starXz = Storage.starXz.id || -1
+        console.log(Storage.starXz.id, wx.getStorageSync('constellationId'))
         this.gettomorrow() //获取日期时间，及倒计时时间
-        if (Storage.starXz.id && Storage.starXz.id != wx.getStorageSync('constellationId')){ //判断星座id是否有变动
+        if (starXz != -1 && starXz != wx.getStorageSync('constellationId')){ //判断星座id是否有变动
             this.getwordlist() //获取一言数据
         }
 
         
         let isFirst=wx.getStorageInfoSync().keys
-        if (isFirst.indexOf('isFirst') == -1 || Storage.indexOf('starXz') == -1) {
+        if (isFirst.indexOf('isFirst') == -1 || starXz == -1) {
             
             this.setData({
                 isFirst: true
