@@ -23,7 +23,7 @@
 </view>
 
 <!-- 昨天今天明天 -->
-<swiper vertical current="{{current}}"  class='swiper' bindchange="day">
+<swiper vertical current="{{current}}"  class='swiper' bindchange="day" wx:if="{{list}}">
 <block wx:for="{{list}}" wx:key="index">
 <swiper-item>
     <!-- 保存图片 -->
@@ -55,12 +55,12 @@
         </button>
     </form>
     <view wx:if="{{showCanvas}}">
-        <canvas canvas-id="shareCanvas" style="width:375px;height:667px;z-index=-1"></canvas>
+        <canvas canvas-id="shareCanvas" class='canvas' style="width:375px;height:667px;z-index=-1;"></canvas>
     </view>
     </block>
 
     <!-- 明天 -->
-    <view class="tomorrwo_box {{isIPhoneX ? 'iPhoneX' : ''}}" wx:else="{{item.prevPic}}">
+    <view class="tomorrow_box {{isIPhoneX ? 'iPhoneX' : ''}}" wx:else="{{item.prevPic}}">
     <view class='tomorrow'>
         <view class='timer'>
             <text class='day'>{{tomorrow.day}}</text>
@@ -86,3 +86,29 @@
 </swiper-item>
 </block>
 </swiper>
+
+<view class="swiper" wx:else="{{list}}">
+    <view class="tomorrow_box {{isIPhoneX ? 'iPhoneX' : ''}}">
+        <view class='tomorrow'>
+            <view class='timer'>
+                <text class='day'>{{tomorrow.day}}</text>
+                <text class='month'>{{tomorrow.month}}</text>
+                <text class='month'>.{{tomorrow.year}}</text>
+            </view>
+            <image src='/assets/img/countdown.png' class='torommow_img'></image>
+            <block wx:if="{{tomorrow.timer}}">
+                <view class='torommow_txt'>距离内容更新还有</view>
+                <view class='torommow_timer'> {{tomorrow.hour>9?tomorrow.hour:'0'+tomorrow.hour}} 时 {{tomorrow.minute>9?tomorrow.minute:'0'+tomorrow.minute}} 分 {{tomorrow.sec>9?tomorrow.sec:'0'+tomorrow.sec}} 秒 </view>
+
+                <form report-submit bindsubmit='moregame'>
+                    <button form-type='submit' class='banner'>查看更多好玩</button>
+                </form>
+            </block>
+            <block wx:else="{{tomorrow.timer}}">
+                <form report-submit bindsubmit='tryagain'>
+                    <button form-type='submit' class='banner'>再试一次</button>
+                </form>
+            </block>
+        </view>
+    </view>
+</view>

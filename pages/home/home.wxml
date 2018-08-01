@@ -10,8 +10,8 @@
 <nav opts='{{navConf}}'></nav>
 <!-- 登录态 -->
 <loginApp></loginApp>
-<!-- 
-<view class="loader_mask" wx:if="{{!isLogin}}">
+
+<!-- <view class="loader_mask" wx:if="{{!isLogin}}">
 	<view class="loader_panel" wx:if="{{!isLogin}}">
 		<view id="caseBlanche">
 			<view id="rond">
@@ -24,6 +24,8 @@
 	</view>
 </view> -->
 
+<!-- 公告组件 -->
+<notice notice="{{notice}}"></notice>
 
 <!-- 关注服务号-弹窗 -->
 <view class="contact_follow_mask {{showFollow ? 'show':''}}" catchtap="hideFollow">

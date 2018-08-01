@@ -54,9 +54,10 @@
             {{paidList.notice?paidList.notice:'抛出原则性问题,不管对错,不要长时间的去生自己女朋友的气、和她发生冷战,长时间的冷战对双方都不好,很多时候、女孩子都是一时的嘴快、一时的情绪化,作为一名男生,应该主动点去和好。'}}
         </view>
     </view>
-    <form report-submit bindsubmit='formid'>
-        <button form-type='submit' class='find'>寻找这样的TA</button>
-    </form>
 </view>
 <view class='footer'></view>
 </scroll-view>
+
+<form report-submit bindsubmit='formid'>
+    <button form-type='submit' class='find'>寻找这样的TA</button>
+</form>

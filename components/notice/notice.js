@@ -1,23 +1,23 @@
 const $vm=new getApp()
 Component({
 
-    behaviors: [],
-
-    properties: {},
+    properties: {
+        notice: Object
+    },
     data: {
-        notice: {
-            id:1,
-            type: 2, //组件类型 1水平,2垂直,3小程序跳转
-            background: 'rgba(0,0,0,0.60)',//背景样式
-            color: '#FFFFFF',            //字体颜色
-            side: "top",
-            content: '这是一个公告组件',  //内容
-            url: '',                    //跳转路径
-            time: 20,                   //轮播时间
-        },
-        left: 0,                        //默认滚动距离
-        txt_length:false,               //文本长度
-        appid:'xxxxxxxxx',              //跳转小程序appid
+        // notice: {
+        //     id:1,
+        //     type: 1, //组件类型 1水平,2垂直,3小程序跳转
+        //     background: 'rgba(0,0,0,0.60)',//背景样式
+        //     color: '#FFFFFF',            //字体颜色
+        //     side: "top",
+        //     content: false,  //内容
+        //     url: '',                    //跳转路径
+        //     time: 20,                   //轮播时间
+        // },
+        // left: 0,                        //默认滚动距离
+        // txt_length:false,               //文本长度
+        // appid:'xxxxxxxxx',              //跳转小程序appid
     }, 
 
     methods: {
@@ -41,14 +41,6 @@ Component({
             }, dta.notice.time)
         },
 
-        getnotice(){
-            $vm.api.notice({page:1}).then(res=>{
-                console.log(res)
-                
-            }).catch(res=>{
-                console.log('报错信息',res)
-            })
-        },
 
         compatibility(){ //兼容
             if (wx.canIUse('navigateToMiniProgram')){
@@ -62,17 +54,21 @@ Component({
     },
 
     ready() {
+        console.log(this.data.notice)
         let screenwidth = wx.getSystemInfoSync().screenWidth //屏幕宽度
         let content = this.data.notice.content, empty = [] // content文本内容 
         let query = wx.createSelectorQuery().in(this)
         query.select('.notice').boundingClientRect(res => { // 获取文本文字宽度
             console.log(res)
-            let txt_length=res.width
-            this.setData({
-                screenwidth: screenwidth,
-                txt_length: txt_length
-            })
-            this.run()
+            if(res){
+                let txt_length=res.width
+                this.setData({
+                    screenwidth: screenwidth,
+                    txt_length: txt_length
+                })
+                this.run()
+            }
+            
 
             
         }).exec()
