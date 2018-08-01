@@ -281,6 +281,7 @@ const me = {
 	},
 	// 前往参数中的地址
 	_goParam(){
+		debugger
 		console.log('----------------------------------------------------------分享前往页面')
 		let to = this.options.to
 		let from = this.options.to || 'unknown'
