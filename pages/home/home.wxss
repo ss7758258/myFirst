@@ -2,7 +2,6 @@
 
 @import "/template/choice/choice.wxss";
 @import "/template/star-desc/star-desc.wxss";
-@import "/template/notice/notice.wxss";
 
 page button {
 	width: 100%;

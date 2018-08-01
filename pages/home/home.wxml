@@ -24,7 +24,7 @@
 	</view>
 </view> -->
 
-<include  src="/template/notice/notice.wxml" />
+<!-- <notice notice="{{notice}}"></notice> -->
 
 
 <!-- 关注服务号-弹窗 -->

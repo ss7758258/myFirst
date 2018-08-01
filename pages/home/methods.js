@@ -441,6 +441,7 @@ const methods = function(){
 
             
 		},
+        
 		/**
 		 * 选择星座
 		 * @param {*} e
