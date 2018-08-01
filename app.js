@@ -207,7 +207,9 @@ function tick(){
 			},
 			fail(){
 				console.log(`---------------------------------心跳检测到用户未授权------------------------------------------`)
-				bus.emit('no-login-app', {} , 'app')
+				if(!Storage.noLoginStatus){
+					bus.emit('no-login-app', {} , 'app')
+				}
 			}
 		})
 		tick()
