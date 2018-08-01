@@ -15,7 +15,7 @@ page button {
 	border-radius: inherit;
 	font-size: 0;
 }
-botton::after{
+button::after{
 	content: '';
 	box-shadow: initial;
 	border: none;

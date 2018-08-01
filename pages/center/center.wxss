@@ -1,6 +1,6 @@
 .panel{
     background: #FFFFFF;
-    height: calc(100% - 2.9962546816479403vh - 6.6vh);
+    height: calc(100% - 64px);
 }
 .photo{
     height: 28.48575712143928vh;

@@ -67,7 +67,7 @@ const Conf = {
         mta.Event.stat('banner_share',{})
         return {
             title : '真好玩，根本停不下来!',
-            path : '/pages/banner/banner?to=banner&from=share&source=share&id=999999&tid=123456&shareform=banner&m=0',
+            path : '/pages/home/home?to=banner&from=share&source=share&id=999999&tid=123456&shareform=banner&m=0',
             imageUrl : '/assets/images/share-banner.png'
         }
     }
