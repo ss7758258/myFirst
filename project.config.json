@@ -132,7 +132,7 @@
 					"id": 14,
 					"name": "分享一言",
 					"pathName": "pages/home/home",
-					"query": "to=brief&from=share&source=share&id=999998&tid=123455&shareform=pair&m=0",
+					"query": "to=brief&from=share&source=share&id=999998&tid=123455&shareform=brief&m=0",
 					"scene": "1001"
 				}
 			]

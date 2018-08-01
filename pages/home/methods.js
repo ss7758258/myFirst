@@ -255,7 +255,8 @@ const me = {
                 showChoice: true,
                 'notice.isShow': false,
                 'navConf.isIcon' : true
-            })
+			})
+			wx.hideTabBar({})
 		}
 	},
     /**
@@ -282,6 +283,7 @@ const me = {
                 'notice.isShow': false,
                 'navConf.isIcon' : true
             })
+			wx.hideTabBar({})
         }
 	},
 	// 前往参数中的地址
@@ -429,7 +431,6 @@ const methods = function(){
 			// 数据来源分析
 			q.sourceHandle(options)
             me.init.call(this)
-            
         },
         /**
          * 显示方案
@@ -445,8 +446,6 @@ const methods = function(){
                     'navConf.iconPath' : Storage.userInfo.avatarUrl || ''
                 })
             }
-
-            
 		},
         
 		/**
@@ -506,6 +505,8 @@ const methods = function(){
 			}).catch(res=>{
 				console.log('choice运势报错返回数据',res)
 			})
+			
+			wx.showTabBar({})
 		},
 		/**
 		 * 前往选择星座页面
@@ -518,6 +519,7 @@ const methods = function(){
 				key: 'selectConstellation',
 				data: null,
 			})
+			wx.hideTabBar({})
 			Storage.starXz = undefined
 			_GData.selectConstellation = null
 			this.setData({

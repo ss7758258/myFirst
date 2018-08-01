@@ -1,6 +1,9 @@
 page{
     background: #FFF;
 }
+image{
+    width: 100%;
+}
 .navigtion_panel{
     background: #FF4053;
 }
@@ -13,6 +16,7 @@ navigator{
 }
 /* 头部 */
 .door-top{
+    width: 100%;
     height: 560rpx;
 }
 .door-top>image{
@@ -57,7 +61,7 @@ navigator{
     min-height:1rpx;
     max-height: 1rpx;
 }
-.door-btn>navigator{
+.door-btn>navigator,.door-btn>view{
 	margin : 0 auto;
     font-size: initial;
     text-align: center;
@@ -79,7 +83,12 @@ navigator{
 .current .door-bottom{
     margin-top: 0;
 }
+.current .door-title{
+    margin-top: 60rpx !important;
+    margin-bottom: 80rpx !important;
+}
 .door-bottom{
+    flex: 1;
     margin-top: 120rpx;
 }
 .door-secret{

@@ -48,6 +48,7 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
+		console.log('----------------------------------------------brief onLoad')
 		let self=this
 
 		q.sourceHandle(options)
@@ -63,7 +64,7 @@ Page({
             console.log(self.data.userInfo)
             this.getwordlist() //获取一言数据
             getSystemInfo(this)
-            wx.hideShareMenu({})
+            // wx.hideShareMenu({})
         }
 
         if (Storage.briefRemoveId) {
@@ -78,15 +79,13 @@ Page({
         // 如果已经存在用户信息触发登录标识
         if (Storage.userInfo) {
             // 已经触发过登录不在触发
-            if (Storage.briefLogin) {
-                return
-            }
+            // if (Storage.briefLogin) {
+            //     return
+            // }
             bus.emit('login-success', {}, 'brief-app')
         }
         
 		mta.Page.init()
-		
-		
 	},
 
     onShow:function(){
@@ -375,7 +374,6 @@ Page({
     countdown(hour,minute,sec){
         let self=this
         console.log(`倒计时：${hour}:${minute}:${sec}`)
-        if(hour && minute && sec){
             timer = setInterval(function () {
                 sec--
                 console.log(sec)
@@ -406,7 +404,6 @@ Page({
                     sec = 59, minute = 59, hour -= 1
                 }
             }, 1000)
-        }
         
     },
 
