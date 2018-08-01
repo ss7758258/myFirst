@@ -1,11 +1,11 @@
 <nav opts='{{navConf}}'></nav>
-<view class="door-panel">
+<view class="door-panel {{isOpen ? 'current' : ''}}">
     <view class="door-top">
         <image src="../../source/close.png" wx:if="{{!isOpen}}" ></image>
         <image src="../../source/open.png" wx:else ></image>
     </view>
     <view class="door-center">
-        <view class="door-title mb40">输入秘钥打开幸福之门</view>
+        <view class="door-title mb40" wx:if="{{!isOpen}}">输入秘钥打开幸福之门</view>
         <input class="door-input" cursor-spacing="80" type="text" bindinput="_getModel" focus="{{focus}}" value="{{text}}" />
         <view class="door-text" wx:if="{{!isOpen}}" catchtap="_bindButtonTap">
             <view>{{text[0]}}</view>
@@ -15,7 +15,7 @@
         </view>
         <view wx:else class="door-btn">
             <navigator target="miniProgram" hover-class="animate" open-type="{{xiaodaka.openType}}" app-id="{{xiaodaka.appId}}" path="{{xiaodaka.path}}" url="{{xiaodaka.path}}" extra-data="{{xiaodaka.extra}}" version="{{xiaodaka.version}}">
-                进入
+                <image src="../../source/go.svg"></image>
             </navigator>
         </view>
     </view>

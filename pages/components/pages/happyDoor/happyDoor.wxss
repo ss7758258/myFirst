@@ -49,6 +49,7 @@ navigator{
     font-family:PingFangSC-Medium;
     color:rgba(0,0,0,1);
     line-height:74rpx;
+    box-shadow: 0 4rpx 8rpx 0 rgba(255, 83, 105, 0.3);
 }
 .door-input{
     width: 100%;
@@ -57,20 +58,17 @@ navigator{
     max-height: 1rpx;
 }
 .door-btn>navigator{
-    width: 200rpx;
-    height: 100rpx;
-	padding-left:14px;
-	padding-right:14px;
 	margin : 0 auto;
-	margin-top: 0.7vh;
     font-size: initial;
     text-align: center;
 	line-height: 100rpx;
-	background: #9262FB;
 	border-radius: 10rpx;
 	color: #fff;
-	box-shadow: 0 0 5px rgba(0,0,0,.1);
 	transition: all .1s linear;
+}
+.door-btn image{
+    width: 200rpx;
+    height: 200rpx;
 }
 .animate{
 	opacity: .85;
@@ -78,6 +76,9 @@ navigator{
 }
 
 /* 底部 */
+.current .door-bottom{
+    margin-top: 0;
+}
 .door-bottom{
     margin-top: 120rpx;
 }

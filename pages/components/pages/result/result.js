@@ -12,12 +12,22 @@ Page({
             root: '',
             isTitle: true,
         },
+		xiaodaka: {
+			appId: 'wx855c5d7718f218c9',
+			path: '/pages/index/index?wxID=45ae12&scene=gzhgl1109804',
+			openType: 'navigate',
+			extra: '',
+			txt: '打卡',
+			version: 'release'
+		},
         paidList:[],
         man:false,
         woman:false,
+        showNav : false,
         flag:false, //开关
         star:star, //星座信息
         isIPhoneX:false, //iphonex适配
+        version : true
     },
 
     /**
@@ -45,9 +55,20 @@ Page({
     },
 
     onShow: function () {
-        
+        let open = wx.getStorageSync('opengate')
+        let clock = wx.getStorageSync('clockStatus')
+        this.setData({
+            showNav : open == 1 && clock == 1 ? true : false,
+            version : store.miniPro
+        })
     },
-
+    // 低版本跳转小打卡
+    _goXDK(){
+        wx.navigateToMiniProgram({
+            appId: this.data.xiaodaka.appId,
+            path: this.data.xiaodaka.path
+        })
+    },
     // 获取星座配对数据
     getpair(){
         $vm.api.pair({ maleConstellationId: this.data.man.id, femaleConstellationId: this.data.woman.id}).then(res=>{
@@ -77,8 +98,12 @@ Page({
         // console.log(e)
         $vm.api.getX610({ formid: e.detail.formId, notShowLoading:true })
         mta.Event.stat("find_btn", {})
-        let clockStatus = wx.getStorageInfo('clockStatus') ? wx.getStorageInfo('clockStatus') : 0
-        if(clockStatus == 0){
+        let clockStatus = wx.getStorageSync('clockStatus') || 0
+        let open = wx.getStorageSync('opengate')
+        if(clockStatus == 1 && open == 1){
+            return
+        }
+        if(!clockStatus){
             wx.showToast({
                 title: '即将开启，敬请期待',
                 icon: 'none',
@@ -89,7 +114,8 @@ Page({
         } else if (clockStatus == 1){
             let now=new Date().getTime()   //当前时间戳
             let c = new Date(new Date().toLocaleDateString()).getTime() //当天0点时间戳
-            let time19=c+1000*60*60*19,timer21=c+1000*60*60*21
+            let time19 = c + 1000 * 60 * 60 * 19
+            let time21 = c + 1000 * 60 * 60 * 21
             if(now > time19 && now < time21){
                 wx.navigateTo({
                     url: '../happyDoor/happyDoor'   //跳转链接

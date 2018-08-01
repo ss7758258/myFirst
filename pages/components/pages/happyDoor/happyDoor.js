@@ -16,7 +16,7 @@ Page({
         },
 		xiaodaka: {
 			appId: 'wx855c5d7718f218c9',
-			path: '/pages/index/index?wxID=ad6377&scene=gzhgl922689',
+			path: '/pages/index/index?wxID=45ae12&scene=gzhgl1109804',
 			openType: 'navigate',
 			extra: '',
 			txt: '打卡',
@@ -37,7 +37,7 @@ Page({
     onLoad: function(options) {
         mta.Page.init()
         this.setData({
-            isOpen : wx.getStorageSync('clockStatus') || 0
+            isOpen : wx.getStorageSync('opengate') || 0
         })
     },
     

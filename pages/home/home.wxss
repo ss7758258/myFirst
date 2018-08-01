@@ -334,6 +334,9 @@ button::after{
 .panel:last-child{
 	padding-bottom: 20rpx;
 }
+.notice-current .panel:last-child{
+	padding-bottom: 88rpx;
+}
 
 /* 加载动画 */
 .loader_panel{

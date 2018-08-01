@@ -58,7 +58,7 @@
 	<!-- 星座描述信息 -->
 	<template is="star-desc" data="{{showStarDesc,star,xz,desc}}"></template>
 	<!-- 滚动容器 -->
-	<scroll-view class="monitor-panel" scroll-x="false" scroll-y="true">
+	<scroll-view class="monitor-panel {{notice.isShow ? 'notice-current' : ''}}" scroll-x="false" scroll-y="true">
 	<!-- <view class="monitor-panel"> -->
 		<view class="panel pt65">
 			<view class="star-mask"></view>
