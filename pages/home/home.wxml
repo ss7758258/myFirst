@@ -24,8 +24,8 @@
 	</view>
 </view> -->
 
-<!-- 公告组件 -->
-<notice notice="{{notice}}"></notice>
+<include  src="/template/notice/notice.wxml" />
+
 
 <!-- 关注服务号-弹窗 -->
 <view class="contact_follow_mask {{showFollow ? 'show':''}}" catchtap="hideFollow">

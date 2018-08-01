@@ -1,0 +1,26 @@
+<!-- 水平 -->
+<block wx:if="{{notice}}">
+<view class="box" style="color:{{notice.color}};background:{{notice.background}};" wx:if="{{notice.top}}">
+    <!-- 水平 -->
+    <view class='notice' style="left:{{left}}px;" wx:if="{{notice.top[0].type == 1}}">
+        <block wx:for="{{notice.top}}" wx:key="index">
+            <text class='notice_txt' style="margin-left:{{margin_left}}rpx;" wx:if="{{item.type == 1}}">{{item.content}}</text>
+            <navigator target="miniProgram" open-type="navigate" appId="{{item.appid}}" bindtap='compatibility' wx:if="{{item.type == 3}}">
+                <text>{{notice.content}}</text>
+            </navigator>
+        </block>
+    </view> 
+
+    <!-- 垂直 -->
+    <!-- <view class='notice' style="left:{{left}}px;" wx:if="{{notice.top[0].type == 2}}">
+        <block wx:for="{{notice.top}}" wx:key="index">
+            <text class='notice_txt' wx:if="{{item.type == 1}}">{{item.content}}</text>
+            <navigator target="miniProgram" open-type="navigate" appId="{{item.appid}}" bindtap='compatibility' wx:if="{{item.type == 3}}">
+                <text>{{notice.content}}</text>
+            </navigator>
+        </block>
+    </view>  -->
+</view>
+</block>
+
+

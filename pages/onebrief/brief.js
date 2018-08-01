@@ -150,6 +150,7 @@ Page({
 	onShareAppMessage: function () {
 		return {
 			path: '/pages/onebrief/brief?from=share&to=brief',
+            imageUrl:'',
 			success: function (res) {
 				// 转发成功
 			},
@@ -326,6 +327,10 @@ Page({
     getwordlist(){
         let self=this
         $vm.api.wordlist({ constellationId: _GData.selectConstellation.id, startpage: 1, notShowLoading: true}).then(res=>{
+            wx.showLoading({
+                title: '加载ing',
+                mask: true,
+            })
             wx.setStorageSync('constellationId', _GData.selectConstellation.id)  // 设置星座id缓存
             console.log('获取一言数据:', res)
             if(res.wordlist.length > 0){
@@ -347,12 +352,14 @@ Page({
                 
                 console.log('getwordlist打印数据',this.data.list)
             }else{
+                wx.hideLoading()
                 this.setData({
                     list:false
                 })
             }
             
         }).catch(res=>{
+            wx.hideLoading()
             this.setData({
                 list:false
             })

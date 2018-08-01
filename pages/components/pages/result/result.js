@@ -17,6 +17,7 @@ Page({
         woman:false,
         flag:false, //开关
         star:star, //星座信息
+        isIPhoneX:false, //iphonex适配
     },
 
     /**
@@ -24,6 +25,7 @@ Page({
      */
     onLoad: function(options) {
         mta.Page.init()
+        getSystemInfo(this)
         if(store.pairList){
             console.log('aaaaaaaaaaaaaaaaa',store.pairList)
             this.setData({
@@ -73,7 +75,7 @@ Page({
     formid(e) { 
         mta.Event.stat("result_find", {})
         // console.log(e)
-        $vm.api.getX610({ formid: e.detail.formId })
+        $vm.api.getX610({ formid: e.detail.formId, notShowLoading:true })
         mta.Event.stat("find_btn", {})
         let clockStatus = wx.getStorageInfo('clockStatus') ? wx.getStorageInfo('clockStatus') : 0
         if(clockStatus == 0){
@@ -109,3 +111,16 @@ Page({
     },   
 
 })
+
+function getSystemInfo(self) {
+    let res = wx.getSystemInfoSync();
+    console.log('设备信息：', res);
+    if (res) {
+        // 长屏手机适配
+        if (res.screenWidth <= 375 && res.screenHeight >= 750) {
+            self.setData({
+                isIPhoneX: true
+            })
+        }
+    }
+}

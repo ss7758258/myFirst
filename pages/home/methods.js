@@ -396,7 +396,7 @@ const methods = function(){
 			// 数据来源分析
 			q.sourceHandle(options)
             me.init.call(this)
-            this.getNotice()
+            
         },
         /**
          * 显示方案
@@ -406,11 +406,14 @@ const methods = function(){
             // 触发加载用户配置函数
             bus.emit('loadUserConf',{},'home')
             getStarNum(this)
+            this.getNotice()
             if(Storage.userInfo){
                 this.setData({
                     'navConf.iconPath' : Storage.userInfo.avatarUrl || ''
                 })
             }
+
+            
 		},
 		/**
 		 * 选择星座

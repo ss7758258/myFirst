@@ -2,6 +2,7 @@
 
 @import "/template/choice/choice.wxss";
 @import "/template/star-desc/star-desc.wxss";
+@import "/template/notice/notice.wxss";
 
 page button {
 	width: 100%;
@@ -189,7 +190,7 @@ botton::after{
 	overflow: hidden;
 	text-overflow:ellipsis;
     white-space:nowrap;
-	font-family: PingFangSC-Medium;
+	font-family: PingFangSC;
 	font-size: 27rpx;
 	color: #6041CD;
 	letter-spacing: 0;

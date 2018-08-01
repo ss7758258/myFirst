@@ -8,7 +8,6 @@
     z-index: 999;
 }
 .notice{
-    width: 100%;
     height: 68rpx;
     line-height: 68rpx;
     font-size: 28rpx;
@@ -17,7 +16,11 @@
     position: absolute;
     top: 0;
 }
-.vertical{
+/* .notice_txt{
+    display: inline-block;
+    width: 750rpx;
+} */
+/* .vertical{
     width: 300rpx;
     height: 68rpx;
     position: fixed;
@@ -37,5 +40,5 @@
     100%{
         transform: translate(-100%,0)
     }
-}
+} */
 

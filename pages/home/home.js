@@ -65,10 +65,9 @@ Page({
 		showFollow : false, // 关注服务号开关
 		// 待领星星文案
 		more_startext : '0颗待领',
-        notice:{
-            content:'aaaaa',
-            type:1
-        },  //公告组件
+        notice:false,  //公告组件
+        left:0,     //默认移动距离
+        margin_left:700,
 	},
 	
 	// 初始化
@@ -150,18 +149,67 @@ Page({
 	},
     
     // 获取公告数据
-    getNotice(){
-        $vm.api.notice({page:1}).then(res=>{
-            console.log('11111111111111111111',res)
-            // if(res){
-            //     this.setData({
-            //         notice:res[0]
-            //     })
-            // }
-        }).catch(err=>{
+    getNotice() {
+        $vm.api.notice({ page: 1 }).then(res => {
+            console.log('11111111111111111111', res)
+            if (res) {
+                let top = [], bottom = []
+                res.forEach(value => {
+                    if (value.side == 1) {
+                        top.push(value)
+                    } else if (side == 2) {
+                        bottom.push(value)
+                    }
+                })
+                this.setData({
+                    'notice.top': top,
+                    'notice.bottom': bottom
+                })
+                console.log(this.data.notice)
+
+
+                let screenwidth = wx.getSystemInfoSync().screenWidth //屏幕宽度
+                let query = wx.createSelectorQuery().in(this)
+                query.select('.notice').boundingClientRect(res => { // 获取文本文字宽度
+                    console.log(res)
+                    if (res) {
+                        let txt_length = res.width
+                        this.setData({
+                            screenwidth: screenwidth,
+                            txt_length: txt_length
+                        })
+                        this.run()
+                    }
+
+                }).exec()
+            }
+        }).catch(err => {
             console.log(err)
         })
-    }
+    },
+
+    // 公告
+    run() {
+        let self = this, dta = this.data
+        var timer = setInterval(function () {
+            if (- dta.left < dta.txt_length) {
+                self.setData({
+                    left: --dta.left,
+                })
+                clearInterval(timer);
+                self.run();
+            } else {
+                clearInterval(timer);
+                self.setData({
+                    left: dta.screenwidth
+                });
+                self.run();
+            }
+        }, 20)
+    },
+
+
+
 })
 
 

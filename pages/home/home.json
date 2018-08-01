@@ -3,7 +3,6 @@
 	"usingComponents": {
 		"nav": "/components/navigation/nav",
 		"loginApp": "/components/login/login",
-		"xiaodaka": "/template/xiaodaka-btn/xiaodaka-btn",
-        "notice":"/components/notice/notice"
+		"xiaodaka": "/template/xiaodaka-btn/xiaodaka-btn"
 	}
 }
