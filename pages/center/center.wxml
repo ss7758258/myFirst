@@ -44,7 +44,7 @@
         <view>
             <image class="notice_icon" src="{{imgs.opinion}}"></image>
         </view>
-        <view>我要吐槽</view>
+        <view>吐个槽</view>
         <view>
             <image class="notice_icon" src="{{imgs.right}}"></image>
         </view>

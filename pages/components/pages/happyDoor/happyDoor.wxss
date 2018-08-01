@@ -1,6 +1,9 @@
 page{
     background: #FFF;
 }
+image{
+    width: 100%;
+}
 .navigtion_panel{
     background: #FF4053;
 }
@@ -13,6 +16,7 @@ navigator{
 }
 /* 头部 */
 .door-top{
+    width: 100%;
     height: 560rpx;
 }
 .door-top>image{
@@ -49,6 +53,7 @@ navigator{
     font-family:PingFangSC-Medium;
     color:rgba(0,0,0,1);
     line-height:74rpx;
+    box-shadow: 0 4rpx 8rpx 0 rgba(255, 83, 105, 0.3);
 }
 .door-input{
     width: 100%;
@@ -56,21 +61,18 @@ navigator{
     min-height:1rpx;
     max-height: 1rpx;
 }
-.door-btn>navigator{
-    width: 200rpx;
-    height: 100rpx;
-	padding-left:14px;
-	padding-right:14px;
+.door-btn>navigator,.door-btn>view{
 	margin : 0 auto;
-	margin-top: 0.7vh;
     font-size: initial;
     text-align: center;
 	line-height: 100rpx;
-	background: #9262FB;
 	border-radius: 10rpx;
 	color: #fff;
-	box-shadow: 0 0 5px rgba(0,0,0,.1);
 	transition: all .1s linear;
+}
+.door-btn image{
+    width: 200rpx;
+    height: 200rpx;
 }
 .animate{
 	opacity: .85;
@@ -78,7 +80,15 @@ navigator{
 }
 
 /* 底部 */
+.current .door-bottom{
+    margin-top: 0;
+}
+.current .door-title{
+    margin-top: 60rpx !important;
+    margin-bottom: 80rpx !important;
+}
 .door-bottom{
+    flex: 1;
     margin-top: 120rpx;
 }
 .door-secret{

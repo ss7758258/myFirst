@@ -59,5 +59,9 @@
 </scroll-view>
 
 <form report-submit bindsubmit='formid'>
-    <button form-type="submit" class="find  {{ isIPhoneX ? 'iphonex':''}}">寻找这样的TA</button>
+    <button wx:if="{{!showNav}}" form-type="submit" class="find  {{ isIPhoneX ? 'iphonex':''}}">寻找这样的TA</button>
+    <navigator wx:if="{{showNav && version}}" class="find  {{ isIPhoneX ? 'iphonex':''}}" target="miniProgram" hover-class="animate" open-type="{{xiaodaka.openType}}" app-id="{{xiaodaka.appId}}" path="{{xiaodaka.path}}" url="{{xiaodaka.path}}" extra-data="{{xiaodaka.extra}}" version="{{xiaodaka.version}}">
+        寻找这样的TA
+    </navigator>
+    <button wx:if="{{showNav && !version}}" catchtap="_goXDK" form-type="submit" class="find  {{ isIPhoneX ? 'iphonex':''}}">寻找这样的TA</button>
 </form>

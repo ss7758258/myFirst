@@ -55,16 +55,19 @@
                 </button>
             </view>
         </view>
-        <view class="pair-panel-bottom">
+        <!-- 星座圈 -->
+        <!-- <view class="pair-panel-bottom">
             <image src="../../img_subPackages/bottom-bg.png" ></image>
-            <!-- 星座圈 -->
             <view class="pair-xz-q" wx:if="{{clockStatus && isOpenGate}}">
-                <navigator target="miniProgram" hover-class="none" open-type="{{opts.openType}}" app-id="{{opts.appId}}" path="{{opts.path}}" url="{{opts.path}}" extra-data="{{opts.extra}}" version="{{opts.version}}">
+                <navigator wx:if="{{version}}" target="miniProgram" hover-class="none" open-type="{{opts.openType}}" app-id="{{opts.appId}}" path="{{opts.path}}" url="{{opts.path}}" extra-data="{{opts.extra}}" version="{{opts.version}}">
                     <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" >
                         <image src="../../img_subPackages/q.svg" ></image>
                     </button>
                 </navigator>
+                <button wx:if="{{!version}}" form-type="submit" hover-class="none" open-type="getUserInfo" catchtap="_goXDK" >
+                    <image src="../../img_subPackages/q.svg" ></image>
+                </button>
             </view>
-        </view>
+        </view> -->
     </view>
 </form>

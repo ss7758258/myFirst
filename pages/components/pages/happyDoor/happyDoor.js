@@ -1,5 +1,6 @@
 let $vm = getApp()
 const mta = require('../../../../utils/mta_analysis.js')
+const Storage = require('../../../../utils/storage')
 const API = require('../../../../utils/api')
 Page({
     data: {
@@ -16,7 +17,7 @@ Page({
         },
 		xiaodaka: {
 			appId: 'wx855c5d7718f218c9',
-			path: '/pages/index/index?wxID=ad6377&scene=gzhgl922689',
+			path: '/pages/index/index?wxID=45ae12&scene=gzhgl1109804',
 			openType: 'navigate',
 			extra: '',
 			txt: '打卡',
@@ -24,7 +25,8 @@ Page({
 		},
         focus : false, // 获取焦点
         text : '',
-        isOpen : false // 门是否打开
+        isOpen : false, // 门是否打开
+        version : true
     },
     onUnload(){
         this.setData({
@@ -37,10 +39,17 @@ Page({
     onLoad: function(options) {
         mta.Page.init()
         this.setData({
-            isOpen : wx.getStorageSync('clockStatus') || 0
+            isOpen : wx.getStorageSync('opengate') || 0,
+            version : Storage.miniPro
         })
     },
-    
+    // 低版本跳转小打卡
+    _goXDK(){
+        wx.navigateToMiniProgram({
+            appId: this.data.xiaodaka.appId,
+            path: this.data.xiaodaka.path
+        })
+    },
     // 获取输入框的焦点
     _bindButtonTap(){
         this.setData({
