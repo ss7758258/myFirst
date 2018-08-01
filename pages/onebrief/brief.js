@@ -5,9 +5,9 @@ const getImageInfo = $vm.utils.wxPromisify(wx.getImageInfo)
 var mta = require('../../utils/mta_analysis.js')
 const Storage = require('../../utils/storage')
 const bus = require('../../event')
-const dev=require('../../config.js')
+// const dev=require('../../config.js')
 const q = require('../../utils/source')
-
+let env = 'dev'
 let timer=false
 Page({
 
@@ -41,7 +41,8 @@ Page({
             minute:false,  
             sec:false,
             timer:true,
-        }
+		},
+		page:1,//默认分页
 	},
 
 	/**
@@ -287,8 +288,10 @@ Page({
     
     // 获取一言列表数据
     getwordlist(){
-        let self=this
-        $vm.api.wordlist({ constellationId: _GData.selectConstellation.id, startpage: 1, notShowLoading: true}).then(res=>{
+		let self=this
+		// let page=this.data.page
+		// console.log('aaaaaaaaaaaaaaaaa',page)
+        $vm.api.wordlist({ constellationId: _GData.selectConstellation.id, startpage: this.data.page, notShowLoading: true}).then(res=>{
             wx.showLoading({
                 title: '加载ing',
                 mask: true,
@@ -296,23 +299,46 @@ Page({
             wx.setStorageSync('constellationId', _GData.selectConstellation.id)  // 设置星座id缓存
             console.log('获取一言数据:', res)
             if(res.wordlist.length > 0){
-                let url = 'https://xingzuo-1256217146.file.myqcloud.com' + (dev === 'dev' ? '' : '/prod')
-                res.wordlist.forEach(function (value) {
-                    value.prevPic = url + value.prevPic
-                })
+				let url = 'https://xingzuo-1256217146.file.myqcloud.com' + (env === 'dev' ? '' : '/prod')
+				res.wordlist.forEach(function (value) {
+					value.prevPic = url + value.prevPic
+				})
+				res.wordlist.push({  //添加明日展示
+					prevPic: false
+				})
 
-                res.wordlist.push({  //添加明日展示
-                    prevPic: false
-                })
+				
+				this.setData({
+					list: res.wordlist,
+					current: res.wordlist.length - 2
+				})
 
-                
-                this.setData({
-                    list: res.wordlist,
-                    current: res.wordlist.length - 2
-                })
-                wx.hideLoading()
-                
-                console.log('getwordlist打印数据',this.data.list)
+
+				// if(page == 1){	
+				// 	res.wordlist.push({  //添加明日展示
+				// 		prevPic: false
+				// 	})
+	
+					
+				// 	this.setData({
+				// 		list: res.wordlist,
+				// 		current: res.wordlist.length - 2
+				// 	})
+					
+					
+				// 	console.log('getwordlist打印数据',this.data.list)
+				// }else{
+				// 	wx.showLoading({
+				// 		title:'加载中ing'
+				// 	})
+				// 	this.setData({
+				// 		list:res.wordlist.concat(this.data.list),
+				// 		current:res.wordlist.length
+				// 	})
+				// }
+				
+				wx.hideLoading()
+				console.log('getwordlist打印数据',this.data.list)
             }else{
                 wx.hideLoading()
                 this.setData({
@@ -376,11 +402,12 @@ Page({
         console.log(`倒计时：${hour}:${minute}:${sec}`)
             timer = setInterval(function () {
                 sec--
-                console.log(sec)
+                // console.log(sec)
 
                 if (hour == 0 && minute == 0 && sec == 0) {
                     clearInterval(timer)
-                    self.getwordlist()
+					self.getwordlist()
+					self.gettomorrow()
                     self.setData({
                         'tomorrow.timer': false
                     })
@@ -421,7 +448,18 @@ Page({
         wx.reLaunch({
             url: '/pages/home/home'
         })
-    }
+	},
+	// 获取上一页数据
+	// day(e){
+	// 	console.log(e.detail.current)
+		
+	// 	if(e.detail.current == 0){
+	// 		this.setData({
+	// 			page:++this.data.page
+	// 		})
+	// 		this.getwordlist()
+	// 	}
+	// }
 })
 
 /**

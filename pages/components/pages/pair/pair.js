@@ -88,9 +88,9 @@ const conf = {
                 isOpenGate : wx.getStorageSync('opengate') || 0
             })
 
-            wx.showLoading({
-                title: '加载中...'
-            })
+            // wx.showLoading({
+            //     title: '加载中...'
+            // })
             let params = {
                 notShowLoading:true
             }
