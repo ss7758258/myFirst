@@ -123,11 +123,16 @@ const conf = {
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
+        // wx.showTabBar({
+        //     animation : true
+        // })
+        resetLot(gloThis)
         // this.shakeLotBox()
         animation.rotate(0).step()
         // 确认信封出来动画以及树停止动画
         this.setData({
             shakeLotSpeed : false,
+            endSpeed: false,
             animationData : animation.export()
         })
         if(len === 0){
@@ -153,14 +158,8 @@ const conf = {
             animationData : animation.export()
         })
         console.log('动画隐藏')
-        wx.stopAccelerometer()
-        resetLot(gloThis)
-        
-        if(!Storage.isLogin){
-            // wx.redirectTo({
-            //     url : '/pages/home/home'
-            // })
-        }
+        // resetLot(this)
+        wx.stopAccelerometer({})
     },
 
     /**
@@ -174,8 +173,8 @@ const conf = {
         this.setData({
             animationData : animation.export()
         })
+        // resetLot(this)
         wx.stopAccelerometer({})
-        resetLot(gloThis)
     },
     /**
      * 用户点击右上角分享
@@ -188,18 +187,11 @@ const conf = {
         return {
             title: shareMsg,
             imageUrl: shareImg,
-            path: sharepath,
-            success: function (res) {
-                console.log('转发成功：',res)
-            },
-            fail: function (res) {
-                // 转发失败
-            }
+            path: sharepath
         }
     },
     
     shakeLotBox() {
-        // debugger
         this.setData({
             lotBox:''
         })
@@ -254,10 +246,6 @@ const conf = {
 	 * @param {*} e
 	 */
     openEnvelope(){
-        // 前往签详情页
-        // wx.redirectTo({
-        //     url: '/pages/lot/lotdetail/lotdetail?fromSource=shake&lotId=' + Storage.lotId,
-        // })
         wx.navigateTo({
             url: '/pages/lot/lotdetail/lotdetail?fromSource=shake&lotId=' + Storage.lotId,
         })
@@ -279,6 +267,9 @@ const conf = {
             // 结束摇动值重置
             endSpeed : false
         })
+        // wx.hideTabBar({
+        //     animation : true
+        // })
         // 震动
         wx.vibrateLong({
             success(){
@@ -481,15 +472,15 @@ function lotBeat(self,num = 0){
 
 // 重置签的状态
 function resetLot(self){
-    // 出签状态
-    Storage.loExist = false
-    Storage.lotNot = false
-    Storage.lotCatch = false
     // 变更UI状态
     self.setData({
         shakeLotSpeed : false,
         endSpeed: false
     })
+    // 出签状态
+    Storage.loExist = false
+    Storage.lotNot = false
+    Storage.lotCatch = false
 }
 
 /**

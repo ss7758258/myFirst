@@ -384,7 +384,7 @@ const config = {
 	openDis() {
 		// 如果已经拆过了进入每日一签
 		if (this.data.lotDetail.hasChai) {
-			wx.navigateTo({
+			wx.reLaunch({
 				url: '/pages/lot/shake/shake?fromSource=lotdetail'
 			})
 			return
