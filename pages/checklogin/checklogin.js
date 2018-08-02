@@ -113,23 +113,23 @@ Page({
 					// 确定用户信息已经上报
 					Storage.loginForMore = true
 					if (_SData.pageFrom == 'shake') {
-						wx.redirectTo({
+						wx.reLaunch({
 							url: '/pages/lot/shake/shake?from=detail',
 						})
 					} else if (_SData.pageFrom == 'activity' && _SData.and == 'shake') {
-						wx.redirectTo({
+						wx.reLaunch({
 							url: '/pages/lot/shake/shake?from=activity',
 						})
 					} else if (_SData.pageFrom == 'share' && _SData.and == 'shake') {
-						wx.redirectTo({
+						wx.reLaunch({
 							url: '/pages/lot/shake/shake?from=share',
 						})
 					} else if (_SData.pageFrom == 'share' && _SData.qId) {
-						wx.redirectTo({
+						wx.reLaunch({
 							url: '/pages/lot/lotdetail/lotdetail?from=' + _SData.pageFrom + '&lotId=' + _SData.qId,
 						})
 					} else {
-						wx.redirectTo({
+						wx.reLaunch({
 							url: '/pages/home/home?from=' + _SData.pageFrom + '&to=' + _SData.toPage + (_self.data.q ? '&q=' + _self.data.q : ''),
 						})
 					}

@@ -11,7 +11,7 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.9.94",
+	"libVersion": "2.2.1",
 	"appid": "wxedc8a06ed85ce4df",
 	"projectname": "%E5%B0%8F%E5%93%A5%E6%98%9F%E5%BA%A72.1",
 	"condition": {
@@ -32,13 +32,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 14,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "签详情",
 					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "from=share&lotId=565307",
+					"query": "from=share&lotId=565361",
 					"scene": "1011"
 				},
 				{

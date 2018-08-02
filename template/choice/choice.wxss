@@ -86,8 +86,8 @@ page .choice button {
 }
 .star-xz-disc {
     display: inline-block;
-    width: 130rpx;
-    margin: 40rpx 45rpx 0 0;
+    width: 150rpx;
+    margin: 40rpx 25rpx 0 0;
 }
 .star-xz-disc:nth-child(4),.star-xz-disc:nth-child(8),.star-xz-disc:nth-child(12){
     margin-right: 0;
@@ -119,8 +119,8 @@ page .choice button {
 }
 .disc-top {
     position: relative;
-    width: 130rpx;
-    height: 130rpx;
+    width: 150rpx;
+    height: 150rpx;
     border-radius: 50%;
     background:currentColor;
 }
@@ -131,8 +131,8 @@ page .choice button {
     top: 0;
     bottom: 0rpx;
     margin: auto;
-    width: 100rpx;
-    height: 110rpx;
+    width: 120rpx;
+    height: 130rpx;
 }
 
 .bg{
