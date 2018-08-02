@@ -5,7 +5,7 @@
         <block wx:for="{{swiper.list}}" wx:key="*this">
             <!-- 可滑动Banner -->
             <swiper-item wx:if="{{swiper.list.length > 1}}">
-                <navigator class="nav-banner" wx:if="{{opts.miniPro}}" target="miniProgram" catchtap="navOuter" catchsuccess="navSuccess" catchfail="navFail" hover-class="none" open-type="navigate" app-id="{{item.appId}}" path="{{item.targetUrl}}" data-res="{{item}}">
+                <navigator class="nav-banner" wx:if="{{opts.miniPro}}" target="miniProgram" catchtap="navOuter" catchsuccess="navSuccess" catchfail="navFail" hover-class="none" open-type="navigate" app-id="{{item.appId}}" path="{{item.targetUrl}}" data-res="{{item}}" data-index="{{index}}">
                     <view class="swiper-item" data-res="{{item}}">
                         <image mode="scaleToFill" src="{{item.imgUrl}}"></image>
                     </view>
@@ -16,7 +16,7 @@
             </swiper-item>
             <!-- 单条不可滑动状态 -->
             <swiper-item catchtouchmove="move" wx:else>
-                <navigator class="nav-banner" wx:if="{{opts.miniPro}}" target="miniProgram" catchtap="navOuter" catchsuccess="navSuccess" catchfail="navFail" hover-class="none" open-type="navigate" app-id="{{item.appId}}" path="{{item.targetUrl}}" data-res="{{item}}">
+                <navigator class="nav-banner" wx:if="{{opts.miniPro}}" target="miniProgram" catchtap="navOuter" catchsuccess="navSuccess" catchfail="navFail" hover-class="none" open-type="navigate" app-id="{{item.appId}}" path="{{item.targetUrl}}" data-res="{{item}}" data-index="{{index}}">
                     <view class="swiper-item" data-res="{{item}}">
                         <image mode="scaleToFill" src="{{item.imgUrl}}"></image>
                     </view>
@@ -66,7 +66,7 @@
             </view>
         </view>
 
-        <navigator wx:if="{{opts.miniPro && item.appType === 3}}" catchtap="navOuter" catchsuccess="navSuccess" catchfail="navFail" hover-class="none" target="miniProgram" open-type="navigate" app-id="{{item.appId}}" path="{{item.targetUrl}}" data-res="{{item}}" >
+        <navigator wx:if="{{opts.miniPro && item.appType === 3}}" catchtap="navOuter" catchsuccess="navSuccess" catchfail="navFail" hover-class="none" target="miniProgram" open-type="navigate" app-id="{{item.appId}}" path="{{item.targetUrl}}" data-res="{{item}}" data-index="{{index}}" >
             <view class="banner_img_panel" data-res="{{item}}" wx:if="{{item.appType === 3}}">
                 <image src="{{item.imgUrl}}"></image>
             </view>
