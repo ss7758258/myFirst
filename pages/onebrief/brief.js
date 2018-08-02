@@ -90,10 +90,11 @@ Page({
 	},
 
     onShow:function(){
-        let starXz = Storage.starXz.id || -1
-        console.log(Storage.starXz.id, wx.getStorageSync('constellationId'))
+
+        let starXz = Storage.starXz || {}
+        console.log(starXz, wx.getStorageSync('constellationId'))
         this.gettomorrow() //获取日期时间，及倒计时时间
-        if (starXz != -1 && starXz != wx.getStorageSync('constellationId')){ //判断星座id是否有变动
+        if (starXz && starXz != wx.getStorageSync('constellationId')){ //判断星座id是否有变动
             this.getwordlist() //获取一言数据
         }
 
@@ -357,7 +358,9 @@ Page({
     // 获取明日数据
     gettomorrow(){
         let monthE = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        console.log(this.data.tomorrow.timer)
+
+        console.log(this.data.tomorrow.timer,this.data.list)
+
         if(this.data.tomorrow.timer){
             let b = new Date(new Date().getTime() + 60 * 60 * 24 * 1000)
             let year = b.getFullYear()
