@@ -20,7 +20,7 @@ Page({
 			txt: '打卡',
 			version: 'release'
 		},
-        paidList:[],
+        paidList:false,
         man:false,
         woman:false,
         showNav : false,

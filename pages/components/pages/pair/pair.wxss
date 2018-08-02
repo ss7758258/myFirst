@@ -70,6 +70,7 @@ page button {
     position: relative;
     background: #fff;
     border-radius:8rpx;
+    box-shadow: 0px 6rpx 12rpx rgba(146,98,251,.2);
 }
 .card-dom{
     width: 260rpx;

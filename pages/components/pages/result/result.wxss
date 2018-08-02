@@ -151,6 +151,7 @@ scroll-view{
     position: relative;
     background: #fff;
     border-radius:8rpx;
+    box-shadow: 0px 6rpx 12rpx rgba(146,98,251,.2);
 }
 .card-dom{
     width: 260rpx;
@@ -163,6 +164,7 @@ scroll-view{
     margin: auto;
     border-radius:8rpx;
     border:2rpx solid currentColor;
+    
 }
 .card-name{
     position: absolute;

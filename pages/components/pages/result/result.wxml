@@ -49,7 +49,7 @@
         </view>
     </view>
     <view class='love_advice'>
-        <view class='la_header important' style='margin-top:20rpx;'>注意事项</view>
+        <view class='la_header important' style='margin-top:40rpx;'>注意事项</view>
         <view class='la_content'>
             {{paidList.notice?paidList.notice:'抛出原则性问题,不管对错,不要长时间的去生自己女朋友的气、和她发生冷战,长时间的冷战对双方都不好,很多时候、女孩子都是一时的嘴快、一时的情绪化,作为一名男生,应该主动点去和好。'}}
         </view>
