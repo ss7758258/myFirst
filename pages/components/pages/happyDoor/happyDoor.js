@@ -87,7 +87,7 @@ Page({
         }).then( res => {
             console.log(res)
             // res = 1
-            if(res){
+            if(res == 1){
                 wx.setStorageSync('opengate',1)
                 self.setData({
                     isOpen : 1
@@ -98,14 +98,14 @@ Page({
                 title:'秘钥错误',
                 icon : 'none',
                 mask : true,
-                duration : 1000
+                duration : 1500
             })
         }).catch(err => {
             wx.showToast({
                 title:'秘钥错误',
                 icon : 'none',
                 mask : true,
-                duration : 1000
+                duration : 1500
             })
         })
     },

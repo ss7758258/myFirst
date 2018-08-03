@@ -128,7 +128,7 @@
 								<!-- End小爱心 -->
 		
 								<!-- 未拆开文字 -->
-								<view class="no_dis_text" wx:if="{{lotDetail.lotNotCompleted && !lotDetail.isOther && iosOpen}}" catchtap="goPay">
+								<view class="no_dis_text" wx:if="{{lotDetail.lotNotCompleted && !lotDetail.isOther && (iosOpen || openAndriod)}}" catchtap="goPay">
 									快速查看
 									<image class="lock" src="/assets/img/lock.png"></image>
 								</view>
@@ -145,7 +145,7 @@
 								<!-- End小爱心 -->
 		
 								<!-- 未拆开文字 -->
-								<view class="no_dis_text"  wx:if="{{lotDetail.lotNotCompleted && !lotDetail.isOther && iosOpen}}" catchtap="goPay">
+								<view class="no_dis_text"  wx:if="{{lotDetail.lotNotCompleted && !lotDetail.isOther && (iosOpen || openAndriod)}}" catchtap="goPay">
 									快速查看
 									<image class="lock" src="/assets/img/lock.png"></image>
 								</view>
