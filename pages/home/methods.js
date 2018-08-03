@@ -489,11 +489,11 @@ const methods = function(){
 			_GData = $vm.globalData
 			// 星座信息
 			Storage.starXz = _GData.selectConstellation
-			
+            wx.showTabBar({
+                animation: true
+            })
 			me._goParam.call(this)
-			wx.showTabBar({
-				animation : true
-			})
+
 			console.log(self.options)
 			$vm.api.choice({ notShowLoading : true, constellationId: _GData.selectConstellation.id}).then(res=>{
 				console.log('choice运势数据',res)
@@ -514,6 +514,7 @@ const methods = function(){
 						self.setData({
 							isLogin : true
 						})
+                        
 					}, 1000);
 				}
 			}).catch(res=>{

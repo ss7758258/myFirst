@@ -24,7 +24,7 @@
 	</view>
 </view>
 
-<notice notice="{{notice}}"></notice>
+<notice notice="{{notice}}" wx:if="{{isLogin}}"></notice>
 
 
 <!-- 关注服务号-弹窗 -->

@@ -7,7 +7,6 @@ const bus = require('./event')
 const Storage = require('./utils/storage')
 const methods = require('./server/login')
 // const updateManager = wx.getUpdateManager()
-
 App({
 	onLaunch: function (options) {
 		Storage.isLogin = false
