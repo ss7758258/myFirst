@@ -20,7 +20,7 @@ Page({
         clockStatus : false,  //小打卡开关
         iconPath : imgs.icon,
         nickName : '',
-        showOpen : true,
+        showOpen : false,
         starNum : 0 // 星星数量
     },
     /**
