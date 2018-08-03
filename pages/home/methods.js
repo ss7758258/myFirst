@@ -187,10 +187,10 @@ function getConfing(me){
 		// 变更状态
 		me.setData({
 			isBanner : res.bannerStatus === 1,
-			// clockStatus : res.clockStatus === 1
+			clockStatus : res.clockStatus === 1
 		})
 		// 默认小打卡是关闭状态
-		// wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
+		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
 	}).catch( err => {
 		console.log('加载失败---------------------------------全局配置')
 	})
@@ -346,6 +346,7 @@ const me = {
 			if(Storage.forMore){
 				// 加载用户配置
 				getUserConf(self)
+				getConfing(self)
 			}
 		},'home')
 		
@@ -382,15 +383,9 @@ const me = {
 			self.setData({
 				'navConf.iconPath' : Storage.userInfo.avatarUrl
 			})
-			
-			// timer = setTimeout(() => {
-			// 	self.setData({
-			// 		isLogin : true
-			// 	})
-			// },1500)
 
 			// 获取配置信息
-			getConfing(self);
+			// getConfing(self);
 
 			// 保存头像信息
 			wx.setStorageSync('icon_Path', Storage.userInfo.avatarUrl)
