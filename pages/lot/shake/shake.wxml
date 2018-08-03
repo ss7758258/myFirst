@@ -2,6 +2,8 @@
 <nav opts='{{navConf}}'></nav>
 <!-- 登录 -->
 <loginApp></loginApp>
+<!-- 公告组件 -->
+<notice notice="{{notice}}"></notice>
 
 <form>
     <view class="panel_scene {{longScreen ? 'iPhoneX' : ''}} {{iPhoneX ? 'PX' : ''}}">
