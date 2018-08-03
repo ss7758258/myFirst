@@ -65,7 +65,7 @@ Page({
             console.log(self.data.userInfo)
             this.getwordlist() //获取一言数据
             getSystemInfo(this)
-            // wx.hideShareMenu({})
+            wx.hideShareMenu()  //隐藏转发按钮
         }
 
         if (Storage.briefRemoveId) {
@@ -90,17 +90,16 @@ Page({
 	},
 
     onShow:function(){
-
         let starXz = Storage.starXz || {}
-        console.log(starXz, wx.getStorageSync('constellationId'))
+        console.log(starXz.id, wx.getStorageSync('constellationId'))
         this.gettomorrow() //获取日期时间，及倒计时时间
-        if (starXz && starXz != wx.getStorageSync('constellationId')){ //判断星座id是否有变动
+        if (starXz.id && starXz.id != wx.getStorageSync('constellationId')){ //判断星座id是否有变动
             this.getwordlist() //获取一言数据
         }
 
         
         let isFirst=wx.getStorageInfoSync().keys
-        if (isFirst.indexOf('isFirst') == -1 || starXz == -1) {
+        if (isFirst.indexOf('isFirst') == -1) {
             
             this.setData({
                 isFirst: true
@@ -291,12 +290,11 @@ Page({
     getwordlist(){
 		let self=this
 		// let page=this.data.page
-		// console.log('aaaaaaaaaaaaaaaaa',page)
         $vm.api.wordlist({ constellationId: _GData.selectConstellation.id, startpage: this.data.page, notShowLoading: true}).then(res=>{
-            wx.showLoading({
-                title: '加载ing',
-                mask: true,
-            })
+            // wx.showLoading({
+            //     title: '加载ing',
+            //     mask: true,
+            // })
             wx.setStorageSync('constellationId', _GData.selectConstellation.id)  // 设置星座id缓存
             console.log('获取一言数据:', res)
             if(res.wordlist.length > 0){
@@ -454,16 +452,15 @@ Page({
 	},
 	// 获取上一页数据
 	day(e){
-		// console.log(e)
-        // if (event.detail.source == "touch") {
-        //     //防止swiper控件卡死
-        //     if (this.data.current == 0 && this.data.preIndex > 1) {//卡死时，重置current为正确索引
-        //         this.setData({ current: this.data.preIndex });
-        //     }
-        //     else {//正常轮转时，记录正确页码索引
-        //         this.setData({ preIndex: this.data.current });
-        //     }
-        // }
+		console.log(e)
+        if (e.detail.source == "touch") {
+            //防止swiper控件卡死
+            if (this.data.current == 0 && this.data.preIndex > 1) {//卡死时，重置current为正确索引
+                this.setData({ current: this.data.preIndex });
+            }else {//正常轮转时，记录正确页码索引
+                this.setData({ preIndex: this.data.current });
+            }
+        }
 		// if(e.detail.current == 0){
 		// 	this.setData({
 		// 		page:++this.data.page
