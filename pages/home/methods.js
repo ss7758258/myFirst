@@ -285,6 +285,11 @@ const me = {
                 'notice.isShow': false,
                 'navConf.isIcon' : true
             })
+			setTimeout(() => {
+				self.setData({
+					isLogin : true
+				})
+			}, 1000);
 			wx.hideTabBar({
 				animation : true
 			})
@@ -354,7 +359,7 @@ const me = {
 					isLogin : true
 				})
 			}
-		},5000)
+		},10000)
 
 		let handle = () => {
 			$vm = getApp()
@@ -378,11 +383,11 @@ const me = {
 				'navConf.iconPath' : Storage.userInfo.avatarUrl
 			})
 			
-			setTimeout(() => {
-				self.setData({
-					isLogin : true
-				})
-			},1000)
+			// timer = setTimeout(() => {
+			// 	self.setData({
+			// 		isLogin : true
+			// 	})
+			// },1500)
 
 			// 获取配置信息
 			getConfing(self);
@@ -491,6 +496,9 @@ const methods = function(){
 			Storage.starXz = _GData.selectConstellation
 			
 			me._goParam.call(this)
+			wx.showTabBar({
+				animation : true
+			})
 			console.log(self.options)
 			$vm.api.choice({ notShowLoading : true, constellationId: _GData.selectConstellation.id}).then(res=>{
 				console.log('choice运势数据',res)
@@ -506,12 +514,22 @@ const methods = function(){
 						dayNotice: res.dayNotice ? res.dayNotice : ''
 					})
 				}
+				if(!this.data.isLogin){
+					setTimeout(() => {
+						self.setData({
+							isLogin : true
+						})
+					}, 1000);
+				}
 			}).catch(res=>{
+				if(!this.data.isLogin){
+					setTimeout(() => {
+						self.setData({
+							isLogin : true
+						})
+					}, 1000);
+				}
 				console.log('choice运势报错返回数据',res)
-			})
-			
-			wx.showTabBar({
-				animation : true
 			})
 		},
 		/**

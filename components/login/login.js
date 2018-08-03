@@ -8,6 +8,8 @@ const tm = 500
 let timer = null
 let clickLogin = false
 let temp = []
+// 是否已经打开登录界面
+let openNologin = false
 
 const methods = (function (){
     return {
@@ -54,6 +56,17 @@ const methods = (function (){
                 Storage.noLoginStatus = true
                 Storage.isLogin = false
                 wx.hideTabBar({})
+                let k = 
+                temp.forEach((v) => {
+                    console.log(self.data.showLogin)
+                    if(self.data.showLogin){
+                        k = true
+                    }
+                })
+                // console.log('如果内存中有用户信息关闭登录：')
+                if(k){
+                    return
+                }
                 self.setData({
                     showLogin : true
                 })
@@ -89,7 +102,7 @@ const methods = (function (){
                         showLogin : false
                     })
                 })
-                wx.showTabBar({})
+                // wx.showTabBar({})
                 
 		        console.log('-----------------------------------------------当前页：',getCurrentPages())
             },'login-com')

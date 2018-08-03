@@ -454,16 +454,16 @@ Page({
 	},
 	// 获取上一页数据
 	day(e){
-		console.log(e)
-        if (event.detail.source == "touch") {
-            //防止swiper控件卡死
-            if (this.data.current == 0 && this.data.preIndex > 1) {//卡死时，重置current为正确索引
-                this.setData({ current: this.data.preIndex });
-            }
-            else {//正常轮转时，记录正确页码索引
-                this.setData({ preIndex: this.data.current });
-            }
-        }
+		// console.log(e)
+        // if (event.detail.source == "touch") {
+        //     //防止swiper控件卡死
+        //     if (this.data.current == 0 && this.data.preIndex > 1) {//卡死时，重置current为正确索引
+        //         this.setData({ current: this.data.preIndex });
+        //     }
+        //     else {//正常轮转时，记录正确页码索引
+        //         this.setData({ preIndex: this.data.current });
+        //     }
+        // }
 		// if(e.detail.current == 0){
 		// 	this.setData({
 		// 		page:++this.data.page
