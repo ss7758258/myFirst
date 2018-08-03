@@ -6,6 +6,7 @@ const API = require('../../../../utils/api')
 const star = require('../../../../utils/star')
 const q = require('../../../../utils/source')
 const env = 'local'
+let $vm = getApp()
 
 const conf = {
     data : {
@@ -51,7 +52,8 @@ const conf = {
         // 是否已经打开大门
         isOpenGate : wx.getStorageSync('opengate') || 0,
         userInfo : Storage.userInfo || { nickName : ''},
-        version : true
+        version : true,
+        notice: { isShow: true },  //公告组件
     },
     onLoad(options){
         // 数据来源分析
@@ -64,6 +66,8 @@ const conf = {
             'isOpenGate' : wx.getStorageSync('opengate') || 0,
             version : Storage.miniPro
         })
+
+        this.getNotice()
     },
     // 分享
     onShareAppMessage: function() {
@@ -191,7 +195,49 @@ const conf = {
         console.log(e.detail.formId)
         let formid = e.detail.formId
         API.getX610({ notShowLoading: true, formid: formid })
-    }
+    },
+
+    // 获取公告数据
+    getNotice() {
+        $vm.api.notice({ page: 3, notShowLoading: true }).then(res => {
+            console.log('11111111111111111111', res)
+            if (res) {
+                let top = [] || 0, bottom = [] || 0
+                res.forEach(value => {
+                    if (value.type == 1) {
+                        top.push(value)
+                    } else if (value.type == 2) {
+                        bottom.push(value)
+                    }
+                })
+
+                console.log('top:', top, 'bottom:', bottom)
+                if (top == 0 && bottom == 0) {
+                    this.setData({
+                        'notice.isShow': false
+                    })
+                }
+
+                if (top.length == 1) {
+                    top.push(top[0])
+                }
+                if (bottom.length == 1) {
+                    bottom.push(bottom[0])
+                }
+
+                console.log('top:', top, 'bottom:', bottom)
+                this.setData({
+                    'notice.top': top || 0,
+                    'notice.bottom': bottom || 0
+                })
+
+                console.log(this.data.notice)
+
+            }
+        }).catch(err => {
+            console.log(err)
+        })
+    },
 }
 
 Page(conf)

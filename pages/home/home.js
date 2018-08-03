@@ -168,8 +168,6 @@ Page({
                 res.forEach(value => {
                     if (value.type == 1) {
                         top.push(value)
-
-                        
                     } else if (value.type == 2) {
                         bottom.push(value)
                     }
@@ -197,10 +195,6 @@ Page({
 
                 console.log(this.data.notice)
                 
-                
-                
-
-
             }
         }).catch(err => {
             console.log(err)
