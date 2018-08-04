@@ -27,8 +27,8 @@ const config = {
 		// 是否已经拆签完成
 		disLotSuccess: false,
 		// ios的关闭打开问题
-		iosOpen : false,
-		openAndriod : false,
+		iosOpen : true,
+		openAndriod : true,
 		navConf: {
 			title: '拆签',
 			state: 'root',
@@ -86,15 +86,15 @@ const config = {
 		Storage.self = self
 		console.log('签页面参数：',options)
 		mta.Page.init()
-		if(Storage.sys === 'ios'){
-            this.setData({
-                iosOpen : Storage.openIos === 1
-            })
-        }else{
-            this.setData({
-                openAndriod : Storage.openAndriod === 1
-            })
-        }
+		// if(Storage.sys === 'ios'){
+        //     this.setData({
+        //         iosOpen : Storage.openIos === 1
+        //     })
+        // }else{
+        //     this.setData({
+        //         openAndriod : Storage.openAndriod === 1
+        //     })
+        // }
 		// 隐藏分享
 		wx.hideShareMenu()
 

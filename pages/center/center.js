@@ -20,7 +20,7 @@ Page({
         clockStatus : false,  //小打卡开关
         iconPath : imgs.icon,
         nickName : '',
-        showOpen : false,
+        showOpen : true,
         starNum : 0 // 星星数量
     },
     /**
@@ -32,15 +32,15 @@ Page({
         let clockStatus = wx.getStorageSync('clockStatus');
         
         // 小星星  ios上关闭打开
-        if(Storage.sys === 'ios'){
-            this.setData({
-                showOpen : Storage.openIos === 1
-            })
-        }else{
-            this.setData({
-                showOpen : Storage.openAndriod === 1
-            })
-        }
+        // if(Storage.sys === 'ios'){
+        //     this.setData({
+        //         showOpen : Storage.openIos === 1
+        //     })
+        // }else{
+        //     this.setData({
+        //         showOpen : Storage.openAndriod === 1
+        //     })
+        // }
 
         console.log(noticeStatus === 0 ? false : true)
         // 通知开关状态判断
