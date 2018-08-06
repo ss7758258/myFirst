@@ -7,6 +7,7 @@ const Storage = require('../../utils/storage')
 const bus = require('../../event')
 // const dev=require('../../config.js')
 const q = require('../../utils/source')
+const tab = require('../../template/tabbar/tabbar')
 let env = 'dev'
 let timer=false
 Page({
@@ -28,6 +29,8 @@ Page({
 			root: '',
 			isTitle: true
 		},
+		// 适配高度
+		hei : 64,
 		isIPhoneX : false,
         current:0,//当前滑块
         isFirst:false, //是否是第一次进来
@@ -52,6 +55,12 @@ Page({
 		console.log('----------------------------------------------brief onLoad')
 		let self=this
 
+		tab.initTab(this,2)
+        let c = tab.getHeight()
+        this.setData({
+            hei : c.nav + c.tab
+        })
+		
 		q.sourceHandle(options)
 		
         let handle = () => {
@@ -90,6 +99,8 @@ Page({
 	},
 
     onShow:function(){
+        tab.switchTab(2,'',this)
+		tab.show()
         let starXz = Storage.starXz || {}
         console.log(starXz.id, wx.getStorageSync('constellationId'))
         this.gettomorrow() //获取日期时间，及倒计时时间

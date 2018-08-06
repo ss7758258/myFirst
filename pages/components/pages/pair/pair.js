@@ -82,7 +82,7 @@ const conf = {
         init () {
             
             let self = this
-            
+            console.log('此时用户性别为：',Storage.AccountSex)
             self.setData({
                 starXZ : Storage.starXz || {
                     id : 1

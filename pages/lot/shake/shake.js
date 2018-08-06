@@ -7,6 +7,7 @@ const q = require('../../../utils/source')
 const bus = require('../../../event')
 const Storage = require('../../../utils/storage')
 const methods = require('./util')
+const tab = require('../../../template/tabbar/tabbar')
 
 let animation = wx.createAnimation({
     duration: 500,
@@ -44,6 +45,8 @@ const conf = {
             pageNum : 1,
             pageSize : 20
         },
+        // 高度设置
+        hei : 64,
         // 结束摇动的时候触发
         endSpeed : false,
         // 是否为摇动状态
@@ -63,6 +66,11 @@ const conf = {
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        tab.initTab(this,1)
+        let c = tab.getHeight()
+        this.setData({
+            hei : c.nav + c.tab + 30
+        })
         // 数据来源分析
         q.sourceHandle(options)
         let self = this
@@ -124,9 +132,8 @@ const conf = {
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        // wx.showTabBar({
-        //     animation : true
-        // })
+        tab.switchTab(1,'',this)
+        tab.show()
         this.getNotice()
         resetLot(gloThis)
         // this.shakeLotBox()
@@ -179,6 +186,11 @@ const conf = {
                         bottom.push(value)
                     }
                 })
+                
+                let c = tab.getHeight()
+                this.setData({
+                    hei : c.nav + c.tab + 30
+                })
 
                 console.log('top:', top, 'bottom:', bottom)
                 if (top == 0 && bottom == 0) {
@@ -205,6 +217,10 @@ const conf = {
             }
         }).catch(err => {
             console.log(err)
+            let c = tab.getHeight()
+            this.setData({
+                hei : c.nav + c.tab
+            })
         })
     },
 

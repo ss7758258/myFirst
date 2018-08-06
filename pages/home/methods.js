@@ -7,6 +7,7 @@ const confing = require('../../conf')
 const conf = confing[c] || {}
 const params = require('../../utils/share')
 const q = require('../../utils/source')
+const tab = require('../../template/tabbar/tabbar')
 let $vm = null
 let _GData = null
 // 验证Id是否位6位纯数字
@@ -297,7 +298,6 @@ const me = {
 	},
 	// 前往参数中的地址
 	_goParam(){
-		// debugger
 		console.log('----------------------------------------------------------分享前往页面')
 		let to = this.options.to
 		let from = this.options.to || 'unknown'
@@ -431,7 +431,13 @@ const methods = function(){
          * @param {*} options
          */
         onLoad(options){
-		    console.log('onLoad-------------------------------参数：',options)
+			console.log('onLoad-------------------------------参数：',options)
+			// 初始化tab
+			tab.initTab(this,0)
+			let c = tab.getHeight()
+			this.setData({
+				hei : c.nav + c.tab
+			})
 			// 数据来源分析
 			q.sourceHandle(options)
             me.init.call(this)
@@ -440,6 +446,8 @@ const methods = function(){
          * 显示方案
          */
         onShow(opts){
+			tab.switchTab(0,'',this)
+			tab.show()
 			console.log('------------------------------onShow()')
             // 触发加载用户配置函数
             bus.emit('loadUserConf',{},'home')
@@ -489,9 +497,9 @@ const methods = function(){
 			_GData = $vm.globalData
 			// 星座信息
 			Storage.starXz = _GData.selectConstellation
-            wx.showTabBar({
-                animation: true
-            })
+            // wx.showTabBar({
+            //     animation: true
+            // })
 			me._goParam.call(this)
 
 			console.log(self.options)
@@ -514,7 +522,6 @@ const methods = function(){
 						self.setData({
 							isLogin : true
 						})
-                        
 					}, 1000);
 				}
 			}).catch(res=>{

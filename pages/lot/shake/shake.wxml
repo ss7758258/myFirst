@@ -1,3 +1,6 @@
+
+<!-- tabbar -->
+<import src="/template/tabbar/tabbar.wxml" />
 <!-- 导航 -->
 <nav opts='{{navConf}}'></nav>
 <!-- 登录 -->
@@ -6,7 +9,7 @@
 <notice notice="{{notice}}"></notice>
 
 <form>
-    <view class="panel_scene {{longScreen ? 'iPhoneX' : ''}} {{iPhoneX ? 'PX' : ''}}">
+    <view class="panel_scene {{longScreen ? 'iPhoneX' : ''}} {{iPhoneX ? 'PX' : ''}}" style="height:calc(100% - {{hei}}px);min-height:calc(100% - {{hei}}px);">
         <!-- 内容主体 -->
         <view class="panel_body">
             <!-- start云 -->
@@ -56,14 +59,6 @@
                     <!-- 飘落的心 -->
                     <image class="heart heart_many" src="/assets/img/many.png" wx:if="{{shakeLotSpeed}}"></image>
                     <!-- End飘落的心 -->
-                    
-                    <!-- 遮罩 -->
-                    <view class="envelope_mask {{endSpeed ? 'flyAnimate' : ''}}"></view>
-                    <!-- End遮罩 -->
-                    
-                    <!-- 信封 -->
-                    <image class="envelope {{endSpeed ? 'flyAnimate' : ''}}" catchtap="openEnvelope" src="/assets/img/envelope.png"></image>
-                    <!-- End信封 -->
 
                     <view class="shake_panel tap_opacity" catchtap="drawLots"></view>
                 </view>
@@ -85,8 +80,20 @@
             <!-- <image class="lotBox {{lotBox}}" src="/assets/img/lotbox.png" catchtap="openLotBox"></image> -->
             <!-- End一签盒 -->
         </view>
+        
+                    
+        <!-- 遮罩 -->
+        <view class="envelope_mask {{endSpeed ? 'flyAnimate' : ''}}"></view>
+        <!-- End遮罩 -->
+        
+        <!-- 信封 -->
+        <image class="envelope {{endSpeed ? 'flyAnimate' : ''}}" catchtap="openEnvelope" src="/assets/img/envelope.png"></image>
+        <!-- End信封 -->
         <view class="bootom_x" wx:if="{{longScreen}}">
             <image src="/assets/img/grass_bottom_1.png" ></image>
         </view>
     </view>
 </form>
+
+<!-- tabbar -->
+<template is="tabbar" data="{{tabbarConfig}}"></template>

@@ -14,6 +14,8 @@ Page({
 	data: {
 		// 默认不打开星座描述
 		showStarDesc : false,
+		// 滚动高度
+		scrolltop : 0,
 		// 星座信息数据
 		desc : desc,
 		// 是否显示选择星座
@@ -35,7 +37,7 @@ Page({
 		// 星座信息
 		myConstellation: {},
 		// 每日提醒内容
-		dayNotice: '',
+		dayNotice: '好运伴随你',
 		timer: null,
 		xiaodaka: {
 			appId: 'wx855c5d7718f218c9',
@@ -56,6 +58,8 @@ Page({
 			isTitle : true,
 			centerPath : '/pages/center/center'
 		},
+		// 导航的高度
+		hei : 64,
 		clockStatus : false,  //小打卡开关
 		isBanner : false, // 广告位开关
 		isIPhoneX : false,
@@ -103,7 +107,8 @@ Page({
 	// 打开星座描述
 	openDesc(){
 		this.setData({
-			showStarDesc : true
+			showStarDesc : true,
+			scrolltop : 0
 		})
 	},
 	// 关闭信息描述

@@ -1,12 +1,13 @@
 /* pages/onebrief/brief.wxss */
+@import "/template/tabbar/tabbar.wxss";
 .page_brief {
   box-sizing: border-box;
-  padding-left: 20rpx;
-  padding-right: 20rpx;
-  padding-top: 20rpx;
+  height:100%;
 }
-
-.UI_box {
+.page_brief view,.page_brief image{
+    height:100%;
+}
+.page_brief view.UI_box {
   position: relative;
   align-items: center;
   text-align: center;
@@ -14,29 +15,26 @@
   transition: all .3s linear;
   border:2rpx solid #eee;
   box-shadow:0rpx 0rpx 20rpx #ccc;
-
+  margin:20rpx;
+  height:calc(100% - 40rpx);
 }
 
 .UI_box .pic {
-  width: 94.66666666666667vw;
-  height: 84.46vh;
-}
-.iPhoneX .UI_box .pic{
-  height: 69.37785714285715vh;
+  /* width: 94.66666666666667vw; */
 }
 .picUserName {
   left: 0;
   width: 480rpx;
   height: 90rpx;
   position: absolute;
-  top: 39.980509745127435vh;
+  top: 38.980509745127435vh;
   right: 0;
   margin: auto;
   color: gray;
   font-size: 28rpx;
 }
 .iPhoneX .picUserName{
-  top: 32.980509745127435vh;
+  top: 37vh;
 }
 .noNetBg {
   display: flex;
@@ -140,14 +138,10 @@
 }
 .first{
     height: 1000rpx;
-    /* box-sizing: border-box; */
     margin-top: 180rpx;
-    /* padding: 0 50rpx; */
     display: flex;
     flex-flow: column;
     justify-content: space-around;
-    /* align-content:space-between; */
-    /* align-items: center; */
     line-height: 45rpx;
 }
 .first_left{
@@ -160,10 +154,8 @@
 .fl_img{
     width: 240rpx;
     height: 240rpx;
-    /* margin-bottom: 25rpx; */
 }
 .first_btn{
-    /* margin: 120rpx auto; */
     width: 300rpx;
     height: 88rpx;
     background: transparent;
@@ -177,15 +169,15 @@
 /* swiper组件 */
 .swiper{
     width: 100%;
-    height: calc(100% -  64px);
+    /* height: calc(100% -  64px); */
     background: #fff;
 }
 .swiper_ipx{
-    height: calc(100% -  64px) !important;
+    /* height: calc(100% -  64px) !important; */
 }
 .tomorrow_box{
-    height:85vh;
-    padding: 20rpx 20rpx 0;
+    height:calc(100% - 40rpx);
+    padding: 20rpx;
 }
 .tomorrow{
     width: 100%;
@@ -195,7 +187,7 @@
     position: relative;
 }
 .iPhoneX .tomorrow{
-    height:69.9vh;
+    height:69%;
 }
 .timer{
     margin: 5rpx 0 0 30rpx;

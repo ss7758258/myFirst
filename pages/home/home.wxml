@@ -4,6 +4,8 @@
 <import src="/template/choice/choice.wxml" />
 <!-- 星座描述 -->
 <import src="/template/star-desc/star-desc.wxml" />
+<!-- tabbar -->
+<import src="/template/tabbar/tabbar.wxml" />
 <!-- End导入模板 -->
 
 <!-- 导航 -->
@@ -56,9 +58,9 @@
 	<!-- 选择星座 -->
 	<template is="choice" data="{{showChoice,star}}" wx:if="{{isLogin}}"></template>
 	<!-- 星座描述信息 -->
-	<template is="star-desc" data="{{showStarDesc,star,xz,desc}}" wx:if="{{isLogin}}"></template>
+	<template is="star-desc" data="{{showStarDesc,star,xz,desc,scrolltop}}" wx:if="{{isLogin}}"></template>
 	<!-- 滚动容器 -->
-	<scroll-view class="monitor-panel {{notice.isShow ? 'notice-current' : ''}}" scroll-x="false" scroll-y="true" wx:if="{{isLogin}}">
+	<scroll-view class="monitor-panel {{notice.isShow ? 'notice-current' : ''}}" scroll-x="false" scroll-y="true" wx:if="{{isLogin}}" style="height:calc(100% - {{hei}}px);min-height:calc(100% - {{hei}}px);">
 	<!-- <view class="monitor-panel"> -->
 		<view class="panel pt65">
 			<view class="star-mask"></view>
@@ -170,4 +172,6 @@
 		</view>
 	<!-- </view> -->
 	</scroll-view>
+	<!-- tabbar -->
+	<template is="tabbar" data="{{tabbarConfig}}"></template>
 </form>

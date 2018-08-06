@@ -30,6 +30,7 @@ const methods = () => {
                         Storage.AccountSex =  'woman'
                         break;
                 }
+                wx.getStorageSync('AccountSex',Storage.AccountSex)
                 wx.hideLoading()
                 bus.emit('login-success', {} , 'login-com')
                 cb && cb.constructor === Function ? cb() : ''

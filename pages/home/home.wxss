@@ -2,6 +2,7 @@
 
 @import "/template/choice/choice.wxss";
 @import "/template/star-desc/star-desc.wxss";
+@import "/template/tabbar/tabbar.wxss";
 
 page button {
 	width: 100%;
@@ -345,9 +346,8 @@ button::after{
 	padding-bottom: 20rpx;
 }
 .notice-current .panel:last-child{
-	padding-bottom: 88rpx;
+	padding-bottom: calc(20rpx + 30px);
 }
-
 /* 加载动画 */
 .loader_panel{
 	position: fixed;

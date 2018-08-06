@@ -19,7 +19,7 @@
             </view>
 
             <!-- 底部滚动 -->
-            <scroll-view class="desc-bottom" scroll-x="false" scroll-y="true">
+            <scroll-view class="desc-bottom" scroll-x="false" scroll-y="true" scroll-top="{{scrolltop}}">
                 <!-- 星座属性 -->
                 <view class="desc-bottom-attr">
                     <view class="desc-attr-row">

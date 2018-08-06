@@ -55,7 +55,7 @@ const methods = (function (){
                 wx.hideToast()
                 Storage.noLoginStatus = true
                 Storage.isLogin = false
-                wx.hideTabBar({})
+                // wx.hideTabBar({})
                 let k = 
                 temp.forEach((v) => {
                     console.log(self.data.showLogin)
@@ -92,7 +92,7 @@ const methods = (function (){
                         Storage.AccountSex =  'woman'
                         break;
                 }
-               
+                wx.getStorageSync('AccountSex',Storage.AccountSex)
                 clickLogin = false
                 // console.log('-----------------------------解除登录锁--------------------------------')
                 // Storage.loginLock = false
