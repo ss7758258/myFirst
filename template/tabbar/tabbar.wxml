@@ -1,0 +1,17 @@
+<template name="tabbar">
+    <view class="tabbar-panel {{tabbarConfig.show === 9 ? 'animate-show' : (tabbarConfig.show === 5 ? 'show' : '')}}" style="height: {{tabbarConfig.isIPX ? '83px' : '49px'}};bottom:{{tabbarConfig.isIPX ? '-132px' : '-98px'}};">
+        <!-- 导航 -->
+        <view class="tabbar" style="color:{{tabbarConfig.tab.color}};background:{{tabbarConfig.tab.bg}}; border-top:{{tabbarConfig.tab.borderStyle}};box-shadow:{{tabbarConfig.tab.shadow}};">
+            <block wx:for="{{tabbarConfig.tab.tabbar}}" wx:key="{{item.path}}">
+                <view class="tab {{tabbarConfig.selected === index ? 'show' : ''}}" style="color:{{tabbarConfig.selected === index ? tabbarConfig.tab.selectedColor : ''}};" catchtap="_switchTab" data-res="{{item}}" data-index="{{index}}">
+                    <view class="tab-icon">
+                        <image class="{{item.type === 2 ? 'spe' : ''}}" src="{{tabbarConfig.selected === index ? item.selectedIcon : item.icon}}" ></image>
+                    </view>
+                    <view class="tab-text">{{item.text}}</view>
+                </view>
+            </block>
+        </view>
+        <!-- iPhone X的补白 -->
+        <view class="pt34" wx:if="{{tabbarConfig.isIPX}}"></view>
+    </view>
+</template>
