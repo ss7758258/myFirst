@@ -405,7 +405,7 @@ Page({
                 sec--
                 // console.log(sec)
 
-                if (hour-14 == 0 && minute-34 == 0 && sec == 0) {
+                if (hour == 0 && minute == 0 && sec == 0) {
                     clearInterval(timer)
 					self.getwordlist()
 					self.gettomorrow()
