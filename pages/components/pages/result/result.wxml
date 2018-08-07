@@ -8,7 +8,8 @@
                     <view class="card-panel">
                         <view class="card-dom" style="color:{{star[man.id].color}};background:{{star[man.id].bgc}};">
                             <view class="card-name">{{star[man.id].name}}</view>
-                            <view class="card-icon iconfont icon-{{man.sex === 'man' ? 'nan' : 'nv'}}"></view>
+                            <!-- icon-{{man.sex === 'man' ? 'nan' : 'nv'}} -->
+                            <view class="card-icon iconfont ">{{man.sex === 'man' ? '男' : '女'}}</view>
                         </view>
                         <image class="card-xz" src="{{star[man.id].img}}" ></image>
                     </view>
@@ -18,7 +19,7 @@
                     <view class="card-panel">
                         <view class="card-dom" style="color:{{star[woman.id].color}};background:{{star[woman.id].bgc}};">
                             <view class="card-name">{{star[woman.id].name}}</view>
-                            <view class="card-icon iconfont icon-{{woman.sex === 'woman' ? 'nv' : 'nan'}}"></view>
+                            <view class="card-icon iconfont">{{woman.sex === 'woman' ? '女' : '男'}}</view>
                         </view>
                         <image class="card-xz" src="{{star[woman.id].img}}" ></image>
                     </view>

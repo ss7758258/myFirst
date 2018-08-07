@@ -18,7 +18,7 @@ App({
 		// 检查用户的登录信息
 		methods.checkLogin()
 		methods.openIdLogin(() => {
-			// tick()
+			tick()
 		})
 		
 		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || { id: 1, name: "白羊座", time: "3.21-4.19", img: "/assets/images/aries.png", isFirst: true }

@@ -46,6 +46,8 @@ Page({
             timer:true,
 		},
 		page:1,//默认分页
+		// 版本
+        version : true
 	},
 
 	/**
@@ -101,6 +103,10 @@ Page({
     onShow:function(){
         tab.switchTab(2,'',this)
 		tab.show()
+		
+        this.setData({
+            version : Storage.miniPro
+        })
         let starXz = Storage.starXz || {}
         console.log(starXz.id, wx.getStorageSync('constellationId'))
         this.gettomorrow() //获取日期时间，及倒计时时间
@@ -450,8 +456,9 @@ Page({
     // 更多好玩
     moregame(e){
         $vm.api.getX610({ formid: e.detail.formId })
-        wx.navigateTo({
-            url: '/pages/banner/banner'
+		wx.navigateToMiniProgram({
+            appId: 'wx865935599617fbdb',
+            path: 'pages/home/home?source=XGstars&type=in&id=110000'
         })
     },
 

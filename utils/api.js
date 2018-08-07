@@ -282,6 +282,14 @@ const pair = (data) => { //星座配对
 const verSecret = (data) => { 
     return requstPost('selectConstellation/checkSecret', data)
 }
+// 获取正在玩的人数
+const getList = (data) => { 
+    return requstPost('notice/listbanner', data)
+}
+// 新增数量
+const setPlayer = (data) => { 
+    return requstPost('notice/addplayer', data)
+}
 
 // 获取乐摇摇的数据信息
 const getLeYaoyao = function(params,data){
@@ -342,5 +350,7 @@ module.exports = {
 	wordlist,
 	getPair,
 	pair,
-	verSecret
+	verSecret,
+	getList,
+	setPlayer
 }

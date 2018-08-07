@@ -82,8 +82,13 @@
                         <view class='torommow_txt'>你可以先去做些其他的事情</view>
                     </block>
 
-                    <form report-submit bindsubmit='moregame'>
-                        <button form-type='submit' class='banner'>查看更多好玩</button>
+                    <navigator wx:if="{{version}}" target="miniProgram" hover-class="none" open-type="{{opts.openType}}" app-id="{{opts.appId}}" path="{{opts.path}}" url="{{opts.path}}" extra-data="{{opts.extra}}" version="{{opts.version}}">
+                        <form report-submit bindsubmit='moregame'>
+                            <button form-type='submit' class='banner'>更多精彩文字</button>
+                        </form>
+                    </navigator>
+                    <form wx:if="{{!version}}" report-submit bindsubmit='moregame'>
+                        <button form-type='submit' class='banner'>更多精彩文字</button>
                     </form>
                 </view>
             </view>
@@ -103,10 +108,16 @@
             <block wx:if="{{tomorrow.timer}}">
                 <view class='torommow_txt'>距离内容更新还有</view>
                 <view class='torommow_timer'> {{tomorrow.hour>9?tomorrow.hour:'0'+tomorrow.hour}} 时 {{tomorrow.minute>9?tomorrow.minute:'0'+tomorrow.minute}}
-                    分 {{tomorrow.sec>9?tomorrow.sec:'0'+tomorrow.sec}} 秒 </view>
+                    分 {{tomorrow.sec>9?tomorrow.sec:'0'+tomorrow.sec}} 秒
+                </view>
 
-                <form report-submit bindsubmit='moregame'>
-                    <button form-type='submit' class='banner'>查看更多好玩</button>
+                <navigator wx:if="{{version}}" target="miniProgram" hover-class="none" open-type="{{opts.openType}}" app-id="{{opts.appId}}" path="{{opts.path}}" url="{{opts.path}}" extra-data="{{opts.extra}}" version="{{opts.version}}">
+                    <form report-submit bindsubmit='moregame'>
+                        <button form-type='submit' class='banner'>更多精彩文字</button>
+                    </form>
+                </navigator>
+                <form wx:if="{{!version}}" report-submit bindsubmit='moregame'>
+                    <button form-type='submit' class='banner'>更多精彩文字</button>
                 </form>
             </block>
             <block wx:else="{{tomorrow.timer}}">

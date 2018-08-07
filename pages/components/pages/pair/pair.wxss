@@ -99,6 +99,7 @@ page button {
     bottom: 10rpx;
     right: 10rpx;
     height:34rpx;
+    font-size:30rpx;
 }
 .container .card-xz{
     position: absolute;

@@ -26,7 +26,8 @@
                     <view class="card-panel">
                         <view class="card-dom" style="color:{{star[starXZ.id].color}};background:{{star[starXZ.id].bgc}};">
                             <view class="card-name">{{star[starXZ.id].name}}</view>
-                            <view class="card-icon iconfont icon-{{sex === 'man' ? 'nan' : 'nv'}}"></view>
+                            <!--  icon-{{sex === 'man' ? 'nan' : 'nv'}} -->
+                            <view class="card-icon iconfont">{{sex === 'man' ? '男' : '女'}}</view>
                         </view>
                         <image class="card-xz" src="{{star[starXZ.id].img}}" ></image>
                     </view>
@@ -40,7 +41,7 @@
                         <view class="card-panel">
                             <view class="card-dom" style="color:{{star[pair.constellationId].color}};background:{{star[pair.constellationId].bgc}};">
                                 <view class="card-name">{{star[pair.constellationId].name}}</view>
-                                <view class="card-icon iconfont icon-{{sex === 'man' ? 'nv' : 'nan'}}"></view>
+                                <view class="card-icon iconfont">{{sex === 'man' ? '女' : '男'}}</view>
                             </view>
                             <image class="card-xz" src="{{star[pair.constellationId].img}}" ></image>
                             <image class="pair-switch" src="../../img_subPackages/switch.svg" ></image>
