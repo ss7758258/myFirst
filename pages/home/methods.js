@@ -210,7 +210,7 @@ function getUserConf(me){
 			console.log('----------------输出错误信息----------用户配置错误')
 			return false;
 		}
-		// res.noticeStatus = 0
+		res.noticeStatus = 0
 		// 确认小打卡配置信息
 		me.setData({
 			noticeBtnStatus :  res.noticeStatus === 0,
@@ -236,9 +236,27 @@ const me = {
 		this.setData({
 			PX : Storage.iPhoneX
 		})
+		me._getCollectBtn.call(this)
 		// 提前选择星座但不加载数据
 		me._getStar.call(this)
         me._eventHandle.call(this)
+	},
+	// 获取收藏按钮是否展示
+	_getCollectBtn(){
+		let self = this
+		// wx.getStorage({
+		// 	key : 'showCollectBtn',
+		// 	success(res){
+		// 		self.setData({
+		// 			showCollectBtn : false
+		// 		})
+		// 	},
+		// 	fail(res){
+		// 		self.setData({
+		// 			showCollectBtn : true
+		// 		})
+		// 	}
+		// })
 	},
 	// 选择星座
     _getStar(){
@@ -409,7 +427,24 @@ const me = {
 			}
 			bus.emit('login-success', {}, 'home')
 		}
-    }
+	},
+	// 获取当前正在玩的人数
+	_getListNum(){
+		API.getList({notShowLoading:true}).then(res => {
+			console.log('输出获取的对象信息：',res)
+			if(res){
+				let temp = {listNum : res}
+				res.forEach((v,ind) => {
+					if(v.content.indexOf('0人') != -1 && v.content.indexOf('0人') === 0){
+						temp[ind === 0 ? 'showPair' : 'showBanner'] = false
+					}else{
+						temp[ind === 0 ? 'showPair' : 'showBanner'] = true
+					}
+				});
+				this.setData(temp)
+			}
+		})
+	}
 }
 
 const methods = function(){
@@ -448,6 +483,7 @@ const methods = function(){
         onShow(opts){
 			tab.switchTab(0,'',this)
 			tab.show()
+			me._getListNum.call(this)
 			console.log('------------------------------onShow()')
             // 触发加载用户配置函数
             bus.emit('loadUserConf',{},'home')
@@ -562,6 +598,7 @@ const methods = function(){
 		},
 		goBanner(){
 			mta.Event.stat("ico_home_to_banner", {})
+			API.setPlayer({notShowLoading:true}).then(res => {})
 			wx.navigateTo({
 				url: '/pages/banner/banner'
 			})

@@ -54,6 +54,19 @@
 </view>
 <!-- End关注服务号-弹窗 -->
 
+<!-- 收藏小程序-弹窗 -->
+<view class="contact_follow_mask {{showCollect ? 'show':''}}">
+	<view class="contact_follow collect_panel {{showCollect ? 'show':''}}" catchtap="catchHide">
+		<view class="contact_panel">
+			<image class="collect-point" src="/assets/img/point.png"></image>
+			<image class="collect-img" src="/assets/img/point.svg"></image>
+			<button class="collect-btn" hover-class="none" catchtap="closeCollect">我知道了</button>
+		</view>
+	</view>
+</view>
+<!-- 收藏小程序-弹窗 -->
+
+
 <form bindsubmit="setFormId" report-submit='true' class="{{PX ? 'iPX' : ''}}">
 	<!-- 选择星座 -->
 	<template is="choice" data="{{showChoice,star}}" wx:if="{{isLogin}}"></template>
@@ -128,11 +141,15 @@
 						好运提醒
 					</button>
 					<text wx:if="{{!noticeBtnStatus}}" ></text>
-					<!-- <view>
-						<navigator wx:if="{{noticeBtnStatus}}" url="/pages/components/pages/attention/attention" hover-class="none" open-type="navigate">
-							<image class="gz" src="/assets/images/gz.png" ></image>
-						</navigator>
-					</view> -->
+					<!-- 收藏 -->
+					<view class="collect" wx:if="{{showCollectBtn}}">
+						<button wx:if="{{noticeBtnStatus}}" class="star-tip-nav" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="openCollect">
+							<image class="star-collect" src="/assets/img/collect.png" ></image>
+						</button>
+						<view class="collect-close" catchtap="closeCollectBtn">
+							<image class="star-collect" src="/assets/img/close.svg" ></image>
+						</view>
+					</view>
 					<view>
 						<button class="star-more-text" catchtap="goLuck" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="toDay" >
 							查看更多运势<view class="star-trigon"></view>
@@ -149,6 +166,12 @@
 				<view class="star-text-panel">
 					<text>星座配对</text>
 					<text>想知道你和谁最配吗？</text>
+					<view class="star-banner-panel" wx:if="{{showPair}}">
+						<view>
+							<image src="/assets/img/pair-icon.png"></image>
+							<text>{{listNum[0].content}}</text>
+						</view>
+					</view>
 				</view>
 			</button>
 		</view>
@@ -165,6 +188,12 @@
 						<view>
 							<image src="/assets/img/star-panel.png"></image>
 							<text>{{more_startext}}</text>
+						</view>
+					</view>
+					<view class="star-banner-panel" wx:if="{{more_startext == '0颗待领' && showBanner}}">
+						<view>
+							<image src="/assets/img/hot.png"></image>
+							<text>{{listNum[1].content}}</text>
 						</view>
 					</view>
 				</view>

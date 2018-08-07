@@ -156,13 +156,43 @@ button::after{
 	padding: 40rpx 0;
 	border-bottom: 1rpx #6041CD dashed;
 }
-
+.collect{
+	position: relative;
+	width: 132rpx;
+}
 .star-tip-nav{
 	position: absolute;
 	width: 132rpx;
 	height: 138rpx;
 	right: 0;
 	animation: rotateNav 1s 0s linear infinite;
+}
+.collect .star-tip-nav{
+	top: -45rpx;
+	animation: none;
+}
+.collect-close{
+    position: absolute;
+    right: -30rpx;
+    top: -48rpx;
+    width: 48rpx;
+    height: 48rpx;
+    background:rgba(255,255,255,1);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 48rpx;
+	opacity:0.5;
+	border: 1rpx solid rgba(0,0,0,.1);
+}
+.collect-close image{
+    display: inline-block;
+    width: 24rpx;
+    height: 24rpx;
+    margin-top: 12rpx;
+}
+.star-collect{
+	width: 132rpx;
+	height: 138rpx;
 }
 @keyframes rotateNav{
 	0%,100%{
@@ -341,6 +371,32 @@ button::after{
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
+/* 正在玩的样式 */
+.star-banner-panel{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 50rpx;
+	font-size:28rpx;
+	font-family:PingFangSC-Regular;
+	letter-spacing: 0;
+	color:rgba(255,255,255,1);
+	text-align: center;
+	padding-right: 30rpx;
+	padding-left: 12rpx;
+	border-radius: 10rpx 25rpx 25rpx 0;
+	background: rgba(0,0,0,.7);
+}
+.star-banner-panel>view{
+	height: 50rpx;
+	display: flex;
+	align-items: center;
+}
+.star-banner-panel image{
+	width: 38rpx;
+	height: 38rpx;
+	margin-right: 6rpx;
+}
 /* End配对 */
 .panel:last-child{
 	padding-bottom: 20rpx;
@@ -469,6 +525,13 @@ button::after{
 	transition: all .15s ease-in-out;
 	z-index: 100;
 }
+.collect_panel{
+	background: initial;
+	width: 670rpx;
+	height: 690rpx;
+	border-radius: 10rpx;
+	transform: none;
+}
 
 .contact_follow.show {
 	top: 0;
@@ -479,7 +542,33 @@ button::after{
 	width: 100%;
 	height: 100%;
 }
-
+.contact_panel>image{
+	width: 100%;
+	height: 100%;
+	border-radius: 10rpx;
+}
+.contact_panel .collect-point{
+	position: absolute;
+	width: 150rpx;
+	height: 150rpx;
+	top: -160rpx;
+	right: 0rpx;
+}
+button.collect-btn{
+	padding-left:14px;
+	padding-right:14px;
+	margin : 0 auto;
+	margin-top: 4.2vh;
+	font-size: initial;
+	width: 500rpx;
+	height: 100rpx;
+	line-height: 100rpx;
+	background: #9262FB;
+	border-radius: 10rpx;
+	color: #fff;
+	box-shadow: 0 0 5px rgba(0,0,0,.1);
+	transition: all .1s linear;
+}
 .contact_head_panel {
 	width: 100%;
 	height: 37.333333333333336vw;

@@ -22,6 +22,8 @@ Page({
 		showChoice : false,
 		// 星座信息
 		star : star,
+		// 多少人在玩
+		listNum : [{},{}],
 		xz : {
 			constellationId : 1,
 			healthy : 55,
@@ -69,8 +71,9 @@ Page({
 		showFollow : false, // 关注服务号开关
 		// 待领星星文案
 		more_startext : '0颗待领',
-        notice: {isShow: true},  //公告组件
-        
+        notice: {isShow: false},  //公告组件
+		showCollect : false, // 控制收藏弹窗的显示
+		showCollectBtn : false // 控制收藏按钮的显示
 	},
 	
 	// 初始化
@@ -153,7 +156,31 @@ Page({
 		console.log('弹窗')
 		return false
 	},
-    
+    // 打开收藏
+	openCollect(){
+		let me = this
+		me.setData({
+			showCollect : true
+		})
+		mta.Event.stat("open_collect", {})
+		return false
+	},
+	// 关闭弹窗
+	closeCollect(){
+		this.setData({
+			showCollect : false
+		})
+	},
+	// 关闭收藏提示
+	closeCollectBtn(){
+		this.setData({
+			showCollectBtn : false
+		})
+		wx.setStorage({
+			key:'showCollectBtn',
+			data : true
+		})
+	},
     // 获取公告数据
     getNotice() {
         if (this.data.showChoice){
