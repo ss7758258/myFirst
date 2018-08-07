@@ -207,8 +207,8 @@ const methods = (function (){
                 wx.getUserInfo({
                     withCredentials: true,
                     success(data){
-                        wx.setStorageSync('userInfo',data.userInfo)
                         console.log('输出用户信息：',data)
+                        wx.setStorageSync('userInfo',data.userInfo)
                         Storage.userC = {
                             token : res.token,
                             openId : res.openId,
@@ -219,7 +219,7 @@ const methods = (function (){
                         bus.emit('load-userinfo-success', data , 'login-com')
                     },
                     fail (err){
-                        console.log('------------------------------------------获取用户信息失败')
+                        console.log(err,'jk------------------------------------------获取用户信息失败')
                         clickLogin = false
                         wx.hideLoading()
                         wx.showToast({

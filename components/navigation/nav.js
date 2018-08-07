@@ -98,4 +98,6 @@ function getSystemInfo(self){
     self.setData({
         isIPhoneX : Storage.iPhoneX
     })
+    
+    self.triggerEvent('nav-height',Storage.iPhoneX ? 89 : 64)
 }

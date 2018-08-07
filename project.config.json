@@ -32,13 +32,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 14,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "签详情",
 					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "from=share&lotId=565307",
+					"query": "from=share&lotId=565367",
 					"scene": "1011"
 				},
 				{

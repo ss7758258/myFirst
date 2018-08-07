@@ -190,11 +190,12 @@ const config = {
 		let lotdetail = this.data.lotDetail
 		console.log(lotdetail)
 		console.log('头像地址：',Storage.userInfo.avatarUrl)
+		let head = Storage.userInfo.avatarUrl === '' ? '/assets/images/default_head.png' : Storage.userInfo.avatarUrl
 		wx.getImageInfo({ //将头像转路径
-			src: Storage.userInfo.avatarUrl, //图片的路径，可以是相对路径，临时文件路径，存储文件路径，网络图片路径,
+			src: head, //图片的路径，可以是相对路径，临时文件路径，存储文件路径，网络图片路径,
 			success: res => {
 				console.log('头像本地路径', res.path)
-				let face = res.path
+				let face = Storage.userInfo.avatarUrl === '' ? '/assets/images/default_head.png' : res.path
 
 				// 画图
 				const ctx = wx.createCanvasContext('openSign')
@@ -230,13 +231,13 @@ const config = {
 				// 时间
 				ctx.setTextAlign('center')
 				ctx.setFontSize(12)
-				let timer = new Date();
-				let newDate = '一 ' + timer.getFullYear() + '.' + (timer.getMonth() + 1 > 9 ? timer.getMonth() + 1 : '0' + (timer.getMonth() + 1)) + '.' + (timer.getDate() > 9 ? timer.getDate() : '0' + timer.getDate()) + ' 一';
+				// let timer = new Date();
+				// let newDate = '一 ' + timer.getFullYear() + '.' + (timer.getMonth() + 1 > 9 ? timer.getMonth() + 1 : '0' + (timer.getMonth() + 1)) + '.' + (timer.getDate() > 9 ? timer.getDate() : '0' + timer.getDate()) + ' 一';
 				// console.log('输出日期：', newDate)
 				let qianDate = lotdetail.qianDate.split('-').join('.')
         		ctx.fillText(qianDate, 187.5, 290)
 				// 计算文本长度
-				const mea_date = ctx.measureText(newDate).width / 2
+				// const mea_date = (ctx.measureText(newDate).width) / 2
 				// ctx.fillText(newDate, 187.5, 290)
 
 				ctx.setShadow(0, 3, 6, 'rgba(0,0,0,.2)')
@@ -291,6 +292,9 @@ const config = {
 						},
 					})
 				}, 1000)
+			},
+			fail(){
+				console.log('....')
 			}
 		})
 

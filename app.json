@@ -59,5 +59,6 @@
     },
     "networkTimeout": {
         "request": 10000
-    }
+    },
+    "debug": true
 }

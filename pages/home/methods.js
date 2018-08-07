@@ -275,9 +275,9 @@ const me = {
                 'notice.isShow': false,
                 'navConf.isIcon' : true
 			})
-			wx.hideTabBar({
-				animation : true
-			})
+			// wx.hideTabBar({
+			// 	animation : true
+			// })
 		}
 	},
     /**
@@ -309,9 +309,9 @@ const me = {
 					isLogin : true
 				})
 			}, 1000);
-			wx.hideTabBar({
-				animation : true
-			})
+			// wx.hideTabBar({
+			// 	animation : true
+			// })
         }
 	},
 	// 前往参数中的地址
@@ -362,9 +362,11 @@ const me = {
 		Storage.loadUserConfRemoveId = bus.on('loadUserConf',() => {
 			console.log('用户信息上报完成')
 			if(Storage.forMore){
+				getStarNum(self)
 				// 加载用户配置
 				getUserConf(self)
 				getConfing(self)
+				me._getListNum(self)
 			}
 		},'home')
 		
@@ -429,7 +431,8 @@ const me = {
 		}
 	},
 	// 获取当前正在玩的人数
-	_getListNum(){
+	_getListNum(self){
+		
 		API.getList({notShowLoading:true}).then(res => {
 			console.log('输出获取的对象信息：',res)
 			if(res){
@@ -440,8 +443,10 @@ const me = {
 					}else{
 						temp[ind === 0 ? 'showPair' : 'showBanner'] = true
 					}
-				});
-				this.setData(temp)
+				})
+				console.log(temp)
+				self.setData(temp)
+				console.log(self)
 			}
 		})
 	}
@@ -466,6 +471,7 @@ const methods = function(){
          * @param {*} options
          */
         onLoad(options){
+			wx.hideTabBar({})
 			console.log('onLoad-------------------------------参数：',options)
 			// 初始化tab
 			tab.initTab(this,0)
@@ -483,11 +489,11 @@ const methods = function(){
         onShow(opts){
 			tab.switchTab(0,'',this)
 			tab.show()
-			me._getListNum.call(this)
 			console.log('------------------------------onShow()')
             // 触发加载用户配置函数
             bus.emit('loadUserConf',{},'home')
             getStarNum(this)
+			me._getListNum(this)
             this.getNotice()
             if(Storage.userInfo){
                 this.setData({
@@ -581,9 +587,6 @@ const methods = function(){
 			wx.setStorage({
 				key: 'selectConstellation',
 				data: null,
-			})
-			wx.hideTabBar({
-				animation : true
 			})
 			Storage.starXz = undefined
 			_GData.selectConstellation = null

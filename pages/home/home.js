@@ -62,6 +62,8 @@ Page({
 		},
 		// 导航的高度
 		hei : 64,
+		showPair : false,
+		showBanner : false,
 		clockStatus : false,  //小打卡开关
 		isBanner : false, // 广告位开关
 		isIPhoneX : false,

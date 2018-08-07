@@ -19,6 +19,7 @@ Page({
             current:0,
             num:1
         },
+        hei: 64,
         headerlist: ['今日运势', '本周运势','本月运势'], //导航栏数据
         current: 0, //导航栏下标
         contentlist: ['综合指数', '爱情指数', '财富指数', '工作指数'],
@@ -54,6 +55,12 @@ Page({
 
     onShow: function () {
         
+    },
+    // 设置高度
+    setH(e){
+        this.setData({
+            hei : e.detail
+        })
     },
     /**
      * 获取本周运势 and 本月运势

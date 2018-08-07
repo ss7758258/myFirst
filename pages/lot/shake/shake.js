@@ -66,6 +66,7 @@ const conf = {
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        wx.hideTabBar({})
         tab.initTab(this,1)
         let c = tab.getHeight()
         this.setData({

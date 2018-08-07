@@ -13,27 +13,48 @@ const methods = () => {
             // console.log('用户openId信息-------------------------------------------------',wx.getStorageSync('openId'))
             if(wx.getStorageSync('openId')){
                 let userConf = wx.getStorageSync('userConfig')
-                Storage.token = userConf.token
-                Storage.openId = userConf.openId
-                Storage.userInfo = userConf.userInfo
-                Storage.isLogin = true
+                wx.getUserInfo({
+                    success(res){
+                        console.log(res)
+                        Storage.userInfo = res.userInfo
+                        Storage.token = userConf.token
+                        Storage.openId = userConf.openId
+                        Storage.isLogin = true
+                        wx.setStorage({
+                            key : 'userConfig',
+                            data : {
+                                token:userConf.token,
+                                openId:userConf.openId,
+                                userInfo:res.userInfo
+                            }
+                        })
+                        wx.setStorage({
+                            key:'userInfo',
+                            data : res.userInfo
+                        })
+                        if(!Storage.userInfo){
+                            Storage.userInfo = {}
+                        }
+                        
+                        switch (Storage.userInfo.gender) {
+                            case 1:
+                                Storage.AccountSex =  'man'
+                                break;
+                            default:
+                                Storage.AccountSex =  'woman'
+                                break;
+                        }
+                        wx.getStorageSync('AccountSex',Storage.AccountSex)
+                        wx.hideLoading()
+                        bus.emit('login-success', {} , 'login-com')
+                        cb && cb.constructor === Function ? cb() : ''
+                    },
+                    fail(){
+                        bus.emit('no-login-app', {} , 'app')
+                        cb && cb.constructor === Function ? cb() : ''
+                    }
+                })
                 
-                if(!Storage.userInfo){
-                    Storage.userInfo = {}
-                }
-                
-                switch (Storage.userInfo.gender) {
-                    case 1:
-                        Storage.AccountSex =  'man'
-                        break;
-                    default:
-                        Storage.AccountSex =  'woman'
-                        break;
-                }
-                wx.getStorageSync('AccountSex',Storage.AccountSex)
-                wx.hideLoading()
-                bus.emit('login-success', {} , 'login-com')
-                cb && cb.constructor === Function ? cb() : ''
             }else{
                 console.log('------------------------------用户不存在openId-------------------------------------------')
                 wx.getSetting({

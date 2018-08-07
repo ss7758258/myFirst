@@ -1,6 +1,11 @@
 page{
     font-family: 'PingFangSC';
 }
+.luck-panel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .swiper_header{
     width: 750rpx;
     height: 108rpx; 
@@ -13,7 +18,8 @@ page{
 }
 .swiper_content{
     width: 750rpx;
-    height: 100%;
+    flex: 1;
+    /* height: 100%; */
     background: #fff;
 }
 .scroll-view{
@@ -148,7 +154,7 @@ page{
     transform: scale(.96);
 }
 .footer{
-    height: 300rpx;
+    height: 100rpx;
 }
 .love{
     color: #FD6A9A;

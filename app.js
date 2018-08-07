@@ -1,5 +1,4 @@
 //app.js
-wx.hideTabBar({})
 const aldstat = require("./utils/ald-stat.js")
 const utils = require('./utils/util.js')
 const api = require('./utils/api.js')
@@ -8,15 +7,17 @@ const bus = require('./event')
 const Storage = require('./utils/storage')
 const methods = require('./server/login')
 // const updateManager = wx.getUpdateManager()
+wx.hideTabBar({})
 App({
 	onLaunch: function (options) {
+		wx.hideTabBar({})
 		Storage.isLogin = false
 		// 获取用户的设备信息
 		getSystemInfo()
 		getGlobal()
 		const _SData = this.globalData
 		// 检查用户的登录信息
-		methods.checkLogin()
+		// methods.checkLogin()
 		methods.openIdLogin(() => {
 			tick()
 		})
