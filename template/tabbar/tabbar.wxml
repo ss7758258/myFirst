@@ -5,9 +5,9 @@
             <block wx:for="{{tabbarConfig.tab.tabbar}}" wx:key="{{item.path}}">
                 <view class="tab {{tabbarConfig.selected === index ? 'show' : ''}}" style="color:{{tabbarConfig.selected === index ? tabbarConfig.tab.selectedColor : ''}};" catchtap="_switchTab" data-res="{{item}}" data-index="{{index}}">
                     <view class="tab-icon">
-                        <image class="{{item.type === 2 ? 'spe' : ''}}" src="{{tabbarConfig.selected === index ? item.selectedIcon : item.icon}}" ></image>
+                        <image class="{{item.type === 2 ? 'spe' : ''}} {{item.type === 2 && item.animate ? 'animate' : ''}}" src="{{tabbarConfig.selected === index ? item.selectedIcon : item.icon}}" ></image>
                     </view>
-                    <view class="tab-text">{{item.text}}</view>
+                    <view class="tab-text" style="color:{{tabbarConfig.selected === index ? item.selectedColor : item.color}};">{{item.text}}</view>
                 </view>
             </block>
         </view>

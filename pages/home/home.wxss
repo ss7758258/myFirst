@@ -385,7 +385,7 @@ button::after{
 	padding-right: 30rpx;
 	padding-left: 12rpx;
 	border-radius: 10rpx 25rpx 25rpx 0;
-	background: rgba(0,0,0,.7);
+	background: rgba(0,0,0,.3);
 }
 .star-banner-panel>view{
 	height: 50rpx;
