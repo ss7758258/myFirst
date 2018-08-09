@@ -1,0 +1,55 @@
+<!-- 导航 -->
+<nav opts='{{navConf}}'></nav>
+<!-- 登录态 -->
+<loginApp></loginApp>
+
+<form report-submit="true" bindsubmit="_reportFormId">
+    <view class="container">
+        <image class="pair-top-bg" src="../../source/top-bg.png" ></image>
+        <view class="pair-panel-top">
+            <!-- 星座卡片 -->
+            <view class="pair-card-panel">
+                <view class="pair-card-me">
+                    <view class="card-panel">
+                        <view class="card-dom" style="color:{{star[lists[0].id].color}};background:{{star[starXZ.id].bgc}};">
+                            <view class="card-name">{{star[lists[0].id].name}}</view>
+                            <!--  icon-{{sex === 'man' ? 'nan' : 'nv'}} -->
+                            <view class="card-icon iconfont">{{lists[0].sex === 'man' ? '男' : '女'}}</view>
+                        </view>
+                        <image class="card-xz" src="{{star[lists[0].id].img}}" ></image>
+                    </view>
+                    <text>{{userInfo.nickName}}</text>
+                </view>
+                <view class="pair-card-x">
+                    <image src="../../img_subPackages/x.svg" ></image>
+                </view>
+                <view class="pair-card-me">
+                    <view class="card-panel">
+                        <view class="card-dom" style="color:{{star[lists[1].id].color}};background:{{star[lists[1].id].bgc}};">
+                            <view class="card-name">{{star[lists[1].id].name}}</view>
+                            <view class="card-icon iconfont">{{lists[1].sex === 'man' ? '男' : '女'}}</view>
+                        </view>
+                        <image class="card-xz" src="{{star[lists[1].id].img}}" ></image>
+                    </view>
+                    <text>{{lists[1].name}}</text>
+                </view>
+            </view>
+            <!-- End星座卡片 -->
+
+            <view class="clip-panel">
+                <view class="box">
+                    <view class="clip">
+                        <view class="left" style="{{transitionend ? 'transform:rotate(' + circles[0] * 3.6 + 'deg);' : ''}} transition: all {{kt}}s ease-out;"></view>
+                        <view class="right" bindtransitionend="_stopRotate" style="transform:rotate({{circles[1] * 3.6}}deg); {{circles[1] > 0 ? 'transition: all ' + timer + 's linear;':'background:#FF575E'}}"></view>
+                    </view>
+                    <view class="clip-num">
+                        <view>
+                            <text>{{num}}</text>
+                            <text class="pair-text">{{pairStr}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</form>

@@ -1,0 +1,212 @@
+
+page button {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	box-sizing: initial;
+	overflow: initial;
+	background: inherit;
+	line-height : normal;
+	border-radius: inherit;
+	font-size: 0;
+}
+.container image{
+    width: 100%;
+    height: 100%;
+}
+.mt90{
+    margin-top: 90rpx !important;
+}
+.mt20{
+    margin-top: 20rpx !important;
+}
+
+.container{
+    position: relative;
+    height: calc(100% - 64px);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+/* 头部 */
+.pair-panel-top{
+    position: relative;
+    width: 100%;
+    flex: 1;
+}
+.container .pair-top-bg{
+    height: 109rpx;
+    top: 0;
+    left: 0;
+}
+.pair-panel-top .pair-top-pair{
+    display: block;
+    margin: 0 auto;
+    width: 316rpx;
+    height: 82rpx;
+}
+
+/* 星座卡片 */
+.pair-panel-top .pair-card-panel{
+    display: flex;
+    justify-content: space-around;
+    /* align-items: center; */
+    text-align: center;
+    z-index: 99;
+}
+.pair-card-me{
+    position: relative;
+    /* width: 304rpx;
+    height: 424rpx; */
+}
+/* 卡片布局 */
+.card-panel{
+    width: 280rpx;
+    height:400rpx;
+    position: relative;
+    background: #fff;
+    border-radius:8rpx;
+    box-shadow: 0px 6rpx 12rpx rgba(146,98,251,.2);
+}
+.card-dom{
+    width: 260rpx;
+    height: 380rpx;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border-radius:8rpx;
+    border:2rpx solid currentColor;
+}
+.card-name{
+    position: absolute;
+    top: 10rpx;
+    left: 10rpx;
+    width:28rpx;
+    height:84rpx;
+    font-size:24rpx;
+    font-family:PingFangSC-Medium;
+    line-height:28rpx;
+}
+.card-icon{
+    position: absolute;
+    bottom: 10rpx;
+    right: 10rpx;
+    height:34rpx;
+    font-size:30rpx;
+}
+.container .card-xz{
+    position: absolute;
+    width: 210rpx;
+    height: 262rpx;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+.pair-card-me text{
+    display: inline-block;
+    width: 210rpx;
+    padding: 0 15rpx;
+    height: 48rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background:rgba(146,98,251,.2);
+    border-radius:24rpx;
+    font-size:28rpx;
+    font-family:'PingFangSC-Medium';
+    color:rgba(146,98,251,1);
+    line-height:49rpx;
+    margin-top: 40rpx;
+}
+.pair-card-me .pair-switch{
+    display: block;
+    width: 80rpx;
+    height: 80rpx;
+    left: 0;
+    right: 0;
+    bottom: 0rpx;
+    transform: translateY(50%);
+    margin: auto;
+    position: absolute;
+}
+.pair-panel-top .pair-card-x{
+    display: block;
+    margin: auto 0;
+    width: 60rpx;
+    height: 60rpx;
+    transform: translateY(-40rpx);
+}
+
+.clip-panel{
+    width: 100%;
+    height: 340rpx;
+}
+/* 圆环 */
+.box{
+    width: 300rpx;
+    height: 300rpx;
+    position: relative;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin: auto;
+}
+.clip-num{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #fff;
+    border-radius: 50%;
+    width: 280rpx; 
+    height: 280rpx;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.clip-num>view{
+    font-size:96rpx;
+    font-family:PingFangSC-Medium;
+    color:rgba(255,87,94,1);
+}
+.clip-num>view>text{
+    display: block;
+}
+.pair-text{
+    font-size:24rpx;
+    color:rgba(153,153,153,1);
+}
+.clip{
+    width: 300rpx;
+    height: 300rpx;
+    position: absolute;
+    background: #FF575E;
+    border-radius: 50%;
+}
+.left{
+    width: 300rpx;
+    height: 300rpx;
+    position: absolute;
+    border-radius: 50%;
+    background:rgb(252, 196, 196);
+    clip: rect(0 150rpx 300rpx 0);
+    transform: rotate(0deg);
+    transition: all 1s linear;
+}
+.right{
+    width: 300rpx;
+    height: 300rpx;
+    position: absolute;
+    border-radius: 50%;
+    background:rgb(252, 196, 196);
+    clip: rect(0 300rpx 300rpx 150rpx);
+    transform: rotate(0deg);
+}
+/* 圆环样式 */
