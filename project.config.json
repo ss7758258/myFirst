@@ -36,9 +36,9 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "签详情",
-					"pathName": "pages/lot/lotdetail/lotdetail",
-					"query": "from=share&lotId=565367",
+					"name": "首页",
+					"pathName": "pages/home/home",
+					"query": "",
 					"scene": "1011"
 				},
 				{
