@@ -59,7 +59,7 @@ Page({
     // 设置高度
     setH(e){
         this.setData({
-            hei : e.detail
+            hei : e.detail || 64
         })
     },
     /**
