@@ -18,6 +18,9 @@ page button {
 .mt90{
     margin-top: 90rpx !important;
 }
+.mt40{
+    margin-top: 40rpx !important;
+}
 .mt20{
     margin-top: 20rpx !important;
 }
@@ -210,3 +213,25 @@ page button {
     transform: rotate(0deg);
 }
 /* 圆环样式 */
+
+
+/* 配对文字 */
+.pair-text-panel{
+    width: 100%;
+}
+.pair-text-img{
+    position: relative;
+    display: inline-block;
+    width: 18rpx;
+    height: 16rpx;
+}
+.pair-text-img>image{
+    position: absolute;
+    top: -16rpx;
+}
+.pair-text-img:last-child>image{
+    transform: rotate(180deg);
+    top: auto;
+    bottom: -16rpx;
+}
+/* End配对文字 */

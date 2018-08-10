@@ -27,13 +27,15 @@ const conf = {
         },
         // 过渡时间
         timer: 0.5,
-        // 默认第二段的过渡时间
-        kt : 0,
-        pairNum : 90,
-        num : 0,
-        // 文案
-        pairStr : '配对指数',
-        circles : [0,0.000000001],
+        result : [{
+            // 默认第二段的过渡时间
+            kt : 0,
+            // 文案
+            pairStr : '配对指数',
+            pairNum : 75,
+            num : 0,
+            circles : [0,0.000000001],
+        }],
         // 超过50%的情况下必须等待上半圈的动画结束才能执行
         transitionend : false
     },
@@ -53,53 +55,50 @@ const conf = {
                     userInfo : Storage.userInfo
                 })
             }
-            let num = 0;
             setTimeout(() => {
-                let pairNum = self.data.pairNum
+                let res = self.data.result[0]
+                let pairNum = res.pairNum
+                let temp = {}
+                let num = 0
+                let t = (self.data.timer * 1000) / 50
+                let len = 0
                 if(pairNum > 50){
-                    self.setData({
-                        circles : [pairNum - 50, 50]
-                    })
+                    temp['result[0].circles'] = [pairNum - 50, 50]
+                    num = pairNum - 50
                 }else{
-                    self.setData({
-                        circles : [0,pairNum]
-                    })
+                    temp['result[0].circles'] = [0, pairNum]
+                    num = 0
                 }
-                let num = this.data.circles[0];
-                let t = (this.data.timer * 1000) / 50
-                let kt = (t * num + 200) / 1000
-                console.log(kt)
-                kt = t == 0 ? 0 :  kt
-                console.log(kt)
-                self.setData({
-                    kt
-                })
-                let te = (this.data.timer + this.data.kt) * 1000  / pairNum
-                console.log((this.data.timer + this.data.kt) * 1000  / pairNum )
+                let kt = num > 0 ? (t * num + 200) / 1000 : 0
+                temp['result[0].kt'] = kt
+                self.setData(temp)
                 timerNum = setInterval(() => {
-                    if(num >= pairNum){
-                        self.setData({
-                            num : pairNum
-                        })
+                    len += 1
+                    if(len >= pairNum){
                         clearInterval(timerNum)
+                        self.setData({
+                            ['result[0].num'] : pairNum
+                        })
                         return
                     }
-                    num += 1
                     self.setData({
-                        num : num
+                        ['result[0].num'] : len
                     })
-                },te)
-            },500)
+                }, (self.data.timer + kt) * 1000 / pairNum)
+            },300)
         }
     },
     // 当动画结束时继续执行下一波操作
     _stopRotate(e){
         console.log('输出当前结束动画内容：',e)
-        if(this.data.circles[0] > 0){
+        let {index} = e.currentTarget.dataset
+        let res = this.data.result[index]
+        if(res.circles[0] > 0){
+            let str = `result[${index}].circles`
+            console.log(str)
             this.setData({
+                [str] : [res.circles[0],0],
                 transitionend : true,
-                // kt,
-                circles : [this.data.circles[0],0]
             })
         }
     }
