@@ -24,7 +24,9 @@ page button {
 .mt20{
     margin-top: 20rpx !important;
 }
-
+.pt30{
+    padding-top: 30rpx !important;
+}
 .container{
     position: relative;
     height: calc(100% - 64px);
@@ -39,7 +41,12 @@ page button {
     width: 100%;
     flex: 1;
 }
+.margin-panel{
+    flex: 1;
+}
 .container .pair-top-bg{
+    position: absolute;
+    width: 100%;
     height: 109rpx;
     top: 0;
     left: 0;
@@ -55,14 +62,11 @@ page button {
 .pair-panel-top .pair-card-panel{
     display: flex;
     justify-content: space-around;
-    /* align-items: center; */
     text-align: center;
     z-index: 99;
 }
 .pair-card-me{
     position: relative;
-    /* width: 304rpx;
-    height: 424rpx; */
 }
 /* 卡片布局 */
 .card-panel{
@@ -120,13 +124,12 @@ page button {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    background:rgba(146,98,251,.2);
     border-radius:24rpx;
     font-size:28rpx;
     font-family:'PingFangSC-Medium';
     color:rgba(146,98,251,1);
     line-height:49rpx;
-    margin-top: 40rpx;
+    margin-top: 20rpx;
 }
 .pair-card-me .pair-switch{
     display: block;
@@ -147,14 +150,14 @@ page button {
     transform: translateY(-40rpx);
 }
 
+/* 圆环 */
 .clip-panel{
     width: 100%;
-    height: 340rpx;
+    height: 310rpx;
 }
-/* 圆环 */
 .box{
-    width: 300rpx;
-    height: 300rpx;
+    width: 280rpx;
+    height: 280rpx;
     position: relative;
     background-color: #ccc;
     border-radius: 50%;
@@ -166,8 +169,8 @@ page button {
     left: 50%;
     background: #fff;
     border-radius: 50%;
-    width: 280rpx; 
-    height: 280rpx;
+    width: 260rpx; 
+    height: 260rpx;
     transform: translate(-50%, -50%);
     text-align: center;
     display: flex;
@@ -186,30 +189,33 @@ page button {
     font-size:24rpx;
     color:rgba(153,153,153,1);
 }
+.pair-text-num{
+    font-weight: 600;
+}
 .clip{
-    width: 300rpx;
-    height: 300rpx;
+    width: 280rpx;
+    height: 280rpx;
     position: absolute;
     background: #FF575E;
     border-radius: 50%;
 }
 .left{
-    width: 300rpx;
-    height: 300rpx;
+    width: 280rpx;
+    height: 280rpx;
     position: absolute;
     border-radius: 50%;
     background:rgb(252, 196, 196);
-    clip: rect(0 150rpx 300rpx 0);
+    clip: rect(0 140rpx 280rpx 0);
     transform: rotate(0deg);
     transition: all 1s linear;
 }
 .right{
-    width: 300rpx;
-    height: 300rpx;
+    width: 280rpx;
+    height: 280rpx;
     position: absolute;
     border-radius: 50%;
     background:rgb(252, 196, 196);
-    clip: rect(0 300rpx 300rpx 150rpx);
+    clip: rect(0 280rpx 280rpx 140rpx);
     transform: rotate(0deg);
 }
 /* 圆环样式 */
@@ -217,21 +223,118 @@ page button {
 
 /* 配对文字 */
 .pair-text-panel{
-    width: 100%;
+    width: 560rpx;
+    margin: 0 auto;
+    font-size:40rpx;
+    font-family:PingFangSC-Medium;
+    font-weight: 600;
+    color:rgba(51,51,51,1);
 }
 .pair-text-img{
     position: relative;
     display: inline-block;
+    width: 0rpx;
+    height: 0rpx;
+    font-size: 0;
+    margin-left: -10rpx;
+}
+.pair-text-panel .pair-text-img>image{
+    position: absolute;
+    top: -46rpx;
+    left: -10rpx;
     width: 18rpx;
     height: 16rpx;
+    max-width: none;
+    max-height: none;
 }
-.pair-text-img>image{
-    position: absolute;
-    top: -16rpx;
-}
-.pair-text-img:last-child>image{
+.pair-text-panel .pair-text-img:last-child>image{
     transform: rotate(180deg);
     top: auto;
+    left: auto;
+    right: -20rpx;
     bottom: -16rpx;
 }
 /* End配对文字 */
+
+/* 指数 */
+.heart{
+    width: 100%;
+    color: #E5E5E5;
+}
+.heart-panel{
+    width: 646rpx;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.heart-box{
+    flex: 1;
+    text-align: center;
+}
+.heart-box-panel{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20rpx;
+}
+.heart-box>text{
+    font-size:32rpx;
+    font-family:PingFangSC-Regular;
+    color:#666666;
+    line-height:44rpx;
+}
+.heart-box-panel>view{
+    width: auto;
+    width: 48rpx;
+    height: 40rpx;
+    display: inline-block;
+    color: transparent;
+}
+.heart-border{
+    width: 4rpx;
+    height: 40rpx;
+    background: #E5E5E5;
+}
+/* End指数 */
+
+
+/* 功能按钮组 */
+.btn-group{
+    width: 100%;
+    margin-top: 30rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:0px -2px 0px 0px rgba(229,229,229,1);
+}
+.btn-home{
+    width: 120rpx;
+    height: 112rpx;
+}
+.btn-home>image{
+    display: block;
+    width: 39rpx;
+    height: 39rpx;
+    margin: 20rpx auto 0 auto;
+}
+.btn-home>text{
+    display: block;
+    text-align: center;
+    font-size:24rpx;
+    font-family:PingFangSC-Regular;
+    color:rgba(102,102,102,1);
+    line-height:34rpx;
+}
+.btn-pair{
+    flex: 1;
+    height: 112rpx;
+    text-align: center;
+    background:linear-gradient(-90deg,rgba(174,69,255,1),rgba(146,98,251,1));
+}
+.btn-pair button{
+    font-size:36rpx;
+    font-family:PingFangSC-Medium;
+    color:rgba(255,255,255,1);
+    line-height: 112rpx;
+}

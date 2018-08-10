@@ -1,5 +1,6 @@
 const Storage = require('.././../../../utils/storage')
 const star = require('../../../../utils/star')
+const API = require('../../../../utils/api')
 let timerNum = null
 
 const conf = {
@@ -32,15 +33,30 @@ const conf = {
             kt : 0,
             // 文案
             pairStr : '配对指数',
-            pairNum : 75,
+            pairNum : 0,
             num : 0,
             circles : [0,0.000000001],
         }],
+        pair : {
+            friendTxt : '虽没有一见钟情，但纸短情长也是一种美',
+            // 两情相悦
+            lqxyScore : 4,
+            // 天长地久
+            tcdjScore : 3
+        },
         // 超过50%的情况下必须等待上半圈的动画结束才能执行
         transitionend : false
     },
 
     onLoad: function(options) {
+        Storage.SharePairList = [{
+            id : 1,
+            sex : 'woman'
+        },{
+            id : 12,
+            sex : 'man',
+            name : '小'
+        }]
         this._methods.initStar.call(this)
     },
     // 方法集合
@@ -54,38 +70,78 @@ const conf = {
                     lists,
                     userInfo : Storage.userInfo
                 })
+                // 获取配对的详情信息
+                this._methods.getPair.call(this)
+            }else{
+                wx.showToast({
+                    title:'加载失败',
+                    icon:'none',
+                    duration : 1600
+                })
             }
-            setTimeout(() => {
-                let res = self.data.result[0]
-                let pairNum = res.pairNum
-                let temp = {}
-                let num = 0
-                let t = (self.data.timer * 1000) / 50
-                let len = 0
-                if(pairNum > 50){
-                    temp['result[0].circles'] = [pairNum - 50, 50]
-                    num = pairNum - 50
-                }else{
-                    temp['result[0].circles'] = [0, pairNum]
-                    num = 0
-                }
-                let kt = num > 0 ? (t * num + 200) / 1000 : 0
-                temp['result[0].kt'] = kt
-                self.setData(temp)
-                timerNum = setInterval(() => {
-                    len += 1
-                    if(len >= pairNum){
-                        clearInterval(timerNum)
-                        self.setData({
-                            ['result[0].num'] : pairNum
-                        })
-                        return
-                    }
+            
+        },
+        // 获取配对结果
+        getPair(){
+            let self = this
+            
+            let params = { 
+                notShowLoading:true,
+                maleConstellationId: this.data.lists[0].id, 
+                femaleConstellationId: this.data.lists[1].id
+            }
+            if(this.data.lists[0].sex === this.data.lists[1].sex){
+                console.log('同性')
+                return
+            }
+            API.pair(params).then(res => {
+                console.log('最佳匹配星座：',res)
+                if(res && res.constructor === Object){
                     self.setData({
-                        ['result[0].num'] : len
+                        pair : res
                     })
-                }, (self.data.timer + kt) * 1000 / pairNum)
-            },300)
+                    conf._methods.setClip(res,self)
+                }
+            }).catch(err => {
+                wx.showToast({
+                    title:'获取失败',
+                    icon:'none',
+                    duration : 1600
+                })
+            })
+        },
+        // 设置圆环信息
+        setClip(res,self){
+            let pairNum = res.pairScore && res.pairScore === 0 ? 0.0000001 : res.pairScore
+            let temp = {}
+            let num = 0
+            let t = (self.data.timer * 1000) / 50
+            let len = 0
+            temp['result[0].pairNum'] = pairNum
+            if(pairNum > 50){
+                temp['result[0].circles'] = [pairNum - 50, 50]
+                num = pairNum - 50
+            }else{
+                temp['result[0].circles'] = [0, pairNum]
+                num = 0
+            }
+            let kt = num > 0 ? (t * num + 200) / 1000 : 0
+            temp['result[0].kt'] = kt
+            
+            self.setData(temp)
+            timerNum = setInterval(() => {
+                len += 1
+                if(len >= pairNum){
+                    clearInterval(timerNum)
+                    self.setData({
+                        ['result[0].num'] : pairNum
+                    })
+                    return
+                }
+                self.setData({
+                    ['result[0].num'] : len
+                })
+            }, (self.data.timer + kt ) * 1000 / pairNum + 2)
         }
     },
     // 当动画结束时继续执行下一波操作
