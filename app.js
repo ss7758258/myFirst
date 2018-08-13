@@ -22,7 +22,18 @@ App({
 			// tick()
 		})
 		
-		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || { id: 1, name: "白羊座", time: "3.21-4.19", img: "/assets/images/aries.png", isFirst: true }
+		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || {
+			id: 1,
+			name: '白羊座',
+			time: '3.21~4.19',
+			startTime: '3月21日',
+			endTime: '4月19日',
+			bgcolor: '#FFF1D8',
+			bgc: 'rgba(255,192,64,0.1)',
+			color: '#F08000',
+			img: '/assets/img/1.svg',
+			isFirst: true 
+		},
 		// let userC = wx.getStorageSync('userConfig') || {}
 		_SData.userInfo = wx.getStorageSync('userInfo')
 		mta.App.init({

@@ -290,7 +290,14 @@ const getList = (data) => {
 const setPlayer = (data) => { 
     return requstPost('notice/addplayer', data)
 }
-
+// 获取配对列表
+const getPairList = (data) => { 
+    return requstPost('selectConstellation/pairlist', data)
+}
+// 获取好友配对列表
+const getFriendpair = (data) => { 
+    return requstPost('selectConstellation/friendpair', data)
+}
 // 获取乐摇摇的数据信息
 const getLeYaoyao = function(params,data){
 	return new Promise((resolve,reject) => {
@@ -352,5 +359,7 @@ module.exports = {
 	pair,
 	verSecret,
 	getList,
-	setPlayer
+	setPlayer,
+	getPairList,
+	getFriendpair
 }

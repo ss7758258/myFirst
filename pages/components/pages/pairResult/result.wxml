@@ -1,13 +1,13 @@
 <!-- 导航 -->
-<nav opts='{{navConf}}'></nav>
+<nav opts='{{navConf}}'  bind:nav-height="_setHeight"></nav>
 <!-- 登录态 -->
 <loginApp></loginApp>
 
 <form report-submit="true" bindsubmit="_reportFormId">
-    <scroll-view scroll-y >
+    <scroll-view class="{{IPX ? 'iPhoneX' : ''}}" scroll-y style="height:calc(100% - {{height}}px);">
         <view class="container">
             <image class="pair-top-bg" src="../../source/top-bg.png" ></image>
-            <view class="pair-panel-top pt30">
+            <view class="pair-panel-top mt20">
                 <!-- 星座卡片 -->
                 <view class="pair-card-panel">
                     <view class="pair-card-me">
@@ -93,16 +93,19 @@
                 <!-- 功能按钮 -->
                 <view class="btn-group">
                     <view class="btn-home">
-                        <image src="../../source/home.png" />
-                        <text >首页</text>
+                        <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goHome" >
+                            <image src="../../source/home.png" />
+                            <text >首页</text>
+                        </button>
                     </view>
                     <view class="btn-pair">
-                        <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="goChoiceStar" >
+                        <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goPairWX" >
                         和我的好友配对
                         </button>    
                     </view>
                 </view>
                 <!-- End功能按钮 -->
+                <view wx:if="{{IPX}}" class="btn-ipx"></view>
         </view>
     </scroll-view>
 </form>

@@ -20,7 +20,28 @@
   
 .icon-heart:before { content: "\e607"; }
   
-
+.mt20 {
+	margin-top: 20rpx !important;
+}
+.mt30 {
+	margin-top: 30rpx !important;
+}
+.mt40 {
+	margin-top: 40rpx !important;
+}
+.mb20 {
+	margin-bottom: 20rpx !important;
+}
+.mb40 {
+	margin-bottom: 40rpx !important;
+}
+.pt34{
+	padding-top:34px !important;
+}
+/* 自动占位置元素 */
+.margin-panel{
+    flex: 1;
+}
 .global_btn{
 	display: block;
 	color: #fff;

@@ -1,0 +1,154 @@
+<!-- 导航 -->
+<nav opts='{{navConf}}'  bind:nav-height="_setHeight"></nav>
+<!-- 登录态 -->
+<loginApp></loginApp>
+
+<form report-submit="true" bindsubmit="_reportFormId">
+    <scroll-view class="{{IPX ? 'iPhoneX' : ''}}" scroll-y="true" scroll-into-view="current" bindscrolltoupper="" bindscrolltolower="" bindscroll=""  style="height:calc(100% - {{height}}px);">
+        <view class="container">
+            <view class="panel no-list-panel" wx:if="{{!loading && noList ? true : false}}">
+                <image class="top-bg" src="../../source/sign.png" ></image>
+                <view class="no-list-text mt20">暂时没有好友和你配对(｡ ́︿ ̀｡)</view>
+                <view class="margin-panel"></view>
+                <view class="no-list-btn">
+                    <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goPairWX" >
+                    生成配对海报
+                    </button>  
+                </view>
+                <view class="margin-panel"></view>
+                <!-- 展示空列表卡片 -->
+                <view class="bottom-panel mb20">
+                    <view class="card-bg">
+                        <view class="no-list-title mb20 mt20">有好友配对时，可看到如下情形^o^</view>
+                        <view class="no-list-card">
+                            <view class="no-list-card-panel">
+                                <view class="mt40">
+                                    <!-- 卡片样式 -->
+                                    <view class="list-head-img">
+                                        <image class="head-df" src="../../source/head-man.png" ></image>
+                                        <view class="head-mask">
+                                            男神
+                                        </view>
+                                    </view>
+                                    <view class="list-head-line">
+                                        <image class="head-df" src="../../source/line-left.png" ></image>
+                                    </view>
+                                    <!-- 配对圆环 -->
+                                    <view class="clip-panel">
+                                        <view class="box">
+                                            <view class="clip">
+                                                <view class="left" ></view>
+                                                <view class="right"></view>
+                                            </view>
+                                            <view class="clip-num">
+                                                <view>
+                                                    <text class="pair-text-num">100</text>
+                                                    <text class="pair-text">匹配指数</text>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <!-- End配对圆环 -->
+        
+                                    <view class="list-head-line">
+                                        <image class="head-df" src="../../source/line-right.png" ></image>
+                                    </view>
+                                    <view class="list-head-img">
+                                        <image class="head-df" src="../../source/head-woman.png" ></image>
+                                        <view class="head-mask">
+                                            女神
+                                        </view>
+                                    </view>
+                                    <!-- End卡片样式 -->
+                                </view>
+    
+                                <!-- 文案 -->
+                                <view class="no-list-desc">糟糕！是心动的感觉</view>
+                            
+                            </view>
+    
+                        </view>
+                    </view>
+                </view>
+                <!-- End展示空列表卡片 -->
+            </view>
+    
+    
+    
+            <!-- 列表数据 -->
+            <view class="panel no-list-panel" wx:if="{{!loading && !noList ? true : false}}">
+                <image class="top-bg" src="../../source/sign.png" ></image>
+                <view class="no-list-text mt40">
+                    <view></view>
+                    和{{text}}配对的好友
+                    <view></view>
+                </view>
+
+
+                <block wx:for="{{pairList}}" wx:key="{{index}}">
+                    <!-- 列表 -->
+                    <view class="list-panel mt40">
+                        <view class="list-card">
+                            <view class="list-card-panel">
+                                <view class="mt40">
+                                    <!-- 卡片样式 -->
+                                    <view class="list-head-img">
+                                        <image class="head-df" src="{{account.pairImage || '../../source/head-man.png'}}" ></image>
+                                        
+                                        <view class="list-card-name">{{account.pairNickName}}</view>
+                                    </view>
+                                    <view class="list-head-line">
+                                        <image class="head-df" src="../../source/line-left.png" ></image>
+                                    </view>
+
+                                    <!-- 配对圆环 -->
+                                    <view class="clip-panel">
+                                        <view class="box">
+                                            <view class="clip">
+                                                <view class="left" style="transform:rotate({{item.pairScore > 50 ? (item.pairScore - 50) * 3.6 : 0}}deg);"></view>
+                                                <view class="right"  style="transform:rotate({{item.pairScore > 50 ? 0 : item.pairScore * 3.6}}deg);border-color:{{item.pairScore > 50 ? '#fff' : '#cfaef8'}}"></view>
+                                            </view>
+                                            <view class="clip-num">
+                                                <view>
+                                                    <text class="pair-text-num">{{item.pairScore}}</text>
+                                                    <text class="pair-text">匹配指数</text>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <!-- End配对圆环 -->
+        
+                                    <view class="list-head-line">
+                                        <image class="head-df" src="../../source/line-right.png" ></image>
+                                    </view>
+                                    <view class="list-head-img">
+                                        <image class="head-df {{!item.unlock ? 'opacity' : ''}}" src="{{item.headImage || '../../source/head-woman.png'}}" ></image>
+                                        <view class="head-mask" wx:if="{{!item.unlock}}">
+                                            <image class="lock-img" src="../../source/lock.png" ></image>
+                                        </view>
+                                        <view class="list-card-name">{{item.nickName}}</view>
+                                    </view>
+                                    <!-- End卡片样式 -->
+                                </view>
+
+                                <!-- 文案 -->
+                                <view class="list-lock {{item.unlock ? 'lock' : ''}}" data-unlock="{{item.unlock}}">
+                                    <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goPairWX" >
+                                    {{item.unlock ? '查看详情' : '点击解锁'}}
+                                    </button>
+                                </view>
+                            
+                            </view>
+
+                        </view>
+                    </view>
+                <!-- End列表 -->
+                </block>
+
+                <view class="mb40"></view>
+                <view class="pt34" wx:if="{{IPX}}"></view>
+            </view>
+        </view>
+    </scroll-view>
+    
+</form>

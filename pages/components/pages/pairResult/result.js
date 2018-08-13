@@ -45,7 +45,11 @@ const conf = {
             tcdjScore : 3
         },
         // 超过50%的情况下必须等待上半圈的动画结束才能执行
-        transitionend : false
+        transitionend : false,
+        // 默认导航高度
+        height : 64,
+        // 是否iPhone X
+        IPX : false
     },
 
     onLoad: function(options) {
@@ -54,7 +58,7 @@ const conf = {
             sex : 'woman'
         },{
             id : 12,
-            sex : 'man',
+            sex : 'woman',
             name : '小'
         }]
         this._methods.initStar.call(this)
@@ -91,7 +95,13 @@ const conf = {
                 femaleConstellationId: this.data.lists[1].id
             }
             if(this.data.lists[0].sex === this.data.lists[1].sex){
-                console.log('同性')
+                self.setData({
+                    pair : {
+                        friendTxt : '同性间的爱已超脱世俗，不计分数，暂且祝你们幸福咯',
+                        lqxyScore : 0,
+                        tcdjScore : 0
+                    }
+                })
                 return
             }
             API.pair(params).then(res => {
@@ -157,6 +167,34 @@ const conf = {
                 transitionend : true,
             })
         }
+    },
+    // 返回首页
+    _goHome(){
+        wx.reLaunch({
+            url : '/pages/home/home'
+        })
+    },
+    // 前往自定义配对圈子
+    _goPairWX(){
+        
+    },
+    // 根据导航高度设置具体展示高度
+    _setHeight(e){
+        let temp = e.detail || 64
+        this.setData({
+            height : temp,
+            IPX : temp === 64 ? false : true
+        })
+    },
+    
+    /**
+     * 上报formId
+     * @param {*} e
+     */
+    _reportFormId(e){
+        console.log(e.detail.formId)
+        let formid = e.detail.formId
+        API.getX610({ notShowLoading: true, formid: formid })
     }
 }
 Page(conf);

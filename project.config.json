@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 15,
+			"current": 18,
 			"list": [
 				{
 					"id": 0,
@@ -141,6 +141,27 @@
 					"pathName": "pages/components/pages/pairResult/result",
 					"query": "",
 					"scene": "1011"
+				},
+				{
+					"id": 16,
+					"name": "朋友圈配对",
+					"pathName": "pages/components/pages/pairCus/pairCus",
+					"query": "",
+					"scene": "1012"
+				},
+				{
+					"id": 17,
+					"name": "朋友圈配对(分享)",
+					"pathName": "pages/components/pages/pairCus/pairCus",
+					"query": "to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=omONY5HlUp8VMMS14Jj4Wla_t5-c",
+					"scene": "1012"
+				},
+				{
+					"id": -1,
+					"name": "朋友圈配对(分享他人视角)",
+					"pathName": "pages/components/pages/pairCus/pairCus",
+					"query": "to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=omONY5NNuhisWGf8zp6ZNGIFdQ4U",
+					"scene": "1012"
 				}
 			]
 		}

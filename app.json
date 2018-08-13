@@ -18,6 +18,7 @@
                 "pages/luckDetails/luckDetails",
                 "pages/attention/attention",
                 "pages/pair/pair",
+                "pages/pairCus/pairCus",
                 "pages/pairResult/result",
                 "pages/happyDoor/happyDoor",
                 "pages/result/result"
