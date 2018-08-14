@@ -169,7 +169,7 @@ scroll-view{
     margin-bottom: 20rpx;
     border-radius: 12rpx 12rpx 0 0 ;
     background: #fff;
-    box-shadow: 0 -2rpx 1rpx rgba(0,0,0,.2);
+    box-shadow: 0 -2rpx 1rpx rgba(0,0,0,.1);
 }
 .friends{
     font-size:32rpx;
