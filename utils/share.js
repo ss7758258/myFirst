@@ -18,5 +18,9 @@ module.exports = {
     luckDetails : {
         path : '/pages/components/pages/luckDetails/luckDetails',
         type : 'nav'
+    },
+    pairCus : {
+        path : '/pages/components/pages/pairCus/pairCus',
+        type : 'nav'
     }
 }

@@ -318,21 +318,25 @@ const me = {
 	_goParam(){
 		console.log('----------------------------------------------------------分享前往页面')
 		let to = this.options.to
-		let from = this.options.to || 'unknown'
+		let from = this.options.from || 'unknown'
 		if(!to){
 			return
 		}
 		let temp = params[to]
 		if(temp && temp.constructor === Object){
 			mta.Event.stat(`${from}_${to}`,{})
+			let params = ''
+			for (let key in this.options) {
+				params += `${key}=${this.options[key]}&`
+			}
 			this.options = {}
 			if(temp.type === 'tab'){
 				wx.switchTab({
-					url : temp.path
+					url : temp.path + '?' + params
 				})
 			}else{
 				wx.navigateTo({
-					url : temp.path
+					url : temp.path + '?' + params
 				})
 			}
 		}

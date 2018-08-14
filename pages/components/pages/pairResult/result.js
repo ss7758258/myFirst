@@ -53,14 +53,6 @@ const conf = {
     },
 
     onLoad: function(options) {
-        Storage.SharePairList = [{
-            id : 1,
-            sex : 'woman'
-        },{
-            id : 12,
-            sex : 'woman',
-            name : '小'
-        }]
         this._methods.initStar.call(this)
     },
     // 方法集合
@@ -176,7 +168,9 @@ const conf = {
     },
     // 前往自定义配对圈子
     _goPairWX(){
-        
+        wx.reLaunch({
+            url : '/pages/components/pages/pairCus/pairCus'
+        })
     },
     // 根据导航高度设置具体展示高度
     _setHeight(e){

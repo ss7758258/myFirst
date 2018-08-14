@@ -91,7 +91,18 @@ Page({
             })
         })
     },
-
+    // 寻找按钮展示
+    _seek(){
+        this.setData({
+            seek : true
+        })
+    },
+    // 前往朋友圈配对
+    _goPairCus(){
+        wx.navigateTo({
+            url : '/pages/components/pages/pairCus/pairCus'
+        })
+    },
     // 上报formid
     formid(e) { 
         mta.Event.stat("result_find", {})

@@ -3,6 +3,6 @@
     "navigationBarTitleText": "配对结果",
     "usingComponents": {
         "nav": "/components/navigation/nav",
-		"loginApp": "/components/login/login"
+        "loginApp": "/components/login/login"
     }
 }

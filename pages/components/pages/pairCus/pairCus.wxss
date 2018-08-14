@@ -1,4 +1,15 @@
-
+.shareCanvas{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    z-index: -1;
+    width: 690px;
+    height: 890px;
+    transform: scale(0) translateX(-50%);
+}
 button {
 	width: 100%;
 	height: 100%;
@@ -24,10 +35,13 @@ image{
     background: #ffffff;
 }
 
+.container.nolist{
+    height : 100%;
+}
 /* 第一个panel */
 .no-list-panel{
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     /* justify-content: center; */
@@ -272,6 +286,101 @@ image{
     margin-top: 15rpx;
     background:linear-gradient(180deg,rgba(255,161,104,1),rgba(255,64,64,1));
     border-radius:24rpx;
+}
+.btn-pair{
+    width:100%;
+    height: 140rpx;
+    padding: 20rpx 0 0 0;
+    background: #fff;
+}
+.btn-pair>button{
+    width:610rpx;
+    height:80rpx;
+    display: block;
+    text-align: center;
+    margin: 0 auto 14rpx auto;
+    background:linear-gradient(-90deg,rgba(174,69,255,1),rgba(146,98,251,1));
+    border-radius:50rpx;
+    font-size:36rpx;
+    font-weight: 600;
+    color:rgba(255,255,255,1);
+    line-height:80rpx;
+    transition: all .3s ease-in-out;
+}
+.hover{
+    transform: scale(.9);
+}
+.btn-pair>view{
+    text-align: center;
+    font-size:24rpx;
+    color:rgba(153,153,153,1);
+    line-height:32rpx;
+}
+.no-list-desc-text{
+    display: block;
+    text-align: center;
+    height: 88rpx;
+    font-size:32rpx;
+    color:rgba(102,102,102,1);
+    line-height:44rpx;
+}
+
+/* 预览图 */
+.draw-panel-mask{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .8);
+}
+.draw-panel{
+    position: fixed;
+    width: 690rpx;
+    height: 890rpx;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+.draw-start{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.draw-text{
+    width:540rpx;
+    height:50rpx;
+    margin: 15rpx auto;
+    font-size:36rpx;
+    font-weight: 600;
+    color:rgba(255,255,255,1);
+    line-height:50rpx;
+}
+.draw-close{
+    position: absolute;
+    width: 48rpx;
+    height: 48rpx;
+    right: 0;
+    top: -68rpx;
+}
+/* End预览图 */
+.btn-pair-suspension{
+    position: fixed;
+    right: 0;
+    top: 40rpx;
+    width: 150rpx;
+    height: 56rpx;
+    text-align: center;
+    background:rgba(146,98,251,1);
+    font-family:PingFangSC-Regular;
+    box-shadow:0 4rpx 8rpx 0 rgba(146,98,251,0.3);
+    border-radius:200rpx 0 0 200rpx;
+    font-size:28rpx;
+    color:rgba(255,255,255,1);
+    line-height:56rpx;
+    
 }
 
 .list-card-panel{

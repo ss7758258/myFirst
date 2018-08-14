@@ -298,6 +298,10 @@ const getPairList = (data) => {
 const getFriendpair = (data) => { 
     return requstPost('selectConstellation/friendpair', data)
 }
+// 解锁操作
+const delock = (data) => { 
+    return requstPost('selectConstellation/deblocking', data)
+}
 // 获取乐摇摇的数据信息
 const getLeYaoyao = function(params,data){
 	return new Promise((resolve,reject) => {
@@ -361,5 +365,6 @@ module.exports = {
 	getList,
 	setPlayer,
 	getPairList,
-	getFriendpair
+	getFriendpair,
+	delock
 }

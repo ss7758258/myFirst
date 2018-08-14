@@ -12,14 +12,14 @@
                 <view class="pair-card-panel">
                     <view class="pair-card-me">
                         <view class="card-panel">
-                            <view class="card-dom" style="color:{{star[lists[0].id].color}};background:{{star[starXZ.id].bgc}};">
+                            <view class="card-dom" style="color:{{star[lists[0].id].color}};background:{{star[lists[0].id].bgc}};">
                                 <view class="card-name">{{star[lists[0].id].name}}</view>
                                 <!--  icon-{{sex === 'man' ? 'nan' : 'nv'}} -->
                                 <view class="card-icon iconfont">{{lists[0].sex === 'man' ? '男' : '女'}}</view>
                             </view>
                             <image class="card-xz" src="{{star[lists[0].id].img}}" ></image>
                         </view>
-                        <text>{{userInfo.nickName}}</text>
+                        <text>{{lists[0].name}}</text>
                     </view>
                     <view class="pair-card-x">
                         <image src="../../img_subPackages/x.svg" ></image>

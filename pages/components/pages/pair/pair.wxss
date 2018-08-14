@@ -176,6 +176,14 @@ page button {
     height: 122rpx;
     transform: translateY(-50%);
 }
+.pair-xz-pair{
+    position: absolute;
+    right: 30rpx;
+    top: -171rpx;
+    width: 133rpx;
+    height: 133rpx;
+    transform: translateY(-50%);
+}
 .pair-panel-bottom navigator{
     width: 100%;
     height: 100%;

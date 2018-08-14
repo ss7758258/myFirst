@@ -51,6 +51,8 @@ const conf = {
         clockStatus : Storage.clockStatus || 0,
         // 是否已经打开大门
         isOpenGate : wx.getStorageSync('opengate') || 0,
+        // 分享的朋友圈是否已经有人进入配对模式
+        isOpenPair : wx.getStorageSync('openSharePair') || false,
         userInfo : Storage.userInfo || { nickName : ''},
         version : true,
         notice: { isShow: true },  //公告组件
@@ -64,6 +66,7 @@ const conf = {
     onShow(){
         this.setData({
             'isOpenGate' : wx.getStorageSync('opengate') || 0,
+            isOpenPair : wx.getStorageSync('openSharePair') || false,
             version : Storage.miniPro
         })
 
@@ -142,6 +145,12 @@ const conf = {
         wx.navigateToMiniProgram({
             appId: this.data.opts.appId,
             path: this.data.opts.path
+        })
+    },
+    // 前往分享配对页面
+    _goPairCus(){
+        wx.navigateTo({
+            url : '/pages/components/pages/pairCus/pairCus'
         })
     },
     // 确定星座

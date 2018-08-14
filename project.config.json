@@ -4,14 +4,14 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.9.4",
+	"libVersion": "2.1.0",
 	"appid": "wxedc8a06ed85ce4df",
 	"projectname": "%E5%B0%8F%E5%93%A5%E6%98%9F%E5%BA%A72.1",
 	"condition": {
@@ -152,15 +152,15 @@
 				{
 					"id": 17,
 					"name": "朋友圈配对(分享)",
-					"pathName": "pages/components/pages/pairCus/pairCus",
-					"query": "to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=omONY5HlUp8VMMS14Jj4Wla_t5-c",
+					"pathName": "pages/home/home",
+					"query": "to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=omONY5HlUp8VMMS14Jj4Wla_t5-c&cid=8&sex=man",
 					"scene": "1012"
 				},
 				{
-					"id": -1,
+					"id": 18,
 					"name": "朋友圈配对(分享他人视角)",
-					"pathName": "pages/components/pages/pairCus/pairCus",
-					"query": "to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=omONY5NNuhisWGf8zp6ZNGIFdQ4U",
+					"pathName": "pages/home/home",
+					"query": "to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=omONY5Kg0xLAUft6W2lxA60V6mJ8&cid=8&sex=woman",
 					"scene": "1012"
 				}
 			]

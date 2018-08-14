@@ -59,10 +59,37 @@
 <view class='footer'></view>
 </scroll-view>
 
-<form report-submit bindsubmit='formid'>
+<!-- <form report-submit bindsubmit='formid'>
+    <button form-type="submit" class="friends {{ isIPhoneX ? 'iphonex':''}}">去朋友圈中寻找</button>
     <button wx:if="{{!showNav}}" form-type="submit" class="find  {{ isIPhoneX ? 'iphonex':''}}">寻找这样的TA</button>
     <navigator wx:if="{{showNav && version}}" class="find  {{ isIPhoneX ? 'iphonex':''}}" target="miniProgram" hover-class="animate" open-type="{{xiaodaka.openType}}" app-id="{{xiaodaka.appId}}" path="{{xiaodaka.path}}" url="{{xiaodaka.path}}" extra-data="{{xiaodaka.extra}}" version="{{xiaodaka.version}}">
         寻找这样的TA
     </navigator>
     <button wx:if="{{showNav && !version}}" catchtap="_goXDK" form-type="submit" class="find  {{ isIPhoneX ? 'iphonex':''}}">寻找这样的TA</button>
+</form> -->
+
+<form report-submit bindsubmit='formid'>
+    <view class="btn-group-panel">
+        <view class="btn-show" wx:if="{{!seek}}" catchtap="_seek" >寻找这样的TA</view>
+        <view class="btn-friends" wx:if="{{seek}}">
+            <button hover-class="none" class="friends {{ isIPhoneX ? 'iphonex':''}}" catchtap="_goPairCus">
+                <image class='friends-img' src='../../source/friends.png'></image>
+                去朋友圈中寻找
+            </button>
+        </view>
+        <view class="btn-group" wx:if="{{seek}}">
+            <button  hover-class="none" wx:if="{{!showNav}}" form-type="submit" class="{{ isIPhoneX ? 'iphonex':''}}">
+                <image class='friends-img' src='../../source/xgxz.png'></image>
+                寻找这样的TA
+            </button>
+            <navigator wx:if="{{showNav && version}}" class="{{ isIPhoneX ? 'iphonex':''}}" target="miniProgram" hover-class="animate" open-type="{{xiaodaka.openType}}" app-id="{{xiaodaka.appId}}" path="{{xiaodaka.path}}" url="{{xiaodaka.path}}" extra-data="{{xiaodaka.extra}}" version="{{xiaodaka.version}}">
+                <image class='friends-img' src='../../source/xgxz.png'></image>
+                寻找这样的TA
+            </navigator>
+            <button wx:if="{{showNav && !version}}"  hover-class="none" catchtap="_goXDK" form-type="submit" class="{{ isIPhoneX ? 'iphonex':''}}">
+                <image class='friends-img' src='../../source/xgxz.png'></image>
+                寻找这样的TA
+            </button>
+        </view>
+    </view>
 </form>
