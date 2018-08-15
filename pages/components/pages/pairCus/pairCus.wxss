@@ -1,14 +1,12 @@
 .shareCanvas{
     position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+    top: 1000px;
+    left: 1000px;
     margin: auto;
     z-index: -1;
     width: 690px;
     height: 890px;
-    transform: scale(0) translateX(-50%);
+    transform: scale(0) translateX(1000px);
 }
 button {
 	width: 100%;
@@ -24,6 +22,7 @@ button {
 }
 page {
     font-family:PingFangSC;
+    background: #fff;
 }
 image{
     width: 100%;
@@ -60,10 +59,15 @@ image{
     color:#666666;
     line-height:44rpx;
 }
+.no-list-text.current{
+    font-size:36rpx;
+    font-weight: 600;
+    color:rgba(51,51,51,1);
+}
 .no-list-text>view{
     width: 160rpx;
     margin: 0 20rpx;
-    border-top: 4rpx dashed #999999;
+    border-top: 2rpx dashed #ccc;
 }
 .no-list-btn{
     width:430rpx;
@@ -72,6 +76,7 @@ image{
     background:linear-gradient(180deg,#FFA168,#FF4040);
     box-shadow:0 6rpx 12rpx 0 rgba(218,60,54,0.3),inset 0 -4rpx 4rpx 0 rgba(255,97,93,1);
     border-radius:8rpx;
+    animation: scaleBtn .8s 0s infinite ease-in-out;
 }
 .no-list-btn>button{
     line-height:96rpx;
@@ -79,6 +84,18 @@ image{
     font-family:PingFangSC;
     font-weight: 600;
     color:rgba(255,255,255,1);
+    transition: all .3s ease-in-out;
+}
+.current{
+    transform: scale(.9);
+}
+@keyframes scaleBtn{
+    0%,100%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(.95);
+    }
 }
 .bottom-panel{
     width:706rpx;
@@ -165,7 +182,9 @@ image{
     line-height:48rpx;
 }
 
-
+.no-list-bg{
+    background: #B485F0 !important;
+}
 /* 圆环 */
 .clip-panel{
     margin: auto 20rpx;
@@ -176,16 +195,18 @@ image{
     position: relative;
     border-radius: 50%;
     margin: auto;
-    border: 10rpx solid #ffffff;
+    background: #ffffff;
+    /* border: 10rpx solid #ffffff; */
 }
 .clip-num{
     position: absolute;
     top: 50%;
     left: 50%;
     border-radius: 50%;
-    width: 120rpx; 
-    height: 120rpx;
+    width: 130rpx; 
+    height: 130rpx;
     transform: translate(-50%, -50%);
+    background: #9950EB;
     text-align: center;
     display: flex;
     align-items: center;
@@ -205,6 +226,7 @@ image{
 }
 .pair-text-num{
     font-weight: 600;
+    line-height:56rpx;
 }
 .clip{
     width: 140rpx;
@@ -216,12 +238,13 @@ image{
     width: 140rpx;
     height: 140rpx;
     position: absolute;
-    top: -8rpx;
-    left: -8rpx;
+    /* top: -8rpx;
+    left: -8rpx; */
     border-radius: 50%;
-    border: 10rpx solid #cfaef8;
-    clip: rect(0 80rpx 160rpx 0);
-    transform: rotate(120deg);
+    background: #B389E3;
+    /* border: 10rpx solid #cfaef8; */
+    clip: rect(0 70rpx 140rpx 0);
+    transform: rotate(180deg);
     transition: all 1s linear;
 }
 .right{
@@ -229,10 +252,11 @@ image{
     height: 140rpx;
     position: absolute;
     border-radius: 50%;
-    top: -8rpx;
-    right: -8rpx;
-    border: 10rpx solid #fff;
-    clip: rect(0 160rpx 160rpx 80rpx);
+    /* top: -8rpx;
+    right: -8rpx; */
+    background: #fff;
+    /* border: 10rpx solid #fff; */
+    clip: rect(0 140rpx 140rpx 70rpx);
     transform: rotate(0deg);
 }
 /* 圆环样式 */
@@ -263,7 +287,7 @@ image{
     margin: auto;
 }
 .list-card-name{
-    width:120rpx;
+    width:140rpx;
     font-size:26rpx;
     text-align: center;
     color:rgba(255,255,255,1);
@@ -272,7 +296,7 @@ image{
     white-space: nowrap;
     text-overflow: ellipsis;
     bottom: -60rpx;
-    left: -20rpx;
+    left: -9rpx;
     right: 0;
     margin: auto;
 }
@@ -283,22 +307,23 @@ image{
     font-weight: 600;
     color:rgba(255,255,255,1);
     line-height:48rpx;
-    margin-top: 15rpx;
+    margin-top: 40rpx;
     background:linear-gradient(180deg,rgba(255,161,104,1),rgba(255,64,64,1));
     border-radius:24rpx;
 }
 .btn-pair{
     width:100%;
-    height: 140rpx;
+    height: 138rpx;
     padding: 20rpx 0 0 0;
     background: #fff;
+    border-top: 2rpx solid rgba(0, 0, 0, .1);
 }
 .btn-pair>button{
     width:610rpx;
     height:80rpx;
     display: block;
     text-align: center;
-    margin: 0 auto 14rpx auto;
+    margin: 0 auto 10rpx auto;
     background:linear-gradient(-90deg,rgba(174,69,255,1),rgba(146,98,251,1));
     border-radius:50rpx;
     font-size:36rpx;

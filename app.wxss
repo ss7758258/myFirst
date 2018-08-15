@@ -38,6 +38,9 @@
 .pt34{
 	padding-top:34px !important;
 }
+.pb34{
+	padding-bottom:34px !important;
+}
 /* 自动占位置元素 */
 .margin-panel{
     flex: 1;

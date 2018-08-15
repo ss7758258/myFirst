@@ -4,35 +4,35 @@
 <loginApp></loginApp>
 
 <form report-submit="true" bindsubmit="_reportFormId">
-    <scroll-view class="{{IPX ? 'iPhoneX' : ''}}" scroll-y style="height:calc(100% - {{height}}px);">
+    <scroll-view class="{{IPX ? 'iPhoneX' : ''}}" scroll-y style="height:calc(100% - {{height}}px - 112rpx - {{IPX ? 34 : 0}}px);">
         <view class="container">
             <image class="pair-top-bg" src="../../source/top-bg.png" ></image>
-            <view class="pair-panel-top mt20">
+            <view class="pair-panel-top">
                 <!-- 星座卡片 -->
                 <view class="pair-card-panel">
                     <view class="pair-card-me">
                         <view class="card-panel">
-                            <view class="card-dom" style="color:{{star[lists[0].id].color}};background:{{star[lists[0].id].bgc}};">
-                                <view class="card-name">{{star[lists[0].id].name}}</view>
+                            <view class="card-dom" style="color:{{star[lists[1].id].color}};background:{{star[lists[1].id].bgc}};">
+                                <view class="card-name">{{star[lists[1].id].name}}</view>
                                 <!--  icon-{{sex === 'man' ? 'nan' : 'nv'}} -->
-                                <view class="card-icon iconfont">{{lists[0].sex === 'man' ? '男' : '女'}}</view>
+                                <view class="card-icon iconfont">{{lists[1].sex === 'man' ? '男' : '女'}}</view>
                             </view>
-                            <image class="card-xz" src="{{star[lists[0].id].img}}" ></image>
+                            <image class="card-xz" src="{{star[lists[1].id].img}}" ></image>
                         </view>
-                        <text>{{lists[0].name}}</text>
+                        <text>{{lists[1].name}}</text>
                     </view>
                     <view class="pair-card-x">
                         <image src="../../img_subPackages/x.svg" ></image>
                     </view>
                     <view class="pair-card-me">
                         <view class="card-panel">
-                            <view class="card-dom" style="color:{{star[lists[1].id].color}};background:{{star[lists[1].id].bgc}};">
-                                <view class="card-name">{{star[lists[1].id].name}}</view>
-                                <view class="card-icon iconfont">{{lists[1].sex === 'man' ? '男' : '女'}}</view>
+                            <view class="card-dom" style="color:{{star[lists[0].id].color}};background:{{star[lists[0].id].bgc}};">
+                                <view class="card-name">{{star[lists[0].id].name}}</view>
+                                <view class="card-icon iconfont">{{lists[0].sex === 'man' ? '男' : '女'}}</view>
                             </view>
-                            <image class="card-xz" src="{{star[lists[1].id].img}}" ></image>
+                            <image class="card-xz" src="{{star[lists[0].id].img}}" ></image>
                         </view>
-                        <text>{{lists[1].name}}</text>
+                        <text>{{lists[0].name}}</text>
                     </view>
                 </view>
                 <!-- End星座卡片 -->
@@ -88,24 +88,25 @@
                 </view>
                 <!-- End心 -->
             </view>
-                <view class="margin-panel"></view>
-
-                <!-- 功能按钮 -->
-                <view class="btn-group">
-                    <view class="btn-home">
-                        <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goHome" >
-                            <image src="../../source/home.png" />
-                            <text >首页</text>
-                        </button>
-                    </view>
-                    <view class="btn-pair">
-                        <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goPairWX" >
-                        和我的好友配对
-                        </button>    
-                    </view>
-                </view>
-                <!-- End功能按钮 -->
-                <view wx:if="{{IPX}}" class="btn-ipx"></view>
+            <view class="margin-panel"></view>
         </view>
     </scroll-view>
+    
+    <!-- 功能按钮 -->
+    <view class="btn-group {{IPX ? 'ipx' : ''}}">
+        <view class="btn-home">
+            <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goHome" >
+                <image src="../../source/home.png" />
+                <text >首页</text>
+            </button>
+        </view>
+        <view class="btn-pair">
+            <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goPairWX" >
+            和我的好友配对
+            </button>    
+        </view>
+    </view>
+    <!-- End功能按钮 -->
+
+
 </form>

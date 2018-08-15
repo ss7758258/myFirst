@@ -1,9 +1,13 @@
 const API = require('../../../../utils/api')
 const Storage = require('../../../../utils/storage')
 const mta = require('../../../../utils/mta_analysis')
-const p = require('./json')
+const star = require('../../../../utils/star')
 const starNum = 1
 let current = 1
+
+for(let v in star){
+    star[v].name = star[v].name.replace('座','')
+}
 
 const pageConf = {
 
@@ -14,8 +18,10 @@ const pageConf = {
             isRoot: false,
             isIcon: true,
             root: '',
+            bg : '#9262FB',
             isTitle: true,
         },
+        star,
         // 根据导航高度做出适配
         height : 64,
         // 是否是自己
@@ -46,26 +52,13 @@ const pageConf = {
         // preview预览
         preview : false,
         // 预览图片地址
-        previewSrc : ''
+        previewSrc : '',
+        isFirst : true
     },
 
     onLoad: function(options) {
         // this._drawCode()
         let self = this
-        let starXz = wx.getStorageSync('selectConstellation') || {
-            id: 1,
-            name: '白羊座',
-            time: '3.21~4.19',
-            startTime: '3月21日',
-            endTime: '4月19日',
-            bgcolor: '#FFF1D8',
-            bgc: 'rgba(255,192,64,0.1)',
-            color: '#F08000',
-            img: '/assets/img/1.svg'
-        }
-        this.setData({
-            starXz
-        })
         this._handleShare()
         wx.getStorage({
             key : 'openId',
@@ -94,7 +87,13 @@ const pageConf = {
     },
 
     onShow: function() {
-
+        if(this.data.isFirst){
+            this.setData({
+                isFirst : false
+            })
+            return
+        }
+        this._getPairList(1)
     },
 
     onHide: function() {
@@ -113,7 +112,23 @@ const pageConf = {
     _handleShare(){
         let opts = this.options
         console.log(this.options,this)
-        if(opts.from === 'share' && opts.to === 'pairCus'){
+        
+        let starXz = wx.getStorageSync('selectConstellation') || {
+            id: 1,
+            name: '白羊座',
+            time: '3.21~4.19',
+            startTime: '3月21日',
+            endTime: '4月19日',
+            bgcolor: '#FFF1D8',
+            bgc: 'rgba(255,192,64,0.1)',
+            color: '#F08000',
+            img: '/assets/img/1.svg'
+        }
+        this.setData({
+            starXz
+        })
+
+        if(opts.from === 'share' && opts.to === 'pairCus' && opts.openId){
             this.setData({
                 shareOpenId : opts.openId,
                 'account.id' : opts.cid,
@@ -121,7 +136,9 @@ const pageConf = {
             })
         }else{
             this.setData({
-                shareOpenId : ''
+                shareOpenId : '',
+                'account.id' : starXz.id,
+                'account.sex' : Storage.AccountSex
             })
         }
     },
@@ -226,7 +243,9 @@ const pageConf = {
                 if(res && res.statusCode === 200 && res.data){
                     let data = res.data
                     if(data.code === 1 && data.data){
-                        head = data.data
+                        
+                        head = data.data.replace('http://','https://')
+                        console.log('二维码网络地址:',head)
                         wx.getImageInfo({
                             //将二维码转路径
                             src: head, //图片的路径，可以是相对路径，临时文件路径，存储文件路径，网络图片路径,
@@ -250,8 +269,7 @@ const pageConf = {
                                 
                                 ctx.draw()
                                 console.log('画图完成===================')
-                
-                                setTimeout(function () {
+                                setTimeout(() => {
                                     wx.canvasToTempFilePath({
                                         canvasId: 'shareCanvas',
                                         success: function (res) {
@@ -263,9 +281,12 @@ const pageConf = {
                                                         preview : true,
                                                         previewSrc : res.tempFilePath
                                                     })
-                                                    wx.hideLoading()
+                                                    setTimeout(() => {
+                                                        wx.hideLoading()
+                                                    },300)
                                                 },
                                                 fail() {
+                                                    wx.hideLoading()
                                                     wx.showToast({
                                                         title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
                                                         icon: 'none',
@@ -276,15 +297,15 @@ const pageConf = {
                                         },
                                         fail: function (res) {
                                             console.log(res)
+                                            wx.hideLoading()
                                             wx.showToast({
                                                 title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
                                                 icon: 'none',
                                                 duration: 1700
                                             })
-                                            // wx.hideLoading()
                                         },
                                     })
-                                }, 1000)
+                                },500)
                             },
                             fail(){
                                 wx.showToast({
@@ -325,13 +346,14 @@ const pageConf = {
     // 获取配对列表
     _getPairList(page){
         let self = this
+        console.log('分享者的性别：',this.options)
         console.log('分享者的Id:',this.data.shareOpenId)
         API.getPairList({
             notShowLoading : true,
             openid : this.data.shareOpenId !== '' ? this.data.shareOpenId : this.data.openId,
             startpage : page
         }).then(res => {
-            console.log(res)
+            console.log('好友的列表信息：',res)
             // res.list = []
             // res.list = [{"byOpenId":"omONY5NNuhisWGf8zp6ZNGIFdQ4U","constellationId":1,"generalTxt":"犹如磁铁的两端，吸引又排斥，讨厌又喜欢","headImage":"null","nickName":"null","openId":"omONY5NNuhisWGf8zp6ZNGIFdQ4U","pairScore":60,"sex":2,"unlock":true},{"byOpenId":"omONY5NNuhisWGf8zp6ZNGIFdQ4U","constellationId":1,"generalTxt":"犹如磁铁的两端，吸引又排斥，讨厌又喜欢","headImage":"null","nickName":"null","openId":"omONY5NNuhisWGf8zp6ZNGIFdQ4U","pairScore":60,"sex":2,"unlock":false},{"byOpenId":"omONY5NNuhisWGf8zp6ZNGIFdQ4U","constellationId":1,"generalTxt":"犹如磁铁的两端，吸引又排斥，讨厌又喜欢","headImage":"null","nickName":"null","openId":"omONY5NNuhisWGf8zp6ZNGIFdQ4U","pairScore":60,"sex":2,"unlock":false},{"byOpenId":"omONY5NNuhisWGf8zp6ZNGIFdQ4U","constellationId":1,"generalTxt":"犹如磁铁的两端，吸引又排斥，讨厌又喜欢","headImage":"null","nickName":"null","openId":"omONY5NNuhisWGf8zp6ZNGIFdQ4U","pairScore":60,"sex":2,"unlock":false},{"byOpenId":"omONY5NNuhisWGf8zp6ZNGIFdQ4U","constellationId":1,"generalTxt":"犹如磁铁的两端，吸引又排斥，讨厌又喜欢","headImage":"null","nickName":"null","openId":"omONY5NNuhisWGf8zp6ZNGIFdQ4U","pairScore":60,"sex":2,"unlock":false},{"byOpenId":"omONY5NNuhisWGf8zp6ZNGIFdQ4U","constellationId":1,"generalTxt":"犹如磁铁的两端，吸引又排斥，讨厌又喜欢","headImage":"null","nickName":"null","openId":"omONY5NNuhisWGf8zp6ZNGIFdQ4U","pairScore":60,"sex":2,"unlock":false},{"byOpenId":"omONY5HlUp8VMMS14Jj4Wla_t5-c","constellationId":1,"generalTxt":"犹如磁铁的两端，吸引又排斥，讨厌又喜欢","headImage":"null","nickName":"null","openId":"omONY5NNuhisWGf8zp6ZNGIFdQ4U","pairScore":60,"sex":2,"unlock":false}]
             if(res){
@@ -343,6 +365,10 @@ const pageConf = {
                 try {
                     if(res.list.length <= 0 && page === 1){
                         data.noList = true
+                        data.account.pairNickName = res.pairNickName
+                        data.account.pairImage = res.pairImage
+                        data.account.pairConstellationId = res.pairConstellationId
+                        data.account.id = res.pairConstellationId
                     }else{
                         if(!wx.getStorageSync('openSharePair')){
                             wx.setStorage({
@@ -355,6 +381,7 @@ const pageConf = {
                         data.account.pairNickName = res.pairNickName
                         data.account.pairImage = res.pairImage
                         data.account.pairConstellationId = res.pairConstellationId
+                        data.account.id = res.pairConstellationId
                     }
                     data.current = 'current'
                     self.setData(data)
@@ -462,9 +489,9 @@ function deLock(self,data,index){
                             byunlock : data.byOpenId
                         }).then(res => {
                             console.log(res)
-                            if(res.retcode != -2){
+                            if(res.retcode != 0){
                                 wx.showToast({
-                                    title : res.retmsg,
+                                    title : res.retmsg || '发现未知错误',
                                     icon: 'none',
                                     mask : true,
                                     duration : 1600

@@ -12,6 +12,7 @@ const conf = {
             isRoot: false,
             isIcon: true,
             root: '',
+            bg : '#9262FB',
             isTitle: true,
         },
         star,

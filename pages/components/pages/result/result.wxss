@@ -130,7 +130,21 @@ scroll-view{
 }
 
 /* 按钮组 */
+.btn-mask{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0);
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+.btn-mask.current{
+    z-index: 10;
+    background: rgba(0,0,0,.7);
+}
 .btn-group-panel{
+    border-radius: 12rpx 12rpx 0 0 ;
     position: fixed;
     width: 100%;
     background: #F7F7F7;
@@ -155,7 +169,7 @@ scroll-view{
     text-align: center;
     width: 100%;
     height:100rpx;
-    font-size:36rpx;
+    font-size:32rpx;
     font-family:PingFangSC;
     font-weight: 600;
     line-height:100rpx;
@@ -172,6 +186,7 @@ scroll-view{
     box-shadow: 0 -2rpx 1rpx rgba(0,0,0,.1);
 }
 .friends{
+    border-radius: 12rpx 12rpx 0 0 ;
     font-size:32rpx;
     font-family:PingFangSC;
     font-weight: 600;

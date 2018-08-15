@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 18,
+			"current": 19,
 			"list": [
 				{
 					"id": 0,
@@ -145,15 +145,15 @@
 				{
 					"id": 16,
 					"name": "朋友圈配对",
-					"pathName": "pages/components/pages/pairCus/pairCus",
-					"query": "",
+					"pathName": "pages/home/home",
+					"query": "from=share&to=pairCus",
 					"scene": "1012"
 				},
 				{
 					"id": 17,
 					"name": "朋友圈配对(分享)",
 					"pathName": "pages/home/home",
-					"query": "to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=omONY5HlUp8VMMS14Jj4Wla_t5-c&cid=8&sex=man",
+					"query": "to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=omONY5ABPvzrB3G0Ib4XiapsPBfw&cid=8&sex=man",
 					"scene": "1012"
 				},
 				{
@@ -161,6 +161,13 @@
 					"name": "朋友圈配对(分享他人视角)",
 					"pathName": "pages/home/home",
 					"query": "to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=omONY5Kg0xLAUft6W2lxA60V6mJ8&cid=8&sex=woman",
+					"scene": "1012"
+				},
+				{
+					"id": 19,
+					"name": "朋友圈配对(我的分享)",
+					"pathName": "pages/home/home",
+					"query": "to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=omONY5HlUp8VMMS14Jj4Wla_t5-c&cid=8&sex=man",
 					"scene": "1012"
 				}
 			]

@@ -180,8 +180,8 @@ page button {
     position: absolute;
     right: 30rpx;
     top: -171rpx;
-    width: 133rpx;
-    height: 133rpx;
+    width: 150rpx;
+    height: 150rpx;
     transform: translateY(-50%);
 }
 .pair-panel-bottom navigator{

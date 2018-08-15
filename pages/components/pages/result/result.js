@@ -93,8 +93,16 @@ Page({
     },
     // 寻找按钮展示
     _seek(){
+        console.log('触发寻找')
         this.setData({
             seek : true
+        })
+    },
+    // 关闭按钮展示
+    _closeSeek(){
+        console.log('触发关闭')
+        this.setData({
+            seek : false
         })
     },
     // 前往朋友圈配对
@@ -102,6 +110,13 @@ Page({
         wx.navigateTo({
             url : '/pages/components/pages/pairCus/pairCus'
         })
+        this.setData({
+            seek : false
+        })
+    },
+    // 事件阻止
+    _catchTapHandle(){
+
     },
     // 上报formid
     formid(e) { 
@@ -125,11 +140,16 @@ Page({
         } else if (clockStatus == 1){
             let now=new Date().getTime()   //当前时间戳
             let c = new Date(new Date().toLocaleDateString()).getTime() //当天0点时间戳
-            let time19 = c + 1000 * 60 * 60 * 19
+            let [startTime,endTime] = [store.startTime,store.endTime]
+            console.log(startTime,endTime)
+            let time19 = c + 1000 * (60 * (startTime[0] === 0 ? 1 : startTime[0])) * (60 * (startTime[1] === 0 ? 1 : startTime[1])) * (60 * (startTime[2] === 0 ? 1 : startTime[2]))
             let time21 = c + 1000 * 60 * 60 * 21
             if(now > time19 && now < time21){
                 wx.navigateTo({
                     url: '../happyDoor/happyDoor'   //跳转链接
+                })
+                this.setData({
+                    seek : false
                 })
             }else{
                 wx.showToast({
@@ -142,9 +162,6 @@ Page({
         }else{
             console.log(clockStatus)
         }
-        
-
-
     },   
 
 })
