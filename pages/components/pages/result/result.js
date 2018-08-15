@@ -139,12 +139,14 @@ Page({
             console.log(0)
         } else if (clockStatus == 1){
             let now=new Date().getTime()   //当前时间戳
-            let c = new Date(new Date().toLocaleDateString()).getTime() //当天0点时间戳
+            let c = new Date(new Date().toLocaleDateString()) //.getTime() //当天0点时间戳
             let [startTime,endTime] = [store.startTime,store.endTime]
             console.log(startTime,endTime)
-            let time19 = c + 1000 * (60 * (startTime[0] === 0 ? 1 : startTime[0])) * (60 * (startTime[1] === 0 ? 1 : startTime[1])) * (60 * (startTime[2] === 0 ? 1 : startTime[2]))
-            let time21 = c + 1000 * 60 * 60 * 21
-            if(now > time19 && now < time21){
+            let start = new Date(c.getFullYear() + '-' + (c.getMonth() + 1) + '-' + c.getDate() + ' ' + startTime).getTime()
+            let end =  new Date(c.getFullYear() + '-' + (c.getMonth() + 1) + '-' + c.getDate() + ' ' + endTime).getTime()
+            console.log(start,end)
+            
+            if(now > start && now < end){
                 wx.navigateTo({
                     url: '../happyDoor/happyDoor'   //跳转链接
                 })
@@ -153,7 +155,7 @@ Page({
                 })
             }else{
                 wx.showToast({
-                    title: '每天19：00-21：00开放',
+                    title: `每天${startTime.substring(0,5)}-${endTime.substring(0,5)}开放`,
                     icon: 'none',
                     duration: 1750,
                     mask: true
