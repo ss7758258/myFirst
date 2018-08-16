@@ -91,7 +91,33 @@ Page({
             })
         })
     },
+    // 寻找按钮展示
+    _seek(){
+        console.log('触发寻找')
+        this.setData({
+            seek : true
+        })
+    },
+    // 关闭按钮展示
+    _closeSeek(){
+        console.log('触发关闭')
+        this.setData({
+            seek : false
+        })
+    },
+    // 前往朋友圈配对
+    _goPairCus(){
+        wx.navigateTo({
+            url : '/pages/components/pages/pairCus/pairCus'
+        })
+        this.setData({
+            seek : false
+        })
+    },
+    // 事件阻止
+    _catchTapHandle(){
 
+    },
     // 上报formid
     formid(e) { 
         mta.Event.stat("result_find", {})
@@ -113,16 +139,23 @@ Page({
             console.log(0)
         } else if (clockStatus == 1){
             let now=new Date().getTime()   //当前时间戳
-            let c = new Date(new Date().toLocaleDateString()).getTime() //当天0点时间戳
-            let time19 = c + 1000 * 60 * 60 * 19
-            let time21 = c + 1000 * 60 * 60 * 21
-            if(now > time19 && now < time21){
+            let c = new Date(new Date().toLocaleDateString()) //.getTime() //当天0点时间戳
+            let [startTime,endTime] = [store.startTime,store.endTime]
+            console.log(startTime,endTime)
+            let start = new Date(c.getFullYear() + '-' + (c.getMonth() + 1) + '-' + c.getDate() + ' ' + startTime).getTime()
+            let end =  new Date(c.getFullYear() + '-' + (c.getMonth() + 1) + '-' + c.getDate() + ' ' + endTime).getTime()
+            console.log(start,end)
+            
+            if(now > start && now < end){
                 wx.navigateTo({
                     url: '../happyDoor/happyDoor'   //跳转链接
                 })
+                this.setData({
+                    seek : false
+                })
             }else{
                 wx.showToast({
-                    title: '每天19：00-21：00开放',
+                    title: `每天${startTime.substring(0,5)}-${endTime.substring(0,5)}开放`,
                     icon: 'none',
                     duration: 1750,
                     mask: true
@@ -131,9 +164,6 @@ Page({
         }else{
             console.log(clockStatus)
         }
-        
-
-
     },   
 
 })

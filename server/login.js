@@ -73,7 +73,7 @@ const methods = () => {
                     },
                     fail(err){
                         console.log('-------------------------------------------获取用户设置失败-------------------------------------')
-                        bus.emit('no-login-app', res , 'app')
+                        bus.emit('no-login-app', {} , 'app')
                         cb && cb.constructor === Function ? cb() : ''
                     }
                 })

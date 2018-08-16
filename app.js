@@ -19,10 +19,21 @@ App({
 		// 检查用户的登录信息
 		// methods.checkLogin()
 		methods.openIdLogin(() => {
-			tick()
+			// tick()
 		})
 		
-		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || { id: 1, name: "白羊座", time: "3.21-4.19", img: "/assets/images/aries.png", isFirst: true }
+		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || {
+			id: 1,
+			name: '白羊座',
+			time: '3.21~4.19',
+			startTime: '3月21日',
+			endTime: '4月19日',
+			bgcolor: '#FFF1D8',
+			bgc: 'rgba(255,192,64,0.1)',
+			color: '#F08000',
+			img: '/assets/img/1.svg',
+			isFirst: true 
+		},
 		// let userC = wx.getStorageSync('userConfig') || {}
 		_SData.userInfo = wx.getStorageSync('userInfo')
 		mta.App.init({
@@ -182,10 +193,21 @@ function getGlobal(){
 		Storage.starPrice = res.price || 9
 		Storage.openIos = res.openIos || 0
 		Storage.openAndriod = res.openAndriod || 0
+		Storage.startTime = res.startTime || '19:00:00'
+		Storage.endTime = res.endTime || '21:00:00'
+		// Storage.startTime = Storage.startTime.split(':').map((v) => {
+		// 	return parseInt(v)
+		// })
+		// Storage.endTime = Storage.endTime.split(':').map((v) => {
+		// 	return parseInt(v)
+		// })
+		console.log(Storage.startTime,Storage.endTime)
 	}).catch( err => {
 		Storage.starPrice = 9
 		Storage.openIos = 0
 		Storage.openAndriod = 0
+		Storage.startTime = [19,'00','00']
+		Storage.endTime = [21,'00','00']
 		console.log('加载失败---------------------------------全局配置')
 	})
 }

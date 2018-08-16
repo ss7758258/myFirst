@@ -73,5 +73,14 @@
                 </button>
             </view>
         </view> -->
+
+        <view class="pair-panel-bottom">
+            <image src="../../img_subPackages/bottom-bg.png" ></image>
+            <view class="pair-xz-pair" wx:if="{{isOpenPair}}">
+                <button form-type="submit" hover-class="none" open-type="getUserInfo" catchtap="_goPairCus" >
+                    <image src="../../source/xz-pair.png" ></image>
+                </button>
+            </view>
+        </view>
     </view>
 </form>

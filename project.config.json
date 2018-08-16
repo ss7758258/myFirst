@@ -11,7 +11,7 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.9.4",
+	"libVersion": "2.1.0",
 	"appid": "wxedc8a06ed85ce4df",
 	"projectname": "%E5%B0%8F%E5%93%A5%E6%98%9F%E5%BA%A72.1",
 	"condition": {
@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 19,
 			"list": [
 				{
 					"id": 0,
@@ -134,6 +134,41 @@
 					"pathName": "pages/home/home",
 					"query": "to=brief&from=share&source=share&id=999998&tid=123455&shareform=brief&m=0",
 					"scene": "1001"
+				},
+				{
+					"id": -1,
+					"name": "配对详情页（分享）",
+					"pathName": "pages/components/pages/pairResult/result",
+					"query": "",
+					"scene": "1011"
+				},
+				{
+					"id": 16,
+					"name": "朋友圈配对",
+					"pathName": "pages/home/home",
+					"query": "from=share&to=pairCus",
+					"scene": "1012"
+				},
+				{
+					"id": 17,
+					"name": "朋友圈配对(分享)",
+					"pathName": "pages/home/home",
+					"query": "to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=omONY5ABPvzrB3G0Ib4XiapsPBfw&cid=8&sex=man",
+					"scene": "1012"
+				},
+				{
+					"id": 18,
+					"name": "朋友圈配对(分享他人视角)",
+					"pathName": "pages/home/home",
+					"query": "to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=omONY5Kg0xLAUft6W2lxA60V6mJ8&cid=8&sex=woman",
+					"scene": "1012"
+				},
+				{
+					"id": 19,
+					"name": "朋友圈配对(我的分享)",
+					"pathName": "pages/home/home",
+					"query": "to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=omONY5HlUp8VMMS14Jj4Wla_t5-c&cid=8&sex=man",
+					"scene": "1012"
 				}
 			]
 		}
