@@ -32,7 +32,7 @@ const pageConf = {
         // loading 是否正在执行
         loading : true,
         // 是否无数据
-        noList : true,
+        noList : false,
         starXz : {},
         // 描述文字
         text : '我',
@@ -60,6 +60,7 @@ const pageConf = {
         // this._drawCode()
         let self = this
         this._handleShare()
+        console.log('-------------------------onLoad参数处理完毕')
         wx.getStorage({
             key : 'openId',
             success (res){
@@ -81,7 +82,10 @@ const pageConf = {
                 self._getPairList(1)
             },
             fail(err){
-                
+                console.log('-------------------------获取openId失败')
+                wx.showToast({
+                    title : err
+                })
             }
         })
     },
@@ -89,7 +93,8 @@ const pageConf = {
     onShow: function() {
         if(this.data.isFirst){
             this.setData({
-                isFirst : false
+                isFirst : false,
+                noList : false
             })
             return
         }
@@ -124,8 +129,12 @@ const pageConf = {
             color: '#F08000',
             img: '/assets/img/1.svg'
         }
+        
+        let userInfo = wx.getStorageSync('userInfo')
+
         this.setData({
-            starXz
+            starXz,
+            userInfo
         })
 
         if(opts.from === 'share' && opts.to === 'pairCus' && opts.openId){
@@ -138,7 +147,7 @@ const pageConf = {
             this.setData({
                 shareOpenId : '',
                 'account.id' : starXz.id,
-                'account.sex' : Storage.AccountSex
+                'account.sex' : userInfo.gender == 1 ? 'man' : 'woman'
             })
         }
     },
@@ -153,8 +162,8 @@ const pageConf = {
         
         Storage.SharePairList = [{
             id : this.data.starXz.id,
-            sex : Storage.AccountSex || 'woman',
-            name :  Storage.userInfo.nickName
+            sex : this.data.userInfo.gender == 1 ? 'man' : 'woman',
+            name :  this.data.userInfo.nickName
         },{
             id : this.data.account.pairConstellationId || 1,
             sex : this.data.account.sex || 'woman',
@@ -173,8 +182,8 @@ const pageConf = {
                     name :  data.nickName
                 },{
                     id : this.data.starXz.id,
-                    sex : Storage.AccountSex || 'woman',
-                    name :  Storage.userInfo.nickName
+                    sex : this.data.userInfo.gender == 1 ? 'man' : 'woman',
+                    name :  this.data.userInfo.nickName
                 }]
             }
             wx.navigateTo({
@@ -184,7 +193,7 @@ const pageConf = {
             API.getFriendpair({
                 notShowLoading : true,
                 bypair : this.data.shareOpenId,
-                sex : Storage.AccountSex === 'man' ? 1 : 2,
+                sex : this.data.userInfo.gender == 1 ? 1 : 2,
                 startpage : 1
             }).then(res => {
                 console.log('上报结果',res)
@@ -235,7 +244,7 @@ const pageConf = {
                 'param_value[0]' : 'pairCus',
                 'param_value[1]' : 'share',
                 'param_value[2]' : this.data.openId,
-                'param_value[3]' : Storage.AccountSex || 'woman',
+                'param_value[3]' : this.data.userInfo.gender == 1 ? 'man' : 'woman',
                 'param_value[4]' : this.data.starXz.id || 1,
             },
             success(res){
@@ -343,8 +352,18 @@ const pageConf = {
             }
         })
     },
+    _clickImg(){
+
+    },
+    // 图片加载出错
+    _imgError(e){
+        console.log('------------图片加载出错：',e)
+    },
     // 获取配对列表
     _getPairList(page){
+        if(this.data.noList){
+            return
+        }
         let self = this
         console.log('分享者的性别：',this.options)
         console.log('分享者的Id:',this.data.shareOpenId)
@@ -435,8 +454,8 @@ const pageConf = {
 // 解锁操作
 function deLock(self,data,index){
     wx.showModal({
-        title: '确定快速查看？',
-        content: '快速查看需要消耗' + starNum + '颗小星星',
+        title: '确定解锁？',
+        content: '解锁需要消耗' + starNum + '颗小星星',
         showCancel: true,
         cancelColor: '#999999',
         cancelText: '我再想想',

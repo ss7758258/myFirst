@@ -133,7 +133,7 @@ const conf = {
             
             self.setData(temp)
             timerNum = setInterval(() => {
-                len += 1
+                len += 2
                 if(len >= pairNum){
                     clearInterval(timerNum)
                     self.setData({
@@ -144,7 +144,7 @@ const conf = {
                 self.setData({
                     ['result[0].num'] : len
                 })
-            }, (self.data.timer + kt ) * 1000 / pairNum + 2)
+            }, ((self.data.timer + kt ) * 1000 / pairNum + 2) * 2)
         }
     },
     // 当动画结束时继续执行下一波操作
@@ -169,7 +169,7 @@ const conf = {
     },
     // 前往自定义配对圈子
     _goPairWX(){
-        wx.reLaunch({
+        wx.navigateTo({
             url : '/pages/components/pages/pairCus/pairCus'
         })
     },

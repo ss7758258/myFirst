@@ -46,7 +46,7 @@
                         </view>
                         <view class="clip-num">
                             <view>
-                                <text class="pair-text-num">{{result[0].num}}</text>
+                                <text class="pair-text-num">{{result[0].pairNum}}</text>
                                 <text class="pair-text">{{result[0].pairStr}}</text>
                             </view>
                         </view>

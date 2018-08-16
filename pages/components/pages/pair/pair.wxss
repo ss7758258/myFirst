@@ -183,6 +183,15 @@ page button {
     width: 150rpx;
     height: 150rpx;
     transform: translateY(-50%);
+    animation: rotatePair .8s 0s infinite ease-in-out;
+}
+@keyframes rotatePair{
+    0%,100%{
+		transform: rotate(5deg);
+	}
+	50%{
+		transform: rotate(-5deg);
+	}
 }
 .pair-panel-bottom navigator{
     width: 100%;
