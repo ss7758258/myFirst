@@ -19,7 +19,8 @@ App({
 		// 检查用户的登录信息
 		// methods.checkLogin()
 		methods.openIdLogin(() => {
-			// tick()
+			console.log('执行心跳')
+			tick()
 		})
 		
 		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || {

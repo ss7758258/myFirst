@@ -102,7 +102,7 @@
         </view>
         <view class="btn-pair">
             <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goPairWX" >
-            和我的好友配对
+            去和我的好友试试
             </button>    
         </view>
     </view>

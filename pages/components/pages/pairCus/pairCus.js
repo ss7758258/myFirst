@@ -91,13 +91,10 @@ const pageConf = {
     },
 
     onShow: function() {
-        if(this.data.isFirst){
-            this.setData({
-                isFirst : false,
-                noList : false
-            })
-            return
-        }
+        this.setData({
+            isFirst : false,
+            noList : false
+        })
         this._getPairList(1)
     },
 
@@ -108,8 +105,8 @@ const pageConf = {
     onShareAppMessage: function() {
         console.log('/pages/home/home?to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=' + this.data.openId + '&cid=' + this.data.starXz.id + '&sex=' + Storage.AccountSex)
         return {
-			title : '这不是简单的句子，全是你内心的独白',
-            imageUrl: '/assets/images/share-brief.jpg',
+            title : '想知道和你最配的人是谁吗',
+            imageUrl : '/assets/images/share-pair.png',
 			path : '/pages/home/home?to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=' + this.data.openId + '&cid=' + this.data.starXz.id + '&sex=' + Storage.AccountSex,
 		}
     },
@@ -214,12 +211,12 @@ const pageConf = {
     _nextList(){
         console.log('进入下一页')
         if(!this.data.hasNext){
-            wx.showToast({
-                title : '小主，没有更多了',
-                icon: 'none',
-                mask : true,
-                duration : 1600
-            })
+            // wx.showToast({
+            //     title : '小主，没有更多了',
+            //     icon: 'none',
+            //     mask : true,
+            //     duration : 1600
+            // })
             return
         }
         this._getPairList(current++)

@@ -1,7 +1,7 @@
 <!-- 导航 -->
 <nav opts='{{navConf}}'  bind:nav-height="_setHeight"></nav>
 <!-- 登录态 -->
-<loginApp></loginApp>
+<!-- <loginApp></loginApp> -->
 
 <form report-submit="true" bindsubmit="_reportFormId">
     <scroll-view class="{{IPX ? 'iPhoneX' : ''}}" scroll-y="true" scroll-into-view="{{current}}" scroll-with-animation="true" bindscrolltolower="_nextList" style="height:calc(100% - {{height}}px - {{isMe ? '0px' : '160rpx'}} - {{IPX && !noList ? 34 : 0}}px);">
@@ -191,7 +191,7 @@
                 <image src="../../source/del.png" ></image>
             </view>
             <image src="{{previewSrc}}" bindload="_drawImg"></image>
-            <view class="draw-text">配对海报已保存到相册，快瞅瞅！</view>
+            <view class="draw-text">海报已保存到相册，快去发朋友圈吧</view>
         </view>
     </view>
 </view>

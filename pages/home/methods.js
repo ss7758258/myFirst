@@ -371,6 +371,7 @@ const me = {
 				getUserConf(self)
 				getConfing(self)
 				me._getListNum(self)
+				self.getNotice()
 			}
 		},'home')
 		
@@ -498,7 +499,6 @@ const methods = function(){
             bus.emit('loadUserConf',{},'home')
             getStarNum(this)
 			me._getListNum(this)
-            this.getNotice()
             if(Storage.userInfo){
                 this.setData({
                     'navConf.iconPath' : Storage.userInfo.avatarUrl || ''
