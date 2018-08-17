@@ -138,12 +138,13 @@ Page({
             })
             console.log(0)
         } else if (clockStatus == 1){
-            let now=new Date().getTime()   //当前时间戳
+            let now = new Date().getTime()   //当前时间戳
             let c = new Date(new Date().toLocaleDateString()) //.getTime() //当天0点时间戳
             let [startTime,endTime] = [store.startTime,store.endTime]
             console.log(startTime,endTime)
-            let start = new Date(c.getFullYear() + '-' + (c.getMonth() + 1) + '-' + c.getDate() + ' ' + startTime).getTime()
-            let end =  new Date(c.getFullYear() + '-' + (c.getMonth() + 1) + '-' + c.getDate() + ' ' + endTime).getTime()
+            console.log(new Date(c.getFullYear() + '/' + (c.getMonth() + 1) + '/' + c.getDate() + ' ' + startTime))
+            let start = new Date(c.getFullYear() + '/' + (c.getMonth() + 1) + '/' + c.getDate() + ' ' + startTime).getTime()
+            let end =  new Date(c.getFullYear() + '/' + (c.getMonth() + 1) + '/' + c.getDate() + ' ' + endTime).getTime()
             console.log(start,end)
             
             if(now > start && now < end){

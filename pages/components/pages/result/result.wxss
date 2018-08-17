@@ -173,6 +173,7 @@ scroll-view{
     font-family:PingFangSC;
     font-weight: 600;
     line-height:100rpx;
+    color: #333333;
     background: #fff;
     display: flex;
     justify-content: center;

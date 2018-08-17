@@ -91,6 +91,7 @@ const conf = {
                     id : 1
                 },
                 sex : Storage.AccountSex || 'woman',
+                userInfo:Storage.userInfo,
                 clockStatus : Storage.clockStatus || 0,
                 isOpenGate : wx.getStorageSync('opengate') || 0
             })
