@@ -2,7 +2,7 @@
 <!-- tabbar -->
 <import src="/template/tabbar/tabbar.wxml" />
 <!-- 导航 -->
-<nav opts='{{navConf}}'></nav>
+<nav opts='{{navConf}}' bind:nav-height="_setHeight"></nav>
 <loginApp></loginApp>
 
 <!-- 新手操作推荐 -->

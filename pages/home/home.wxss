@@ -38,7 +38,7 @@ button::after{
 .star-panel{
 	position: relative;
 	width: 710rpx;
-	height: 630rpx;
+	height: 522rpx;
 	background: #FFFFFF;
 	border-radius: 12rpx;
 	margin: -10rpx auto 0 auto;
@@ -153,8 +153,8 @@ button::after{
 	justify-content: space-between;
 	width: 650rpx;
 	margin: 0 auto;
-	padding: 40rpx 0;
-	border-bottom: 1rpx #6041CD dashed;
+	padding: 36rpx 0;
+	/* border-bottom: 1rpx #6041CD dashed; */
 }
 .collect{
 	position: relative;
@@ -227,18 +227,19 @@ button::after{
 	text-align: justify;
 }
 .star-tip-notice{
-	width: 200rpx;
-	height: 62rpx;
+	width:160rpx;
+	height:60rpx;
 	font-family: PingFangSC-Medium;
 	font-size: 29rpx;
 	color: #FFFFFF;
+	font-weight: 600;
 	letter-spacing: 0;
 	vertical-align: middle;
 	text-align: center;
-	line-height: 62rpx;
-	background: #6041CD;
+	line-height: 60rpx;
+	background:linear-gradient(180deg,rgba(196,155,253,1),rgba(146,98,251,1));
+	border-radius:31rpx;
 	box-shadow: 0 2px 4px 0 rgba(96,65,205,.5);
-	border-radius: 10rpx;
 }
 .star-tip-notice-nav{
 	width: 132rpx;
@@ -271,13 +272,16 @@ button::after{
 	transform: translateY(-50rpx);
 }
 .star-more-text{
-	display: flex;
-	align-items:center;
-	font-family: PingFangSC-Medium;
+	width: 100%;
+	line-height: 60rpx;
+	font-family: PingFangSC;
 	font-size: 29rpx;
+	font-weight: 600;
+	background:linear-gradient(180deg,rgba(196,155,253,1),rgba(146,98,251,1));
+	border-radius:31rpx;
 	letter-spacing: 0;
-	text-align: justify;
-	color: #6041CD;
+	text-align: center;
+	color: #fff;
 }
 
 .star-trigon{
@@ -304,20 +308,69 @@ button::after{
 .star-pair-img,.star-banner-img{
 	width: 710rpx;
 	height: 280rpx;
-	margin: 30rpx auto 0;
-	background: linear-gradient(-270deg, #FF93BA 0%, #FFDFE9 100%);
-	border-radius: 10rpx;
-	box-shadow:0px 8rpx 16rpx 0px rgba(254,148,186,0.4);
+	margin: 40rpx auto 0;
+	background:linear-gradient(-90deg,rgba(206,119,255,1),rgba(161,64,214,1));
+	box-shadow:0 8rpx 16rpx 0 rgba(217,130,255,0.4);
+	border-radius:12rpx;
 }
-.star-banner-img{
-	box-shadow:0px 8rpx 16rpx 0px rgba(121,218,255,0.4);
-	background: linear-gradient(122.5deg,rgba(121,218,255,1),rgba(125,213,255,0));
+.star-pair-img.pair-q{
+	background:linear-gradient(90deg,rgba(255,185,37,1),rgba(255,213,59,1));
+	box-shadow:0 8rpx 16rpx 0 rgba(255,176,30,0.4);
+}
+/* 标示图 */
+.pair-1{
+	position: absolute;
+	width: 160rpx;
+	height: 238rpx;
+	bottom: 0;
+	left: 90rpx;
+}
+.pair-2{
+	position: absolute;
+	width: 23rpx;
+	height: 23rpx;
+	top: 0;
+	right: -23rpx;
+}
+.pair-3{
+	position: absolute;
+	width: 18rpx;
+	height: 22rpx;
+	bottom: 0;
+	right: 76rpx;
+}
+.pair-share{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 94rpx;
+	height: 180rpx;
+	margin: auto;
+}
+.pair-share-panel{
+	position: relative;
+	width: 100%;
+}
+.pair-share>.pair-share-panel>text{
+	display: block;
+	font-size:28rpx;
+	font-family:PingFangSC-Regular;
+	color:rgba(255,255,255,1);
+	line-height:40rpx;
+	text-align: right;
+}
+.pair-share>.pair-share-panel>text:first-child{
+	font-size:72rpx;
+	font-family:PingFangSC;
+	font-weight: 600;
+	color:rgba(255,255,255,1);
+	line-height:100rpx;
 }
 .star-text-panel{
 	position: absolute;
 	width: 710rpx;
 	height: 280rpx;
-	top: 30rpx;
+	top: 40rpx;
 	left: 0;
 	right: 0;
 	margin: auto;
@@ -341,6 +394,10 @@ button::after{
 	font-family:PingFangSC-Regular;
 	color:rgba(255,255,255,1);
 	line-height:50rpx;
+}
+.star-text-panel.pair-q{
+	display: flex;
+	text-align: right;
 }
 .star-unclaimed{
 	position: absolute;
@@ -371,31 +428,93 @@ button::after{
 	white-space: nowrap;
 	text-overflow: ellipsis;
 }
-/* 正在玩的样式 */
-.star-banner-panel{
+
+
+/* 摇签卡片样式 */
+.star-card-icon{
 	position: absolute;
-	top: 0;
+	width: 180rpx;
+	height: 180rpx;
+	top: 40rpx;
+	bottom: 0;
+	margin: auto;
+	right: 54rpx;
+}
+.star-icon-panel{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.shake_4{
+	position: absolute;
+	width: 147rpx;
+	height: 147rpx;
+	top: 12rpx;
+	bottom: 0;
 	left: 0;
-	height: 50rpx;
-	font-size:28rpx;
-	font-family:PingFangSC-Regular;
-	letter-spacing: 0;
-	color:rgba(255,255,255,1);
-	text-align: center;
-	padding-right: 30rpx;
-	padding-left: 12rpx;
-	border-radius: 10rpx 25rpx 25rpx 0;
-	background: rgba(0,0,0,.3);
+	right: 0;
+	margin: auto;
+	animation: rotateShake 1s 0s infinite linear;
+	transform-origin: center 80%;
+	border-radius: 0 0 90rpx 70rpx;
 }
-.star-banner-panel>view{
-	height: 50rpx;
-	display: flex;
-	align-items: center;
+.shake_star{
+	position: absolute;
+	width: 44rpx;
+	height: 44rpx;
+	top: 0;
+	right: 0;
+	/* opacity: 0; */
 }
-.star-banner-panel image{
-	width: 38rpx;
-	height: 38rpx;
-	margin-right: 6rpx;
+.shake_star:nth-child(4){
+	width: 28rpx;
+	height: 28rpx;
+	top: 23rpx;
+	left: 0;
+}
+.shake_star:nth-child(5){
+	width: 21rpx;
+	height: 21rpx;
+	top: auto;
+	bottom: 21rpx;
+	right: 21rpx;
+}
+.star-icon-border{
+	position: absolute;
+	width: 147rpx;
+	height: 147rpx;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 6rpx;
+	margin: auto;
+	border: 8rpx solid rgba(255, 255, 255, 1);
+	border-radius: 50%;
+}
+@keyframes rotateShake{
+	0%,100%{
+		transform: rotate(0);
+	}
+	15% {
+		transform: rotate(-6deg);
+	}
+	30% {
+		transform: rotate(4deg);
+	}
+	45% {
+		transform: rotate(-2deg);
+	}
+	60%{
+		transform: rotate(0);	
+	}
+}
+
+/* End摇签卡片样式 */
+
+
+/*  */
+.panel{
+	position: relative;
 }
 /* End配对 */
 .panel:last-child{

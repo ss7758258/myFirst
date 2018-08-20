@@ -109,6 +109,18 @@ Page({
 			url:'/pages/components/pages/pair/pair'
 		})
 	},
+	// 前往星座配对
+	goPairPYQ(){
+		wx.navigateTo({
+			url : '/pages/components/pages/pairCus/pairCus'
+		})
+	},
+	// 前往摇签
+	goShake(){
+		wx.navigateTo({
+			url:'/pages/lot/shake/shake'
+		})
+	},
 	// 打开星座描述
 	openDesc(){
 		this.setData({

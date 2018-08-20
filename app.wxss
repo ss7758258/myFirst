@@ -19,7 +19,9 @@
 .icon-nv:before { content: "\e603"; }
   
 .icon-heart:before { content: "\e607"; }
-  
+.mt10 {
+	margin-top: 10rpx !important;
+} 
 .mt20 {
 	margin-top: 20rpx !important;
 }
@@ -29,6 +31,12 @@
 .mt40 {
 	margin-top: 40rpx !important;
 }
+.mt60 {
+	margin-top: 60rpx !important;
+}
+.mb20 {
+	margin-bottom: 20rpx !important;
+}
 .mb20 {
 	margin-bottom: 20rpx !important;
 }
@@ -37,6 +45,9 @@
 }
 .pt34{
 	padding-top:34px !important;
+}
+.pt40{
+	padding-top:40rpx !important;
 }
 .pb34{
 	padding-bottom:34px !important;

@@ -5,9 +5,7 @@ const getImageInfo = $vm.utils.wxPromisify(wx.getImageInfo)
 var mta = require('../../utils/mta_analysis.js')
 const Storage = require('../../utils/storage')
 const bus = require('../../event')
-// const dev=require('../../config.js')
 const q = require('../../utils/source')
-const tab = require('../../template/tabbar/tabbar')
 let env = 'dev'
 let timer=false
 Page({
@@ -24,7 +22,7 @@ Page({
 			title: '一言',
 			state: 'root',
 			isRoot: false,
-			isIcon: false,
+			isIcon: true,
 			iconPath: '',
 			root: '',
 			isTitle: true
@@ -54,15 +52,8 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
-		wx.hideTabBar({})
 		console.log('----------------------------------------------brief onLoad')
 		let self=this
-
-		tab.initTab(this,2)
-        let c = tab.getHeight()
-        this.setData({
-            hei : c.nav + c.tab
-        })
 		
 		q.sourceHandle(options)
 		
@@ -102,9 +93,6 @@ Page({
 	},
 
     onShow:function(){
-        tab.switchTab(2,'',this)
-		tab.show()
-		
         this.setData({
             version : Storage.miniPro
         })
@@ -462,7 +450,13 @@ Page({
             path: 'pages/home/home?source=XGstars&type=in&id=110000'
         })
     },
-
+    // 获取导航栏高度
+    _setHeight(e){
+        console.log(e.detail)
+        this.setData({
+            hei : e.detail || 64
+        })
+    },
     // 再试一次
     tryagain(e){
         $vm.api.getX610({ formid: e.detail.formId })

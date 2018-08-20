@@ -1,0 +1,7 @@
+{
+	"disableScroll": true,
+	"usingComponents": {
+		"nav": "/components/navigation/nav",
+		"loginApp": "/components/login/login"
+	}
+}

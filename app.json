@@ -2,6 +2,7 @@
     "pages": [
         "pages/home/home",
         "pages/banner/banner",
+        "pages/find/find",
         "pages/center/center",
         "pages/onebrief/brief",
         "pages/lot/shake/shake",
@@ -46,16 +47,10 @@
                 "text": "星座"
             },
             {
-                "pagePath": "pages/lot/shake/shake",
-                "iconPath" : "/assets/menu/shake.png",
-                "selectedIconPath" : "/assets/menu/shake-selected.png",
-                "text": "必玩"
-            },
-            {
-                "pagePath": "pages/onebrief/brief",
+                "pagePath": "pages/find/find",
                 "iconPath" : "/assets/menu/yan.png",
                 "selectedIconPath" : "/assets/menu/yan-selected.png",
-                "text": "一言"
+                "text": "发现"
             }
         ]
     },

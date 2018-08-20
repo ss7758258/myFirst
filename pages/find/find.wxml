@@ -1,0 +1,111 @@
+
+<!-- 导入模板 -->
+<!-- tabbar -->
+<import src="/template/tabbar/tabbar.wxml" />
+<!-- End导入模板 -->
+<!-- 导航 -->
+<nav opts='{{navConf}}' bind:nav-height="_setHeight"></nav>
+<!-- 登录态 -->
+<loginApp></loginApp>
+
+<form report-submit="true" bindsubmit="_reportFormId"></form>
+
+<scroll-view scroll-x="false" scroll-y="true" style="height:calc(100% - {{height}}px);min-height:calc(100% - {{height}}px);" >
+    <view class="pt40"></view>
+    <!-- 每日一言 -->
+    <view class="panel">
+        <button class="star-card" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goBrief">
+            <!-- <image class="star-card-img" src="/assets/img/shake_bg.png" ></image> -->
+            <view class="star-icon-panel">
+                <image class="star-icon icon-1" src="/assets/img/icon-1.png" ></image>
+            </view>
+            <view class="star-text-panel">
+                <text>每日一言</text>
+                <text>世界太复杂，想你初心不变</text>
+            </view>
+        </button>
+    </view>
+
+    <!-- 星座配对 -->
+    <view class="panel mt40">
+        <button class="star-card pair" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goPair">
+            <!-- <image class="star-card-img" src="/assets/img/shake_bg.png" ></image> -->
+            <view class="star-icon-panel">
+                <image class="star-icon icon-2" src="/assets/img/icon-2.png" ></image>
+            </view>
+            <view class="star-text-panel">
+                <text>星座配对</text>
+                <text>想知道你和谁最配吗？</text>
+            </view>
+            <view class="star-text-time" wx:if="{{showPair}}">
+                <view class="star-num-icon">
+                    <image src="/assets/img/pair-icon.png" ></image>
+                </view>
+                <view class="star-num">
+                    {{listNum[0].content}}
+                </view>
+            </view>
+        </button>
+    </view>
+
+    <!-- Banner更多好玩 -->
+    <view class="panel rect mt40" wx:if="{{isBanner}}">
+        <view>
+            <button class="star-rect-card" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goBanner">
+                <view class="star-rect-panel">
+                    <view class="rect-icon">
+                        <image class="rect-icon-small icon-3" src="/assets/img/icon-3.png" ></image>
+                    </view>
+                    <view class="rect-text-panel mt30">
+                        <text>小星星</text>
+                        <text class="mt10">限时免费领取</text>
+                    </view>
+                </view>
+                <view class="star-unclaimed" wx:if="{{more_startext !== '0颗待领'}}">
+                    <view>
+                        <image src="/assets/img/star-panel.png"></image>
+                        <text>{{more_startext}}</text>
+                    </view>
+                </view>
+            </button>
+        </view>
+
+        <view>
+            <button class="star-rect-card card-2" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goUn">
+                <view class="star-rect-panel">
+                    <view class="rect-icon">
+                        <image class="rect-icon-small icon-4" src="/assets/img/icon-4.png" ></image>
+                    </view>
+                    <view class="rect-text-panel mt30">
+                        <text>精选好物</text>
+                        <text class="mt10">小星星免费兑换礼品</text>
+                    </view>
+                </view>
+            </button>
+        </view>
+
+    </view>
+    
+</scroll-view>
+
+<!-- tabbar -->
+<template is="tabbar" data="{{tabbarConfig}}"></template>
+
+<form report-submit="true" bindsubmit="_reportFormId" bindreset="">
+    <view class="dialog-mask" wx:if="{{showDialog}}" style="height:calc(100% - {{nav}}px);top:{{nav}}px;">
+        <view class="dialog-panel">
+            <view class="dialog">
+                <view class="dialog-title mt40">即将开启，敬请期待</view>
+                <view class="dialog-content mt40">精选好物可用小星星进行免费兑换 快去免费存取一下吧～</view>
+                <view class="dialog-btns mt60">
+                    <button class="dialog-cancel" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_close">
+                    知道了
+                    </button>
+                    <button class="dialog-sure" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goBanner">
+                    立即获取
+                    </button>
+                </view>
+            </view>    
+        </view>
+    </view>
+</form>

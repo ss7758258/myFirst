@@ -13,25 +13,25 @@ module.exports = {
             width : 'auto',
             text : '星座'
         },
+        // {
+        //     path : 'pages/lot/shake/shake',
+        //     icon : '/assets/menu/shake.png',
+        //     selectedIcon : '/assets/menu/shake-selected.png',
+        //     type : 2,
+        //     animate : true,
+        //     color : '#F7701F',
+        //     selectedColor : '#F7701F',
+        //     width : 'auto',
+        //     text : '必玩'
+        // },
         {
-            path : 'pages/lot/shake/shake',
-            icon : '/assets/menu/shake.png',
-            selectedIcon : '/assets/menu/shake-selected.png',
-            type : 2,
-            animate : true,
-            color : '#F7701F',
-            selectedColor : '#F7701F',
-            width : 'auto',
-            text : '必玩'
-        },
-        {
-            path : 'pages/onebrief/brief',
+            path : 'pages/find/find',
             icon : '/assets/menu/yan.png',
             selectedIcon : '/assets/menu/yan-selected.png',
             type : 1,
             animate : false,
             width : 'auto',
-            text : '一言'
+            text : '发现'
         }
     ]
 }
