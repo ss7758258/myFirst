@@ -19,7 +19,10 @@ Page({
             current:0,
             num:1
         },
+		showFollow : false, // 关注服务号开关
         hei: 64,
+        // iPhone X
+        IPX : false,
         headerlist: ['今日运势', '本周运势','本月运势'], //导航栏数据
         current: 0, //导航栏下标
         contentlist: ['综合指数', '爱情指数', '财富指数', '工作指数'],
@@ -58,10 +61,35 @@ Page({
     },
     // 设置高度
     setH(e){
+        let height = e.detail || 64
         this.setData({
-            hei : e.detail || 64
+            hei : height,
+            IPX : height === 64 ? false : true
         })
     },
+    // 代开客服
+	_openContact(){
+		this._hideFollow()
+		// console.log('打开了客服',arguments)
+		mta.Event.stat("spread_123437", {})
+	},
+    // 关闭弹窗
+	_hideFollow(){
+		console.log('触发关闭')
+		this.setData({
+			showFollow : false
+		})
+    },
+    // 打开通知并且隐藏
+	_openNotice(){
+		let me = this
+		me.setData({
+			showFollow : true
+		})
+		mta.Event.stat("spread_123438", {})
+		console.log('弹窗')
+		return false
+	},
     /**
      * 获取本周运势 and 本月运势
      * 

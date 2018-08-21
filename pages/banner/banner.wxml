@@ -2,7 +2,15 @@
 <nav opts='{{navConf}}'></nav>
 <loginApp></loginApp>
 <!-- <ad unit-id="adunit-d71864de7d04387c"></ad> -->
-<view class="el-dialo {{starShow ? 'show' : ''}}">成功捕获{{starNum}}颗小星星</view>
+<view class="el-dialo {{starShow ? 'show' : ''}}">
+    成功捕获{{starNum}}颗小星星
+    <view class="el-dialo-panel">
+        <view class="el-dialo-content mt40">试玩成功，小星星已放入你的帐号</view>
+        <button class="el-dialo-sure mt60" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_close">
+        确定
+        </button>
+    </view>
+</view>
 <scroll-view class="listBanner" scroll-y bindscrolltolower="" style="height:{{height}};">
     <banner opts="{{bannerConf}}"></banner>
 </scroll-view>

@@ -488,7 +488,7 @@ button::after{
 	left: 0;
 	right: 6rpx;
 	margin: auto;
-	border: 8rpx solid rgba(255, 255, 255, 1);
+	border: 8rpx solid #E4B8FC;
 	border-radius: 50%;
 }
 @keyframes rotateShake{

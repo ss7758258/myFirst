@@ -46,17 +46,23 @@ const Conf = {
         // 数据来源分析
         q.sourceHandle(options)
         console.log('-------------------------',options.shareform)
-        if(options.shareform){
-            this.setData({
-                'navConf.root' : '/pages/home/home'
-            })
-        }
+        // if(options.shareform){
+        //     this.setData({
+        //         'navConf.root' : '/pages/home/home'
+        //     })
+        // }
         // openId处理
         openIdHandle(this)
         // 心跳
         tick(this)
         // 事件处理
         eventHandle(this)
+    },
+    // 关闭弹窗
+    _close(){
+        this.setData({
+            starShow : false
+        })
     },
     // 卸载
     onUnload(){
@@ -142,10 +148,14 @@ function eventHandle(self){
                     temp['list[' + res.index + ']'] = res.res
                     res.self.setData(temp)
                 }
-                self.setData({
-                    starNum : res.res.starAmount,
-                    starShow : true
-                })
+                clearTimeout(starTimer)
+                starTimer = setTimeout(() => {
+                    self.setData({
+                        starNum : res.res.starAmount,
+                        starShow : true
+                    })
+                },2000)
+                
                 wx.reportAnalytics('star_receive', {
                     resource_id: res.res.id,
                     appid: res.res.appId,
@@ -154,12 +164,12 @@ function eventHandle(self){
                     star_num : res.res.starAmount,
                     desc: '领取小星星',
                 });
-                clearTimeout(starTimer)
-                starTimer = setTimeout(() => {
-                    self.setData({
-                        starShow : false
-                    })
-                },startime)
+                // clearTimeout(starTimer)
+                // starTimer = setTimeout(() => {
+                //     self.setData({
+                //         starShow : false
+                //     })
+                // },startime)
             }else{
                 console.log('加星星失败')
             }

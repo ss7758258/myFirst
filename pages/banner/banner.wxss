@@ -4,24 +4,45 @@
 }
 .el-dialo{
     position: fixed;
-    width: 270rpx;
-    height: 52rpx;
-    line-height: 52rpx;
-    text-align: center;
-    font-size:24rpx;
-    font-family:'PingFangSC-Regular';
-    color:rgba(255,255,255,1);
-    background:rgba(255,193,64,1);
-    box-shadow:0px 4rpx 8rpx 0px rgba(255,193,64,0.5);
-    border-radius:26rpx;
-    z-index: 1;
+    width: 100%;
+    height: 100%;
+    top: 0;
     left: 0;
-    right: 0;
+    background:rgba(0,0,0,.7);
+    z-index: 101;
+    transform: scale(0);
+}
+.el-dialo-panel{
+    position: fixed;
+    width: 570rpx;
+    height: 240rpx;
     top: 0;
     bottom: 0;
-    transform: scale(0);
-    transition: all .2s ease-in-out;
+    left: 0;
+    right: 0;
     margin: auto;
+    background: #ffffff;
+    border-radius:6rpx;
+}
+.el-dialo-content{
+    height:44rpx;
+    font-size:32rpx;
+    font-family:PingFangSC;
+    font-weight: 600;
+    color:rgba(51,51,51,1);
+    line-height:44rpx;
+    text-align: center;
+}
+.el-dialo-sure{
+    width:270rpx;
+    height:80rpx;
+    background:rgba(146,98,251,1);
+    border-radius:6rpx;
+    font-size:36rpx;
+    font-family:PingFangSC;
+    font-weight: 600;
+    color:rgba(255,255,255,1);
+    line-height:80rpx;
 }
 .el-dialo.show{
     transform: scale(1);

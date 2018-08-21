@@ -27,7 +27,7 @@ Page({
         height : 64,
         nav : 64,
         // banner开关
-        isBanner : true,
+        isBanner : false,
         // 显示弹窗
         showDialog : false,
         // 控制星座配对人数显示
@@ -86,6 +86,7 @@ Page({
     onShow: function() {
         tab.switchTab(1,'',this)
         tab.show()
+        this._getConfing()
         // 触发加载用户配置函数
         bus.emit('loadUserConf',{},'home')
     },
@@ -181,20 +182,23 @@ Page({
             }
         })
     },
-    onUnload: function() {
-
-    },
-
-    onPullDownRefresh: function() {
-
-    },
-
-    onReachBottom: function() {
-
-    },
-
-    onShareAppMessage: function() {
-
+    // 获取banner的默认配置信息
+    _getConfing(){
+        let self = this
+        API.globalSetting({
+            notShowLoading: true
+        }).then( res => {
+            console.log('加载配置完成---------全局：',res);
+            if(!res){
+                return false;
+            }
+            // 变更状态
+            self.setData({
+                isBanner : res.bannerStatus === 1
+            })
+        }).catch( err => {
+            console.log('')
+        })
     },
     /**
      * 上报formId
