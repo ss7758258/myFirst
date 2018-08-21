@@ -26,7 +26,7 @@
 <!-- End关注服务号-弹窗 -->
 
 
-<view class="luck-panel" style="height:calc(100% - {{hei}}px - {{IPX ? '34' : '0'}}px);">
+<view class="luck-panel" style="height:calc(100% - {{hei}}px - {{IPX && noticeBtnStatus ? '34' : '0'}}px);">
     <!-- 导航栏 -->
     <view class='header' wx:if="{{list}}">
         <view class="head_son {{current == index?'select':''}}" wx:for="{{headerlist}}" wx:key="index" data-selected='{{index}}' bindtap='selected'>
@@ -159,7 +159,7 @@
         </block>
     </swiper>
 
-    <view class="btn-show {{IPX ? 'ipx' : ''}}" catchtap="_openNotice" >好运提醒我</view>
+    <view class="btn-show {{IPX ? 'ipx' : ''}}" wx:if="{{noticeBtnStatus}}" catchtap="_openNotice" >好运提醒我</view>
 </view>
 <!-- </scroll-view> -->
 

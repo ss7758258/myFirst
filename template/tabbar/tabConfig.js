@@ -11,7 +11,8 @@ module.exports = {
             type : 1,
             animate : false,
             width : 'auto',
-            text : '星座'
+            text : '星座',
+            desc : 'home'
         },
         // {
         //     path : 'pages/lot/shake/shake',
@@ -31,7 +32,8 @@ module.exports = {
             type : 1,
             animate : false,
             width : 'auto',
-            text : '发现'
+            text : '发现',
+            desc : 'find'
         }
     ]
 }

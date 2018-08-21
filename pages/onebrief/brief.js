@@ -54,7 +54,9 @@ Page({
 	onLoad: function (options) {
 		console.log('----------------------------------------------brief onLoad')
 		let self=this
-		
+		if(options.from === 'qrcode'){
+			mta.Event.stat('qrcode_brief',{})
+		}
 		q.sourceHandle(options)
 		
         let handle = () => {
@@ -133,6 +135,7 @@ Page({
 	 * 保存图片
 	 */
 	saveSelect: function (e) {
+		mta.Event.stat('brief_save_pic',{})
         console.log('eeeeeeeee',e)
 		let formid = e.detail.formId
         let img = e.currentTarget.dataset.img

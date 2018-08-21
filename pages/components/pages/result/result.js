@@ -64,6 +64,7 @@ Page({
     },
     // 低版本跳转小打卡
     _goXDK(){
+        mta.Event.stat('pairresult_to_xiaodaka',{})
         wx.navigateToMiniProgram({
             appId: this.data.xiaodaka.appId,
             path: this.data.xiaodaka.path
@@ -94,6 +95,7 @@ Page({
     // 寻找按钮展示
     _seek(){
         console.log('触发寻找')
+        mta.Event.stat('seek_click',{})
         this.setData({
             seek : true
         })
@@ -107,6 +109,7 @@ Page({
     },
     // 前往朋友圈配对
     _goPairCus(){
+        mta.Event.stat('pairresult_to_paircus',{})
         wx.navigateTo({
             url : '/pages/components/pages/pairCus/pairCus'
         })

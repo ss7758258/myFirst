@@ -1,8 +1,10 @@
 // pages/home/home.js
 let $vm = getApp()
+const API = require('../../utils/api')
 const mta = require('../../utils/mta_analysis.js')
 const star = require('../../utils/star')
 const Storage = require('../../utils/storage')
+const params = require('../../utils/share')
 const methods = require('./methods')
 const desc = require('./desc')
 
@@ -12,6 +14,7 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
+		cdn : 'https://xingzuo-1256217146.file.myqcloud.com',
 		// 默认不打开星座描述
 		showStarDesc : false,
 		// 滚动高度
@@ -73,6 +76,10 @@ Page({
 		showFollow : false, // 关注服务号开关
 		// 待领星星文案
 		more_startext : '0颗待领',
+		showDialog : false, // 弹窗提示
+		dialo : {
+
+		},
         notice: {isShow: false},  //公告组件
 		showCollect : false, // 控制收藏弹窗的显示
 		showCollectBtn : false // 控制收藏按钮的显示
@@ -98,6 +105,7 @@ Page({
     // onHide:methods.onHide,
 	// 用户点击右上角分享
 	onShareAppMessage: function (res) {
+		mta.Event.stat("home_share", {})
 		return {
 			title: '星座运势,唯我独准',
 			imageUrl: '/assets/images/share_home.jpg'
@@ -111,23 +119,33 @@ Page({
 	},
 	// 前往星座配对
 	goPairPYQ(){
+		mta.Event.stat("pair_pyq_click", {})
 		wx.navigateTo({
 			url : '/pages/components/pages/pairCus/pairCus'
 		})
 	},
 	// 前往摇签
 	goShake(){
+		mta.Event.stat("shake_click", {})
 		wx.navigateTo({
 			url:'/pages/lot/shake/shake'
 		})
 	},
 	// 打开星座描述
 	openDesc(){
+		mta.Event.stat("star_desc_click", {})
 		this.setData({
 			showStarDesc : true,
 			scrolltop : 0
 		})
 	},
+    // 获取导航栏高度
+    _setHeight(e){
+        console.log(e.detail)
+        this.setData({
+            nav : e.detail || 64
+        })
+    },
 	// 关闭信息描述
 	closeDesc(){
 		this.setData({
@@ -193,6 +211,91 @@ Page({
 		wx.setStorage({
 			key:'showCollectBtn',
 			data : true
+		})
+	},
+	// 获取更新信息
+	_getUpdate(){
+		let self = this
+		if(!wx.getStorageSync('update_first_status')){
+			wx.setStorageSync('update_first_status', '999999');
+			return
+		}
+		console.log(wx.getStorageSync('update_dialo_status'))
+		if(wx.getStorageSync('update_dialo_status')){
+			return
+		}
+		let _start = (new Date(new Date().toLocaleDateString())).getTime()
+		let _end = _start + 1000 * 60 * 60 * 24
+		let start = wx.getStorageSync('update_start_time') || _start
+		let end = wx.getStorageSync('update_end_time') || _end
+		let openNum = wx.getStorageSync('update_open_num') || 0
+		let date = (new Date()).getTime()
+		if(start < date && date < end && openNum > 0){
+			return
+		}
+		if(this.options.share_notice === 'shake' || this.options.share_notice === 'lotdetail'){
+			return
+		}
+		API.getUpdate({
+			notShowLoading : true
+		}).then(res => {
+			console.log('输出当前版本更新信息：',res)
+			if(res){
+				wx.setStorageSync('update_start_time', _start)
+				wx.setStorageSync('update_end_time', _end)
+				wx.setStorageSync('update_open_num', 1)
+				self.setData({
+					showDialog : true,
+					dialo : res
+				})
+			}
+		})
+	},
+	// 前往页面
+	_goPage(){
+		mta.Event.stat(`sure_click`,{})
+		let url = this.data.dialo.url
+		url = 'from=home&to=yan&type=nav'
+		let _param = {}
+		url.split('&').map((v) => {
+			let temp = v.split('=')
+			_param[temp[0]] = temp[1]
+			return 0
+		})
+		console.log(params)
+		let from = _param.from
+		let to = _param.to
+		let temp = params[to]
+		if(temp && temp.constructor === Object){
+			mta.Event.stat(`${from}_${to}`,{})
+			
+			if(temp.type === 'tab'){
+				wx.switchTab({
+					url : temp.path + '?' + url
+				})
+			}else{
+				wx.navigateTo({
+					url : temp.path + '?' + url
+				})
+			}
+		}
+	},
+	// 关闭更新提示
+	_closeUpdate(){
+		mta.Event.stat(`close_notice`,{})
+		this.setData({
+			showDialog : false
+		})
+	},
+	// 将更新提示放入缓存不在展示
+	_cancel(){
+		mta.Event.stat(`cancel_notice`,{})
+		wx.setStorage({
+			key: 'update_dialo_status',
+			data: 99999
+		})
+		this.setData({
+			showDialog : false
 		})
 	},
     // 获取公告数据

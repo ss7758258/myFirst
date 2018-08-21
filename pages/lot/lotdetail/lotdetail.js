@@ -65,6 +65,12 @@ const config = {
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad(options) {
+		if(options.from === 'share'){
+			mta.Event.stat('from_share_source',{})
+			this.setData({
+				'navConf.root': '/pages/home/home?share_notice=lotdetail'
+			})
+		}
 		// 数据来源分析
 		q.sourceHandle(options)
 
@@ -148,7 +154,7 @@ const config = {
 		if (res.from === 'menu') {
 			mta.Event.stat("ico_shake_right_share", {})
 		}
-		
+		mta.Event.stat("lotdetail_share", {})
 		const SData = this.data
 		var shareImg = '/assets/images/share_lot.jpg'
 		var shareMsg = '送你一份来自小哥的神秘惊喜'
@@ -396,11 +402,13 @@ const config = {
 	openDis() {
 		// 如果已经拆过了进入每日一签
 		if (this.data.lotDetail.hasChai) {
+			mta.Event.stat('help_lot_success',{})
 			wx.reLaunch({
 				url: '/pages/lot/shake/shake?fromSource=lotdetail'
 			})
 			return
 		}
+		mta.Event.stat('help_lot_img',{})
 		// 加载中上锁
 		this.data.lock = true
 		let self = this
@@ -507,6 +515,7 @@ function getQian(qId, self, GData) {
 		
 		// 如果为购买的签
 		if (lotDetail.isOpen || !lotDetail.lotNotCompleted) {
+			mta.Event.stat('lot_open_success',{})
 			// 拆签动画
 			self.setData({
 				disLotSuccess: true
@@ -563,6 +572,7 @@ function getTokenQian(pageFrom, self, qId, _GData) {
 
 			// 如果为购买的签
 			if (Storage.lotDetail.isOpen || !Storage.lotDetail.lotNotCompleted) {
+				mta.Event.stat('lot_open_success',{})
 				// 拆签动画
 				self.setData({
 					disLotSuccess: true

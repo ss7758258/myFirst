@@ -65,6 +65,9 @@ const conf = {
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        if(options.from === 'qrcode'){
+            mta.Event.stat('lotdetail_qrcode_shake',{})
+        }
         // 数据来源分析
         q.sourceHandle(options)
         let self = this
@@ -122,6 +125,13 @@ const conf = {
 		}
     },
 
+    // 获取导航栏高度
+    _setHeight(e){
+        console.log(e.detail)
+        this.setData({
+            hei : e.detail || 64
+        })
+    },
     /**
      * 生命周期函数--监听页面显示
      */
@@ -225,7 +235,7 @@ const conf = {
      * 用户点击右上角分享
      */
     onShareAppMessage: function () {
-
+        mta.Event.stat('shake_share',{})
         var shareImg = '/assets/images/share_shake.jpg'
         var shareMsg = '每日抽一签，赛过活神仙。'
         var sharepath = '/pages/lot/shake/shake?from=share&where=shake'
@@ -302,6 +312,7 @@ const conf = {
         if(!Storage.shakeLogin || this.data.endSpeed) return
         // 上报摇签次数
         mta.Event.stat("ico_shake_shake", {})
+        mta.Event.stat("shake_num", {})
     
         // 是否出签
         Storage.loExist = false
@@ -383,6 +394,7 @@ const conf = {
 	 * @param {*} e
 	 */
     openLotBox (){
+        mta.Event.stat("ico_shake_to_list", {})
         wx.navigateTo({
             url: '/pages/lot/aSignWall/aSignWall?fromSource=shake'
         })

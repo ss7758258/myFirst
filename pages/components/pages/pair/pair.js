@@ -150,12 +150,14 @@ const conf = {
     },
     // 前往分享配对页面
     _goPairCus(){
+        mta.Event.stat('pair_to_paircus',{})
         wx.navigateTo({
             url : '/pages/components/pages/pairCus/pairCus'
         })
     },
     // 确定星座
     _confirm(){
+        mta.Event.stat('pair_switch_confirm',{})
         this.setData({
             'pair.constellationId' : this.data.select.constellationId,
             showPair : false // 关闭选择星座

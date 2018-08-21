@@ -1,4 +1,5 @@
 let $vm = getApp()
+const API = require('../../../../utils/api')
 const mta = require('../../../../utils/mta_analysis.js')
 const Storage = require('../../../../utils/storage')
 Page({
@@ -19,7 +20,8 @@ Page({
             current:0,
             num:1
         },
-		showFollow : false, // 关注服务号开关
+        showFollow : false, // 关注服务号开关
+        noticeBtnStatus : false, // 好运提醒开关
         hei: 64,
         // iPhone X
         IPX : false,
@@ -57,7 +59,7 @@ Page({
     },
 
     onShow: function () {
-        
+        this._getConfing()
     },
     // 设置高度
     setH(e){
@@ -65,6 +67,24 @@ Page({
         this.setData({
             hei : height,
             IPX : height === 64 ? false : true
+        })
+    },
+    // 获取banner的默认配置信息
+    _getConfing(){
+        let self = this
+        API.globalSetting({
+            notShowLoading: true
+        }).then( res => {
+            console.log('加载配置完成---------全局：',res);
+            if(!res){
+                return false;
+            }
+            // 变更状态
+            self.setData({
+                noticeBtnStatus : res.noticeBtnStatus === 1
+            })
+        }).catch( err => {
+            console.log('')
         })
     },
     // 代开客服

@@ -37,7 +37,7 @@ page{
     width: 850rpx;
     max-width: 850rpx;
     height: 1000rpx;
-    bottom: 80rpx;
+    bottom: 160rpx;
 }
 .people{
     position: absolute;
@@ -45,14 +45,14 @@ page{
     right: 190rpx;
     width: 78rpx;
     height: 205rpx;
-    bottom: 130rpx;
+    bottom: 210rpx;
 }
 
 .lot{
     position: absolute;
     width: 48rpx;
     height: 160rpx;
-    top: 229rpx;
+    top: 149rpx;
     left: 166rpx;
     transform-origin:center top;
     transform: rotate(-15deg);
@@ -121,13 +121,13 @@ page{
 .lot_2{
     width: 46rpx;
     height: 169rpx;
-    top: 362rpx;
+    top: 284rpx;
     left: 280rpx;
 }
 .lot_3{
     width: 60rpx;
     height: 206rpx;
-    top: 290rpx;
+    top: 251rpx;
     left: 466rpx;
 }
 .shake_panel{
@@ -138,7 +138,7 @@ page{
     right: 0;
     transform: translateX(-16rpx);
     margin: auto;
-    bottom: 142rpx;
+    bottom: 222rpx;
     border-radius: 50%;
     background: #fff;
     padding: 15rpx;
@@ -151,14 +151,14 @@ page{
 .shake_one{
     width: 121rpx;
     height: 121rpx;
-    bottom: 128rpx;
+    bottom: 208rpx;
     background: rgba(255, 255, 255, .6);
     animation: opacity_shake 4s infinite ease-in-out;
 }
 .shake_two {
     width: 107rpx;
     height: 107rpx;
-    bottom: 135rpx;
+    bottom: 215rpx;
     background: rgba(255, 255, 255, .4);
 }
 .shake_img{
@@ -324,18 +324,18 @@ page{
     bottom: 0;
 }
 .grass_2{
-    height: 238rpx;
+    height: 318rpx;
     bottom: 0;
 }
 .grass_3{
     width: 632rpx;
     height: 64rpx;
-    bottom: 66rpx;
+    bottom: 146rpx;
 }
 .grass_4{
     width: 458rpx;
     height: 60rpx;
-    bottom: 100rpx;
+    bottom: 180rpx;
     transform: translateX(20rpx);
 }
 
@@ -344,14 +344,14 @@ page{
     position: absolute;
     width: 126rpx;
     height: 135rpx;
-    bottom:80rpx;
+    bottom:160rpx;
     left: 54rpx;
 }
 .ad_hand{
     position: absolute;
     width: 59rpx;
     height: 59rpx;
-    bottom:98rpx;
+    bottom:178rpx;
     left: 106rpx;
     opacity: 0;
 }
@@ -396,21 +396,21 @@ page{
     width: 51rpx;
     height: 35rpx;
     left: 161rpx;
-    bottom:995rpx;
+    bottom: 1075rpx;
     animation: cloud_up 18s infinite linear;
 }
 .cloud_left {
     width: 67rpx;
     height: 46rpx;
     left: 60rpx;
-    bottom: 370rpx;
+    bottom: 450rpx;
     animation: cloud_left 12s infinite linear;
 }
 .cloud_right {
     width: 100rpx;
     height: 66rpx;
     right: -5rpx;
-    bottom: 320rpx;
+    bottom: 400rpx;
     animation: cloud_right 15s infinite linear;
 }
 @keyframes cloud_right {

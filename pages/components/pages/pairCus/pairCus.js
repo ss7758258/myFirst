@@ -135,6 +135,11 @@ const pageConf = {
         })
 
         if(opts.from === 'share' && opts.to === 'pairCus' && opts.openId){
+            if(opts.shareform){
+                mta.Event.stat('pair_share',{})
+            }else{
+                mta.Event.stat('pair_share_qrcode',{})
+            }
             this.setData({
                 shareOpenId : opts.openId,
                 'account.id' : opts.cid,
@@ -223,6 +228,7 @@ const pageConf = {
     },
     // 绘制图片生成图片并将图片展示到页面上
     _drawCode(){
+        mta.Event.stat("pair_pic_toimg",{})
         let head = ''
         let self = this
         wx.showToast({

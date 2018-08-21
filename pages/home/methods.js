@@ -325,18 +325,18 @@ const me = {
 		let temp = params[to]
 		if(temp && temp.constructor === Object){
 			mta.Event.stat(`${from}_${to}`,{})
-			let params = ''
+			let temp_params = ''
 			for (let key in this.options) {
-				params += `${key}=${this.options[key]}&`
+				temp_params += `${key}=${this.options[key]}&`
 			}
 			this.options = {}
 			if(temp.type === 'tab'){
 				wx.switchTab({
-					url : temp.path + '?' + params
+					url : temp.path + '?' + temp_params
 				})
 			}else{
 				wx.navigateTo({
-					url : temp.path + '?' + params
+					url : temp.path + '?' + temp_params
 				})
 			}
 		}
@@ -366,11 +366,11 @@ const me = {
 		Storage.loadUserConfRemoveId = bus.on('loadUserConf',() => {
 			console.log('用户信息上报完成')
 			if(Storage.forMore){
-				getStarNum(self)
+				// getStarNum(self)
 				// 加载用户配置
 				getUserConf(self)
 				getConfing(self)
-				me._getListNum(self)
+				// me._getListNum(self)
 				self.getNotice()
 			}
 		},'home')
@@ -393,7 +393,7 @@ const me = {
 			console.log('--------------------------登录触发')
 			// 登录状态
 			Storage.homeLogin = true
-
+			this._getUpdate()
 			// 加载用户配置的依赖
 			Storage.forMore = true
 			// 触发加载用户配置函数
@@ -497,8 +497,8 @@ const methods = function(){
 			console.log('------------------------------onShow()')
             // 触发加载用户配置函数
             bus.emit('loadUserConf',{},'home')
-            getStarNum(this)
-			me._getListNum(this)
+            // getStarNum(this)
+			// me._getListNum(this)
             if(Storage.userInfo){
                 this.setData({
                     'navConf.iconPath' : Storage.userInfo.avatarUrl || ''

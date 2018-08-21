@@ -43,12 +43,12 @@ module.exports = {
             }
         } else if (pageFrom == 'activity') {
             self.setData({
-                "navConf.root": '/pages/home/home'
+                "navConf.root": '/pages/home/home?share_notice=shake'
             })
             mta.Event.stat("ico_in_from_shake_activity", {})
         } else if (pageFrom == 'outer' && options.id) {
             self.setData({
-                "navConf.root": '/pages/home/home'
+                "navConf.root": '/pages/home/home?share_notice=shake'
             })
             if (reg.test(options.id)) {
                 mta.Event.stat('outer_' + options.id, {})
@@ -57,7 +57,7 @@ module.exports = {
             }
         } else if(pageFrom === 'spread'){ // 活动推广统计
             self.setData({
-                "navConf.root": '/pages/home/home'
+                "navConf.root": '/pages/home/home?share_notice=shake'
             })
 			console.log('输出活动来源',options.id)
             if (reg.test(options.id)) {
@@ -69,7 +69,7 @@ module.exports = {
         // 统计特殊来源
         if(options.source && options.source.constructor === String && options.source !== ''){
             self.setData({
-                "navConf.root": '/pages/home/home'
+                "navConf.root": '/pages/home/home?share_notice=shake'
             })
 			console.log('输出活动来源',options.id)
             if (reg.test(options.id)) {

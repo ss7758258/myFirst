@@ -9,7 +9,7 @@
 <!-- End导入模板 -->
 
 <!-- 导航 -->
-<nav opts='{{navConf}}'></nav>
+<nav opts='{{navConf}}' bind:nav-height="_setHeight"></nav>
 <!-- 登录态 -->
 <loginApp></loginApp>
 
@@ -40,6 +40,34 @@
 </view>
 <!-- 收藏小程序-弹窗 -->
 
+<!-- 提示对话框 -->
+<form report-submit="true" bindsubmit="setFormId" bindreset="">
+	<view class="dialog-mask" wx:if="{{showDialog && isLogin}}" style="height:calc(100% - {{nav}}px);top:{{nav}}px;">
+		<view class="dialog-panel" style="top:{{nav}}px;">
+			<view class="dialog">
+				<view class="dialog-close">
+					<button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_closeUpdate" >
+						<image src="/assets/img/del.png" ></image>
+					</button>
+				</view>
+				<view class="dialog-title">{{dialo.title}}</view>
+				<view class="dialog-icon mt40">
+					<image mode="aspectFit" src="{{cdn + '' + dialo.prevPic}}"></image>
+				</view>
+				<view class="dialog-content mt40">{{dialo.content}}</view>
+				<view class="dialog-btns mt40">
+					<button class="dialog-sure" form-type="submit" hover-class="btn-current" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goPage">
+					{{dialo.button}}
+					</button>
+					<button class="dialog-cancel" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_cancel">
+					不在提醒
+					</button>
+				</view>
+			</view>    
+		</view>
+	</view>
+</form>
+<!-- End提示对话框 -->
 
 <form bindsubmit="setFormId" report-submit='true' class="{{PX ? 'iPX' : ''}}">
 	<!-- 选择星座 -->

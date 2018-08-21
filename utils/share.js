@@ -1,11 +1,15 @@
 module.exports = {
+    find : {
+        path : '/pages/find/find',
+        type : 'tab'
+    },
     yan : {
         path : '/pages/onebrief/brief',
-        type : 'tab'
+        type : 'nav'
     },
     brief : {
         path : '/pages/onebrief/brief',
-        type : 'tab'
+        type : 'nav'
     },
     banner : {
         path : '/pages/banner/banner',

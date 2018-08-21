@@ -1,5 +1,6 @@
 
 const tab = require('./tabConfig')
+const mta = require('../../utils/mta_analysis')
 const handle = function(){
     let conf = {
         tabbarConfig : {},
@@ -65,6 +66,7 @@ const handle = function(){
             // this.setData({
             //     'tabbarConfig.selected' : index
             // })
+            mta.Event.stat(`${data.desc}_tab_click`,{})
             wx.switchTab({
                 url : '/' + data.path
             })

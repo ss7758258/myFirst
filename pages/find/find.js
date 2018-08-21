@@ -39,6 +39,7 @@ Page({
 
     onLoad: function(options) {
         let self = this
+        mta.Page.init()
         wx.hideTabBar({})
         console.log('onLoad-------------------------------参数：',options)
         // 初始化tab
@@ -97,7 +98,7 @@ Page({
     // 前往banner页面
     _goBanner(){
         mta.Event.stat("ico_home_to_banner", {})
-        mta.Event.stat("find_to_banner", {})
+        mta.Event.stat("find_banner_click", {})
         API.setPlayer({notShowLoading:true}).then(res => {})
         wx.navigateTo({
             url: '/pages/banner/banner'
@@ -106,24 +107,28 @@ Page({
     },
 	// 前往星座配对
 	_goPair(){
+        mta.Event.stat("find_pair_click", {})
 		wx.navigateTo({
 			url:'/pages/components/pages/pair/pair'
 		})
     },
     // 前往一言
     _goBrief(){
+        mta.Event.stat("find_brief_click", {})
 		wx.navigateTo({
 			url:'/pages/onebrief/brief'
 		})
     },
     // 关闭弹窗
     _close(){
+        mta.Event.stat("find_dialo_close", {})
         this.setData({
             showDialog : false
         })
     },
     // 未开放提示信息
     _goUn(){
+        mta.Event.stat("find_dialo_click", {})
         this.setData({
             showDialog : true
         })
