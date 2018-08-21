@@ -462,15 +462,18 @@ button::after{
 	position: absolute;
 	width: 44rpx;
 	height: 44rpx;
-	top: 0;
-	right: 0;
-	/* opacity: 0; */
+	top: 60rpx;
+	right: 40rpx;
+	opacity: 0;
+	/* z-index: 5; */
+	animation: star_animate 1s 0s infinite linear;
 }
 .shake_star:nth-child(4){
 	width: 28rpx;
 	height: 28rpx;
-	top: 23rpx;
+	top: 100rpx;
 	left: 0;
+	animation: star_animate 1s .1s infinite linear;
 }
 .shake_star:nth-child(5){
 	width: 21rpx;
@@ -478,6 +481,27 @@ button::after{
 	top: auto;
 	bottom: 21rpx;
 	right: 21rpx;
+	animation: star_animate 1s .2s infinite linear;
+}
+@keyframes star_animate{
+	0%,100%{
+		opacity: 0;
+	}
+	15%{
+		opacity: 1;
+		transform: translateY(-20rpx) translateX(20rpx);
+	}
+	30%{
+		opacity: 1;
+		transform: translateY(-50rpx) translateX(0);
+	}
+	60%{
+		opacity: 0;
+		transform: translateY(-80rpx) translateX(0);
+	}
+	61%{
+		transform: translateY(0) translateX(0);
+	}
 }
 .star-icon-border{
 	position: absolute;
@@ -880,6 +904,7 @@ button.collect-btn{
 	transition: all .3s ease-in-out;
 }
 .dialog-btns>button.dialog-cancel{
+	width: 100%;
 	margin: 18rpx auto 30rpx auto;
 }
 .dialog-close{

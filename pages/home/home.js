@@ -216,6 +216,9 @@ Page({
 	// 获取更新信息
 	_getUpdate(){
 		let self = this
+		if(this.data.showChoice){
+			return
+		}
 		if(!wx.getStorageSync('update_first_status')){
 			wx.setStorageSync('update_first_status', '999999');
 			return
