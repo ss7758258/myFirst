@@ -216,11 +216,11 @@ Page({
 	// 获取更新信息
 	_getUpdate(){
 		let self = this
-		if(this.data.showChoice){
-			return
-		}
 		if(!wx.getStorageSync('update_first_status')){
 			wx.setStorageSync('update_first_status', '999999');
+			return
+		}
+		if(this.data.showChoice){
 			return
 		}
 		console.log(wx.getStorageSync('update_dialo_status'))
@@ -243,6 +243,7 @@ Page({
 			notShowLoading : true
 		}).then(res => {
 			console.log('输出当前版本更新信息：',res)
+			// console.log(JSON.stringify(res))
 			if(res){
 				wx.setStorageSync('update_start_time', _start)
 				wx.setStorageSync('update_end_time', _end)
