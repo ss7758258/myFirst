@@ -875,7 +875,7 @@ button.collect-btn{
 	font-size:36rpx;
 	font-family:PingFangSC;
 	color:rgba(71,71,71,1);
-	line-height:50px;
+	line-height:50rpx;
 }
 .dialog-btns{
 	padding: 0 44rpx;
