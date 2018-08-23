@@ -20,7 +20,7 @@ module.exports = {
         self.setData({
             fromPage: pageFrom || 'share'
         })
-        if(options.from === 'qrcode'){
+        if(options.from === 'qrcode' || options.fromSource === 'lotdetail'){
             self.setData({
                 "navConf.root": '/pages/home/home'
             })
