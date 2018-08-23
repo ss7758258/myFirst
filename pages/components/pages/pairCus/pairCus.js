@@ -103,6 +103,7 @@ const pageConf = {
     },
 
     onShareAppMessage: function() {
+        mta.Event.stat('pair_pyq_share_click',{})
         console.log('/pages/home/home?to=pairCus&from=share&source=share&id=999997&tid=123455&shareform=pairCus&m=0&openId=' + this.data.openId + '&cid=' + this.data.starXz.id + '&sex=' + Storage.AccountSex)
         return {
             title : '想知道和你最配的人是谁吗',
@@ -136,7 +137,7 @@ const pageConf = {
 
         if(opts.from === 'share' && opts.to === 'pairCus' && opts.openId){
             if(opts.shareform){
-                mta.Event.stat('pair_share',{})
+                mta.Event.stat('pair_pyq_share',{})
             }else{
                 mta.Event.stat('pair_share_qrcode',{})
             }

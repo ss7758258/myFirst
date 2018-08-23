@@ -74,7 +74,7 @@ const conf = {
     },
     // 分享
     onShareAppMessage: function() {
-        mta.Event.stat('pair_share',{})
+        mta.Event.stat('pair_share_click',{})
         return {
             title : '想知道和你最配的人是谁吗',
             path : '/pages/home/home?to=pair&from=share&source=share&id=999998&tid=123455&shareform=pair&m=0',
