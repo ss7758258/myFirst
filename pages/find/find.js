@@ -89,7 +89,7 @@ Page({
         tab.show()
         this._getConfing()
         // 触发加载用户配置函数
-        bus.emit('loadUserConf',{},'home')
+        bus.emit('loadUserConf',{},'find')
     },
 
     onHide: function() {

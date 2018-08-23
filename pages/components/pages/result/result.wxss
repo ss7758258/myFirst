@@ -163,7 +163,8 @@ scroll-view{
     background:linear-gradient(-90deg,rgba(174,69,255,1),rgba(146,98,251,1));
 }
 .btn-group{
-    background: #fff;
+    /* background: #fff; */
+    background:linear-gradient(-90deg,rgba(174,69,255,1),rgba(146,98,251,1));
 }
 .btn-group>button,.btn-group>navigator{
     text-align: center;
@@ -173,8 +174,9 @@ scroll-view{
     font-family:PingFangSC;
     font-weight: 600;
     line-height:100rpx;
-    color: #333333;
-    background: #fff;
+    color: #fff;
+    /* background: #fff; */
+    background:linear-gradient(-90deg,rgba(174,69,255,1),rgba(146,98,251,1));
     display: flex;
     justify-content: center;
     align-items: center;

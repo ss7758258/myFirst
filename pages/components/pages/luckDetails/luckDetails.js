@@ -71,20 +71,38 @@ Page({
     },
     // 获取banner的默认配置信息
     _getConfing(){
+        // let self = this
+        // API.globalSetting({
+        //     notShowLoading: true
+        // }).then( res => {
+        //     console.log('加载配置完成---------全局：',res);
+        //     if(!res){
+        //         return false;
+        //     }
+        //     // 变更状态
+        //     self.setData({
+        //         noticeBtnStatus : res.noticeBtnStatus === 1
+        //     })
+        // }).catch( err => {
+        //     console.log('')
+        // })
+        
         let self = this
-        API.globalSetting({
+        API.getUserSetting({
             notShowLoading: true
         }).then( res => {
-            console.log('加载配置完成---------全局：',res);
+            console.log('加载配置完成---------用户:',res);
             if(!res){
+                console.log('----------------输出错误信息----------用户配置错误')
                 return false;
             }
-            // 变更状态
+            // 确认小打卡配置信息
             self.setData({
-                noticeBtnStatus : res.noticeBtnStatus === 1
+                noticeBtnStatus :  res.noticeStatus === 0
             })
+            
         }).catch( err => {
-            console.log('')
+            console.log('加载用户配置失败---------------------------------用户配置错误')
         })
     },
     // 代开客服

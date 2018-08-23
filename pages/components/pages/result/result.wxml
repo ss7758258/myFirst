@@ -69,29 +69,29 @@
 </form> -->
 
 <form report-submit bindsubmit='formid'>
-    <view class="btn-mask {{seek ? 'current' : ''}}" catchtap="_closeSeek"></view>
+    <!-- <view class="btn-mask {{seek ? 'current' : ''}}" catchtap="_closeSeek"></view> -->
     <view class="btn-group-panel" catchtap="_catchTapHandle">
-        <view class="btn-show {{ isIPhoneX ? 'iphonex':''}}" wx:if="{{!seek}}" catchtap="_seek" >寻找这样的TA</view>
+        <!-- <view class="btn-show {{ isIPhoneX ? 'iphonex':''}}" wx:if="{{!seek}}" catchtap="_seek" >寻找这样的TA</view>
         
         <view class="btn-friends" wx:if="{{seek}}">
             <button hover-class="none" class="friends" catchtap="_goPairCus">
                 <image class='friends-img' src='../../source/friends.png'></image>
                 去朋友圈中寻找
             </button>
-        </view>
+        </view> -->
         
-        <view class="btn-group" wx:if="{{seek}}">
+        <view class="btn-group">
             <button  hover-class="none" class="{{ isIPhoneX ? 'iphonex':''}}" wx:if="{{!showNav}}" catchtap="" form-type="submit">
-                <image class='friends-img' src='../../source/xgxz.png'></image>
-                在小哥星座探索
+                <!-- <image class='friends-img' src='../../source/xgxz.png'></image> -->
+                寻找这样的TA
             </button>
             <navigator wx:if="{{showNav && version}}" class="{{ isIPhoneX ? 'iphonex':''}}" target="miniProgram" hover-class="animate" open-type="{{xiaodaka.openType}}" app-id="{{xiaodaka.appId}}" path="{{xiaodaka.path}}" url="{{xiaodaka.path}}" extra-data="{{xiaodaka.extra}}" version="{{xiaodaka.version}}">
-                <image class='friends-img' src='../../source/xgxz.png'></image>
-                在小哥星座探索
+                <!-- <image class='friends-img' src='../../source/xgxz.png'></image> -->
+                寻找这样的TA
             </navigator>
             <button wx:if="{{showNav && !version}}" class="{{ isIPhoneX ? 'iphonex':''}}" hover-class="none" catchtap="_goXDK" form-type="submit">
-                <image class='friends-img' src='../../source/xgxz.png'></image>
-                在小哥星座探索
+                <!-- <image class='friends-img' src='../../source/xgxz.png'></image> -->
+                寻找这样的TA
             </button>
         </view>
     </view>
