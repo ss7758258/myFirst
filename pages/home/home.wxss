@@ -369,7 +369,7 @@ button::after{
 .star-text-panel{
 	position: absolute;
 	width: 710rpx;
-	height: 280rpx;
+	height: 270rpx;
 	top: 40rpx;
 	left: 0;
 	right: 0;
