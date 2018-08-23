@@ -308,7 +308,7 @@ button::after{
 .star-pair-img,.star-banner-img{
 	width: 710rpx;
 	height: 280rpx;
-	margin: 40rpx auto 0;
+	margin: 30rpx auto 0;
 	background:linear-gradient(-90deg,rgba(206,119,255,1),rgba(161,64,214,1));
 	box-shadow:0 8rpx 16rpx 0 rgba(217,130,255,0.4);
 	border-radius:12rpx;

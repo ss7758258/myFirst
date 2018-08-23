@@ -35,16 +35,17 @@
             </view>
             <view class="star-text-panel">
                 <text>星座配对</text>
-                <text>想知道你和谁最配吗？</text>
+                <text decode="true">{{listNum[0].content}}</text>
+                <!-- <text>想知道你和谁最配吗？</text> -->
             </view>
-            <view class="star-text-time" wx:if="{{showPair}}">
+            <!-- <view class="star-text-time" wx:if="{{showPair}}">
                 <view class="star-num-icon">
                     <image src="/assets/img/pair-icon.png" ></image>
                 </view>
                 <view class="star-num">
                     {{listNum[0].content}}
                 </view>
-            </view>
+            </view> -->
         </button>
     </view>
 

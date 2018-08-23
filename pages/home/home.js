@@ -244,13 +244,18 @@ Page({
 		}).then(res => {
 			console.log('输出当前版本更新信息：',res)
 			// console.log(JSON.stringify(res))
-			if(res){
+			
+			if(res && res.prevPic){
 				wx.setStorageSync('update_start_time', _start)
 				wx.setStorageSync('update_end_time', _end)
 				wx.setStorageSync('update_open_num', 1)
 				self.setData({
 					showDialog : true,
 					dialo : res
+				})
+			}else{
+				self.setData({
+					showDialog : false
 				})
 			}
 		})
