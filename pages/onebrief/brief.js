@@ -52,6 +52,7 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad: function (options) {
+		mta.Page.init()
 		console.log('----------------------------------------------brief onLoad')
 		let self=this
 		if(options.from === 'qrcode'){
@@ -91,7 +92,6 @@ Page({
             bus.emit('login-success', {}, 'brief-app')
         }
         
-		mta.Page.init()
 	},
 
     onShow:function(){

@@ -65,6 +65,7 @@ const config = {
 	 * 生命周期函数--监听页面加载
 	 */
 	onLoad(options) {
+		mta.Page.init()
 		if(options.from === 'share'){
 			mta.Event.stat('from_share_source',{})
 			this.setData({
@@ -91,7 +92,6 @@ const config = {
 		Storage.lotOpts = options
 		Storage.self = self
 		console.log('签页面参数：',options)
-		mta.Page.init()
 		// if(Storage.sys === 'ios'){
         //     this.setData({
         //         iosOpen : Storage.openIos === 1
