@@ -282,6 +282,9 @@ Page({
 					url : temp.path + '?' + url
 				})
 			}
+			this.setData({
+				showDialog : false
+			})
 		}
 	},
 	// 关闭更新提示
