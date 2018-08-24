@@ -51,11 +51,11 @@
 					</button>
 				</view>
 				<view class="dialog-title">{{dialo.title}}</view>
-				<view class="dialog-icon mt40">
+				<view class="dialog-icon mt60">
 					<image mode="aspectFit" src="{{cdn + '' + dialo.prevPic}}"></image>
 				</view>
-				<view class="dialog-content mt40">{{dialo.content}}</view>
-				<view class="dialog-btns mt40">
+				<view class="dialog-content mt60">{{dialo.content}}</view>
+				<view class="dialog-btns mt60">
 					<button class="dialog-sure" form-type="submit" hover-class="btn-current" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goPage">
 					{{dialo.button}}
 					</button>

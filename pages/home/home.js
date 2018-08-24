@@ -77,9 +77,7 @@ Page({
 		// 待领星星文案
 		more_startext : '0颗待领',
 		showDialog : false, // 弹窗提示
-		dialo : {
-
-		},
+		dialo : { },
         notice: {isShow: false},  //公告组件
 		showCollect : false, // 控制收藏弹窗的显示
 		showCollectBtn : false // 控制收藏按钮的显示
