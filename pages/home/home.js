@@ -77,7 +77,7 @@ Page({
 		// 待领星星文案
 		more_startext : '0颗待领',
 		showDialog : false, // 弹窗提示
-		dialo : { },
+		dialo : {},
         notice: {isShow: false},  //公告组件
 		showCollect : false, // 控制收藏弹窗的显示
 		showCollectBtn : false // 控制收藏按钮的显示
@@ -262,7 +262,7 @@ Page({
 	_goPage(){
 		mta.Event.stat(`sure_click`,{})
 		let url = this.data.dialo.url
-		url = 'from=home&to=yan&type=nav'
+		// url = 'from=home&to=shake&type=nav'
 		let _param = {}
 		url.split('&').map((v) => {
 			let temp = v.split('=')

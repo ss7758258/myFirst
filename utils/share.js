@@ -3,6 +3,10 @@ module.exports = {
         path : '/pages/find/find',
         type : 'tab'
     },
+    shake : {
+        path : '/pages/lot/shake/shake',
+        type : 'nav'
+    },
     yan : {
         path : '/pages/onebrief/brief',
         type : 'nav'
