@@ -72,17 +72,30 @@
         </view>
 
         <view>
-            <button class="star-rect-card card-2" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goUn">
-                <view class="star-rect-panel">
+            <!-- 根据兼容使用 -->
+            <button class="star-rect-card card-2" wx:if="{{!miniPro}}" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goUn">
+                <view class="star-rect-panel" >
                     <view class="rect-icon">
                         <image class="rect-icon-small icon-4" src="/assets/img/icon-4.png" ></image>
                     </view>
                     <view class="rect-text-panel mt30">
                         <text>精选好物</text>
-                        <text class="mt10">小星星免费兑换礼品</text>
+                        <text class="mt10">小哥为你精选的好物</text>
                     </view>
                 </view>
             </button>
+
+            <navigator wx:if="{{miniPro}}" class="star-rect-card card-2" catchtap="_navOuter" catchsuccess="_navSuccess" catchfail="_navFail" hover-class="none" target="miniProgram" open-type="navigate" app-id="wx35ad2350f431e0fe" path="pages/home/dashboard/index" >
+                <view class="star-rect-panel" >
+                    <view class="rect-icon">
+                        <image class="rect-icon-small icon-4" src="/assets/img/icon-4.png" ></image>
+                    </view>
+                    <view class="rect-text-panel mt30">
+                        <text>精选好物</text>
+                        <text class="mt10">小哥为你精选的好物</text>
+                    </view>
+                </view>
+            </navigator>
         </view>
 
     </view>
