@@ -20,7 +20,8 @@ Page({
 			root : '',
 			isTitle : true,
 			centerPath : '/pages/center/center'
-		},
+        },
+        miniPro : false,
 		// 多少人在玩
 		listNum : [{},{}],
 		// 导航的高度
@@ -62,6 +63,10 @@ Page({
         const handle = function(){
             // 触发加载用户配置函数
             bus.emit('loadUserConf',{},'find')
+            
+            self.setData({
+                miniPro : Storage.miniPro
+            })
         }
 
         // 移除事件
@@ -129,9 +134,36 @@ Page({
     // 未开放提示信息
     _goUn(){
         mta.Event.stat("find_dialo_click", {})
-        this.setData({
-            showDialog : true
+        mta.Event.stat("go_shopping_click", {})
+        // this.setData({
+        //     showDialog : true
+        // })
+        wx.navigateToMiniProgram({
+            appId: 'wx35ad2350f431e0fe',
+            path: 'pages/home/dashboard/index',
+            success(data){
+                console.log(data)
+                mta.Event.stat("go_shopping_success", {})
+            },
+            fail(){
+                mta.Event.stat("go_shopping_fail", {})
+            }
         })
+    },
+    // 商品跳转
+    _navOuter(){
+        // 购物
+        mta.Event.stat("go_shopping_click", {})
+    },
+    // 商品跳转成功
+    _navSuccess(){
+        // 购物
+        mta.Event.stat("go_shopping_success", {})
+    },
+    // 商品跳转失败
+    _navFail(){
+        // 购物
+        mta.Event.stat("go_shopping_fail", {})
     },
     // 获取导航栏高度
     _setHeight(e){
