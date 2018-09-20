@@ -30,5 +30,18 @@ module.exports = {
     pairCus : {
         path : '/pages/components/pages/pairCus/pairCus',
         type : 'nav'
+    },
+    // 占卜页
+    divine : {
+        path : '/pages/components/pages/divineList/divine',
+        type : 'nav'
+    },
+    divine_one : {
+        path : '/pages/components/pages/divine/divine_one',
+        type : 'nav'
+    },
+    divine_two : {
+        path : '/pages/components/pages/divine/divine_two',
+        type : 'nav'
     }
 }

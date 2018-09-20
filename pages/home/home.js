@@ -31,7 +31,8 @@ Page({
 			constellationId : 1,
 			healthy : 55,
 			luckyColor : '紫',
-			luckyNum : 9
+			luckyNum : 9,
+			generalTxt : ''
 		},
 		isLoading: false,
 		selectStatus: {
@@ -127,6 +128,13 @@ Page({
 		mta.Event.stat("shake_click", {})
 		wx.navigateTo({
 			url:'/pages/lot/shake/shake'
+		})
+	},
+	// 前往占卜测试
+	goDivine(){
+		mta.Event.stat("divine_click", {})
+		wx.navigateTo({
+			url:'/pages/components/pages/divineList/divine'
 		})
 	},
 	// 打开星座描述

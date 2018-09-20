@@ -306,6 +306,14 @@ const delock = (data) => {
 const getUpdate = (data) => { 
     return requstPost('/notice/popup', data)
 }
+// 获取占卜游戏的列表信息
+const getGameList = (data) => { 
+    return requstPost('/questions/questionlist', data)
+}
+// 获取占卜游戏的资源信息
+const getGameInfo = (data) => { 
+    return requstPost('/questions/getquestion', data)
+}
 
 // 获取乐摇摇的数据信息
 const getLeYaoyao = function(params,data){
@@ -372,5 +380,7 @@ module.exports = {
 	getPairList,
 	getFriendpair,
 	delock,
-	getUpdate
+	getUpdate,
+	getGameList,
+	getGameInfo
 }

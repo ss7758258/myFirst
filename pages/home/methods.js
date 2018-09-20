@@ -550,7 +550,7 @@ const methods = function(){
 
 			console.log(self.options)
 			$vm.api.choice({ notShowLoading : true, constellationId: _GData.selectConstellation.id}).then(res=>{
-				console.log('choice运势数据',res)
+				console.log('运势数据',res)
 				if(res !=''){
 					Storage.lucky = res
 					res.healthy = res.summaryPercentage + 30
