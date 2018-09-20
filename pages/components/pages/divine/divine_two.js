@@ -32,7 +32,7 @@ const pageConf = {
         },
         baseUrl : 'https://xingzuo-1256217146.file.myqcloud.com',
         // 参与人数
-        text : util.random(2300,6000),
+        text : util.random(10000,25000),
         title : '',
         results : [1,2,3],
         // 当前选择性别
@@ -204,7 +204,7 @@ const pageConf = {
                 console.log(_list)
                 this.setData({
                     res:_res,
-                    text : tmp.testnum == 0 ? util.random(2300,6000) : tmp.testnum,
+                    text : tmp.testnum == 0 ? util.random(10000,25000) : tmp.testnum,
                     title : tmp.name,
                     results : _list,
                     resBg : tmp.rgb,
