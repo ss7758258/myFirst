@@ -1,0 +1,230 @@
+.star-pair-img,.star-banner-img{
+	width: 710rpx;
+	height: 280rpx;
+	margin: 30rpx auto 0;
+	background:linear-gradient(180deg,rgba(255,152,174,1) 0%,rgba(255,85,102,1) 100%);
+	box-shadow:0 8rpx 16rpx 0 rgba(255,90,107,0.4);
+	border-radius:12rpx;
+}
+.star-pair-img.pair-q{
+	background:linear-gradient(360deg,rgba(255,185,37,1) 0%,rgba(255,213,59,1) 100%);
+	box-shadow:0 8rpx 16rpx 0 rgba(255,176,30,0.4);
+}
+.star-pair-img.test-q{
+	background:linear-gradient(180deg,rgba(58,182,255,1) 0%,rgba(0,139,255,1) 100%);
+	box-shadow:0 8rpx 16rpx 0 rgba(49,179,255,0.4);
+}
+/* 标示图 */
+.pair-1{
+	position: absolute;
+	width: 160rpx;
+	height: 238rpx;
+	bottom: 0;
+	right: 90rpx;
+}
+.pair-2{
+	position: absolute;
+	width: 23rpx;
+	height: 23rpx;
+	top: 0;
+	right: -23rpx;
+}
+.pair-3{
+	position: absolute;
+	width: 18rpx;
+	height: 22rpx;
+	bottom: 0;
+	right: 76rpx;
+}
+.pair-share{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 40rpx;
+	height: 180rpx;
+	margin: auto;
+}
+.pair-share-panel{
+	position: relative;
+	width: 100%;
+}
+.pair-share>.pair-share-panel>text{
+	display: block;
+	font-size:28rpx;
+	font-family:PingFangSC-Regular;
+	color:rgba(255,255,255,1);
+	line-height:40rpx;
+	text-align: left;
+}
+.pair-share>.pair-share-panel>text:first-child{
+	font-size:72rpx;
+	font-family:PingFangSC;
+	font-weight: 600;
+	color:rgba(255,255,255,1);
+	line-height:100rpx;
+}
+.star-text-panel{
+	position: absolute;
+	width: 710rpx;
+	height: 270rpx;
+	top: 40rpx;
+	left: 0;
+	right: 0;
+	margin: auto;
+	text-align: left;
+	border-radius:10rpx;
+}
+.star-text-panel>text{
+	display: block;
+	text-indent: 40rpx;
+}
+.star-text-panel>text:nth-child(1){
+	font-size:72rpx;
+	margin-top: 64rpx;
+	font-weight: 500;
+	font-family:PingFangSC-Medium;
+	color:rgba(255,255,255,1);
+	line-height:100rpx;
+}
+.star-text-panel>text:nth-child(2){
+	font-size:36rpx;
+	font-family:PingFangSC-Regular;
+	color:rgba(255,255,255,1);
+	line-height:50rpx;
+}
+.star-text-panel.pair-q{
+	display: flex;
+	text-align: right;
+}
+
+/* 摇签卡片样式 */
+.star-card-icon{
+	position: absolute;
+	width: 180rpx;
+	height: 180rpx;
+	top: 40rpx;
+	bottom: 0;
+	margin: auto;
+	right: 54rpx;
+}
+.star-icon-panel{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.shake_4{
+	position: absolute;
+	width: 147rpx;
+	height: 147rpx;
+	top: 12rpx;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	animation: rotateShake 1s 0s infinite linear;
+	transform-origin: center 80%;
+	border-radius: 0 0 90rpx 70rpx;
+}
+.shake_star{
+	position: absolute;
+	width: 44rpx;
+	height: 44rpx;
+	top: 60rpx;
+	right: 40rpx;
+	opacity: 0;
+	/* z-index: 5; */
+	animation: star_animate 1s 0s infinite linear;
+}
+.shake_star:nth-child(4){
+	width: 28rpx;
+	height: 28rpx;
+	top: 100rpx;
+	left: 0;
+	animation: star_animate 1s .1s infinite linear;
+}
+.shake_star:nth-child(5){
+	width: 21rpx;
+	height: 21rpx;
+	top: auto;
+	bottom: 21rpx;
+	right: 21rpx;
+	animation: star_animate 1s .2s infinite linear;
+}
+@keyframes star_animate{
+	0%,100%{
+		opacity: 0;
+	}
+	15%{
+		opacity: 1;
+		transform: translateY(-20rpx) translateX(20rpx);
+	}
+	30%{
+		opacity: 1;
+		transform: translateY(-50rpx) translateX(0);
+	}
+	60%{
+		opacity: 0;
+		transform: translateY(-80rpx) translateX(0);
+	}
+	61%{
+		transform: translateY(0) translateX(0);
+	}
+}
+.star-icon-border{
+	position: absolute;
+	width: 147rpx;
+	height: 147rpx;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 6rpx;
+	margin: auto;
+	border: 8rpx solid #FFE7E7;
+	border-radius: 50%;
+}
+@keyframes rotateShake{
+	0%,100%{
+		transform: rotate(0);
+	}
+	15% {
+		transform: rotate(-6deg);
+	}
+	30% {
+		transform: rotate(4deg);
+	}
+	45% {
+		transform: rotate(-2deg);
+	}
+	60%{
+		transform: rotate(0);	
+	}
+}
+
+/* End摇签卡片样式 */
+/* 占卜测试样式 */
+
+.icon-right{
+	position: absolute;
+	width: 170rpx;
+	height: 166rpx;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+/* End占卜测试样式 */
+
+
+/*  */
+.panel{
+	position: relative;
+}
+/* End配对 */
+.panel:last-child{
+	padding-bottom: 20rpx;
+}
+.notice-current .panel:last-child{
+	padding-bottom: calc(20rpx + 30px);
+}

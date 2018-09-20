@@ -357,6 +357,33 @@ function parseLot(res) {
 	return myLot
 }
 
+// 区间随机数
+function random(m,n){
+	return Math.round(Math.random() * (n - m) + m)
+}
+
+/**
+ * 绘制圆角矩形
+ * @param {*} x
+ * @param {*} y
+ * @param {*} w
+ * @param {*} h
+ * @param {*} r
+ * @returns
+ */
+function roundRect(x, y, w, h, r,ctx) {
+	if (w < 2 * r) r = w / 2;
+	if (h < 2 * r) r = h / 2;
+	ctx.beginPath();
+	ctx.moveTo(x+r, y);
+	ctx.arcTo(x+w, y, x+w, y+h, r);
+	ctx.arcTo(x+w, y+h, x, y+h, r);
+	ctx.arcTo(x, y+h, x, y, r);
+	ctx.arcTo(x, y, x+w, y, r);
+	ctx.closePath();
+	return ctx;
+}
+
 module.exports = {
 	constellation,
 	Promise,
@@ -369,5 +396,7 @@ module.exports = {
 	parseToady,
 	parseIndex,
 	canvasTextAutoLine,
-	parseLot
+	parseLot,
+	random,
+	roundRect
 }

@@ -22,7 +22,10 @@
                 "pages/pairCus/pairCus",
                 "pages/pairResult/result",
                 "pages/happyDoor/happyDoor",
-                "pages/result/result"
+                "pages/result/result",
+                "pages/divineList/divine",
+                "pages/divine/divine_one",
+                "pages/divine/divine_two"
             ]
         }
     ],

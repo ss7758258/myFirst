@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="51px" height="28px" viewBox="0 0 51 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51 (57462) - http://www.bohemiancoding.com/sketch -->
+    <title>详情 》@2x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-3.9%" y="-3.5%" width="107.9%" height="109.7%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="4" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="星座占卜" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="首页-3.0" transform="translate(-299.000000, -375.000000)">
+            <rect fill="#FFFFFF" x="0" y="0" width="375" height="1053"></rect>
+            <g id="Group-18-Copy" filter="url(#filter-1)" transform="translate(10.000000, 115.000000)" fill="#999999" font-family="PingFangSC-Medium, PingFang SC" font-size="13" font-weight="400">
+                <text id="详情-》">
+                    <tspan x="296" y="275">详情 》</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

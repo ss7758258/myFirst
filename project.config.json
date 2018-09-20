@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 20,
+			"current": 22,
 			"list": [
 				{
 					"id": 0,
@@ -82,10 +82,10 @@
 					"query": ""
 				},
 				{
-					"id": -1,
+					"id": 7,
 					"name": "运势详情",
-					"pathName": "pages/components/pages/luckDetails/luckDetails",
-					"query": ""
+					"pathName": "pages/home/home",
+					"query": "from=share&to=luckDetails"
 				},
 				{
 					"id": 15,
@@ -176,6 +176,30 @@
 					"pathName": "pages/find/find",
 					"query": "",
 					"scene": "1012"
+				},
+				{
+					"id": -1,
+					"name": "占卜列表页",
+					"pathName": "pages/home/home",
+					"query": "from=share&to=divine"
+				},
+				{
+					"id": 22,
+					"name": "性格测试",
+					"pathName": "pages/home/home",
+					"query": "from=share&to=divine_one&gameId=99999"
+				},
+				{
+					"id": 23,
+					"name": "性格测试(直接进入)",
+					"pathName": "pages/components/pages/divine/divine_one",
+					"query": "from=share&to=divine_one&gameId=999"
+				},
+				{
+					"id": -1,
+					"name": "性格测试(直接进入)",
+					"pathName": "pages/components/pages/divine/divine_two",
+					"query": "from=share&to=divine_one&gameId=29"
 				}
 			]
 		}

@@ -17,6 +17,9 @@
     letter-spacing: -0.10933333333333332vw;
     height: 44px;
     width: 70vw;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     /* font-weight: 600; */
 }
 .nav_state{
