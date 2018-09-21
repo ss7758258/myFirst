@@ -6,6 +6,11 @@
     height: 100%;
 }
 
+.canvas{
+	position: fixed !important;
+	left: -10000px !important;
+	z-index: -1 !important;
+}
 .page_brief view,
 .page_brief image {
     height: 100%;

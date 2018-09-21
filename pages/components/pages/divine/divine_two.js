@@ -29,6 +29,7 @@ const pageConf = {
             title : '../../tmp/title_2.png',
             button : '../../tmp/button_2.png',
             desc : '../../tmp/center.png',
+            code : '/assets/images/qrcodetoday.png'
         },
         baseUrl : 'https://xingzuo-1256217146.file.myqcloud.com',
         // 参与人数
@@ -196,7 +197,8 @@ const pageConf = {
                     bg : `${data.baseUrl}${tmp.picA}`,
                     title : `${data.baseUrl}${tmp.picB}`,
                     button : `${data.baseUrl}${tmp.picC}`,
-                    desc : `${data.baseUrl}${tmp.picD}`
+                    desc : `${data.baseUrl}${tmp.picD}`,
+                    code : `${data.baseUrl}${tmp.picE}`
                 }
                 let _list = res.test.results.map((v) => {
                     return `${data.baseUrl}${v}`
@@ -269,30 +271,30 @@ const pageConf = {
             icon : 'loading',
             mask : true
         })
-        wx.request({
-            url : 'https://cli.im/mina/generate_qrcode',
-            header: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
-            data : {
-                tpl_id : '17792',
-                code_type : 'wxcode',
-                'param_value[0]' : 'share',
-                'param_value[1]' : 'divine_two',
-                'param_value[2]' : this.data.gameId,
-            },
-            success(res){
-                if(res && res.statusCode === 200 && res.data){
-                    let data = res.data
-                    if(data.code === 1 && data.data){
+        // wx.request({
+        //     url : 'https://cli.im/mina/generate_qrcode',
+        //     header: {
+		// 		'Content-Type': 'application/x-www-form-urlencoded',
+		// 	},
+        //     data : {
+        //         tpl_id : '17792',
+        //         code_type : 'wxcode',
+        //         'param_value[0]' : 'share',
+        //         'param_value[1]' : 'divine_two',
+        //         'param_value[2]' : this.data.gameId,
+        //     },
+        //     success(res){
+        //         if(res && res.statusCode === 200 && res.data){
+        //             let data = res.data
+        //             if(data.code === 1 && data.data){
                         
-                        head = data.data.replace('http://','https://')
+        //                 head = data.data.replace('http://','https://')
                         // console.log('二维码网络地址:',head)
                         // self.data.results[ran] = ''
                         // console.log('二维码：',data,self.data.results[ran],)
                         util.Promise.all([
                             getImageInfo({
-                                src: head
+                                src: self.data.res.code
                             }),
                             getImageInfo({
                                 src: self.data.resImg
@@ -392,32 +394,32 @@ const pageConf = {
                                 mask: true
                             })
                         })
-                    }else{
-                        wx.showToast({
-                            title: '生成分享信息失败',
-                            icon: 'none',
-                            duration: 1700,
-                            mask: true
-                        })
-                    }
-                }else{
-                    wx.showToast({
-                        title: '生成分享信息失败',
-                        icon: 'none',
-                        duration: 1700,
-                        mask: true
-                    })
-                }
-            },
-            fail(){
-                wx.showToast({
-                    title: '生成分享信息失败',
-                    icon: 'none',
-                    duration: 1700,
-                    mask: true
-                })
-            }
-        })
+        //             }else{
+        //                 wx.showToast({
+        //                     title: '生成分享信息失败',
+        //                     icon: 'none',
+        //                     duration: 1700,
+        //                     mask: true
+        //                 })
+        //             }
+        //         }else{
+        //             wx.showToast({
+        //                 title: '生成分享信息失败',
+        //                 icon: 'none',
+        //                 duration: 1700,
+        //                 mask: true
+        //             })
+        //         }
+        //     },
+        //     fail(){
+        //         wx.showToast({
+        //             title: '生成分享信息失败',
+        //             icon: 'none',
+        //             duration: 1700,
+        //             mask: true
+        //         })
+        //     }
+        // })
     },
  
     // 根据导航设置高度

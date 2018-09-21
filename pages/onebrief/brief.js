@@ -159,21 +159,21 @@ Page({
 			console.log(res)
 			const ctx = wx.createCanvasContext('shareCanvas')
 			ctx.setFillStyle('white')
-			ctx.fillRect(0, 0, 375, 667)
-			ctx.drawImage(res[0].path, 0, 0, 375, 375.0 / res[0].width * res[0].height)
+			ctx.fillRect(0, 0, 375 * 2, 667 * 2)
+			ctx.drawImage(res[0].path, 0, 0, 375 * 2, 375.0 * 2 / res[0].width * res[0].height)
 
 			ctx.setTextAlign('center') // 文字居中
 			ctx.setFillStyle('#333333') // 文字颜色：黑色
-			ctx.setFontSize(12) // 文字字号：22px
-			ctx.fillText(_GData.userInfo.nickName, 375 / 2, 570 / 2)
+			ctx.setFontSize(12 * 2) // 文字字号：22px
+			ctx.fillText(_GData.userInfo.nickName, 375 * 2 / 2, 570 * 2 / 2)
 			ctx.stroke()
-			const qrImgSize = 100
-			ctx.drawImage('/assets/images/qrcodebrief.png', (375 - qrImgSize) / 2, 518, qrImgSize, qrImgSize)
+			const qrImgSize = 100 * 2
+			ctx.drawImage('/assets/images/qrcodebrief.png', (375 * 2 - qrImgSize) / 2, 518 * 2, qrImgSize, qrImgSize)
 			ctx.stroke()
 			ctx.setTextAlign('center') // 文字居中
 			ctx.setFillStyle('#333333') // 文字颜色：黑色
-			ctx.setFontSize(12) // 文字字号：22px
-			ctx.fillText("来自一言", 375 / 2, 631 + 12)
+			ctx.setFontSize(12 * 2) // 文字字号：22px
+			ctx.fillText("来自一言", 375 * 2 / 2, 631 * 2 + 12 * 2)
 
 			ctx.draw()
 			setTimeout(function () {

@@ -668,3 +668,12 @@ canvas {
 .Android .btn_group>.btn_share,.Android .btn_group>.btn_dis {
 	margin-bottom: 46rpx;
 }
+
+
+canvas{
+	position: fixed;
+	left: -10000px;
+	width: 750px;
+	height: 1070px;
+	z-index: -1;
+}

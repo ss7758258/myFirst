@@ -206,57 +206,57 @@ const config = {
 				// 画图
 				const ctx = wx.createCanvasContext('openSign')
 
-				ctx.drawImage('/assets/img/background.png', 0, 0, 375, 535) //背景图
-				ctx.drawImage('/assets/img/card.png', 0, 75, 375, 275) //拆签数据图
-				ctx.drawImage('/assets/images/qrcodelot.png', 150, 360, 75, 75) //小哥星座二维码图
-				ctx.drawImage('/assets/img/text.png', 97, 445, 184, 45) //小哥星座文字图
+				ctx.drawImage('/assets/img/background.png', 0, 0, 375 * 2, 535 * 2) //背景图
+				ctx.drawImage('/assets/img/card.png', 0, 75 * 2, 375 * 2, 275 * 2) //拆签数据图
+				ctx.drawImage('/assets/images/qrcodelot.png', 150 * 2, 360 * 2, 75 * 2, 75 * 2) //小哥星座二维码图
+				ctx.drawImage('/assets/img/text.png', 97 * 2, 445 * 2, 184 * 2, 45 * 2) //小哥星座文字图
 
 				// 签类型
 				ctx.save()
 				ctx.setFillStyle('#333333')  // 文字颜色：白色          
 				ctx.font = "normal bold 20px ''"        //文字大小为20px并加粗
-				ctx.fillText(lotdetail.qianName, 30, 130)
+				ctx.fillText(lotdetail.qianName, 30 * 2, 130 * 2)
 				ctx.restore()
 
 				//用户名称
 				// const mea_username = ctx.measureText(lotdetail.ownerNickName).width / 2
 				ctx.setFillStyle('#333333')
-				ctx.setFontSize(14)
+				ctx.setFontSize(14 * 2)
 				ctx.setTextAlign('right')
-				ctx.fillText(lotdetail.ownerNickName, 345, 131)
+				ctx.fillText(lotdetail.ownerNickName, 345 * 2, 131 * 2)
 
 				// 签内容
 				var s = lotdetail.qianContent.split('\n')
 				console.log(s)
 				ctx.setTextAlign('center')
-				ctx.setFontSize(16)
+				ctx.setFontSize(16 * 2)
 				for (var i = 0; i < s.length; i++) {
-					ctx.fillText(s[i], 187.5, 168 + ((i + 1)*45/2))
+					ctx.fillText(s[i], 187.5 * 2, 168  * 2 + ((i + 1)*45/2) * 2)
 				}
 				
 				// 时间
 				ctx.setTextAlign('center')
-				ctx.setFontSize(12)
+				ctx.setFontSize(12 * 2)
 				// let timer = new Date();
 				// let newDate = '一 ' + timer.getFullYear() + '.' + (timer.getMonth() + 1 > 9 ? timer.getMonth() + 1 : '0' + (timer.getMonth() + 1)) + '.' + (timer.getDate() > 9 ? timer.getDate() : '0' + timer.getDate()) + ' 一';
 				// console.log('输出日期：', newDate)
 				let qianDate = lotdetail.qianDate.split('-').join('.')
-        		ctx.fillText(qianDate, 187.5, 290)
+        		ctx.fillText(qianDate, 187.5 * 2, 290 * 2)
 				// 计算文本长度
 				// const mea_date = (ctx.measureText(newDate).width) / 2
 				// ctx.fillText(newDate, 187.5, 290)
 
-				ctx.setShadow(0, 3, 6, 'rgba(0,0,0,.2)')
-				ctx.arc(187.5, 85, 25, 0, 2 * Math.PI)
+				ctx.setShadow(0, 3 * 2, 6 * 2, 'rgba(0,0,0,.2)')
+				ctx.arc(187.5 * 2, 85 * 2, 25 * 2, 0, 2 * Math.PI)
 				ctx.fill()
 
 				// 头像
 				ctx.save()
-				ctx.setShadow(0, 3, 6, '#000000')
-				ctx.arc(187.5, 85, 25, 0, 2 * Math.PI)
+				ctx.setShadow(0, 3 * 2, 6 * 2, '#000000')
+				ctx.arc(187.5 * 2, 85 * 2, 25 * 2, 0, 2 * Math.PI)
 				ctx.clip()
 				console.log('头像路径', face)
-				ctx.drawImage(face, 162.5, 60, 50, 50)
+				ctx.drawImage(face, 162.5 * 2, 60 * 2, 50 * 2, 50 * 2)
 				ctx.restore()
 
 				ctx.draw()
