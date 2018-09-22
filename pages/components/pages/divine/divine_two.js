@@ -337,7 +337,7 @@ const pageConf = {
                             ctx.fillText('小哥星座', 80, 1310)
                             ctx.setFillStyle('#999999')
                             ctx.setFontSize(24)
-                            ctx.fillText('长按识别二维码,抽取你的每日一签', 80, 1370)
+                            ctx.fillText('长按识别二维码,获取你的测试结果', 80, 1370)
 
                             
                             ctx.draw()
