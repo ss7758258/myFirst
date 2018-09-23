@@ -81,7 +81,7 @@ const pageConf = {
     },
 
     onShareAppMessage: function() {
-        mta.Event.stat('divine_one_share_click',{gameId:this.data.gameId})
+        mta.Event.stat('divine_one_share_click',{gameid:this.data.gameId})
         return {
             title : this.data.title,
             imageUrl : '../../source/share_test.png',
@@ -90,7 +90,7 @@ const pageConf = {
     },
     // 开始游戏
     _startGame(){
-        mta.Event.stat('start_game',{ gameId : this.gameId })
+        mta.Event.stat('start_game',{ gameid : this.gameId })
         this.setData({
             status : 2
         })
@@ -159,9 +159,9 @@ const pageConf = {
                 gameId : opts.gameId
             })
             if(opts.from === 'share'){
-                mta.Event.stat('divine_share_come',{ gameId : opts.gameId })
+                mta.Event.stat('divine_share_come',{ gameid : opts.gameId })
             }else{
-                mta.Event.stat('divine_click_come',{ gameId : opts.gameId })
+                mta.Event.stat('divine_click_come',{ gameid : opts.gameId })
             }
             // 获取游戏的内容
             this._getGameInfo()
@@ -278,7 +278,7 @@ const pageConf = {
     },
     // 绘制图片生成图片并将图片展示到页面上
     _drawCode(){
-        mta.Event.stat("test_pic_toimg",{gameId:this.data.gameId})
+        mta.Event.stat("test_pic_toimg",{gameid:this.data.gameId})
         let head = ''
         let self = this
         wx.showToast({
