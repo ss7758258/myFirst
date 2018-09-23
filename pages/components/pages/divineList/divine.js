@@ -32,6 +32,7 @@ const pageConf = {
 
     onLoad: function(options) {
         mta.Page.init()
+		// wx.hideShareMenu()
         this._getGameList()
     },
 
@@ -43,11 +44,11 @@ const pageConf = {
     },
 
     onShareAppMessage: function() {
-        mta.Event.stat('share_divine',{})
+        mta.Event.stat('share_divine')
         console.log('/pages/home/home?to=divine&from=share&source=share&id=999996&tid=123454&shareform=divine')
         return {
-            title : '想知道和你最配的人是谁吗',
-            imageUrl : '/assets/images/share-pair.png',
+            title : '想知道你的名字的含义么',
+            imageUrl : '../../source/share_test.png',
 			path : '/pages/home/home?to=divine&from=share&source=share&id=999996&tid=123454&shareform=divine'
 		}
     },
