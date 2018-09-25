@@ -85,8 +85,8 @@ const pageConf = {
     // 前往下游戏界面
     _goGame(e){
         let { res : data } = e.currentTarget.dataset
-        mta.Event.stat('page_divine_click',{ gameid : data.id ,gamename : data.title})
-        console.log(data)
+        mta.Event.stat('page_divine_click',{ gameid : data.id ,gamename : data.name})
+        console.log(data,data.name)
         let tmpPath = 'divine_one'
         switch (data.type) {
             case 1:

@@ -90,7 +90,7 @@ const pageConf = {
     },
     // 开始游戏
     _startGame(){
-        mta.Event.stat('start_game',{ gameid : this.gameId })
+        mta.Event.stat('start_game',{ gameid : this.data.gameId })
         this.setData({
             status : 2
         })
@@ -163,6 +163,8 @@ const pageConf = {
             }else{
                 mta.Event.stat('divine_click_come',{ gameid : opts.gameId })
             }
+            // 总量统计
+            mta.Event.stat('one_from_count',{ gameid : opts.gameId })
             // 获取游戏的内容
             this._getGameInfo()
         }
