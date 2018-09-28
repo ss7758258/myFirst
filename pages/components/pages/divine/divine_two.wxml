@@ -10,11 +10,11 @@
             <view class="section {{status === 1 ? 'current' : (status - 1) === 1 ? 'prev' : '' }}">
                 <view>
                     <image class="bg-img" src="{{res.bg}}"></image>
-                    <view class="title-text">
+                    <!-- <view class="title-text">
                         已经有
                         <view>{{text}}</view>
                         人进行了测试
-                    </view>
+                    </view> -->
                     <image class="title-img" src="{{res.title}}" mode="widthFix"></image>
                     <view class="start-panel">
                         <button form-type="submit" open-type="getUserInfo" catchtap="_startGame" hover-class="click-animate" >

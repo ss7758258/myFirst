@@ -229,10 +229,14 @@ Page({
 		if(this.data.showChoice){
 			return
 		}
-		console.log(wx.getStorageSync('update_dialo_status'))
 		if(wx.getStorageSync('update_dialo_status')){
-			return
+			wx.clearStorage({
+				key: 'update_dialo_status'
+			})
 		}
+		// if(wx.getStorageSync('update_dialo_status')){
+		// 	return
+		// }
 		let _start = (new Date(new Date().toLocaleDateString())).getTime()
 		let _end = _start + 1000 * 60 * 60 * 24
 		let start = wx.getStorageSync('update_start_time') || _start
