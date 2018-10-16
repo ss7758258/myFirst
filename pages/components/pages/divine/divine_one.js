@@ -7,6 +7,11 @@ let timer = null
 let query = wx.createSelectorQuery()
 // 结果值
 let ran = 0
+// 是否处在分享状态
+let isShare = false
+// 已经购买的数量
+let ids = []
+// 题目是否正在被点击状态
 let isClick = false
 const pageConf = {
 
@@ -57,23 +62,39 @@ const pageConf = {
         resImg : '../../tmp/res_1.png',
         resBg : '#fff',
         head : '/assets/images/default_head.png',
-        nickName : ''
+        nickName : '',
+		mask: true,
+		system: {},
+		animate: ''
     },
 
     onLoad: function(options) {
         mta.Page.init()
         this._handleShare(options)
         isClick = false
+		isShare = false
+		ids = []
         console.log('分享的信息参数：',options)
         setTimeout(() => {
             this.setData({
                 head : Storage.userInfo.avatarUrl === '' ? '/assets/images/default_head.png' : Storage.userInfo.avatarUrl,
                 nickName : Storage.userInfo.nickName,
+				system: Storage.systemInfo
             })
         },150)
     },
 
     onShow: function() {
+        if (this.data.mask && isShare) {
+			this.setData({
+				animate: 'fly-animate'
+			})
+			setTimeout(() => {
+				this.setData({
+					mask: false
+				})
+			}, 1700)
+		}
     },
 
     onHide: function() {
@@ -82,6 +103,8 @@ const pageConf = {
 
     onShareAppMessage: function() {
         mta.Event.stat('divine_one_share_click',{gameid:this.data.gameId})
+		// 正在分享状态
+		isShare = true
         return {
             title : this.data.title,
             imageUrl : '../../source/share_test.png',
@@ -101,6 +124,7 @@ const pageConf = {
     },
     // 选择当前题目的答案并且进入下一题
     _switchSub(e){
+        let self = this
         let {index} = e.currentTarget.dataset
         if(isClick){
             return
@@ -125,13 +149,30 @@ const pageConf = {
                 title: '正在计算结果',
                 mask: true,
             })
-            setTimeout(() => {
-                this.setData({
-                    status : 3,
-                    'navConf.title' : '测试结果'
-                })
-                wx.hideLoading();
-            },1600)
+
+            wx.getStorage({
+                key: 'divineIds',
+                complete: function (v) {
+                    console.log('输出游戏Id', v)
+                    let mask = true
+                    
+                    if (v.data && v.data.constructor === Array && v.data.indexOf(parseInt(self.data.gameId)) != -1) {
+                        mask = false
+                    }
+    
+                    ids = v.data ? v.data : []
+    
+                    setTimeout(() => {
+                        self.setData({
+                            status: 3,
+                            mask: mask,
+                            'navConf.title': '测试结果'
+                        })
+                        wx.hideLoading();
+                    }, 1600)
+                }
+            })
+            
             // 进入结果页
             return
         }else{
@@ -142,6 +183,114 @@ const pageConf = {
                 this._resizePanel()
             },200)
         }
+    },
+    // 支付小星星购买
+    _payStar() {
+        let self = this
+        let starNum = 9
+        console.log('前往支付')
+        mta.Event.stat('pay_click_test', {})
+        wx.showModal({
+            title: '确定快速查看？',
+            content: '快速查看需要消耗' + starNum + '颗小星星',
+            showCancel: true,
+            cancelColor: '#999999',
+            cancelText: '我再想想',
+            confirmText: '确定',
+            confirmColor: '#9262FB',
+            success: function (res) {
+                console.log(res)
+                mta.Event.stat('pay_click_test_success', {})
+                if (res.confirm) {
+                    API.getBlance({
+                        notShowLoading: true
+                    }).then(data => {
+                        if (!data) {
+                            return
+                        }
+                        console.log('钱包星星数量：', data)
+                        // data.balance = 2000
+                        // 当小星星不足时进行提示
+                        if (data.balance < starNum) {
+
+                            mta.Event.stat('pay_test_fail', {})
+
+                            if (!Storage.isLogin) {
+                                return
+                            }
+
+                            wx.showModal({
+                                title: '余额不足',
+                                content: '请先去获取一些小星星吧',
+                                showCancel: true,
+                                cancelColor: '#999999',
+                                cancelText: '我再想想',
+                                confirmText: '立即获取',
+                                confirmColor: '#9262FB',
+                                success: function (res) {
+                                    if (res.confirm) {
+                                        // 跳转到小星星页面
+                                        wx.navigateTo({
+                                            url: '/pages/banner/banner'
+                                        })
+                                    }
+                                }
+                            })
+                        } else {
+
+                            mta.Event.stat('pay_test_success', {})
+                            wx.showLoading({
+                                title: '购买中...'
+                            })
+
+                            API.setStar({
+                                id: 0,
+                                balance: starNum,
+                                notShowLoading: true
+                            }).then(data => {
+                                console.log('购买结果：', data)
+                                wx.hideLoading()
+                                if (data && data.status === 'SUCCESS') {
+                                    self.setData({
+                                        animate: 'fly-animate'
+                                    })
+                                    console.log(ids)
+                                    ids.push(parseInt(self.data.gameId))
+                                    wx.setStorage({
+                                        key: 'divineIds',
+                                        data: ids
+                                    })
+                                    setTimeout(() => {
+                                        self.setData({
+                                            mask: false
+                                        })
+                                    }, 1700)
+                                } else {
+                                    console.log('购买失败')
+                                    wx.showModal({
+                                        title: '失败提示',
+                                        content: '未知错误，请联系我们',
+                                        showCancel: false,
+                                        confirmText: '确定',
+                                        confirmColor: '#9262FB'
+                                    })
+                                }
+                            }).catch(err => {
+                                wx.hideLoading()
+                                console.log('购买失败')
+                                wx.showModal({
+                                    title: '失败提示',
+                                    content: '购买失败',
+                                    showCancel: false,
+                                    confirmText: '确定',
+                                    confirmColor: '#9262FB'
+                                })
+                            })
+                        }
+                    })
+                }
+            }
+        })
     },
     // 处理分享参数
     _handleShare(opts){
@@ -369,10 +518,10 @@ const pageConf = {
                                             success(data) {
                                                 setTimeout(() => {
                                                     wx.hideLoading()
-                                                    wx.showToast({
-                                                        title: '图片保存成功',
-                                                        icon: 'success',
-                                                        duration: 1700
+                                                    wx.showModal({
+                                                        title: '保存成功',
+                                                        content: '图片已经保存到相册，可以分享到朋友圈了',
+                                                        showCancel: false,
                                                     })
                                                 },300)
                                             },

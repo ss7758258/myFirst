@@ -92,6 +92,12 @@ const pageConf = {
             case 1:
                 tmpPath = 'divine_one'
                 break;
+            case 2:
+                tmpPath = 'divine_two'
+                break;
+            case 3:
+                tmpPath = 'divine_three'
+                break;
             default:
                 tmpPath = 'divine_two'
                 break;

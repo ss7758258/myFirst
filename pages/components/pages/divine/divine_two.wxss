@@ -1,5 +1,6 @@
 
 @import "../../../../template/assets/card.wxss";
+@import "../../../../template/assets/mask.wxss";
 scroll-view{
 	height: 100%;
 }
@@ -53,10 +54,11 @@ scroll-view{
 .start-panel{
 	position: absolute;
 	width: 328rpx;
-	top: 966rpx;
+	bottom: 200rpx;
 	left: 0;
 	right: 0;
 	margin: auto;
+	z-index: 9;
 }
 .start-img{
 	position: relative;

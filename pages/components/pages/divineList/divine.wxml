@@ -9,6 +9,13 @@
             <block wx:for="{{lists}}" wx:key="{{item.id}}">
                 <button class="card-panel mt40" form-type="submit" open-type="getUserInfo" catchtap="_goGame" data-res="{{item}}" hover-class="none" >
                     <view class="panel" >
+                        <view class="type-panel" wx:if="{{item.typename == 2}}">
+                            <image src="../../source/new.png"></image>
+                        </view>
+                        <view class="type-panel" wx:if="{{item.typename == 3}}">
+                            <image src="../../source/hot.png"></image>
+                        </view>
+                        
                         <view class="left">
                             <image src="{{!imgs[index] ? baseUrl + '' + item.pic : item.pic}}" lazy-load="true" binderror="_imgError" data-index="{{index}}" data-res="{{item}}"></image>
                         </view>

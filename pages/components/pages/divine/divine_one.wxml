@@ -11,6 +11,7 @@
                 <view>
                     <image class="bg-img" src="{{res.bg}}"></image>
                     <image class="title-img" src="{{res.title}}" mode="widthFix"></image>
+                    <image class="desc-img" src="{{res.desc}}" mode="widthFix"></image>
                     <view class="start-panel">
                         <button form-type="submit" open-type="getUserInfo" catchtap="_startGame" hover-class="click-animate" >
                             <view class="start-img">
@@ -19,7 +20,6 @@
                             </view>
                         </button>
                     </view>
-                    <image class="desc-img" src="{{res.desc}}" mode="widthFix"></image>
                 </view>
             </view>
             <!-- End开始面板 -->
@@ -59,7 +59,7 @@
             </view>
             <!-- End答题面板 -->
 
-            <!-- 答题面板 -->
+            <!-- 答题结果 -->
             <view class="section {{status === 3 ? 'current' : '' }}">
                 <view>
                     <scroll-view scroll-y="true" style="background: {{resBg}};">
@@ -67,14 +67,30 @@
                             <image class="bg-img res-bg" src="{{res.bg}}" mode="widthFix"></image>
                             <image class="res-img" src="{{resImg}}" mode="widthFix"></image>   
                             <view class="user-info">
-                                
                                 <image class="user-name" src="{{head}}" binderror="_headError"></image>
                                 <view>{{nickName}}</view>
-                                <!-- <open-data class="user-name" type="userAvatarUrl" open-gid=""></open-data>
-                                <open-data type="userNickName" open-gid=""></open-data> -->
                             </view>
+
+                            <!-- 蒙版层 -->
+                            <view class="mask-panel {{animate}}" wx:if="{{mask}}">
+                                <view class="mask-canvas">
+                                    <!-- <canvas class="share-canvas" canvas-id="share"></canvas> -->
+                                    <image class="mask-img" src="{{resImg}}" style="width:{{system.windowWidth}}px;height:{{system.windowHeight - height}}px;" ></image>
+                                    <view class="fun-panel">
+                                        <image class="fun-lock mt60" src="../../source/fun-lock.svg"></image>
+                                        <image class="fun-title mt40" src="../../source/fun-txt.svg"></image>
+                                        <button form-type="submit" open-type="share" hover-class="click-animate" >
+                                            <view>
+                                                <image class="fun-share" src="../../source/fun-share.svg" mode="widthFix"></image>
+                                            </view>
+                                        </button>
+                                        <view class="fun-text" catchtap="_payStar">快速查看</view>
+                                    </view>
+                                </view>
+                            </view>
+                            <!-- End蒙版层 -->
                         </view>
-                        <view class="btn-group">
+                        <view class="btn-group" wx:if="{{!mask}}">
                             <button form-type="submit" open-type="share" hover-class="click-animate" >
                                 <view class="start-img btn-share">
                                     <image class="button-img btn-share-img" src="{{res.button}}" mode="widthFix"></image>
@@ -136,7 +152,7 @@
                     </scroll-view>
                 </view>
             </view>
-            <!-- End答题面板 -->
+            <!-- End答题结果 -->
 
         </view>
     </view>

@@ -38,19 +38,37 @@
                             <view class="head-panel"></view>
                             <image class="card-head" src="{{head}}" binderror="_headError"></image>
                             <view class="card-name pt100">{{nickName}}</view>
-                            <view class="label mt40">
-                                姓名
-                            </view>
+
                             <view class="form-group mt20">
-                                <input value="" type="text" style="border:2rpx solid {{warn}} !important;" bindinput="_input" placeholder="{{warnText}}" ></input>
+                                <view class="label">
+                                    姓名
+                                </view>
+                                <input class="text" value="" type="text" style="border:2rpx solid {{warn}} !important;" bindinput="_input" placeholder="{{warnText}}" ></input>
                             </view>
-                            <view class="label mt40">
-                                性别
+
+                            <view class="form-group mt60">
+                                <view class="label">
+                                    生日
+                                </view>
+                                <picker style="border:2rpx solid {{(date === '请输入生日' || date === '生日不能为空') ? dateWarn : 'rgba(151, 151, 151, 1)'}} !important;" mode="date" bindchange="_ChangeVal" value="{{date}}" start="1960-01-01" end="{{endDate}}" fields="day">
+                                    <view class="picker">{{date}}</view>
+                                </picker>
                             </view>
-                            <view class="form-group mt20">
-                                <view class="man {{current === 'man' ? 'current' : ''}}" catchtap="_switchTab" data-type="man" >男</view>
-                                <view class="woman {{current === 'woman' ? 'current' : ''}}" catchtap="_switchTab" data-type="woman" >女</view>
+
+                            <view class="form-group mt40">
+                                <view class="label">
+                                    性别
+                                </view>
+                                <view class="check-group">
+                                    <view class="man {{current === 'man' ? 'current' : ''}}" catchtap="_switchTab" data-type="man" >
+                                        <view class="check-img"></view>男
+                                    </view>
+                                    <view class="woman {{current === 'woman' ? 'current' : ''}}" catchtap="_switchTab" data-type="woman" >
+                                        <view class="check-img"></view>女
+                                    </view>
+                                </view>
                             </view>
+
                             <view class="form-desc mt60">点击确定后将会获取你的测试结果</view>
                             <view class="form-icon">
                                 <view></view>
@@ -106,6 +124,8 @@
                                 </view>
                             </view>
                         </view>
+
+                        <!-- 功能按钮组 -->
                         <view class="btn-group" wx:if="{{!mask}}">
                             <button form-type="submit" open-type="share" hover-class="click-animate" >
                                 <view class="start-img btn-share">
