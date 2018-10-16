@@ -190,7 +190,7 @@ const pageConf = {
 
 							API.setStar({
 								id: 0,
-								balance: starNum,
+								balance: -starNum,
 								notShowLoading: true
 							}).then(data => {
 								console.log('购买结果：', data)
