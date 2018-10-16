@@ -25,7 +25,8 @@
                 "pages/result/result",
                 "pages/divineList/divine",
                 "pages/divine/divine_one",
-                "pages/divine/divine_two"
+                "pages/divine/divine_two",
+                "pages/divine/divine_three"
             ]
         }
     ],

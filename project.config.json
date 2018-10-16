@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 22,
+			"current": 25,
 			"list": [
 				{
 					"id": 0,
@@ -200,6 +200,12 @@
 					"name": "性格测试(直接进入)",
 					"pathName": "pages/components/pages/divine/divine_two",
 					"query": "from=share&to=divine_one&gameId=29"
+				},
+				{
+					"id": 25,
+					"name": "性格测试(直接进入)",
+					"pathName": "pages/components/pages/divine/divine_three",
+					"query": "from=share&to=divine_three&gameId=69"
 				}
 			]
 		}

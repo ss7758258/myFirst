@@ -43,5 +43,9 @@ module.exports = {
     divine_two : {
         path : '/pages/components/pages/divine/divine_two',
         type : 'nav'
+    },
+    divine_three : {
+        path : '/pages/components/pages/divine/divine_three',
+        type : 'nav'
     }
 }

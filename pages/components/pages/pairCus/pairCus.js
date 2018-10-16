@@ -4,9 +4,10 @@ const mta = require('../../../../utils/mta_analysis')
 const star = require('../../../../utils/star')
 const starNum = 1
 let current = 1
+let starTmp = JSON.parse(JSON.stringify(star))
 
-for(let v in star){
-    star[v].name = star[v].name.replace('座','')
+for(let v in starTmp){
+    starTmp[v].name = starTmp[v].name.replace('座','')
 }
 
 const pageConf = {
@@ -21,7 +22,7 @@ const pageConf = {
             bg : '#9262FB',
             isTitle: true,
         },
-        star,
+        starTmp,
         // 根据导航高度做出适配
         height : 64,
         // 是否是自己
