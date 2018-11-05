@@ -43,8 +43,7 @@
 <!-- 提示对话框 -->
 <form report-submit="true" bindsubmit="setFormId" bindreset="">
 	<view class="dialog-mask" wx:if="{{showDialog && isLogin}}" style="height:calc(100% - {{nav}}px);top:{{nav}}px;">
-		<!--  style="top:{{nav}}px;" -->
-		<view class="dialog-panel">
+		<!-- <view class="dialog-panel">
 			<view class="dialog">
 				<view class="dialog-close">
 					<button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_closeUpdate" >
@@ -65,7 +64,25 @@
 					</button>
 				</view>
 			</view>    
+		</view> -->
+
+		<view class="alert-panel">
+			<view class="alert-content">
+				<view class="alert-img">
+					<image mode="widthFix" src="{{cdn + '' + dialo.prevPic}}"></image>
+				</view>
+				<view class="alert-title">{{dialo.title}}</view>
+				<view class="alert-text">{{dialo.content}}</view>
+				<view class="alert-btn">{{dialo.button}}</view>
+			</view>
+			<view class="alert-pendant">
+				<view class="pillar-panel">
+					<view class="pillar-left"></view>
+					<view class="pillar-right"></view>
+				</view>
+			</view>
 		</view>
+
 	</view>
 </form>
 <!-- End提示对话框 -->
@@ -119,33 +136,6 @@
 						详情 》
 					</button>
 				</view>
-				<!-- <view class="star-info">
-					<view>
-						<view>贵人星族</view>
-						<view class="star-text" >{{star[xz.constellationId].name}}</view>
-					</view>
-					<view>
-						<view>健康指数</view>
-						<view class="star-text" >{{xz.healthy}}%</view>
-					</view>
-					<view>
-						<view>幸福颜色</view>
-						<view class="star-text star-color" >{{xz.luckyColor}}</view>
-					</view>
-					<view>
-						<view>幸运数字</view>
-						<view class="star-text" >{{xz.luckyNum}}</view>
-					</view>
-				</view>
-				<view class="star-tip">
-					<image class="star-warn" src="/assets/img/warn.svg"></image>
-					<view class="star-tip-text">{{dayNotice}}</view>
-					<view class="star-tip-notice">
-						<button class="star-more-text" catchtap="goLuck" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="toDay" >
-							查看详情
-						</button>
-					</view>
-				</view> -->
 			</view>
 		</view>
 
@@ -185,8 +175,24 @@
 			</button>
 		</view>
 
-		<!-- 朋友圈配对 -->
+		<!-- 精选好物 -->
 		<view class="panel">
+			<button class="star-pair" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="goExchange">
+				<image class="star-pair-img select-q" src="/assets/img/select_bg.png" ></image>
+				<view class="star-text-panel">
+					<text>精选好物</text>
+					<text>小星星兑换精品商品</text>
+				</view>
+				<view class="star-card-icon">
+					<view class="star-icon-panel">
+						<image class="icon-right" src="/assets/img/select_icon.png" ></image>
+					</view>
+				</view>
+			</button>
+		</view>
+
+		<!-- 朋友圈配对 -->
+		<!-- <view class="panel">
 			<button class="star-pair" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="goPairPYQ">
 				<image class="star-pair-img pair-q" src="/assets/img/pair_bg.png" ></image>
 				<view class="star-text-panel pair-q">
@@ -202,7 +208,7 @@
 					</view>
 				</view>
 			</button>
-		</view>
+		</view> -->
 
 		<view class="panel more-panel-text">
 			更多好玩请去发现页探索哦(^O^)

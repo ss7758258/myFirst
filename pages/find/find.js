@@ -117,6 +117,12 @@ Page({
 			url:'/pages/components/pages/pair/pair'
 		})
     },
+    _goPairPYQ(){
+        mta.Event.stat("pair_pyq_click", {})
+		wx.navigateTo({
+			url : '/pages/components/pages/pairCus/pairCus'
+		})
+    },
     // 前往一言
     _goBrief(){
         mta.Event.stat("find_brief_click", {})

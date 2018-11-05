@@ -8,6 +8,7 @@ const Storage = require('./utils/storage')
 const methods = require('./server/login')
 // const updateManager = wx.getUpdateManager()
 wx.hideTabBar({})
+console.log(wx)
 App({
 	onLaunch: function (options) {
 		wx.hideTabBar({})
@@ -20,7 +21,7 @@ App({
 		// methods.checkLogin()
 		methods.openIdLogin(() => {
 			console.log('执行心跳')
-			tick()
+			// tick()
 		})
 		
 		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || {

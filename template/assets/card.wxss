@@ -14,6 +14,10 @@
 	background:linear-gradient(180deg,rgba(58,182,255,1) 0%,rgba(0,139,255,1) 100%);
 	box-shadow:0 8rpx 16rpx 0 rgba(49,179,255,0.4);
 }
+.star-pair-img.select-q{
+	background:linear-gradient(180deg,rgba(133,67,255,1) 0%,rgba(190,82,255,1) 100%);
+	box-shadow:0 8rpx 16rpx 0 rgba(109,30,255,0.4);
+}
 /* 标示图 */
 .pair-1{
 	position: absolute;

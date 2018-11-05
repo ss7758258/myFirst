@@ -739,3 +739,58 @@ button.collect-btn{
 	line-height:34rpx;
 	margin: 80rpx auto;
 }
+
+
+
+/* 弹窗样式 */
+.alert-panel{
+	position: relative;
+	width: 570rpx;
+	margin: 0 auto;
+}
+.alert-content{
+	position: relative;
+	width: 100%;
+	text-align: center;
+	color: #6D6877;
+	font-size:28rpx;
+	font-family:PingFangSC-Regular;
+	font-weight:400;
+	background: #fff;
+	border-radius:20rpx;
+	top: 200rpx;
+	overflow: hidden;
+}
+.alert-img{
+	width: 100%;
+}
+.alert-img>img{
+	width: 100%;
+}
+.alert-pendant{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 224rpx;
+	margin: auto;
+}
+.pillar-panel{
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.pillar-left,.pillar-right{
+	position: absolute;
+	width: 8rpx;
+	height: 224rpx;
+	background: #fff;
+	top: 0;
+	background:linear-gradient(135deg,#FDCD41 5%,#FEB00E 5%,#FEB00E 10%, #FDCD41 10%,#FDCD41 15%,#FEB00E 15%,#FEB00E 20%, #FDCD41 20%,#FDCD41 25%,#FEB00E 25%,#FEB00E 30%,#FDCD41 30%,#FDCD41 35%,#FEB00E 35%,#FEB00E 40%,#FDCD41 40%,#FDCD41 45%,#FEB00E 45%,#FEB00E 50%,#FDCD41 50%,#FDCD41 55%,#FEB00E 55%,#FEB00E 60%,#FDCD41 60%,#FDCD41 65%,#FEB00E 65%,#FEB00E 70%,#FDCD41 70%,#FDCD41 75%,#FEB00E 75%,#FEB00E 80%,#FDCD41 80%,#FDCD41 85%,#FEB00E 85%,#FEB00E 90%,#FDCD41 90%,#FDCD41 95%,#FEB00E 95%,#FEB00E 100%);
+}
+.pillar-left{
+	left: 24rpx;
+}
+.pillar-right{
+	right: 24rpx;
+}

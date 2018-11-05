@@ -113,6 +113,10 @@ button{
 	background:linear-gradient(180deg,rgba(255,224,167,1),rgba(255,189,67,1));
 	box-shadow:0 8rpx 16rpx 0 rgba(255,190,69,0.3);
 }
+.card-3{
+	background:linear-gradient(180deg,rgba(255,172,245,1) 0%,rgba(255,94,159,1) 100%);
+	box-shadow:0 8rpx 16rpx 0 rgba(255,69,201,0.3);
+}
 .star-rect-panel{
 	display: flex;
 	justify-content: center;

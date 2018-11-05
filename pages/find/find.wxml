@@ -36,16 +36,7 @@
             <view class="star-text-panel">
                 <text>星座配对</text>
                 <text decode="true">{{listNum[0].content}}</text>
-                <!-- <text>想知道你和谁最配吗？</text> -->
             </view>
-            <!-- <view class="star-text-time" wx:if="{{showPair}}">
-                <view class="star-num-icon">
-                    <image src="/assets/img/pair-icon.png" ></image>
-                </view>
-                <view class="star-num">
-                    {{listNum[0].content}}
-                </view>
-            </view> -->
         </button>
     </view>
 
@@ -73,29 +64,17 @@
 
         <view>
             <!-- 根据兼容使用 -->
-            <button class="star-rect-card card-2" wx:if="{{!miniPro}}" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goUn">
+            <button class="star-rect-card card-3" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goPairPYQ">
                 <view class="star-rect-panel" >
                     <view class="rect-icon">
-                        <image class="rect-icon-small icon-4" src="/assets/img/icon-4.png" ></image>
+                        <image class="rect-icon-small icon-5" src="/assets/img/icon-5.png" ></image>
                     </view>
                     <view class="rect-text-panel mt30">
-                        <text>精选好物</text>
-                        <text class="mt10">小哥为你精选的好物</text>
+                        <text>好友配对</text>
+                        <text class="mt10">寻找最有缘的好友</text>
                     </view>
                 </view>
             </button>
-
-            <navigator wx:if="{{miniPro}}" class="star-rect-card card-2" catchtap="_navOuter" catchsuccess="_navSuccess" catchfail="_navFail" hover-class="none" target="miniProgram" open-type="navigate" app-id="wx35ad2350f431e0fe" path="pages/home/dashboard/index" >
-                <view class="star-rect-panel" >
-                    <view class="rect-icon">
-                        <image class="rect-icon-small icon-4" src="/assets/img/icon-4.png" ></image>
-                    </view>
-                    <view class="rect-text-panel mt30">
-                        <text>精选好物</text>
-                        <text class="mt10">小哥为你精选的好物</text>
-                    </view>
-                </view>
-            </navigator>
         </view>
 
     </view>
