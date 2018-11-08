@@ -759,13 +759,15 @@ button.collect-btn{
 	background: #fff;
 	border-radius:20rpx;
 	top: 200rpx;
-	overflow: hidden;
 }
 .alert-img{
 	width: 100%;
+	border-radius: 20rpx 20rpx 0 0;
+	overflow: hidden;
 }
-.alert-img>img{
+.alert-img>image{
 	width: 100%;
+	height: 360rpx;
 }
 .alert-pendant{
 	position: absolute;
@@ -786,6 +788,7 @@ button.collect-btn{
 	height: 224rpx;
 	background: #fff;
 	top: 0;
+	border-radius: 0 0 7rpx 7rpx;
 	background:linear-gradient(135deg,#FDCD41 5%,#FEB00E 5%,#FEB00E 10%, #FDCD41 10%,#FDCD41 15%,#FEB00E 15%,#FEB00E 20%, #FDCD41 20%,#FDCD41 25%,#FEB00E 25%,#FEB00E 30%,#FDCD41 30%,#FDCD41 35%,#FEB00E 35%,#FEB00E 40%,#FDCD41 40%,#FDCD41 45%,#FEB00E 45%,#FEB00E 50%,#FDCD41 50%,#FDCD41 55%,#FEB00E 55%,#FEB00E 60%,#FDCD41 60%,#FDCD41 65%,#FEB00E 65%,#FEB00E 70%,#FDCD41 70%,#FDCD41 75%,#FEB00E 75%,#FEB00E 80%,#FDCD41 80%,#FDCD41 85%,#FEB00E 85%,#FEB00E 90%,#FDCD41 90%,#FDCD41 95%,#FEB00E 95%,#FEB00E 100%);
 }
 .pillar-left{
@@ -793,4 +796,71 @@ button.collect-btn{
 }
 .pillar-right{
 	right: 24rpx;
+}
+.pillar-left-circle,.pillar-right-circle{
+	position: absolute;
+	width: 16rpx;
+	height: 16rpx;
+	top: 214rpx;
+}
+.pillar-left-circle{
+	left: 21rpx;
+}
+.pillar-right-circle{
+	right: 21rpx;
+}
+.alert-title{
+	font-size:36rpx;
+	font-family:PingFangSC-Medium;
+	font-weight:600;
+	color:rgba(19,6,47,1);
+}
+.alert-text{
+	width:490rpx;
+	margin: 0 auto;
+	font-size:28rpx;
+	font-family:PingFangSC-Regular;
+	font-weight:400;
+	color:rgba(109,104,119,1);
+}
+.alert-line{
+	width: 100%;
+	height:30rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.diamond{
+	width: 14rpx;
+	height: 14rpx;
+	background: #E5E5E5;
+	margin: 0 3rpx;
+	clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+}
+.diamond:nth-child(1),.diamond:nth-child(5){
+	opacity: .3;
+}
+.diamond:nth-child(2n){
+	opacity: .6;
+}
+.alert-btn{
+	width:330rpx;
+	height:80rpx;
+	line-height: 80rpx;
+	margin: 0 auto;
+	font-size:36rpx;
+	font-weight:600;
+	color:rgba(255,255,255,1);
+	background:linear-gradient(180deg,rgba(255,214,0,1) 0%,rgba(255,186,71,1) 100%);
+	box-shadow:0px 8rpx 12rpx 0px rgba(254,176,14,0.3),inset 0px -4rpx 4rpx 0px rgba(255,170,0,1);
+	border-radius:40rpx;
+}
+.alert-close{
+	position: absolute;
+	width:50rpx;
+	height:50rpx;
+	bottom: -90rpx;
+	left: 0;
+	right: 0;
+	margin: auto;
 }

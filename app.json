@@ -26,7 +26,9 @@
                 "pages/divineList/divine",
                 "pages/divine/divine_one",
                 "pages/divine/divine_two",
-                "pages/divine/divine_three"
+                "pages/divine/divine_three",
+                "pages/goods/goods",
+                "pages/goodsInfo/goodsInfo"
             ]
         }
     ],
@@ -60,5 +62,13 @@
     },
     "networkTimeout": {
         "request": 10000
-    }
+    },
+    "navigateToMiniProgramAppIdList":[
+        "wx8abaf00ee8c3202e",
+        "wx855c5d7718f218c9",
+        "wxb52b11c4dd14b6fc",
+        "wx35ad2350f431e0fe",
+        "wxd54f4e9b5afc11e8",
+        "wx229ed33fc8b9258f"
+    ]
 }

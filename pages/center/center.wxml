@@ -6,29 +6,6 @@
         <image src="{{iconPath}}"></image>
         <text class="text">{{nickName}}</text>
     </view>
-    <!-- <view class="flex notice">
-        <view>
-            <image class="notice_icon" src="{{imgs.notice_icon}}"></image>
-        </view>
-        <view>运势提醒</view>
-        <view bindtap="switchOn">
-            <view class="switchOn {{isFlag ? '' : 'off'}}">
-                <view>
-                    <view></view>
-                </view>
-            </view>
-        </view>
-    </view> -->
-    <!-- <view class="flex card_record" wx:if="{{clockStatus}}" bindtap="goXiaodaka">
-        <view>
-            <image class="notice_icon" src="{{imgs.daka}}"></image>
-        </view>
-        <view>每日打卡</view>
-        <view>
-            <image class="notice_icon" src="{{imgs.right}}"></image>
-        </view>
-    </view> -->
-
     <!-- 小星星 -->
     <view class="flex card_record" wx:if="{{showOpen}}" bindtap="goPay">
         <view>
@@ -41,6 +18,36 @@
     </view>
 
     <view class="flex opinion"  bindtap="clickHandle">
+        <view>
+            <image class="notice_icon" src="/assets/img/task_icon.svg"></image>
+        </view>
+        <view>任务中心</view>
+        <view>
+            <image class="notice_icon" src="{{imgs.right}}"></image>
+        </view>
+    </view>
+    <view class="flex opinion"  bindtap="clickHandle">
+        <view>
+            <image class="notice_icon" src="/assets/img/order_icon.svg"></image>
+        </view>
+        <view>我的订单</view>
+        <view>
+            <image class="notice_icon" src="{{imgs.right}}"></image>
+        </view>
+    </view>
+
+    <navigator wx:if="{{version}}" target="miniProgram" hover-class="animate" open-type="{{miniConf.openType}}" app-id="{{miniConf.appId}}" path="{{miniConf.path}}" url="{{miniConf.path}}" extra-data="{{miniConf.extraData}}" version="{{miniConf.version}}">
+        <view class="flex opinion">
+            <view>
+                <image class="notice_icon" src="{{imgs.opinion}}"></image>
+            </view>
+            <view>吐个槽</view>
+            <view>
+                <image class="notice_icon" src="{{imgs.right}}"></image>
+            </view>
+        </view>
+    </navigator>
+    <view wx:else class="flex opinion"  bindtap="clickHandle">
         <view>
             <image class="notice_icon" src="{{imgs.opinion}}"></image>
         </view>

@@ -47,5 +47,10 @@ module.exports = {
     divine_three : {
         path : '/pages/components/pages/divine/divine_three',
         type : 'nav'
+    },
+    // 商品页
+    goods : {
+        path : '/pages/components/pages/goods/goods',
+        type : 'nav'
     }
 }

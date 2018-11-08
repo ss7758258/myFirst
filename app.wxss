@@ -32,6 +32,9 @@
 .mt40 {
 	margin-top: 40rpx !important;
 }
+.mt50 {
+	margin-top: 50rpx !important;
+}
 .mt60 {
 	margin-top: 60rpx !important;
 }
@@ -44,6 +47,9 @@
 .mb40 {
 	margin-bottom: 40rpx !important;
 }
+.mb60 {
+	margin-bottom: 60rpx !important;
+}
 .pt34{
 	padding-top:34px !important;
 }
@@ -52,6 +58,9 @@
 }
 .pb34{
 	padding-bottom:34px !important;
+}
+.pb60{
+	padding-bottom:60rpx !important;
 }
 .pt100{
 	padding-top:100rpx !important;
@@ -142,3 +151,7 @@ image {
 	border: none;
 }
 
+
+.animateBtn{
+	transform: scale(.9);
+}

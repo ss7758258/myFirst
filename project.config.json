@@ -206,6 +206,16 @@
 					"name": "性格测试(直接进入)",
 					"pathName": "pages/components/pages/divine/divine_three",
 					"query": "from=share&to=divine_three&gameId=69"
+				},{
+					"id": 26,
+					"name": "商品列表",
+					"pathName": "pages/home/home",
+					"query": "from=share&to=goods"
+				},{
+					"id": -1,
+					"name": "商品详情(直接进入)",
+					"pathName": "pages/components/pages/goodsInfo/goodsInfo",
+					"query": "id=1"
 				}
 			]
 		}

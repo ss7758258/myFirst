@@ -71,12 +71,26 @@
 				<view class="alert-img">
 					<image mode="widthFix" src="{{cdn + '' + dialo.prevPic}}"></image>
 				</view>
-				<view class="alert-title">{{dialo.title}}</view>
-				<view class="alert-text">{{dialo.content}}</view>
-				<view class="alert-btn">{{dialo.button}}</view>
+				<view class="alert-title mt30">{{dialo.title}}</view>
+				<view class="alert-line mt10">
+					<view class="diamond"></view>
+					<view class="diamond"></view>
+					<view class="diamond"></view>
+					<view class="diamond"></view>
+					<view class="diamond"></view>
+				</view>
+				<view class="alert-text mt10">{{dialo.content}}</view>
+				<!-- <view class="alert-btn mt50 mb60">{{dialo.button}}</view> -->
+				<button class="alert-btn mt50" form-type="submit" hover-class="btn-current" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goPage">
+				{{dialo.button}}
+				</button>
+				<view class="pb60"></view>
+				<image class="alert-close" catchtap="_closeUpdate" src="/assets/img/icon_del.png" ></image>
 			</view>
 			<view class="alert-pendant">
 				<view class="pillar-panel">
+					<image class="pillar-left-circle" src="/assets/img/circle_icon.png"></image>
+					<image class="pillar-right-circle" src="/assets/img/circle_icon.png"></image>
 					<view class="pillar-left"></view>
 					<view class="pillar-right"></view>
 				</view>

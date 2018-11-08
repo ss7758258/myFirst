@@ -138,6 +138,13 @@ Page({
 			url:'/pages/components/pages/divineList/divine'
 		})
 	},
+	// 跳转到精选好物
+	goExchange(){
+		mta.Event.stat("goods_click", {})
+		wx.navigateTo({
+			url:'/pages/components/pages/goods/goods'
+		})
+	},
 	// 打开星座描述
 	openDesc(){
 		mta.Event.stat("star_desc_click", {})
@@ -255,9 +262,9 @@ Page({
 			// console.log(JSON.stringify(res))
 			
 			if(res && res.prevPic){
-				// wx.setStorageSync('update_start_time', _start)
-				// wx.setStorageSync('update_end_time', _end)
-				// wx.setStorageSync('update_open_num', 1)
+				wx.setStorageSync('update_start_time', _start)
+				wx.setStorageSync('update_end_time', _end)
+				wx.setStorageSync('update_open_num', 1)
 				self.setData({
 					showDialog : true,
 					dialo : res

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="68px" height="68px" viewBox="0 0 68 68" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/我的订单</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#C49BFD" offset="0%"></stop>
+            <stop stop-color="#9262FB" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="icon/我的订单" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" stroke="url(#linearGradient-1)" x="2.5" y="2.5" width="63" height="63" rx="20"></rect>
+        <g id="Group" transform="translate(17.000000, 13.000000)">
+            <path d="M6,2 L30,2 C32.209139,2 34,3.790861 34,6 L34,38 C34,40.209139 32.209139,42 30,42 L6,42 C3.790861,42 2,40.209139 2,38 L2,6 C2,3.790861 3.790861,2 6,2 Z M9,14 C8.44771525,14 8,14.4477153 8,15 C8,15.5522847 8.44771525,16 9,16 L23,16 C23.5522847,16 24,15.5522847 24,15 C24,14.4477153 23.5522847,14 23,14 L9,14 Z M9,21 C8.44771525,21 8,21.4477153 8,22 C8,22.5522847 8.44771525,23 9,23 L17,23 C17.5522847,23 18,22.5522847 18,22 C18,21.4477153 17.5522847,21 17,21 L9,21 Z M9,28 C8.44771525,28 8,28.4477153 8,29 C8,29.5522847 8.44771525,30 9,30 L27,30 C27.5522847,30 28,29.5522847 28,29 C28,28.4477153 27.5522847,28 27,28 L9,28 Z" id="Combined-Shape" fill="url(#linearGradient-1)"></path>
+            <path d="M4,0.55125 C2.09530797,0.55125 0.55125,2.09530797 0.55125,4 L0.55125,38 C0.55125,39.904692 2.09530797,41.44875 4,41.44875 L30,41.44875 C31.904692,41.44875 33.44875,39.904692 33.44875,38 L33.44875,4 C33.44875,2.09530797 31.904692,0.55125 30,0.55125 L4,0.55125 Z" id="Rectangle-6" stroke="#9262FB" stroke-width="1.1025"></path>
+        </g>
+    </g>
+</svg>

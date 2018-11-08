@@ -21,7 +21,17 @@ Page({
         iconPath : imgs.icon,
         nickName : '',
         showOpen : true,
-        starNum : 0 // 星星数量
+        starNum : 0,// 星星数量
+        version : true,
+        miniConf:{
+            appId: 'wx8abaf00ee8c3202e',
+            path: '/pages/index-v2/index-v2',
+			openType: 'navigate',
+            extraData: {
+                id: '29914'
+            },
+			version: 'release'
+        }
     },
     /**
      * 生命周期初始化组件
@@ -74,6 +84,9 @@ Page({
         console.log('冷启动')
         // 激活下刷新金额
         this._getBlance();
+        this.setData({
+            version : Storage.miniPro
+        })
     },
     switchOn (e){
         console.log('触发？：',e)
