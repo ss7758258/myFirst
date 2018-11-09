@@ -32,7 +32,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 25,
+			"current": 30,
 			"list": [
 				{
 					"id": 0,
@@ -212,10 +212,25 @@
 					"pathName": "pages/home/home",
 					"query": "from=share&to=goods"
 				},{
-					"id": -1,
+					"id": 27,
 					"name": "商品详情(直接进入)",
 					"pathName": "pages/components/pages/goodsInfo/goodsInfo",
 					"query": "id=1"
+				},{
+					"id": 28,
+					"name": "商品详情(分享进入)",
+					"pathName": "pages/home/home",
+					"query": "from=share&to=goodsInfo&id=1"
+				},{
+					"id": 29,
+					"name": "填写地址(直接进入)",
+					"pathName": "pages/components/pages/address/index",
+					"query": "id=1"
+				},{
+					"id": 30,
+					"name": "我的订单(直接进入)",
+					"pathName": "pages/components/pages/orderlist/index",
+					"query": ""
 				}
 			]
 		}

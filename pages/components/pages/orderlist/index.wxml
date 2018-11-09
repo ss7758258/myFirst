@@ -1,0 +1,12 @@
+<!-- 导航 -->
+<nav opts='{{navConf}}' bind:nav-height="_setHeight"></nav>
+
+<form report-submit="true" bindsubmit="_reportFormId">
+  <scroll-view class="goods-panel" bindscrolltolower="_nextList" scroll-x="false" scroll-y="true" style="height:calc(100% - {{height}}px);min-height:calc(100% - {{height}}px);" >
+    
+  </scroll-view>
+
+  <Tip opts="{{opts}}" height="{{height}}">
+    <view slot="content">水泥石谁</view>
+  </Tip>
+</form>

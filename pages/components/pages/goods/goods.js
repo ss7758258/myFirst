@@ -1,7 +1,7 @@
-import API = require('../../../../utils/api')
-import Storage = require('../../../../utils/storage')
-import mta = require('../../../../utils/mta_analysis')
-import util = require('../../../../utils/util')
+const API = require('../../../../utils/api')
+const Storage = require('../../../../utils/storage')
+const mta = require('../../../../utils/mta_analysis')
+const util = require('../../../../utils/util')
 let img = '/assets/images/share-banner.png'
 Page({
   data: {

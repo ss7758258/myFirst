@@ -52,5 +52,10 @@ module.exports = {
     goods : {
         path : '/pages/components/pages/goods/goods',
         type : 'nav'
+    },
+    // 商品详情
+    goodsInfo : {
+        path : '/pages/components/pages/goodsInfo/goodsInfo',
+        type : 'nav'
     }
 }

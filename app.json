@@ -28,7 +28,9 @@
                 "pages/divine/divine_two",
                 "pages/divine/divine_three",
                 "pages/goods/goods",
-                "pages/goodsInfo/goodsInfo"
+                "pages/goodsInfo/goodsInfo",
+                "pages/address/index",
+                "pages/orderlist/index"
             ]
         }
     ],

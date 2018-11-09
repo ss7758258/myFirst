@@ -4,7 +4,7 @@
 <form report-submit="true" bindsubmit="_reportFormId">
   <scroll-view class="goods-panel" bindscrolltolower="_nextList" scroll-x="false" scroll-y="true" style="height:calc(100% - {{height}}px - 108rpx - {{IPhoneX ? '34' : '0'}}px);min-height:calc(100% - {{height}}px - 108rpx - {{IPhoneX ? '34' : '0'}}px);" >
     
-    <swiper circular autoplay="true"  current="0" interval="5000" duration="1000" >
+    <swiper circular autoplay="true"  current="0" interval="5000" bindchange="_swiperChange" duration="500" >
       <block wx:for="{{list}}" wx:key="{{index}}">
         <swiper-item wx:if="{{list.length > 1}}">
           <view class="sw-goods-panel" data-res="{{item}}">
@@ -17,9 +17,16 @@
             <image class="sw-goods-img" src="{{item.pic}}"  binderror="" bindload=""></image>
           </view>
         </swiper-item>
-
       </block>
+
     </swiper>
+
+    <!-- 面板指示点 -->
+    <view class="hot-panel">
+      <block wx:for="{{list}}" wx:key="{{index}}">
+        <view class="hot-elem {{current == index ? 'current':''}}"></view>
+      </block>
+    </view>
 
     <!-- 商品详情 -->
     <view class="goods-info-panel">
@@ -78,6 +85,7 @@
   </scroll-view>
 
   <view class="bt-btn {{IPhoneX ? 'pt34' : ''}}">
+    <view class="rec-line"></view>
     <button class="record-btn" form-type="submit" hover-class="animateBtn" open-type="getUserInfo" bindgetuserinfo="" catchtap="payGoods">
       立即兑换
     </button>

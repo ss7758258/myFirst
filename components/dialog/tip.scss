@@ -1,0 +1,45 @@
+// 弹窗
+.t-mask{
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+}
+.t-panel{
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  background:rgba(255,255,255,1);
+  border-radius:20rpx;
+  button{
+    width:490rpx;
+    height:100rpx;
+    line-height:100rpx;
+    background:linear-gradient(270deg,rgba(174,69,255,1) 0%,rgba(146,98,251,1) 100%);
+    border-radius:8rpx;
+    font-size:36rpx;
+    font-weight:600;
+    color:rgba(255,255,255,1);
+    margin: 0 auto;
+    margin-top: 75rpx;
+  }
+  text{
+    display: block;
+    text-align: center;
+    height:104rpx;
+    font-size:38rpx;
+    font-weight:400;
+    color:rgba(51,51,51,1);
+    line-height:52rpx;
+  }
+  view{
+    color: #000;
+  }
+}
+.t-img{
+  width:610rpx;
+  height:291rpx;
+}

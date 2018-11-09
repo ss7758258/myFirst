@@ -5,7 +5,7 @@
   <scroll-view class="goods-panel" bindscrolltolower="_nextList" scroll-x="false" scroll-y="true" style="height:calc(100% - {{height}}px);min-height:calc(100% - {{height}}px);" >
     
     <view class="goods-title mt40 mb20">新品专区</view>
-    <swiper circular autoplay="true"  current="0" interval="5000" duration="1000" next-margin="240rpx">
+    <swiper circular autoplay="true"  current="0" interval="5000" duration="500" next-margin="240rpx">
       <block wx:for="{{list}}" wx:key="{{index}}">
         <swiper-item>
           <view class="sw-goods-panel" catchtap="goExc" data-res="{{item}}">
