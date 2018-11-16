@@ -1,6 +1,0 @@
-
-<view wx:if="{{opts.show}}" class="t-mask" style="top:{{height}}px;height:calc(100% - {{height}}px);min-height:calc(100% - {{height}}px);">
-  <view class="t-panel">
-    <slot name="content"></slot>
-  </view>
-</view>

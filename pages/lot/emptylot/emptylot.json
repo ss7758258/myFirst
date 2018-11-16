@@ -1,7 +1,0 @@
-{
-    
-    "usingComponents": {
-        "nav": "/components/navigation/nav",
-		"loginApp": "/components/login/login"
-    }
-}

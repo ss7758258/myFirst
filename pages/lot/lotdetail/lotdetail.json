@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "拆签",
-  "disableScroll": true,
-  "usingComponents": {
-		"nav": "/components/navigation/nav",
-		"loginApp": "/components/login/login"
-	}
-}
