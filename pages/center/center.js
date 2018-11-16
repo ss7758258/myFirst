@@ -153,19 +153,21 @@ Page({
      */
     goPay(){
         wx.navigateTo({
-            url: '/pages/myAccount/myAccount',
-            success: function(res){
-                // success
-            },
-            fail: function() {
-                // fail
-            },
-            complete: function() {
-                // complete
-            }
+            url: '/pages/myAccount/myAccount'
         })
     },
-    
+    // 前往订单详情
+    goOrderList(){
+        wx.navigateTo({
+            url: '/pages/components/pages/orderlist/index'
+        })
+    },
+    // 前往订单详情
+    goTaskList(){
+        wx.navigateTo({
+            url: '/pages/components/pages/tasklist/index'
+        })
+    },
 	/**
      * 获取用户钱包信息
      */

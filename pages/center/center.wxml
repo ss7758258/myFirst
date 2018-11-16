@@ -17,7 +17,7 @@
         </view>
     </view>
 
-    <view class="flex opinion"  bindtap="clickHandle">
+    <view class="flex opinion"  bindtap="goTaskList">
         <view>
             <image class="notice_icon" src="/assets/img/task_icon.svg"></image>
         </view>
@@ -26,7 +26,7 @@
             <image class="notice_icon" src="{{imgs.right}}"></image>
         </view>
     </view>
-    <view class="flex opinion"  bindtap="clickHandle">
+    <view class="flex opinion"  bindtap="goOrderList">
         <view>
             <image class="notice_icon" src="/assets/img/order_icon.svg"></image>
         </view>

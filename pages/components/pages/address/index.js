@@ -19,21 +19,84 @@ Page({
     IPhoneX : false,
     // 默认高度
     height: 64,
-    id:-1,
     noid:'21321321342421459',
     region: [],
     customItem: '请选择',
-    show:true
+    show:false,
+    isNull : false,
+    phone : null,
+    ninckName:null,
+    address:null
   },
 
   onLoad(options) {
     console.log(options)
     this.setData({
-      id:options.id
+      noid:options.orderno
     })
     mta.Page.init()
   },
 
+  // 兑换物品
+  exchange(){
+    let data = this.data
+    if(!this.data.isNull || (!this.data.phone || this.data.phone == '') || (!this.data.ninckName || this.data.ninckName == '') || (!this.data.address || this.data.address == '')){
+      wx.showToast({
+        title: '信息填写不完整，请认真填写',
+        icon: 'none',
+        duration: 1500,
+        mask: false,
+      });
+    }else{
+      let param = {orderno:data.noid,consignee:data.ninckName,phone:data.phone}
+      let tmp = data.region.join('-')
+      param.address = `${tmp}-${data.address}`
+      console.log(param)
+      API.getUpdateAddress(param).then(res => {
+        console.log('提交收货地址',res)
+        if(!res){
+          return
+        }
+        if(res.ret === 1){
+          this.setData({
+            show:true
+          })
+        }else{
+          wx.showModal({
+            title: '提示',
+            content: res.retmsg,
+            showCancel:false,
+            confirmText: '确定',
+            confirmColor: '#9262FB'
+          })
+        }
+        wx.hideLoading()
+      }).catch( e => {
+
+      })
+    }
+  },
+  changeName(e){
+    let {value:val} = e.detail
+    this.setData({
+      ninckName:val
+    })
+    console.log(val)
+  },
+  changePhone(e){
+    let {value:val} = e.detail
+    this.setData({
+      phone:val
+    })
+    console.log(val)
+  },
+  changeAddress(e){
+    let {value:val} = e.detail
+    this.setData({
+      address:val
+    })
+    console.log(val)
+  },
   // 变更选择的值
   bindRegionChange: function (e) {
     let tmp = e.detail.value
@@ -45,10 +108,14 @@ Page({
         confirmText:'确定',
         showCancel : false
       })
+      this.setData({
+        isNull: false
+      })
       return
     }
     this.setData({
-      region: tmp
+      region: tmp,
+      isNull: true
     })
   },
 

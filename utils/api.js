@@ -18,34 +18,32 @@ const DOMAIN = env === 'dev' ? 'https://xingzuoapi.yetingfm.com/xz_api/' : 'http
 // 登录失败的锁
 Storage.loginLock = false
 // 请求数
-let Reqs= []
+let Reqs = []
 // 小程序上线需要https，这里使用服务器端脚本转发请求为https
 function requst(url, method, data = {}) {
 	var notShowLoading = data.notShowLoading
-    var loadingStr = data.loaingStr ? data.loaingStr : '加载中...'
+	var loadingStr = data.loaingStr ? data.loaingStr : '加载中...'
 	// wx.showNavigationBarLoading()
 	if (!notShowLoading) {
 		wx.showLoading({
 			title: loadingStr,
 		})
 	}
-	
-	delete (data.notShowLoading)
-	delete (data.loaingStr)
+
+	delete(data.notShowLoading)
+	delete(data.loaingStr)
 
 	var rewriteUrl = url
 	return new Promise((resove, reject) => {
 		let tickReq = wx.request({
 			url: DOMAIN + rewriteUrl,
-			data:
-			{
+			data: {
 				requestHeader: JSON.stringify({
 					token: wx.getStorageSync('token')
 					// token : Storage.token
 				}),
 				requestBody: JSON.stringify(data)
-			}
-			,
+			},
 			header: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/x-www-form-urlencoded',
@@ -54,18 +52,20 @@ function requst(url, method, data = {}) {
 			method: method.toUpperCase(), // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
 			success: function (res) {
 				// 删除当前已经结束的请求的对象
-				Reqs.splice(Reqs.indexOf(tickReq),1)
-				if (res.data && ('LOGINERROR' === res.data.status)){
-					console.log('用户token过期或者解析失败，登录锁：',Storage.loginLock)
+				Reqs.splice(Reqs.indexOf(tickReq), 1)
+				if (res.data && ('LOGINERROR' === res.data.status)) {
+					console.log('用户token过期或者解析失败，登录锁：', Storage.loginLock)
 					console.log('用户token过期或者解析失败，进入---------------静默登录')
 					tickReq.abort()
-					for(let ind = Reqs.length - 1; ind >= 0 ; ind --){
-						let t = Reqs[ind] || {abort(){}}
+					for (let ind = Reqs.length - 1; ind >= 0; ind--) {
+						let t = Reqs[ind] || {
+							abort() {}
+						}
 						t.abort()
-						Reqs.splice(ind,1)
+						Reqs.splice(ind, 1)
 					}
 					console.log('用户token过期或者解析失败，进入---------------终止请求')
-					if(Storage.loginLock){
+					if (Storage.loginLock) {
 						reject()
 						wx.hideLoading()
 						wx.hideToast()
@@ -73,9 +73,9 @@ function requst(url, method, data = {}) {
 					}
 					Storage.loginLock = true
 					// wx.removeStorageSync('token')
-					login.silentLogin(function(){
+					login.silentLogin(function () {
 						Storage.loginLock = false
-						console.log('解除登录锁：',loginLock)
+						console.log('解除登录锁：', loginLock)
 					})
 					reject()
 					wx.hideLoading()
@@ -91,7 +91,7 @@ function requst(url, method, data = {}) {
 					// loginLock = false
 					if (url == 'selectConstellation/x100' && !data.constellationId) {
 						resove(res.data.responseBody)
-					}else if(url === 'loginConstellation/loginForMore' || url === 'pay/topup'){
+					} else if (url === 'loginConstellation/loginForMore' || url === 'pay/topup') {
 						resove(res.data.responseBody)
 					} else {
 						resove(res.data.responseBody.data)
@@ -128,11 +128,11 @@ function requst(url, method, data = {}) {
 		})
 
 		Reqs.push(tickReq)
-		
+
 	})
 }
 
-function getLogin(data) {//登录
+function getLogin(data) { //登录
 	return requstPost('loginConstellation/x000', data)
 }
 
@@ -141,12 +141,12 @@ function loginForMore(data) {
 	return requstPost('loginConstellation/loginForMore', data)
 }
 
-function getSelectx100(data) {//选择星座
+function getSelectx100(data) { //选择星座
 	return requstPost('selectConstellation/x100', data)
 }
 
-function choice(data) {//选择星座
-    return requstPost('selectConstellation/choice', data)
+function choice(data) { //选择星座
+	return requstPost('selectConstellation/choice', data)
 }
 
 function getIndexx200(data) {
@@ -160,6 +160,7 @@ function getMorex300(data) {
 function getDayx400(data) {
 	return requstPost('everydayWords/x400', data)
 }
+
 function getDayx401(data) {
 	return requstPost('everydayWords/x401', data)
 }
@@ -184,7 +185,7 @@ function getX504(data) {
 }
 
 
-function getX506(data) {//拆签   签id
+function getX506(data) { //拆签   签id
 	return requstPost('everydayQian/x506', data)
 }
 
@@ -204,6 +205,7 @@ function getX511(data) {
 function getX610(data) {
 	return requstPost('statisticsConstellation/x610', data)
 }
+
 function getX600(path, data) {
 	return requstPost('statisticsConstellation/x' + path, data)
 }
@@ -235,15 +237,15 @@ const getGoods = function (data) {
 	return requstPost('pay/getgoods', data)
 }
 // 获取钱包信息
-const getBlance = function(data) {
+const getBlance = function (data) {
 	return requstPost('pay/getbalance', data)
 }
 // 充值操作
-const getRecharge = function(data) {
+const getRecharge = function (data) {
 	return requstPost('pay/recharge', data)
 }
 // 购买小星星
-const buyStar = function(data) {
+const buyStar = function (data) {
 	return requstPost('pay/buylook', data)
 }
 // 增加小星星数量
@@ -256,77 +258,104 @@ const getPair = (data) => {
 }
 
 const luckyday = (data) => { //运势详情今日运势
-    return requstPost('moreConstellation/luckyday', data)
+	return requstPost('moreConstellation/luckyday', data)
 }
 
 const luckyweek = (data) => { //运势详情今日运势
-    return requstPost('moreConstellation/luckyweek', data)
+	return requstPost('moreConstellation/luckyweek', data)
 }
 
 const luckymonth = (data) => { //运势详情今日运势
-    return requstPost('moreConstellation/luckymonth', data)
+	return requstPost('moreConstellation/luckymonth', data)
 }
 
 const notice = (data) => { //公告组件
-    return requstPost('notice/list', data)
+	return requstPost('notice/list', data)
 }
 
 const wordlist = (data) => { //一言列表
-    return requstPost('everydayWords/wordlist', data)
+	return requstPost('everydayWords/wordlist', data)
 }
 
 const pair = (data) => { //星座配对
-    return requstPost('selectConstellation/pair', data)
+	return requstPost('selectConstellation/pair', data)
 }
 // 验证秘钥
-const verSecret = (data) => { 
-    return requstPost('selectConstellation/checkSecret', data)
+const verSecret = (data) => {
+	return requstPost('selectConstellation/checkSecret', data)
 }
 // 获取正在玩的人数
-const getList = (data) => { 
-    return requstPost('notice/listbanner', data)
+const getList = (data) => {
+	return requstPost('notice/listbanner', data)
 }
 // 新增数量
-const setPlayer = (data) => { 
-    return requstPost('notice/addplayer', data)
+const setPlayer = (data) => {
+	return requstPost('notice/addplayer', data)
 }
 // 获取配对列表
-const getPairList = (data) => { 
-    return requstPost('selectConstellation/pairlist', data)
+const getPairList = (data) => {
+	return requstPost('selectConstellation/pairlist', data)
 }
 // 获取好友配对列表
-const getFriendpair = (data) => { 
-    return requstPost('selectConstellation/friendpair', data)
+const getFriendpair = (data) => {
+	return requstPost('selectConstellation/friendpair', data)
 }
 // 解锁操作
-const delock = (data) => { 
-    return requstPost('selectConstellation/deblocking', data)
+const delock = (data) => {
+	return requstPost('selectConstellation/deblocking', data)
 }
 // 获取更新信息
-const getUpdate = (data) => { 
-    return requstPost('/notice/popup', data)
+const getUpdate = (data) => {
+	return requstPost('/notice/popup', data)
 }
 // 获取占卜游戏的列表信息
-const getGameList = (data) => { 
-    return requstPost('/questions/questionlist', data)
+const getGameList = (data) => {
+	return requstPost('/questions/questionlist', data)
 }
 // 获取占卜游戏的资源信息
-const getGameInfo = (data) => { 
-    return requstPost('/questions/getquestion', data)
+const getGameInfo = (data) => {
+	return requstPost('/questions/getquestion', data)
 }
-
+// 获取商品列表
+const getGoodslist = (data) => {
+	return requstPost('pay/realgoods', data)
+}
+// 获取订单列表
+const getOrderlist = (data) => {
+	return requstPost('pay/realorders', data)
+}
+// 获取购买列表
+const getBuylist = (data) => {
+	return requstPost('pay/getbuylist', data)
+}
+// 兑换
+const getEXChange = (data) => {
+	return requstPost('pay/exchange', data)
+}
+// 修改地址
+const getUpdateAddress = (data) => {
+	return requstPost('pay/updateaddress', data)
+}
+// 查看任务状态
+const getSigninstatus = (data) => {
+	return requstPost('userSetting/signinstatus', data)
+}
+// 签到
+const setSignin = (data) => {
+	return requstPost('userSetting/signin', data)
+}
 // 获取乐摇摇的数据信息
-const getLeYaoyao = function(params,data){
-	return new Promise((resolve,reject) => {
+const getLeYaoyao = function (params, data) {
+	return new Promise((resolve, reject) => {
 		wx.request({
 			url: 'https://m.leyaoyao.com/customer/task/coins/ma?' + params,
 			data: data,
-			method: 'GET', 
+			method: 'GET',
 			success: resolve,
-			fail:reject
+			fail: reject
 		})
 	})
-	
+
 }
 
 module.exports = {
@@ -366,11 +395,11 @@ module.exports = {
 	getLeYaoyao,
 	buyStar,
 	setStar,
-    luckyday,
-    luckyweek,
-    luckymonth,
-    choice,
-    notice,
+	luckyday,
+	luckyweek,
+	luckymonth,
+	choice,
+	notice,
 	wordlist,
 	getPair,
 	pair,
@@ -382,5 +411,12 @@ module.exports = {
 	delock,
 	getUpdate,
 	getGameList,
-	getGameInfo
+	getGameInfo,
+	getGoodslist,
+	getOrderlist,
+	getBuylist,
+	getEXChange,
+	getUpdateAddress,
+	getSigninstatus,
+	setSignin
 }

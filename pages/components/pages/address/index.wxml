@@ -15,11 +15,11 @@
       <view class="a-title mt20">填写你的收货地址</view>
       <view class="col">
         <label for="">收货人</label>
-        <input value="" type="text" placeholder="请输入收货人姓名" ></input>
+        <input value="" type="text" placeholder="请输入收货人姓名" bindinput="changeName" ></input>
       </view>
       <view class="col">
         <label for="">手机号码</label>
-        <input value="" type="number" placeholder="请输入收货人电话" ></input>
+        <input value="" type="number" placeholder="请输入收货人电话" bindinput="changePhone" ></input>
       </view>
       <view class="col">
         <label for="">选择地区</label>
@@ -29,12 +29,12 @@
       </view>
       <view class="col">
         <label for="">详细地址</label>
-        <input value="" type="text" placeholder="请输入街道门牌等信息" ></input>
+        <input value="" type="text" placeholder="请输入街道门牌等信息"  bindinput="changeAddress"></input>
       </view>
 
       <view class="tip-panel mt40">兑换商品，不支持任何理由的退换</view>
 
-      <view class="submit-btn mt60" hover-class="animateBtn" catchtap="">提交</view>
+      <view class="submit-btn mt60" hover-class="animateBtn" catchtap="exchange">提交</view>
       
       <view class="bt-btn mt60 {{IPhoneX ? 'pt34' : ''}}">
         <image src="/assets/img/icon_4.png"></image>

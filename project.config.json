@@ -231,6 +231,16 @@
 					"name": "我的订单(直接进入)",
 					"pathName": "pages/components/pages/orderlist/index",
 					"query": ""
+				},{
+					"id": 31,
+					"name": "我的订单(分享进入)",
+					"pathName": "pages/home/home",
+					"query": "from=share&to=order"
+				},{
+					"id": 32,
+					"name": "签到页面(直接进入)",
+					"pathName": "pages/components/pages/tasklist/index",
+					"query": ""
 				}
 			]
 		}

@@ -16,38 +16,23 @@ Page({
       bg: '#9262FB',
       isTitle: true
     },
+    cdn:'https://xingzuo-1256217146.file.myqcloud.com',
     IPhoneX : false,
     // 默认高度
     height: 64,
     list:[{
       id:1,
-      pic:img,
-      title:'小米活塞耳机',
-      star:2000,
-      price:48
+      pic:img
     },{
       id:2,
-      pic:img,
-      title:'小米活塞耳机',
-      star:2000,
-      price:48
+      pic:img
     }],
     data:{
-      star:500,
-      title:'小米活塞耳机',
-      stock : 29
+      goods:500,
+      name:'小米活塞耳机',
+      inventory : 0
     },
-    result:[{
-      head:img,
-      nickName:'不知道是谁',
-      desc:'兑换了小米活塞耳机',
-      date:'2018/09/20'
-    },{
-      head:img,
-      nickName:'不知道是谁',
-      desc:'兑换了小米活塞耳机',
-      date:'2018/09/20'
-    }],
+    result:[],
     id:-1,
     // 默认选中
     current:0
@@ -58,24 +43,60 @@ Page({
       id:options.id
     })
     mta.Page.init()
+    this.getGoodsInfo()
   },
-
-  // 前往商品详情
-  goExc(e){
-    let {res} = e.currentTarget.dataset
-    mta.Event.stat('page_goods_click',{id:res.id})
-    console.log(res)
-    wx.navigateTo({
-			url:'/pages/components/pages/goodsInfo/goodsInfo'
-		})
+  onShow(){
+    this.getGoodsInfo()
   },
-  
   // swiper变更
   _swiperChange(e){
     let {current} = e.detail
-    console.log(current)
     this.setData({
       current
+    })
+  },
+  // 获取商品详情
+  getGoodsInfo(){
+    API.getGoodslist({id : +this.data.id}).then(res => {
+      console.log('列表结果：',res)
+      if(!res){
+        wx.showToast({
+          title: '未获取到商品信息，请重新获取',
+          icon: 'none'
+        })
+        return
+      }
+      let data = res.goods[0]
+
+      let list = data.pic.map(v => {
+        return { pic : this.data.cdn + v} 
+      })
+      // console.log(list)
+      this.setData({
+        data,
+        list
+      })
+    }).catch(err => {
+      wx.showToast({
+        title: '未获取到商品信息，请重新获取',
+        icon: 'none'
+      })
+    })
+
+    API.getBuylist({id : +this.data.id,startpage:1,pagesize:10}).then(res => {
+      console.log('购买列表：',res)
+      if(!res){
+        return
+      }
+      let result = res.list.map(v => {
+        return {
+          nickName: v.name.substring(0,1) + '**',
+          date: v.time.replace(/\-/ig,'/').substring(0,10),
+          headImage:v.headImage
+        }
+      })
+      
+      this.setData({ result })
     })
   },
   // 支付
@@ -84,9 +105,19 @@ Page({
     let {data : resData,id} = this.data
     console.log('前往支付')
     mta.Event.stat('pay_click_goods', { id })
+    if(resData.inventory < 1){
+      wx.showModal({
+        title: '库存不足',
+        content: '库存不足，请等待小哥为您上货',
+        showCancel:false,
+        confirmText: '确定',
+        confirmColor: '#9262FB'
+      })
+      return
+    }
     wx.showModal({
         title: '确定快速查看？',
-        content: '快速查看需要消耗' + resData.star + '颗小星星',
+        content: '快速查看需要消耗' + resData.goods + '颗小星星',
         showCancel: true,
         cancelColor: '#999999',
         cancelText: '我再想想',
@@ -105,7 +136,7 @@ Page({
                     console.log('钱包星星数量：', data)
                     // data.balance = 2000
                     // 当小星星不足时进行提示
-                    if (data.balance < resData.star) {
+                    if (data.balance < resData.goods) {
 
                         mta.Event.stat('pay_goods_fail', { id })
 
@@ -136,10 +167,36 @@ Page({
                           title: '购买中...'
                       })
                       
-                      wx.navigateTo({
-                        url:'/pages/components/pages/address/index?id=' + id
+                      API.getEXChange({id : +id}).then(res => {
+                        console.log('购买列表：',res)
+                        if(!res){
+                          return
+                        }
+                        if(res.retcode === 0){
+                          wx.navigateTo({
+                            url:'/pages/components/pages/address/index?orderno=' + res.order.orderno
+                          })
+                        }else{
+                          wx.showModal({
+                            title: '提示',
+                            content: res.retmsg,
+                            showCancel:false,
+                            confirmText: '确定',
+                            confirmColor: '#9262FB'
+                          })
+                        }
+                        wx.hideLoading()
+                      }).catch(e => {
+                        console.log('购买失败：',e)
+                        wx.showModal({
+                          title: '提示',
+                          content: '购买失败',
+                          showCancel:false,
+                          confirmText: '确定',
+                          confirmColor: '#9262FB'
+                        })
                       })
-                      wx.hideLoading()
+                      
                     }
                 })
             }

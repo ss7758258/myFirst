@@ -149,7 +149,6 @@ Page({
             let start = new Date(c.getFullYear() + '/' + (c.getMonth() + 1) + '/' + c.getDate() + ' ' + startTime).getTime()
             let end =  new Date(c.getFullYear() + '/' + (c.getMonth() + 1) + '/' + c.getDate() + ' ' + endTime).getTime()
             console.log(start,end)
-            
             if(now > start && now < end){
                 wx.navigateTo({
                     url: '../happyDoor/happyDoor'   //跳转链接

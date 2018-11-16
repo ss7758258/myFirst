@@ -18,80 +18,9 @@ Page({
     IPhoneX : false,
     // 默认高度
     height: 64,
-    list:[{
-      id:1,
-      pic:img,
-      title:'小米活塞耳机',
-      star:2000,
-      price:48
-    },{
-      id:2,
-      pic:img,
-      title:'小米活塞耳机',
-      star:2000,
-      price:48
-    },{ 
-      id:3,
-      pic:img,
-      title:'小米活塞耳机',
-      star:2000,
-      price:48
-    },{ 
-      id:4,
-      pic:img,
-      title:'小米活塞耳机',
-      star:2000,
-      price:48
-    },{ 
-      id:5,
-      pic:img,
-      title:'小米活塞耳机',
-      star:2000,
-      price:48
-    }],
-    result:[{ 
-      id:1,
-      pic:img,
-      title:'音响',
-      star:2000,
-      price:48
-    },{ 
-      id:2,
-      pic:img,
-      title:'音响',
-      star:2000,
-      price:48
-    },{ 
-      id:3,
-      pic:img,
-      title:'音响',
-      star:2000,
-      price:48
-    },{ 
-      id:4,
-      pic:img,
-      title:'音响',
-      star:2000,
-      price:48
-    },{ 
-      id:5,
-      pic:img,
-      title:'音响',
-      star:2000,
-      price:48
-    },{ 
-      id:6,
-      pic:img,
-      title:'音响',
-      star:2000,
-      price:48
-    },{ 
-      id:7,
-      pic:img,
-      title:'音响',
-      star:2000,
-      price:48
-    }],
+    cdn:'https://xingzuo-1256217146.file.myqcloud.com',
+    list:[],
+    result:[],
      // 是否无数据
      noList : false,
      // 是否存在下一页
@@ -109,7 +38,7 @@ Page({
     mta.Event.stat('page_goods_click',{id:res.id})
     console.log(res)
     wx.navigateTo({
-			url:'/pages/components/pages/goodsInfo/goodsInfo'
+			url:'/pages/components/pages/goodsInfo/goodsInfo?id=' + res.id
 		})
   },
 
@@ -120,26 +49,46 @@ Page({
     if(!this.data.hasNext){
         return
     }
-    this._getGoodsList(this.data.nextPage++)
+    this._getGoodsList(++this.data.nextPage)
   },
 
-  // 获取占卜游戏列表
+  // 获取商品列表
   _getGoodsList(page = 1){
 
-    API.getGameList({startpage : page,testnum:1}).then(res => {
+    API.getGoodslist({startpage : page,testnum:1}).then(res => {
         console.log('列表结果：',res)
         if(!res){
             return
         }
+        if(!res.goods){
+          return
+        }
         let list = []
+        let result = []
+        let ls = []
+        let lstmp = []
+
+        res.goods.map((v,ind) => {
+          if(v.goodsType === 1){
+            ls.push(v)
+          }else{
+            lstmp.push(v)
+          }
+        })
+
+        console.log(ls,lstmp)
         console.log('页码：',page)
+        
         if(page === 1){
-            list = res.tests || []
+            list = ls || []
+            result = lstmp || []
         }else{
-            list = this.data.lists.concat(res.tests || [])
+            list = this.data.lists.concat(ls || [])
+            result = this.data.result.concat(lstmp || [])
         }
         this.setData({
-            lists : list,
+            list,
+            result,
             imgs : [],
             hasNext : res.hasnextpage
         })
