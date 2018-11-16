@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "一言",
+  "disableScroll": true,
+  "usingComponents": {
+		"nav": "/components/navigation/nav",
+		"loginApp": "/components/login/login"
+	}
+}

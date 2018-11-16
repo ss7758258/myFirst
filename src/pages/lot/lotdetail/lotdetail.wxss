@@ -1,0 +1,679 @@
+page {
+	background: rgba(146, 98, 251, 1);
+}
+scroll-view{
+    width: 100%;
+    height: calc(100% - 64px);
+    overflow: auto;
+}
+.panel_scene{
+	height: auto;
+	padding:0;
+}
+.iPhoneX.panel_scene{
+	padding:2vw;
+}
+
+.panel_body {
+	position: relative;
+	height: 100%;
+	/* display: flex;
+	flex-direction: column; */
+	/* flex-wrap: wrap; */
+	/* align-items: flex-start;
+	align-content: flex-start;
+	justify-content: space-between; */
+}
+
+.panel_body>view {
+	width: 100%;
+}
+
+.panel_body .dis_width_sty{
+	width: 720rpx;
+	margin: 0 auto;
+}
+.panel_body .dis_width_sty:last-child{
+	margin-bottom: 20rpx;
+}
+/* 头部签主人信息 */
+
+.header_panel {
+	height: 300rpx;
+	text-align: center;
+	margin-top: 20rpx;
+	transition: all .8s ease-in-out;
+}
+
+.header_panel.dis_open {
+	opacity: 0;
+	transform: translateY(50rpx);
+}
+
+.header_panel>text {
+	display: block;
+	text-align: center;
+	overflow: hidden;
+}
+
+.header_panel>image {
+	display: inline-block;
+	width: 100rpx;
+	height: 100rpx;
+	border-radius: 50%;
+	box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+}
+
+.lot_name {
+	margin-top: 20rpx;
+	height: 45rpx;
+	font-size: 32rpx;
+	font-weight: 600;
+	font-family: 'PingFangSC-Medium';
+	color: rgba(255, 255, 255, 1);
+	line-height: 45rpx;
+}
+
+.lot_desc_text {
+	margin-top: 10rpx;
+	height: 40rpx;
+	font-size: 28rpx;
+	font-family: 'PingFangSC-Regular';
+	color: rgba(255, 255, 255, 1);
+	line-height: 40rpx;
+}
+
+/* End头部签主人信息 */
+
+/* 签详情信息 */
+
+.panel {
+	position: relative;
+	height: 450rpx;
+	/* margin-top: -60rpx; */
+    top: -20rpx;
+}
+.content_panel {
+	position: absolute;
+	width: 100%;
+	height: 450rpx;
+	top: 0;
+}
+
+.content_panel.not_dis {
+	animation: Flicker 1.5s infinite ease-in-out;
+}
+
+@keyframes Flicker {
+	0%, 100% {
+		box-shadow: 0 0 10px 3px rgba(255, 255, 255, .3);
+		transform: scale(.970);
+	}
+	50% {
+		box-shadow: 0 0 20px 6px rgba(255, 255, 255, .6);
+		transform: scale(.985);
+	}
+}
+
+.content_panel image {
+	width: 100%;
+	height: 100%;
+}
+
+/* 两层背景 */
+
+.envelope {
+	position: absolute;
+	width: 690rpx;
+	height: 420rpx;
+	margin: 0 auto;
+}
+
+.envelope_bg {
+	margin-top: 2rpx;
+}
+
+.envelope_content {
+	position: absolute;
+	top: 0;
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	transition: all .4s ease-in-out;
+	transition-delay: .6s;
+}
+
+.envelope_content.dis_open {
+	opacity: 0;
+}
+
+.envelope_content_panel {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	transform-style: preserve-3d;
+}
+
+.content_panel .header_envelope {
+	position: absolute;
+	top: 0;
+	transform-origin: center top;
+	height: 281rpx;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	transition: all .8s ease-in-out;
+}
+
+/* 信封打开后隐藏头 */
+
+.content_panel .header_envelope.dis_open_hide {
+	transition-delay: .4s;
+	opacity: 0;
+}
+
+.content_panel .header_envelope.show_delay {
+	opacity: 0;
+	animation: show_delay .1s .5s 1 linear;
+	animation-fill-mode: forwards;
+}
+
+@keyframes show_delay {
+	0%, 90% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+/* 信封容器 */
+
+.envelope_panel {
+	position: absolute;
+	top: 0;
+	transform-origin: center top;
+	height: 281rpx;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	transition: all .8s ease-in-out;
+}
+
+.envelope_panel.dis_open {
+	transform: rotateX(150deg) translateZ(0px);
+}
+
+.envelope_panel.dis_open .envelope_content_lotName {
+	opacity: 0;
+}
+
+.envelope_panel.dis_open .heart_big {
+	opacity: 0;
+}
+
+.content_panel .heart_big {
+	position: absolute;
+	width: 136rpx;
+	height: 103rpx;
+	top: 128rpx;
+	left: 0;
+	right: 0;
+	margin: auto;
+	transition: all .6s ease-in-out;
+}
+
+.user_pto {
+	position: fixed;
+	width: 100rpx;
+	height: 100rpx;
+	border-radius: 50%;
+	border: 2rpx solid rgba(255, 255, 255, 1);
+	margin: auto;
+	transform: scale(0);
+	transition: all .5s ease-in-out;
+}
+
+.content_panel .heart_small {
+	position: absolute;
+	width: 64rpx;
+	height: 58rpx;
+	bottom: 66rpx;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.envelope_content_lotName {
+	position: absolute;
+	display: block;
+	text-align: center;
+	height: 58rpx;
+	font-size: 58rpx;
+	font-family: 'PingFangSC-Medium';
+	top: 20rpx;
+	left: 0;
+	right: 0;
+	margin: auto;
+	transition: all .4s ease-in-out;
+}
+
+.no_dis_text {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	font-size: 28rpx;
+	font-family: 'PingFangSC-Regular';
+	color: rgba(255, 255, 255, 1);
+	line-height: 40rpx;
+	width: 200rpx;
+	height: 40rpx;
+	bottom: 66rpx;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.no_dis_text>.lock {
+	display: inline-block;
+	width: 30rpx;
+	height: 30rpx;
+	margin: 5rpx 15rpx;
+}
+
+/* End签详情信息 */
+
+/* 底部好友栏 */
+
+.bottom_panel {
+	height: 400rpx;
+	background: rgba(255, 255, 255, 0.2);
+	box-shadow: 0px 6rpx 12rpx 0px rgba(127, 75, 240, 0.4);
+	border-radius: 6rpx;
+	border: 2rpx solid rgba(255, 255, 255, 0.5);
+}
+
+.iPhoneX .panel{
+    top: 20rpx;
+}
+
+.iPhoneX .bottom_panel{
+	height: 460rpx;
+	margin-bottom: 118rpx;
+}
+.iPhoneX .bottom_panel{
+	height:460rpx;
+	margin-bottom:40px;
+	position:fixed;
+	bottom: 140rpx;
+	left:0;
+	right:0;
+	margin:auto;
+	width:720rpx;
+}
+.btn_group>.btn_share, .btn_group>.btn_dis {
+	width: 480rpx;
+	height: 100rpx;
+	margin-top: 46rpx;
+	background: rgba(255, 255, 255, 1);
+	border-radius: 8rpx;
+	font-size: 36rpx;
+	font-family: 'PingFangSC-Regular';
+	color: rgba(146, 98, 251, 1);
+	line-height: 100rpx;
+	transition: all .2s linear;
+}
+.iPhoneX .btn_group>.btn_share,.iPhoneX .btn_group>.btn_dis{
+	margin-top: 75rpx;
+}
+.bottom_text {
+	margin-top: 28rpx;
+	text-align: center;
+	font-size: 26rpx;
+	font-family: 'PingFangSC-Regular';
+	color: rgba(255, 255, 255, 1);
+	line-height: 37rpx;
+}
+.iPhoneX .bottom_text.buy{
+	margin-top: 10rpx;
+}
+.heads {
+	width: 480rpx;
+	margin: 0 auto;
+	margin-top: 40rpx;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	align-content: flex-start;
+	justify-content: space-around;
+}
+.iPhoneX .heads{
+	margin-top: 60rpx;
+}
+
+.heads_center {
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.head_pto {
+	width: 100rpx;
+	height: 100rpx;
+	border-radius: 50%;
+	border: 2rpx solid rgba(255, 255, 255, 1);
+}
+
+.head_pto.default_head {
+	width: 102rpx;
+	height: 102rpx;
+	border: none;
+}
+
+.btn_dis_click {
+	opacity: .95;
+	transform: scale(.97);
+}
+
+.btn_group .dis_success {
+	opacity: .95;
+}
+
+/* End底部好友栏 */
+
+/* 签内容 */
+
+.lot_detail {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	color: #000;
+	background: #fff;
+	transition: all .4s cubic-bezier(0, .9, .9, 1.08);
+	transition-delay: 0.8s;
+}
+
+.lot_detail_bg {
+	height: 20%;
+	background: #fff;
+	position: absolute;
+	bottom: 200rpx;
+	width: 100%;
+}
+
+.lot_detail.dis_open {
+	transform: translateY(-50%);
+}
+
+.lot_detail.dis_open .lot_content_time {
+	opacity: 1;
+}
+
+.lot_title {
+	position: relative;
+	width: 630rpx;
+	height: 122rpx;
+	margin: 0 auto;
+	border-bottom: 1px solid rgba(0, 0, 0, .4);
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	align-content: flex-start;
+	justify-content: space-between;
+}
+
+.lot_title .lot_name {
+	margin-top: 60rpx;
+	font-weight: 600;
+	width: 120rpx;
+	height: 56rpx;
+	font-size: 40rpx;
+	font-family: 'PingFangSC-Medium';
+	color: rgba(51, 51, 51, 1);
+}
+
+.lot_nickName {
+	margin-top: 64rpx;
+	height: 40rpx;
+	font-size: 28rpx;
+	font-family: 'PingFangSC-Regular';
+	color: rgba(51, 51, 51, 1);
+	line-height: 40rpx;
+}
+
+.lot_line {
+	position: absolute;
+	width: 70rpx;
+	height: 2rpx;
+	background: rgba(0, 0, 0, .4);
+	bottom: -10rpx;
+	right: 0;
+}
+
+.lot_line_two {
+	position: absolute;
+	width: 30rpx;
+	height: 2rpx;
+	background: rgba(0, 0, 0, .4);
+	bottom: -16rpx;
+	right: 0;
+}
+
+.lot_content {
+	position: relative;
+	display: flex;
+	width: 100%;
+	height: 192rpx;
+	margin-top: 30rpx;
+	font-size: 32rpx;
+	font-family: 'PingFangSC-Regular';
+	color: rgba(51, 51, 51, 1);
+	line-height: 48rpx;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.lot_content_time {
+	font-size: 24rpx;
+	font-family: 'PingFangSC-Regular';
+	color: #666666;
+	line-height: 33rpx;
+	opacity: 0;
+	transition: all .6s ease-in-out;
+	transition-delay: .6s;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 40rpx;
+	margin: auto;
+}
+
+.lot_content_head {
+	position: absolute;
+	width: 100rpx;
+	max-width: 100rpx;
+	max-height: 100rpx;
+	height: 100rpx;
+	border-radius: 50%;
+	top: 0;
+	transition: all .3s cubic-bezier(0, .9, .9, 1);
+	transition-delay: 1.3s;
+	transform: translateY(-50%) scale(0);
+	box-shadow: 0px 6rpx 12rpx 0px rgba(0, 0, 0, 0.2);
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+.lot_content_nail {
+	position: absolute;
+	width: 34rpx;
+	max-width: 34rpx;
+	max-height: 60rpx;
+	height: 60rpx;
+	top: 0;
+	transition: all .3s ease-in-out;
+	transition-delay: 1s;
+	transform: translateY(-40%) scale(0);
+	margin: auto;
+}
+
+.lot_content_nail_left {
+	left: 0;
+}
+
+.lot_content_nail_right {
+	right: 0;
+}
+
+.lot_detail.dis_open .lot_content_nail {
+	transform: translateY(-40%) scale(1);
+}
+
+.lot_detail.dis_open .lot_content_head {
+	transform: translateY(-50%) scale(1);
+}
+
+/* End签内容 */
+
+/* 金币闪闪 */
+
+/* 硬币 */
+
+.coin {
+	width: 100rpx;
+	height: 100rpx;
+	margin: 0 auto;
+	background: rgba(255, 214, 64, 1);
+	box-shadow: 2rpx 2rpx 0px 0px rgba(255, 255, 255, 0.2), -1rpx -2rpx 0px 0px rgba(255, 208, 38, 1);
+	border-radius: 50%;
+	animation: coin 1.5s linear 0s infinite;
+}
+
+.coin_img {
+	width: 100%;
+	height: 100%;
+}
+
+/* 星星 */
+
+.star {
+	width: 20rpx;
+	height: 20rpx;
+	background: transparent;
+	position: absolute;
+}
+
+.starup {
+	left: 5rpx;
+	top: 5rpx;
+	animation: starup 1s 0s linear infinite
+}
+
+.stardown {
+	right: 5rpx;
+	bottom: 5rpx;
+	animation: stardown 1s 0s linear infinite
+}
+
+/* 阴影 */
+
+.shadow {
+	width: 76rpx;
+	height: 7rpx;
+	background: rgba(136, 91, 235, 1);
+	margin: 8rpx auto;
+	border-radius: 50%;
+	animation: shadow 1.5s linear 0s infinite;
+}
+
+@keyframes coin {
+	0% {
+		transform: translateY(0)
+	}
+	50% {
+		transform: translateY(-10px)
+	}
+	100% {
+		transform: translateY(0)
+	}
+}
+
+@keyframes starup {
+	0% {
+		transform: scale(0)
+	}
+	50% {
+		transform: scale(2)
+	}
+	100% {
+		transform: scale(0)
+	}
+}
+
+@keyframes stardown {
+	0% {
+		transform: scale(2)
+	}
+	50% {
+		transform: scale(0)
+	}
+	100% {
+		transform: scale(2)
+	}
+}
+
+@keyframes shadow {
+	0% {
+		width: 76rpx;
+	}
+	50% {
+		width: 30rpx
+	}
+	100% {
+		width: 76rpx
+	}
+}
+
+/* End金币闪闪 */
+
+/* canvas */
+
+canvas {
+	width: 375px;
+	height: 535px;
+	opacity: 0;
+	z-index: -1;
+	position: fixed;
+	bottom: -120vh;
+}
+.Android .header_panel{
+	margin-top: 0;
+}
+.Android .panel{
+	height: 33.33vh;
+}
+.Android .content_panel{
+	height: 33.33vh;
+}
+.Android .bottom_panel,.Android envelope_panel{
+	height: auto;
+}
+.Android .btn_group>.btn_share,.Android .btn_group>.btn_dis {
+	margin-bottom: 46rpx;
+}
+
+
+canvas{
+	position: fixed;
+	left: -10000px;
+	width: 750px;
+	height: 1070px;
+	z-index: -1;
+}

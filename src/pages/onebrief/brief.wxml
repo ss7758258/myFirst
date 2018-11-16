@@ -1,0 +1,133 @@
+
+<!-- tabbar -->
+<import src="/template/tabbar/tabbar.wxml" />
+<!-- 导航 -->
+<nav opts='{{navConf}}' bind:nav-height="_setHeight"></nav>
+<loginApp></loginApp>
+
+<!-- 新手操作推荐 -->
+<view class='shade' wx:if="{{isFirst}}">
+    <view class='first'>
+        <view class='first_left'>
+            <image src='../../assets/img/top.png' class='fl_img'></image>
+            <text>上滑向往明天</text>
+        </view>
+
+        <form report-submit bindsubmit='formid'>
+            <button class='first_btn' form-type='submit'>我知道了</button>
+        </form>
+
+        <view class='first_left'>
+            <image src='../../assets/img/down.png' class='fl_img'></image>
+            <text>下滑回忆过去</text>
+        </view>
+    </view>
+
+</view>
+
+<!-- 昨天今天明天 -->
+<swiper vertical current="{{current}}" class="swiper {{isIPhoneX ? 'swiper_ipx' : ''}}" bindchange="day" wx:if="{{list}}" style="height:calc(100% - {{hei}}px);min-height:calc(100% - {{hei}}px);" >
+    <block wx:for="{{list}}" wx:key="index">
+        <swiper-item>
+            <!-- 保存图片 -->
+            <block wx:if="{{item.prevPic}}">
+                <view class="page_brief {{networkError?'noNetBg': ''}} {{isIPhoneX ? 'iPhoneX' : ''}}">
+                    <view>
+                        <view class="UI_box " style='transform: scale({{isShow ? 1 : 0}});'>
+                            <image class='{{networkError?"noNet": "pic"}}' src="{{item.prevPic}}" binderror="errorOpen" bindload='onLodingListener' />
+                            <text class='picUserName'>{{picUserName}}</text>
+                            <form class='saveform' bindsubmit="saveSelect" data-img="{{item.prevPic}}" report-submit='true' wx:if="{{!networkError}}">
+                                <button class="save" form-type="submit" hover-class="none">保存图片</button>
+                            </form>
+                        </view>
+                    </view>
+                    <!-- <view class="slogan" wx:if="{{false}}">
+            <image src="/assets/images/slogan2.png" mode="widthFix" />
+
+            <form class='saveform' bindsubmit="saveSelect" report-submit='true' wx:if="{{!networkError}}">
+                <button class="save" form-type="submit" type='' hover-class="none">
+                    保存图片
+                </button>
+            </form>
+        </view> -->
+                </view>
+
+                <form wx:if="{{isFromShare}}" bindsubmit="onclickHome" class='home' report-submit='true'>
+                    <button class='button1' form-type="submit" type='' hover-class="none">
+                        <image src="/assets/images/icon_home.png" mode="widthFix" />
+                    </button>
+                </form>
+            </block>
+
+            <!-- 明天 -->
+            <view class="tomorrow_box {{isIPhoneX ? 'iPhoneX' : ''}}" wx:else="{{item.prevPic}}">
+                <view class='tomorrow'>
+                    <view class='timer'>
+                        <text class='day'>{{tomorrow.day}}</text>
+                        <text class='month'>{{tomorrow.month}}</text>
+                        <text class='month'>.{{tomorrow.year}}</text>
+                    </view>
+                    <image src='/assets/img/countdown.png' class='torommow_img'></image>
+                    <block wx:if="{{tomorrow.timer}}">
+                        <view class='torommow_txt'>距离内容更新还有</view>
+                        <!-- <view class='torommow_timer'> {{tomorrow.hour}} 时 {{tomorrow.minute}} 分 {{tomorrow.sec}} 秒 </view> -->
+                        <view class='torommow_timer'> {{tomorrow.hour>9?tomorrow.hour:'0'+tomorrow.hour}} 时 {{tomorrow.minute>9?tomorrow.minute:'0'+tomorrow.minute}}
+                            分 {{tomorrow.sec>9?tomorrow.sec:'0'+tomorrow.sec}} 秒 </view>
+                    </block>
+                    <block wx:else="{{tomorrow.timer}}">
+                        <view class='torommow_txt'>距离内容更新还有一段时间</view>
+                        <view class='torommow_txt'>你可以先去做些其他的事情</view>
+                    </block>
+
+                    <navigator wx:if="{{version}}" target="miniProgram" hover-class="none" open-type="{{opts.openType}}" app-id="{{opts.appId}}" path="{{opts.path}}" url="{{opts.path}}" extra-data="{{opts.extra}}" version="{{opts.version}}">
+                        <form report-submit bindsubmit='moregame'>
+                            <button form-type='submit' class='banner'>更多精彩文字</button>
+                        </form>
+                    </navigator>
+                    <form wx:if="{{!version}}" report-submit bindsubmit='moregame'>
+                        <button form-type='submit' class='banner'>更多精彩文字</button>
+                    </form>
+                </view>
+            </view>
+        </swiper-item>
+    </block>
+</swiper>
+
+<view class="swiper" wx:else="{{list}}">
+    <view class="tomorrow_box {{isIPhoneX ? 'iPhoneX' : ''}}">
+        <view class='tomorrow'>
+            <view class='timer'>
+                <text class='day'>{{tomorrow.day}}</text>
+                <text class='month'>{{tomorrow.month}}</text>
+                <text class='month'>.{{tomorrow.year}}</text>
+            </view>
+            <image src='/assets/img/countdown.png' class='torommow_img'></image>
+            <block wx:if="{{tomorrow.timer}}">
+                <view class='torommow_txt'>距离内容更新还有</view>
+                <view class='torommow_timer'> {{tomorrow.hour>9?tomorrow.hour:'0'+tomorrow.hour}} 时 {{tomorrow.minute>9?tomorrow.minute:'0'+tomorrow.minute}}
+                    分 {{tomorrow.sec>9?tomorrow.sec:'0'+tomorrow.sec}} 秒
+                </view>
+
+                <navigator wx:if="{{version}}" target="miniProgram" hover-class="none" open-type="{{opts.openType}}" app-id="{{opts.appId}}" path="{{opts.path}}" url="{{opts.path}}" extra-data="{{opts.extra}}" version="{{opts.version}}">
+                    <form report-submit bindsubmit='moregame'>
+                        <button form-type='submit' class='banner'>更多精彩文字</button>
+                    </form>
+                </navigator>
+                <form wx:if="{{!version}}" report-submit bindsubmit='moregame'>
+                    <button form-type='submit' class='banner'>更多精彩文字</button>
+                </form>
+            </block>
+            <block wx:else="{{tomorrow.timer}}">
+                <form report-submit bindsubmit='tryagain'>
+                    <button form-type='submit' class='banner'>再试一次</button>
+                </form>
+            </block>
+        </view>
+    </view>
+</view>
+
+<view wx:if="{{showCanvas}}">
+    <canvas canvas-id="shareCanvas" class='canvas' style="width:750px;height:1334px;z-index:-1;"></canvas>
+</view>
+<!-- tabbar -->
+<template is="tabbar" data="{{tabbarConfig}}"></template>

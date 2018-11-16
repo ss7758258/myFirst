@@ -1,0 +1,96 @@
+
+<!-- tabbar -->
+<import src="/template/tabbar/tabbar.wxml" />
+<!-- 导航 -->
+<nav opts='{{navConf}}' bind:nav-height="_setHeight"></nav>
+<!-- 登录 -->
+<loginApp></loginApp>
+<!-- 公告组件 -->
+<notice notice="{{notice}}"></notice>
+
+<form>
+    <view class="panel_scene {{longScreen ? 'iPhoneX' : ''}} {{iPhoneX ? 'PX' : ''}}" style="height:calc(100% - {{hei}}px);min-height:calc(100% - {{hei}}px);">
+        <!-- 内容主体 -->
+        <view class="panel_body">
+            <!-- start云 -->
+            <view class="cloud cloud_up">
+                <image class="" src="/assets/img/cloud_up.png"></image>
+            </view>
+            <view class="cloud cloud_left">
+                <image class="" src="/assets/img/cloud_left.png"></image>
+            </view>
+            <view class="cloud cloud_right">
+                <image class="" src="/assets/img/cloud_left.png"></image>
+            </view>
+            <!-- End云 -->
+
+            <!-- 草地 -->
+            <image class="grass grass_2" src="/assets/img/grass_2.png"></image>
+            <image class="grass grass_4" src="/assets/img/grass_4.png"></image>
+            <!-- End草地 -->
+
+            <!-- 树 -->
+            <view class="tree_panel">
+                <view animation="{{animationData}}" class="tree_panel_container {{shakeLotSpeed ? 'animate':''}}">
+                    <image class="tree" src="/assets/img/tree.png" ></image>
+                    <!-- 签 -->
+                    <image class="lot lot_1" src="/assets/img/lot_left.png"></image>
+                    <image class="lot lot_2" src="/assets/img/lot_center.png"></image>
+                    <image class="lot lot_3" src="/assets/img/lot_right.png"></image>
+                    <!-- End签 -->
+                    <!-- 摇 -->
+                    <view class="shake_panel shake_one {{shakeLotSpeed ? 'stop_shake':''}}"></view>
+                    <view class="shake_panel shake_two {{shakeLotSpeed ? 'stop_shake':''}}"></view>
+                    <view class="shake_panel shake_img {{shakeLotSpeed ? 'stop_shake':''}}">
+                        <image class="shake" src="/assets/img/shake.png"></image>
+                    </view>
+                    <!-- End摇 -->
+                </view>
+            </view>
+            <view class="tree_panel">
+                <!--  catchtap="drawLots" -->
+                <view class="tree_panel_container">
+                    <image class="people" src="/assets/img/people.png"></image>
+                    <!-- 爱心 -->
+                    <image class="heart heart_left" src="/assets/img/heart_left.png" wx:if="{{!shakeLotSpeed}}"></image>
+                    <image class="heart heart_right" src="/assets/img/heart_right.png" wx:if="{{!shakeLotSpeed}}"></image>
+                    <!-- End爱心 -->
+                    
+                    <!-- 飘落的心 -->
+                    <image class="heart heart_many" src="/assets/img/many.png" wx:if="{{shakeLotSpeed}}"></image>
+                    <!-- End飘落的心 -->
+
+                    <view class="shake_panel tap_opacity" catchtap="drawLots"></view>
+                </view>
+            </view>
+            <!-- End树 -->
+
+            <!-- 草地 -->
+            <image class="grass grass_3" src="/assets/img/grass_3.png"></image>
+            <!-- <image class="grass grass_1" src="/assets/img/grass_1.png"></image> -->
+            <!-- End草地 -->
+
+            <!-- 广告牌 -->
+            <!-- <image class="ad" src="/assets/img/ad.png"></image> -->
+            <image class="ad" src="/assets/img/ad.svg" catchtap="openLotBox"></image>
+            <image class="ad_hand {{lotBox}}" src="/assets/img/hand.svg" catchtap="openLotBox"></image>
+            <!-- End广告牌 -->
+
+            <!-- 一签盒 -->
+            <!-- <image class="lotBox {{lotBox}}" src="/assets/img/lotbox.png" catchtap="openLotBox"></image> -->
+            <!-- End一签盒 -->
+        </view>
+        
+                    
+        <!-- 遮罩 -->
+        <view class="envelope_mask {{endSpeed ? 'flyAnimate' : ''}}"></view>
+        <!-- End遮罩 -->
+        
+        <!-- 信封 -->
+        <image class="envelope {{endSpeed ? 'flyAnimate' : ''}}" catchtap="openEnvelope" src="/assets/img/envelope.png"></image>
+        <!-- End信封 -->
+        <view class="bootom_x" wx:if="{{longScreen}}">
+            <image src="/assets/img/grass_bottom_1.png" ></image>
+        </view>
+    </view>
+</form>

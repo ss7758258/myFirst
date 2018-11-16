@@ -1,0 +1,39 @@
+<template name="pair-xz">
+    <view class="pair-xz-panel {{showPair ? 'current' : ''}}">
+        <view class="pair-xz-monitor">
+            <!-- 头部 -->
+            <view class="pair-xz-top">
+                <view>
+                    <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="closeSwitch">
+                        <image src="../../source/pair-back.svg" ></image>
+                    </button>
+                </view>
+                <view class="xz-title">
+                    <image src="../../source/pair-text.png" ></image>
+                </view>
+                <view>
+                    <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_confirm">
+                        <image src="../../source/pair-success.svg" ></image>
+                    </button>
+                </view>
+            </view>
+            <!-- 选择星座 -->
+            <view class="pair-xz-bottom">
+                <block wx:for="{{star}}" wx:key="item.id">
+                    <view class="star-xz-disc {{item.id === select.constellationId ? 'current' : ''}}">
+                        <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_switchStar" data-item="{{item}}">
+                            <view class="disc-top" style="color:{{item.bgcolor}}">
+                                <image class="disc-img" src="{{item.img}}" ></image>
+                                <view class="disc-img-current"></view>
+                            </view>
+                            <view class="disc-bottom">
+                                <text class="disc-text" style="color:{{item.color}}">{{item.name}}</text>
+                                <text class="disc-time">{{item.time}}</text>
+                            </view>
+                        </button>
+                    </view>
+                </block>
+            </view>
+        </view>
+    </view>
+</template>

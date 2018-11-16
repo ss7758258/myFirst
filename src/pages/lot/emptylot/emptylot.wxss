@@ -1,0 +1,38 @@
+/* pages/lot/emptylot/emptylot.wxss */
+page{
+	background:rgba(146,98,251,1);
+}
+/* 空签 */
+.panel_scene{
+	padding: 0;
+	height: calc(100% - 64px);
+}
+.UI_pgae {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.emptyLot {
+	text-align: center;
+}
+
+.emptyLot .noLot {
+	margin-top: -60rpx;
+}
+
+.emptyLot image {
+	top: 20%;
+}
+
+.emptyLot .botton {
+	width: 550rpx;
+	margin: 0 auto;
+	color: rgb(158, 29, 29);
+	margin-top: 100rpx;
+}
+.emptyLot-img{
+	max-width: 406rpx;
+	max-height: 315rpx;
+}
+/* 空签 */

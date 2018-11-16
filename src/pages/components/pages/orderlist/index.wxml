@@ -1,0 +1,117 @@
+<!-- 导航 -->
+<nav opts='{{navConf}}' bind:nav-height="_setHeight"></nav>
+
+<form report-submit="true" bindsubmit="_reportFormId">
+  <scroll-view class="goods-panel" bindscrolltolower="_nextList" scroll-x="false" scroll-y="true" style="height:calc(100% - {{height}}px);min-height:calc(100% - {{height}}px);" >
+    <block wx:for="{{orders}}" wx:key="{{}}">
+      
+      <view class="o-panel mt30">
+        <view class="o-head">
+          <view>订单编号：{{item.orderno}}</view>
+          <view class="btn">
+            <button form-type="submit" hover-class="none" open-type="contact">联系客服</button>
+          </view>
+        </view>
+        <view class="o-content">
+          <image src="{{cdn + item.pic}}"></image>
+          <view class="o-address" catchtap="showTip" data-res="{{item}}">
+            <!-- 物品信息 -->
+            <view class="o-desc">
+              <view>{{item.name}}</view>
+              <view>
+                <image src="/assets/img/price_star.png"></image>
+                <text>{{item.price}}</text>
+              </view>
+            </view>
+
+            <!-- 收货地址 -->
+            <view class="o-fic mt10" wx:if="{{item.reality === 1}}">
+              <text wx:if="{{item.address == ''}}">请完善你的收货信息！</text>
+              <view wx:else>收货地址：{{item.address}}</view>
+            </view>
+            <!-- 虚拟物品 -->
+            <view class="o-fic mt10" wx:else>
+              当前物品为虚拟物品！
+            </view>
+            <!-- End虚拟物品 -->
+            <!-- End收货地址 -->
+          </view>
+        </view>
+        <view class="o-bottom">
+          <!-- 实物 -->
+          <block wx:if="{{item.reality === 1}}">
+            <block wx:if="{{!item.courier}}">
+              <view>{{item.address == '' ? '' : '小哥正在快马加鞭为您备货，请耐心等待'}}</view>
+              <view wx:if="{{item.address == ''}}" class="btn z" catchtap="goAddress" data-res="{{item}}">填写收货地址</view>
+            </block>
+            <block wx:else>
+              <view>{{item.courier}}</view>
+              <view catchtap="copyText" data-res="{{item}}" class="btn z">复制</view>
+            </block>
+          </block>
+          <!-- End实物 -->
+          <!-- 虚拟物品 -->
+          <block wx:else>
+            <view >{{!item.courier ? '小哥正在快马加鞭为您备货，请耐心等待':'点击下载，即可获得你的兑换物品'}}</view>
+            <view wx:if="{{item.courier}}" class="btn z" catchtap="drawImg" data-res="{{item}}">下载</view>
+          </block>
+          <!-- End虚拟物品 -->
+        </view>
+      </view>
+
+    </block>
+    <view class="bottom mt40 {{IPhoneX ? 'pt34' : ''}}">
+      <view wx:if="{{!hasNext}}">暂无更多 .oO—_—Oo. !</view>
+    </view>
+  </scroll-view>
+
+  <Tip opts="{{opts}}" height="{{height}}">
+    <view slot="content">
+      <view class="t-a-panel c9">
+        <image src="/assets/img/icon_6.png" mode="widthFix"></image>
+
+        <view class="c-panel">
+          <view class="panel">
+            <view>收货人</view>
+            <view class="c-text mt20 c0">{{tipArt.name}}</view>
+          </view>
+
+          <view class="panel">
+            <view>手机号码</view>
+            <view class="c-text mt20 c0">{{tipArt.phone}}</view>
+          </view>
+        </view>
+
+        <view class="c-panel mt40">
+          <view class="panel">
+            <view>收货地址</view>
+            <view class="c-c-flex mt20">
+              <view class="c-text c0">{{tipArt.address[0]}}</view>
+              <view class="c-text c0">{{tipArt.address[1]}}</view>
+              <view class="c-text c0">{{tipArt.address[2]}}</view>
+            </view>
+          </view>
+        </view>
+
+        <view class="c-panel mt40">
+          <view class="panel">
+            <view>详细地址</view>
+            <view class="c-text c-line mt20 c0">{{tipArt.address[3]}}</view>
+          </view>
+        </view>
+
+        <view class="confirm">
+          <button form-type="submit" open-type="getUserInfo" catchtap="_closeTip" hover-class="animateBtn" >
+          知道了
+          </button>
+        </view>
+
+        <view class="c-desc mt30">兑换商品，不支持任何理由的退换</view>
+
+      </view>
+    </view>
+  </Tip>
+</form>
+
+
+<canvas class="shareCanvas" canvas-id="shareCanvas" binderror=""></canvas>

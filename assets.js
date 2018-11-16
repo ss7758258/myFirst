@@ -1,0 +1,1 @@
+module.exports = ['src/**/*.{png,jpg,gif,ico,svg,json}']

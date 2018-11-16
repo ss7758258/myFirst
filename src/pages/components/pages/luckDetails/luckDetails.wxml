@@ -1,0 +1,165 @@
+<nav opts='{{navConf}}' bind:nav-height="setH"></nav>
+
+<!-- 关注服务号-弹窗 -->
+<view class="contact_follow_mask {{showFollow ? 'show':''}}" catchtap="_hideFollow">
+    <view class="contact_follow {{showFollow ? 'show':''}}" catchtap="catchHide">
+        <view class="contact_panel">
+            <view class="contact_head_panel">
+                <view class="contact_head"></view>
+            </view>
+            <view class="contact_head_panel_2">
+                <view class="contact_head">
+                    <image class="contact_image" src="/assets/img/p.png" mode="aspectFit" binderror="" bindload=""></image>
+                    <text class="contact_head_text">由于平台限制，好运提醒需要关注<text class="st">【小哥星座】</text>公众号才能发送</text>
+                </view>
+            </view>
+            <view class="contact_body_panel">
+                <view class="contact_title">关注步骤</view>
+                <view class="contact_body">
+                    <view class="contact_body_title">点击下方按钮，回复数字“1”即可</view>
+                    <button class="contact_body_botton" open-type='contact' catchtap="_openContact">马上关注</button>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+<!-- End关注服务号-弹窗 -->
+
+
+<view class="luck-panel" style="height:calc(100% - {{hei}}px - {{IPX && noticeBtnStatus ? '34' : '0'}}px);">
+    <!-- 导航栏 -->
+    <view class='header' wx:if="{{list}}">
+        <view class="head_son {{current == index?'select':''}}" wx:for="{{headerlist}}" wx:key="index" data-selected='{{index}}' bindtap='selected'>
+            {{item}}
+        </view>
+        <view class="head_active {{current == 0? 'today' : current == 1?'thisweek':'thismonth'}}"></view>
+    </view>
+    <!-- 运势详情 -->
+    <swiper circular current="{{swiper.current}}" bindchange="swiper" class='swiper_content'>
+        <block wx:for="{{headerlist}}" wx:key="index">
+            <swiper-item>
+                <scroll-view class='scroll-view' scroll-y wx:if="{{list}}">
+                    <!-- 运势指数 -->
+                    <view class='index clearfix'>
+                        <!-- 有星星 -->
+                        <view class='index_left'>
+                            <view class='synthesize'>
+                                <text class='star_right'>综合指数:</text>
+                                <image src='../../img_subPackages/star.svg' wx:for="{{list.summaryStar}}" wx:key="index" class='star'></image>
+                                <image src='../../img_subPackages/emptystar.svg' wx:for="{{5-list.summaryStar}}" wx:key="index" class='star'></image>
+                            </view>
+                            <view class='synthesize'>
+                                <text class='star_right'>爱情指数:</text>
+                                <image src='../../img_subPackages/star.svg' wx:for="{{list.loveStar}}" wx:key="index" class='star'></image>
+                                <image src='../../img_subPackages/emptystar.svg' wx:for="{{5-list.loveStar}}" wx:key="index" class='star'></image>
+                            </view>
+                            <view class='synthesize'>
+                                <text class='star_right'>财富指数:</text>
+                                <image src='../../img_subPackages/star.svg' wx:for="{{list.moneyStar}}" wx:key="index" class='star'></image>
+                                <image src='../../img_subPackages/emptystar.svg' wx:for="{{5-list.moneyStar}}" wx:key="index" class='star'></image>
+                            </view>
+                            <view class='synthesize'>
+                                <text class='star_right'>工作指数:</text>
+                                <image src='../../img_subPackages/star.svg' wx:for="{{list.workStar}}" wx:key="index" class='star'></image>
+                                <image src='../../img_subPackages/emptystar.svg' wx:for="{{5-list.workStar}}" wx:key="index" class='star'></image>
+                                <!-- <view class='view_star'>
+                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
+                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
+                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
+                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
+                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
+                    <image src='/assets/img_subPackages/star.svg' wx:for="{{list.workStar}}" wx:key="index" style="position:absolute;left: {{index>0?index*35+2.5*(index+2):5}}rpx;" class='star_position'></image>
+                </view> -->
+                            </view>
+                        </view>
+                        <!-- 没有星星 -->
+                        <view class='index_right'>
+                            <image src='https://xingzuo-1256217146.cos.ap-guangzhou.myqcloud.com/constellation/{{list.constellationId}}.png' class='aries' wx:if="{{list.constellationId}}"></image>
+                            <!-- <image src='/assets/img_subPackages/aries.svg' class='aries'></image> -->
+                            <!-- 今日运势 -->
+                            <view class='luckycolor' wx:if="{{current == 0 && list.luckyNum}}">
+                                <text class='colon'>幸运数字:</text>
+                                <text>{{list.luckyNum}}</text>
+                            </view>
+                            <view class='luckycolor' wx:if="{{current == 0 && list.grxz}}">
+                                <text class='colon'>贵人星座:</text>
+                                <text>{{list.grxz}}</text>
+                            </view>
+                            <!-- 本周运势 -->
+                            <view class='luckycolor' wx:if="{{current == 1 && list.luckyDay}}">
+                                <text class='colon'>幸运日期:</text>
+                                <text>{{list.luckyDay}}</text>
+                            </view>
+                            <view class='luckycolor' wx:if="{{current == 1 && list.xrxz}}">
+                                <text class='colon'>小人星座:</text>
+                                <text>{{list.xrxz}}</text>
+                            </view>
+                            <!-- 本月运势 -->
+                            <view class='luckycolor' wx:if="{{current == 2 && list.luckyDirection}}">
+                                <text class='colon'>吉利方位:</text>
+                                <text>{{list.luckyDirection}}</text>
+                            </view>
+                            <view class='luckycolor' wx:if="{{current == 2 && list.yfxz}}">
+                                <text class='colon'>缘分星座:</text>
+                                <text>{{list.yfxz}}</text>
+                            </view>
+                        </view>
+                    </view>
+                    <!-- 今日提醒 -->
+                    <view class='luckProfile' wx:if="{{list.dayNotice}}">
+                        <view class='luckProfile_head'>
+                            <image src='/assets/img/warn.svg' class='luckProfile_img'></image>
+                            <text class='luckProfile_text daynotice'>今日提醒</text>
+                        </view>
+                        <view class='luckProfile_content'>{{list.dayNotice}}</view>
+                    </view>
+                    <!-- 运势简评 -->
+                    <view class='luckProfile' wx:if="{{list.generalTxt}}">
+                        <view class='luckProfile_head'>
+                            <image src='../../img_subPackages/luckProfile.svg' class='luckProfile_img'></image>
+                            <text class='luckProfile_text'>运势简评</text>
+                        </view>
+                        <view class='luckProfile_content'>{{list.generalTxt}}</view>
+                    </view>
+                    <!-- 爱情运势 -->
+                    <view class='luckProfile' wx:if="{{list.loveTxt}}">
+                        <view class='luckProfile_head'>
+                            <image src='../../img_subPackages/love_lucky.svg' class='luckProfile_img'></image>
+                            <text class='luckProfile_text love'>爱情运势</text>
+                        </view>
+                        <view class='luckProfile_content'>{{list.loveTxt}}</view>
+                    </view>
+                    <!-- 工作运势 -->
+                    <view class='luckProfile' wx:if="{{list.workTxt}}">
+                        <view class='luckProfile_head'>
+                            <image src='../../img_subPackages/work.svg' class='luckProfile_img'></image>
+                            <text class='luckProfile_text work'>工作运势</text>
+                        </view>
+                        <view class='luckProfile_content'>{{list.workTxt}}</view>
+                    </view>
+                    <!-- 财富运势 -->
+                    <view class='luckProfile' wx:if="{{list.moneyTxt}}">
+                        <view class='luckProfile_head'>
+                            <image src='../../img_subPackages/wealth.svg' class='luckProfile_img'></image>
+                            <text class='luckProfile_text wealth'>财富运势</text>
+                        </view>
+                        <view class='luckProfile_content'>{{list.moneyTxt}}</view>
+                    </view>
+                    <!-- 健康运势 -->
+                    <view class='luckProfile' wx:if="{{list.health_txt}}">
+                        <view class='luckProfile_head'>
+                            <image src='../../img_subPackages/healthy.svg' class='luckProfile_img'></image>
+                            <text class='luckProfile_text healthy'>健康运势</text>
+                        </view>
+                        <view class='luckProfile_content'>{{list.health_txt}}</view>
+                    </view>
+                    <view class='footer'></view>
+                </scroll-view>
+            </swiper-item>
+        </block>
+    </swiper>
+
+    <view class="btn-show {{IPX ? 'ipx' : ''}}" wx:if="{{noticeBtnStatus}}" catchtap="_openNotice" >好运提醒我</view>
+</view>
+<!-- </scroll-view> -->
+

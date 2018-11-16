@@ -1,0 +1,128 @@
+.banner{
+    height: 150px;
+}
+.nav-banner{
+    height: 100%;
+}
+.banner_list_panel,.banner_img_panel{
+    display: flex;
+    width: 92vw;
+    height: 85px;
+    padding: 0;
+    background: #ffffff;
+    margin: 4vw auto;
+    color: #4a4a4a;
+    border-radius: 2vw;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(0,0,0,.3);
+}
+.banner_btn_text{
+    width: 22vw;
+}
+.banner_content{
+    flex:1;
+}
+/* logo样式 */
+.banner_logo{
+    position: relative;
+    overflow: hidden;
+}
+.banner_logo>view{
+    margin: 14px 14px 14px 13px;
+    width: 57px;
+    height: 57px;
+    /* border: .5px solid rgba(0,0,0,.2); */
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.banner_logo>view>image{
+    width: 100%;
+    height: 100%;
+}
+/* 内容样式 */
+.banner_content{
+    overflow: hidden;
+}
+.banner_content>text{
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    box-sizing: content-box;
+}
+.banner_content>.banner_title{
+    margin-top: 18px;
+    font-size:4.8vw;
+    line-height:4.8vw;
+    color: #000;
+}
+.banner_content>.banner_desc{
+    margin-top: 17px;
+    font-size:3.2vw;
+    line-height: 4vw;
+    color: #8a8a8a;
+}
+/* 文字按钮 */
+.banner_btn_text{
+    position: relative;
+}
+.banner_btn_text>text,.banner_btn_text>view{
+    display: block;
+    font-size:3.6666666666666665vw;
+    border-radius: 1vw;
+    margin: auto;
+    width: 14vw;
+    text-align: center;
+}
+.banner_btn_text>text.banner-users{
+    width: 100%;
+    margin-top: 18px;
+    font-size:3.2vw;
+    line-height: 3.2vw;
+    color: #8a8a8a;
+}
+.banner_btn_text>text.banner-text,.banner_btn_text>view.banner-text{
+    width: 120rpx;
+    margin-top: 13px;
+    color: #de1733;
+    height: 26.5px;
+    line-height: 26.5px;
+    border: 1px solid #de1733;
+}
+.banner_btn_text>view.banner-text{
+    color: #CCCCCC;
+    background:rgba(204,204,204,0.15);
+    border:1px solid rgba(204,204,204,1);
+    vertical-align: middle;
+}
+.banner_btn_text>view.banner-text.current{
+    color:#FF8E00;
+    background: rgba(255,142,0,0.15);
+    border:1px solid rgba(255,142,0,1);
+}
+.star{
+    margin-left: 5rpx;
+    width:30rpx;
+    height:30rpx;
+    max-width:30rpx;
+    max-height:30rpx;
+    vertical-align: middle;
+}
+
+/* 图片类型广告位 */
+
+.banner_img_panel>image{
+    width: 100%;
+    height: 100%;
+}
+
+/* 设置轮播banner */
+.swiper-item {
+    width: 100%;
+    height: 100%;
+}
+.swiper-item > image{
+    width: 100%;
+    height: 100%;
+}

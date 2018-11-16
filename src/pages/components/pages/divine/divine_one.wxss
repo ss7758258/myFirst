@@ -1,0 +1,274 @@
+
+@import "../../../../template/assets/card.wxss";
+@import "../../../../template/assets/mask.wxss";
+scroll-view{
+	height: 100%;
+}
+.monitor{
+    width:100%;
+	min-height:100%;
+	height: 100%;
+	max-height:100%;
+	position: relative;
+}
+.section{
+    width:100%;
+	height: 100%;
+	position: absolute;
+	transition: all .35s ease-in-out;
+	transform: translateX(100%);
+}
+.section>view{
+    width:100%;
+	height: 100%;
+	position: relative;
+}
+.section.current{
+	transform: translateX(0)
+}
+.section.prev{
+	transform: translateX(-100%)
+}
+.bg-img{
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+.title-img{
+	position: absolute;
+	width: 630rpx;
+	left: 0;
+	right: 0;
+	margin: auto;
+	top: 0;
+}
+.desc-img{
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+.start-panel{
+	position: absolute;
+	width: 360rpx;
+	bottom: 200rpx;
+	left: 0;
+	right: 0;
+	margin: auto;
+	z-index: 9;
+}
+.start-img{
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+.button-img{
+	width: 360rpx;
+}
+.start-text{
+	position: absolute;
+	left: 0;
+	right: 0;
+	padding-bottom: 20rpx;
+	margin: auto;
+	text-align: center;
+	font-size:56rpx;
+	font-weight: 600;
+	color:rgba(255,255,255,1);
+	line-height:56rpx;
+	letter-spacing:5rpx;
+}
+page button {
+	margin: 0;
+    padding: 0;
+    text-align: left;
+	box-sizing: initial;
+	overflow: initial;
+	background: inherit;
+	line-height : normal;
+	border-radius: inherit;
+	font-size: 0;
+}
+.click-animate{
+	transform: scale(.9);
+}
+
+/* 卡片样式 */
+.sub-panel{
+	top: 160rpx;
+	margin: 0 auto;
+	width: 630rpx;
+	min-height: 840rpx;
+	font-size:40rpx;
+	font-family:PingFangSC-Medium;
+	border-radius:20rpx;
+	font-weight:500;
+	color:rgba(51,51,51,1);
+	transition: all .1s linear;
+	position: relative;
+	/* overflow: hidden; */
+}
+.sub-card{
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: 0;
+	background:rgba(255,255,255,1);
+	border-radius:20rpx;
+	transform: translateX(100%);
+	transition: all .3s ease-in-out;
+	z-index: 1;
+	opacity: 0;
+}
+.sub-shadow{
+	position: absolute;
+	bottom: -20rpx;
+	width: 590rpx;
+	height: 40rpx;
+	left: 0;
+	right: 0;
+	background:rgba(255,255,255,.5);
+	border-radius:20rpx;
+	margin: auto;
+}
+.sub-card.current{
+	transform: translateX(0);
+	opacity: 1;
+}
+.sub-card.prev{
+	transform: translateX(-150%);
+	opacity: 1;
+}
+.sub-shadow.prev{
+	transform: translateX(-630rpx);
+	opacity: 1;
+}
+.sub-title{
+	width: 550rpx;
+	margin: 0 auto 20rpx auto;
+	padding-top: 60rpx;
+	font-size:40rpx;
+	font-family:PingFangSC-Medium;
+	font-weight:500;
+	color:rgba(51,51,51,1);
+	line-height:56rpx;
+	display: flex;
+}
+.sub-body{
+	width: 550rpx;
+	margin: 0 auto;
+}
+.sub-tab{
+	margin-top: 60rpx;
+	height:100rpx;
+	background:rgba(245,245,245,1);
+	border-radius:73rpx;
+	font-size:30rpx;
+	font-family:PingFangSC-Medium;
+	font-weight:500;
+	color:rgba(51,51,51,1);
+	line-height:100rpx;
+	text-indent: 40rpx;
+}
+.sub-tab.current{
+	background: #0DD1BA;
+	color: #fff;
+}
+.sub-bottom{
+	margin-top: 80rpx;
+	padding-bottom: 54rpx;
+	display: flex;
+	justify-content: center;
+	align-items: baseline;
+	text-align: center;
+	height:50rpx;
+	font-size:24rpx;
+	font-family:PingFangSC-Medium;
+	color:#999999;
+	line-height:50rpx;
+}
+.sub-bottom>view{
+	font-size:36rpx;
+	font-weight:500;
+	color:#000;
+}
+
+/* 结果样式 */
+.res-panel{
+	position: relative;
+}
+.res-bg{
+	position: static;
+}
+.res-img{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+.btn-group{
+	display: flex;
+	justify-content: space-around;
+	position: relative;
+	transform: translateY(-50%);
+}
+.btn-share{
+	width: 216rpx;
+}
+.btn-share-img{
+	width: 100%;
+}
+.btn-share-text{
+	font-size:34rpx;
+	color:rgba(255,255,255,1);
+	/* line-height:32rpx; */
+	letter-spacing:3rpx;
+}
+/* 更多玩法样式 */
+.more-panel{
+	width: 710rpx;
+	border-top: 2px solid #F2F2F2;
+	margin: 0 auto;
+}
+.more-title{
+	height:50rpx;
+	font-size:36rpx;
+	margin-top: 20rpx;
+	font-family:PingFangSC-Medium;
+	font-weight:600;
+	color:rgba(51,51,51,1);
+	line-height:50rpx;
+	text-indent: 20rpx;
+}
+
+.user-info{
+	position: absolute;
+	top: 60rpx;
+	left: 60rpx;
+	display: flex;
+	align-items: center;
+	height: 80rpx;
+}
+.user-info>.user-name{
+	width: 80rpx;
+	height: 80rpx;
+	overflow: hidden;
+	border-radius: 50%;
+}
+.user-info>image,.user-info>view{
+	line-height: 80rpx;
+	margin-right: 20rpx;
+}
+
+.shareCanvas{
+	position: fixed;
+	width: 750px;
+	height: 1436px;
+	transform-origin: left top;
+	left: -1000px;
+	/* transform: scale(.5); */
+}

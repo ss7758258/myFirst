@@ -1,0 +1,86 @@
+
+<!-- 导入模板 -->
+<!-- 选择星座 -->
+<import src="/template/switch-pair/pair.wxml" />
+<!-- End导入模板 -->
+
+<!-- 导航 -->
+<nav opts='{{navConf}}'></nav>
+<!-- 登录态 -->
+<loginApp></loginApp>
+
+<!-- 公告组件 -->
+<notice notice="{{notice}}"></notice>
+
+<form report-submit="true" bindsubmit="_reportFormId">
+	<!-- 选择星座 -->
+    <template is="pair-xz" data="{{showPair,star,select}}"></template>
+    
+    <view class="container">
+        <image class="pair-top-bg" src="../../img_subPackages/top-bg.png" ></image>
+        <view class="pair-panel-top">
+            <image class="mt90 pair-top-pair" src="../../img_subPackages/pair.svg" ></image>
+            <!-- 星座卡片 -->
+            <view class="pair-card-panel mt20">
+                <view class="pair-card-me">
+                    <view class="card-panel">
+                        <view class="card-dom" style="color:{{star[starXZ.id].color}};background:{{star[starXZ.id].bgc}};">
+                            <view class="card-name">{{star[starXZ.id].name}}</view>
+                            <!--  icon-{{sex === 'man' ? 'nan' : 'nv'}} -->
+                            <view class="card-icon iconfont">{{sex === 'man' ? '男' : '女'}}</view>
+                        </view>
+                        <image class="card-xz" src="{{star[starXZ.id].img}}" ></image>
+                    </view>
+                    <text>{{userInfo.nickName}}</text>
+                </view>
+                <view class="pair-card-x">
+                    <image src="../../img_subPackages/x.svg" ></image>
+                </view>
+                <view class="pair-card-me">
+                    <button form-type="submit" hover-class="none" open-type="getUserInfo" catchtap="_openSwitch">
+                        <view class="card-panel">
+                            <view class="card-dom" style="color:{{star[pair.constellationId].color}};background:{{star[pair.constellationId].bgc}};">
+                                <view class="card-name">{{star[pair.constellationId].name}}</view>
+                                <view class="card-icon iconfont">{{sex === 'man' ? '女' : '男'}}</view>
+                            </view>
+                            <image class="card-xz" src="{{star[pair.constellationId].img}}" ></image>
+                            <image class="pair-switch" src="../../img_subPackages/switch.svg" ></image>
+                        </view>
+                        <text wx:if="{{defaultId === select.constellationId}}">你的最配星座</text>
+                    </button>
+                </view>
+            </view>
+        </view>
+        <!-- 中间 -->
+        <view class="pair-panel-center">
+            <view class="pair-card-btn">
+                <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_seekPair">
+                    <image src="../../img_subPackages/btn.svg" ></image>
+                </button>
+            </view>
+        </view>
+        <!-- 星座圈 -->
+        <!-- <view class="pair-panel-bottom">
+            <image src="../../img_subPackages/bottom-bg.png" ></image>
+            <view class="pair-xz-q" wx:if="{{clockStatus && isOpenGate}}">
+                <navigator wx:if="{{version}}" target="miniProgram" hover-class="none" open-type="{{opts.openType}}" app-id="{{opts.appId}}" path="{{opts.path}}" url="{{opts.path}}" extra-data="{{opts.extra}}" version="{{opts.version}}">
+                    <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" >
+                        <image src="../../img_subPackages/q.svg" ></image>
+                    </button>
+                </navigator>
+                <button wx:if="{{!version}}" form-type="submit" hover-class="none" open-type="getUserInfo" catchtap="_goXDK" >
+                    <image src="../../img_subPackages/q.svg" ></image>
+                </button>
+            </view>
+        </view> -->
+
+        <view class="pair-panel-bottom">
+            <image src="../../img_subPackages/bottom-bg.png" ></image>
+            <view class="pair-xz-pair" wx:if="{{isOpenPair}}">
+                <button form-type="submit" hover-class="none" open-type="getUserInfo" catchtap="_goPairCus" >
+                    <image src="../../source/xz-pair.png" ></image>
+                </button>
+            </view>
+        </view>
+    </view>
+</form>

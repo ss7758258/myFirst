@@ -1,0 +1,12 @@
+<!-- 组件方式使用 -->
+<!-- <xiaodaka opts="{{xiaodaka}}" ></xiaodaka> -->
+<!-- json中配置
+    "usingComponents": {
+		"xiaodaka": "/template/xiaodaka-btn/xiaodaka-btn"
+    } 
+-->
+<view class="xiaodaka_view">
+    <navigator target="miniProgram" hover-class="none" open-type="{{opts.openType}}" app-id="{{opts.appId}}" path="{{opts.path}}" url="{{opts.path}}" extra-data="{{opts.extra}}" version="{{opts.version}}">
+        <view class="xiaodaka_btn_icon"></view>
+    </navigator>
+</view>

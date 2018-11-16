@@ -1,0 +1,7 @@
+{
+    "disableScroll": true,
+    "navigationBarTitleText": "配对结果",
+    "usingComponents": {
+        "nav": "/components/navigation/nav"
+    }
+}

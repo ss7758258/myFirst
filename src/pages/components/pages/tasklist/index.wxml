@@ -1,0 +1,95 @@
+<!-- 导航 -->
+<nav opts='{{navConf}}' bind:nav-height="_setHeight"></nav>
+
+<form report-submit="true" bindsubmit="_reportFormId">
+  <scroll-view scroll-x="false" scroll-y="true" style="height:calc(100% - {{height}}px);min-height:calc(100% - {{height}}px);" >
+    <view class="t-monitor">
+      <image class="bg-2" src="/assets/img/bg_2.png"></image>
+      <view class="t-title mt50">
+        <image wx:if="{{!signin}}" src="/assets/img/icon_7.png" catchtap="signin"></image>
+        <image wx:else src="/assets/img/icon_8.png"></image>
+        <text class="mt10">连续签到{{day}}天，已获得{{star}}个小星星</text>
+      </view>
+      <view class="t-status">
+        <view class="t-line"></view>
+        <view class="t-star mt20">
+          <view class="flex">
+            <text>{{dayStar}}</text>
+            <image src="/assets/img/icon_star_1.svg"></image>
+          </view>
+          <view>今日获得</view>
+        </view>
+        <view class="t-star mt20">
+          <view class="flex">
+            <text>{{starCount}}</text>
+            <image src="/assets/img/icon_star_1.svg"></image>
+          </view>
+          <view>我的小星星</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="t-bg"></view>
+    <!-- 任务1 -->
+    <view class="t-panel">
+      <view class="t-p-title flex">
+        <view class="t-p-line"></view>新手任务
+      </view>
+      <view class="t-p-task flex">
+        <view class="t-p-text">关注小哥服务号
+          <view class="t-p-star flex">
+            <image src="/assets/img/icon_star_1.svg"></image>
+            <view>+10</view>
+          </view>
+        </view>
+        <view class="btn {{noticeBtnStatus ? 'current' : ''}}">
+          <button form-type="submit" hover-class="none" open-type="contact">{{noticeBtnStatus ? '已完成' : '做任务'}}</button>
+        </view>
+      </view>
+    </view>
+    <!-- End任务1 -->
+    <view class="t-bg"></view>
+    <!-- 任务2 -->
+    <view class="t-panel">
+      <view class="t-p-title flex">
+        <view class="t-p-line"></view>日常任务
+      </view>
+
+      <view class="t-p-task flex">
+        <view class="t-p-text">签到
+          <view class="t-p-star flex">
+            <image src="/assets/img/icon_star_1.svg"></image>
+            <view>+1</view>
+          </view>
+        </view>
+        <view class="btn {{signin ? 'current' : ''}}">{{signin ? '已完成' : '做任务'}}</view>
+      </view>
+
+      <view class="t-p-task flex">
+        <view class="t-p-text">每日一签
+          <view class="t-p-star flex">
+            <image src="/assets/img/icon_star_1.svg"></image>
+            <view>+2</view>
+          </view>
+        </view>
+        <view class="btn {{qian ? 'current' : ''}}" catchtap="goQian" data-res="{{qian ? 'current' : ''}}">{{qian ? '已完成' : '做任务'}}</view>
+      </view>
+
+      <view class="t-p-task flex">
+        <view class="t-p-text">占卜测试
+          <view class="t-p-star flex">
+            <image src="/assets/img/icon_star_1.svg"></image>
+            <view>+2</view>
+          </view>
+        </view>
+        <view class="btn {{question ? 'current' : ''}}" catchtap="goList" data-res="{{question ? 'current' : ''}}">{{question ? '已完成' : '做任务'}}</view>
+      </view>
+
+      <view class="t-bottom mt60">
+        更多任务即将开启，尽请期待
+      </view>
+    </view>
+    <!-- End任务2 -->
+  </scroll-view>
+
+</form>
