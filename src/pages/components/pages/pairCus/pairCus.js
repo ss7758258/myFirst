@@ -22,7 +22,7 @@ const pageConf = {
             bg : '#9262FB',
             isTitle: true,
         },
-        starTmp,
+        star:starTmp,
         // 根据导航高度做出适配
         height : 64,
         // 是否是自己

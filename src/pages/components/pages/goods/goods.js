@@ -31,7 +31,11 @@ Page({
     mta.Page.init()
     this._getGoodsList()
   },
-
+  onShareAppMessage(){
+    return {
+      path : 'pages/home/home?from=share&to=goods&id=' + this.data.id
+    }
+  },
   // 前往商品详情
   goExc(e){
     let {res} = e.currentTarget.dataset
@@ -55,8 +59,8 @@ Page({
   // 获取商品列表
   _getGoodsList(page = 1){
 
-    API.getGoodslist({startpage : page,testnum:1}).then(res => {
-        console.log('列表结果：',res)
+    API.getGoodslist({startpage : page,testnum:1 ,type:1,pageSize:10}).then(res => {
+        console.log('新品专区列表',res)
         if(!res){
             return
         }
@@ -64,34 +68,48 @@ Page({
           return
         }
         let list = []
-        let result = []
-        let ls = []
-        let lstmp = []
+        let ls = res.goods
 
-        res.goods.map((v,ind) => {
-          if(v.goodsType === 1){
-            ls.push(v)
-          }else{
-            lstmp.push(v)
-          }
-        })
-
-        console.log(ls,lstmp)
+        console.log(ls)
         console.log('页码：',page)
         
         if(page === 1){
             list = ls || []
-            result = lstmp || []
         }else{
-            list = this.data.lists.concat(ls || [])
-            result = this.data.result.concat(lstmp || [])
+            list = this.data.list.concat(ls || [])
         }
         this.setData({
-            list,
-            result,
-            imgs : [],
-            hasNext : res.hasnextpage
+            list
         })
+    }).catch(err => {
+        console.log(err)
+    })
+
+    API.getGoodslist({startpage : page,testnum:1 ,type:0,pageSize:10}).then(res => {
+      console.log('推荐专区列表',res)
+      if(!res){
+          return
+      }
+      if(!res.goods){
+        return
+      }
+      
+      let result = []
+      let lstmp = res.goods
+
+      console.log(lstmp)
+      console.log('页码：',page)
+      
+      if(page === 1){
+          result = lstmp || []
+      }else{
+          result = this.data.result.concat(lstmp || [])
+      }
+      this.setData({
+          result,
+          imgs : [],
+          hasNext : res.hasnextpage
+      })
     }).catch(err => {
         console.log(err)
     })

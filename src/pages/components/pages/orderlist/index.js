@@ -42,6 +42,12 @@ Page({
     this.getOrderList()
   },
 
+  onShareAppMessage(){
+    return {
+      path : 'pages/home/home?from=share&to=order'
+    }
+  },
+
   // 下一页数据
   _nextList(){
     mta.Event.stat('page_goods_next',{})
@@ -57,7 +63,7 @@ Page({
     console.log(res)
     if(res.address === ''){
       wx.navigateTo({
-        url:'/pages/components/pages/address/index?orderno=' + res.orderno
+        url:'/pages/components/pages/address/index?orderno=' + res.orderno + '&id=' + res.id + '&status=' + res.reality
       })
     }
   },
@@ -66,6 +72,9 @@ Page({
     let {res} = e.currentTarget.dataset
     console.log(res)
     if(res.reality !== 1){
+      return
+    }
+    if(!res.address){
       return
     }
     let address = (res.tmpaddress && res.tmpaddress != '') ? res.tmpaddress.split('-') : []

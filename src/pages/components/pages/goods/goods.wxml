@@ -16,7 +16,8 @@
       </block>
     </swiper>
 
-    <view wx:if="{{result.length > 0}}" class="goods-title mt20 mb20">推荐专区</view>
+    <view wx:if="{{result.length > 0}}" class="goods-title mt20">推荐专区</view>
+    
     <view class="rec-panel">
       <block wx:for="{{result}}" wx:key="{{index}}">
         <view class="panel mt30">
@@ -37,7 +38,7 @@
       </block>
     </view>
 
-    <view style="height:{{IPhoneX ? '34' : '0'}}px;"></view>
+    <view class="pt34"></view>
 
   </scroll-view>
 </form>

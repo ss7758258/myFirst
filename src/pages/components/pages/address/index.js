@@ -19,6 +19,7 @@ Page({
     IPhoneX : false,
     // 默认高度
     height: 64,
+    status:false,
     noid:'21321321342421459',
     region: [],
     customItem: '请选择',
@@ -32,11 +33,18 @@ Page({
   onLoad(options) {
     console.log(options)
     this.setData({
-      noid:options.orderno
+      noid:options.orderno,
+      id:options.id,
+      status:(options.status == 1 ? true : false),
+      // show: (options.status == 0 ? true : false)
     })
     mta.Page.init()
   },
-
+  onShareAppMessage(){
+    return {
+      path : 'pages/home/home?from=share&to=goodsInfo&id=' + this.data.id
+    }
+  },
   // 兑换物品
   exchange(){
     let data = this.data

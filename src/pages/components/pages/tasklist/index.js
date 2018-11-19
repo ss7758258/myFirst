@@ -26,7 +26,9 @@ Page({
     noticeBtnStatus:false,
     question: false,
     qian:  false,
-    signin:  false
+    signin:  false,
+    // 待领星星
+    pendStar:1
   },
 
   onLoad(options) {
@@ -43,14 +45,18 @@ Page({
       if(!res){
         return
       }
-      this.setData({
-        day:res.continuous || 0,
+      let data = {
+        // day:res.continuous || 0,
+        day: res.signin ? (res.continuous || 0) : (res.yestodyContinuous || 0),
         star:res.gotsignin || 0,
         dayStar:res.gottotal || 0,
         question : res.question || false,
         qian : res.qian || false,
-        signin : res.signin || false
-      })
+        signin : res.signin || false,
+        pendStar: res.gotsignintoday || 1
+      }
+      console.log('输出：',data)
+      this.setData(data)
     })
     API.getUserSetting({
       notShowLoading: true

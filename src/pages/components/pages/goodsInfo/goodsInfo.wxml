@@ -46,7 +46,7 @@
         <view class="i-name">{{data.name}}</view>
 
         <view class="i-desc mt20">
-          <view class="i-icon-free">包邮</view>
+          <view class="i-icon-free"> {{data.reality === 1 ? '包邮' : '虚拟'}}</view>
           <view class="i-text-stock">库存:{{data.inventory}}</view>
         </view>
       </view>
@@ -84,7 +84,7 @@
 
   </scroll-view>
 
-  <view class="bt-btn {{IPhoneX ? 'pt34' : ''}}">
+  <view class="bt-btn {{IPhoneX ? 'pb34' : ''}}">
     <view class="rec-line"></view>
     <button class="record-btn" form-type="submit" hover-class="animateBtn" open-type="getUserInfo" bindgetuserinfo="" catchtap="payGoods">
       立即兑换

@@ -9,9 +9,9 @@
       <view>您的订单编号为：{{noid}}</view>
     </view>
 
-    <view class="line-bg"></view>
+    <view wx:if="{{status}}" class="line-bg"></view>
 
-    <view class="address-msg-panel">
+    <view wx:if="{{status}}" class="address-msg-panel">
       <view class="a-title mt20">填写你的收货地址</view>
       <view class="col">
         <label for="">收货人</label>
@@ -36,19 +36,32 @@
 
       <view class="submit-btn mt60" hover-class="animateBtn" catchtap="exchange">提交</view>
       
-      <view class="bt-btn mt60 {{IPhoneX ? 'pt34' : ''}}">
+      <view class="bt-btn mt60 {{IPhoneX ? 'pb34' : ''}}">
         <image src="/assets/img/icon_4.png"></image>
-        对此订单有疑问？联系客服
+        对此订单有疑问？<button form-type="submit" hover-class="none" open-type="contact">联系客服</button>
       </view>
 
     </view>
+
+    
+    <view wx:else class="t-r-panel">
+      <image class="t-img" mode="widthFix" src="/assets/img/icon_9.png"></image>
+      <text class="mt40">您的订单已完成\n等待小哥为您发货啦</text>
+      <button form-type="submit" hover-class="animateBtn" open-type="share">邀请好友一起来兑换商品吧</button>
+      
+      <view class="bt-btn mt60 {{IPhoneX ? 'pb34' : ''}}">
+        <image src="/assets/img/icon_4.png"></image>
+        对此订单有疑问？<button form-type="submit" hover-class="none" open-type="contact">联系客服</button>
+      </view>
+    </view>
+
   </scroll-view>
 
 
   <view wx:if="{{show}}" class="t-mask" style="top:{{height}}px;height:calc(100% - {{height}}px);min-height:calc(100% - {{height}}px);">
     <view class="t-panel">
       <image class="t-img" src="/assets/img/icon_5.png"></image>
-      <text class="mt40">您等订单已完成\n等待小哥为您发货啦</text>
+      <text class="mt40">您的订单已完成\n等待小哥为您发货啦</text>
       <button form-type="submit" hover-class="animateBtn" open-type="share">邀请好友一起来兑换商品吧</button>
     </view>
   </view>

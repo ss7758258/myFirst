@@ -45,6 +45,11 @@ Page({
     mta.Page.init()
     this.getGoodsInfo()
   },
+  onShareAppMessage(){
+    return {
+      path : 'pages/home/home?from=share&to=goodsInfo&id=' + this.data.id
+    }
+  },
   onShow(){
     this.getGoodsInfo()
   },
@@ -92,7 +97,7 @@ Page({
         return {
           nickName: v.name.substring(0,1) + '**',
           date: v.time.replace(/\-/ig,'/').substring(0,10),
-          headImage:v.headImage
+          headImage: (v.headImage && v.headImage != '') ? v.headImage : '/assets/images/default_head.png'
         }
       })
       
@@ -116,8 +121,8 @@ Page({
       return
     }
     wx.showModal({
-        title: '确定快速查看？',
-        content: '快速查看需要消耗' + resData.goods + '颗小星星',
+        title: '确定兑换？',
+        content: '兑换需要消耗' + resData.goods + '颗小星星',
         showCancel: true,
         cancelColor: '#999999',
         cancelText: '我再想想',
@@ -174,7 +179,7 @@ Page({
                         }
                         if(res.retcode === 0){
                           wx.navigateTo({
-                            url:'/pages/components/pages/address/index?orderno=' + res.order.orderno
+                            url:'/pages/components/pages/address/index?orderno=' + res.order.orderno + '&id=' + id + '&status=' + res.order.reality
                           })
                         }else{
                           wx.showModal({

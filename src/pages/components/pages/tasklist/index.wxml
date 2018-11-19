@@ -59,7 +59,7 @@
         <view class="t-p-text">签到
           <view class="t-p-star flex">
             <image src="/assets/img/icon_star_1.svg"></image>
-            <view>+1</view>
+            <view>+{{pendStar}}</view>
           </view>
         </view>
         <view class="btn {{signin ? 'current' : ''}}">{{signin ? '已完成' : '做任务'}}</view>
