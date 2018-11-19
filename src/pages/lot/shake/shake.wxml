@@ -5,8 +5,6 @@
 <nav opts='{{navConf}}' bind:nav-height="_setHeight"></nav>
 <!-- 登录 -->
 <loginApp></loginApp>
-<!-- 公告组件 -->
-<notice notice="{{notice}}"></notice>
 
 <form>
     <view class="panel_scene {{longScreen ? 'iPhoneX' : ''}} {{iPhoneX ? 'PX' : ''}}" style="height:calc(100% - {{hei}}px);min-height:calc(100% - {{hei}}px);">

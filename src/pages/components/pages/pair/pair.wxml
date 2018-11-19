@@ -9,9 +9,6 @@
 <!-- 登录态 -->
 <loginApp></loginApp>
 
-<!-- 公告组件 -->
-<notice notice="{{notice}}"></notice>
-
 <form report-submit="true" bindsubmit="_reportFormId">
 	<!-- 选择星座 -->
     <template is="pair-xz" data="{{showPair,star,select}}"></template>

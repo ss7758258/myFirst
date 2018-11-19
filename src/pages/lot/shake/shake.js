@@ -177,44 +177,6 @@ const conf = {
 
     // 获取公告数据
     getNotice() {
-        $vm.api.notice({ page: 2, notShowLoading: true }).then(res => {
-            console.log('11111111111111111111', res)
-            if (res) {
-                let top = [] || 0, bottom = [] || 0
-                res.forEach(value => {
-                    if (value.type == 1) {
-                        top.push(value)
-                    } else if (value.type == 2) {
-                        bottom.push(value)
-                    }
-                })
-
-                console.log('top:', top, 'bottom:', bottom)
-                if (top == 0 && bottom == 0) {
-                    this.setData({
-                        'notice.isShow': false
-                    })
-                }
-
-                if (top.length == 1) {
-                    top.push(top[0])
-                }
-                if (bottom.length == 1) {
-                    bottom.push(bottom[0])
-                }
-
-                console.log('top:', top, 'bottom:', bottom)
-                this.setData({
-                    'notice.top': top || 0,
-                    'notice.bottom': bottom || 0
-                })
-
-                console.log(this.data.notice)
-
-            }
-        }).catch(err => {
-            console.log(err)
-        })
     },
 
     /**

@@ -26,8 +26,6 @@
 	</view>
 </view>
 
-<notice notice="{{notice}}" wx:if="{{isLogin}}"></notice>
-
 <!-- 收藏小程序-弹窗 -->
 <view class="contact_follow_mask {{showCollect ? 'show':''}}">
 	<view class="contact_follow collect_panel {{showCollect ? 'show':''}}" catchtap="catchHide">
