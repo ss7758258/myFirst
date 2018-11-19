@@ -26,7 +26,7 @@ gulp.task('compile:ts', function () {
 gulp.task('compile:es', function () {
   return gulp.src(['src/**/*.js'])
     .pipe(babel())
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest('dist/'))
 });
 
@@ -36,7 +36,7 @@ gulp.task("compile:scss", function () {
     .pipe(sass({
       outputStyle: 'expanded'
     }).on('error', sass.logError))
-    .pipe(cssnano())
+    .pipe(cssnano({autoprefixer:false}))
     .pipe(rename({
       extname: ".wxss"
     }))
