@@ -39,7 +39,7 @@
         <view class="t-p-text">关注小哥服务号
           <view class="t-p-star flex">
             <image src="/assets/img/icon_star_1.svg"></image>
-            <view>+10</view>
+            <view>+9</view>
           </view>
         </view>
         <view wx:if="{{!subscribe}}" class="btn {{noticeBtnStatus ? 'current' : ''}}">
