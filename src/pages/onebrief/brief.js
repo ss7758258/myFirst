@@ -22,6 +22,7 @@ Page({
 			title: '一言',
 			state: 'root',
 			isRoot: false,
+			bg : '#9262FB',
 			isIcon: true,
 			iconPath: '',
 			root: '',

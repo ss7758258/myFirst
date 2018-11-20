@@ -42,8 +42,12 @@
             <view>+10</view>
           </view>
         </view>
-        <view class="btn {{noticeBtnStatus ? 'current' : ''}}">
+        <view wx:if="{{!subscribe}}" class="btn {{noticeBtnStatus ? 'current' : ''}}">
           <button form-type="submit" hover-class="none" open-type="contact">{{noticeBtnStatus ? '已完成' : '做任务'}}</button>
+        </view>
+        
+        <view wx:else class="btn {{subscribe ? 'current' : ''}}">
+          <button form-type="submit" hover-class="none" open-type="contact">{{subscribe ? '已完成' : '做任务'}}</button>
         </view>
       </view>
     </view>

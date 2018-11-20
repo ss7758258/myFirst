@@ -28,7 +28,9 @@ Page({
     qian:  false,
     signin:  false,
     // 待领星星
-    pendStar:1
+    pendStar:1,
+    // 关注状态
+    subscribe : false
   },
 
   onLoad(options) {
@@ -47,6 +49,7 @@ Page({
       }
       let data = {
         // day:res.continuous || 0,
+        subscribe : res.subscribe || false,
         day: res.signin ? (res.continuous || 0) : (res.yestodyContinuous || 0),
         star:res.gotsignin || 0,
         dayStar:res.gottotal || 0,
