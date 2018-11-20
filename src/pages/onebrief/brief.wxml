@@ -68,10 +68,8 @@
                     </block>
                 </view>
 
-                <navigator wx:if="{{version}}" target="miniProgram" hover-class="none" open-type="{{opts.openType}}" app-id="{{opts.appId}}" path="{{opts.path}}" url="{{opts.path}}" extra-data="{{opts.extra}}" version="{{opts.version}}">
-                    <form report-submit bindsubmit='moregame'>
-                        <button form-type='submit' class='banner'>更多精彩文字</button>
-                    </form>
+                <navigator wx:if="{{version}}" target="miniProgram" hover-class="none" app-id="{{opts.appId}}" path="{{opts.path}}" url="{{opts.path}}">
+                    <button form-type='submit' class='banner'>更多精彩文字</button>
                 </navigator>
                 <form wx:if="{{!version}}" report-submit bindsubmit='moregame'>
                     <button form-type='submit' class='banner'>更多精彩文字</button>
@@ -96,10 +94,8 @@
                     分 {{tomorrow.sec>9?tomorrow.sec:'0'+tomorrow.sec}} 秒
                 </view>
 
-                <navigator wx:if="{{version}}" target="miniProgram" hover-class="none" open-type="{{opts.openType}}" app-id="{{opts.appId}}" path="{{opts.path}}" url="{{opts.path}}" extra-data="{{opts.extra}}" version="{{opts.version}}">
-                    <form report-submit bindsubmit='moregame'>
-                        <button form-type='submit' class='banner'>更多精彩文字</button>
-                    </form>
+                <navigator wx:if="{{version}}" target="miniProgram" hover-class="none" app-id="{{opts.appId}}" path="{{opts.path}}" url="{{opts.path}}" extra-data="{{opts.extra}}" version="{{opts.version}}">
+                    <button form-type='submit' class='banner'>更多精彩文字</button>
                 </navigator>
                 <form wx:if="{{!version}}" report-submit bindsubmit='moregame'>
                     <button form-type='submit' class='banner'>更多精彩文字</button>

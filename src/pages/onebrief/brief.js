@@ -28,6 +28,10 @@ Page({
 			root: '',
 			isTitle: true
 		},
+		opts:{
+			appId: 'wx865935599617fbdb',
+			path: 'pages/home/home?source=XGstars&type=in&id=110000'
+		},
 		// 适配高度
 		hei : 64,
 		isIPhoneX : false,
@@ -448,7 +452,7 @@ Page({
 
     // 更多好玩
     moregame(e){
-        $vm.api.getX610({ formid: e.detail.formId })
+        // $vm.api.getX610({ formid: e.detail.formId })
 		wx.navigateToMiniProgram({
             appId: 'wx865935599617fbdb',
             path: 'pages/home/home?source=XGstars&type=in&id=110000'

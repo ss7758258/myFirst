@@ -33,7 +33,7 @@ Page({
   },
   onShareAppMessage(){
     return {
-      path : 'pages/home/home?from=share&to=goods&id=' + this.data.id
+      path : 'pages/home/home?from=share&to=goods'
     }
   },
   // 前往商品详情

@@ -38,7 +38,7 @@ Page({
     current:0
   },
   onLoad(options) {
-    console.log(options)
+    console.log('进入的分享信息',options)
     this.setData({
       id:options.id
     })
@@ -50,8 +50,11 @@ Page({
       path : 'pages/home/home?from=share&to=goodsInfo&id=' + this.data.id
     }
   },
-  onShow(){
-    this.getGoodsInfo()
+  onShow(opts){
+    console.log('商品详情页',opts)
+    if(this.data.id != -1){
+      this.getGoodsInfo()
+    }
   },
   // swiper变更
   _swiperChange(e){
@@ -62,6 +65,7 @@ Page({
   },
   // 获取商品详情
   getGoodsInfo(){
+    console.log('输出ID信息：',+this.data.id)
     API.getGoodslist({id : +this.data.id}).then(res => {
       console.log('列表结果：',res)
       if(!res){

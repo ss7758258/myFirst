@@ -63,7 +63,7 @@ Page({
     console.log(res)
     if(res.address === ''){
       wx.navigateTo({
-        url:'/pages/components/pages/address/index?orderno=' + res.orderno + '&id=' + res.id + '&status=' + res.reality
+        url:'/pages/components/pages/address/index?orderno=' + res.orderno + '&id=' + res.goodsid + '&status=' + res.reality
       })
     }
   },

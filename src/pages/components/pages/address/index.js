@@ -41,6 +41,7 @@ Page({
     mta.Page.init()
   },
   onShareAppMessage(){
+    console.log(this.data)
     return {
       path : 'pages/home/home?from=share&to=goodsInfo&id=' + this.data.id
     }

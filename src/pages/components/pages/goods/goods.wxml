@@ -20,7 +20,7 @@
     
     <view class="rec-panel">
       <block wx:for="{{result}}" wx:key="{{index}}">
-        <view class="panel mt30">
+        <view class="panel mt30" catchtap="goExc" data-res="{{item}}">
           <image class="goods-icon" src="{{cdn + item.defaultpic}}"></image>
           <view class="rec-title">{{item.name}}</view>
           <view class="rec-price">
