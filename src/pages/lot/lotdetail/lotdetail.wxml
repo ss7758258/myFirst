@@ -194,7 +194,7 @@
 					<!-- 按钮组 -->
 					<view class="btn_group">
 						<button class="btn_share" form-type="submit" open-type="share" wx:if="{{!lotDetail.isOther && lotDetail.lotNotCompleted}}" >立即找好友帮忙</button>
-						<button class="btn_share" form-type="submit" catchtap="saveShare" wx:if="{{!lotDetail.isOther && !lotDetail.lotNotCompleted}}" >保存图片</button>
+						<button class="btn_share" form-type="submit" catchtap="saveShare" wx:if="{{!lotDetail.isOther && !lotDetail.lotNotCompleted}}" >保存一签</button>
 						<button class="btn_dis {{lotDetail.hasChai ? 'dis_success' : ''}}" form-type="submit"  hover-class="btn_dis_click" wx:if="{{lotDetail.isOther}}" catchtap="openDis">{{lotDetail.hasChai ? '查看我的每日一签' : '帮助好友拆签'}}</button>
 					</view>
 				</view>

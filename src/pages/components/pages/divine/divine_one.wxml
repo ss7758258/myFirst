@@ -100,7 +100,7 @@
                             <button form-type="submit" open-type="getUserInfo" catchtap="_drawCode" hover-class="click-animate" >
                                 <view class="start-img btn-share">
                                     <image class="button-img btn-share-img" src="{{res.button}}" mode="widthFix"></image>
-                                    <view class="start-text btn-share-text">保存图片</view>
+                                    <view class="start-text btn-share-text">保存结果</view>
                                 </view>
                             </button>
                         </view>
