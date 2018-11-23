@@ -306,6 +306,10 @@ Page({
 			this.setData({
 				showDialog : false
 			})
+		}else{
+			this.setData({
+				showDialog : false
+			})
 		}
 	},
 	// 关闭更新提示

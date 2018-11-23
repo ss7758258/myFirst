@@ -40,6 +40,13 @@ Page({
   onShow(){
     this.getList()
   },
+  
+  onShareAppMessage(){
+    return {
+      path : 'pages/home/home?from=share&to=task'
+    }
+  },
+  
   // 获取任务信息
   getList(){
     API.getSigninstatus().then(res => {

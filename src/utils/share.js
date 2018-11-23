@@ -1,4 +1,8 @@
 module.exports = {
+    home : {
+        path : '/pages/home/home',
+        type : 'tab'
+    },
     find : {
         path : '/pages/find/find',
         type : 'tab'
@@ -61,6 +65,11 @@ module.exports = {
     // 订单列表
     order : {
         path : '/pages/components/pages/orderlist/index',
+        type : 'nav'
+    },
+    // 任务中心
+    task : {
+        path : '/pages/components/pages/tasklist/index',
         type : 'nav'
     }
 }
