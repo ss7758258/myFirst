@@ -1,117 +1,60 @@
-
-<!-- tabbar -->
-<import src="/template/tabbar/tabbar.wxml" />
 <!-- 导航 -->
-<nav opts='{{navConf}}' bind:nav-height="_setHeight"></nav>
+<nav opts='{{navConf}}' bind:nav-height="_setHeight">
+
+  <!-- 弹窗原图展示 -->
+  <view class="popup" slot="popup">
+    <block wx:for="{{list}}" wx:key="{{item.id}}">
+      <view class="i-panel {{current === index ? 'show' : ''}}">
+        <image class="pop-img mt40" src="{{item.pic}}" mode="widthFix" bindload=""></image>
+        <view class="close iconfont icon-close mt30" catch:tap="_close"></view>
+        <view class="saveimg mt40" catch:tap="_saveImg">保存壁纸</view>
+      </view>
+    </block>
+  </view>
+
+  <view class="page" slot="content">
+
+    <!-- 图片展示 -->
+    <swiper current="{{initCurrent}}" class="swiper {{isIPhoneX ? 'swiper_ipx' : ''}}" bindchange="getCurrent" wx:if="{{list}}" previous-margin="70rpx" next-margin="70rpx">
+      <block wx:for="{{list}}" wx:key="index">
+        <swiper-item class="monitor">
+          <view class="panel p-panel {{isIPhoneX ? 'mt80' : ''}} {{(current - 1) == index ? 'c-left' : (current + 1) == index? 'c-right' : ''}}"  bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" bindtouchcancel="touchEnd" >
+            <image src="{{item.prevPic}}" mode="widthFix" ></image>
+          </view>
+
+          <!-- 操作部分 -->
+          <view class="panel p-style mt80 {{current === index ? (touchStatus ? '' : 'scaleShow' ) : ''}} ">
+            <view class="p-behavior">
+              <view class="child {{item.status ? 'current' : ''}}" data-res="{{item}}" data-index="{{index}}" catchtap="_give">
+                <view class="icon-panel">
+                  <image class="icon" src="{{item.status ? '/assets/img/give_check.png' : '/assets/img/give.png'}}"></image>
+                </view>
+                <view class="icon-text mt20">{{item.like}}</view>
+              </view>
+              
+              <view class="child" data-res="{{item}}" data-index="{{index}}" catchtap="_look">
+                <view class="icon-panel">
+                  <image class="icon" src="/assets/img/look.png"></image>
+                </view>
+                <view class="icon-text mt20">查看壁纸</view>
+              </view>
+              
+              <view class="child" data-res="{{item}}">
+                <view class="icon-panel">
+                  <image class="icon" src="/assets/img/wx.png"></image>
+                </view>
+                <view class="icon-text mt20">保存赠言</view>
+              </view>
+            </view>
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+</nav>
 <loginApp></loginApp>
 
-<!-- 新手操作推荐 -->
-<!-- <view class='shade' wx:if="{{isFirst}}">
-    <view class='first'>
-        <view class='first_left'>
-            <image src='../../assets/img/top.png' class='fl_img l'></image>
-            <text>右滑向往明天</text>
-        </view>
-
-        <form report-submit bindsubmit='formid'>
-            <button class='first_btn' form-type='submit'>我知道了</button>
-        </form>
-
-        <view class='first_left'>
-            <image src='../../assets/img/down.png' class='fl_img l'></image>
-            <text>左滑回忆过去</text>
-        </view>
-    </view>
-
-</view> -->
-
-<!-- 昨天今天明天 -->
-<swiper current="{{current}}" class="swiper {{isIPhoneX ? 'swiper_ipx' : ''}}" bindchange="day" wx:if="{{list}}" style="height:calc(100% - {{hei}}px);min-height:calc(100% - {{hei}}px);" previous-margin="40rpx" next-margin="40rpx" >
-    <block wx:for="{{list}}" wx:key="index">
-        <swiper-item>
-            <!-- 保存图片 -->
-            <block wx:if="{{item.prevPic}}">
-                <view class="u-panel">
-                    <view class="UI_box " style='transform: scale({{isShow ? 1 : 0}}) translateY(-50%);'>
-                        <image class='{{networkError?"noNet": "pic"}}' mode="widthFix" src="{{item.prevPic}}" binderror="errorOpen" bindload='onLodingListener' />
-                        <text class='picUserName'>{{picUserName}}</text>
-                        <form class='saveform' bindsubmit="saveSelect" data-img="{{item.prevPic}}" report-submit='true' wx:if="{{!networkError}}">
-                            <button class="save" form-type="submit" hover-class="none">保存一言</button>
-                        </form>
-                    </view>
-                    <form wx:if="{{isFromShare}}" bindsubmit="onclickHome" class='home' report-submit='true'>
-                        <button class='button1' form-type="submit" type='' hover-class="none">
-                            <image src="/assets/images/icon_home.png" mode="widthFix" />
-                        </button>
-                    </form>
-                </view>
-            </block>
-
-            <!-- 明天 -->
-            <view class="tomorrow_box {{isIPhoneX ? 'iPhoneX' : ''}}" wx:else="{{item.prevPic}}">
-                <view class='tomorrow'>
-                    <view class='timer'>
-                        <text class='day'>{{tomorrow.day}}</text>
-                        <text class='month'>{{tomorrow.month}}</text>
-                        <text class='month'>.{{tomorrow.year}}</text>
-                    </view>
-                    <image src='/assets/img/countdown.png' class='torommow_img'></image>
-                    <block wx:if="{{tomorrow.timer}}">
-                        <view class='torommow_txt'>距离内容更新还有</view>
-                        <!-- <view class='torommow_timer'> {{tomorrow.hour}} 时 {{tomorrow.minute}} 分 {{tomorrow.sec}} 秒 </view> -->
-                        <view class='torommow_timer'> {{tomorrow.hour>9?tomorrow.hour:'0'+tomorrow.hour}} 时 {{tomorrow.minute>9?tomorrow.minute:'0'+tomorrow.minute}}
-                            分 {{tomorrow.sec>9?tomorrow.sec:'0'+tomorrow.sec}} 秒 </view>
-                    </block>
-                    <block wx:else="{{tomorrow.timer}}">
-                        <view class='torommow_txt'>距离内容更新还有一段时间</view>
-                        <view class='torommow_txt'>你可以先去做些其他的事情</view>
-                    </block>
-                </view>
-
-                <navigator wx:if="{{version}}" target="miniProgram" hover-class="none" app-id="{{opts.appId}}" path="{{opts.path}}" url="{{opts.path}}">
-                    <button form-type='submit' class='banner'>更多精彩文字</button>
-                </navigator>
-                <form wx:if="{{!version}}" report-submit bindsubmit='moregame'>
-                    <button form-type='submit' class='banner'>更多精彩文字</button>
-                </form>
-            </view>
-        </swiper-item>
-    </block>
-</swiper>
-
-<view class="swiper" wx:else="{{list}}">
-    <view class="tomorrow_box {{isIPhoneX ? 'iPhoneX' : ''}}">
-        <view class='tomorrow'>
-            <view class='timer'>
-                <text class='day'>{{tomorrow.day}}</text>
-                <text class='month'>{{tomorrow.month}}</text>
-                <text class='month'>.{{tomorrow.year}}</text>
-            </view>
-            <image src='/assets/img/countdown.png' class='torommow_img'></image>
-            <block wx:if="{{tomorrow.timer}}">
-                <view class='torommow_txt'>距离内容更新还有</view>
-                <view class='torommow_timer'> {{tomorrow.hour>9?tomorrow.hour:'0'+tomorrow.hour}} 时 {{tomorrow.minute>9?tomorrow.minute:'0'+tomorrow.minute}}
-                    分 {{tomorrow.sec>9?tomorrow.sec:'0'+tomorrow.sec}} 秒
-                </view>
-
-                <navigator wx:if="{{version}}" target="miniProgram" hover-class="none" app-id="{{opts.appId}}" path="{{opts.path}}" url="{{opts.path}}" extra-data="{{opts.extra}}" version="{{opts.version}}">
-                    <button form-type='submit' class='banner'>更多精彩文字</button>
-                </navigator>
-                <form wx:if="{{!version}}" report-submit bindsubmit='moregame'>
-                    <button form-type='submit' class='banner'>更多精彩文字</button>
-                </form>
-            </block>
-            <block wx:else="{{tomorrow.timer}}">
-                <form report-submit bindsubmit='tryagain'>
-                    <button form-type='submit' class='banner'>再试一次</button>
-                </form>
-            </block>
-        </view>
-    </view>
-</view>
-
+<!-- 保存图片所需 -->
 <view wx:if="{{showCanvas}}">
-    <canvas canvas-id="shareCanvas" class='canvas' style="width:750px;height:1334px;z-index:-1;"></canvas>
+  <canvas canvas-id="shareCanvas" class='canvas' style="width:750px;height:1334px;z-index:-1;"></canvas>
 </view>
-<!-- tabbar -->
-<!-- <template is="tabbar" data="{{tabbarConfig}}"></template> -->

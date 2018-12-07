@@ -1,8 +1,27 @@
 <view class="navigtion_panel {{isIPhoneX ? 'iPhoneX' : ''}}" style="{{opts.bg ? 'background:' + opts.bg + ';' : ''}}">
     <view class="navigtion_nav">
         <image class="nav_state {{opts.isIcon ? '' : 'hide'}} {{opts.iconPath === '' ? 'default_icon' : ''}}" wx:if="{{opts.isRoot}}" catchtap="goCenter" src="{{opts.iconPath === '' ? '' : opts.iconPath}}"></image>
-        <icon class="nav_state {{opts.isIcon ? '' : 'hide'}} back_img" wx:if="{{opts.root === '' && !opts.isRoot}}" catchtap="goBack" ></icon>
-        <icon class="nav_state {{opts.isIcon ? '' : 'hide'}} home_img" wx:if="{{opts.root !== '' && !opts.isRoot}}" catchtap="goHome" >jiazai</icon>
-        <text class="nav_title" wx:if="{{opts.isTitle}}">{{opts.title}}</text>
+        <icon class="nav_state {{opts.isIcon ? '' : 'hide'}} iconfont icon-back back_img" wx:if="{{opts.root === '' && !opts.isRoot}}" style="color:{{opts.color ? opts.color : '#fff'}};" catchtap="goBack" ></icon>
+        <icon class="nav_state {{opts.isIcon ? '' : 'hide'}} home_img" wx:if="{{opts.root !== '' && !opts.isRoot}}" catchtap="goHome" ></icon>
+        <text class="nav_title" style="color:{{opts.fontColor ? opts.fontColor : '#fff'}};" wx:if="{{opts.isTitle}}">{{opts.title}}</text>
+        <icon class="nav_state"></icon>
     </view>
 </view>
+
+<!-- 内容框架 -->
+<view wx:if="{{opts.showContent}}" style="{{'height:calc(100% - ' + height + 'px - ' + (isIPhoneX ? 34 : 0) + 'px - ' + (opts.showTabbar ? 50 : 0) + 'px);min-height:calc(100% - ' + height + 'px - ' + (isIPhoneX ? 34 : 0) + 'px - ' + (opts.showTabbar ? 50 : 0) + 'px);'}}">
+    <slot name="content"></slot>
+    <!-- tabbar -->
+</view>
+
+<view class="tabbar-panel" wx:if="{{opts.showTabbar}}">
+
+</view>
+
+<view wx:if="{{opts.showContent}}" class="{{ isIPhoneX ? 'pb34' : ''}}"></view>
+
+<!-- 弹窗框架 -->
+<view class="popup {{isIPhoneX ? 'IPX' : ''}} {{opts.showTabbar ? 'tabbar' : ''}}" wx:if="{{opts.showPop}}" style="z-index:{{pop.zIndex || 1}};{{pop.style}}">
+    <slot name="popup"></slot>
+</view>
+

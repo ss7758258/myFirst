@@ -344,6 +344,10 @@ const getSigninstatus = (data) => {
 const setSignin = (data) => {
 	return requstPost('userSetting/signin', data)
 }
+// 点赞
+const setGive = (data) => {
+	return requstPost('everydayWords/givelike', data)
+}
 // 获取乐摇摇的数据信息
 const getLeYaoyao = function (params, data) {
 	return new Promise((resolve, reject) => {
@@ -418,5 +422,6 @@ module.exports = {
 	getEXChange,
 	getUpdateAddress,
 	getSigninstatus,
-	setSignin
+	setSignin,
+	setGive
 }
