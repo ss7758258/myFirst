@@ -20,6 +20,12 @@
         <swiper-item class="monitor">
           <view class="panel p-panel {{isIPhoneX ? 'mt80' : ''}} {{(current - 1) == index ? 'c-left' : (current + 1) == index? 'c-right' : ''}}"  bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" bindtouchcancel="touchEnd" >
             <image src="{{item.prevPic}}" mode="widthFix" ></image>
+
+            <!-- 日期 -->
+            <view class="date-panel">
+              <view class="date-day">{{item.date}}</view>
+              <view class="date-year">{{item.month + '.' + item.year}}</view>
+            </view>
           </view>
 
           <!-- 操作部分 -->
@@ -39,7 +45,7 @@
                 <view class="icon-text mt20">查看壁纸</view>
               </view>
               
-              <view class="child" data-res="{{item}}">
+              <view class="child" data-res="{{item}}" data-index="{{index}}" catchtap="_save">
                 <view class="icon-panel">
                   <image class="icon" src="/assets/img/wx.png"></image>
                 </view>
@@ -55,6 +61,6 @@
 <loginApp></loginApp>
 
 <!-- 保存图片所需 -->
-<view wx:if="{{showCanvas}}">
-  <canvas canvas-id="shareCanvas" class='canvas' style="width:750px;height:1334px;z-index:-1;"></canvas>
+<view class="share-panel" wx:if="{{showCanvas}}">
+  <canvas canvas-id="shareCanvas" class='canvas' style="width:750px;height:1334px;"></canvas>
 </view>

@@ -381,6 +381,25 @@ function roundRect(x, y, w, h, r,ctx) {
 	return ctx;
 }
 
+// 获取月份缩写
+function getMonth(index){
+	let obj = {
+		1:'Jan',
+		2:'Feb',
+		3:'Mar',
+		4:'Apr',
+		5:'May',
+		6:'Jun',
+		7:'Jul',
+		8:'Aug',
+		9:'Sep',
+		10:'Oct',
+		11:'Nov',
+		12:'Dec'
+	}
+	return obj[index]
+}
+
 module.exports = {
 	constellation,
 	Promise,
@@ -395,5 +414,6 @@ module.exports = {
 	canvasTextAutoLine,
 	parseLot,
 	random,
-	roundRect
+	roundRect,
+	getMonth
 }

@@ -2,6 +2,7 @@
 const $vm = getApp()
 const _GData = $vm.globalData
 const API = require('../../utils/api')
+const util = require('../../utils/util')
 const getImageInfo = $vm.utils.wxPromisify(wx.getImageInfo)
 var mta = require('../../utils/mta_analysis.js')
 const Storage = require('../../utils/storage')
@@ -64,7 +65,8 @@ Page({
     // 版本
     version: true,
     // 按下状态
-    touchStatus: false
+    touchStatus: false,
+    showCanvas:true
   },
 
   /**
@@ -190,18 +192,15 @@ Page({
   /**
    * 保存图片
    */
-  saveSelect: function (e) {
-    mta.Event.stat('brief_save_pic', {})
-    console.log('eeeeeeeee', e)
-    let formid = e.detail.formId
-    let img = e.currentTarget.dataset.img
-    $vm.api.getX610({
-      notShowLoading: true,
-      formid: formid
-    })
-    mta.Event.stat("ico_brief_save", {})
+  _save: function (e) {
     const _self = this
-    const _SData = _self.data
+    let { res:data, index } = e.currentTarget.dataset
+    let img = data.prevPic
+    console.log('保存图片：', e)
+    mta.Event.stat('brief_save_pic', {})
+    mta.Event.stat("ico_brief_save", {})
+
+    
     wx.showLoading({
       title: '图片生成中...',
       mask: true,
@@ -213,73 +212,96 @@ Page({
         getImageInfo({
           src: img,
         })
-
       ]).then((res) => {
-        console.log(res)
-        const ctx = wx.createCanvasContext('shareCanvas')
-        ctx.setFillStyle('white')
-        ctx.fillRect(0, 0, 375 * 2, 667 * 2)
-        ctx.drawImage(res[0].path, 0, 0, 375 * 2, 375.0 * 2 / res[0].width * res[0].height)
+        console.log('图片信息：',res)
+        if(res && res[0] && res[0].errMsg == 'getImageInfo:ok'){
+          let width = 700
+          let height = 988
+          
+          const ctx = wx.createCanvasContext('shareCanvas')
+          ctx.setFillStyle('white')
+          ctx.fillRect(0, 0, 750, 1334)
+          ctx.drawImage(res[0].path, 25, 25, width, height)
 
-        ctx.setTextAlign('center') // 文字居中
-        ctx.setFillStyle('#333333') // 文字颜色：黑色
-        ctx.setFontSize(12 * 2) // 文字字号：22px
-        ctx.fillText(_GData.userInfo.nickName, 375 * 2 / 2, 570 * 2 / 2)
-        ctx.stroke()
-        const qrImgSize = 100 * 2
-        ctx.drawImage('/assets/images/qrcodebrief.png', (375 * 2 - qrImgSize) / 2, 518 * 2, qrImgSize, qrImgSize)
-        ctx.stroke()
-        ctx.setTextAlign('center') // 文字居中
-        ctx.setFillStyle('#333333') // 文字颜色：黑色
-        ctx.setFontSize(12 * 2) // 文字字号：22px
-        ctx.fillText("来自一言", 375 * 2 / 2, 631 * 2 + 12 * 2)
+          ctx.setTextBaseline('top')
+          ctx.setFillStyle('#FFFFFF')
+          ctx.setFontSize(120)
+          ctx.fillText(data.date, 68, 93)
 
-        ctx.draw()
-        setTimeout(function () {
-          wx.canvasToTempFilePath({
-            canvasId: 'shareCanvas',
-            success: function (res) {
-              console.log(res.tempFilePath)
-              wx.saveImageToPhotosAlbum({
-                filePath: res.tempFilePath,
-                success(res) {
-                  wx.hideLoading()
-                  wx.showModal({
-                    title: '保存成功',
-                    content: '图片已经保存到相册，可以分享到朋友圈了',
-                    showCancel: false,
-                  })
-                  _self.setData({
-                    showCanvas: false,
-                  })
-                  // wx.hideLoading()
-                },
-                fail() {
-                  wx.showToast({
-                    title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
-                    icon: 'none',
-                    duration: 3000
-                  })
-                  _self.setData({
-                    showCanvas: false,
-                  })
-                }
-              })
-            },
-            fail: function (res) {
-              console.log(res)
-              wx.showToast({
-                title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
-                icon: 'none',
-                duration: 3000
-              })
-              _self.setData({
-                showCanvas: false,
-              })
-              // wx.hideLoading()
-            },
+          ctx.setTextBaseline('top')
+          ctx.setFillStyle('rgba(255,255,255,.8)')
+          ctx.setFontSize(33)
+          ctx.fillText(data.month + '.' + data.year, 68, 232)
+
+          ctx.setLineWidth(1)
+          ctx.setStrokeStyle('#E5E5E5');
+          ctx.strokeRect(25, 1038 , 638 , 188);
+          ctx.strokeRect(30, 1033 , 638, 188);
+
+          ctx.drawImage('/assets/images/yan.png', 610, 1058 , 115, 148)
+
+          ctx.setTextBaseline('top')
+          ctx.setFillStyle('#8080A6')
+          ctx.setFontSize(28)
+          ctx.fillText('我们坚信再艰难的生活，', 50, 1063)
+          ctx.fillText('也需要一些仪式感。', 50, 1096)
+          
+          ctx.setFillStyle('#262346')
+          ctx.setFontSize(30)
+          ctx.fillText(_GData.userInfo.nickName, 50,1148)
+
+          ctx.draw(true,function(){
+            wx.canvasToTempFilePath({
+              canvasId: 'shareCanvas',
+              x: 0,
+              y: 0,
+              width: 750,
+              height: 1334,
+              destWidth: 750,
+              destHeight: 1334,
+              success: function (res) {
+                console.log(res.tempFilePath)
+                wx.saveImageToPhotosAlbum({
+                  filePath: res.tempFilePath,
+                  success(res) {
+                    wx.hideLoading()
+                    wx.showModal({
+                      title: '保存成功',
+                      content: '图片已经保存到相册，可以分享到朋友圈了',
+                      showCancel: false,
+                    })
+                    _self.setData({
+                      // showCanvas: false,
+                    })
+                    // wx.hideLoading()
+                  },
+                  fail() {
+                    wx.showToast({
+                      title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+                      icon: 'none',
+                      duration: 3000
+                    })
+                    _self.setData({
+                      showCanvas: false,
+                    })
+                  }
+                })
+              },
+              fail: function (res) {
+                console.log(res)
+                wx.showToast({
+                  title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+                  icon: 'none',
+                  duration: 3000
+                })
+                _self.setData({
+                  showCanvas: false,
+                })
+                // wx.hideLoading()
+              },
+            })
           })
-        }, 1000)
+        }
       })
       .catch((err) => {
         wx.hideLoading()
@@ -335,8 +357,17 @@ Page({
         let url = 'https://xingzuo-1256217146.file.myqcloud.com' + (env === 'dev' ? '' : '/prod')
         let ids = wx.getStorageSync('give_ids') || []
         res.wordlist.forEach(function (val) {
+          let _date = val.currentDate.replace(/\-/g,'/')
+          console.log(_date,new Date(_date),new Date(val.currentDate))
+          let tmp = new Date(_date)
+          val.year = tmp.getFullYear()
+          val.month = util.getMonth(parseInt(tmp.getMonth()))
+          val.date = tmp.getDate()
+          val.date = val.date.length > 1 ? val.date : '0' + val.date
+          console.log('时间：',tmp.getFullYear() + '-' + util.getMonth(parseInt(tmp.getMonth())) + '-' + tmp.getDate())
           val.prevPic = url + val.prevPic
           val.pic = url + val.pic
+          val.pic = url + '/1184b2066eb44e6598f4f26cbb27bc8f_01561d56afdb427a88fec6061a65701c.png'
           val.status = ids.indexOf(val.id) != -1 ? true : false
         })
 

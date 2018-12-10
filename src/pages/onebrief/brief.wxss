@@ -17,16 +17,41 @@ page{
 .p-panel{
     padding: 40rpx 10rpx 0 10rpx;
     transition: all .3s ease-in-out;
+    position: relative;
 }
 .panel>image{
     width: 100%;
     box-shadow:0 20rpx 40rpx 0 rgba(0,0,0,0.15);
     border-radius:24rpx;
 }
+.date-panel{
+    position: absolute;
+    top: 60rpx;
+    left: 40rpx;
+    width:140rpx;
+    font-size:100rpx;
+    font-family:PingFangSC;
+    font-weight:600;
+    color:rgba(255,255,255,1);
+    text-align: center;
+    line-height:100rpx;
+}
+.date-year{
+    font-size:28rpx;
+    font-family:PingFangSC;
+    font-weight:400;
+    color:rgba(255,255,255,.8);
+    line-height:40rpx;
+}
+.share-panel{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: -99999px;
+}
 .canvas{
-	position: fixed !important;
-	left: -10000px !important;
-	z-index: -1 !important;
+    transform-origin: top right;
 }
 
 .c-left,.c-right{
@@ -90,12 +115,12 @@ page{
 }
 .pop-img{
     width:510rpx;
-    border-radius:24px;
-    transform: scale(0);
-    transition: all .3s ease-in-out;
+    border-radius:24rpx;
+    opacity: 0;
+    /* transition: all .3s ease-in-out; */
 }
 .i-panel.show>.pop-img{
-    transform: scale(1);
+    opacity: 1;
 }
 .close{
     width:42rpx;
