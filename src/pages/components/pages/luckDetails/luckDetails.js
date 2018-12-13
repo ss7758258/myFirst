@@ -42,6 +42,7 @@ Page({
         baseCurrent: 0,
         // tab选择
         tabCurrent: 0,
+        swCurrent: 0,
         headerlist: ['今日运势', '本周运势','本月运势'], //导航栏数据
         contentlist: ['综合指数', '爱情指数', '财富指数', '工作指数'],
         list: false,       //页面渲染数据
@@ -50,6 +51,7 @@ Page({
             week: {},
             month: {},
         },
+        moreText: '查看更多',
         day:{},
         // 存放日期
         dList:[]
@@ -86,19 +88,32 @@ Page({
     onShow: function () {
         
     },
+    // 显示更多
+    _moreShow(e){
+        let flag = this.data.moreText == '查看更多' ? true : false
+        let moreText = this.data.moreText == '查看更多' ? '收起' : '查看更多'
+        this.setData({
+            more: flag,
+            moreText
+        })
+    },
     // 切换基础内容
     _switchBase(e){
         let { index } = e.currentTarget.dataset
         this.setData({
             more: false,
+            moreText: '查看更多',
             baseCurrent: parseInt(index)
         })
     },
     // 切换tab
     _switch(e){
         let { index } = e.currentTarget.dataset
+        index = parseInt(index)
         this.setData({
-            tabCurrent: parseInt(index)
+            tabCurrent: index,
+            swCurrent: index,
+            'navConf.title': index == 2 ? '本月运势' : (index == 1 ? '本周运势' : '今日运势')
         })
     },
     // 切换日期
@@ -113,7 +128,8 @@ Page({
         let { current } = e.detail
         console.log('tab切换：',current)
         this.setData({
-            tabCurrent: current
+            tabCurrent: current,
+            'navConf.title': current == 2 ? '本月运势' : (current == 1 ? '本周运势' : '今日运势')
         })
     },
     // 打开选择星座页

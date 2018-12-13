@@ -13,6 +13,8 @@ swiper-item{
 }
 scroll-view{
 	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 .page{
 	height: 100%;
@@ -287,10 +289,9 @@ scroll-view{
 	position: relative;
 	width: 710rpx;
 	margin: 0 auto;
-	padding: 30rpx 40rpx;
+	padding: 30rpx 40rpx 10rpx 40rpx;
 	box-sizing: border-box;
 	background: #ffffff;
-	
 	font-size:26rpx;
 	font-weight:400;
 	color:rgba(128,128,166,1);
@@ -298,10 +299,51 @@ scroll-view{
 	transition: all .3s ease-in-out;
 	min-height: 204rpx;
 	overflow: hidden;
+	display: flex;
+	flex-direction: column;
 }
 .more{
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 3;
 	overflow: hidden;
+}
+.flex{
+	flex: 1;
+}
+.more-text{
+	width: 660rpx;
+	height: 30rpx;
+	text-align: right;
+	font-size:20rpx;
+	font-weight:400;
+	color:rgba(173,174,201,1);
+	line-height:28rpx;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+.more-text>image{
+	margin-left: 10rpx;
+	width: 20rpx;
+}
+.more-text .current{
+	transform: rotate(180deg);
+}
+
+
+/* 运势概况 */
+.d-c-score{
+	width:710rpx;
+	height:264rpx;
+	background:rgba(255,255,255,1);
+	border-radius:24rpx;
+	margin: 0 auto;
+}
+.d-c-s-title{
+	padding: 40rpx 0 0 30rpx;
+	font-size:32rpx;
+	font-weight:600;
+	color:rgba(38,35,70,1);
+	line-height:44rpx;
 }
