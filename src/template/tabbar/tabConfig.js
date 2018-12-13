@@ -1,7 +1,7 @@
 module.exports = {
-    color : '#464646',
+    color : '#494C83',
     bg : '#FFFFFF',
-    selectedColor : '#9262FB',
+    selectedColor : '#FF5D7C',
     borderStyle:'1px solid rgba(0,0,0,.1)',
     shadow : 'none',
     tabbar : [{
@@ -14,26 +14,15 @@ module.exports = {
             text : '星座',
             desc : 'home'
         },
-        // {
-        //     path : 'pages/lot/shake/shake',
-        //     icon : '/assets/menu/shake.png',
-        //     selectedIcon : '/assets/menu/shake-selected.png',
-        //     type : 2,
-        //     animate : true,
-        //     color : '#F7701F',
-        //     selectedColor : '#F7701F',
-        //     width : 'auto',
-        //     text : '必玩'
-        // },
         {
-            path : 'pages/find/find',
-            icon : '/assets/menu/yan.png',
-            selectedIcon : '/assets/menu/yan-selected.png',
+            path : 'pages/center/center',
+            icon : '/assets/menu/center.png',
+            selectedIcon : '/assets/menu/center-selected.png',
             type : 1,
             animate : false,
             width : 'auto',
-            text : '发现',
-            desc : 'find'
+            text : '我的',
+            desc : 'center'
         }
     ]
 }

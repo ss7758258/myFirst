@@ -2,20 +2,24 @@ const imgs = require('./imgs')
 const $vm = getApp()
 const api = $vm.api
 const Storage = require('../../utils/storage')
+const tab = require('../../template/tabbar/tabbar')
 
 Page({
     data : {
 		navConf : {
 			title : '个人中心',
 			state : 'root',
-			isRoot : false,
-			isIcon : true,
+			isRoot : true,
+			isIcon : false,
 			iconPath : '',
-            root : '',
-            isTitle : true
-            // root : '/pages/home/home'
+			bg : '#fff',
+            fontColor: 'black',
+			root : '',
+			isTitle : true,
+			centerPath : '/pages/center/center'
         },
         imgs,
+        height: 64,
         isFlag : false,  //通知的开关 默认关闭
         clockStatus : false,  //小打卡开关
         iconPath : imgs.icon,
@@ -41,16 +45,14 @@ Page({
         let noticeStatus = wx.getStorageSync('noticeStatus');
         let clockStatus = wx.getStorageSync('clockStatus');
         
-        // 小星星  ios上关闭打开
-        // if(Storage.sys === 'ios'){
-        //     this.setData({
-        //         showOpen : Storage.openIos === 1
-        //     })
-        // }else{
-        //     this.setData({
-        //         showOpen : Storage.openAndriod === 1
-        //     })
-        // }
+        wx.hideTabBar({})
+        console.log('onLoad-------------------------------参数：',opts)
+        // 初始化tab
+        tab.initTab(this,1)
+        let c = tab.getHeight()
+        this.setData({
+            height : c.nav + c.tab
+        })
 
         console.log(noticeStatus === 0 ? false : true)
         // 通知开关状态判断
@@ -81,6 +83,8 @@ Page({
     },
 
     onShow(){
+        tab.switchTab(1,'',this)
+        tab.show()
         console.log('冷启动')
         // 激活下刷新金额
         this._getBlance();

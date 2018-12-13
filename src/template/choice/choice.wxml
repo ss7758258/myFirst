@@ -1,34 +1,30 @@
 <template name="choice">
     <view class="choice bg {{showChoice ? 'current' : ''}}">
         <view class="choice-panel">
-            <view class="choice-top">
-                <image src="/assets/img/choice.png"></image>
+            <view class="choice-top mt40">
+                请选择你的星座
             </view>
-            <!-- 占位容器 -->
-            <view class="flex-panel"></view>
+            
             <!-- 选择星座卡片 -->
             <view class="choice-star-monitor">
-                <block wx:for="{{star}}" wx:key="star.id">
+                <block wx:for="{{star}}" wx:key="{{star.id}}">
+
                     <view class="star-xz-disc">
                         <button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="choiceStar" data-item="{{item}}">
                             <view class="disc-top" style="color:{{item.bgcolor}}">
-                                <image class="disc-img" src="{{item.img}}" ></image>
+                                <image class="disc-img" src="{{item.starImg}}" ></image>
                             </view>
                             <view class="disc-bottom">
-                                <text class="disc-text" style="color:{{item.color}}">{{item.name}}</text>
-                                <text class="disc-time">{{item.time}}</text>
+                                <!-- style="color:{{item.color}}" -->
+                                <text class="disc-text" >{{item.name}}</text>
+                                <!-- <text class="disc-time">{{item.time}}</text> -->
                             </view>
                         </button>
                     </view>
                 </block>
             </view>
             <!-- End星座卡片 -->
-            <!-- 占位容器 -->
-            <view class="flex-panel"></view>
-            <view class="bottom-bg">
-                <!-- <image src="/assets/img/bottom-bg.png"></image> -->
-                <view>欢迎<open-data type="userNickName"></open-data>来到小哥星座</view>
-            </view>
+            
         </view>
     </view>
 </template>

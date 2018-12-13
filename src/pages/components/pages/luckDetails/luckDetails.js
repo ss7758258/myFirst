@@ -2,64 +2,136 @@ let $vm = getApp()
 const API = require('../../../../utils/api')
 const mta = require('../../../../utils/mta_analysis.js')
 const Storage = require('../../../../utils/storage')
+const star = require('../../../../utils/star')
 Page({
     data: {
         navConf: {
-            title: '运势',
-            state: 'root',
-            isRoot: false,
-            isIcon: true,
-            iconPath: '',
-            root: '',
-            isTitle: true,
-            centerPath: '/pages/center/center'
+          title: '今日运势',
+          state: 'root',
+          isRoot: false,
+          bg: '#fff',
+          isIcon: true,
+          iconPath: '',
+          root: '',
+          isTitle: true,
+          showContent: true,
+          color: 'black',
+          fontColor: 'black',
+          showPop: false,
+          showTabbar: false,
+          tabbar: {},
+          pop: {}
         },
+        // 星座信息
+        star,
         swiper:{
             autoplay:false,
             interval:'5000',
             current:0,
             num:1
         },
+		// 是否显示选择星座
+        showChoice : false,
+        // 选择的星座
+        current: 1, 
         showFollow : false, // 关注服务号开关
         noticeBtnStatus : false, // 好运提醒开关
         hei: 64,
-        // iPhone X
         IPX : false,
+        // 基础内容选项卡
+        baseCurrent: 0,
+        // tab选择
+        tabCurrent: 0,
         headerlist: ['今日运势', '本周运势','本月运势'], //导航栏数据
-        current: 0, //导航栏下标
         contentlist: ['综合指数', '爱情指数', '财富指数', '工作指数'],
         list: false,       //页面渲染数据
         dta:{           //运势接口数据
             day: {},
             week: {},
             month: {},
-        }
+        },
+        day:{},
+        // 存放日期
+        dList:[]
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+        mta.Page.init()
+        let selectId = wx.getStorageSync('luck_current_id');
+        console.log('运势详情页：',options)
+        console.log('运势Storage参数：',Storage)
+        console.log(this.data.star,this.data.star[this.data.current])
+        if(selectId){
+            this.setData({
+                current: selectId
+            })
+        }else{
+            this.setData({
+                current: Storage.starXz.id
+            })
+        }
+          
         wx.showLoading({
             title: '加载ing',
             mask: true,
         })
-        mta.Page.init()
-        if (!Storage.lucky) {
-            this._getDayResult()
-            this._getData()
-        }else{
-            this.setData({
-                'dta.day': Storage.lucky
-            })
-            this.selected()
-            this._getData()
-            wx.hideLoading()
-        }
+        this._getDayList()
+        this._getDayResult()
+        this._getData()
     },
 
     onShow: function () {
-        this._getConfing()
+        
+    },
+    // 切换基础内容
+    _switchBase(e){
+        let { index } = e.currentTarget.dataset
+        this.setData({
+            more: false,
+            baseCurrent: parseInt(index)
+        })
+    },
+    // 切换tab
+    _switch(e){
+        let { index } = e.currentTarget.dataset
+        this.setData({
+            tabCurrent: parseInt(index)
+        })
+    },
+    // 切换日期
+    _switchDay(e){
+        let { index } = e.currentTarget.dataset
+        if(index == 3){
+            return
+        }
+    },
+    // 切换Tab
+    _changeTab(e){
+        let { current } = e.detail
+        console.log('tab切换：',current)
+        this.setData({
+            tabCurrent: current
+        })
+    },
+    // 打开选择星座页
+    _selectStar(){
+        this.setData({
+            showChoice: true
+        })
+    },
+    // 设置星座信息
+    choiceStar(e){
+        console.log(e)
+        let { item } = e.currentTarget.dataset
+        this.setData({
+            showChoice: false,
+            current: item.id
+        })
+        wx.setStorageSync('luck_current_id', item.id ? item.id : 1);
+        console.log(item)
     },
     // 设置高度
     setH(e){
@@ -69,65 +141,25 @@ Page({
             IPX : height === 64 ? false : true
         })
     },
-    // 获取banner的默认配置信息
-    _getConfing(){
-        // let self = this
-        // API.globalSetting({
-        //     notShowLoading: true
-        // }).then( res => {
-        //     console.log('加载配置完成---------全局：',res);
-        //     if(!res){
-        //         return false;
-        //     }
-        //     // 变更状态
-        //     self.setData({
-        //         noticeBtnStatus : res.noticeBtnStatus === 1
-        //     })
-        // }).catch( err => {
-        //     console.log('')
-        // })
-        
-        let self = this
-        API.getUserSetting({
-            notShowLoading: true
-        }).then( res => {
-            console.log('加载配置完成---------用户:',res);
-            if(!res){
-                console.log('----------------输出错误信息----------用户配置错误')
-                return false;
-            }
-            // 确认小打卡配置信息
-            self.setData({
-                noticeBtnStatus :  res.noticeStatus === 0
-            })
-            
-        }).catch( err => {
-            console.log('加载用户配置失败---------------------------------用户配置错误')
+    // 生成日期列表
+    _getDayList(){
+        let date = new Date()
+        let list = []
+        let year = date.getFullYear()
+        let month = date.getMonth() + 1
+        date.setDate(date.getDate() - 3)
+        console.log(date)
+        for(let i = 0; i < 7; i++){
+            list.push(date.getDate())
+            date.setDate(date.getDate() + 1)
+        }
+        this.setData({
+            dayCurrent: 3,
+            dList: list,
+            year,
+            month
         })
     },
-    // 代开客服
-	_openContact(){
-		this._hideFollow()
-		// console.log('打开了客服',arguments)
-		mta.Event.stat("spread_123437", {})
-	},
-    // 关闭弹窗
-	_hideFollow(){
-		console.log('触发关闭')
-		this.setData({
-			showFollow : false
-		})
-    },
-    // 打开通知并且隐藏
-	_openNotice(){
-		let me = this
-		me.setData({
-			showFollow : true
-		})
-		mta.Event.stat("spread_123438", {})
-		console.log('弹窗')
-		return false
-	},
     /**
      * 获取本周运势 and 本月运势
      * 
@@ -175,12 +207,17 @@ Page({
         // 今日运势
         let constellationId = $vm.globalData.selectConstellation.id
         $vm.api.luckyday({ constellationId: constellationId}).then(res => {
-            // console.log('今日运势详情数据：', res)
+            console.log('今日运势详情数据：', res)
             if(res!=''){
+                res.tip1 = '学习，放松'
+                res.tip2 = '打游戏'
+                res.mahjong = '麻将牌运普通的日子，今日搓麻将可先以娱乐心态进入，再以赌一把的心态投入，险中求胜美不胜收。'
+                res.landlord = '今天的思念之情特别浓烈，和恋人分开时表现出的依依不舍，易让对方更加爱你；朋友到你家做客的机率很大，难免要让你有些破费，不过因此能换来好心情；很懂得处理与同事间的关系，相处会很融洽。'
                 this.setData({
-                    'dta.day': res
+                    // 'dta.day': res
+                    day: res
                 })
-                this.selected()
+                // this.selected()
                 wx.hideLoading()
             }
         }).catch(err => {
@@ -190,53 +227,7 @@ Page({
                 icon: 'none',
             })
         })
-    },
-    // 选择运势
-    selected(e, swiper){
-        mta.Event.stat("luckDetails_selected", {})
-        let current = 0, dta = this.data.dta.day;
-        console.log('dtadtadtadtadta:',dta)
-        if(e){
-            let index = e.target.dataset.selected
-            if (index == 0) {
-                current = 0
-                dta = this.data.dta.day
-            } else if (index == 1) {
-                current = 1
-                dta = this.data.dta.week
-                console.log(dta)
-            } else {
-                current = 2
-                dta = this.data.dta.month
-            }
-        }
-        
-        this.setData({
-            current: current,
-            'swiper.current':current,
-            list: dta
-        })
-        // console.log('list页面渲染eeeeee:',this.data.list) 
-    },
-
-    // 运势详情
-    swiper(e){
-        mta.Event.stat("luckDetails_swiper", {})
-        let current = e.detail.current, dta = this.data.dta
-        // console.log('eeeeeeeeeeeeeeeeeee',e)
-        
-        if (current == 0){
-            dta=dta.day
-        } else if (current == 1){
-            dta=dta.week
-        }else{
-            dta=dta.month
-        }
-        
-        this.setData({
-            current: current,
-            list:dta
-        })
     }
+    
 
 })

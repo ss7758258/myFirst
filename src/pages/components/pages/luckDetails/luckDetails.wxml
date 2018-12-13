@@ -1,165 +1,130 @@
-<nav opts='{{navConf}}' bind:nav-height="setH"></nav>
+<!-- 选择星座 -->
+<import src="/template/choice/choice.wxml" />
 
-<!-- 关注服务号-弹窗 -->
-<view class="contact_follow_mask {{showFollow ? 'show':''}}" catchtap="_hideFollow">
-    <view class="contact_follow {{showFollow ? 'show':''}}" catchtap="catchHide">
-        <view class="contact_panel">
-            <view class="contact_head_panel">
-                <view class="contact_head"></view>
-            </view>
-            <view class="contact_head_panel_2">
-                <view class="contact_head">
-                    <image class="contact_image" src="/assets/img/p.png" mode="aspectFit" binderror="" bindload=""></image>
-                    <text class="contact_head_text">由于平台限制，好运提醒需要关注<text class="st">【小哥星座】</text>公众号才能发送</text>
+<nav opts='{{navConf}}' bind:nav-height="setH">
+    <view class="page" slot="content">
+
+        <!-- 选择星座 -->
+	    <template is="choice" data="{{showChoice,star}}" ></template>
+        
+        <scroll-view scroll-y="true">
+            <!-- 星座描述 -->
+            <view class="c-panel">
+                <view class="c-desc">
+                    <view class="c-name">{{star[current].name}}</view>
+                    <view class="c-time">{{star[current].startTime + '~' + star[current].endTime}}</view>
+                </view>
+                <view class="c-img" catch:tap="_selectStar">
+                    <image src="{{star[current].starImg}}"></image>
+                    <image class="switch" src="/assets/img/switch.png"></image>
                 </view>
             </view>
-            <view class="contact_body_panel">
-                <view class="contact_title">关注步骤</view>
-                <view class="contact_body">
-                    <view class="contact_body_title">点击下方按钮，回复数字“1”即可</view>
-                    <button class="contact_body_botton" open-type='contact' catchtap="_openContact">马上关注</button>
+            <!-- End星座描述 -->
+
+            <!-- 轮播指示点 -->
+            <view class="s-dots">
+                <view class="{{tabCurrent == 0 ? 'current' : ''}}" catch:tap="_switch" data-index="0">今日运势</view>
+                <view class="{{tabCurrent == 1 ? 'current' : ''}}" catch:tap="_switch" data-index="1">本周运势</view>
+                <view class="{{tabCurrent == 2 ? 'current' : ''}}" catch:tap="_switch" data-index="2">本月运势</view>
+                <view class="s-slider s-anm-{{tabCurrent}}">
+                    <view></view>
                 </view>
             </view>
-        </view>
+            <!-- End轮播指示点 -->
+
+            <!-- 轮播运势 -->
+            <swiper current="0" circular duration="500" bindchange="_changeTab">
+                <!-- 今日运势 -->
+                <swiper-item>
+                    <!-- 日期标题 -->
+                    <view class="d-t-panel mt40">
+                        <view class="d-t-title">
+                            <view class="d-t-year">
+                                {{year}}
+                                <view>YEARS</view>
+                            </view>
+                            <view class="d-t-month">
+                                <image src="/assets/img/calendar.png"></image>
+                                <view>{{month}}</view>
+                            </view>
+                        </view>
+                        <view class="d-t-list mt40">
+                            <block wx:for="{{dList}}" wx:key="{{index}}">
+                                <view class="{{dayCurrent == index ? 'current' : ''}}" catch:tap="_switchDay" data-index="{{index}}">{{item}}</view>
+                            </block>
+                        </view>
+                    </view>
+                    <!-- End日期标题 -->
+
+                    <!-- 运势内容 -->
+                    <view class="d-content mt30">
+                        <view class="d-c-tip mt30">
+                            <view>
+                                <view class="d-c-title">宜</view>
+                                <image class="mt10" src="/assets/img/icon_10.png"></image>
+                                <view class="mt10">{{day.tip1}}</view>
+                            </view>
+                            <view>
+                                <view class="d-c-title">忌</view>
+                                <image class="mt10" src="/assets/img/icon_11.png"></image>
+                                <view class="mt10">{{day.tip2}}</view>
+                            </view>
+                        </view>
+
+                        <!-- 基础内容 -->
+                        <view class="d-c-base mt30">
+                            <view class="d-c-tab">
+                                <view class="pt20 pb20 {{baseCurrent == 0 ? 'current' : ''}}" catch:tap="_switchBase" data-index="0">
+                                    <view class="d-c-text">{{day.luckyColor}}</view>
+                                    <view class="mt10">幸运色</view>
+                                    <view class="border"></view>
+                                </view>
+                                <view class="pt20 pb20 {{baseCurrent == 1 ? 'current' : ''}}" catch:tap="_switchBase" data-index="1">
+                                    <view class="d-c-text">{{day.luckyNum}}</view>
+                                    <view class="mt10">幸运数字</view>
+                                    <view class="border"></view>
+                                </view>
+                                <view class="pt20 pb20 {{baseCurrent == 2 ? 'current' : ''}}" catch:tap="_switchBase" data-index="2">
+                                    <image src="/assets/img/icon_12.png" ></image>
+                                    <view class="mt10">麻将</view>
+                                    <view class="border"></view>
+                                </view>
+                                <view class="pt20 pb20 {{baseCurrent == 3 ? 'current' : ''}}" catch:tap="_switchBase" data-index="3">
+                                    <image src="/assets/img/icon_13.png" ></image>
+                                    <view class="mt10">斗地主</view>
+                                </view>
+
+                                <view class="d-c-bottom"></view>
+                            </view>
+
+                            <!-- 详情描述 -->
+                            <view class="d-c-desc">
+                                <view class="{{more ? '' : 'more'}}" wx:if="{{baseCurrent == 0}}">今天适合穿戴（{{day.luckyColor}}）的衣服、鞋子、首饰，可有效提升个人形象和整日运势。</view>
+                                <view class="{{more ? '' : 'more'}}" wx:if="{{baseCurrent == 1}}">在购买彩票，选择出行路线、座位、比赛号码等方面，不妨选择转运数字（{{day.luckyNum}}），可有力扭转运势</view>
+                                <view class="{{more ? '' : 'more'}}" wx:if="{{baseCurrent == 2}}">{{day.mahjong}}</view>
+                                <view class="{{more ? '' : 'more'}}" wx:if="{{baseCurrent == 3}}">{{day.landlord}}</view>
+                            </view>
+                        </view>
+                        <!-- End基础内容 -->
+                    </view>
+                    <!-- End运势内容 -->
+
+                </swiper-item>
+                <!-- End今日运势 -->
+
+                <!-- 本周运势 -->
+                <swiper-item>
+                    2
+                </swiper-item>
+                <!-- End本周运势 -->
+
+                <!-- 本月运势 -->
+                <swiper-item>
+                    3
+                </swiper-item>
+                <!-- End本月运势 -->
+            </swiper>
+            <!-- End轮播运势 -->
+        </scroll-view>
     </view>
-</view>
-<!-- End关注服务号-弹窗 -->
-
-
-<view class="luck-panel" style="height:calc(100% - {{hei}}px - {{IPX && noticeBtnStatus ? '34' : '0'}}px);">
-    <!-- 导航栏 -->
-    <view class='header' wx:if="{{list}}">
-        <view class="head_son {{current == index?'select':''}}" wx:for="{{headerlist}}" wx:key="index" data-selected='{{index}}' bindtap='selected'>
-            {{item}}
-        </view>
-        <view class="head_active {{current == 0? 'today' : current == 1?'thisweek':'thismonth'}}"></view>
-    </view>
-    <!-- 运势详情 -->
-    <swiper circular current="{{swiper.current}}" bindchange="swiper" class='swiper_content'>
-        <block wx:for="{{headerlist}}" wx:key="index">
-            <swiper-item>
-                <scroll-view class='scroll-view' scroll-y wx:if="{{list}}">
-                    <!-- 运势指数 -->
-                    <view class='index clearfix'>
-                        <!-- 有星星 -->
-                        <view class='index_left'>
-                            <view class='synthesize'>
-                                <text class='star_right'>综合指数:</text>
-                                <image src='../../img_subPackages/star.svg' wx:for="{{list.summaryStar}}" wx:key="index" class='star'></image>
-                                <image src='../../img_subPackages/emptystar.svg' wx:for="{{5-list.summaryStar}}" wx:key="index" class='star'></image>
-                            </view>
-                            <view class='synthesize'>
-                                <text class='star_right'>爱情指数:</text>
-                                <image src='../../img_subPackages/star.svg' wx:for="{{list.loveStar}}" wx:key="index" class='star'></image>
-                                <image src='../../img_subPackages/emptystar.svg' wx:for="{{5-list.loveStar}}" wx:key="index" class='star'></image>
-                            </view>
-                            <view class='synthesize'>
-                                <text class='star_right'>财富指数:</text>
-                                <image src='../../img_subPackages/star.svg' wx:for="{{list.moneyStar}}" wx:key="index" class='star'></image>
-                                <image src='../../img_subPackages/emptystar.svg' wx:for="{{5-list.moneyStar}}" wx:key="index" class='star'></image>
-                            </view>
-                            <view class='synthesize'>
-                                <text class='star_right'>工作指数:</text>
-                                <image src='../../img_subPackages/star.svg' wx:for="{{list.workStar}}" wx:key="index" class='star'></image>
-                                <image src='../../img_subPackages/emptystar.svg' wx:for="{{5-list.workStar}}" wx:key="index" class='star'></image>
-                                <!-- <view class='view_star'>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/emptystar.svg' class='star'></image>
-                    <image src='/assets/img_subPackages/star.svg' wx:for="{{list.workStar}}" wx:key="index" style="position:absolute;left: {{index>0?index*35+2.5*(index+2):5}}rpx;" class='star_position'></image>
-                </view> -->
-                            </view>
-                        </view>
-                        <!-- 没有星星 -->
-                        <view class='index_right'>
-                            <image src='https://xingzuo-1256217146.cos.ap-guangzhou.myqcloud.com/constellation/{{list.constellationId}}.png' class='aries' wx:if="{{list.constellationId}}"></image>
-                            <!-- <image src='/assets/img_subPackages/aries.svg' class='aries'></image> -->
-                            <!-- 今日运势 -->
-                            <view class='luckycolor' wx:if="{{current == 0 && list.luckyNum}}">
-                                <text class='colon'>幸运数字:</text>
-                                <text>{{list.luckyNum}}</text>
-                            </view>
-                            <view class='luckycolor' wx:if="{{current == 0 && list.grxz}}">
-                                <text class='colon'>贵人星座:</text>
-                                <text>{{list.grxz}}</text>
-                            </view>
-                            <!-- 本周运势 -->
-                            <view class='luckycolor' wx:if="{{current == 1 && list.luckyDay}}">
-                                <text class='colon'>幸运日期:</text>
-                                <text>{{list.luckyDay}}</text>
-                            </view>
-                            <view class='luckycolor' wx:if="{{current == 1 && list.xrxz}}">
-                                <text class='colon'>小人星座:</text>
-                                <text>{{list.xrxz}}</text>
-                            </view>
-                            <!-- 本月运势 -->
-                            <view class='luckycolor' wx:if="{{current == 2 && list.luckyDirection}}">
-                                <text class='colon'>吉利方位:</text>
-                                <text>{{list.luckyDirection}}</text>
-                            </view>
-                            <view class='luckycolor' wx:if="{{current == 2 && list.yfxz}}">
-                                <text class='colon'>缘分星座:</text>
-                                <text>{{list.yfxz}}</text>
-                            </view>
-                        </view>
-                    </view>
-                    <!-- 今日提醒 -->
-                    <view class='luckProfile' wx:if="{{list.dayNotice}}">
-                        <view class='luckProfile_head'>
-                            <image src='/assets/img/warn.svg' class='luckProfile_img'></image>
-                            <text class='luckProfile_text daynotice'>今日提醒</text>
-                        </view>
-                        <view class='luckProfile_content'>{{list.dayNotice}}</view>
-                    </view>
-                    <!-- 运势简评 -->
-                    <view class='luckProfile' wx:if="{{list.generalTxt}}">
-                        <view class='luckProfile_head'>
-                            <image src='../../img_subPackages/luckProfile.svg' class='luckProfile_img'></image>
-                            <text class='luckProfile_text'>运势简评</text>
-                        </view>
-                        <view class='luckProfile_content'>{{list.generalTxt}}</view>
-                    </view>
-                    <!-- 爱情运势 -->
-                    <view class='luckProfile' wx:if="{{list.loveTxt}}">
-                        <view class='luckProfile_head'>
-                            <image src='../../img_subPackages/love_lucky.svg' class='luckProfile_img'></image>
-                            <text class='luckProfile_text love'>爱情运势</text>
-                        </view>
-                        <view class='luckProfile_content'>{{list.loveTxt}}</view>
-                    </view>
-                    <!-- 工作运势 -->
-                    <view class='luckProfile' wx:if="{{list.workTxt}}">
-                        <view class='luckProfile_head'>
-                            <image src='../../img_subPackages/work.svg' class='luckProfile_img'></image>
-                            <text class='luckProfile_text work'>工作运势</text>
-                        </view>
-                        <view class='luckProfile_content'>{{list.workTxt}}</view>
-                    </view>
-                    <!-- 财富运势 -->
-                    <view class='luckProfile' wx:if="{{list.moneyTxt}}">
-                        <view class='luckProfile_head'>
-                            <image src='../../img_subPackages/wealth.svg' class='luckProfile_img'></image>
-                            <text class='luckProfile_text wealth'>财富运势</text>
-                        </view>
-                        <view class='luckProfile_content'>{{list.moneyTxt}}</view>
-                    </view>
-                    <!-- 健康运势 -->
-                    <view class='luckProfile' wx:if="{{list.health_txt}}">
-                        <view class='luckProfile_head'>
-                            <image src='../../img_subPackages/healthy.svg' class='luckProfile_img'></image>
-                            <text class='luckProfile_text healthy'>健康运势</text>
-                        </view>
-                        <view class='luckProfile_content'>{{list.health_txt}}</view>
-                    </view>
-                    <view class='footer'></view>
-                </scroll-view>
-            </swiper-item>
-        </block>
-    </swiper>
-
-    <view class="btn-show {{IPX ? 'ipx' : ''}}" wx:if="{{noticeBtnStatus}}" catchtap="_openNotice" >好运提醒我</view>
-</view>
-<!-- </scroll-view> -->
-
+</nav>

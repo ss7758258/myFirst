@@ -10,6 +10,8 @@ const bus = require('../../event')
 const q = require('../../utils/source')
 let env = 'dev'
 let timer = false
+// 图片有多少个
+let len = 0
 
 Page({
 
@@ -50,7 +52,7 @@ Page({
     // 初始化位置
     initCurrent: 0,
     isFirst: false, //是否是第一次进来
-    list: true, //页面渲染数据
+    list: [], //页面渲染数据
     emptylist: false, //页面数据为空所加载
     tomorrow: {
       year: false,
@@ -66,13 +68,16 @@ Page({
     version: true,
     // 按下状态
     touchStatus: false,
-    showCanvas:true
+    showCanvas:true,
+    // 加载中
+    loading: true
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    len = 0
     mta.Page.init()
     console.log('----------------------------------------------brief onLoad')
     let self = this
@@ -151,6 +156,15 @@ Page({
       'navConf.showPop':false
     })
   },
+  _loadImg(e){
+    console.log('加载图片：',len)
+    ++len
+    if(len === this.data.list.length * 2){
+      this.setData({
+        loading: false
+      })
+    }
+  },
   // 点赞
   _give(e){
     let { res, index } = e.currentTarget.dataset
@@ -188,7 +202,83 @@ Page({
       path: '/pages/home/home?to=brief&from=share&source=share&id=999998&tid=123455&shareform=brief&m=0',
     }
   },
+  // 保存原图
+  _saveImg(e){
+    const _self = this
+    let { res:data, index } = e.currentTarget.dataset
+    let img = data.pic
+    console.log('保存原图：', e)
+    mta.Event.stat('yan_save_photo', {})
 
+    wx.showLoading({
+      title: '图片生成中...',
+      mask: true,
+    })
+    $vm.utils.Promise.all([
+      getImageInfo({
+        src: img,
+      })
+    ]).then((res) => {
+      console.log('图片信息：',res)
+      if(res && res[0] && res[0].errMsg == 'getImageInfo:ok'){
+        
+        const ctx = wx.createCanvasContext('shareCanvas')
+        ctx.drawImage(res[0].path, 0, 0, 750, 1334)
+
+        ctx.draw(true,function(){
+          wx.canvasToTempFilePath({
+            canvasId: 'shareCanvas',
+            x: 0,
+            y: 0,
+            width: 750,
+            height: 1334,
+            destWidth: 750,
+            destHeight: 1334,
+            success: function (res) {
+              console.log(res.tempFilePath)
+              wx.saveImageToPhotosAlbum({
+                filePath: res.tempFilePath,
+                success(res) {
+                  wx.showModal({
+                    title: '保存成功',
+                    content: '图片已经保存到相册',
+                    showCancel: false,
+                  })
+                },
+                fail() {
+                  wx.showToast({
+                    title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+                    icon: 'none',
+                    duration: 3000
+                  })
+                },
+                complete() {
+                  wx.hideLoading()
+                }
+              })
+            },
+            fail: function (res) {
+              console.log(res)
+              wx.hideLoading()
+              wx.showToast({
+                title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+                icon: 'none',
+                duration: 3000
+              })
+            }
+          })
+        })
+      }
+    })
+    .catch((err) => {
+      wx.hideLoading()
+      console.log('保存图片错误信息', err)
+      wx.showToast({
+        icon: 'none',
+        title: '加载失败了，请检查网络',
+      })
+    })
+  },
   /**
    * 保存图片
    */
@@ -205,9 +295,7 @@ Page({
       title: '图片生成中...',
       mask: true,
     })
-    _self.setData({
-      showCanvas: true,
-    })
+    
     $vm.utils.Promise.all([
         getImageInfo({
           src: img,
@@ -264,16 +352,11 @@ Page({
                 wx.saveImageToPhotosAlbum({
                   filePath: res.tempFilePath,
                   success(res) {
-                    wx.hideLoading()
                     wx.showModal({
                       title: '保存成功',
                       content: '图片已经保存到相册，可以分享到朋友圈了',
                       showCancel: false,
                     })
-                    _self.setData({
-                      // showCanvas: false,
-                    })
-                    // wx.hideLoading()
                   },
                   fail() {
                     wx.showToast({
@@ -281,9 +364,9 @@ Page({
                       icon: 'none',
                       duration: 3000
                     })
-                    _self.setData({
-                      showCanvas: false,
-                    })
+                  },
+                  complete: function() {
+                    wx.hideLoading()
                   }
                 })
               },
@@ -294,10 +377,7 @@ Page({
                   icon: 'none',
                   duration: 3000
                 })
-                _self.setData({
-                  showCanvas: false,
-                })
-                // wx.hideLoading()
+                wx.hideLoading()
               },
             })
           })
@@ -311,18 +391,6 @@ Page({
           title: '加载失败了，请检查网络',
         })
       })
-  },
-  onLodingListener: function (e) {
-    console.log('图片加载完成时：', e)
-    wx.hideLoading()
-    const _self = this
-    if (e.detail.height && e.detail.width) {
-      _self.setData({
-        // picUserName: _GData.userInfo.nickName,
-        // 开启图片展示
-        isShow: true,
-      })
-    }
   },
 
   // 上报formid
@@ -361,15 +429,16 @@ Page({
           console.log(_date,new Date(_date),new Date(val.currentDate))
           let tmp = new Date(_date)
           val.year = tmp.getFullYear()
-          val.month = util.getMonth(parseInt(tmp.getMonth()))
+          val.month = util.getMonth(parseInt(tmp.getMonth() + 1))
           val.date = tmp.getDate()
           val.date = val.date.length > 1 ? val.date : '0' + val.date
-          console.log('时间：',tmp.getFullYear() + '-' + util.getMonth(parseInt(tmp.getMonth())) + '-' + tmp.getDate())
+          console.log('时间：',tmp.getFullYear() + '-' + util.getMonth(parseInt(tmp.getMonth()  + 1)) + '-' + tmp.getDate())
           val.prevPic = url + val.prevPic
           val.pic = url + val.pic
           val.pic = url + '/1184b2066eb44e6598f4f26cbb27bc8f_01561d56afdb427a88fec6061a65701c.png'
           val.status = ids.indexOf(val.id) != -1 ? true : false
         })
+        // len = res.wordlist.length * 2
 
         this.setData({
           list: res.wordlist,

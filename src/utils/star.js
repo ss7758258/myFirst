@@ -8,7 +8,8 @@ module.exports = {
         bgcolor:'#FFF1D8',
         bgc:'rgba(255,192,64,0.1)',
         color: '#F08000',
-        img: '/assets/img/1.svg'
+        img: '/assets/img/1.svg',
+        starImg: '/assets/star/1.png'
     },
     2: {
         id: 2,
@@ -19,7 +20,8 @@ module.exports = {
         bgcolor:'#FFF2CA',
         bgc:'rgba(255,207,48,0.1)',
         color: '#FFC400',
-        img: '/assets/img/2.svg'
+        img: '/assets/img/2.svg',
+        starImg: '/assets/star/2.png'
     },
     3: {
         id: 3,
@@ -30,7 +32,8 @@ module.exports = {
         bgcolor:'#FFE8F3',
         bgc:'rgba(239,110,110,0.1)',
         color: '#FF678E',
-        img: '/assets/img/3.svg'
+        img: '/assets/img/3.svg',
+        starImg: '/assets/star/3.png'
     },
     4: {
         id: 4,
@@ -41,7 +44,8 @@ module.exports = {
         bgcolor:'#FFEBEB',
         bgc:'rgba(232,81,81,0.1)',
         color: '#FF6D6D',
-        img: '/assets/img/4.svg'
+        img: '/assets/img/4.svg',
+        starImg: '/assets/star/4.png'
     },
     5: {
         id: 5,
@@ -52,7 +56,8 @@ module.exports = {
         bgcolor:'#FFEDDD',
         bgc:'rgba(255,177,41,0.1)',
         color: '#FFA200',
-        img: '/assets/img/5.svg'
+        img: '/assets/img/5.svg',
+        starImg: '/assets/star/5.png'
     },
     6: {
         id: 6,
@@ -63,7 +68,8 @@ module.exports = {
         bgcolor:'#FFE9E9',
         bgc:'rgba(255,209,207,0.1)',
         color: '#FF9A95',
-        img: '/assets/img/6.svg'
+        img: '/assets/img/6.svg',
+        starImg: '/assets/star/6.png'
     },
     7: {
         id: 7,
@@ -74,7 +80,8 @@ module.exports = {
         bgcolor:'#E5F5FF',
         bgc:'rgba(0,160,255,0.1)',
         color: '#5DB5FF',
-        img: '/assets/img/7.svg'
+        img: '/assets/img/7.svg',
+        starImg: '/assets/star/7.png'
     },
     8: {
         id: 8,
@@ -85,7 +92,8 @@ module.exports = {
         bgcolor:'#FFEDE2',
         bgc:'rgba(215,145,100,0.2)',
         color: '#9E420F',
-        img: '/assets/img/8.svg'
+        img: '/assets/img/8.svg',
+        starImg: '/assets/star/8.png'
     },
     9: {
         id: 9,
@@ -96,7 +104,8 @@ module.exports = {
         bgcolor:'#FFE8E8',
         bgc:'rgba(235,98,98,0.1)',
         color: '#FF7070',
-        img: '/assets/img/9.svg'
+        img: '/assets/img/9.svg',
+        starImg: '/assets/star/9.png'
     },
     10: {
         id: 10,
@@ -107,7 +116,8 @@ module.exports = {
         bgcolor:'#FFECE7',
         bgc:'rgba(255,195,173,0.1)',
         color: '#FF7F52',
-        img: '/assets/img/10.svg'
+        img: '/assets/img/10.svg',
+        starImg: '/assets/star/10.png'
     },
     11: {
         id: 11,
@@ -118,7 +128,8 @@ module.exports = {
         bgcolor:'#EDEAFF',
         bgc:'rgba(141,118,255,0.1)',
         color: '#836AFF',
-        img: '/assets/img/11.svg'
+        img: '/assets/img/11.svg',
+        starImg: '/assets/star/11.png'
     },
     12: {
         id: 12,
@@ -129,6 +140,7 @@ module.exports = {
         bgcolor:'#E6F0FF',
         bgc:'rgba(106,167,255,0.1)',
         color: '#62A2FF',
-        img: '/assets/img/12.svg'
+        img: '/assets/img/12.svg',
+        starImg: '/assets/star/12.png'
     }
 }

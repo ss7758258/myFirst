@@ -3,9 +3,13 @@ module.exports = {
         path : '/pages/home/home',
         type : 'tab'
     },
+    center : {
+        path : '/pages/center/center',
+        type : 'tab'
+    },
     find : {
         path : '/pages/find/find',
-        type : 'tab'
+        type : 'nav'
     },
     shake : {
         path : '/pages/lot/shake/shake',

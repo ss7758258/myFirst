@@ -48,6 +48,12 @@
 					"query": ""
 				},
 				{
+					"id": 3,
+					"name": "个人中心（分享进入）",
+					"pathName": "pages/home/home",
+					"query": "to=center&from=share&source=share&id=999998&tid=123455&shareform=pair&m=0"
+				},
+				{
 					"id": 2,
 					"name": "一签盒",
 					"pathName": "pages/lot/aSignWall/aSignWall",
