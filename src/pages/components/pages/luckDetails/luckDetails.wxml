@@ -119,38 +119,83 @@
                                 <view>
                                     感情
                                     <view class="d-c-s-progress">
-                                        <view></view>
-                                        <image src="/assets/img/pro_star.png"></image>
+                                        <view style="width:{{day.lovePercentage}}%;"></view>
+                                        <image style="left:calc({{day.lovePercentage}}% - 13rpx);" src="/assets/img/pro_star.png"></image>
                                     </view>
                                     <text>{{day.lovePercentage}}</text>
                                 </view>
                                 <view>
                                     事业
                                     <view class="d-c-s-progress">
-                                        <view></view>
-                                        <image src="/assets/img/pro_star.png"></image>
+                                        <view style="width:{{day.workPercentage}}%;"></view>
+                                        <image style="left:calc({{day.workPercentage}}% - 13rpx);" src="/assets/img/pro_star.png"></image>
                                     </view>
                                     <text>{{day.workPercentage}}</text>
                                 </view>
                                 <view>
                                     财富
                                     <view class="d-c-s-progress">
-                                        <view></view>
-                                        <image src="/assets/img/pro_star.png"></image>
+                                        <view style="width:{{day.moneyPercentage}}%;"></view>
+                                        <image style="left:calc({{day.moneyPercentage}}% - 13rpx);" src="/assets/img/pro_star.png"></image>
                                     </view>
                                     <text>{{day.moneyPercentage}}</text>
                                 </view>
                                 <view>
                                     健康
                                     <view class="d-c-s-progress">
-                                        <view></view>
-                                        <image src="/assets/img/pro_star.png"></image>
+                                        <view style="width:{{day.summaryPercentage}}%;"></view>
+                                        <image style="left:calc({{day.summaryPercentage}}% - 13rpx);" src="/assets/img/pro_star.png"></image>
                                     </view>
                                     <text>{{day.summaryPercentage}}</text>
                                 </view>
                             </view>
                         </view>
                         <!-- End运势概况 -->
+
+
+                        <!-- 运势详情 -->
+                        <view class="luck-detail mt30">
+                            <view class="luck-panel">
+                                <image class="luck-icon" src="/assets/img/luck_1.png"></image>
+                                <view class="luck-title">运势简评</view>
+                                <view class="luck-desc">{{day.generalTxt}}</view>
+                            </view>
+                        </view>
+
+                        <view class="luck-detail mt30">
+                            <view class="luck-panel">
+                                <image class="luck-icon" src="/assets/img/luck_2.png"></image>
+                                <view class="luck-title">感情运势</view>
+                                <view class="luck-desc">{{day.loveTxt}}</view>
+                            </view>
+                        </view>
+
+                        <view class="luck-detail mt30">
+                            <view class="luck-panel">
+                                <image class="luck-icon" src="/assets/img/luck_3.png"></image>
+                                <view class="luck-title">事业运势</view>
+                                <view class="luck-desc">{{day.workTxt}}</view>
+                            </view>
+                        </view>
+
+                        <view class="luck-detail mt30">
+                            <view class="luck-panel">
+                                <image class="luck-icon" src="/assets/img/luck_4.png"></image>
+                                <view class="luck-title">财富运势</view>
+                                <view class="luck-desc">{{day.moneyTxt}}</view>
+                            </view>
+                        </view>
+                        
+                        <view class="luck-detail mt30">
+                            <view class="luck-panel">
+                                <image class="luck-icon" src="/assets/img/luck_5.png"></image>
+                                <view class="luck-title">健康运势</view>
+                                <view class="luck-desc">{{day.dayNotice}}</view>
+                            </view>
+                        </view>
+
+                        <view class="pb30"></view>
+                        <!-- End运势详情 -->
 
                     </view>
                     <!-- End运势内容 -->
