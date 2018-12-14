@@ -68,6 +68,9 @@ Page({
 		},
 		// 导航的高度
 		hei : 64,
+		sc: 0,
+		scIndex: 0,
+		scDuration: 800,
 		showPair : false,
 		showBanner : false,
 		clockStatus : false,  //小打卡开关

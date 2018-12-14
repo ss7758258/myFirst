@@ -422,6 +422,25 @@ function getAstro(m,d){
   return "魔羯水瓶双鱼牡羊金牛双子巨蟹狮子处女天秤天蝎射手魔羯".substr( m * 2 - ( d < "102223444433".charAt( m - 1 ) - -19 ) * 2, 2);
 }
 
+// 获取星座对应关系
+function getXZ(str){
+	let data = {
+		'白羊座': 1,
+		'金牛座': 2,
+		'双子座': 3,
+		'巨蟹座': 4,
+		'狮子座': 5,
+		'处女座': 6,
+		'天秤座': 7,
+		'天蝎座': 8,
+		'射手座': 9,
+		'摩羯座': 10,
+		'水瓶座': 11,
+		'双鱼座': 12
+	}
+	return (data[str] || 1)
+}
+
 module.exports = {
 	constellation,
 	Promise,
@@ -439,5 +458,6 @@ module.exports = {
 	roundRect,
 	getMonth,
 	getWeek,
-	getAstro
+	getAstro,
+	getXZ
 }

@@ -906,3 +906,139 @@ button.collect-btn{
 	color:rgba(38,35,70,1);
 	line-height:50rpx;
 }
+.a-tips{
+	padding: 0 40rpx;
+	display: flex;
+	font-size:32rpx;
+	font-weight:600;
+	color:rgba(255,93,124,1);
+}
+.day-notice{
+	position: relative;
+	font-size:26rpx;
+	font-family:PingFangSC-Regular;
+	font-weight:400;
+	color:rgba(128,128,166,1);
+	margin-left: 40rpx;
+	display: flex;
+}
+.n-left{
+	margin-top: -10rpx;
+	font-size:36rpx;
+	font-weight:600;
+	color: #FF5D7C;
+}
+.n-right{
+	margin-top: 18rpx;
+	margin-left: -6rpx;
+	font-size:36rpx;
+	font-weight:600;
+	color: #FF5D7C;
+}
+
+/* 运势分数 */
+.luck-detail{
+	position: relative;
+	margin: 0 auto;
+	width:690rpx;
+	height:730rpx;
+	background:rgba(255,248,248,1);
+	border-radius:24rpx;
+}
+.score-large{
+	font-size:28rpx;
+	font-family:PingFangSC;
+	font-weight:600;
+	color:rgba(45,52,158,1);
+}
+.score-large>view{
+	text-align: center;
+}
+.score-large-text{
+	line-height: 120rpx;
+	height: 120rpx;
+	overflow: hidden;
+	font-size:120rpx;
+	color: #FF5D7C;
+	display: flex;
+	justify-content: center;
+	/* align-items: center; */
+}
+swiper-item{
+	line-height: 120rpx;
+	height: 120rpx;
+	font-size:120rpx;
+	color: #FF5D7C;
+	text-align: left;
+}
+.score-large-text>swiper{
+	width: 70rpx;
+	height: 120rpx;
+	word-break: break-all;
+}
+.score-large-text>view{
+	width: 70rpx;
+	height: 1200rpx;
+	overflow: hidden;
+	transition: all .8s ease-in-out;
+	transform: translateY(-70rpx);
+	word-break: break-all;
+}
+.score-large-text>view:nth-child(1){
+	height: 240rpx;
+}
+.de-score{
+	display: flex;
+}
+.de-score>view{
+	flex: 1;
+}
+.de-score>view:nth-child(2){
+	margin-right: 50rpx;
+}
+.de-panel{
+	margin-top: -30rpx;
+}
+.de-panel>view{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	box-sizing: border-box;
+	font-size:28rpx;
+	font-weight:400;
+	color:rgba(45,52,158,1);
+	margin-top: 30rpx;
+}
+
+.d-c-s-progress{
+	position: relative;
+	flex: 1;
+	background: #FFD9D9;
+	height:8rpx;
+	border-radius:4rpx;
+	margin-left: 20rpx;
+	margin-right: 20rpx;
+}
+.d-c-s-progress image{
+	width:26rpx;
+	height:26rpx;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	transition: all .8s linear;
+}
+.d-c-s-progress>view{
+	width: 0%;
+	height:8rpx;
+	border-radius:4rpx;
+	transition: all .8s linear;
+	background:linear-gradient(270deg,rgba(255,92,173,1) 0%,rgba(255,93,124,1) 100%);
+}
+.de-panel>view>text{
+	font-size:26rpx;
+	font-weight:400;
+	color:rgba(173,174,201,1);
+}

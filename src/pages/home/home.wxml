@@ -1,4 +1,3 @@
-
 <!-- 导入模板 -->
 <!-- 选择星座 -->
 <import src="/template/choice/choice.wxml" />
@@ -7,102 +6,158 @@
 <!-- tabbar -->
 <import src="/template/tabbar/tabbar.wxml" />
 <!-- End导入模板 -->
-
 <!-- 导航 -->
 <nav opts='{{navConf}}' bind:nav-height="_setHeight"></nav>
 <!-- 登录态 -->
 <loginApp></loginApp>
-
 <view class="loader_mask" wx:if="{{!isLogin}}">
-	<view class="loader_panel" wx:if="{{!isLogin}}">
-		<view id="caseBlanche">
-			<view id="rond">
-				<view id="test"></view>
-			</view>
-			<view id="load">
-				进入中
-			</view>
+		<view class="loader_panel" wx:if="{{!isLogin}}">
+				<view id="caseBlanche">
+						<view id="rond">
+								<view id="test"></view>
+						</view>
+						<view id="load">进入中</view>
+				</view>
 		</view>
-	</view>
 </view>
-
 <!-- 收藏小程序-弹窗 -->
 <view class="contact_follow_mask {{showCollect ? 'show':''}}">
-	<view class="contact_follow collect_panel {{showCollect ? 'show':''}}" catchtap="catchHide">
-		<view class="contact_panel">
-			<image class="collect-point" src="/assets/img/point.png"></image>
-			<image class="collect-img" src="/assets/img/point.svg"></image>
-			<button class="collect-btn" hover-class="none" catchtap="closeCollect">我知道了</button>
+		<view class="contact_follow collect_panel {{showCollect ? 'show':''}}" catchtap="catchHide">
+				<view class="contact_panel">
+						<image class="collect-point" src="/assets/img/point.png"></image>
+						<image class="collect-img" src="/assets/img/point.svg"></image>
+						<button class="collect-btn" hover-class="none" catchtap="closeCollect">我知道了</button>
+				</view>
 		</view>
-	</view>
 </view>
 <!-- 收藏小程序-弹窗 -->
-
 <!-- 提示对话框 -->
 <form report-submit="true" bindsubmit="setFormId" bindreset="">
-	<view class="dialog-mask" wx:if="{{showDialog && isLogin}}" style="height:calc(100% - {{nav}}px);top:{{nav}}px;">
-
-		<view class="alert-panel">
-			<view class="alert-content">
-				<view class="alert-img">
-					<image mode="widthFix" src="{{cdn + '' + dialo.prevPic}}"></image>
+		<view class="dialog-mask" wx:if="{{showDialog && isLogin}}" style="height:calc(100% - {{nav}}px);top:{{nav}}px;">
+				<view class="alert-panel">
+						<view class="alert-content">
+								<view class="alert-img">
+										<image mode="widthFix" src="{{cdn + '' + dialo.prevPic}}"></image>
+								</view>
+								<view class="alert-title mt30">{{dialo.title}}</view>
+								<view class="alert-line mt10">
+										<view class="diamond"></view>
+										<view class="diamond"></view>
+										<view class="diamond"></view>
+										<view class="diamond"></view>
+										<view class="diamond"></view>
+								</view>
+								<view class="alert-text mt10">{{dialo.content}}</view>
+								<!-- <view class="alert-btn mt50 mb60">{{dialo.button}}</view> -->
+								<button class="alert-btn mt50" form-type="submit" hover-class="btn-current" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goPage">
+										{{dialo.button}}
+								</button>
+								<view class="pb60"></view>
+								<image class="alert-close" catchtap="_closeUpdate" src="/assets/img/icon_del.png"></image>
+						</view>
+						<view class="alert-pendant">
+								<view class="pillar-panel">
+										<image class="pillar-left-circle" src="/assets/img/circle_icon.png"></image>
+										<image class="pillar-right-circle" src="/assets/img/circle_icon.png"></image>
+										<view class="pillar-left"></view>
+										<view class="pillar-right"></view>
+								</view>
+						</view>
 				</view>
-				<view class="alert-title mt30">{{dialo.title}}</view>
-				<view class="alert-line mt10">
-					<view class="diamond"></view>
-					<view class="diamond"></view>
-					<view class="diamond"></view>
-					<view class="diamond"></view>
-					<view class="diamond"></view>
-				</view>
-				<view class="alert-text mt10">{{dialo.content}}</view>
-				<!-- <view class="alert-btn mt50 mb60">{{dialo.button}}</view> -->
-				<button class="alert-btn mt50" form-type="submit" hover-class="btn-current" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goPage">
-				{{dialo.button}}
-				</button>
-				<view class="pb60"></view>
-				<image class="alert-close" catchtap="_closeUpdate" src="/assets/img/icon_del.png" ></image>
-			</view>
-			<view class="alert-pendant">
-				<view class="pillar-panel">
-					<image class="pillar-left-circle" src="/assets/img/circle_icon.png"></image>
-					<image class="pillar-right-circle" src="/assets/img/circle_icon.png"></image>
-					<view class="pillar-left"></view>
-					<view class="pillar-right"></view>
-				</view>
-			</view>
 		</view>
-
-	</view>
 </form>
 <!-- End提示对话框 -->
-
 <form bindsubmit="setFormId" report-submit='true' class="{{PX ? 'iPX' : ''}}">
-	<!-- 选择星座 -->
-	<template is="choice" data="{{showChoice,star}}" wx:if="{{isLogin}}"></template>
-	<!-- 星座描述信息 -->
-	<template is="star-desc" data="{{showStarDesc,star,xz,desc,scrolltop}}" wx:if="{{isLogin}}"></template>
-	<!-- 滚动容器 -->
-	<scroll-view class="monitor-panel {{isLogin ? 'current' : ''}}" scroll-x="false" scroll-y="true" style="height:calc(100% - {{hei}}px);min-height:calc(100% - {{hei}}px);">
-		
-		<!-- 今日运势 -->
-		<view class="panel">
-			<view class="panel-title">
-				<image src="/assets/img/home_title_1.png" mode="widthFix"></image>
-			</view>
-			<view class="panel-content mt10">
-				<view class="con-panel">
-					<image src="{{navConf.iconPath}}"></image>
-					<view class="account-info">
-						<view>{{userInfo.nickName}}</view>
-						<view>{{myConstellation.name}}</view>
-					</view>
+		<!-- 选择星座 -->
+		<template is="choice" data="{{showChoice,star}}" wx:if="{{isLogin}}"></template>
+		<!-- 星座描述信息 -->
+		<template is="star-desc" data="{{showStarDesc,star,xz,desc,scrolltop}}" wx:if="{{isLogin}}"></template>
+		<!-- 滚动容器 -->
+		<scroll-view class="monitor-panel {{isLogin ? 'current' : ''}}" scroll-x="false" scroll-y="true" style="height:calc(100% - {{hei}}px);min-height:calc(100% - {{hei}}px);">
+				<!-- 今日运势 -->
+				<view class="panel">
+						<view class="panel-title">
+								<image src="/assets/img/home_title_1.png" mode="widthFix"></image>
+						</view>
+						<view class="panel-content mt10">
+								<!-- 个人信息 -->
+								<view class="con-panel">
+										<image src="{{navConf.iconPath}}"></image>
+										<view class="account-info">
+												<view>{{userInfo.nickName}}</view>
+												<view>{{myConstellation.name}}</view>
+										</view>
+								</view>
+								<!-- End个人信息 -->
+								<!-- Tips -->
+								<view class="a-tips mt40">
+										<view>TIPS</view>
+										<view class="day-notice">
+												<view class="n-left">“</view>
+												{{xz.dayNotice}}
+												<view class="n-right">”</view>
+										</view>
+								</view>
+								<!-- EndTips -->
+								<!-- 运势详情 -->
+								<view class="luck-detail pt40">
+										<!-- 分数 -->
+										<view class="de-score">
+												<view class="score-large">
+														<view class="score-large-text">
+															<swiper vertical="false" current="{{sc}}" duration="{{scDuration}}">
+																<swiper-item catchtouchmove="move">
+																	<view>{{xzScore[0] - 1}}</view>
+																</swiper-item>
+																<swiper-item catchtouchmove="move">
+																	<view>{{xzScore[0]}}</view>
+																</swiper-item>
+															</swiper>
+															
+															<swiper vertical="false" current="{{scIndex}}" duration="{{scDuration}}">
+																<block wx:for="{{10}}" wx:key="{{index}}">
+																	<swiper-item catchtouchmove="move">
+																		<view>{{item}}</view>
+																	</swiper-item>
+																</block>
+															</swiper>
+														</view>
+														<view class="mt10">运势指数</view>
+												</view>
+												<view class="de-panel">
+														<view>
+																爱情
+																<view class="d-c-s-progress">
+																		<view style="width:{{xz.lovePercentage}}%;"></view>
+																		<image style="left:calc({{xz.lovePercentage}}% - 13rpx);" src="/assets/img/pro_star.png"></image>
+																</view>
+																<text>{{xz.lovePercentage}}</text>
+														</view>
+														<view>
+																事业
+																<view class="d-c-s-progress">
+																		<view style="width:{{xz.workPercentage}}%;"></view>
+																		<image style="left:calc({{xz.workPercentage}}% - 13rpx);" src="/assets/img/pro_star.png"></image>
+																</view>
+																<text>{{xz.workPercentage}}</text>
+														</view>
+														<view>
+																财运
+																<view class="d-c-s-progress">
+																		<view style="width:{{xz.moneyPercentage}}%;"></view>
+																		<image style="left:calc({{xz.moneyPercentage}}% - 13rpx);" src="/assets/img/pro_star.png"></image>
+																</view>
+																<text>{{xz.moneyPercentage}}</text>
+														</view>
+												</view>
+										</view>
+										<!--  -->
+								</view>
+								<!-- End运势详情 -->
+						</view>
 				</view>
-			</view>
-		</view>
-		<!-- End今日运势 -->
-
-	</scroll-view>
-	<!-- tabbar -->
-	<template is="tabbar" data="{{tabbarConfig}}"></template>
+				<!-- End今日运势 -->
+		</scroll-view>
+		<!-- tabbar -->
+		<template is="tabbar" data="{{tabbarConfig}}"></template>
 </form>

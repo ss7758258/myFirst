@@ -498,6 +498,7 @@ const methods = function () {
 		 * 显示方案
 		 */
 		onShow(opts) {
+			let self = this
 			tab.switchTab(0, '', this)
 			tab.show()
 			console.log('------------------------------onShow()')
@@ -509,6 +510,31 @@ const methods = function () {
 				this.setData({
 					'navConf.iconPath': Storage.userInfo.avatarUrl || ''
 				})
+				let lovePercentage = this.data.xz.lovePercentage || 0
+				let workPercentage = this.data.xz.workPercentage || 0
+				let moneyPercentage = this.data.xz.moneyPercentage || 0
+				
+				this.setData({
+					'xz.lovePercentage': 0,
+					'xz.workPercentage': 0,
+					'xz.moneyPercentage': 0,
+					sc: 0,
+					scIndex: 0
+				});
+
+				((lovePercentage, workPercentage, moneyPercentage, scIndex) => {
+					
+					setTimeout(() => {
+						self.setData({
+							'xz.lovePercentage': lovePercentage,
+							'xz.workPercentage': workPercentage,
+							'xz.moneyPercentage': moneyPercentage,
+							sc: 1,
+							scIndex
+						})
+					},850)
+
+				})(lovePercentage, workPercentage, moneyPercentage, this.data.xzScore[1])
 			}
 		},
 
@@ -566,13 +592,19 @@ const methods = function () {
 				console.log('运势数据', res)
 				if (res != '') {
 					Storage.lucky = res
-					res.healthy = res.summaryPercentage + 30
-					if (res.healthy > 100) {
-						res.healthy = 96
-					}
+					let score = res.summaryPercentage || 10
+					score = score < 10 ? 10 : score 
+					let arrs = score.toString().split('')
+					// res.healthy = res.summaryPercentage + 30
+					// if (res.healthy > 100) {
+					// 	res.healthy = 96
+					// }
 
 					self.setData({
 						xz: res,
+						sc: 1,
+						scIndex: arrs[1],
+						xzScore: arrs,
 						dayNotice: res.dayNotice ? res.dayNotice : ''
 					})
 				}
