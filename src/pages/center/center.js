@@ -9,7 +9,7 @@ Page({
 		navConf : {
 			title : '个人中心',
 			state : 'root',
-			isRoot : true,
+			isRoot : false,
 			isIcon : false,
 			iconPath : '',
 			bg : '#fff',

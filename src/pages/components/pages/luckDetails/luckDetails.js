@@ -3,6 +3,8 @@ const API = require('../../../../utils/api')
 const mta = require('../../../../utils/mta_analysis.js')
 const Storage = require('../../../../utils/storage')
 const star = require('../../../../utils/star')
+const util = require('../../../../utils/util')
+const WxParse = require('../../../../wxParse/wxParse.js');
 Page({
     data: {
         navConf: {
@@ -42,10 +44,8 @@ Page({
         baseCurrent: 0,
         // tab选择
         tabCurrent: 0,
+        // swiper选择
         swCurrent: 0,
-        headerlist: ['今日运势', '本周运势','本月运势'], //导航栏数据
-        contentlist: ['综合指数', '爱情指数', '财富指数', '工作指数'],
-        list: false,       //页面渲染数据
         dta:{           //运势接口数据
             day: {},
             week: {},
@@ -53,6 +53,7 @@ Page({
         },
         moreText: '查看更多',
         day:{},
+        week:{},
         // 存放日期
         dList:[]
     },
@@ -79,6 +80,11 @@ Page({
         wx.showLoading({
             title: '加载ing',
             mask: true,
+        })
+        let dates = util.getWeek()
+        let tmp = (dates[0].getMonth() + 1) + '.' + dates[0].getDate() + '~' + (dates[0].getMonth() + 1) + '.' + dates[0].getDate()
+        this.setData({
+            weekDate: tmp
         })
         this._getDayList()
         this._getDayResult()
@@ -146,7 +152,13 @@ Page({
             showChoice: false,
             current: item.id
         })
+        wx.showLoading({
+            title: '加载ing',
+            mask: true,
+        })
         wx.setStorageSync('luck_current_id', item.id ? item.id : 1);
+        this._getDayResult()
+        this._getData()
         console.log(item)
     },
     // 设置高度
@@ -181,15 +193,20 @@ Page({
      * 
      */
     _getData(){
-        let constellationId = $vm.globalData.selectConstellation.id //选择星座id
+        // 选择星座id
+        let constellationId = this.data.current 
         // 本周运势
-        $vm.api.luckyweek({ constellationId: constellationId }).then(res => {
+        $vm.api.luckyweek({ constellationId }).then(res => {
             // console.log('运势详情数据：', res)
             if (res != '') {
                 this.setData({
-                    'dta.week': res
+                    week: res
                 })
-                console.log('本周运势数据bbbb:', this.data.dta.week)
+                WxParse.wxParse('weekgeneralTxt', 'html', this.data.week.generalTxt || 'false', this, 5);
+                WxParse.wxParse('weekloveTxt', 'html', this.data.week.loveTxt || 'false', this, 5);
+                WxParse.wxParse('weekworkTxt', 'html', this.data.week.workTxt || 'false', this, 5);
+                WxParse.wxParse('weekmoneyTxt', 'html', this.data.week.moneyTxt || 'false', this, 5);
+                console.log('本周运势数据:', this.data.week)
             }
         }).catch(err => {
             console.log('本周运势详情返回报错数据：', err)
@@ -200,12 +217,18 @@ Page({
         })
 
         // 本月运势
-        $vm.api.luckymonth({ constellationId: constellationId }).then(res => {
-            // console.log('本月运势详情数据：', res)
+        $vm.api.luckymonth({ constellationId }).then(res => {
+            console.log('本月运势详情数据：', res)
             if (res != '') {
+
                 this.setData({
-                    'dta.month': res
+                    monthData: res
                 })
+                WxParse.wxParse('generalTxt', 'html', this.data.monthData.generalTxt || 'false', this, 5);
+                WxParse.wxParse('loveTxt', 'html', this.data.monthData.loveTxt || 'false', this, 5);
+                WxParse.wxParse('workTxt', 'html', this.data.monthData.workTxt || 'false', this, 5);
+                WxParse.wxParse('moneyTxt', 'html', this.data.monthData.moneyTxt || 'false', this, 5);
+                
             }
         }).catch(err => {
             console.log('本月运势详情返回报错数据：', err)
@@ -221,19 +244,25 @@ Page({
      */
     _getDayResult (){
         // 今日运势
-        let constellationId = $vm.globalData.selectConstellation.id
-        $vm.api.luckyday({ constellationId: constellationId}).then(res => {
+        let constellationId = this.data.current 
+        $vm.api.luckyday({ constellationId }).then(res => {
             console.log('今日运势详情数据：', res)
             if(res!=''){
                 res.tip1 = '学习，放松'
                 res.tip2 = '打游戏'
                 res.mahjong = '麻将牌运普通的日子，今日搓麻将可先以娱乐心态进入，再以赌一把的心态投入，险中求胜美不胜收。'
                 res.landlord = '今天的思念之情特别浓烈，和恋人分开时表现出的依依不舍，易让对方更加爱你；朋友到你家做客的机率很大，难免要让你有些破费，不过因此能换来好心情；很懂得处理与同事间的关系，相处会很融洽。'
+                let pokerTip = `斗地主赢牌必看：<br />赢牌颜色：${res.pokerColor}<br/>赢牌食物：${res.pokerFood}<br/>赢牌方向：${res.pokerPosition}<br/>Tips：${res.pokerTips}`
+                res.pokerTip = pokerTip
                 this.setData({
-                    // 'dta.day': res
                     day: res
                 })
-                // this.selected()
+                WxParse.wxParse('pokerTip', 'html', this.data.day.pokerTip || 'false', this, 5);
+                WxParse.wxParse('daygeneralTxt', 'html', this.data.day.generalTxt || 'false', this, 5);
+                WxParse.wxParse('dayloveTxt', 'html', this.data.day.loveTxt || 'false', this, 5);
+                WxParse.wxParse('dayworkTxt', 'html', this.data.day.workTxt || 'false', this, 5);
+                WxParse.wxParse('daymoneyTxt', 'html', this.data.day.moneyTxt || 'false', this, 5);
+                WxParse.wxParse('healthTxt', 'html', this.data.day.healthTxt || 'false', this, 5);
                 wx.hideLoading()
             }
         }).catch(err => {

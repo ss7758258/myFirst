@@ -400,6 +400,28 @@ function getMonth(index){
 	return obj[index]
 }
 
+// 根据今天的时间获取星期一和星期天
+function getWeek(){
+	let now = new Date()
+	let nowTime = now.getTime()
+	// 获取星期几
+	let day = now.getDay()
+	// 一天的长度
+	let oneDayLong = 24 * 60 * 60 * 1000
+	// 计算出星期一的毫秒数
+	let MondayTime = nowTime - (day - 1) * oneDayLong 
+	// 计算出星期天的毫秒数
+	let SundayTime =  nowTime + (7 - day) * oneDayLong
+
+	let monday = new Date(MondayTime)
+	let sunday = new Date(SundayTime)
+	return [monday, sunday]
+}
+// 根据生日获取星座
+function getAstro(m,d){
+  return "魔羯水瓶双鱼牡羊金牛双子巨蟹狮子处女天秤天蝎射手魔羯".substr( m * 2 - ( d < "102223444433".charAt( m - 1 ) - -19 ) * 2, 2);
+}
+
 module.exports = {
 	constellation,
 	Promise,
@@ -415,5 +437,7 @@ module.exports = {
 	parseLot,
 	random,
 	roundRect,
-	getMonth
+	getMonth,
+	getWeek,
+	getAstro
 }

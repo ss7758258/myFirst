@@ -57,13 +57,14 @@ Page({
 		navConf : {
 			title : '小哥星座',
 			state : 'root',
-			isRoot : true,
+			isRoot : false,
 			isIcon : false,
 			iconPath : '',
-			bg : '#9262FB',
-			root : '',
+			bg : '#fff',
+			color: 'black',
+			fontColor: 'black',
 			isTitle : true,
-			centerPath : '/pages/center/center'
+			showContent: false
 		},
 		// 导航的高度
 		hei : 64,
@@ -171,7 +172,7 @@ Page({
 		mta.Event.stat("ico_home_to_today", {})
 		wx.navigateTo({
 			// url: '/pages/today/today'
-            url:'/pages/components/pages/luckDetails/luckDetails'
+			url:'/pages/components/pages/luckDetails/luckDetails'
 		})
 	},
 	// 代开客服

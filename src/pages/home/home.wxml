@@ -41,28 +41,6 @@
 <!-- 提示对话框 -->
 <form report-submit="true" bindsubmit="setFormId" bindreset="">
 	<view class="dialog-mask" wx:if="{{showDialog && isLogin}}" style="height:calc(100% - {{nav}}px);top:{{nav}}px;">
-		<!-- <view class="dialog-panel">
-			<view class="dialog">
-				<view class="dialog-close">
-					<button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_closeUpdate" >
-						<image src="/assets/img/del.png" ></image>
-					</button>
-				</view>
-				<view class="dialog-title">{{dialo.title}}</view>
-				<view class="dialog-icon mt60">
-					<image mode="aspectFit" src="{{cdn + '' + dialo.prevPic}}"></image>
-				</view>
-				<view class="dialog-content mt60">{{dialo.content}}</view>
-				<view class="dialog-btns mt60">
-					<button class="dialog-sure" form-type="submit" hover-class="btn-current" open-type="getUserInfo" bindgetuserinfo="" catchtap="_goPage">
-					{{dialo.button}}
-					</button>
-					<button class="dialog-cancel" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="_cancel">
-					不再提醒
-					</button>
-				</view>
-			</view>    
-		</view> -->
 
 		<view class="alert-panel">
 			<view class="alert-content">
@@ -105,127 +83,25 @@
 	<!-- 星座描述信息 -->
 	<template is="star-desc" data="{{showStarDesc,star,xz,desc,scrolltop}}" wx:if="{{isLogin}}"></template>
 	<!-- 滚动容器 -->
-	<scroll-view class="monitor-panel {{notice.isShow ? 'notice-current' : ''}}" scroll-x="false" scroll-y="true" wx:if="{{isLogin}}" style="height:calc(100% - {{hei}}px);min-height:calc(100% - {{hei}}px);">
-	<!-- <view class="monitor-panel"> -->
-		<view class="panel pt65">
-			<view class="star-mask"></view>
-			<view class="star-panel">
-				<view class="star-position">
-					<!-- 当前选择的星座图 -->
-					<view class="star-xz">
-						<button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="goChoiceStar" >
-							<image class="star-xz-img" src="/assets/img/{{xz.constellationId}}.svg"></image>
-						</button>
+	<scroll-view class="monitor-panel {{isLogin ? 'current' : ''}}" scroll-x="false" scroll-y="true" style="height:calc(100% - {{hei}}px);min-height:calc(100% - {{hei}}px);">
+		
+		<!-- 今日运势 -->
+		<view class="panel">
+			<view class="panel-title">
+				<image src="/assets/img/home_title_1.png" mode="widthFix"></image>
+			</view>
+			<view class="panel-content mt10">
+				<view class="con-panel">
+					<image src="{{navConf.iconPath}}"></image>
+					<view class="account-info">
+						<view>{{userInfo.nickName}}</view>
+						<view>{{myConstellation.name}}</view>
 					</view>
-					<!-- 切换按钮 -->
-					<view class="star-xz-switch">
-						<button form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="goChoiceStar" >
-							<image class="star-xz-img" src="/assets/img/switch.svg"></image>
-						</button>
-					</view>
-					<!-- 牌子 -->
-					<view class="star-xz-brand">
-						<button class="star-xz-brand-btn" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="openDesc" >
-							<image class="star-xz-brand-img" src="/assets/img/xz-bg.png"></image>
-							<view class="star-btn-panel">
-								<text>{{star[xz.constellationId].name}}</text>
-								<text class="star-btn-time" >{{star[xz.constellationId].startTime}}—{{star[xz.constellationId].endTime}}</text>
-							</view>
-							<image class="star-btn-tip" src="/assets/img/btn-tip.png"></image>
-						</button>
-					</view>
-				</view>
-
-				<view class="day-fate" catchtap="toDay">
-					<view>运势简评</view>
-					<image src="/assets/img/icon_1.svg" ></image>
-				</view>
-
-				<view class="day-fate-text" catchtap="toDay" >{{xz.generalTxt}}</view>
-
-				<view class="star-tip-notice">
-					<button class="star-more-text" catchtap="goLuck" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="toDay" >
-						详情 》
-					</button>
 				</view>
 			</view>
 		</view>
+		<!-- End今日运势 -->
 
-		<!-- 星座配对 -->
-		<view class="panel">
-			<button class="star-pair" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="goShake">
-				<image class="star-pair-img" src="/assets/img/shake_bg.png" ></image>
-				<view class="star-text-panel">
-					<text>每日一签</text>
-					<text>幸运和幸福，都在签里面</text>
-				</view>
-				<view class="star-card-icon">
-					<view class="star-icon-panel">
-						<image class="shake_4" src="/assets/img/shake_4.png" ></image>
-						<view class="star-icon-border"></view>
-						<image class="shake_star" src="/assets/img/shake_star.png" ></image>
-						<image class="shake_star" src="/assets/img/shake_star.png" ></image>
-						<image class="shake_star" src="/assets/img/shake_star.png" ></image>
-					</view>
-				</view>
-			</button>
-		</view>
-
-		<!-- 占卜测试 -->
-		<view class="panel">
-			<button class="star-pair" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="goDivine">
-				<image class="star-pair-img test-q" src="/assets/img/test_bg.png" ></image>
-				<view class="star-text-panel">
-					<text>占卜测试</text>
-					<text>测你想知道的，不知道的</text>
-				</view>
-				<view class="star-card-icon">
-					<view class="star-icon-panel">
-						<image class="icon-right" src="/assets/img/test_icon.png" ></image>
-					</view>
-				</view>
-			</button>
-		</view>
-
-		<!-- 精选好物 -->
-		<view class="panel">
-			<button class="star-pair" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="goExchange">
-				<image class="star-pair-img select-q" src="/assets/img/select_bg.png" ></image>
-				<view class="star-text-panel">
-					<text>精选好物</text>
-					<text>小星星兑换精品商品</text>
-				</view>
-				<view class="star-card-icon">
-					<view class="star-icon-panel">
-						<image class="icon-right" src="/assets/img/select_icon.png" ></image>
-					</view>
-				</view>
-			</button>
-		</view>
-
-		<!-- 朋友圈配对 -->
-		<!-- <view class="panel">
-			<button class="star-pair" form-type="submit" hover-class="none" open-type="getUserInfo" bindgetuserinfo="" catchtap="goPairPYQ">
-				<image class="star-pair-img pair-q" src="/assets/img/pair_bg.png" ></image>
-				<view class="star-text-panel pair-q">
-					<image class="pair-1" src="/assets/img/pair_1.png" ></image>
-					<image class="pair-3" src="/assets/img/pair_3.png" ></image>
-					<view class="pair-share">
-						<view class="pair-share-panel">	
-							<text>朋友配对</text>
-							<text>那些说不出的话</text>
-							<text>希望我可以帮你表达 </text>
-							<image class="pair-2" src="/assets/img/pair_2.png" ></image>
-						</view>
-					</view>
-				</view>
-			</button>
-		</view> -->
-
-		<view class="panel more-panel-text">
-			更多好玩请去发现页探索哦(^O^)
-		</view>
-	<!-- </view> -->
 	</scroll-view>
 	<!-- tabbar -->
 	<template is="tabbar" data="{{tabbarConfig}}"></template>

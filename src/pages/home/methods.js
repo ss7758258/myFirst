@@ -356,7 +356,7 @@ const me = {
 		// 设置系统信息
 		getSystemInfo(this);
 		// 获取乐摇摇推广信息
-		getLeYaoyao(self, options)
+		// getLeYaoyao(self, options)
 
 		if (Storage.loadUserConfRemoveId) {
 			bus.remove(Storage.loadUserConfRemoveId)
@@ -364,7 +364,7 @@ const me = {
 
 		// 注册监听事件
 		Storage.loadUserConfRemoveId = bus.on('loadUserConf', () => {
-			console.log('用户信息上报完成')
+			console.log('用户信息上报完成',Storage)
 			if (Storage.forMore) {
 				// getStarNum(self)
 				// 加载用户配置
@@ -406,7 +406,8 @@ const me = {
 
 			console.log('用户信息======================：', Storage.userInfo)
 			self.setData({
-				'navConf.iconPath': Storage.userInfo.avatarUrl
+				'navConf.iconPath': Storage.userInfo.avatarUrl,
+				userInfo: Storage.userInfo
 			})
 
 			// 获取配置信息

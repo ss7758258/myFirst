@@ -1,5 +1,4 @@
 @import "./iconfont.wxss";
-
 .mt10 {
 	margin-top: 10rpx !important;
 } 

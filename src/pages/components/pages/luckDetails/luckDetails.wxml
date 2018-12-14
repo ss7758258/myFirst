@@ -1,5 +1,6 @@
 <!-- 选择星座 -->
 <import src="/template/choice/choice.wxml" />
+<import src="/wxParse/wxParse.wxml"/>
 
 <nav opts='{{navConf}}' bind:nav-height="setH">
     <view class="page" slot="content">
@@ -37,7 +38,7 @@
             <swiper-item>
                 <scroll-view scroll-y="true">
                     <!-- 日期标题 -->
-                    <view class="d-t-panel mt40">
+                    <view class="d-t-panel">
                         <view class="d-t-title">
                             <view class="d-t-year">
                                 {{year}}
@@ -61,13 +62,13 @@
                         <view class="d-c-tip">
                             <view>
                                 <view class="d-c-title">宜</view>
-                                <image class="mt10" src="/assets/img/icon_10.png"></image>
-                                <view class="mt10">{{day.tip1}}</view>
+                                <image class="mt20" src="/assets/img/icon_10.png"></image>
+                                <view class="mt20">{{day.appropriate}}</view>
                             </view>
                             <view>
                                 <view class="d-c-title">忌</view>
-                                <image class="mt10" src="/assets/img/icon_11.png"></image>
-                                <view class="mt10">{{day.tip2}}</view>
+                                <image class="mt20" src="/assets/img/icon_11.png"></image>
+                                <view class="mt20">{{day.avoid}}</view>
                             </view>
                         </view>
 
@@ -75,7 +76,7 @@
                         <view class="d-c-base mt30">
                             <view class="d-c-tab">
                                 <view class="pt20 pb20 {{baseCurrent == 0 ? 'current' : ''}}" catch:tap="_switchBase" data-index="0">
-                                    <view class="d-c-text">{{day.luckyColor}}</view>
+                                    <view class="d-c-text" style="background:{{day.luckyColorValue}}"></view>
                                     <view class="mt10">幸运色</view>
                                     <view class="border"></view>
                                 </view>
@@ -99,10 +100,12 @@
 
                             <!-- 详情描述 -->
                             <view class="d-c-desc pb40">
-                                <view class="{{more ? '' : 'more'}}" wx:if="{{baseCurrent == 0}}">今天适合穿戴（{{day.luckyColor}}）的衣服、鞋子、首饰，可有效提升个人形象和整日运势。</view>
-                                <view class="{{more ? '' : 'more'}}" wx:if="{{baseCurrent == 1}}">在购买彩票，选择出行路线、座位、比赛号码等方面，不妨选择转运数字（{{day.luckyNum}}），可有力扭转运势</view>
-                                <view class="{{more ? '' : 'more'}}" wx:if="{{baseCurrent == 2}}">{{day.mahjong}}</view>
-                                <view class="{{more ? '' : 'more'}}" wx:if="{{baseCurrent == 3}}">{{day.landlord}}</view>
+                                <view class="{{more ? '' : 'more'}}" wx:if="{{baseCurrent == 0}}">今天适合穿戴{{day.luckyColorDes}}的衣服、鞋子、首饰，可有效提升个人形象和整日运势。</view>
+                                <view class="{{more ? '' : 'more'}}" wx:if="{{baseCurrent == 1}}">在购买彩票，选择出行路线、座位、比赛号码等方面，不妨选择转运数字{{day.luckyNum}}，可有力扭转运势</view>
+                                <view class="{{more ? '' : 'more'}}" wx:if="{{baseCurrent == 2}}">{{day.mahjongTips}}</view>
+                                <view class="{{more ? '' : 'more'}}" wx:if="{{baseCurrent == 3}}">
+                                    <template is="wxParse" data="{{wxParseData:pokerTip.nodes}}"/>
+                                </view>
                                 <view class="flex"></view>
                                 <view class="more-text mt20" catch:tap="_moreShow">
                                     {{moreText}} <image class="{{moreText == '查看更多' ? '' : 'current'}}" src="/assets/img/icon_14.png" mode="widthFix"></image>
@@ -143,10 +146,10 @@
                                 <view>
                                     健康
                                     <view class="d-c-s-progress">
-                                        <view style="width:{{day.summaryPercentage}}%;"></view>
-                                        <image style="left:calc({{day.summaryPercentage}}% - 13rpx);" src="/assets/img/pro_star.png"></image>
+                                        <view style="width:{{day.healthPercentage || 0}}%;"></view>
+                                        <image style="left:calc({{day.healthPercentage || 0}}% - 13rpx);" src="/assets/img/pro_star.png"></image>
                                     </view>
-                                    <text>{{day.summaryPercentage}}</text>
+                                    <text>{{day.healthPercentage || 0}}</text>
                                 </view>
                             </view>
                         </view>
@@ -155,42 +158,52 @@
 
                         <!-- 运势详情 -->
                         <view class="luck-detail mt30">
-                            <view class="luck-panel">
+                            <view class="luck-panel" wx:if="{{day.generalTxt}}">
                                 <image class="luck-icon" src="/assets/img/luck_1.png"></image>
                                 <view class="luck-title">运势简评</view>
-                                <view class="luck-desc">{{day.generalTxt}}</view>
+                                <view class="luck-desc">
+                                    <template is="wxParse" data="{{wxParseData:daygeneralTxt.nodes}}"/>
+                                </view>
                             </view>
                         </view>
 
-                        <view class="luck-detail mt30">
+                        <view class="luck-detail mt30" wx:if="{{day.loveTxt}}">
                             <view class="luck-panel">
                                 <image class="luck-icon" src="/assets/img/luck_2.png"></image>
                                 <view class="luck-title">感情运势</view>
-                                <view class="luck-desc">{{day.loveTxt}}</view>
+                                <view class="luck-desc">
+                                    <template is="wxParse" data="{{wxParseData:dayloveTxt.nodes}}"/>
+                                </view>
                             </view>
                         </view>
 
-                        <view class="luck-detail mt30">
+                        <view class="luck-detail mt30" wx:if="{{day.workTxt}}">
                             <view class="luck-panel">
                                 <image class="luck-icon" src="/assets/img/luck_3.png"></image>
                                 <view class="luck-title">事业运势</view>
-                                <view class="luck-desc">{{day.workTxt}}</view>
+                                <view class="luck-desc">
+                                    <template is="wxParse" data="{{wxParseData:dayworkTxt.nodes}}"/>
+                                </view>
                             </view>
                         </view>
 
-                        <view class="luck-detail mt30">
+                        <view class="luck-detail mt30" wx:if="{{day.moneyTxt}}">
                             <view class="luck-panel">
                                 <image class="luck-icon" src="/assets/img/luck_4.png"></image>
                                 <view class="luck-title">财富运势</view>
-                                <view class="luck-desc">{{day.moneyTxt}}</view>
+                                <view class="luck-desc">
+                                    <template is="wxParse" data="{{wxParseData:daymoneyTxt.nodes}}"/>
+                                </view>
                             </view>
                         </view>
                         
-                        <view class="luck-detail mt30">
+                        <view class="luck-detail mt30" wx:if="{{day.healthTxt}}">
                             <view class="luck-panel">
                                 <image class="luck-icon" src="/assets/img/luck_5.png"></image>
                                 <view class="luck-title">健康运势</view>
-                                <view class="luck-desc">{{day.dayNotice}}</view>
+                                <view class="luck-desc">
+                                    <template is="wxParse" data="{{wxParseData:healthTxt.nodes}}"/>
+                                </view>
                             </view>
                         </view>
 
@@ -206,13 +219,161 @@
 
             <!-- 本周运势 -->
             <swiper-item>
-                2
+                <scroll-view scroll-y="true">
+                    <view class="w-panel">
+                        <view class="w-title">
+                            <view>概览</view>
+                            <view class="w-date">
+                                <text>{{year}}</text>
+                                <text>{{weekDate}}</text>
+                                <image class="tip-op" src="/assets/img/week_tip.png"></image>
+                            </view>
+                        </view>
+                        <view class="text-panel mt10">
+                            <image src="/assets/img/week_icon_1.png"></image>
+                            <view>本周提醒：{{week.weekNotice}}</view>
+                        </view>
+                    </view>
+                    <!-- 缘分 -->
+                    <view class="d-content pt30">
+                        <view class="d-c-tip">
+                            <view>
+                                <view class="d-c-title">{{week.luckyDay}}</view>
+                                <view class="mt20 line"></view>
+                                <view class="mt20">幸运日期</view>
+                            </view>
+                            <view>
+                                <view class="d-c-title">{{week.luckyDirection || '东方'}}</view>
+                                <view class="mt20 line"></view>
+                                <view class="mt20">吉利方位</view>
+                            </view>
+                            <view>
+                                <view class="d-c-title">{{week.grxz}}</view>
+                                <view class="mt20 line"></view>
+                                <view class="mt20">缘分星座</view>
+                            </view>
+                            <view>
+                                <view class="d-c-title">{{week.xrxz}}</view>
+                                <view class="mt20 line"></view>
+                                <view class="mt20">小人星座</view>
+                            </view>
+                        </view>
+                    </view>
+                    <!-- End缘分 -->
+
+                    <!-- 运势详情 -->
+                    <view class="luck-detail mt30">
+                        <view class="luck-panel" wx:if="{{week.generalTxt}}">
+                            <image class="luck-icon" src="/assets/img/week_1.png"></image>
+                            <view class="luck-title">运势简评</view>
+                            <view class="luck-desc">
+                                <template is="wxParse" data="{{wxParseData:weekgeneralTxt.nodes}}"/>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="luck-detail mt30" wx:if="{{week.loveTxt}}">
+                        <view class="luck-panel">
+                            <image class="luck-icon" src="/assets/img/week_2.png"></image>
+                            <view class="luck-title">感情运势</view>
+                            <view class="luck-desc">
+                                <template is="wxParse" data="{{wxParseData:weekloveTxt.nodes}}"/>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="luck-detail mt30" wx:if="{{monweekthData.workTxt}}">
+                        <view class="luck-panel">
+                            <image class="luck-icon" src="/assets/img/week_3.png"></image>
+                            <view class="luck-title">事业运势</view>
+                            <view class="luck-desc">
+                                <template is="wxParse" data="{{wxParseData:weekworkTxt.nodes}}"/>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="luck-detail mt30" wx:if="{{week.moneyTxt}}">
+                        <view class="luck-panel">
+                            <image class="luck-icon" src="/assets/img/week_4.png"></image>
+                            <view class="luck-title">财富运势</view>
+                            <view class="luck-desc">
+                                <template is="wxParse" data="{{wxParseData:weekmoneyTxt.nodes}}"/>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="pb30"></view>
+                    <!-- End运势详情 -->
+                </scroll-view>
             </swiper-item>
             <!-- End本周运势 -->
 
             <!-- 本月运势 -->
             <swiper-item>
-                3
+                <scroll-view scroll-y="true">
+                    <view class="w-panel">
+                        <view class="w-title">
+                            <view>概览</view>
+                            <view class="w-date">
+                                <text>{{year}}</text>
+                                <text>{{month}}月</text>
+                                <image class="tip-op" src="/assets/img/month_tip.png"></image>
+                            </view>
+                        </view>
+                        <view class="text-panel mt10">
+                            <image src="/assets/img/month_icon_1.png"></image>
+                            <view>本月优势：{{monthData.monthAdvantage}}</view>
+                        </view>
+                        <view class="text-panel mt10">
+                            <image src="/assets/img/month_icon_2.png"></image>
+                            <view class="red">本月劣势：{{monthData.monthWeakness}}</view>
+                        </view>
+                    </view>
+
+                    <!-- 运势详情 -->
+                    <view class="luck-detail mt30">
+                        <view class="luck-panel" wx:if="{{monthData.generalTxt}}">
+                            <image class="luck-icon" src="/assets/img/month_1.png"></image>
+                            <view class="luck-title">运势简评</view>
+                            <view class="luck-desc">
+                                <template is="wxParse" data="{{wxParseData:generalTxt.nodes}}"/>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="luck-detail mt30" wx:if="{{monthData.loveTxt}}">
+                        <view class="luck-panel">
+                            <image class="luck-icon" src="/assets/img/month_2.png"></image>
+                            <view class="luck-title">感情运势</view>
+                            <view class="luck-desc">
+                                <template is="wxParse" data="{{wxParseData:loveTxt.nodes}}"/>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="luck-detail mt30" wx:if="{{monthData.workTxt}}">
+                        <view class="luck-panel">
+                            <image class="luck-icon" src="/assets/img/month_3.png"></image>
+                            <view class="luck-title">事业运势</view>
+                            <view class="luck-desc">
+                                <template is="wxParse" data="{{wxParseData:workTxt.nodes}}"/>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="luck-detail mt30" wx:if="{{monthData.moneyTxt}}">
+                        <view class="luck-panel">
+                            <image class="luck-icon" src="/assets/img/month_4.png"></image>
+                            <view class="luck-title">财富运势</view>
+                            <view class="luck-desc">
+                                <template is="wxParse" data="{{wxParseData:moneyTxt.nodes}}"/>
+                            </view>
+                        </view>
+                    </view>
+
+                    <view class="pb30"></view>
+                    <!-- End运势详情 -->
+                </scroll-view>
             </swiper-item>
             <!-- End本月运势 -->
         </swiper>
