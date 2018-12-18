@@ -22,7 +22,8 @@ Page({
           showPop: false,
           showTabbar: false,
           tabbar: {},
-          pop: {}
+          pop: {},
+          pbg: '#FAFAFC'
         },
         // 星座信息
         star,
@@ -252,7 +253,7 @@ Page({
                 res.tip2 = '打游戏'
                 res.mahjong = '麻将牌运普通的日子，今日搓麻将可先以娱乐心态进入，再以赌一把的心态投入，险中求胜美不胜收。'
                 res.landlord = '今天的思念之情特别浓烈，和恋人分开时表现出的依依不舍，易让对方更加爱你；朋友到你家做客的机率很大，难免要让你有些破费，不过因此能换来好心情；很懂得处理与同事间的关系，相处会很融洽。'
-                let pokerTip = `斗地主赢牌必看：<br />赢牌颜色：${res.pokerColor}<br/>赢牌食物：${res.pokerFood}<br/>赢牌方向：${res.pokerPosition}<br/>Tips：${res.pokerTips}`
+                let pokerTip = `斗地主赢牌必看：<br />赢牌颜色：${res.pokerColor || ''}<br/>赢牌食物：${res.pokerFood || ''}<br/>赢牌方向：${res.pokerPosition || ''}<br/>Tips：${res.pokerTips || ''}`
                 res.pokerTip = pokerTip
                 this.setData({
                     day: res

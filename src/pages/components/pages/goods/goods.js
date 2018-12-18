@@ -12,8 +12,11 @@ Page({
       isRoot: false,
       isIcon: true,
       root: '',
-      bg: '#9262FB',
-      isTitle: true
+      isTitle: true,
+      bg: '#fff',
+      color: 'black',
+      fontColor: 'black',
+      showContent: false,
     },
     IPhoneX : false,
     // 默认高度

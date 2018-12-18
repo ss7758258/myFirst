@@ -1,0 +1,80 @@
+
+
+<view class="pop-mask {{IPX}} {{opts.show ? 'show' : ''}}" style="{{opts.style || ''}}">
+    <view class="pop-panel">
+        <view class="pop-title mt40">
+            <view>个人信息</view>
+            <view>提供这些信息，小哥星座会更懂你哦～</view>
+            <view class="pop-switch" catch:tap="changeStatus">
+                <image src="/assets/img/switch_1.png" ></image>
+                {{descText}}
+            </view>
+        </view>
+
+        <!-- 头像 -->
+        <view class="pop-head">
+            <view class="head-panel {{current == 0 ? 'current' : ''}}" catch:tap="changeCurrent" data-index="0">
+                <image src="/assets/img/boy_def.png" ></image>
+                <view class="check-panel"></view>
+                <view class="iconfont icon-nan check-sex"></view>
+            </view>
+            <view class="head-panel {{current == 1 ? 'current' : ''}}" catch:tap="changeCurrent" data-index="1">
+                <image src="/assets/img/girl_def.png" ></image>
+                <view class="check-panel"></view>
+                <view class="iconfont icon-nv check-sex"></view>
+            </view>
+        </view>
+        <!-- End头像 -->
+
+        <!-- 详情信息 -->
+        <view class="pop-info">
+            <view class="flex card_record mt30">
+                <view class="left">
+                    <image class="notice_icon" src="/assets/img/edit_1.png"></image>
+                </view>
+                <view class="d-center">出生日期
+                    <picker mode="date" bindchange="_ChangeVal" value="{{date}}" fields="day">
+                        <view class="picker">{{date}}</view>
+                    </picker>
+                </view>
+                <view class="right">
+                    <image class="notice_icon" src="{{imgs.right}}"></image>
+                </view>
+            </view>
+            <view class="flex card_record mt30">
+                <view class="left">
+                    <image class="notice_icon" src="/assets/img/edit_2.png"></image>
+                </view>
+                <view class="d-center">出生地址
+                    <picker mode="region" bindchange="_ChangeAddress" value="{{region}}">
+                        <view class="picker">{{(region[0] && region[1] && region[2]) ? region[0] + '-' + region[1] + '-' + region[2] : ''}}</view>
+                    </picker>
+                </view>
+                <view class="right">
+                    <image class="notice_icon" src="{{imgs.right}}"></image>
+                </view>
+            </view>
+            <view class="flex card_record mt30">
+                <view class="left">
+                    <image class="notice_icon" src="/assets/img/edit_3.png"></image>
+                </view>
+                <view class="d-center">现居地
+                    <picker mode="region" bindchange="_ChangeAddress" value="{{address}}">
+                        <view class="picker">{{(address[0] && address[1] && address[2]) ? address[0] + '-' + address[1] + '-' + address[2] : ''}}</view>
+                    </picker>
+                </view>
+                <view class="right">
+                    <image class="notice_icon" src="{{imgs.right}}"></image>
+                </view>
+            </view>
+
+            <view class="pop-submit mt60 mb60" hover-class="animate" catch:tap="setContent">
+                确定
+            </view>
+
+            <view class="{{IPX ? 'pb34' : ''}}"></view>
+        </view>
+    </view>
+    <!-- <slot name="popup"></slot> -->
+</view>
+

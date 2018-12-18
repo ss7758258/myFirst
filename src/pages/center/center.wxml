@@ -15,7 +15,7 @@
         <image class="text-img" src="{{gender == 1 ? '/assets/img/boy.png' : '/assets/img/girl.png'}}"></image>
     </view>
     <view class="mt30 edit-panel">
-        <view class="flex-panek">
+        <view class="flex-panek" catch:tap="editInfo">
             <image src="/assets/img/edit.png"></image>
             <text>编辑资料</text>
         </view>
@@ -75,3 +75,8 @@
     <!-- tabbar -->
     <template is="tabbar" data="{{tabbarConfig}}"></template>
 </view>
+
+
+
+<!-- 选择出生日期 -->
+<Switch opts="{{swData}}" catch:update="_editDate"></Switch>

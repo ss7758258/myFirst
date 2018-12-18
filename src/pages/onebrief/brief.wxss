@@ -107,6 +107,10 @@ page{
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    transform: scale(0);
+}
+.i-panel.show{
+    transform: scale(1);
 }
 .popup{
     width: 100%;

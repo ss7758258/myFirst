@@ -431,11 +431,11 @@ Page({
           val.year = tmp.getFullYear()
           val.month = util.getMonth(parseInt(tmp.getMonth() + 1))
           val.date = tmp.getDate()
-          val.date = val.date.length > 1 ? val.date : '0' + val.date
+          val.date = val.date >= 10 ? val.date : '0' + val.date
           console.log('时间：',tmp.getFullYear() + '-' + util.getMonth(parseInt(tmp.getMonth()  + 1)) + '-' + tmp.getDate())
           val.prevPic = url + val.prevPic
           val.pic = url + val.pic
-          val.pic = url + '/1184b2066eb44e6598f4f26cbb27bc8f_01561d56afdb427a88fec6061a65701c.png'
+          // val.pic = url + '/1184b2066eb44e6598f4f26cbb27bc8f_01561d56afdb427a88fec6061a65701c.png'
           val.status = ids.indexOf(val.id) != -1 ? true : false
         })
         // len = res.wordlist.length * 2

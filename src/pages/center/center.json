@@ -1,7 +1,8 @@
 {
 	"usingComponents": {
 		"nav": "/components/navigation/nav",
-		"loginApp": "/components/login/login"
+		"loginApp": "/components/login/login",
+		"Switch": "/components/switch/switch"
 	},
 	"disableScroll": true
 }

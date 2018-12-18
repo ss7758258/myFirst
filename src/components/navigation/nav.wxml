@@ -18,7 +18,7 @@
 
 </view>
 
-<view wx:if="{{opts.showContent}}" class="{{ isIPhoneX ? 'pb34' : ''}}"></view>
+<view wx:if="{{opts.showContent}}" class="{{ isIPhoneX ? 'pb34' : ''}} {{opts.showPop ? 'pop-bg' : ''}}" style="{{'background:' + opts.pbg + ';'}}"></view>
 
 <!-- 弹窗框架 -->
 <view class="popup {{isIPhoneX ? 'IPX' : ''}} {{opts.showTabbar ? 'tabbar' : ''}}" wx:if="{{opts.showPop}}" style="z-index:{{pop.zIndex || 1}};{{pop.style}}">

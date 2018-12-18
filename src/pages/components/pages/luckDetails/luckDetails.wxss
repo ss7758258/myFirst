@@ -227,6 +227,9 @@ scroll-view{
 	font-weight:600;
 	color:rgba(38,35,70,1);
 }
+.ft{
+	font-size: 32rpx !important;
+}
 
 
 /* 基础内容 */

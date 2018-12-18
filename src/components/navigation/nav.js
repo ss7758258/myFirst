@@ -14,6 +14,7 @@
 // showTabbar: true 是否有tabbar
 // tabbar: {} tabbar的选中配置项
 // pop: {} 弹窗的配置项
+// pbg iPhone X适配颜色
 const bus = require('../../event')
 const Storage = require('../../utils/storage')
 Component({

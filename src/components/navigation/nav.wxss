@@ -20,11 +20,10 @@
     font-family: 'PingFangSC';
     font-size: 4.533333333333333vw;
     letter-spacing: -0.10933333333333332vw;
-    /* width: 70vw; */
 	overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    /* font-weight: 600; */
+    font-weight: 600;
 }
 .nav_state{
     height: 44px;
@@ -94,4 +93,7 @@
     top: 98px;
     height: calc(100% - 182px);
     min-height: calc(100% - 182px);
+}
+.pop-bg{
+    background:rgba(0,0,0,.7);
 }

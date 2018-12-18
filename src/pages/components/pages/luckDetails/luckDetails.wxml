@@ -238,22 +238,22 @@
                     <view class="d-content pt30">
                         <view class="d-c-tip">
                             <view>
-                                <view class="d-c-title">{{week.luckyDay}}</view>
+                                <view class="d-c-title ft">{{week.luckyDay}}</view>
                                 <view class="mt20 line"></view>
                                 <view class="mt20">幸运日期</view>
                             </view>
                             <view>
-                                <view class="d-c-title">{{week.luckyDirection || '东方'}}</view>
+                                <view class="d-c-title ft">{{week.luckyDirection || '东方'}}</view>
                                 <view class="mt20 line"></view>
                                 <view class="mt20">吉利方位</view>
                             </view>
                             <view>
-                                <view class="d-c-title">{{week.grxz}}</view>
+                                <view class="d-c-title ft">{{week.grxz}}</view>
                                 <view class="mt20 line"></view>
                                 <view class="mt20">缘分星座</view>
                             </view>
                             <view>
-                                <view class="d-c-title">{{week.xrxz}}</view>
+                                <view class="d-c-title ft">{{week.xrxz}}</view>
                                 <view class="mt20 line"></view>
                                 <view class="mt20">小人星座</view>
                             </view>

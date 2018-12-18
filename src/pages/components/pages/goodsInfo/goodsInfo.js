@@ -13,7 +13,10 @@ Page({
       isRoot: false,
       isIcon: true,
       root: '',
-      bg: '#9262FB',
+      bg: '#fff',
+      color: 'black',
+      fontColor: 'black',
+      showContent: false,
       isTitle: true
     },
     cdn:'https://xingzuo-1256217146.file.myqcloud.com',
@@ -80,6 +83,7 @@ Page({
       let list = data.pic.map(v => {
         return { pic : this.data.cdn + v} 
       })
+      // data.des = '今天能表现出活泼开朗的一面，虽然会遇到一些麻烦事，但并不影响你的好心情。爱情方面，已婚者经过恋爱时的约会场所，勾起许多美好的回忆。生意人有机会谈成一笔交易，对日后的发展很有助益。'
       // console.log(list)
       this.setData({
         data,

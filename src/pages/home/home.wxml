@@ -8,6 +8,9 @@
 <!-- End导入模板 -->
 <!-- 导航 -->
 <nav opts='{{navConf}}' bind:nav-height="_setHeight"></nav>
+<!-- 选择出生日期 -->
+<Switch opts="{{swData}}" catch:update="_editDate"></Switch>
+
 <!-- 登录态 -->
 <loginApp></loginApp>
 <view class="loader_mask" wx:if="{{!isLogin}}">
@@ -73,7 +76,7 @@
 		<!-- 星座描述信息 -->
 		<template is="star-desc" data="{{showStarDesc,star,xz,desc,scrolltop}}" wx:if="{{isLogin}}"></template>
 		<!-- 滚动容器 -->
-		<scroll-view class="monitor-panel {{isLogin ? 'current' : ''}}" scroll-x="false" scroll-y="true" style="height:calc(100% - {{hei}}px);min-height:calc(100% - {{hei}}px);">
+		<scroll-view class="monitor-panel {{isLogin ? 'current' : ''}}" scroll-x="false" scroll-y="true" style="position:absolute;top:{{nav}}px;height:calc(100% - {{hei}}px);min-height:calc(100% - {{hei}}px);">
 				<!-- 今日运势 -->
 				<view class="panel">
 						<view class="panel-title">
@@ -82,45 +85,47 @@
 						<view class="panel-content mt10">
 								<!-- 个人信息 -->
 								<view class="con-panel">
-										<image src="{{navConf.iconPath}}"></image>
+									 	<!-- catch:tap="_moreCenter" -->
+										<image src="{{navConf.iconPath || '/assets/img/default_head.png'}}"></image>
 										<view class="account-info">
 												<view>{{userInfo.nickName}}</view>
-												<view>{{myConstellation.name}}</view>
+												<view><text catch:tap="_moreDesc">{{myConstellation.name}}\t{{birthDate}}</text></view>
+												<image class="shake-elem" src="/assets/img/shake.gif" mode="widthFix" catch:tap="_moreShake"></image>
 										</view>
 								</view>
 								<!-- End个人信息 -->
 								<!-- Tips -->
 								<view class="a-tips mt40">
-										<view>TIPS</view>
+										<view>TIPS：</view>
 										<view class="day-notice">
-												<view class="n-left">“</view>
-												{{xz.dayNotice}}
-												<view class="n-right">”</view>
+											{{xz.dayNotice}}
 										</view>
 								</view>
 								<!-- EndTips -->
 								<!-- 运势详情 -->
 								<view class="luck-detail pt40">
+										<view class="more-btn" hover-class="animateBtn" catch:tap="_moreLuck">
+											<image src="/assets/img/home_icon_1.png"></image>
+										</view>
 										<!-- 分数 -->
 										<view class="de-score">
 												<view class="score-large">
 														<view class="score-large-text">
-															<swiper vertical="false" current="{{sc}}" duration="{{scDuration}}">
-																<swiper-item catchtouchmove="move">
-																	<view>{{xzScore[0] - 1}}</view>
-																</swiper-item>
-																<swiper-item catchtouchmove="move">
-																	<view>{{xzScore[0]}}</view>
-																</swiper-item>
-															</swiper>
-															
-															<swiper vertical="false" current="{{scIndex}}" duration="{{scDuration}}">
-																<block wx:for="{{10}}" wx:key="{{index}}">
-																	<swiper-item catchtouchmove="move">
-																		<view>{{item}}</view>
-																	</swiper-item>
-																</block>
-															</swiper>
+																<swiper vertical="false" current="{{sc}}" duration="{{scDuration}}">
+																		<swiper-item catchtouchmove="move">
+																				<view>{{xzScore[0] - 1}}</view>
+																		</swiper-item>
+																		<swiper-item catchtouchmove="move">
+																				<view>{{xzScore[0]}}</view>
+																		</swiper-item>
+																</swiper>
+																<swiper vertical="false" current="{{scIndex}}" duration="{{scDuration}}">
+																		<block wx:for="{{10}}" wx:key="{{index}}">
+																				<swiper-item catchtouchmove="move">
+																						<view>{{item}}</view>
+																				</swiper-item>
+																		</block>
+																</swiper>
 														</view>
 														<view class="mt10">运势指数</view>
 												</view>
@@ -151,12 +156,124 @@
 														</view>
 												</view>
 										</view>
-										<!--  -->
+										<!-- End分数 -->
+										<!-- 运势简评 -->
+										<view class="luck-detail-panel mt40">
+												<view class="luck-panel" wx:if="{{xz.generalTxt}}">
+														<image class="luck-icon" src="/assets/img/luck_1.png"></image>
+														<view class="luck-title">运势简评</view>
+														<view class="luck-desc">
+																<view>{{xz.generalTxt}}</view>
+																<!-- <template is="wxParse" data="{{wxParseData:daygeneralTxt.nodes}}"/> -->
+														</view>
+												</view>
+										</view>
+										<!-- End运势简评 -->
+										<!-- 宜And忌 -->
+										<view class="d-c-tip mt30">
+											<view>
+													<view class="d-c-title">宜</view>
+													<image class="mt20" src="/assets/img/icon_10.png"></image>
+													<view class="mt20">{{xz.appropriate}}</view>
+											</view>
+											<view>
+													<view class="d-c-title">忌</view>
+													<image class="mt20" src="/assets/img/icon_11.png"></image>
+													<view class="mt20">{{xz.avoid}}</view>
+											</view>
+										</view>
+										<!-- End宜And忌 -->
+
 								</view>
 								<!-- End运势详情 -->
 						</view>
 				</view>
 				<!-- End今日运势 -->
+
+				<view class="p10"></view>
+
+				<!-- 今日赠言 -->
+				<view class="panel">
+					<view class="panel-title">
+							<image class="ml40 mt40" style="width:224rpx;" src="/assets/img/home_title_2.png" mode="widthFix"></image>
+					</view>
+					<view class="panel-content mt10">
+						<text>365日，一日一言。我们坚信再艰难的生活，\n也需要一些仪式感。</text>
+						<view class="panel p-panel" >
+							<view class="more-btn" hover-class="animateBtn" catch:tap="_moreYan">
+								<image src="/assets/img/home_icon_1.png"></image>
+							</view>
+							<image src="{{yanData.prevPic}}" mode="widthFix" catch:tap="_moreYan"></image>
+
+							<!-- 日期 -->
+							<view class="date-panel">
+								<view class="date-day">{{yanData.date}}</view>
+								<view class="date-year">{{yanData.month + '.' + yanData.year}}</view>
+							</view>
+						</view>
+
+					</view>
+				</view>
+				<!-- End今日赠言 -->
+				
+				<view class="p10"></view>
+
+				<!-- 精选好物 -->
+				<view class="panel">
+					<view class="panel-title">
+							<image class="ml40 mt40" style="width:384rpx;" src="/assets/img/home_title_3.png" mode="widthFix"></image>
+					</view>
+					<view class="panel-content pb60">
+						<!--  autoplay="true" -->
+						<swiper class="sw-swiper" wx:if="{{goods.length > 0}}" circular  current="0" interval="5000" duration="500" next-margin="100rpx">
+							<block wx:for="{{goods}}" wx:key="{{index}}">
+								<swiper-item>
+									<view class="sw-goods-panel mt10" catchtap="goExc" data-res="{{item}}">
+										<view>
+											<image class="sw-goods-img" src="{{cdn + item.defaultpic}}"  binderror="" bindload=""></image>
+											<view class="sw-goods-desc">
+												<view class="sw-title mt20">{{item.name}}</view>
+												<view class="sw-content">{{item.name}}</view>
+											</view>
+										</view>
+									</view>
+								</swiper-item>
+							</block>
+						</swiper>
+
+						<view class="look-more" catch:tap="_moreExchange">
+							查看更多
+						</view>
+					</view>
+				</view>
+				<!-- End精选好物 -->
+
+				<view class="p10"></view>
+
+				<!-- 发现有趣 -->
+				<view class="panel">
+					<view class="panel-title">
+							<image class="ml40 mt40" style="width:258rpx;" src="/assets/img/home_title_4.png" mode="widthFix"></image>
+					</view>
+					<view class="panel-content mt10">
+						<text>发现那些有料，有趣的星座玩法。</text>
+						<view class="card-panel mt30">
+							<view class="card card-1" catch:tap="_moreBanner">
+								<image src="/assets/img/home_find_1.png"></image>
+								<view>领取星星</view>
+							</view>
+							<view class="card card-2" catch:tap="_moreTest">
+								<image src="/assets/img/home_find_2.png"></image>
+								<view>占卜测试</view>
+							</view>
+							<view class="card card-3" catch:tap="_morePair">
+								<image src="/assets/img/home_find_3.png"></image>
+								<view>星座配对</view>
+							</view>
+						</view>
+					</view>
+				</view>
+				<!-- End发现有趣 -->
 		</scroll-view>
 		<!-- tabbar -->
 		<template is="tabbar" data="{{tabbarConfig}}"></template>

@@ -33,7 +33,7 @@
       <view class="i-panel">
 
         <!-- 星星信息 -->
-        <view class="star-and-share mt30">
+        <view class="star-and-share">
           <view class="star-num">{{data.goods}}<text>星星</text></view>
           <view>
             <button class="share-btn" form-type="submit" hover-class="none" open-type="share">
@@ -44,6 +44,7 @@
         </view>
 
         <view class="i-name">{{data.name}}</view>
+        <view class="i-desc-content">{{data.des}}</view>
 
         <view class="i-desc mt20">
           <view class="i-icon-free"> {{data.reality === 1 ? '包邮' : '虚拟'}}</view>

@@ -2,7 +2,7 @@ module.exports = {
     color : '#494C83',
     bg : '#FFFFFF',
     selectedColor : '#FF5D7C',
-    borderStyle:'1px solid rgba(0,0,0,.1)',
+    borderStyle:'1px solid #FAFAFC',
     shadow : 'none',
     tabbar : [{
             path : 'pages/home/home',

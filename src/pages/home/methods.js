@@ -1,5 +1,6 @@
 const bus = require('../../event')
 const API = require('../../utils/api')
+const util = require('../../utils/util')
 const mta = require('../../utils/mta_analysis')
 const Storage = require('../../utils/storage')
 const c = require('../../config')
@@ -38,7 +39,7 @@ function getSystemInfo(self) {
  */
 function getLeYaoyao(self, options) {
 	if (!options.q) return
-	console.log('输出用户来源参数：', decodeURIComponent(options.q))
+	// console.log('输出用户来源参数：', decodeURIComponent(options.q))
 	mta.Event.stat('spread_123435', {})
 	let url = decodeURIComponent(options.q)
 
@@ -48,7 +49,7 @@ function getLeYaoyao(self, options) {
 		temps.push(`&appid=${confing.appId}`)
 		// 拉取乐摇摇数据信息
 		API.getLeYaoyao(temps.join('')).then(res => {
-			console.log('乐摇摇返回信息：', res)
+			// console.log('乐摇摇返回信息：', res)
 			if (res && res.data && res.data.constructor === Object) {
 				// res.data.result = 0
 				switch (res.data.result) {
@@ -71,7 +72,7 @@ function getLeYaoyao(self, options) {
 			}
 		}).catch(err => {
 			errorToast()
-			console.log('乐摇摇返回异常=========：', err)
+			// console.log('乐摇摇返回异常=========：', err)
 		})
 	}
 }
@@ -102,7 +103,7 @@ function getStarNum(self) {
 		success(res) {
 			if (res.statusCode === 200) {
 
-				console.log(`星星数量${res.data.data}`)
+				// console.log(`星星数量${res.data.data}`)
 
 				let text = res.data.data || 0
 				self.setData({
@@ -125,14 +126,13 @@ function parseForm(self, options) {
 	let fromwhere = options.from
 	let to = options.to
 	if (to == 'yan') {
-		// selectConstellation
+		// 如果没有选择星座
 		if (!wx.getStorageSync('selectConstellation')) {
 			mta.Event.stat('choice_qrcode_brief', {})
 			// 显示选择星座
-			self.setData({
-				showChoice: true,
-				'notice.isShow': false
-			})
+			// self.setData({
+			// 	'swData.show': true
+			// })
 		} else {
 			mta.Event.stat('to_qrcode_brief', {})
 		}
@@ -152,7 +152,7 @@ function parseForm(self, options) {
 
 		}
 	} else if (fromwhere === 'spread') { // 活动推广统计
-		console.log('输出活动来源', options.id)
+		// console.log('输出活动来源', options.id)
 		if (reg.test(options.id)) {
 			mta.Event.stat('spread_' + options.id, {})
 		} else {
@@ -162,7 +162,7 @@ function parseForm(self, options) {
 
 	// 统计特殊来源
 	if (options.source && options.source.constructor === String && options.source !== '') {
-		console.log('输出活动来源', options.id)
+		// console.log('输出活动来源', options.id)
 		if (reg.test(options.id)) {
 			mta.Event.stat(options.source + '_' + options.id, {})
 		} else {
@@ -180,7 +180,7 @@ function getConfing(me) {
 	API.globalSetting({
 		notShowLoading: true
 	}).then(res => {
-		console.log('加载配置完成---------全局：', res);
+		// console.log('加载配置完成---------全局：', res);
 		if (!res) {
 			return false;
 		}
@@ -193,7 +193,7 @@ function getConfing(me) {
 		// 默认小打卡是关闭状态
 		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
 	}).catch(err => {
-		console.log('加载失败---------------------------------全局配置')
+		// console.log('加载失败---------------------------------全局配置')
 	})
 }
 /**
@@ -205,9 +205,9 @@ function getUserConf(me) {
 	API.getUserSetting({
 		notShowLoading: true
 	}).then(res => {
-		console.log('加载配置完成---------用户:', res);
+		// console.log('加载配置完成---------用户:', res);
 		if (!res) {
-			console.log('----------------输出错误信息----------用户配置错误')
+			// console.log('----------------输出错误信息----------用户配置错误')
 			return false;
 		}
 		// res.noticeStatus = 0
@@ -222,7 +222,7 @@ function getUserConf(me) {
 		wx.setStorageSync('clockStatus', res.clockStatus ? res.clockStatus : 0);
 
 	}).catch(err => {
-		console.log('加载用户配置失败---------------------------------用户配置错误')
+		// console.log('加载用户配置失败---------------------------------用户配置错误')
 	})
 }
 
@@ -236,48 +236,27 @@ const me = {
 		this.setData({
 			PX: Storage.iPhoneX
 		})
-		me._getCollectBtn.call(this)
+		// me._getCollectBtn.call(this)
 		// 提前选择星座但不加载数据
 		me._getStar.call(this)
 		me._eventHandle.call(this)
 	},
-	// 获取收藏按钮是否展示
-	_getCollectBtn() {
-		let self = this
-		// wx.getStorage({
-		// 	key : 'showCollectBtn',
-		// 	success(res){
-		// 		self.setData({
-		// 			showCollectBtn : false
-		// 		})
-		// 	},
-		// 	fail(res){
-		// 		self.setData({
-		// 			showCollectBtn : true
-		// 		})
-		// 	}
-		// })
-	},
 	// 选择星座
 	_getStar() {
+		console.log('进入了分析')
 		let self = this
 		let selectConstellation = _GData.selectConstellation
 		if (selectConstellation && !selectConstellation.isFirst) {
 			self.setData({
-				showChoice: false,
-				'notice.isShow': true,
+				'swData.show': false,
 				'xz.constellationId': selectConstellation.id,
 				'navConf.isIcon': true
 			})
 		} else {
 			self.setData({
-				showChoice: true,
-				'notice.isShow': false,
+				'swData.show': true,
 				'navConf.isIcon': true
 			})
-			// wx.hideTabBar({
-			// 	animation : true
-			// })
 		}
 	},
 	/**
@@ -293,30 +272,25 @@ const me = {
 			self.setData({
 				myConstellation: selectConstellation,
 				selectBack: false,
-				showChoice: false,
-				'notice.isShow': true,
+				'swData.show': false,
 				'navConf.isIcon': true
 			})
 			self.onShowingHome()
 		} else {
 			self.setData({
-				showChoice: true,
-				'notice.isShow': false,
 				'navConf.isIcon': true
 			})
 			setTimeout(() => {
 				self.setData({
-					isLogin: true
+					isLogin: true,
+					'swData.show': true
 				})
 			}, 1000);
-			// wx.hideTabBar({
-			// 	animation : true
-			// })
 		}
 	},
 	// 前往参数中的地址
 	_goParam() {
-		console.log('----------------------------------------------------------分享前往页面')
+		// console.log('----------------------------------------------------------分享前往页面')
 		let to = this.options.to
 		let from = this.options.from || 'unknown'
 		if (!to) {
@@ -364,14 +338,13 @@ const me = {
 
 		// 注册监听事件
 		Storage.loadUserConfRemoveId = bus.on('loadUserConf', () => {
-			console.log('用户信息上报完成',Storage)
+			// console.log('用户信息上报完成', Storage)
 			if (Storage.forMore) {
 				// getStarNum(self)
 				// 加载用户配置
 				getUserConf(self)
 				getConfing(self)
 				// me._getListNum(self)
-				self.getNotice()
 			}
 		}, 'home')
 
@@ -390,7 +363,7 @@ const me = {
 		let handle = () => {
 			$vm = getApp()
 			_GData = $vm.globalData
-			console.log('--------------------------登录触发')
+			// console.log('--------------------------登录触发')
 			// 登录状态
 			Storage.homeLogin = true
 			this._getUpdate()
@@ -398,13 +371,45 @@ const me = {
 			Storage.forMore = true
 			// 触发加载用户配置函数
 			bus.emit('loadUserConf', {}, 'home')
+			
+			wx.getStorage({
+				key: 'account_info_storage',
+				success: function(res){
+					console.log('用户基础信息：',res.data)
+					if(res.errMsg === 'getStorage:ok' && res.data){
+						let tmp = new Date(res.data.date)
+						self.setData({
+							birthDate: (tmp.getMonth() + 1) + '月' + tmp.getDate() + '日'
+						})
+					}
+				}
+			})
+
+			if(Storage.updateXz){
+				const self = this
+				$vm = getApp()
+				_GData = $vm.globalData
+				
+
+				_GData.selectConstellation = Storage.updateXz
+				// 星座信息
+				Storage.starXz = Storage.updateXz
+				
+				self.setData({
+					myConstellation: Storage.updateXz,
+					'swData.show': false,
+					'navConf.isIcon': true
+				})
+				Storage.updateXz = undefined
+				self.onShowingHome()
+			}
 
 			_GData.userInfo = wx.getStorageSync('userInfo') || {}
 
 			// 获取选中星座的数据
 			me._getContent.call(this)
 
-			console.log('用户信息======================：', Storage.userInfo)
+			// console.log('用户信息======================：', Storage.userInfo)
 			self.setData({
 				'navConf.iconPath': Storage.userInfo.avatarUrl,
 				userInfo: Storage.userInfo
@@ -442,7 +447,7 @@ const me = {
 		API.getList({
 			notShowLoading: true
 		}).then(res => {
-			console.log('输出获取的对象信息：', res)
+			// console.log('输出获取的对象信息：', res)
 			if (res) {
 				let temp = {
 					listNum: res
@@ -454,9 +459,9 @@ const me = {
 						temp[ind === 0 ? 'showPair' : 'showBanner'] = true
 					}
 				})
-				console.log(temp)
+				// console.log(temp)
 				self.setData(temp)
-				console.log(self)
+				// console.log(self)
 			}
 		})
 	}
@@ -481,9 +486,10 @@ const methods = function () {
 		 * @param {*} options
 		 */
 		onLoad(options) {
-			console.log(this.data.star)
+			let self = this
+			// console.log(this.data.star)
 			wx.hideTabBar({})
-			console.log('onLoad-------------------------------参数：', options)
+			// console.log('onLoad-------------------------------参数：', options)
 			// 初始化tab
 			tab.initTab(this, 0)
 			let c = tab.getHeight()
@@ -501,7 +507,7 @@ const methods = function () {
 			let self = this
 			tab.switchTab(0, '', this)
 			tab.show()
-			console.log('------------------------------onShow()')
+			// console.log('------------------------------onShow()')
 			// 触发加载用户配置函数
 			bus.emit('loadUserConf', {}, 'home')
 			// getStarNum(this)
@@ -513,7 +519,7 @@ const methods = function () {
 				let lovePercentage = this.data.xz.lovePercentage || 0
 				let workPercentage = this.data.xz.workPercentage || 0
 				let moneyPercentage = this.data.xz.moneyPercentage || 0
-				
+
 				this.setData({
 					'xz.lovePercentage': 0,
 					'xz.workPercentage': 0,
@@ -523,7 +529,7 @@ const methods = function () {
 				});
 
 				((lovePercentage, workPercentage, moneyPercentage, scIndex) => {
-					
+
 					setTimeout(() => {
 						self.setData({
 							'xz.lovePercentage': lovePercentage,
@@ -532,7 +538,7 @@ const methods = function () {
 							sc: 1,
 							scIndex
 						})
-					},850)
+					}, 850)
 
 				})(lovePercentage, workPercentage, moneyPercentage, this.data.xzScore[1])
 			}
@@ -549,7 +555,7 @@ const methods = function () {
 			const {
 				item: selectConstellation
 			} = e.currentTarget.dataset
-			console.log(selectConstellation)
+			// console.log(selectConstellation)
 			mta.Event.stat('ico_home_select', {
 				'constellation': selectConstellation.name
 			})
@@ -562,8 +568,7 @@ const methods = function () {
 			})
 			self.setData({
 				myConstellation: selectConstellation,
-				showChoice: false,
-				'notice.isShow': true,
+				'swData.show': false,
 				'navConf.isIcon': true,
 				'selectStatus.current': selectConstellation.id - 1,
 				'selectStatus.selected': true
@@ -575,39 +580,101 @@ const methods = function () {
 		 */
 		onShowingHome: function () {
 			const self = this
+			let len = 0
 			$vm = getApp()
 			_GData = $vm.globalData
 			// 星座信息
 			Storage.starXz = _GData.selectConstellation
-			// wx.showTabBar({
-			//     animation: true
-			// })
+			
+			// 根据参数进入分享页面
 			me._goParam.call(this)
 
-			console.log(self.options)
-			$vm.api.choice({
-				notShowLoading: true,
-				constellationId: _GData.selectConstellation.id
-			}).then(res => {
-				console.log('运势数据', res)
-				if (res != '') {
-					Storage.lucky = res
-					let score = res.summaryPercentage || 10
-					score = score < 10 ? 10 : score 
-					let arrs = score.toString().split('')
-					// res.healthy = res.summaryPercentage + 30
-					// if (res.healthy > 100) {
-					// 	res.healthy = 96
-					// }
+			Promise.all([
+				API.luckyday({
+					notShowLoading: true,
+					constellationId: _GData.selectConstellation.id
+				}),
+				API.wordlist({
+					constellationId: _GData.selectConstellation.id,
+					startpage: 1,
+					notShowLoading: true
+				}),
+				API.getGoodslist({
+					notShowLoading: true, 
+					startpage: 1, 
+					testnum: 1, 
+					type: 1, 
+					pageSize: 10
+				})
+			]).then( (results) => {
+				// console.log('所有数据',results)
+				if(results && results.constructor === Array && results.length == 3){
+					
+					let res = results[0]
+					let data = results[1]
+					let result = results[2]
 
+					// console.log('运势数据', res)
+					// console.log('一言数据', data)
+					// console.log('精选好物', result)
+					
+					setTimeout(() => {
+						self.setData({
+							isLogin: true
+						})
+					}, 100);
+
+					if (res != '') {
+						Storage.lucky = res
+						let score = res.summaryPercentage || 10
+						score = score < 10 ? 10 : score
+						let arrs = score.toString().split('')
+	
+						self.setData({
+							xz: res,
+							sc: 1,
+							scIndex: arrs[1],
+							xzScore: arrs,
+							dayNotice: res.dayNotice ? res.dayNotice : ''
+						})
+					}
+					
+					if (data && data.wordlist && data.wordlist.length > 0) {
+
+						let url = 'https://xingzuo-1256217146.file.myqcloud.com'
+						data.wordlist.forEach(function (val) {
+							let _date = val.currentDate.replace(/\-/g, '/')
+							// console.log(_date)
+							let tmp = new Date(_date)
+							val.year = tmp.getFullYear()
+							val.month = util.getMonth(parseInt(tmp.getMonth() + 1))
+							val.date = tmp.getDate()
+							val.date = val.date >= 10 ? val.date : '0' + val.date
+							// console.log('时间：', tmp.getFullYear() + '-' + util.getMonth(parseInt(tmp.getMonth() + 1)) + '-' + tmp.getDate())
+							val.prevPic = url + val.prevPic
+							val.pic = url + val.pic
+						})
+						let tmpData = data.wordlist.pop()
+						// console.log(tmpData)
+						self.setData({
+							yanData: tmpData
+						})
+					}
+
+					if(result && result.goods && result.goods.length > 0){
+						self.setData({
+							goods: result.goods
+						})
+						// console.log(this.data.goods)
+					}
+					return
+				}
+				setTimeout(() => {
 					self.setData({
-						xz: res,
-						sc: 1,
-						scIndex: arrs[1],
-						xzScore: arrs,
-						dayNotice: res.dayNotice ? res.dayNotice : ''
+						isLogin: true
 					})
-				}
+				}, 1000);
+			}).catch( res => {
 				if (!this.data.isLogin) {
 					setTimeout(() => {
 						self.setData({
@@ -615,38 +682,29 @@ const methods = function () {
 						})
 					}, 1000);
 				}
-			}).catch(res => {
-				if (!this.data.isLogin) {
-					setTimeout(() => {
-						self.setData({
-							isLogin: true
-						})
-					}, 1000);
-				}
-				console.log('choice运势报错返回数据', res)
 			})
 		},
 		/**
 		 * 前往选择星座页面
 		 */
 		goChoiceStar() {
-			$vm = getApp()
-			_GData = $vm.globalData
-			mta.Event.stat("ico_home_unselect", {})
-			wx.setStorage({
-				key: 'selectConstellation',
-				data: null,
-			})
-			Storage.starXz = undefined
-			_GData.selectConstellation = null
-			this.setData({
-				selectBack: true,
-				showChoice: true,
-				'notice.isShow': false,
-				'navConf.isIcon': false,
-				'selectStatus.current': -1,
-				'selectStatus.selected': false
-			})
+			// $vm = getApp()
+			// _GData = $vm.globalData
+			// mta.Event.stat("ico_home_unselect", {})
+			// wx.setStorage({
+			// 	key: 'selectConstellation',
+			// 	data: null,
+			// })
+			// Storage.starXz = undefined
+			// _GData.selectConstellation = null
+			// this.setData({
+			// 	selectBack: true,
+			// 	showChoice: true,
+			// 	'notice.isShow': false,
+			// 	'navConf.isIcon': false,
+			// 	'selectStatus.current': -1,
+			// 	'selectStatus.selected': false
+			// })
 		},
 		goBanner() {
 			mta.Event.stat("ico_home_to_banner", {})
@@ -662,7 +720,7 @@ const methods = function () {
 		 * @param {*} e
 		 */
 		reportFormId(e) {
-			console.log(e.detail)
+			// console.log(e.detail)
 			let formid = e.detail.formId
 			API.getX610({
 				notShowLoading: true,
