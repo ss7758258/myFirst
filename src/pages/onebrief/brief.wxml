@@ -19,7 +19,7 @@
       <block wx:for="{{list}}" wx:key="index">
         <swiper-item class="monitor">
           <view class="panel p-panel {{isIPhoneX ? 'mt80' : ''}} {{(current - 1) == index ? 'c-left' : (current + 1) == index? 'c-right' : ''}}"  bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" bindtouchcancel="touchEnd" >
-            <image src="{{item.prevPic}}" mode="widthFix" bindload="_loadImg" ></image>
+            <image src="{{item.prevPic}}" mode="widthFix" bindload="_loadImg" data-res="{{item}}" data-index="{{index}}" catchtap="_look"></image>
 
             <!-- 日期 -->
             <view class="date-panel">

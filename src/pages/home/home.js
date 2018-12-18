@@ -287,7 +287,7 @@ Page({
 			wx.setStorageSync('update_first_status', '999999');
 			return
 		}
-		if (this.data.showChoice) {
+		if (this.data.swData.show) {
 			return
 		}
 		if (wx.getStorageSync('update_dialo_status')) {
