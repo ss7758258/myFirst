@@ -83,7 +83,7 @@ Page({
             mask: true,
         })
         let dates = util.getWeek()
-        let tmp = (dates[0].getMonth() + 1) + '.' + dates[0].getDate() + '~' + (dates[0].getMonth() + 1) + '.' + dates[0].getDate()
+        let tmp = (dates[0].getMonth() + 1) + '.' + dates[0].getDate() + '~' + (dates[1].getMonth() + 1) + '.' + dates[1].getDate()
         this.setData({
             weekDate: tmp
         })
@@ -129,6 +129,12 @@ Page({
         if(index == 3){
             return
         }
+        
+        wx.showModal({
+            title: '提示',
+            content: '小哥暂时无法提供更多运势，先看看今日运势吧',
+            showCancel: false,
+        })
     },
     // 切换Tab
     _changeTab(e){

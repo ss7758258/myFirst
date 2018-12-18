@@ -282,7 +282,7 @@
                         </view>
                     </view>
 
-                    <view class="luck-detail mt30" wx:if="{{monweekthData.workTxt}}">
+                    <view class="luck-detail mt30" wx:if="{{week.workTxt}}">
                         <view class="luck-panel">
                             <image class="luck-icon" src="/assets/img/week_3.png"></image>
                             <view class="luck-title">事业运势</view>

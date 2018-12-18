@@ -172,9 +172,9 @@
                                         <image class="pair-3" src="/assets/img/pair_3.png" ></image>
                                         <view class="pair-share">
                                             <view class="pair-share-panel">	
-                                                <text>朋友配对</text>
-                                                <text>那些说不出的话</text>
-                                                <text>希望我可以帮你表达 </text>
+                                                <text>星座配对</text>
+                                                <text>星座情缘，等你来配</text>
+                                                <!-- <text>希望我可以帮你表达 </text> -->
                                                 <image class="pair-2" src="/assets/img/pair_2.png" ></image>
                                             </view>
                                         </view>

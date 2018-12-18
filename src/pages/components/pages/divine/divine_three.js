@@ -462,7 +462,7 @@ const pageConf = {
 	_goPairPYQ() {
 		mta.Event.stat("divine_pair_click", {})
 		wx.navigateTo({
-			url: '/pages/components/pages/pairCus/pairCus'
+			url: '/pages/components/pages/pair/pair'
 		})
 	},
 	// 绘制图片生成图片并将图片展示到页面上

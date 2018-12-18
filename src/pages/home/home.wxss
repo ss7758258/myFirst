@@ -7,6 +7,12 @@
 page{
 	background: #fff;
 }
+.birth{
+	margin-left: 15rpx;
+	margin-top: 5rpx;
+	width: 20rpx;
+	height: 26rpx;
+}
 page button {
 	width: 100%;
 	height: 100%;

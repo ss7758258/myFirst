@@ -25,7 +25,10 @@ Component({
         if(data){
           let tmp = new Date(data.date)
           this.setData({
-            date: tmp.getFullYear() + '-' + (tmp.getMonth() + 1) + '-' + tmp.getDate()
+            date: tmp.getFullYear() + '-' + (tmp.getMonth() + 1) + '-' + tmp.getDate(),
+            region: (data.birthAddress == '' ? [] : data.birthAddress) || [],
+            address: (data.address == '' ? [] : data.address)  || [],
+            current: data.sex == 'boy' ? 0 : (data.sex ? 1 : 0) 
           })
         }
         console.log(newData)
@@ -84,10 +87,13 @@ Component({
         gDate = calendar.lunar2solar(tmpDate.getFullYear(), tmpDate.getMonth() + 1, tmpDate.getDate())
         console.log(gDate);
       }
+      console.log('日期选择')
       if(gDate){
+        console.log(util.getAstro(gDate.cMonth,gDate.cDay))
         let id = util.getXZ(util.getAstro(gDate.cMonth,gDate.cDay) + '座')
         xz = star[id]
       }else{
+        console.log(util.getAstro(tmpDate.getMonth() + 1,tmpDate.getDate()))
         let id = util.getXZ(util.getAstro(tmpDate.getMonth() + 1,tmpDate.getDate()) + '座')
         xz = star[id]
       }
@@ -99,8 +105,8 @@ Component({
       let account = {
         sex: current == 1 ? 'girl' : 'boy',
         date: time,
-        birthAddress: region.length > 0 ? region.join('-') : '',
-        address: address.length > 0 ? address.join('-') : '',
+        birthAddress: region.length > 0 ? region : '',
+        address: address.length > 0 ? address : '',
         status,
         xz
       }

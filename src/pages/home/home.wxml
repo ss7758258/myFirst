@@ -89,7 +89,7 @@
 										<image src="{{navConf.iconPath || '/assets/img/default_head.png'}}"></image>
 										<view class="account-info">
 												<view>{{userInfo.nickName}}</view>
-												<view><text catch:tap="_moreDesc">{{myConstellation.name}}\t{{birthDate}}</text></view>
+												<view><text catch:tap="_moreDesc">{{myConstellation.name}}</text> <image class="birth" src="/assets/img/birth.png"></image> <text>\t{{birthDate}}</text></view>
 												<image class="shake-elem" src="/assets/img/shake.gif" mode="widthFix" catch:tap="_moreShake"></image>
 										</view>
 								</view>
@@ -103,7 +103,7 @@
 								</view>
 								<!-- EndTips -->
 								<!-- 运势详情 -->
-								<view class="luck-detail pt40">
+								<view class="luck-detail pt40" catch:tap="_moreLuck">
 										<view class="more-btn" hover-class="animateBtn" catch:tap="_moreLuck">
 											<image src="/assets/img/home_icon_1.png"></image>
 										</view>
@@ -219,7 +219,7 @@
 				<view class="p10"></view>
 
 				<!-- 精选好物 -->
-				<view class="panel">
+				<view class="panel" wx:if="{{goods.length > 0}}">
 					<view class="panel-title">
 							<image class="ml40 mt40" style="width:384rpx;" src="/assets/img/home_title_3.png" mode="widthFix"></image>
 					</view>
@@ -233,7 +233,7 @@
 											<image class="sw-goods-img" src="{{cdn + item.defaultpic}}"  binderror="" bindload=""></image>
 											<view class="sw-goods-desc">
 												<view class="sw-title mt20">{{item.name}}</view>
-												<view class="sw-content">{{item.name}}</view>
+												<view class="sw-content">{{item.des}}</view>
 											</view>
 										</view>
 									</view>

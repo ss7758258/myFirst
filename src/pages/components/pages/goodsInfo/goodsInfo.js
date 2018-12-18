@@ -50,6 +50,7 @@ Page({
   },
   onShareAppMessage(){
     return {
+      title: this.data.data.name,
       path : 'pages/home/home?from=share&to=goodsInfo&id=' + this.data.id
     }
   },

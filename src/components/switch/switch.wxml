@@ -59,7 +59,7 @@
                     <image class="notice_icon" src="/assets/img/edit_3.png"></image>
                 </view>
                 <view class="d-center">现居地
-                    <picker mode="region" bindchange="_ChangeAddress" value="{{address}}">
+                    <picker mode="region" bindchange="_ChangeAdd" value="{{address}}">
                         <view class="picker">{{(address[0] && address[1] && address[2]) ? address[0] + '-' + address[1] + '-' + address[2] : ''}}</view>
                     </picker>
                 </view>

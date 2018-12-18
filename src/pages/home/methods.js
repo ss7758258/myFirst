@@ -627,7 +627,7 @@ const methods = function () {
 					if (res != '') {
 						Storage.lucky = res
 						let score = res.summaryPercentage || 10
-						score = score < 10 ? 10 : score
+						score = score < 10 ? 10 : ( score > 99 ? 99 : score)
 						let arrs = score.toString().split('')
 	
 						self.setData({
