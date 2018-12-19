@@ -214,70 +214,112 @@ Page({
       title: '图片生成中...',
       mask: true,
     })
-    $vm.utils.Promise.all([
-      getImageInfo({
-        src: img,
-      })
-    ]).then((res) => {
-      console.log('图片信息：',res)
-      if(res && res[0] && res[0].errMsg == 'getImageInfo:ok'){
-        
-        const ctx = wx.createCanvasContext('shareCanvas')
-        ctx.drawImage(res[0].path, 0, 0, 750, 1334)
-
-        ctx.draw(true,function(){
-          wx.canvasToTempFilePath({
-            canvasId: 'shareCanvas',
-            x: 0,
-            y: 0,
-            width: 750,
-            height: 1334,
-            destWidth: 750,
-            destHeight: 1334,
-            success: function (res) {
-              console.log(res.tempFilePath)
-              wx.saveImageToPhotosAlbum({
-                filePath: res.tempFilePath,
-                success(res) {
-                  wx.showModal({
-                    title: '保存成功',
-                    content: '图片已经保存到相册',
-                    showCancel: false,
-                  })
-                },
-                fail() {
-                  wx.showToast({
-                    title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
-                    icon: 'none',
-                    duration: 3000
-                  })
-                },
-                complete() {
-                  wx.hideLoading()
-                }
+    wx.downloadFile({
+      url: img,
+      success(res) {
+        if (res.statusCode === 200) {
+          wx.saveImageToPhotosAlbum({
+            filePath: res.tempFilePath,
+            success(res) {
+              wx.showModal({
+                title: '保存成功',
+                content: '图片已经保存到相册',
+                showCancel: false,
               })
             },
-            fail: function (res) {
-              console.log(res)
-              wx.hideLoading()
+            fail() {
               wx.showToast({
                 title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
                 icon: 'none',
                 duration: 3000
               })
+            },
+            complete(){
+              wx.hideLoading();
             }
           })
+        }else{
+          wx.hideLoading();
+          wx.showToast({
+            title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+            icon: 'none',
+            duration: 3000
+          })
+        }
+      },
+      fail(){
+        wx.hideLoading();
+        wx.showToast({
+          title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+          icon: 'none',
+          duration: 3000
         })
       }
     })
-    .catch((err) => {
-      wx.hideLoading()
-      console.log('保存图片错误信息', err)
-      wx.showToast({
-        icon: 'none',
-        title: '加载失败了，请检查网络',
-      })
-    })
+    // $vm.utils.Promise.all([
+    //   getImageInfo({
+    //     src: img,
+    //   })
+    // ]).then((res) => {
+    //   console.log('图片信息：',res)
+    //   if(res && res[0] && res[0].errMsg == 'getImageInfo:ok'){
+        
+    //     const ctx = wx.createCanvasContext('shareCanvas')
+    //     ctx.drawImage(res[0].path, 0, 0, 750, 1334)
+
+    //     ctx.draw(true,function(){
+    //       wx.canvasToTempFilePath({
+    //         canvasId: 'shareCanvas',
+    //         x: 0,
+    //         y: 0,
+    //         width: 750,
+    //         height: 1334,
+    //         destWidth: 750,
+    //         destHeight: 1334,
+    //         success: function (res) {
+    //           console.log(res.tempFilePath)
+    //           wx.saveImageToPhotosAlbum({
+    //             filePath: res.tempFilePath,
+    //             success(res) {
+    //               wx.showModal({
+    //                 title: '保存成功',
+    //                 content: '图片已经保存到相册',
+    //                 showCancel: false,
+    //               })
+    //             },
+    //             fail() {
+    //               wx.showToast({
+    //                 title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+    //                 icon: 'none',
+    //                 duration: 3000
+    //               })
+    //             },
+    //             complete() {
+    //               wx.hideLoading()
+    //             }
+    //           })
+    //         },
+    //         fail: function (res) {
+    //           console.log(res)
+    //           wx.hideLoading()
+    //           wx.showToast({
+    //             title: '图片保存失败，请检查右上角关于小哥星座的设置中查看是否开启权限',
+    //             icon: 'none',
+    //             duration: 3000
+    //           })
+    //         }
+    //       })
+    //     })
+    //   }
+    // })
+    // .catch((err) => {
+    //   wx.hideLoading()
+    //   console.log('保存图片错误信息', err)
+    //   wx.showToast({
+    //     icon: 'none',
+    //     title: '加载失败了，请检查网络',
+    //   })
+    // })
   },
   /**
    * 保存图片

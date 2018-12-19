@@ -5,7 +5,7 @@
   <view class="popup" slot="popup">
     <block wx:for="{{list}}" wx:key="{{item.id}}">
       <view class="i-panel {{current === index ? 'show' : ''}}">
-        <image class="pop-img mt40" src="{{item.pic}}" mode="widthFix" bindload="_loadImg"></image>
+        <image class="pop-img mt40" src="{{item.pic}}" mode="widthFix" bindload="_loadImg" binderror="_loadImg"></image>
         <view class="close iconfont icon-close mt30" catch:tap="_close"></view>
         <view class="saveimg mt40" catch:tap="_saveImg" data-res="{{item}}" data-index="{{index}}">保存壁纸</view>
       </view>
@@ -19,7 +19,7 @@
       <block wx:for="{{list}}" wx:key="index">
         <swiper-item class="monitor">
           <view class="panel p-panel {{isIPhoneX ? 'mt80' : ''}} {{(current - 1) == index ? 'c-left' : (current + 1) == index? 'c-right' : ''}}"  bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" bindtouchcancel="touchEnd" >
-            <image src="{{item.prevPic}}" mode="widthFix" bindload="_loadImg" data-res="{{item}}" data-index="{{index}}" catchtap="_look"></image>
+            <image src="{{item.prevPic}}" mode="widthFix" bindload="_loadImg" binderror="_loadImg" data-res="{{item}}" data-index="{{index}}" catchtap="_look"></image>
 
             <!-- 日期 -->
             <view class="date-panel">

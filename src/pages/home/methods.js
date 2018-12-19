@@ -538,7 +538,7 @@ const methods = function () {
 							sc: 1,
 							scIndex
 						})
-					}, 850)
+					}, 900)
 
 				})(lovePercentage, workPercentage, moneyPercentage, this.data.xzScore[1])
 			}

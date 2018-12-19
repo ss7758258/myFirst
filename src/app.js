@@ -21,7 +21,7 @@ App({
 		// methods.checkLogin()
 		methods.openIdLogin(() => {
 			console.log('执行心跳')
-			// tick()
+			tick()
 		})
 		
 		_SData.selectConstellation = wx.getStorageSync('selectConstellation') || {
